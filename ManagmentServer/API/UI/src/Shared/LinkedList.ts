@@ -16,7 +16,19 @@ interface ILinkedList<T> {
 
 export class LinkedList<T> implements ILinkedList<T> {
     private head: Node<T> | null = null;
-  
+
+    public lastNode(){
+      if (!this.head) {
+        return this.head
+      }
+
+      const getLast = (node: Node<T>): Node<T> => {
+        return node.next ? getLast(node.next) : node;
+      };
+
+      return getLast(this.head);
+    }
+
     public insertAtEnd(data: T): Node<T> {
       const node = new Node(data);
       if (!this.head) {

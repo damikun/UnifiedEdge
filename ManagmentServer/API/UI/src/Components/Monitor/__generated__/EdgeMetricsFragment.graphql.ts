@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<096ec0ad82d1560728f35da20eebca09>>
+ * @generated SignedSource<<88ab122306d6f6aa8bb77c01f1e0fe5f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -42,15 +42,20 @@ const node: ReaderFragment = {
       "plural": false,
       "selections": [
         {
-          "args": [
+          "kind": "Defer",
+          "selections": [
             {
-              "kind": "Literal",
-              "name": "type",
-              "value": "PAGED_MEMORY"
+              "args": [
+                {
+                  "kind": "Literal",
+                  "name": "type",
+                  "value": "PAGED_MEMORY"
+                }
+              ],
+              "kind": "FragmentSpread",
+              "name": "MetricTrendHistoryFragment"
             }
-          ],
-          "kind": "FragmentSpread",
-          "name": "MetricTrendHistoryFragment"
+          ]
         }
       ],
       "storageKey": null
@@ -64,15 +69,20 @@ const node: ReaderFragment = {
       "plural": false,
       "selections": [
         {
-          "args": [
+          "kind": "Defer",
+          "selections": [
             {
-              "kind": "Literal",
-              "name": "type",
-              "value": "THREAD_COUNT"
+              "args": [
+                {
+                  "kind": "Literal",
+                  "name": "type",
+                  "value": "THREAD_COUNT"
+                }
+              ],
+              "kind": "FragmentSpread",
+              "name": "MetricTrendHistoryFragment"
             }
-          ],
-          "kind": "FragmentSpread",
-          "name": "MetricTrendHistoryFragment"
+          ]
         }
       ],
       "storageKey": null
@@ -86,15 +96,20 @@ const node: ReaderFragment = {
       "plural": false,
       "selections": [
         {
-          "args": [
+          "kind": "Defer",
+          "selections": [
             {
-              "kind": "Literal",
-              "name": "type",
-              "value": "TOTAL_CPU_USED"
+              "args": [
+                {
+                  "kind": "Literal",
+                  "name": "type",
+                  "value": "TOTAL_CPU_USED"
+                }
+              ],
+              "kind": "FragmentSpread",
+              "name": "MetricTrendHistoryFragment"
             }
-          ],
-          "kind": "FragmentSpread",
-          "name": "MetricTrendHistoryFragment"
+          ]
         }
       ],
       "storageKey": null
@@ -104,6 +119,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "4a0c59ba4fee2dc7bea2550158194e7a";
+(node as any).hash = "710ea0630ddb7df22d5813d1dd780477";
 
 export default node;

@@ -20,7 +20,7 @@ export default function Monitor(){
   const data = useLazyLoadQuery<MonitorQuery>(
     MonitorQueryTag,
     { },
-    { fetchPolicy: "store-and-network"},
+    { fetchPolicy: "store-and-network", UNSTABLE_renderPolicy:"full"},
   );
 
     return <>

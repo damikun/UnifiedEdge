@@ -1,13 +1,13 @@
-import { LinkedList } from "./LinkedList";
+import { LinkedList } from "../LinkedList";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useMemo, useReducer } from "react";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
-import { MetricTrendSubscription } from "./__generated__/MetricTrendSubscription.graphql";
 import {AreaSeries, Axis, Chart, CurveType, LIGHT_THEME, Position, ScaleType, Settings, TickFormatterOptions, TooltipType} from "@elastic/charts"
 
 import "@elastic/charts/dist/theme_only_light.css";
 import { MetricTrendHistoryFragment$key } from "./__generated__/MetricTrendHistoryFragment.graphql";
+import { GQL_RuntimeMetricSource, MetricTrendSubscription } from "./__generated__/MetricTrendSubscription.graphql";
 
 const horizontalGridLineStyle = { stroke: 'black', strokeWidth: 0.15, opacity: 1 };
 const dataInk = 'rgba(96, 146, 192, 1)';
@@ -18,8 +18,8 @@ const MetricTrendHistoryFragment = graphql`
       type: {type: "GQL_RuntimeMetricSource"},
     ) {
       metricHistory(name: $type) {
-          timeStamp
-          value
+        timeStamp
+        value
       }
     }
 `;
@@ -41,7 +41,8 @@ type MetricTrendProps = {
   scale: TickScale
   curve?:CurveType,
   yAxisTitle?:string,
-  dataRef:MetricTrendHistoryFragment$key | null;
+  dataRef:MetricTrendHistoryFragment$key | null,
+  subSource:GQL_RuntimeMetricSource
 }
 
 export type ChartData = {
@@ -57,6 +58,7 @@ export type NormalisedData = {
   scaled_min: number,
   scaled_max: number,
   data:(string | number)[][]
+  last:number
 }
 
 export const DEFAULT_SCALE = {
@@ -64,11 +66,14 @@ export const DEFAULT_SCALE = {
   max:0,
   data:[],
   scaled_min:0,
-  scaled_max:0 
+  scaled_max:0,
+  last:0
 } as NormalisedData
 
-export default function MetricTrend({name,
+export default function MetricTrend({
+  name,
   dataRef,
+  subSource,
   scale = "decimal",
   curve = CurveType.CURVE_MONOTONE_X,
   yAxisTitle}:MetricTrendProps){
@@ -77,9 +82,9 @@ export default function MetricTrend({name,
 
   const [time_serie, dispatch] = useReducer(
     metricReducer,InitMetricsBuffer(gql_data?.metricHistory));
-    
+
   const subscription_cfg = useMemo(() => ({
-    variables: {},
+    variables: {props: subSource},
     subscription:MetricTrendSubscriptionRef,
     updater: (store, data) =>{
       if(data && data.runtimeMetric.timeStamp){
@@ -93,7 +98,7 @@ export default function MetricTrend({name,
         })
     }
     },
-  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), [dispatch]);
+  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), []);
 
   useSubscription<MetricTrendSubscription>(subscription_cfg);
 
@@ -129,12 +134,17 @@ export default function MetricTrend({name,
       if(result === undefined){
           return DEFAULT_SCALE
       }else{
+
+        // const last = time_serie.data.lastNode();
+
           return { 
               min:min,
               max:max,
               data:result,
               scaled_min: min-min*0.02,
-              scaled_max: max+max*0.02 
+              scaled_max: max+max*0.02,
+              last:0
+              // last: last ? last.data.value : 0
           } as NormalisedData
       }
 
@@ -226,7 +236,10 @@ export function metricReducer(state:{timestamp:string,data:LinkedList<ChartData>
     }else{
       state.data.insertAtEnd(action.payload)
     }
-      return {timestamp:action.payload.timeStamp,data:state.data}
+      return {
+        timestamp:action.payload.timeStamp,
+        data:state.data
+      }
       
     default:
       throw new Error();
