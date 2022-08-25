@@ -1,16 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React, { lazy, Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+const container = document.getElementById('root');
+
+const root = createRoot(container!);
+
+const App = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "App" */ "../src/App"
+    )
 );
+
 root.render(
-  <React.StrictMode>
+  <Suspense fallback={<div className='w-screen h-screen'></div>}>
     <App />
-  </React.StrictMode>
+  </Suspense>
 );
 
 // If you want to start measuring performance in your app, pass a function

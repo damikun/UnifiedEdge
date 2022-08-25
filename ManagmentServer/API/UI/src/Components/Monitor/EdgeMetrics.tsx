@@ -2,10 +2,10 @@ import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { CurveType} from "@elastic/charts"
 //@ts-ignore
-import { Suspense } from "react";
+import { Suspense, SuspenseList } from "react";
 import Card from "../../UIComponents/Card/Card";
 import { graphql } from "babel-plugin-relay/macro";
-import MetricTrend  from "../../Shared/MetricTrend/MetricTrend";
+import MetricTrend from "../../Shared/MetricTrend/MetricTrend";
 import { EdgeMetricsFragment$key } from "./__generated__/EdgeMetricsFragment.graphql";
 import { MetricTrendPlaceholder } from "../../Shared/MetricTrend/MetricTrendPlaceholder";
 
@@ -13,15 +13,15 @@ const EdgeMetricsFragment = graphql`
     fragment EdgeMetricsFragment on Query {
         
         Memory: runtimeMetrics {
-            ...MetricTrendHistoryFragment @arguments(type: PAGED_MEMORY) @defer(label: "DeferedMemoryHistory")
+            ...MetricTrendHistoryFragment @arguments(type: PAGED_MEMORY) @defer
         }
 
         Threads: runtimeMetrics {
-            ...MetricTrendHistoryFragment @arguments(type: THREAD_COUNT) @defer(label: "DeferedThreadHistory")
+            ...MetricTrendHistoryFragment @arguments(type: THREAD_COUNT) @defer
         }
 
         Cpu: runtimeMetrics {
-            ...MetricTrendHistoryFragment @arguments(type: TOTAL_CPU_USED) @defer(label: "DeferedCpuHistory")
+            ...MetricTrendHistoryFragment @arguments(type: TOTAL_CPU_USED) @defer
         }
     }
 `;
@@ -46,42 +46,42 @@ export default function EdgeMetrics({dataRef}:EdgeMetricsProps){
 
     return <div className={clsx("grid gap-2 grid-flow-row w-full",
         "grid-cols-1 lg:grid-cols-2 flex-wrap z-0")}>
-
-        {/* <SuspenseList revealOrder={"together"}> */}
+       
+        <SuspenseList revealOrder={"together"}>
             <Card className="bg-gray-100">
-                {/* <Suspense fallback={<MetricTrendPlaceholder/>}> */}
+                <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         scale="percentage"
-                        name="Edge Cpu"
+                        name="Cpu"
                         subSource="TOTAL_CPU_USED"
                         dataRef={gql_data?.Cpu?gql_data?.Cpu:null}
                     />
-                {/* </Suspense> */}
+                </Suspense>
             </Card>
 
             <Card className="bg-gray-100">
-                {/* <Suspense fallback={<MetricTrendPlaceholder/>}> */}
+                <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         curve={CurveType.CURVE_STEP}
                         scale="number"
-                        name="Edge Memory"
+                        name="Memory"
                         subSource="PAGED_MEMORY"
                         dataRef={gql_data?.Memory?gql_data?.Memory:null}
                     />
-                {/* </Suspense> */}
+                </Suspense>
             </Card>
 
             <Card className="bg-gray-100">
-                {/* <Suspense fallback={<MetricTrendPlaceholder/>}> */}
+                <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         curve={CurveType.CURVE_STEP}
                         scale="number"
-                        name="Edge Threads"
+                        name="Threads"
                         subSource="THREAD_COUNT"
                         dataRef={gql_data?.Threads?gql_data?.Threads:null}
                     />
-                {/* </Suspense> */}
+                </Suspense>
             </Card>
-        {/* </SuspenseList> */}
+        </SuspenseList>
     </div>
 }

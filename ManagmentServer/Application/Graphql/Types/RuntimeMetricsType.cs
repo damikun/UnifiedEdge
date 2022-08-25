@@ -41,7 +41,7 @@ namespace Aplication.Graphql.Types
                 .Resolve(ctx =>
                 {
 
-                    Thread.Sleep(10000);
+                    Thread.Sleep(2000);
                     var name = ctx.ArgumentValue<GQL_RuntimeMetricSource>("name");
 
                     var name_string = $"{RuntimeCollector.Prefix}.{name}";

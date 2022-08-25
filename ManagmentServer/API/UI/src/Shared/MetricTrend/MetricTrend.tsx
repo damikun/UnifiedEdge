@@ -8,6 +8,7 @@ import {AreaSeries, Axis, Chart, CurveType, LIGHT_THEME, Position, ScaleType, Se
 import "@elastic/charts/dist/theme_only_light.css";
 import { MetricTrendHistoryFragment$key } from "./__generated__/MetricTrendHistoryFragment.graphql";
 import { GQL_RuntimeMetricSource, MetricTrendSubscription } from "./__generated__/MetricTrendSubscription.graphql";
+import clsx from "clsx";
 
 const horizontalGridLineStyle = { stroke: 'black', strokeWidth: 0.15, opacity: 1 };
 const dataInk = 'rgba(96, 146, 192, 1)';
@@ -98,10 +99,10 @@ export default function MetricTrend({
         })
     }
     },
-  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), []);
+  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), [dispatch]);
 
   useSubscription<MetricTrendSubscription>(subscription_cfg);
-
+  
   const normalised_data = useMemo(() => {
 
       const list_data = time_serie.data.traverse()
@@ -126,7 +127,7 @@ export default function MetricTrend({
           }
 
           return  [
-              date.toLocaleTimeString('en-US', { hour12: false }),
+              date.getTime(),
               e?.value? Number(e?.value): 0
           ]
       })
@@ -135,7 +136,7 @@ export default function MetricTrend({
           return DEFAULT_SCALE
       }else{
 
-        // const last = time_serie.data.lastNode();
+        const last = time_serie.data.lastNode();
 
           return { 
               min:min,
@@ -143,12 +144,11 @@ export default function MetricTrend({
               data:result,
               scaled_min: min-min*0.02,
               scaled_max: max+max*0.02,
-              last:0
-              // last: last ? last.data.value : 0
+              last: last ? GetTickFormat(scale,last.data.value) : 0
           } as NormalisedData
       }
 
-  }, [time_serie])
+  }, [time_serie, scale])
 
   const y_domain = useMemo(() => {
        return {
@@ -164,9 +164,14 @@ export default function MetricTrend({
     [scale],
   )
   
-  return <div className="flex flex-col w-full space-y-2 h-96">
-        <div className="flex font-semibold text-gray-700">{name}</div>
-
+  return <div className="flex flex-col w-full space-y-2 h-96 relative">
+        <div className="flex font-semibold text-gray-700 justify-between mt-2">
+          <div>{name}</div>
+          <div className={clsx("rounded-md select-none font-semibold",
+          "border bg-opacity-50 text-gray-700 px-1 text-sm")}>
+            {normalised_data.last}
+          </div>
+        </div>
         <div className="flex w-full h-full">
             {
             //@ts-ignore
@@ -176,12 +181,22 @@ export default function MetricTrend({
                     showLegendExtra
                     animateData
                     tooltip={TooltipType.VerticalCursor}
+                    xDomain={
+                      1000 > 0
+                        ? {
+                            min: NaN,
+                            max: NaN,
+                            minInterval: 1000,
+                          }
+                        : undefined
+                    }
                 />
                 
                 <Axis
                     id="bottom"
                     position={Position.Bottom}
                     showOverlappingTicks={false}
+                    tickFormat={(dateFormatter)}
                 />
 
                 <Axis
@@ -196,7 +211,7 @@ export default function MetricTrend({
                 />
 
                 <AreaSeries
-                    id={"1m"}
+                    id={name}
                     xScaleType={ScaleType.Time}
                     yScaleType={ScaleType.Linear}
                     xAccessor={0}
@@ -252,9 +267,9 @@ function GetTickFormat(scale:TickScale, num:any){
   switch (scale) {
       case "decimal":
           return Number(num).toFixed(2);
-      case "number":
-          return`${Number(num).toFixed(1)}%`
       case "percentage":
+          return`${Number(num).toFixed(1)}%`
+      case "number":
           return Number(num).toFixed(0);
 
       default:
@@ -276,3 +291,13 @@ function InitMetricsBuffer(data: ReadonlyArray<{
   
   return {timestamp:"", data:linked_list}
 }
+
+// ----------------------------------
+
+const dateFormatter = (d: any) =>
+new Intl.DateTimeFormat('en-US', {
+  // month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+}).format(d);
