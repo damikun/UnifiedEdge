@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "DYl2l92AuHZV1AaeZVerxrd2gcuQ1IOPF0VQNRzKvcg=",
+  "Source": "APIServer.Benchmark",
+  "BasePath": "_content/APIServer.Benchmark",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

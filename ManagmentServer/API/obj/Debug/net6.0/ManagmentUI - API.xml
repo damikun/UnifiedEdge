@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ManagmentUI - API</name>
+    </assembly>
+    <members>
+        <member name="M:API.ServiceExtension.AddGlobalCfg(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            Provides global DI object registrations that are shared between different parts of Aplication logic
+        </member>
+    </members>
+</doc>

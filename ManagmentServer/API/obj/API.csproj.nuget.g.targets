@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\6.0.1\buildTransitive\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.configuration.usersecrets\6.0.1\buildTransitive\netstandard2.0\Microsoft.Extensions.Configuration.UserSecrets.targets')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.spaproxy\6.0.3\build\Microsoft.AspNetCore.SpaProxy.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.spaproxy\6.0.3\build\Microsoft.AspNetCore.SpaProxy.targets')" />
+    <Import Project="$(NuGetPackageRoot)hotchocolate.data\13.0.0-preview.33\build\HotChocolate.Data.targets" Condition="Exists('$(NuGetPackageRoot)hotchocolate.data\13.0.0-preview.33\build\HotChocolate.Data.targets')" />
+    <Import Project="$(NuGetPackageRoot)hotchocolate.data.entityframework\13.0.0-preview.33\build\HotChocolate.Data.EntityFramework.targets" Condition="Exists('$(NuGetPackageRoot)hotchocolate.data.entityframework\13.0.0-preview.33\build\HotChocolate.Data.EntityFramework.targets')" />
+    <Import Project="$(NuGetPackageRoot)hotchocolate.aspnetcore\13.0.0-preview.33\build\HotChocolate.AspNetCore.targets" Condition="Exists('$(NuGetPackageRoot)hotchocolate.aspnetcore\13.0.0-preview.33\build\HotChocolate.AspNetCore.targets')" />
+  </ImportGroup>
+</Project>

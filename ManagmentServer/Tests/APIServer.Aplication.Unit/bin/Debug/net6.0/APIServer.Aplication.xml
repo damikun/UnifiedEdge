@@ -1,0 +1,1451 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>APIServer.Aplication</name>
+    </assembly>
+    <members>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.IAuthorizationValidator">
+            <summary>
+            Authorization marker interface for Fluent validation
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.AuthorizationValidator`1">
+            <summary>
+            Authorization validator wrapper
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.AuthorizationBehaviour`2">
+            <summary>
+            Authorization behaviour for MediatR pipeline
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.PerformanceBehaviour`2">
+            <summary>
+            Performance behaviour for MediatR pipeline
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.TracingBehaviour`2">
+            <summary>
+            TracingBehaviour for MediatR pipeline
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.UnhandledExBehaviour`2">
+            <summary>
+            UnhandledExBehaviour for MediatR pipeline
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Shared.Behaviours.ValidationBehaviour`2">
+            <summary>
+            Validation behaviour for MediatR pipeline
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEvent`1">
+            <summary>
+            Command for saving WebHookCreated
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEventHandler`1">
+            <summary>
+            Command handler for <c>EnqueSaveEvent</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEventHandler`1._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEventHandler`1.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext})">
+            <summary>
+            Main Constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEventHandler`1.Handle(APIServer.Aplication.Commands.Internall.Hooks.EnqueSaveEvent{`0},System.Threading.CancellationToken)">
+            <summary>
+            Command handler for  <c>EnqueSaveEvent</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooks">
+            <summary>
+            Command for processing WebHook event
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler">
+            <summary>
+            Command handler for <c>EnqueueRelatedWebHooks</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler._clientFactory">
+            <summary>
+            Injected <c>IHttpClientFactory</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.IScheduler,System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Main Constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooksHandler.Handle(APIServer.Aplication.Commands.Internall.Hooks.EnqueueRelatedWebHooks,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for  <c>EnqueueRelatedWebHooks</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHook">
+            <summary>
+            Command for processing WebHook event
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler">
+            <summary>
+            Command handler for <c>ProcessWebHook</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler._mediator">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler._clientFactory">
+            <summary>
+            Injected <c>IHttpClientFactory</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},MediatR.IMediator,System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Main Constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHookHandler.Handle(APIServer.Aplication.Commands.Internall.Hooks.ProcessWebHook,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for  <c>ProcessWebHook</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.ResetDatabase">
+            <summary>
+            Command for resetting database
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.Internall.ResetDatabaseHandler">
+            <summary>
+            Command handler for <c>ResetDatabase</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.ResetDatabaseHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.Internall.ResetDatabaseHandler._env">
+            <summary>
+            Injected <c>IWebHostEnvironment</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.ResetDatabaseHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Main Constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.Internall.ResetDatabaseHandler.Handle(APIServer.Aplication.Commands.Internall.ResetDatabase,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>ResetDatabase</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.CreateWebHook">
+            <summary>
+            Command for creating webhook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.CreateWebHook.WebHookUrl">
+            <summary> Url </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.CreateWebHook.Secret">
+            <summary> Secret </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.CreateWebHook.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.CreateWebHook.HookEvents">
+            <summary> HookEvents </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.CreateWebHookValidator">
+            <summary>
+            CreateWebHook Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.CreateWebHookAuthorizationValidator">
+            <summary>
+            Authorization validators for CreateWebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ICreateWebHookError">
+            <summary>
+            ICreateWebHookError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.CreateWebHookPayload">
+            <summary>
+            CreateWebHookPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.CreateWebHookPayload.hook">
+            <summary>
+            Created WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler">
+            <summary>Handler for <c>CreateWebHook</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler._factory">
+            <summary>
+            Injected IDbContextFactory of ApiDbContext
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.CreateWebHookHandler.Handle(APIServer.Aplication.Commands.WebHooks.CreateWebHook,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>CreateWebHook</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.CreateWebHookPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.RemoveWebHook">
+            <summary>
+            Command for removing hook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.RemoveWebHook.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.RemoveWebHookValidator">
+            <summary>
+            RemoveWebHook Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IRemoveWebHookError">
+            <summary>
+            IRemoveWebHookError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.RemoveWebHookPayload">
+            <summary>
+            RemoveWebHookPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.RemoveWebHookPayload.removed_id">
+            <summary>
+            Removed Hook Id
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.RemoveWebHookHandler">
+            <summary>Handler for <c>RemoveWebHook</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.RemoveWebHookHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.RemoveWebHookHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.RemoveWebHookHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.RemoveWebHookHandler.Handle(APIServer.Aplication.Commands.WebHooks.RemoveWebHook,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>RemoveWebHook</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.RemoveWebHookPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHook">
+            <summary>
+            Command for updating webhook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHook.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHook.WebHookUrl">
+            <summary> Url </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHook.Secret">
+            <summary> Secret </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHook.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHook.HookEvents">
+            <summary> HookEvents </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookValidator">
+            <summary>
+            UpdateWebHook Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IUpdateWebHookError">
+            <summary>
+            IUpdateWebHookError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookPayload">
+            <summary>
+            UpdateWebHookPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookPayload.hook">
+            <summary>
+            Updated WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler">
+            <summary>Handler for <c>UpdateWebHook</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookHandler.Handle(APIServer.Aplication.Commands.WebHooks.UpdateWebHook,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>UpdateWebHook</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivState">
+            <summary>
+            Command for updating webhook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivState.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivState.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateValidator">
+            <summary>
+            UpdateWebHookActivState Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IUpdateWebHookActivStateError">
+            <summary>
+            IUpdateWebHookActivStateError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStatePayload">
+            <summary>
+            UpdateWebHookActivStatePayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStatePayload.hook">
+            <summary>
+            Updated WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler">
+            <summary>Handler for <c>UpdateWebHookActivState</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStateHandler.Handle(APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivState,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>UpdateWebHookActivState</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookActivStatePostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecret">
+            <summary>
+            Command for updateing WebHook secret
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecret.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecret.Secret">
+            <summary> Secret </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretValidator">
+            <summary>
+            UpdateWebHookSecret Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IUpdateWebHookSecretError">
+            <summary>
+            IUpdateWebHookSecretError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretPayload">
+            <summary>
+            UpdateWebHookSecretPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretPayload.hook">
+            <summary>
+            Updated WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler">
+            <summary>Handler for <c>UpdateWebHookSecret</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretHandler.Handle(APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecret,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>UpdateWebHookSecret</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookSecretPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEvents">
+            <summary>
+            Command for updating webhook Uri
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEvents.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEvents.HookEvents">
+            <summary> HookEvents </summary>y>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsValidator">
+            <summary>
+            UpdateWebHookTriggerEvents Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IUpdateWebHookTriggerEventsError">
+            <summary>
+            IUpdateWebHookTriggerEventsError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsPayload">
+            <summary>
+            UpdateWebHookTriggerEventsPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsPayload.hook">
+            <summary>
+            Updated WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler">
+            <summary>Handler for <c>UpdateWebHookTriggerEvents</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsHandler.Handle(APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEvents,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>UpdateWebHookTriggerEvents</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookTriggerEventsPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUri">
+            <summary>
+            Command for updating webhook Uri
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUri.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUri.WebHookUrl">
+            <summary> Url </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriValidator">
+            <summary>
+            UpdateWebHookUri Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IUpdateWebHookUriError">
+            <summary>
+            IUpdateWebHookUriError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriPayload">
+            <summary>
+            UpdateWebHookUriPayload
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriPayload.hook">
+            <summary>
+            Updated WebHook
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler">
+            <summary>Handler for <c>UpdateWebHookUri</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler._current">
+            <summary>
+            Injected <c>IMediator</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriHandler.Handle(APIServer.Aplication.Commands.WebHooks.UpdateWebHookUri,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>UpdateWebHookUri</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Commands.WebHooks.UpdateWebHookUriPostProcessor._publisher">
+            <summary>
+            Injected <c>IPublisher</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationException">
+            <summary>
+            Command for testing authorization exception
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationExceptionValidator">
+            <summary>
+            ThrowAuthorizationException Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IThrowAuthorizationExceptionError">
+            <summary>
+            IThrowAuthorizationExceptionError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationExceptionPayload">
+            <summary>
+            ThrowAuthorizationExceptionPayload
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationExceptionHandler">
+            <summary>Handler for <c>ThrowAuthorizationException</c> command </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationExceptionHandler.#ctor">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationExceptionHandler.Handle(APIServer.Aplication.Commands.WebHooks.ThrowAuthorizationException,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>ThrowAuthorizationException</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowCommandException">
+            <summary>
+            Command for testing throwing command exception
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowCommandExceptionValidator">
+            <summary>
+            ThrowCommandException Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.IThrowCommandExceptionError">
+            <summary>
+            IThrowCommandExceptionError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowCommandExceptionPayload">
+            <summary>
+            ThrowCommandExceptionPayload
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Commands.WebHooks.ThrowCommandExceptionHandler">
+            <summary>Handler for <c>ThrowCommandException</c> command </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.ThrowCommandExceptionHandler.#ctor">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Commands.WebHooks.ThrowCommandExceptionHandler.Handle(APIServer.Aplication.Commands.WebHooks.ThrowCommandException,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>ThrowCommandException</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookByIdDataLoader._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookByIdDataLoader._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookByIdDataLoader._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookRecordByIdDataLoader._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookRecordByIdDataLoader._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.GraphQL.DataLoaders.WebHookRecordByIdDataLoader._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:APIServer.Aplication.GraphQL.DTO.GQL_User.Guid" -->
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_User.Name">
+            <summary>
+             Name
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_User.SessionId">
+            <summary>
+             Name
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_User.Email">
+            <summary>
+             Email
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.ID" -->
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.Guid">
+            <summary>
+            Unique GUID
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.WebHookUrl">
+            <summary>
+            Webhook endpoint
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.ContentType">
+            <summary>
+            Content Type
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.IsActive">
+            <summary>
+            Is active / NotActiv
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.ListeningEvents">
+            <summary>
+            Hook Events context
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.Records">
+            <summary>
+            Hook call records history
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHook.LastTrigger">
+            <summary>
+            Timestamp of last hook trigger
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.ID">
+            <summary>
+            Hook record DB Id
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.WebHookID">
+            <summary>
+            Linked Webhook GQL Id
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.WebHookSystemID">
+            <summary>
+            Linked Webhook Id
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.Guid">
+            <summary>
+            Record GUID
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.WebHook">
+            <summary>
+            Linked Webhook System Id
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.TriggerType">
+            <summary>
+            TriggerType
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.Result">
+            <summary>
+            Hook result enum
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.StatusCode">
+            <summary>
+            Response status code
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.ResponseBody">
+            <summary>
+            Response json
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.RequestBody">
+            <summary>
+            Request json
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.RequestHeaders">
+            <summary>
+            Request Headers json
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.Exception">
+            <summary>
+            Exception
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.DTO.GQL_WebHookRecord.Timestamp">
+            <summary>
+            Hook Call Timestamp
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.Type">
+            <summary>
+            The schema type representation of the node type.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.ConnectionName">
+            <summary>
+            Specifies the connection name.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.DefaultPageSize">
+            <summary>
+            Specifies the default page size for this field.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.MaxPageSize">
+            <summary>
+            Specifies the maximum allowed page size.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.IncludeTotalCount">
+            <summary>
+            Include the total count field to the result type.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.AllowBackwardPagination">
+            <summary>
+            Allow backward paging using <c>last</c> and <c>before</c>
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.RequirePagingBoundaries">
+            <summary>
+            Defines if the paging middleware shall require the
+            API consumer to specify paging boundaries.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.InferConnectionNameFromField">
+            <summary>
+            Connection names are by default inferred from the field name to
+            which they are bound to as opposed to the node type name.
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Extensions.UseConnectionAttribute.ProviderName">
+            <summary>
+            Specifies the name of the paging provider that shall be used.
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.Mutation">
+            <summary>
+            Mutation
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations">
+            <summary>
+            WebHooks Mutations
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput">
+            <summary>
+            Crate new  webhook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput.WebHookUrl">
+            <summary> Url </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput.Secret">
+            <summary> Secret </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput.HookEvents">
+            <summary> HookEvents </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHook(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.CreateWebHookInput,MediatR.IMediator,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Create new  webhook
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput">
+            <summary>
+            Update  webhook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput.WebHookUrl">
+            <summary> Url </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput.Secret">
+            <summary> Secret </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput.HookEvents">
+            <summary> HookEvents </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHook(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookInput,MediatR.IMediator)">
+            <summary>
+            Update existing  webhook
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookActivStateInput">
+            <summary>
+            Update webhook activ state Input
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookActivStateInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookActivStateInput.IsActive">
+            <summary> IsActive </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookActivState(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookActivStateInput,MediatR.IMediator)">
+            <summary>
+            Update webhook activ state
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookUriInput">
+            <summary>
+            Update webhook uri
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookUriInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookUriInput.WebHookUrl">
+            <summary>Webhook Uri </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookUri(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookUriInput,MediatR.IMediator)">
+            <summary>
+            Update webhook uri
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookSecretInput">
+            <summary>
+            Update webhook secret
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookSecretInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookSecretInput.Secret">
+            <summary>Webhook Secret </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookSecret(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookSecretInput,MediatR.IMediator)">
+            <summary>
+            Update webhook secret
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookTriggerEventsInput">
+            <summary>
+            Update webhook triger events
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookTriggerEventsInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookTriggerEventsInput.HookEvents">
+            <summary> HookEvents </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookTriggerEvents(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.UpdateWebHookTriggerEventsInput,MediatR.IMediator)">
+            <summary>
+            Update webhook triger events
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.RemoveWebHookInput">
+            <summary>
+            Update  webHook
+            </summary>
+        </member>
+        <member name="P:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.RemoveWebHookInput.WebHookId">
+            <summary>WebHook Id </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Mutation.WebHookMutations.RemoveWebHook(APIServer.Aplication.GraphQL.Mutation.WebHookMutations.RemoveWebHookInput,MediatR.IMediator)">
+            <summary>
+            Remove  WebHook
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Queries.Query">
+            <summary>
+            Query
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Queries.SystemQueries">
+            <summary>
+             Webhook Querys
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.SystemQueries.GetServerDateTime">
+            <summary>
+            Return server current date-time
+            </summary>
+            <returns>DateTime current date time</returns>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Queries.UserQueries">
+            <summary>
+            UserQueries
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Queries.WebHookQueries">
+            <summary>
+             Webhook Queries
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.Webhooks(HotChocolate.Resolvers.IResolverContext,MediatR.IMediator)">
+            <summary>
+            Return collection of webhook records
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.GetWebHookRecords(System.Int64,HotChocolate.Resolvers.IResolverContext,MediatR.IMediator)">
+            <summary>
+            Return collection of webhook records
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.GetWebHookEventsTriggers">
+            <summary>
+            Returns Webook supported event triggers
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.GetWebHookRecord(System.Int64,APIServer.Aplication.GraphQL.DataLoaders.WebHookRecordByIdDataLoader,Microsoft.AspNetCore.Http.IHttpContextAccessor,SharedCore.Aplication.Interfaces.ICurrentUser)">
+            <summary>
+            Get WebHook Record by ID
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.GetWebHookById(System.Int64,APIServer.Aplication.GraphQL.DataLoaders.WebHookByIdDataLoader,Microsoft.AspNetCore.Http.IHttpContextAccessor,SharedCore.Aplication.Interfaces.ICurrentUser)">
+            <summary>
+            Return webhook by gql ID
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.GraphQL.Queries.WebHookQueries.GetWebHookBySystemId(System.Int64,APIServer.Aplication.GraphQL.DataLoaders.WebHookByIdDataLoader,Microsoft.AspNetCore.Http.IHttpContextAccessor,SharedCore.Aplication.Interfaces.ICurrentUser)">
+            <summary>
+            Return webhook by system (DB) Id
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Types.UserType">
+            <summary>
+            Graphql UserType
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Types.WebHookRecordType">
+            <summary>
+            Graphql WebHookType
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.GraphQL.Types.WebHookType">
+            <summary>
+            Graphql WebHookType
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetCurrentUser">
+            <summary>
+            Query current user
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetCurrentUserValidator">
+            <summary>
+            GetCurrentUser Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetCurrentUserAuthorizationValidator">
+            <summary>
+            Authorization validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.IGetCurrentUserError">
+            <summary>
+            IGetCurrentUserError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetCurrentUserPayload">
+            <summary>
+            GetCurrentUserPayload
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetCurrentUserHandler">
+            <summary>Handler for <c>GetCurrentUser</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Queries.GetCurrentUserHandler._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetCurrentUserHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetCurrentUserHandler.Handle(APIServer.Aplication.Queries.GetCurrentUser,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>GetCurrentUser</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHookRecords">
+            <summary>
+            Query current user
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHookRecordsValidator">
+            <summary>
+            GetWebHookRecords Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHookRecordsAuthorizationValidator">
+            <summary>
+            Authorization validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.IGetWebHookRecordsError">
+            <summary>
+            IGetWebHookRecordsError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHookRecordsPayload">
+            <summary>
+            GetWebHookRecordsPayload
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHookRecordsHandler">
+            <summary>Handler for <c>GetWebHookRecords</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Queries.GetWebHookRecordsHandler._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Queries.GetWebHookRecordsHandler._pagination">
+            <summary>
+            WebHook Queriable helper
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:APIServer.Aplication.Queries.GetWebHookRecordsHandler._factory" -->
+        <member name="F:APIServer.Aplication.Queries.GetWebHookRecordsHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetWebHookRecordsHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetWebHookRecordsHandler.Handle(APIServer.Aplication.Queries.GetWebHookRecords,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>GetWebHookRecords</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHooks">
+            <summary>
+            Query current user
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHooksValidator">
+            <summary>
+            GetWebHooks Validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHooksAuthorizationValidator">
+            <summary>
+            Authorization validator
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.IGetWebHooksError">
+            <summary>
+            IGetWebHooksError
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHooksPayload">
+            <summary>
+            GetWebHooksPayload
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Queries.GetWebHooksHandler">
+            <summary>Handler for <c>GetWebHooks</c> command </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Queries.GetWebHooksHandler._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Queries.GetWebHooksHandler._pagination">
+            <summary>
+            WebHook Queriable helper
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:APIServer.Aplication.Queries.GetWebHooksHandler._factory" -->
+        <member name="F:APIServer.Aplication.Queries.GetWebHooksHandler._mapper">
+            <summary>
+            Injected <c>IMapper</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetWebHooksHandler.#ctor(Microsoft.EntityFrameworkCore.IDbContextFactory{APIServer.Persistence.ApiDbContext},SharedCore.Aplication.Interfaces.ICurrentUser,AutoMapper.IMapper)">
+            <summary>
+            Main constructor
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Queries.GetWebHooksHandler.Handle(APIServer.Aplication.Queries.GetWebHooks,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>GetWebHooks</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Interfaces.IApiDbContext">
+            <summary>Main DBContext Interface </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookBaseNotifi">
+            <summary>
+            Base abstract class of all IssueNotify
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookBaseNotifi_Handler">
+            <summary>
+            Shared handler for all notifications
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedNotifi">
+            <summary>
+            Notifi webhook created
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedEventLogHandler">
+            <summary>
+            Command handler for user <c>WebHookCreatedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedEventLogHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedEventLogHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedEventLogHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedEventLogHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookCreatedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookCreatedNotifi</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedHookQueueHandler">
+            <summary>
+            Command handler for user <c>WebHookCreatedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedHookQueueHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedHookQueueHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedHookQueueHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookCreatedHookQueueHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookCreatedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookCreatedNotifi</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedNotifi">
+            <summary>
+            Notifi webhook created
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedEventLogHandler">
+            <summary>
+            Command handler for user <c>WebHookRemovedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedEventLogHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedEventLogHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedEventLogHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedEventLogHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookRemovedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookRemovedNotifi</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedHookQueueHandler">
+            <summary>
+            Command handler for user <c>WebHookRemovedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedHookQueueHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedHookQueueHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedHookQueueHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookRemovedHookQueueHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookRemovedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookRemovedNotifi</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedNotifi">
+            <summary>
+            Notifi webhook created
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedEventLogHandler">
+            <summary>
+            Command handler for user <c>WebHookUpdatedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedEventLogHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedEventLogHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedEventLogHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedEventLogHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookUpdatedNotifi</c>
+            </summary>
+        </member>
+        <member name="T:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedHookQueueHandler">
+            <summary>
+            Command handler for user <c>WebHookUpdatedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedHookQueueHandler._scheduler">
+            <summary>
+            Injected <c>IScheduler</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedHookQueueHandler._currentuser">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+        <member name="F:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedHookQueueHandler._logger">
+            <summary>
+            Injected <c>ILogger</c>
+            </summary>
+        </member>
+        <member name="M:APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedHookQueueHandler.Handle(APIServer.Aplication.Notifications.WebHooks.WebHookUpdatedNotifi,System.Threading.CancellationToken)">
+            <summary>
+            Command handler for <c>WebHookUpdatedNotifi</c>
+            </summary>
+        </member>
+        <member name="F:Aplication.GraphQL.DataLoaders.UserByIdDataLoader._factory">
+            <summary>
+            Injected <c>ApiDbContext</c>
+            </summary>
+        </member>
+        <member name="F:Aplication.GraphQL.DataLoaders.UserByIdDataLoader._current">
+            <summary>
+            Injected <c>ICurrentUser</c>
+            </summary>
+        </member>
+    </members>
+</doc>
