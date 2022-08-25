@@ -9,6 +9,7 @@ import "@elastic/charts/dist/theme_only_light.css";
 import { MetricTrendHistoryFragment$key } from "./__generated__/MetricTrendHistoryFragment.graphql";
 import { GQL_RuntimeMetricSource, MetricTrendSubscription } from "./__generated__/MetricTrendSubscription.graphql";
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 
 const horizontalGridLineStyle = { stroke: 'black', strokeWidth: 0.15, opacity: 1 };
 const dataInk = 'rgba(96, 146, 192, 1)';
@@ -164,7 +165,13 @@ export default function MetricTrend({
     [scale],
   )
   
-  return <div className="flex flex-col w-full space-y-2 h-96 relative">
+  return  <AnimatePresence>
+    <motion.div
+      className="flex flex-col w-full space-y-2 h-96 relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{duration:0.5}}>
         <div className="flex font-semibold text-gray-700 justify-between mt-2">
           <div>{name}</div>
           <div className={clsx("rounded-md select-none font-semibold",
@@ -226,8 +233,8 @@ export default function MetricTrend({
             }
         </div>
 
-    </div>
-
+    </motion.div>
+    </AnimatePresence>
 }
 
 // ----------------------------------
