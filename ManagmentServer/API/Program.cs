@@ -1,6 +1,7 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 
+using ElectronNET.API;
 using Serilog;
 
 namespace API
@@ -31,6 +32,8 @@ namespace API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseElectron(args);
+                    webBuilder.UseEnvironment("Development");
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseSerilog();

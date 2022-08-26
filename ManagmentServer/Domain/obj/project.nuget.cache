@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "sCbF59nPnAX3i6NMx72G91gEpbDpK43FlQfQypDTwsxVCm3RSTTge5iDgSIgrjtbTPU80ICVLP4iG6Rl3T0Tmw==",
+  "dgSpecHash": "ZskkZAiqe0IkGSiM6Td1RvNgAfXXtS5wYoPCcmdBjPMYnsJqeJX9mSZlzHh4gdGjmf42fE8x4oJnN16srxDZkw==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.3\\microsoft.netcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.3\\microsoft.aspnetcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.3\\microsoft.netcore.app.crossgen2.win-x64.6.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

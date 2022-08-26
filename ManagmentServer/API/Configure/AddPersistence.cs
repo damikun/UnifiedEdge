@@ -23,7 +23,7 @@ namespace API
                     // }
 
                     // }).UseLoggerFactory(s.GetRequiredService<ILoggerFactory>()));
-                    .UseSqlite("Data Source=../Persistence/managment.db", option =>
+                    .UseSqlite("Data Source=managment.db", option =>
                    {
 
                        if (Environment.IsDevelopment())

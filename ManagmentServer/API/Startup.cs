@@ -1,6 +1,8 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 
+using ElectronNET.API;
+
 namespace API
 {
     public class Startup
@@ -60,6 +62,9 @@ namespace API
              IServiceProvider serviceProvider,
              IServiceScopeFactory scopeFactory)
         {
+            app.UseHealthChecks("/health");
+
+            // app.UseHttpsRedirection();
 
             app.UseWebSockets(new WebSocketOptions()
             {
@@ -77,17 +82,15 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseHealthChecks("/health");
-
-            // app.UseHttpsRedirection();
-
             app.UseCors("cors_policy");
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
-            // app.UseAuthentication();
+            app.UseAuthentication();
 
-            // app.UseAuthorization();
+            app.UseAuthorization();
 
             if (env.IsDevelopment())
             {
@@ -109,6 +112,20 @@ namespace API
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            if (HybridSupport.IsElectronActive)
+            {
+                CreateWindow();
+            }
+        }
+
+        private async void CreateWindow()
+        {
+            var window = await Electron.WindowManager.CreateWindowAsync();
+
+            window.OnClosed += () =>
+            {
+                Electron.App.Quit();
+            };
         }
 
         public virtual void ConfigureTelemetry(IServiceCollection services)

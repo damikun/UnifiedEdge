@@ -27,7 +27,15 @@ namespace API
                 "https://studio.apollographql.com",
                 "wss://localhost:7060",
                 "wss://localhost:7060/graphql",
-                "wss://localhost:7060/"
+                "wss://localhost:7060/",
+                "wss://localhost:8003",
+                "wss://localhost:8003/graphql",
+                "wss://localhost:8003/",
+                "ws://localhost:8003",
+                "ws://localhost:8003/graphql",
+                "ws://localhost:8003/",
+                "http://localhost:8003",
+                "https://localhost:8003"
             });
 
             serviceCollection.AddCors(options =>

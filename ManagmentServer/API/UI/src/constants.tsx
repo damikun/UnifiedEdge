@@ -4,7 +4,9 @@
 export const BASE_SERVER_URL_PROD = "";
 export const BASE_SERVER_URL_DEV = "https://localhost:7060";
 
-export const BASE_SERVER_WS_URL_DEV = "wss://localhost:7060";
+// export const BASE_SERVER_WS_URL_DEV = "wss://localhost:7060";
+
+export const BASE_SERVER_WS_URL_DEV = "ws://localhost:8003";
 
 export const BASE_SERVER_URL =
   process.env.NODE_ENV === "development"
