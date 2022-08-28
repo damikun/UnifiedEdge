@@ -44,7 +44,8 @@ type MetricTrendProps = {
   curve?:CurveType,
   yAxisTitle?:string,
   dataRef:MetricTrendHistoryFragment$key | null,
-  subSource:GQL_RuntimeMetricSource
+  subSource:GQL_RuntimeMetricSource,
+  negativeEnabled?:boolean
 }
 
 export type ChartData = {
@@ -59,7 +60,7 @@ export type NormalisedData = {
   max: number,
   scaled_min: number,
   scaled_max: number,
-  data:(string | number)[][]
+  data:(string | number)[][],
   last:number
 }
 
@@ -78,6 +79,7 @@ export default function MetricTrend({
   subSource,
   scale = "decimal",
   curve = CurveType.CURVE_MONOTONE_X,
+  negativeEnabled = false,
   yAxisTitle}:MetricTrendProps){
 
   const gql_data = useFragment(MetricTrendHistoryFragment, dataRef);
@@ -112,7 +114,7 @@ export default function MetricTrend({
           return DEFAULT_SCALE
       }
 
-      var min = Number.MAX_SAFE_INTEGER;
+      var min = negativeEnabled?Number.MAX_SAFE_INTEGER:0;
       var max = Number.MIN_SAFE_INTEGER;
 
       var result = list_data.filter(x => !!x && !!x.timeStamp && x.value !== null)
