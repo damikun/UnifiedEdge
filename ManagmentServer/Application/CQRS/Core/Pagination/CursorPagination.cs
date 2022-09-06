@@ -50,17 +50,35 @@ namespace Aplication.Core.Pagination
 
             var list = new List<EdgeBase<TEntity>>();
 
-            await foreach (var item in queriable.AsAsyncEnumerable())
+            if (queriable is IAsyncEnumerable<TEntity>)
             {
-                if (ct.IsCancellationRequested)
+                await foreach (var item in queriable.AsAsyncEnumerable())
                 {
-                    break;
-                }
+                    if (ct.IsCancellationRequested)
+                    {
+                        break;
+                    }
 
-                list.Add(this.CreateEdge(
-                    _mapper.Map<TEntity>(item),
-                    index++
-                ));
+                    list.Add(this.CreateEdge(
+                        _mapper.Map<TEntity>(item),
+                        index++
+                    ));
+                }
+            }
+            else
+            {
+                foreach (var item in queriable)
+                {
+                    if (ct.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    list.Add(this.CreateEdge(
+                        _mapper.Map<TEntity>(item),
+                        index++
+                    ));
+                }
             }
 
             var moreItemsReturnedThanRequested = list.Count > cursor_range.count;

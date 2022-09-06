@@ -50,12 +50,12 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "b19c0fcb-f055-4547-9957-330d76353954",
+                            Guid = "5eefa146-cae6-4ea6-bb84-3504c1533d66",
                             Name = "Undefined"
                         });
                 });
 
-            modelBuilder.Entity("Server.Domain.MqttServer", b =>
+            modelBuilder.Entity("Server.Domain.ServerBase", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -81,15 +81,47 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Port")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("Updated")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
                     b.ToTable("Servers");
+                });
+
+            modelBuilder.Entity("Server.Domain.MqttServer", b =>
+                {
+                    b.HasBaseType("Server.Domain.ServerBase");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("INTEGER");
+
+                    b.ToTable("MqttServer", (string)null);
+                });
+
+            modelBuilder.Entity("Server.Domain.OpcServer", b =>
+                {
+                    b.HasBaseType("Server.Domain.ServerBase");
+
+                    b.ToTable("OpcServer", (string)null);
+                });
+
+            modelBuilder.Entity("Server.Domain.MqttServer", b =>
+                {
+                    b.HasOne("Server.Domain.ServerBase", null)
+                        .WithOne()
+                        .HasForeignKey("Server.Domain.MqttServer", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Server.Domain.OpcServer", b =>
+                {
+                    b.HasOne("Server.Domain.ServerBase", null)
+                        .WithOne()
+                        .HasForeignKey("Server.Domain.OpcServer", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

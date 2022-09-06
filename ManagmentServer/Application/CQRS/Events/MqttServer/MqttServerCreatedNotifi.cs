@@ -94,6 +94,7 @@ namespace Aplication.Events.MqttServer
 
             var enity = await dbContext.Servers
             .AsNoTracking()
+            .OfType<Server.Domain.MqttServer>()
             .Where(e => e.Guid == notifi.MqttServerGuid)
             .FirstOrDefaultAsync(cancellationToken);
 

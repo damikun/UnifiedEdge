@@ -114,9 +114,10 @@ namespace Aplication.CQRS.Queries
                 _factory.CreateDbContext();
 
             var queriable = dbContext.Servers
-            .AsNoTracking()
-            .ProjectTo<DTO_MqttServer>(_mapper.ConfigurationProvider)
-            .AsQueryable();
+                .AsNoTracking()
+                .OfType<Server.Domain.MqttServer>()
+                .ProjectTo<DTO_MqttServer>(_mapper.ConfigurationProvider)
+                .AsQueryable();
 
             Func<CancellationToken, Task<int>> total_count;
 
@@ -126,13 +127,17 @@ namespace Aplication.CQRS.Queries
             }
             else
             {
-                total_count = (ct) => dbContext.Servers.CountAsync(ct);
+                total_count = (ct) => dbContext.Servers
+                .OfType<Server.Domain.MqttServer>()
+                .CountAsync(ct);
             }
- 
+
             return await _cursor_provider.ApplyQueriablePagination(
                 queriable,
                 request.Arguments,
-                (ct) => dbContext.Servers.CountAsync(ct),
+                (ct) => dbContext.Servers
+                .OfType<Server.Domain.MqttServer>()
+                .CountAsync(ct),
                 cancellationToken
             );
 

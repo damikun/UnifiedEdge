@@ -1,5 +1,5 @@
 
-export default function Settings(){
+export default function EdgeSettings(){
     return <>
 
         <div className="flex h-80 bg-blue-200">dsdsddsd</div>

@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import Servers from "../Servers/Servers";
 import { Navigate, Route, Routes } from "react-router";
 
 const Monitor = lazy(
@@ -40,7 +41,14 @@ const Help = lazy(
 const Settings = lazy(
   () =>
     import(
-      /* webpackChunkName: "Settings" */ "../Settings/Settings"
+      /* webpackChunkName: "Settings" */ "../Settings/EdgeSettings"
+    )
+);
+
+const Connections = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Connections" */ "../Connections/Connections"
     )
 );
 
@@ -49,11 +57,13 @@ export default function Body(){
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/Monitor/*" element={<Monitor/>} />
-          <Route path="/Analytics/*" element={<Analytics/>} />
+          <Route path="/Servers/*" element={<Servers/>} />
+          <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />
           <Route path="/Help/*" element={<Help/>} />
           <Route path="/Settings/*" element={<Settings/>} />
+          <Route path="/Connections/*" element={<Connections/>} />
           <Route path="/*" element={<Navigate to={"/Monitor"}/>} />
         </Routes>
       </Suspense>

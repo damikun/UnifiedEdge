@@ -37,6 +37,28 @@ namespace Aplication.Mapping
         }
     }
 
+    public class EdgeToEdge<TSource, TDestination>
+        : ITypeConverter<Edge<TSource>, Edge<TDestination>>
+            where TSource : class, TDestination
+            where TDestination : class
+    {
+        public Edge<TDestination> Convert(
+            Edge<TSource> source,
+            Edge<TDestination> destination,
+            ResolutionContext context)
+        {
+
+            if (source.Node == null)
+            {
+                return new Edge<TDestination>(null!, source.Cursor);
+            }
+
+            var mapped_node = source.Node;
+
+            return new Edge<TDestination>(mapped_node, source.Cursor);
+        }
+    }
+
     public class DomainPageInfoToGraphqlPageInfo
         : ITypeConverter<PageInfo, ConnectionPageInfo>
     {
@@ -87,6 +109,9 @@ namespace Aplication.Mapping
         {
             CreateMap(typeof(EdgeBase<>), typeof(Edge<>))
                 .ConvertUsing(typeof(DomainEdgeToGraphqlEdge<,>));
+
+            // CreateMap(typeof(Edge<>), typeof(Edge<>))
+            //     .ConvertUsing(typeof(EdgeToEdge<,>));
 
             CreateMap<PageInfo, ConnectionPageInfo>()
                 .ConvertUsing(typeof(DomainPageInfoToGraphqlPageInfo));

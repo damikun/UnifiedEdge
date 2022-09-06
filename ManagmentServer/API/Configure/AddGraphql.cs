@@ -9,7 +9,7 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-using Aplication.Services.Historian;
+using Aplication.Graphql.Interfaces;
 
 namespace API
 {
@@ -68,6 +68,7 @@ namespace API
                     .AddTypeExtension<SystemQueries>()
                     .AddTypeExtension<MqttQueries>()
                     .AddTypeExtension<UserQueries>()
+                    .AddTypeExtension<GlobalQueries>()
                 .AddMutationType<MutationType>()
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()
@@ -81,7 +82,6 @@ namespace API
 
                 .AddType<MetricType>()
                 .AddType<RuntimeMetricsType>()
-
                 .AddType<RuntimeMetricsSourceType>()
 
                 .AddType<UserType>()
@@ -91,13 +91,13 @@ namespace API
                 .AddType<UptimeType>()
                 .AddType<MemoryMetricsType>()
                 .AddType<SystemInfoType>()
-
                 .AddType<HistorianRecordType>()
+                .AddType<IServerType>()
+                // .AddInterfaceType<IServerType>()
 
                 .AddDataLoader<UserByIdDataLoader>()
 
                 .AddInMemorySubscriptions()
-
                 .UseCustomPipeline();
 
 

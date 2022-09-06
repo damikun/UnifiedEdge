@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0r5/FpJ74kIBtUNsGkLOIay0xRhdOsu8BO5Y3l45YDr/FwVdDP/2IYMjl6RUvE/9eOmRH9d31E+HOKH7l7RVhw==",
+  "dgSpecHash": "W7QWyczoc+mAUtFVdrdXL0+ATt9ygR6gb4O74OvMzjEzdpsOQ7iLyGFl4t37sc1Ny+auuUz+G6mzdyUsO9gOBg==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
   "expectedPackageFiles": [
@@ -42,11 +42,7 @@
     "C:\\Users\\kunda\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.3\\microsoft.netcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.3\\microsoft.aspnetcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.3\\microsoft.netcore.app.crossgen2.win-x64.6.0.3.nupkg.sha512"
+    "C:\\Users\\kunda\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

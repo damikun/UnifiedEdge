@@ -7,7 +7,7 @@ namespace Persistence
 
     public class ManagmentDbCtx : DbContext
     {
-        public DbSet<MqttServer> Servers { get; set; }
+        public DbSet<ServerBase> Servers { get; set; }
 
         public DbSet<Edge> Edge { get; set; }
         public ManagmentDbCtx(
@@ -36,6 +36,9 @@ namespace Persistence
                 //     )
                 // );
             }
+
+            modelBuilder.Entity<MqttServer>().ToTable("MqttServer");
+            modelBuilder.Entity<OpcServer>().ToTable("OpcServer");
 
             //---------------------
             // Initial DB data

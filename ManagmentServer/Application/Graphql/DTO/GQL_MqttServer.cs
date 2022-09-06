@@ -1,9 +1,10 @@
 using Server;
+using Aplication.Graphql.Interfaces;
 
 namespace Aplication.DTO
 {
 
-    public class GQL_MqttServer
+    public class GQL_MqttServer : GQL_IServer
     {
         public GQL_MqttServer()
         {

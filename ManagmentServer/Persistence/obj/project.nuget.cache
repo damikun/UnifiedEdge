@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bE+Fetwvlce8Cp0ZcAgyhxjlRpdut/D09bjowexJD0wwRCHh3Sg38DHrNwsxpKWwoFBKLmC37q0KUnhf+fpBaQ==",
+  "dgSpecHash": "wH4JlIiJYVUAXBBmC/lYBpr0zdq06s1UXVW8QUp02L5KHZN6CchpvSok2/tpjibzFxhs0fSnuzKYXVF0qIeOkA==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
@@ -33,11 +33,7 @@
     "C:\\Users\\kunda\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.3\\microsoft.netcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.3\\microsoft.aspnetcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.3\\microsoft.netcore.app.crossgen2.win-x64.6.0.3.nupkg.sha512"
+    "C:\\Users\\kunda\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

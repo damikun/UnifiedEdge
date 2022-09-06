@@ -1,12 +1,11 @@
-import { faChartLine, faDesktop, faGear, faInfo, faTriangleExclamation, faUsers } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import { useCallback, useState } from "react";
-import BodyContainer from "./BodyContainer";
-import MenuButton from "./MenuButton";
+import SideBar from "./Sidebar";
 import MenuList from "./MenuList";
 import MenuItem from "./MenuItem";
-import SideBar from "./Sidebar";
-
+import MenuButton from "./MenuButton";
+import BodyContainer from "./BodyContainer";
+import { useCallback, useState } from "react";
+import { faChartLine, faDesktop, faGear, faInfo, faLink, faServer, faTriangleExclamation, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export default function Layout(){
 
@@ -30,6 +29,8 @@ export default function Layout(){
 
             <MenuList state={isOpen}>
                 <MenuItem to="/Monitor" icon={faDesktop} name="Monitor" />
+                <MenuItem to="/Servers" icon={faServer} name="Servers" />
+                <MenuItem to="/Connections" icon={faLink} name="Connections" />
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
                 <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" />
                 <MenuItem to="/Users" icon={faUsers} name="Users" />

@@ -4,6 +4,7 @@ using Server.Manager;
 using Aplication.DTO;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
+using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Graphql.Types
 {
@@ -28,6 +29,8 @@ namespace Aplication.Graphql.Types
 
         protected override void Configure(IObjectTypeDescriptor<GQL_MqttServer> descriptor)
         {
+            descriptor.Implements<IServerType>();
+
             descriptor.ImplementsNode().IdField(t => t.Id)
             .ResolveNodeWith<MqttServerTypeResolvers>(e => e.GetMqttServerNode(default!, default!, default!));
 

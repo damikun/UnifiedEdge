@@ -1,9 +1,9 @@
 using Persistence;
 using Server.Manager;
 using MQTTnet.Server;
+using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Aplication.Services.MqttMonitor
 {
@@ -35,7 +35,9 @@ namespace Aplication.Services.MqttMonitor
 
                 try
                 {
-                    servers = await dbContext.Servers.ToListAsync();
+                    servers = await dbContext.Servers
+                    .OfType<Server.Domain.MqttServer>()
+                    .ToListAsync();
                 }
                 catch
                 {

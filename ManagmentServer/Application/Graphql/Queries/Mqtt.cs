@@ -62,7 +62,6 @@ namespace Aplication.Graphql.Queries
             [Service] IMediator mediator,
             CancellationToken cancellationToken)
         {
-
             var result = await mediator.Send(
                 new GetMqttServers(ctx.GetPaggingArguments()),
                 cancellationToken

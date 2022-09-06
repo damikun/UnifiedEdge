@@ -1,8 +1,9 @@
+using Aplication.Interfaces;
 
 namespace Aplication.DTO
 {
 
-    public class DTO_MqttServer
+    public class DTO_MqttServer : IServer
     {
         public DTO_MqttServer()
         {
@@ -43,7 +44,6 @@ namespace Aplication.DTO
         /// Created
         /// </summary>
         public DateTime Created { get; set; }
-
 
     }
 }

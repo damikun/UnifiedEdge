@@ -84,6 +84,7 @@ namespace Aplication.CQRS.Queries
 
             var query = dbContext.Servers
                 .AsNoTracking()
+                .OfType<Server.Domain.MqttServer>()
                 .Where(e => e.Guid == request.Guid)
                 .Select(e => e.ID)
                 .AsQueryable();

@@ -63,7 +63,9 @@ namespace Aplication.CQRS.Commands
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.Servers.AllAsync(e => e.Port != port);
+            return await dbContext.Servers
+            .OfType<MqttServer>()
+            .AllAsync(e => e.Port != port);
         }
 
     }

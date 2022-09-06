@@ -1,20 +1,8 @@
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Application.deps.json
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Application.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Application.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Domain.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Persistence.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Domain.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\bin\Debug\net6.0\Persistence.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.AssemblyInfo.cs
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\refint\Application.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\Application.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\Application\obj\Debug\net6.0\ref\Application.dll
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.AssemblyInfo.cs
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Application.deps.json
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Application.pdb
@@ -24,11 +12,6 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Applicatio
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Domain.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Persistence.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Server.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.AssemblyInfoInputs.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.AssemblyInfo.cs
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.CoreCompileInputs.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\ManagmentUI - Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\refint\ManagmentUI - Application.dll

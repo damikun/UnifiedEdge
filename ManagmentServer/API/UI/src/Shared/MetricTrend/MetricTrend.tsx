@@ -1,18 +1,23 @@
+import clsx from "clsx";
 import { LinkedList } from "../LinkedList";
 import { graphql } from "babel-plugin-relay/macro";
+import "@elastic/charts/dist/theme_only_light.css";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useMemo, useReducer } from "react";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
-import {AreaSeries, Axis, Chart, CurveType, LIGHT_THEME, Position, ScaleType, Settings, TickFormatterOptions, TooltipType} from "@elastic/charts"
-
-import "@elastic/charts/dist/theme_only_light.css";
 import { MetricTrendHistoryFragment$key } from "./__generated__/MetricTrendHistoryFragment.graphql";
 import { GQL_RuntimeMetricSource, MetricTrendSubscription } from "./__generated__/MetricTrendSubscription.graphql";
-import clsx from "clsx";
-import { AnimatePresence, motion } from "framer-motion";
+import {AreaSeries, Axis, Chart, CurveType, LIGHT_THEME, Position, ScaleType, Settings, TickFormatterOptions, TooltipType} from "@elastic/charts"
 
 const horizontalGridLineStyle = { stroke: 'black', strokeWidth: 0.15, opacity: 1 };
 const dataInk = 'rgba(96, 146, 192, 1)';
+const TREND_MAX = 100;
+const XDomainCfg = {
+  min: NaN,
+  max: NaN,
+  minInterval: 1000,
+}
 
 const MetricTrendHistoryFragment = graphql`
     fragment MetricTrendHistoryFragment on GQL_RuntimeMetrics
@@ -85,11 +90,12 @@ export default function MetricTrend({
   const gql_data = useFragment(MetricTrendHistoryFragment, dataRef);
 
   const [time_serie, dispatch] = useReducer(
-    metricReducer,InitMetricsBuffer(gql_data?.metricHistory));
+    metricReducer,InitMetricsBuffer(gql_data?.metricHistory)
+  );
 
   const subscription_cfg = useMemo(() => ({
     variables: {props: subSource},
-    subscription:MetricTrendSubscriptionRef,
+    subscription: MetricTrendSubscriptionRef,
     updater: (store, data) =>{
       if(data && data.runtimeMetric.timeStamp){
         dispatch({
@@ -102,74 +108,73 @@ export default function MetricTrend({
         })
     }
     },
-  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), [dispatch]);
+  } as GraphQLSubscriptionConfig<MetricTrendSubscription>), [dispatch, subSource]);
 
   useSubscription<MetricTrendSubscription>(subscription_cfg);
   
   const normalised_data = useMemo(() => {
 
-      const list_data = time_serie.data.traverse()
+    const list_data = time_serie.data.traverse()
 
-      if(list_data === null || list_data === undefined){
-          return DEFAULT_SCALE
+    if(!list_data){
+      return DEFAULT_SCALE;
+    }
+
+    var min = Number.MAX_SAFE_INTEGER;
+    var max = Number.MIN_SAFE_INTEGER;
+
+    var result = list_data
+    .filter(x => !!x && !!x.timeStamp && x.value !== null)
+    .map(e=> {
+      if(e.value < min){
+        min = e.value < 0 && !negativeEnabled ? 0 : e.value
       }
 
-      var min = negativeEnabled?Number.MAX_SAFE_INTEGER:0;
-      var max = Number.MIN_SAFE_INTEGER;
-
-      var result = list_data.filter(x => !!x && !!x.timeStamp && x.value !== null)
-      .map(e=> {
-          const date = new Date(e?.timeStamp);
-
-          if(e.value < min){
-              min = e.value;
-          }
-
-          if(e.value > max){
-              max = e.value;
-          }
-
-          return  [
-              date.getTime(),
-              e?.value? Number(e?.value): 0
-          ]
-      })
-  
-      if(result === undefined){
-          return DEFAULT_SCALE
-      }else{
-
-        const last = time_serie.data.lastNode();
-
-          return { 
-              min:min,
-              max:max,
-              data:result,
-              scaled_min: min-min*0.02,
-              scaled_max: max+max*0.02,
-              last: last ? GetTickFormat(scale,last.data.value) : 0
-          } as NormalisedData
+      if(e.value > max){
+        max = e.value;
       }
 
-  }, [time_serie, scale])
+      return  [
+        new Date(e?.timeStamp).getTime(),
+        e?.value ? Number(e?.value): 0
+      ]
+    })
+
+    if(result === undefined){
+      return DEFAULT_SCALE
+    }else{
+
+      const last = time_serie.data.lastNode();
+
+      return { 
+        min:min,
+        max:max,
+        data:result,
+        scaled_min:min-min*0.02,
+        scaled_max:max+max*0.02,
+        last: last ? GetTickFormat(scale,last.data.value) : 0
+      } as NormalisedData
+    }
+
+  }, [time_serie, scale, negativeEnabled])
 
   const y_domain = useMemo(() => {
-       return {
-          min:normalised_data.scaled_min,
-          max:normalised_data.scaled_max
-      }
+    return {
+      min: normalised_data.scaled_min,
+      max: normalised_data.scaled_max
+    }
   }, [normalised_data.scaled_min, normalised_data.scaled_max])
 
   const scaleCallback = useCallback(
-      (value: any, options?: TickFormatterOptions | undefined): string => {
-          return GetTickFormat(scale,value)
+    (value: any, options?: TickFormatterOptions | undefined): string => {
+      return GetTickFormat(scale,value)
     },
     [scale],
   )
   
   return  <AnimatePresence>
     <motion.div
-      className="flex flex-col w-full space-y-2 h-96 relative"
+      className="flex flex-col w-full space-y-2 h-80 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 1 }}
@@ -182,61 +187,52 @@ export default function MetricTrend({
           </div>
         </div>
         <div className="flex w-full h-full">
-            {
-            //@ts-ignore
-            <Chart className="h-full w-full z-0">
-                <Settings
-                    baseTheme={LIGHT_THEME}
-                    showLegendExtra
-                    animateData
-                    tooltip={TooltipType.VerticalCursor}
-                    xDomain={
-                      1000 > 0
-                        ? {
-                            min: NaN,
-                            max: NaN,
-                            minInterval: 1000,
-                          }
-                        : undefined
-                    }
-                />
-                
-                <Axis
-                    id="bottom"
-                    position={Position.Bottom}
-                    showOverlappingTicks={false}
-                    tickFormat={(dateFormatter)}
-                />
+          {
+          //@ts-ignore
+          <Chart className="h-full w-full z-0">
+            <Settings
+                baseTheme={LIGHT_THEME}
+                showLegendExtra
+                animateData
+                tooltip={TooltipType.VerticalCursor}
+                xDomain={XDomainCfg}
+            />
+            
+            <Axis
+                id="bottom"
+                position={Position.Bottom}
+                showOverlappingTicks={false}
+                tickFormat={dateFormatter}
+            />
 
-                <Axis
-                    id="left"
-                    title={yAxisTitle}
-                    showGridLines
-                    ticks={5}
-                    domain={y_domain}
-                    gridLine={horizontalGridLineStyle}
-                    position={Position.Left}
-                    tickFormat={scaleCallback}
-                />
+            <Axis
+                id="left"
+                title={yAxisTitle}
+                showGridLines
+                ticks={5}
+                domain={y_domain}
+                gridLine={horizontalGridLineStyle}
+                position={Position.Left}
+                tickFormat={scaleCallback}
+            />
 
-                <AreaSeries
-                    id={name}
-                    xScaleType={ScaleType.Time}
-                    yScaleType={ScaleType.Linear}
-                    xAccessor={0}
-                    yAccessors={[1]}
-                    yNice
-                    xNice
-                    color={dataInk}
-                    data={normalised_data.data}
-                    curve={curve}
-                />
-            </Chart>
-            }
+            <AreaSeries
+                id={name}
+                xScaleType={ScaleType.Time}
+                yScaleType={ScaleType.Linear}
+                xAccessor={0}
+                yAccessors={[1]}
+                yNice
+                xNice
+                color={dataInk}
+                data={normalised_data.data}
+                curve={curve}
+            />
+          </Chart>
+          }
         </div>
-
     </motion.div>
-    </AnimatePresence>
+  </AnimatePresence>
 }
 
 // ----------------------------------
@@ -254,7 +250,7 @@ export function metricReducer(state:{timestamp:string,data:LinkedList<ChartData>
   switch (action.type) {
     case LinkedListActionKind.Add:
 
-    if(state.data.size() > 100){
+    if(state.data.size() > TREND_MAX){
       state.data.deleteFirst();
       state.data.insertAtEnd(action.payload)
     }else{

@@ -94,6 +94,7 @@ namespace Aplication.CQRS.Commands
                 _factory.CreateDbContext();
 
             var enity = await dbContext.Servers
+                .OfType<Server.Domain.MqttServer>()
                 .Where(e => e.Guid == request.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -102,7 +103,8 @@ namespace Aplication.CQRS.Commands
                 throw new Exception(string.Format("MqttServer with id:{0} was not found", request.Id));
             }
 
-            dbContext.Servers.Remove(enity);
+            dbContext.Servers
+            .Remove(enity);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
