@@ -40,8 +40,6 @@ namespace Aplication.Graphql.Types
                 .Type<ListType<HistorianRecordType>>()
                 .Resolve(ctx =>
                 {
-
-                    Thread.Sleep(2000);
                     var name = ctx.ArgumentValue<GQL_RuntimeMetricSource>("name");
 
                     var name_string = $"{RuntimeCollector.Prefix}.{name}";

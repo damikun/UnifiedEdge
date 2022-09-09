@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<378d904e7e4acbac66028f2014bd1a35>>
+ * @generated SignedSource<<319b83f9b3b4e5b08dfe8e72471cb09c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,15 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-export type MqttState = "RESTARTING" | "RUNNING" | "STARTING" | "STOPPED" | "STOPPING" | "UNKNOWN" | "%future added value";
+export type GQL_ServerState = "RESTARTING" | "RUNNING" | "STARTING" | "STOPPED" | "STOPPING" | "UNKNOWN" | "%future added value";
+export type GQL_ServerVariant = "MQTT" | "OPC" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type ServerListItemDataFragment$data = {
+  readonly __typename: string;
   readonly id: string;
-  readonly isRunning: boolean;
   readonly name: string;
-  readonly port: number;
-  readonly state: MqttState;
+  readonly state: GQL_ServerState;
+  readonly type: GQL_ServerVariant;
   readonly " $fragmentType": "ServerListItemDataFragment";
 };
 export type ServerListItemDataFragment$key = {
@@ -41,13 +42,6 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "isRunning",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
       "name": "name",
       "storageKey": null
     },
@@ -62,14 +56,21 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "port",
+      "name": "type",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
       "storageKey": null
     }
   ],
-  "type": "GQL_MqttServer",
-  "abstractKey": null
+  "type": "GQL_IServer",
+  "abstractKey": "__isGQL_IServer"
 };
 
-(node as any).hash = "f5fdf1ebe759549cc44c59b4310d11bb";
+(node as any).hash = "388b0153ae8248b49ba46cb2897cb507";
 
 export default node;

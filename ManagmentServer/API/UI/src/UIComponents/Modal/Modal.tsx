@@ -1,17 +1,16 @@
 import clsx from "clsx";
+import ErrorBoundary from "../ErrorBoundery/ErrorBoundary";
 import { AnimatePresence, motion, Variants } from "framer-motion";
+import useOnClickOutside from "../../Hooks/useOnOutsideElementClick";
 import React, { Suspense, useCallback, useContext, useRef } from "react";
 import ModalBounderyErrorHandler from "../../Components/ModalBounderyErrorHandler";
-import useOnClickOutside from "../../Hooks/useOnOutsideElementClick";
-
-import ErrorBoundary from "../ErrorBoundery/ErrorBoundary";
 
 export type ModalProps = {
   children?: React.ReactNode;
   isOpen: boolean;
   position: "center" | "top" | "fullscreen";
-  OnClose: () => void;
-  OnConfirm?: () => void;
+  onClose: () => void;
+  onConfirm?: () => void;
   fallback?: React.ReactElement;
   errorfallback?: React.ReactNode;
   className?: string;
@@ -76,8 +75,8 @@ export const useModalContext = () => useContext(ModalContext);
 export default function Modal({
   children,
   isOpen,
-  OnClose,
-  OnConfirm,
+  onClose,
+  onConfirm,
   position = "top",
   fallback,
   errorfallback,
@@ -86,18 +85,18 @@ export default function Modal({
 }: ModalProps) {
   const $modalref = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside($modalref, OnClose );
+  useOnClickOutside($modalref, onClose );
 
   const ModalContexd = useCallback(() => {
     return {
       close() {
-        OnClose();
+        onClose();
       },
       confirm() {
-        OnConfirm && OnConfirm();
+        onConfirm && onConfirm();
       },
     };
-  }, [OnClose, OnConfirm]);
+  }, [onClose, onConfirm]);
 
   return (
     <ModalContext.Provider value={ModalContexd()}>
@@ -113,7 +112,7 @@ export default function Modal({
               "flex-1 z-40 opacity-100 fixed modal-background",
               "top-0 left-0 h-full w-full overflow-x-hidden",
               "overflow-y-scroll scrollbarwidth scrollbarhide scrollbarhide2",
-              "scrolling-touch h-full",
+              "scrolling-touch h-full bg-gray-800 bg-opacity-20",
               className
             )}
           >

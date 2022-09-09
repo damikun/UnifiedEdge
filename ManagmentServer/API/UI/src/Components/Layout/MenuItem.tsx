@@ -35,7 +35,7 @@ export default function MenuItem({name,to,pattern,icon}:MenuItemProps){
 
     const resolver = useResolvedPath(pattern ? pattern : to);
 
-    const match = useMatch({ path: resolver.pathname });
+    const match = useMatch({ path: resolver.pathname, caseSensitive:false });
 
     return (
         <Link onClick={handleClick} to={to}

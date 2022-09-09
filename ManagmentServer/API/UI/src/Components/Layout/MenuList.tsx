@@ -7,7 +7,7 @@ type MenuListProps={
 
 export default function MenuList({state, children}:MenuListProps){
     return (
-        <div className={clsx("flex h-full shadow-md z-50 overflow-hidden",
+        <div className={clsx("flex h-full shadow-md z-40 overflow-hidden",
         "transition-all duration-200",
          !state ? "w-0":"w-full md:w-80")}>
 

@@ -63,7 +63,6 @@ namespace Aplication.Services.MqttMonitor
 
                         if (is_min_period && !await _mqtt_manager.Contains(enity.Guid))
                         {
-
                             var option_builder = new MqttServerOptionsBuilder()
                             .WithDefaultEndpoint();
 

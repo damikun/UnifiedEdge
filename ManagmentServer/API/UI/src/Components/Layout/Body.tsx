@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import Servers from "../Servers/Servers";
+import Server from "../Server/MqttServer/Server";
 import { Navigate, Route, Routes } from "react-router";
 
 const Monitor = lazy(
@@ -53,10 +54,12 @@ const Connections = lazy(
 );
 
 export default function Body(){
-    return <div className=" p-5 md:p-10 space-y-5">  
+    return <div className="p-5 md:p-10 space-y-5">  
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/Monitor/*" element={<Monitor/>} />
+          <Route path="/Monitor/" element={<Monitor/>} />
+          <Route path="/Monitor/Server/Mqtt/*" element={<Server/>} />
+          <Route path="/Monitor/Server/Opc/*" element={<Server/>} />
           <Route path="/Servers/*" element={<Servers/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />

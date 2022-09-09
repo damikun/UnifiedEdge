@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<977041132779705cb025d473b8a66dac>>
+ * @generated SignedSource<<fd026176470cb0c2de579a237326abb8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -72,9 +72,9 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "GQL_MqttServerConnection",
+        "concreteType": "GQL_IServerConnection",
         "kind": "LinkedField",
-        "name": "mqttServers",
+        "name": "servers",
         "plural": false,
         "selections": [
           {
@@ -119,7 +119,7 @@ return {
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_MqttServerEdge",
+            "concreteType": "GQL_IServerEdge",
             "kind": "LinkedField",
             "name": "edges",
             "plural": true,
@@ -127,7 +127,7 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "GQL_MqttServer",
+                "concreteType": null,
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
@@ -136,15 +136,19 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "id",
+                    "name": "__typename",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "isRunning",
+                    "name": "id",
                     "storageKey": null
+                  },
+                  {
+                    "kind": "TypeDiscriminator",
+                    "abstractKey": "__isGQL_IServer"
                   },
                   {
                     "alias": null,
@@ -164,14 +168,7 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "port",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "__typename",
+                    "name": "type",
                     "storageKey": null
                   }
                 ],
@@ -207,23 +204,23 @@ return {
         "args": (v1/*: any*/),
         "filters": null,
         "handle": "connection",
-        "key": "ServerListConnection_mqttServers",
+        "key": "ServerListConnection_servers",
         "kind": "LinkedHandle",
-        "name": "mqttServers"
+        "name": "servers"
       }
     ]
   },
   "params": {
-    "cacheID": "aa232e75fe6a651e99a6cdc5fbc2b41c",
+    "cacheID": "cbcca6752cf00336c67e833884c733be",
     "id": null,
     "metadata": {},
     "name": "ServerListRefetchQuery",
     "operationKind": "query",
-    "text": "query ServerListRefetchQuery(\n  $after: String\n  $first: Int\n) {\n  ...ServerListDataFragment_2HEEH6\n}\n\nfragment ServerListDataFragment_2HEEH6 on Query {\n  mqttServers(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...ServerListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_MqttServer {\n  id\n  isRunning\n  name\n  state\n  port\n}\n"
+    "text": "query ServerListRefetchQuery(\n  $after: String\n  $first: Int\n) {\n  ...ServerListDataFragment_2HEEH6\n}\n\nfragment ServerListDataFragment_2HEEH6 on Query {\n  servers(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        ...ServerListItemDataFragment\n      }\n      cursor\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n  state\n  type\n  __typename\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5197842ecf86a5d61da29ef8a330c873";
+(node as any).hash = "3f6f080c2757aa9a2ac20497d262943c";
 
 export default node;

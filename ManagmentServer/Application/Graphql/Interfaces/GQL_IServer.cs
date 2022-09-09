@@ -1,5 +1,4 @@
-
-using Aplication.Interfaces;
+using Aplication.DTO;
 
 namespace Aplication.Graphql.Interfaces
 {
@@ -8,24 +7,40 @@ namespace Aplication.Graphql.Interfaces
     /// </summary>
     public interface GQL_IServer
     {
+
         // <summary>
         /// Name
         /// </summary>
-        public new string Name { get; set; }
+        public string Id { get; set; }
+
+        // <summary>
+        /// Name
+        /// </summary>
+        public string Name { get; set; }
 
         // <summary>
         /// Description
         /// </summary>
-        public new string? Description { get; set; }
+        public string? Description { get; set; }
 
         // <summary>
         /// Location
         /// </summary>
-        public new string? Location { get; set; }
+        public string? Location { get; set; }
+
+        // <summary>
+        /// State
+        /// </summary>
+        public GQL_ServerState State { get; set; }
+
+        // <summary>
+        /// Type
+        /// </summary>
+        public GQL_ServerVariant Type { get; }
 
         // <summary>
         /// Updated
         /// </summary>
-        public new DateTime Updated { get; set; }
+        public DateTime Updated { get; set; }
     }
 }

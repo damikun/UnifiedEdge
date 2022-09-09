@@ -1,25 +1,26 @@
-import React, { Suspense, useContext, useMemo, useState } from "react"
-import { Environment, PreloadedQuery, RelayEnvironmentProvider } from "react-relay";
-import { BrowserRouter as Router } from "react-router-dom";
 import { RelayEnv } from "../App";
-import { createEnvironment } from "./Environment";
 import UserProvider from "./UserProvider";
+import { createEnvironment } from "./Environment";
+import { BrowserRouter as Router } from "react-router-dom";
+import ToastProvider from "../UIComponents/Toast/ToastProvider";
+import React, { Suspense, useContext, useMemo, useState } from "react"
 import { UserProviderQuery } from "./__generated__/UserProviderQuery.graphql";
+import { Environment, PreloadedQuery, RelayEnvironmentProvider } from "react-relay";
 
 type ProvidersProps  = {
-    children: React.ReactNode;
-    fallback?: React.ReactNode;
-    initialQueryRef: PreloadedQuery<UserProviderQuery>;
-  };
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+  initialQueryRef: PreloadedQuery<UserProviderQuery>;
+};
 
 export const EnviromentContext = React.createContext<
 EnviromentContextType | undefined
 >(undefined);
 
 type EnviromentContextType = {
-    env: Environment;
-    reset(): void;
-  };
+  env: Environment;
+  reset(): void;
+};
   
 export const useEnvirometHandler = () => useContext(EnviromentContext);
 
@@ -36,24 +37,25 @@ export default function Providers({ children, fallback, initialQueryRef }: Provi
     };
   }, [envState, setEnvState]);
 
-      return (
-        <EnviromentContext.Provider value={providerInit}>
-          <EnviromentContext.Consumer>
-            {(state) =>
-              state && (
-                <RelayEnvironmentProvider environment={state?.env}>
-                  <Router>
-                    <Suspense fallback={fallback ? fallback : null}>
-                      <UserProvider initialQueryRef={initialQueryRef}>
+    return (
+      <EnviromentContext.Provider value={providerInit}>
+        <EnviromentContext.Consumer>
+          {(state) =>
+            state && (
+              <RelayEnvironmentProvider environment={state?.env}>
+                <Router>
+                  <Suspense fallback={fallback ? fallback : null}>
+                    <UserProvider initialQueryRef={initialQueryRef}>
+                      <ToastProvider>
                         {children}
-                      </UserProvider>
-                    </Suspense>
-                  </Router>
-                </RelayEnvironmentProvider>
-              )
-            }
-          </EnviromentContext.Consumer>
-        </EnviromentContext.Provider>
-      );
-
+                      </ToastProvider>
+                    </UserProvider>
+                  </Suspense>
+                </Router>
+              </RelayEnvironmentProvider>
+            )
+          }
+        </EnviromentContext.Consumer>
+      </EnviromentContext.Provider>
+    );
 }

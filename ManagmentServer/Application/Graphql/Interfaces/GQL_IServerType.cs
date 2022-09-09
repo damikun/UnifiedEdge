@@ -8,7 +8,7 @@ namespace Aplication.Graphql.Interfaces
     {
         protected override void Configure(IInterfaceTypeDescriptor<GQL_IServer> descriptor)
         {
-            // descriptor.Field(e => e.Id);
+            descriptor.Field(e => e.Id).ID();
 
             descriptor.Field(e => e.Name);
 

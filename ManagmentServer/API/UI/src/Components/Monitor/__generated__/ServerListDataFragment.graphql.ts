@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0e674b23b45ff77ad538cfa55ee50fdb>>
+ * @generated SignedSource<<caa1dfaea0327276911fb40bf268597e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ServerListDataFragment$data = {
-  readonly mqttServers: {
+  readonly servers: {
     readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -35,7 +35,7 @@ export type ServerListDataFragment$key = {
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "mqttServers"
+  "servers"
 ];
 return {
   "argumentDefinitions": [
@@ -76,11 +76,11 @@ return {
   "name": "ServerListDataFragment",
   "selections": [
     {
-      "alias": "mqttServers",
+      "alias": "servers",
       "args": null,
-      "concreteType": "GQL_MqttServerConnection",
+      "concreteType": "GQL_IServerConnection",
       "kind": "LinkedField",
-      "name": "__ServerListConnection_mqttServers_connection",
+      "name": "__ServerListConnection_servers_connection",
       "plural": false,
       "selections": [
         {
@@ -125,7 +125,7 @@ return {
         {
           "alias": null,
           "args": null,
-          "concreteType": "GQL_MqttServerEdge",
+          "concreteType": "GQL_IServerEdge",
           "kind": "LinkedField",
           "name": "edges",
           "plural": true,
@@ -133,7 +133,7 @@ return {
             {
               "alias": null,
               "args": null,
-              "concreteType": "GQL_MqttServer",
+              "concreteType": null,
               "kind": "LinkedField",
               "name": "node",
               "plural": false,
@@ -191,6 +191,6 @@ return {
 };
 })();
 
-(node as any).hash = "5197842ecf86a5d61da29ef8a330c873";
+(node as any).hash = "3f6f080c2757aa9a2ac20497d262943c";
 
 export default node;

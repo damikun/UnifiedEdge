@@ -1,7 +1,7 @@
 
 import clsx from "clsx";
 import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
-import { ReactComponent as ServerDown } from "../../Images/serverDown.svg";
+import { ReactComponent as ServerDown } from "../Images/serverDown.svg";
 import StayledButton from "../UIComponents/Buttons/StayledButton";
 import ContentContainer from "../UIComponents/ContentContainer";
 import { useBoundaryContext } from "../UIComponents/ErrorBoundery/ErrorBoundary";

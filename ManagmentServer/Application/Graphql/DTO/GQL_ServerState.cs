@@ -1,8 +1,7 @@
 
 namespace Aplication.DTO
 {
-
-    public enum GQL_MqttState
+    public enum GQL_ServerState
     {
         unknown,
         stopped,

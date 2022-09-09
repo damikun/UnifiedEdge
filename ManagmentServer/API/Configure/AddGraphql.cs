@@ -32,6 +32,7 @@ namespace API
                     new PagingOptions
                     {
                         IncludeTotalCount = true,
+                        DefaultPageSize = 25,
                         MaxPageSize = 200
                     })
                 .ModifyRequestOptions(requestExecutorOptions =>
@@ -60,6 +61,7 @@ namespace API
 
                 .AddGlobalObjectIdentification()
                 .AddQueryFieldToMutationPayloads()
+                .AddMutationConventions(true)
 
                 .AddFiltering()
                 .AddSorting()
@@ -72,6 +74,7 @@ namespace API
                 .AddMutationType<MutationType>()
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()
+                    .AddTypeExtension<OpcMutations>()
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()
 

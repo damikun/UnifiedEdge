@@ -12,7 +12,7 @@ namespace API
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new Internall_Profile());
-                mc.AddProfile(new Mqtt_Map_Profile());
+                mc.AddProfile(new Server_Map_Profile());
                 mc.AddProfile(new Graphql_Map_Profile());
                 mc.AddProfile(new Metrics_Map_Profile());
                 mc.AddProfile(new System_Profile());

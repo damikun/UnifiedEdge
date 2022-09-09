@@ -86,7 +86,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "5eefa146-cae6-4ea6-bb84-3504c1533d66", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "7cb93bd4-de07-49b0-b9b8-ee0deb1cd301", null, null, null, "Undefined" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -3,8 +3,12 @@ using Aplication.Services;
 
 namespace Aplication.Core
 {
+    public interface ICommandCore
+    {
 
-    public abstract class CommandCore
+    }
+
+    public abstract class CommandCore : ICommandCore
     {
 
 #nullable enable

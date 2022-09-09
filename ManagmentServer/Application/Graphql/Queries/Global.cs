@@ -50,7 +50,6 @@ namespace Aplication.Graphql.Queries
             IEnumerable<GQL_IServer> mqtt_edges = result.edges
             .Where(e => e != null)
             .Select(e =>
-                //_mapper.Map<GQL_MqttServer>(e.Node) as GQL_IServer
                 _mapper.Map<GQL_IServer>(e.Node)
             );
 

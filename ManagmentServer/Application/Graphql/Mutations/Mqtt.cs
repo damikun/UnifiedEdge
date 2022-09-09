@@ -24,7 +24,7 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Crate  Mqtt Server Input object
         /// </summary>
-        public class CreateServerInput
+        public class CreateMqttServerInput
         {
 
 #nullable disable
@@ -47,7 +47,7 @@ namespace Aplication.Graphql.Mutations
         /// </summary>
         /// <returns>DTO_MqttServer</returns>
         public async Task<GQL_MqttServer> CreateMqttServer(
-             CreateServerInput request,
+             CreateMqttServerInput request,
              [Service] IMediator mediator)
         {
             var dto = await mediator.Send(new CreateMqttServer()

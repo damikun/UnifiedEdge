@@ -1,7 +1,7 @@
 import React from "react";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import { ReactComponent as NotFound } from "../../Images/isEmpty.svg";
+import { ReactComponent as NotFound } from "../Images/isEmpty.svg";
 import { useModalContext } from "./Modal/Modal";
 import StayledButton from "./Buttons/StayledButton";
 

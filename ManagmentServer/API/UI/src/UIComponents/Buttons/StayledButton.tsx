@@ -51,83 +51,83 @@ export const VARIANTS = {
     base: "text-gray-500 hover:bg-gray-200 hover:text-gray-700 font-bold",
     selected:
       "ring-gray-500 ring-2 text-gray-500 hover:bg-gray-200 hover:text-gray-700",
-    tab: "focus:ring-gray-500 focus:ring-2 focus:text-gray-500",
+    tab: "focus:ring-gray-500 focus:text-gray-500",
   },
 
   primaryblue: {
     base: "text-blue-500 hover:bg-gray-200 hover:text-blue-600 font-bold",
     selected:
       "ring-blue-500 ring-2 text-blue-500 hover:bg-gray-200 hover:text-blue-600 font-bold",
-    tab: "focus:ring-blue-500 focus:ring-2 focus:text-blue-500",
+    tab: "focus:ring-blue-500 focus:text-blue-500",
   },
 
   primarygreen: {
     base: "text-green-500 hover:bg-green-200 hover:text-green-600 font-bold",
     selected:
       "ring-green-500 ring-2 text-green-500 hover:bg-gray-200 hover:text-green-600 font-bold",
-    tab: "focus:ring-green-500 focus:ring-2 focus:text-green-500",
+    tab: "focus:ring-green-500 focus:text-green-500",
   },
 
   primaryred: {
     base: "text-red-500 hover:bg-gray-200 hover:text-red-500 font-bold",
     selected:
       "ring-gray-500 ring-2 text-red-500 hover:bg-gray-200 hover:text-red-500 font-bold",
-    tab: "focus:ring-red-500 focus:ring-2 focus:text-red-500",
+    tab: "focus:ring-red-500 focus:text-red-500",
   },
 
   secondaryblue: {
     base: "bg-blue-500 text-white font-bold hover:bg-blue-600",
     selected:
       "ring-blue-500 ring-2 bg-blue-500 text-white font-bold hover:bg-blue-600",
-    tab: "focus:ring-blue-500 focus:ring-2",
+    tab: "focus:ring-blue-500 ",
   },
 
   secondarygray: {
     base: "bg-gray-200 text-gray-700 hover:bg-gray-300 font-bold",
     selected:
       "ring-gray-500 ring-2 bg-gray-200 text-gray-700 hover:bg-gray-300 font-bold",
-    tab: "focus:ring-gray-300 focus:ring-2",
+    tab: "focus:ring-gray-300 ",
   },
 
   secondarylightgray: {
     base: "bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold",
     selected: "bg-gray-400 text-gray-700 font-bold",
-    tab: "focus:ring-gray-200 focus:ring-2",
+    tab: "focus:ring-gray-200 ",
   },
 
   secondarygreen: {
     base: "bg-green-400 hover:bg-green-500 text-white font-bold",
     selected:
       "ring-green-500 ring-2 bg-green-400 hover:bg-green-500 text-white font-bold",
-    tab: "focus:ring-green-500 focus:ring-2",
+    tab: "focus:ring-green-500 ",
   },
 
   secondaryyellow: {
     base: "bg-yellow-400 hover:bg-yellow-500 text-white font-bold",
     selected:
       "ring-yellow-500 ring-2 bg-yellow-400 hover:bg-yellow-500 text-white font-bold",
-    tab: "focus:ring-yellow-500 focus:ring-2",
+    tab: "focus:ring-yellow-500 ",
   },
 
   ternarygray: {
     base: "bg-gray-800 text-white hover:bg-gray-700 font-bold",
     selected:
       "ring-gray-500 ring-2 bg-gray-800 text-white hover:bg-gray-700 font-bold",
-    tab: "focus:ring-gray-900 focus:ring-2",
+    tab: "focus:ring-gray-900 ",
   },
 
   error: {
     base: "bg-red-500 text-white hover:bg-red-600 font-bold ",
     selected:
       "ring-red-500 ring-2 bg-red-500 hover:bg-red-600 text-white font-bold ",
-    tab: "focus:ring-red-600 focus:ring-2",
+    tab: "focus:ring-red-600 ",
   },
 
   errorInverted: {
     base: "bg-white hover:bg-red-500 text-red-500 hover:text-white font-bold ",
     selected:
       "ring-gray-50 ring-2 bg-gray-50 hover:text-red-600 text-white font-bold ",
-    tab: "focus:ring-gray-50 focus:ring-2",
+    tab: "focus:ring-gray-50 ",
   },
 
   invisible: {
@@ -176,6 +176,7 @@ function StayledButton({
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
       if (transitionTime === 0) {
         onClick && onClick(event);
       } else {
@@ -197,15 +198,14 @@ function StayledButton({
       disabled={is_disabled}
       {...rest}
       className={clsx(
-        `bg-transparent 
-        px-1
+        `px-1
         focus:outline-none 
         font-semibold
         border 
         outline-none 
         transition
         border-transparent
-        duration-200 focus:delay-75`,
+        duration-100 focus:delay-75`,
         selected ? Var.selected : Var.base,
         Rounding,
         Var.tab,

@@ -12,7 +12,6 @@ using Aplication.Events.MqttServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-
 namespace Aplication.CQRS.Commands
 {
 
@@ -50,8 +49,8 @@ namespace Aplication.CQRS.Commands
             .MinimumLength(3);
 
             RuleFor(e => e.Port)
-            .GreaterThan(0)
-            .LessThanOrEqualTo(60000)
+            .GreaterThan(-1)
+            .LessThanOrEqualTo(50000)
             .MustAsync(BeUniquePort).WithMessage("Port is allready taken");
         }
 
@@ -59,15 +58,18 @@ namespace Aplication.CQRS.Commands
             int port,
             CancellationToken cancellationToken)
         {
-
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
+
+            if (port == 0)
+            {
+                return true;
+            }
 
             return await dbContext.Servers
             .OfType<MqttServer>()
             .AllAsync(e => e.Port != port);
         }
-
     }
 
     /// <summary>
@@ -99,6 +101,8 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        const int MAX_SERVER_COUNTS = 5;
+
         /// <summary>
         /// Main constructor
         /// </summary>
@@ -117,6 +121,35 @@ namespace Aplication.CQRS.Commands
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
+            //--------------
+
+            int current_server_count = await dbContext.Servers.
+                OfType<MqttServer>()
+                .CountAsync(cancellationToken);
+
+            if (current_server_count >= MAX_SERVER_COUNTS)
+            {
+                throw new Exception("Maximum allowd number of servers allready exist. No more can be created.");
+            }
+
+            //--------------
+
+            int generated_port = 0;
+
+            if (request.Port == 0)
+            {
+                do
+                {
+                    generated_port = GetRandomPort();
+                } while (await dbContext.Servers
+                .OfType<MqttServer>()
+                .AnyAsync(e => e.Port == generated_port));
+
+                request.Port = generated_port;
+            }
+
+            //--------------
+
             var new_db_obj = new MqttServer()
             {
                 Guid = Guid.NewGuid().ToString(),
@@ -134,6 +167,10 @@ namespace Aplication.CQRS.Commands
             return _mapper.Map<DTO_MqttServer>(new_db_obj);
         }
 
+        private int GetRandomPort()
+        {
+            return new Random().Next(60000, 70000);
+        }
     }
 
     //---------------------------------------

@@ -28,7 +28,7 @@ export default function Layout(){
             </SideBar>
 
             <MenuList state={isOpen}>
-                <MenuItem to="/Monitor" icon={faDesktop} name="Monitor" />
+                <MenuItem to="/Monitor" pattern="/Monitor/*" icon={faDesktop} name="Monitor" />
                 <MenuItem to="/Servers" icon={faServer} name="Servers" />
                 <MenuItem to="/Connections" icon={faLink} name="Connections" />
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
