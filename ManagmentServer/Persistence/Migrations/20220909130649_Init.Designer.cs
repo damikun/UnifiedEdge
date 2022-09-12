@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20220907072302_Init")]
+    [Migration("20220909130649_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "7cb93bd4-de07-49b0-b9b8-ee0deb1cd301",
+                            Guid = "e62d200a-869f-47fc-a38d-31355247342b",
                             Name = "Undefined"
                         });
                 });
@@ -91,6 +91,22 @@ namespace Persistence.Migrations
                     b.ToTable("Servers");
                 });
 
+            modelBuilder.Entity("Server.Domain.ServerDataBase", b =>
+                {
+                    b.Property<long>("ServerID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastStarted")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastStopped")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ServerID");
+
+                    b.ToTable("ServerData");
+                });
+
             modelBuilder.Entity("Server.Domain.MqttServer", b =>
                 {
                     b.HasBaseType("Server.Domain.ServerBase");
@@ -101,11 +117,36 @@ namespace Persistence.Migrations
                     b.ToTable("MqttServer", (string)null);
                 });
 
+            modelBuilder.Entity("Server.Domain.MqttServerData", b =>
+                {
+                    b.HasBaseType("Server.Domain.ServerDataBase");
+
+                    b.ToTable("MqttServerData", (string)null);
+                });
+
             modelBuilder.Entity("Server.Domain.OpcServer", b =>
                 {
                     b.HasBaseType("Server.Domain.ServerBase");
 
                     b.ToTable("OpcServer", (string)null);
+                });
+
+            modelBuilder.Entity("Server.Domain.OpcServerData", b =>
+                {
+                    b.HasBaseType("Server.Domain.ServerDataBase");
+
+                    b.ToTable("OpcServerData", (string)null);
+                });
+
+            modelBuilder.Entity("Server.Domain.ServerDataBase", b =>
+                {
+                    b.HasOne("Server.Domain.ServerBase", "Server")
+                        .WithOne("Data")
+                        .HasForeignKey("Server.Domain.ServerDataBase", "ServerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Server.Domain.MqttServer", b =>
@@ -117,12 +158,36 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Server.Domain.MqttServerData", b =>
+                {
+                    b.HasOne("Server.Domain.ServerDataBase", null)
+                        .WithOne()
+                        .HasForeignKey("Server.Domain.MqttServerData", "ServerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Server.Domain.OpcServer", b =>
                 {
                     b.HasOne("Server.Domain.ServerBase", null)
                         .WithOne()
                         .HasForeignKey("Server.Domain.OpcServer", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Server.Domain.OpcServerData", b =>
+                {
+                    b.HasOne("Server.Domain.ServerDataBase", null)
+                        .WithOne()
+                        .HasForeignKey("Server.Domain.OpcServerData", "ServerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Server.Domain.ServerBase", b =>
+                {
+                    b.Navigation("Data")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

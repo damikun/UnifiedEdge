@@ -5,9 +5,9 @@ namespace Server.Manager
     public abstract class MqttRuntimeStoreBase : IMqttRuntimeStore
     {
 
-        internal abstract Task<IMQTTService> HandleAdd(IMQTTService service);
+        internal abstract Task<IMQTTServer> HandleAdd(IMQTTServer service);
 
-        internal abstract Task<IMQTTService?> HandleGetById(string service_id);
+        internal abstract Task<IMQTTServer?> HandleGetById(string service_id);
 
         internal abstract Task<string> HandleRemove(string service_id);
 
@@ -24,7 +24,7 @@ namespace Server.Manager
             return await HandlerGetServerIds();
         }
 
-        public async Task<IMQTTService?> AddServer(IMQTTService service)
+        public async Task<IMQTTServer?> AddServer(IMQTTServer service)
         {
             if (service == null || string.IsNullOrEmpty(service.ID))
             {
@@ -46,7 +46,7 @@ namespace Server.Manager
             return HandleContains(service_id);
         }
 
-        public Task<IMQTTService?> GetById(string service_id)
+        public Task<IMQTTServer?> GetById(string service_id)
         {
             ValidateServiceId(service_id);
 

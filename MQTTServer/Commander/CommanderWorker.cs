@@ -37,7 +37,7 @@ namespace Server.Commander.Worker
 
                 try
                 {
-                    MQTTService? mqtt_service = await manager.GetService(queue_item.ServiceId) as MQTTService;
+                    CustomMQTTServer? mqtt_service = await manager.GetServer(queue_item.ServiceId) as CustomMQTTServer;
 
                     CancellationToken token = mqtt_service?.Ct != null ? CancellationTokenSource.CreateLinkedTokenSource(mqtt_service.Ct, stoppingToken).Token : stoppingToken;
 

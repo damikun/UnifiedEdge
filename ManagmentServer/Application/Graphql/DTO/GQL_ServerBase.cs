@@ -46,6 +46,11 @@ namespace Aplication.DTO
         public DateTime Updated { get; set; }
 
         // <summary>
+        /// Uptime
+        /// </summary>
+        public GQL_Uptime Uptime { get; set; }
+
+        // <summary>
         /// State
         /// </summary>
         public GQL_ServerState State { get; set; }

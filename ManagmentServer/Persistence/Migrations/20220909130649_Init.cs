@@ -83,10 +83,63 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ServerData",
+                columns: table => new
+                {
+                    ServerID = table.Column<long>(type: "INTEGER", nullable: false),
+                    LastStarted = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastStopped = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServerData", x => x.ServerID);
+                    table.ForeignKey(
+                        name: "FK_ServerData_Servers_ServerID",
+                        column: x => x.ServerID,
+                        principalTable: "Servers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MqttServerData",
+                columns: table => new
+                {
+                    ServerID = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttServerData", x => x.ServerID);
+                    table.ForeignKey(
+                        name: "FK_MqttServerData_ServerData_ServerID",
+                        column: x => x.ServerID,
+                        principalTable: "ServerData",
+                        principalColumn: "ServerID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OpcServerData",
+                columns: table => new
+                {
+                    ServerID = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpcServerData", x => x.ServerID);
+                    table.ForeignKey(
+                        name: "FK_OpcServerData_ServerData_ServerID",
+                        column: x => x.ServerID,
+                        principalTable: "ServerData",
+                        principalColumn: "ServerID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "7cb93bd4-de07-49b0-b9b8-ee0deb1cd301", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "e62d200a-869f-47fc-a38d-31355247342b", null, null, null, "Undefined" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -98,7 +151,16 @@ namespace Persistence.Migrations
                 name: "MqttServer");
 
             migrationBuilder.DropTable(
+                name: "MqttServerData");
+
+            migrationBuilder.DropTable(
                 name: "OpcServer");
+
+            migrationBuilder.DropTable(
+                name: "OpcServerData");
+
+            migrationBuilder.DropTable(
+                name: "ServerData");
 
             migrationBuilder.DropTable(
                 name: "Servers");

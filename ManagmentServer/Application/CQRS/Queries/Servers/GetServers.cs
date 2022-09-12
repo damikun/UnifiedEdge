@@ -35,7 +35,7 @@ namespace Aplication.CQRS.Queries
     /// <summary>
     /// GetServers Field Validator
     /// </summary>
-    public class GetServersValidator<TEdgeType, TDataType>
+    public class GetServersValidator
         : AbstractValidator<GetServers>
     {
         public GetServersValidator()

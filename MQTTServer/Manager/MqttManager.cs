@@ -22,25 +22,30 @@ namespace Server.Manager
             _runtime_store = store;
         }
 
-        public async Task<string> RemoveService(string service_id)
+        public async Task<ICmdResult> ProcesCommand(string server_id, MqttCommand cmd)
         {
-            MQTTService service = (await _runtime_store.GetById(service_id) as MQTTService)!;
+            return await _commander.Process(server_id, cmd);
+        }
+
+        public async Task<string> RemoveServer(string Server_id)
+        {
+            CustomMQTTServer Server = (await _runtime_store.GetById(Server_id) as CustomMQTTServer)!;
 
             using (TransactionScope scope = new TransactionScope())
             {
-                if (service == null)
+                if (Server == null)
                 {
-                    throw new Exception(string.Format("Service with id: {0} was not found", service_id));
+                    throw new Exception(string.Format("Server with id: {0} was not found", Server_id));
                 }
 
-                await _runtime_store.Remove(service_id);
+                await _runtime_store.Remove(Server_id);
 
                 scope.Complete();
 
-                _ = Task.Run(service.StopAsync)
-                .ContinueWith(e => service.Dispose());
+                _ = Task.Run(Server.StopAsync)
+                .ContinueWith(e => Server.Dispose());
 
-                return service_id;
+                return Server_id;
             }
         }
 
@@ -49,35 +54,48 @@ namespace Server.Manager
             return _runtime_store.Any();
         }
 
-        internal async Task<IMQTTService?> GetService(string id)
+        internal async Task<IMQTTServer?> GetServer(string id)
         {
             return await _runtime_store.GetById(id);
         }
 
         public async Task<string?> AddServer(MqttServerOptions options, string? id = null)
         {
-            var service = string.IsNullOrWhiteSpace(id) ? new MQTTService(options) : new MQTTService(id, options);
+            var Server = string.IsNullOrWhiteSpace(id) ? new CustomMQTTServer(options) : new CustomMQTTServer(id, options);
 
-            var added = await _runtime_store.AddServer(service);
+            var added = await _runtime_store.AddServer(Server);
 
             return added?.ID;
         }
 
-        public async Task<MqttState> State(string service_id)
+        public async Task<MqttState> State(string Server_id)
         {
-            var service = await _runtime_store.GetById(service_id);
+            var Server = await _runtime_store.GetById(Server_id);
 
-            if (service == null)
+            if (Server == null)
             {
                 return MqttState.unknown;
             }
 
-            return service.StateEnum;
+            return Server.StateEnum;
         }
 
-        public Task<bool> Contains(string service_id)
+        public Task<bool> Contains(string Server_id)
         {
-            return _runtime_store.Contains(service_id);
+            return _runtime_store.Contains(Server_id);
+        }
+
+
+        public async Task<TimeSpan?> ServerUptime(string server_id)
+        {
+            var server = await _runtime_store.GetById(server_id);
+
+            return server?.Uptime;
+        }
+
+        public Task<string?> UpdateServer(string server_id, MqttServerOptions options)
+        {
+            throw new NotImplementedException();
         }
     }
 }

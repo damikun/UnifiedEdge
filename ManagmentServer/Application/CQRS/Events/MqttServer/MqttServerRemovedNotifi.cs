@@ -88,7 +88,7 @@ namespace Aplication.Events.MqttServer
                 if (string.IsNullOrWhiteSpace(notifi.MqttServerGuid))
                     throw new Exception("Invalid Server Guid");
 
-                await _mqtt_manager.RemoveService(notifi.MqttServerGuid)
+                await _mqtt_manager.RemoveServer(notifi.MqttServerGuid)
                 .ConfigureAwait(false);
             }
         }

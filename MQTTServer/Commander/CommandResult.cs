@@ -16,9 +16,13 @@ namespace Server.Commander
 
     public sealed class CmdResult : ICmdResult
     {
+        public string Guid { get; init; }
+
         internal CmdResult(MqttCommand command)
         {
             _command = command;
+
+            Guid = new Guid().ToString();
         }
 
         public readonly MqttCommand _command;

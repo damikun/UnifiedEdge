@@ -3,11 +3,11 @@ namespace Server.Manager
 {
     public interface IMqttRuntimeStore
     {
-        public Task<IMQTTService?> GetById(string service_id);
+        public Task<IMQTTServer?> GetById(string service_id);
 
         public Task<List<string>> GetServerIds();
 
-        public Task<IMQTTService?> AddServer(IMQTTService service);
+        public Task<IMQTTServer?> AddServer(IMQTTServer service);
 
         public Task<string> Remove(string service_id);
 

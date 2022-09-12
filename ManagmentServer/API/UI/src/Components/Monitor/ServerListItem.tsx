@@ -48,8 +48,8 @@ export function ServerListItem({dataRef, key_}:ServerListItemProps){
 
         var prefix = GetPathPrefix(data?.type);
         
-        prefix && startTransition(() => {
-          navigate(`/Monitor/Server/${prefix}/`)
+        prefix && data?.id && startTransition(() => {
+          navigate(`/Monitor/Server/${prefix}/${data.id}`)
         });
     },
     [data, navigate],

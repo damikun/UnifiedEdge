@@ -39,6 +39,11 @@ namespace Aplication.Graphql.Interfaces
         public GQL_ServerVariant Type { get; }
 
         // <summary>
+        /// Uptime
+        /// </summary>
+        public GQL_Uptime Uptime { get; set; }
+
+        // <summary>
         /// Updated
         /// </summary>
         public DateTime Updated { get; set; }

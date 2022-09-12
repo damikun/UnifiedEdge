@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import Servers from "../Servers/Servers";
-import Server from "../Server/MqttServer/Server";
+import Server from "../Server/MqttServer/MqttServer";
 import { Navigate, Route, Routes } from "react-router";
 
 const Monitor = lazy(
@@ -23,7 +23,6 @@ const Alarms = lazy(
       /* webpackChunkName: "Alarms" */ "../Alarms/Alarms"
     )
 );
-
 
 const Users = lazy(
   () =>
@@ -58,8 +57,8 @@ export default function Body(){
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/Monitor/" element={<Monitor/>} />
-          <Route path="/Monitor/Server/Mqtt/*" element={<Server/>} />
-          <Route path="/Monitor/Server/Opc/*" element={<Server/>} />
+          <Route path="/Monitor/Server/Mqtt/:id/*" element={<Server/>} />
+          <Route path="/Monitor/Server/Opc/:id/*" element={<Server/>} />
           <Route path="/Servers/*" element={<Servers/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />

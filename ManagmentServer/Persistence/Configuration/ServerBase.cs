@@ -9,6 +9,8 @@ namespace Persistence.Configuration
         public void Configure(EntityTypeBuilder<ServerBase> builder)
         {
             builder.HasKey(e => e.ID);
+
+            builder.HasOne(e => e.Data).WithOne(e => e.Server);
         }
     }
 }

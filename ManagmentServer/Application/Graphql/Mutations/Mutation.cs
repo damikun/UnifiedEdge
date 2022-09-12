@@ -1,9 +1,14 @@
+using Server;
 using MediatR;
 using AutoMapper;
+using Server.Manager;
 using Aplication.DTO;
 using Aplication.Core;
+using HotChocolate.Resolvers;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Interfaces;
+using Server.Commander;
+using Aplication.CQRS.Queries;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -42,14 +47,28 @@ namespace Aplication.Graphql.Mutations
         /// </summary>
         /// <returns>GQL_IServer</returns>
         public async Task<GQL_IServer> CreateServer(
-             CreateServerInput request,
-             [Service] IMediator mediator)
+            CreateServerInput request,
+            [Service] IMediator mediator)
         {
             ICommandCore? cmd = GetServerCreateCmd(request);
 
             var dto = await mediator.Send(cmd!);
 
             return _mapper.Map<GQL_MqttServer>(dto);
+        }
+
+        public async Task ServerCmd(
+            [ID] string Id,
+            GQL_ServerCmd cmd,
+            [Service] IMediator mediator,
+            IResolverContext context)
+        {
+            var server_db = await mediator.Send(
+                new GetServer()
+                {
+                    Id = Id!
+                }
+            );
         }
 
         [GraphQLIgnore]

@@ -26,11 +26,11 @@ namespace Server
             return Task.CompletedTask;
         }
 
-        public abstract Task StartAsync();
+        public abstract Task<IServiceState> StartAsync();
 
-        public abstract Task StopAsync();
+        public abstract Task<IServiceState> StopAsync();
 
-        public abstract Task Restart();
+        public abstract Task<IServiceState> Restart();
 
     }
 }

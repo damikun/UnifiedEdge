@@ -31,16 +31,30 @@ namespace Aplication.Graphql.Types
         {
             descriptor.Implements<IServerType>();
 
-            descriptor.ImplementsNode().IdField(t => t.Id)
-            .ResolveNodeWith<MqttServerTypeResolvers>(e => e.GetMqttServerNode(default!, default!, default!));
+            descriptor.ImplementsNode()
+            .IdField(t => t.Id)
+            .ResolveNodeWith<MqttServerTypeResolvers>(
+                e => e.GetMqttServerNode(default!, default!, default!)
+            );
 
-            descriptor.Field(e => e.State).Resolve((ctx) =>
+            descriptor.Field(e => e.State)
+            .Resolve((ctx) =>
             {
                 var id = ctx.Parent<GQL_MqttServer>().Id;
 
                 return _mqtt_manager.State(id);
+            });
 
-                // return _mapper.Map<GQL_MqttState>(state);
+            descriptor.Field(e => e.Uptime)
+            .Type<UptimeType>()
+            .Resolve(async (ctx, ct) =>
+            {
+                var id = ctx.Parent<GQL_MqttServer>().Id;
+
+                return new GQL_Uptime()
+                {
+                    Uptime = await _mqtt_manager.ServerUptime(id)
+                };
             });
         }
 

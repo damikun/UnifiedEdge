@@ -18,6 +18,8 @@ namespace Server.Domain
         public DateTime Created { get; init; }
 
         public DateTime Updated { get; set; }
+
+        public virtual ServerDataBase Data { get; set; }
     }
 
 }

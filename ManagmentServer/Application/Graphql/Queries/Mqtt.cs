@@ -33,13 +33,13 @@ namespace Aplication.Graphql.Queries
             _mapper = mapper;
         }
 
-        public async Task<GQL_MqttServer> GetMqttServiceById(
-            [ID(nameof(GQL_MqttServer))] string guid,
+        public async Task<GQL_MqttServer> GetMqttServerById(
+            [ID(nameof(GQL_MqttServer))] string id,
             [Service] IMediator mediator)
         {
             var dto = await mediator.Send(new GetMqttServerByGuid()
             {
-                Guid = guid
+                Guid = id
             });
 
             return _mapper.Map<GQL_MqttServer>(dto);

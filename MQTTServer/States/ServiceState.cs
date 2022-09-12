@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IServiceState: IStateBase {
-        public Task StartAsync();
+    public interface IServiceState : IStateBase
+    {
+        public Task<IServiceState> StartAsync();
 
-        public Task StopAsync();
+        public Task<IServiceState> StopAsync();
 
-        public Task Restart();
+        public Task<IServiceState> Restart();
     }
 }

@@ -16,7 +16,7 @@ export type StayledButtonPorps = {
   iconRight?: IconProp;
   isloading?: boolean;
   size?: keyof typeof SIZE;
-  variant?: keyof typeof VARIANTS;
+  variant?: keyof typeof STAYLED_BUTTON_VARIANTS;
   rounding?: keyof typeof ROUNDING;
   iconOnly?: boolean;
   onMobileIconOnly?: boolean;
@@ -46,7 +46,7 @@ export const SIZE = {
   large: "h-12 text-lg md:text-xl",
 };
 
-export const VARIANTS = {
+export const STAYLED_BUTTON_VARIANTS = {
   primarygray: {
     base: "text-gray-500 hover:bg-gray-200 hover:text-gray-700 font-bold",
     selected:
@@ -156,7 +156,7 @@ function StayledButton({
   onMobileIconOnly = true,
   ...rest
 }: StayledButtonPorps): JSX.Element {
-  const Var = useMemo(() => VARIANTS[variant] || VARIANTS.primaryblue, [
+  const Var = useMemo(() => STAYLED_BUTTON_VARIANTS[variant] || STAYLED_BUTTON_VARIANTS.primaryblue, [
     variant,
   ]);
 

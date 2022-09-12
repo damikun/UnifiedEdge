@@ -5,7 +5,7 @@ namespace Server
 {
 
     [Serializable]
-    internal sealed class MQTTService : StateMachineBase<IServiceState>, IMQTTService, IDisposable
+    internal sealed class CustomMQTTServer : StateMachineBase<IServiceState>, IMQTTServer, IDisposable
     {
         public string ID { get; init; }
 
@@ -19,14 +19,14 @@ namespace Server
 
         internal CancellationToken Ct { get { return Cts.Token; } }
 
-        public MQTTService(MqttServerOptions? options = null)
+        public CustomMQTTServer(MqttServerOptions? options = null)
         {
             ID = ID ?? Guid.NewGuid().ToString();
 
             Server = CreateServer(options);
         }
 
-        public MQTTService(string id, MqttServerOptions? options = null)
+        public CustomMQTTServer(string id, MqttServerOptions? options = null)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
@@ -40,12 +40,19 @@ namespace Server
 
         private DateTime? ServerStartTimestamp;
 
-        private TimeSpan? ServerUptime
+        public TimeSpan? Uptime
         {
             get
             {
-                if (ServerStartTimestamp != null)
+                if (ServerStartTimestamp != null && StateEnum == MqttState.running)
                 {
+                    DateTime now = DateTime.Now;
+
+                    if (now < ServerStartTimestamp)
+                    {
+                        return null;
+                    }
+
                     return DateTime.Now.Subtract(((DateTime)ServerStartTimestamp));
                 }
                 else

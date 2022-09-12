@@ -5,9 +5,9 @@ namespace Server.Manager
 
     public sealed class MqttRuntimeMemoryStore : MqttRuntimeStoreBase
     {
-        private readonly ConcurrentDictionary<string, IMQTTService> Store = new ConcurrentDictionary<string, IMQTTService>();
+        private readonly ConcurrentDictionary<string, IMQTTServer> Store = new ConcurrentDictionary<string, IMQTTServer>();
 
-        internal override Task<IMQTTService> HandleAdd(IMQTTService service)
+        internal override Task<IMQTTServer> HandleAdd(IMQTTServer service)
         {
             if (!Store.TryAdd(service.ID, service))
             {
@@ -27,16 +27,16 @@ namespace Server.Manager
             return Task.FromResult((Store.Any()));
         }
 
-        internal override Task<IMQTTService?> HandleGetById(string service_id)
+        internal override Task<IMQTTServer?> HandleGetById(string service_id)
         {
-            Store.TryGetValue(service_id, out IMQTTService? service);
+            Store.TryGetValue(service_id, out IMQTTServer? service);
 
             return Task.FromResult(service);
         }
 
         internal override Task<string> HandleRemove(string service_id)
         {
-            Store.TryRemove(service_id, out IMQTTService? service);
+            Store.TryRemove(service_id, out IMQTTServer? service);
 
             return Task.FromResult(service_id);
         }

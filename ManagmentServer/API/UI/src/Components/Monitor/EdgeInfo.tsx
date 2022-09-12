@@ -1,15 +1,15 @@
-import { faClock, faServer, faSignsPost, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import clsx from "clsx";
+import { useMemo } from "react";
 import Card from "../../UIComponents/Card/Card";
 import { graphql } from "babel-plugin-relay/macro";
-import { useFragment, useSubscription } from "react-relay";
-import { useMemo } from "react";
-import clsx from "clsx";
-import { EdgeInfoDataFragment$key } from "./__generated__/EdgeInfoDataFragment.graphql";
-import { EdgeInfoUptimeSubscription } from "./__generated__/EdgeInfoUptimeSubscription.graphql";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
-import { EdgeInfoDateTimeSubscription } from "./__generated__/EdgeInfoDateTimeSubscription.graphql";
+import { useFragment, useSubscription } from "react-relay";
 import CardContent from "../../UIComponents/Card/CardContent";
 import { GetServerDateTimeStr, GetUptimeString } from "../../Shared/Common";
+import { EdgeInfoDataFragment$key } from "./__generated__/EdgeInfoDataFragment.graphql";
+import { faClock, faServer, faSignsPost, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { EdgeInfoUptimeSubscription } from "./__generated__/EdgeInfoUptimeSubscription.graphql";
+import { EdgeInfoDateTimeSubscription } from "./__generated__/EdgeInfoDateTimeSubscription.graphql";
 
 const EdgeInfoDataFragment = graphql`
     fragment EdgeInfoDataFragment on Query {
