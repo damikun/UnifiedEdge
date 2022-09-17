@@ -5,11 +5,14 @@ namespace Server
     public abstract class ServerBase : IServerBase
     {
         public string UID { get; init; }
-        protected IServerCfg _config { get; private set; }
 
-        public ServerBase(int MONITOR_PERIOD)
+        protected IServerCfg Config { get; private set; }
+
+        public ServerBase(int MONITOR_PERIOD, IServerCfg cfg)
         {
-            UID = UID ?? Guid.NewGuid().ToString();
+            SetConfiguration(cfg);
+
+            UID = cfg.Server_UID ?? Guid.NewGuid().ToString();
 
             _monitor = new Timer(
                 MonitorCallback!,
@@ -21,7 +24,22 @@ namespace Server
 
         private Task? _current;
 
-        public ServerState State { get; private set; } = ServerState.undefined;
+        private ServerState _state = ServerState.undefined;
+
+        public ServerState State
+        {
+
+            get { return _state; }
+            private set
+            {
+                ServerState _before = _state;
+
+                _state = value;
+
+                OnStateChanged(_before, value);
+            }
+        }
+
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
@@ -43,7 +61,7 @@ namespace Server
         }
 
         // Callback
-        public abstract Task OnStateChanged();
+        public abstract Task OnStateChanged(ServerState before, ServerState after);
 
         private async Task<ServerState> SetState(
             ServerState state,
@@ -214,13 +232,18 @@ namespace Server
             }
         }
 
-        public abstract dynamic ValidateAndMapCfgToOptions(IServerCfg cfg);
+        public abstract dynamic MapCfgToOptions(IServerCfg cfg);
 
         public void SetConfiguration(IServerCfg cfg)
         {
-            ValidateAndMapCfgToOptions(cfg);
+            if (cfg == null)
+            {
+                throw new ArgumentNullException(nameof(cfg));
+            }
 
-            _config = cfg;
+            MapCfgToOptions(cfg);
+
+            Config = cfg;
         }
 
         protected abstract Task SyncServerState();

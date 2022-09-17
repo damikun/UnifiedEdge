@@ -3,7 +3,7 @@ using MQTTnet.Server;
 
 namespace Server.Mqtt
 {
-    public sealed class CustomMqttServer : ServerBase, IServer, IDisposable
+    public sealed class EdgeMqttServer : ServerBase, IServer, IDisposable
     {
         private MQTTnet.Server.MqttServer? Server;
 
@@ -13,21 +13,15 @@ namespace Server.Mqtt
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
-        public CustomMqttServer(
+        public EdgeMqttServer(
             IServerCfg cfg
-        ) : base(MONITOR_PERIOD)
+        ) : base(MONITOR_PERIOD, cfg)
         {
-            UID = cfg.Server_UID;
-            SetConfiguration(cfg);
+
         }
 
-        public override dynamic ValidateAndMapCfgToOptions(IServerCfg cfg)
+        public override dynamic MapCfgToOptions(IServerCfg cfg)
         {
-            if (cfg == null)
-            {
-                throw new ArgumentNullException(nameof(cfg));
-            }
-
             var builder = new MqttServerOptionsBuilder();
 
             if (cfg is MqttServerCfg mqtt_cfg)
@@ -55,6 +49,7 @@ namespace Server.Mqtt
 
         protected override Task SyncServerState()
         {
+
             if (this.State == ServerState.started)
             {
                 if (this.Server == null || !this.Server.IsStarted)
@@ -67,7 +62,9 @@ namespace Server.Mqtt
                 if (
                     this.Server != null &&
                     this.Server.IsStarted &&
-                    this.State != ServerState.starting)
+                   (this.State != ServerState.starting ||
+                    this.State != ServerState.stopping ||
+                    this.State != ServerState.restarting))
                 {
                     return UnsafeStopAsync();
                 }
@@ -93,7 +90,7 @@ namespace Server.Mqtt
             try
             {
                 Server = CreateMqttServer(
-                    ValidateAndMapCfgToOptions(_config)
+                    MapCfgToOptions(Config)
                 );
 
                 await Server.StartAsync();
@@ -106,10 +103,17 @@ namespace Server.Mqtt
 
         protected override async Task UnsafeStopAsync()
         {
+
+
             await _semaphore.WaitAsync();
 
             try
             {
+                if (isDisposing)
+                {
+                    throw new Exception("Unable to start, server is terminated");
+                }
+
                 if (Server != null)
                 {
                     await Task.WhenAll(Task.Delay(100), Server.StopAsync());
@@ -177,7 +181,7 @@ namespace Server.Mqtt
             }
         }
 
-        public override Task OnStateChanged()
+        public override Task OnStateChanged(ServerState before, ServerState after)
         {
             throw new NotImplementedException();
         }
@@ -214,7 +218,7 @@ namespace Server.Mqtt
         public Task<IServer> CreateServerInstance(IServerCfg cfg)
         {
             return Task.FromResult(
-                new CustomMqttServer(cfg) as IServer
+                new EdgeMqttServer(cfg) as IServer
             );
         }
 

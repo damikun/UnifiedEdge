@@ -13,7 +13,7 @@ namespace Server.Manager.Mqtt
         public override Task<IServer> CreateServerInstance(IServerCfg cfg)
         {
             return Task.FromResult(
-                new CustomMqttServer(cfg) as IServer
+                new EdgeMqttServer(cfg) as IServer
             );
         }
     }
