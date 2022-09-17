@@ -2,16 +2,17 @@ using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Server.Manager;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Server.Manager.Mqtt;
 using Aplication.CQRS.Queries;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
+using Server.Manager;
+using Server.Mqtt;
 
 namespace Aplication.CQRS.Commands
 {
@@ -20,11 +21,13 @@ namespace Aplication.CQRS.Commands
     /// ServerCmd
     /// </summary>
     // [Authorize]
-    public class ServerCmd : CommandBase<Unit>
+    public class ProcessServerCmd : CommandBase<Unit>
     {
 #nullable disable
         public string Guid;
 #nullable enable
+
+        public ServerCmd Command { get; set; }
     }
 
     //---------------------------------------
@@ -33,7 +36,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Field validator - ServerCmd
     /// </summary>
-    public class ServerCmdValidator : AbstractValidator<ServerCmd>
+    public class ServerCmdValidator : AbstractValidator<ProcessServerCmd>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
@@ -49,21 +52,21 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task<bool> Exist(
-            string Guid,
+            string Uid,
             CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
             return await dbContext.Servers
-            .AnyAsync(e => e.Guid != Guid);
+                .AnyAsync(e => e.UID != Uid);
         }
     }
 
     /// <summary>
     /// Authorization validators - ServerCmd
     /// </summary>
-    public class ServerCmdAuthorizationValidator : AuthorizationValidator<ServerCmd>
+    public class ServerCmdAuthorizationValidator : AuthorizationValidator<ProcessServerCmd>
     {
         public ServerCmdAuthorizationValidator()
         {
@@ -76,7 +79,7 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>ServerCmdHandler</c> command </summary>
-    public class ServerCmdHandler : IRequestHandler<ServerCmd, Unit>
+    public class ServerCmdHandler : IRequestHandler<ProcessServerCmd, Unit>
     {
 
         /// <summary>
@@ -95,9 +98,9 @@ namespace Aplication.CQRS.Commands
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         /// <summary>
-        /// Injected <c>IMqttManager</c>
+        /// Injected <c>IServerManager</c>
         /// </summary>
-        private readonly IMqttManager _mqtt_manager;
+        private readonly IServerManager _mqtt_manager;
 
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace Aplication.CQRS.Commands
         public ServerCmdHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
-            IMqttManager mqtt_manager,
+            IServerManager mqtt_manager,
             IMediator mediator)
         {
             _factory = factory;
@@ -119,9 +122,9 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>ServerCmd</c>
+        /// Command handler for <c>ProcessServerCmd</c>
         /// </summary>
-        public async Task<Unit> Handle(ServerCmd request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ProcessServerCmd request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
@@ -141,15 +144,15 @@ namespace Aplication.CQRS.Commands
                 case DTO_MqttServer:
                     await _mqtt_manager.ProcesCommand(
                         request.Guid,
-                        (MqttCommand)request.Cmd);
+                        request.Command);
                     break;
 
                 case DTO_OpcServer:
                     await _mqtt_manager.ProcesCommand(
                         request.Guid,
-                        (MqttCommand)request.Cmd);
-
+                        request.Command);
                     break;
+
                 default:
                     throw new Exception("Unsupported Server Type");
             }
@@ -164,7 +167,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class ServerCmd_PostProcessor
-        : IRequestPostProcessor<ServerCmd, Unit>
+        : IRequestPostProcessor<ProcessServerCmd, Unit>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -179,11 +182,13 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            ServerCmd request,
+            ProcessServerCmd request,
             Unit response,
             CancellationToken cancellationToken)
         {
             // To be implemented
+
+            await Task.CompletedTask;
         }
     }
 

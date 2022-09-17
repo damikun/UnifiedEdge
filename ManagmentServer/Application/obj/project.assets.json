@@ -1530,7 +1530,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "MQTTnet": "4.0.0.167",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Microsoft.Extensions.Hosting": "6.0.1",
           "System.Diagnostics.PerformanceCounter": "6.0.1"
@@ -1540,6 +1539,24 @@
         },
         "runtime": {
           "bin/placeholder/Server.dll": {}
+        }
+      },
+      "Server.Mqtt/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MQTTnet": "4.0.0.167",
+          "MediatR": "10.0.1",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Microsoft.Extensions.Hosting": "6.0.1",
+          "Server": "1.0.0",
+          "System.Diagnostics.PerformanceCounter": "6.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Server.Mqtt.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Server.Mqtt.dll": {}
         }
       }
     }
@@ -3988,8 +4005,13 @@
     },
     "Server/1.0.0": {
       "type": "project",
-      "path": "../../MQTTServer/Server.csproj",
-      "msbuildProject": "../../MQTTServer/Server.csproj"
+      "path": "../../ServerAbstraction/Server.csproj",
+      "msbuildProject": "../../ServerAbstraction/Server.csproj"
+    },
+    "Server.Mqtt/1.0.0": {
+      "type": "project",
+      "path": "../../MqttServer/Server.Mqtt.csproj",
+      "msbuildProject": "../../MqttServer/Server.Mqtt.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4007,6 +4029,7 @@
       "Microsoft.EntityFrameworkCore >= 6.0.6",
       "OpenTelemetry >= 1.2.0-rc2",
       "Server >= 1.0.0",
+      "Server.Mqtt >= 1.0.0",
       "System.Diagnostics.PerformanceCounter >= 6.0.1"
     ]
   },
@@ -4041,8 +4064,11 @@
             "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
               "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj"
             },
-            "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj": {
-              "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj"
+            "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
+              "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj"
+            },
+            "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj": {
+              "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj"
             }
           }
         }

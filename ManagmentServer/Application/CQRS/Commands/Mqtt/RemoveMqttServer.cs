@@ -1,14 +1,16 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Server.Manager;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Server.Manager.Mqtt;
 using Aplication.Services;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
-using Aplication.Events.MqttServer;
+using Server.Manager;
+using Server.Mqtt;
 
 namespace Aplication.CQRS.Commands
 {
@@ -94,8 +96,8 @@ namespace Aplication.CQRS.Commands
                 _factory.CreateDbContext();
 
             var enity = await dbContext.Servers
-                .OfType<Server.Domain.MqttServer>()
-                .Where(e => e.Guid == request.Id)
+                .OfType<Domain.Server.MqttServer>()
+                .Where(e => e.UID == request.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (enity == null)
@@ -121,9 +123,9 @@ namespace Aplication.CQRS.Commands
         private readonly Aplication.Services.IPublisher _publisher;
 
         /// <summary>
-        /// Injected <c>IMqttManager</c>
+        /// Injected <c>IServerManager</c>
         /// </summary>
-        private readonly IMqttManager _mqtt_manager;
+        private readonly IServerManager _mqtt_manager;
 
         /// <summary>
         /// Injected <c>ITelemetry</c>
@@ -133,7 +135,7 @@ namespace Aplication.CQRS.Commands
 
         public RemoveServerFromMqttManagerPostProcessor(
             Aplication.Services.IPublisher publisher,
-            IMqttManager mqtt_manager,
+            IServerManager mqtt_manager,
             ITelemetry telemetry)
         {
             _publisher = publisher;
@@ -152,7 +154,7 @@ namespace Aplication.CQRS.Commands
             if (!string.IsNullOrWhiteSpace(removed_guid))
             {
                 await _publisher.Publish(
-                    new MqttServerRemovedNotifi(removed_guid),
+                    new ServerRemovedNotifi(removed_guid),
                     PublishStrategy.ParallelNoWait, default(CancellationToken)
                 );
             }

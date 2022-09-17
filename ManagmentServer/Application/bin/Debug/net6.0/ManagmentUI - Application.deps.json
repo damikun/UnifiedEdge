@@ -20,6 +20,7 @@
           "Microsoft.EntityFrameworkCore": "6.0.6",
           "OpenTelemetry": "1.2.0-rc2",
           "Server": "1.0.0",
+          "Server.Mqtt": "1.0.0",
           "System.Diagnostics.PerformanceCounter": "6.0.1"
         },
         "runtime": {
@@ -1087,13 +1088,25 @@
       },
       "Server/1.0.0": {
         "dependencies": {
-          "MQTTnet": "4.0.0.167",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Microsoft.Extensions.Hosting": "6.0.1",
           "System.Diagnostics.PerformanceCounter": "6.0.1"
         },
         "runtime": {
           "Server.dll": {}
+        }
+      },
+      "Server.Mqtt/1.0.0": {
+        "dependencies": {
+          "MQTTnet": "4.0.0.167",
+          "MediatR": "10.0.1",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Microsoft.Extensions.Hosting": "6.0.1",
+          "Server": "1.0.0",
+          "System.Diagnostics.PerformanceCounter": "6.0.1"
+        },
+        "runtime": {
+          "Server.Mqtt.dll": {}
         }
       }
     }
@@ -1808,6 +1821,11 @@
       "sha512": ""
     },
     "Server/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Server.Mqtt/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -92,7 +92,7 @@ namespace Aplication.CQRS.Queries
 
             var query = dbContext.Servers
                 .AsNoTracking()
-                .OfType<Server.Domain.MqttServer>()
+                .OfType<Domain.Server.MqttServer>()
                 .Where(e => e.ID == request.Id)
                 .ProjectTo<DTO_MqttServer>(_mapper.ConfigurationProvider)
                 .AsQueryable();

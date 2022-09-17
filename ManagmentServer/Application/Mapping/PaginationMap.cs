@@ -82,20 +82,20 @@ namespace Aplication.Mapping
     }
 
     public class MqttServerStateToGqlState
-        : ITypeConverter<MqttState, GQL_ServerState>
+        : ITypeConverter<ServerState, GQL_ServerState>
     {
         public GQL_ServerState Convert(
-            MqttState source,
+            ServerState source,
             GQL_ServerState destination,
             ResolutionContext context)
         {
             switch (source)
             {
-                case MqttState.running: return GQL_ServerState.running;
-                case MqttState.restarting: return GQL_ServerState.restarting;
-                case MqttState.starting: return GQL_ServerState.starting;
-                case MqttState.stopping: return GQL_ServerState.stopping;
-                case MqttState.stopped: return GQL_ServerState.stopped;
+                case ServerState.started: return GQL_ServerState.running;
+                case ServerState.restarting: return GQL_ServerState.restarting;
+                case ServerState.starting: return GQL_ServerState.starting;
+                case ServerState.stopping: return GQL_ServerState.stopping;
+                case ServerState.stopped: return GQL_ServerState.stopped;
 
                 default: return GQL_ServerState.unknown;
             }
@@ -116,7 +116,7 @@ namespace Aplication.Mapping
             CreateMap<PageInfo, ConnectionPageInfo>()
                 .ConvertUsing(typeof(DomainPageInfoToGraphqlPageInfo));
 
-            CreateMap<MqttState, GQL_ServerState>()
+            CreateMap<ServerState, GQL_ServerState>()
                 .ConvertUsing(typeof(MqttServerStateToGqlState));
         }
     }

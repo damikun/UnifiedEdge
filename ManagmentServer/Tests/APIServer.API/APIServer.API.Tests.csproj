@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <ProjectReference Include="..\..\APIServer\Domain\APIServer.Domain.csproj" />
+    <!-- <ProjectReference Include="..\..\APIServer\Domain\APIDomain.Server.csproj" />
     <ProjectReference Include="..\..\APIServer\API\APIServer.csproj" />
     <ProjectReference Include="..\..\APIServer\Persistence\APIServer.Persistence.csproj" />
     <ProjectReference Include="..\..\IdentityServer\API\IdentityServer.csproj" /> -->

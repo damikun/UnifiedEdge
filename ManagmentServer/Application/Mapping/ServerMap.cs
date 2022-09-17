@@ -1,8 +1,8 @@
 using AutoMapper;
+using Domain.Server;
 using Aplication.DTO;
 using Aplication.Graphql.Interfaces;
 using Aplication.Interfaces;
-using Server.Domain;
 
 namespace Aplication.Mapping
 {
@@ -10,9 +10,9 @@ namespace Aplication.Mapping
     {
         public Server_Map_Profile()
         {
-            CreateMap<Server.Domain.MqttServer, DTO_MqttServer>()
+            CreateMap<Domain.Server.MqttServer, DTO_MqttServer>()
                 .IncludeAllDerived()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
+                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
@@ -30,9 +30,9 @@ namespace Aplication.Mapping
                 .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
                 .ReverseMap();
 
-            CreateMap<Server.Domain.OpcServer, DTO_OpcServer>()
+            CreateMap<Domain.Server.OpcServer, DTO_OpcServer>()
                 .IncludeAllDerived()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
+                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
@@ -54,6 +54,50 @@ namespace Aplication.Mapping
             CreateMap(typeof(ServerBase), typeof(IServer))
                 .ConvertUsing(typeof(ServerToIServer));
 
+            CreateMap(typeof(ServerBase), typeof(ServerType))
+                .ConvertUsing(typeof(ServerToEnumType));
+
+            CreateMap(typeof(ServerCfgBase), typeof(Server.IServerCfg))
+                .ConvertUsing(typeof(DbCfgToServerCfg));
+
+        }
+
+        public class DbCfgToServerCfg
+            : ITypeConverter<ServerCfgBase, Server.IServerCfg>
+        {
+            public Server.IServerCfg Convert(
+                ServerCfgBase source,
+                Server.IServerCfg destination,
+                ResolutionContext context)
+            {
+                switch (source)
+                {
+                    case Domain.Server.MqttServerCfg mqtt_cfg:
+
+                        return new Server.Mqtt.MqttServerCfg()
+                        {
+                            Server_UID = mqtt_cfg.ServerUID,
+                            port = mqtt_cfg.port
+                        };
+
+                    default:
+                        throw new Exception(
+                        string.Format("Unsupported type: {0}", source.GetType().ToString())
+                    );
+                }
+
+            }
+        }
+        public class ServerToEnumType
+            : ITypeConverter<ServerBase, ServerType>
+        {
+            public ServerType Convert(
+                ServerBase source,
+                ServerType destination,
+                ResolutionContext context)
+            {
+                return source.Type;
+            }
         }
 
         public class ServerToIServer
@@ -101,24 +145,5 @@ namespace Aplication.Mapping
             }
         }
 
-        // public class DomainTolIServer
-        //     : ITypeConverter<IServer, GQL_IServer>
-        // {
-        //     public GQL_IServer Convert(
-        //         IServer source,
-        //         GQL_IServer destination,
-        //         ResolutionContext context)
-        //     {
-        //         if (source == null)
-        //             return null!;
-
-        //         switch (source)
-        //         {
-        //             case DTO_MqttServer:
-        //                 return context.Mapper.Map<GQL_MqttServer>(source);
-        //             default: throw new Exception("Not supported source type");
-        //         }
-        //     }
-        // }
     }
 }

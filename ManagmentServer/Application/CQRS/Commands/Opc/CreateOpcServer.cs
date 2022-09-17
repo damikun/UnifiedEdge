@@ -1,14 +1,13 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Server.Domain;
+using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Aplication.Services;
 using Aplication.CQRS.Behaviours;
-using Aplication.Events.OpcServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -135,7 +134,7 @@ namespace Aplication.CQRS.Commands
 
             var new_db_obj = new OpcServer()
             {
-                Guid = Guid.NewGuid().ToString(),
+                UID = Guid.NewGuid().ToString(),
                 Name = request.Name,
                 Description = request.Description,
                 Created = DateTime.Now,
@@ -176,10 +175,10 @@ namespace Aplication.CQRS.Commands
         {
             if (response != null)
             {
-                await _publisher.Publish(
-                    new OpcServerCreatedNotifi(response.Guid),
-                    PublishStrategy.ParallelNoWait, default(CancellationToken)
-                );
+                // await _publisher.Publish(
+                //     new OpcServerCreatedNotifi(response.Guid),
+                //     PublishStrategy.ParallelNoWait, default(CancellationToken)
+                // );
             }
         }
     }

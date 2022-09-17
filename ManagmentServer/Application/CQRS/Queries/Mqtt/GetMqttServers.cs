@@ -115,7 +115,7 @@ namespace Aplication.CQRS.Queries
 
             var queriable = dbContext.Servers
                 .AsNoTracking()
-                .OfType<Server.Domain.MqttServer>()
+                .OfType<Domain.Server.MqttServer>()
                 .ProjectTo<DTO_MqttServer>(_mapper.ConfigurationProvider)
                 .AsQueryable();
 
@@ -128,7 +128,7 @@ namespace Aplication.CQRS.Queries
             else
             {
                 total_count = (ct) => dbContext.Servers
-                .OfType<Server.Domain.MqttServer>()
+                .OfType<Domain.Server.MqttServer>()
                 .CountAsync(ct);
             }
 
@@ -136,7 +136,7 @@ namespace Aplication.CQRS.Queries
                 queriable,
                 request.Arguments,
                 (ct) => dbContext.Servers
-                .OfType<Server.Domain.MqttServer>()
+                .OfType<Domain.Server.MqttServer>()
                 .CountAsync(ct),
                 cancellationToken
             );

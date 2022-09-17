@@ -1,5 +1,5 @@
 using Domain;
-using Server.Domain;
+using Domain.Server;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
@@ -9,7 +9,7 @@ namespace Persistence
     {
         public DbSet<ServerBase> Servers { get; set; }
 
-        public DbSet<ServerDataBase> ServerData { get; set; }
+        public DbSet<ServerCfgBase> ServerCfg { get; set; }
 
         public DbSet<Edge> Edge { get; set; }
         public ManagmentDbCtx(
@@ -42,8 +42,8 @@ namespace Persistence
             modelBuilder.Entity<MqttServer>().ToTable("MqttServer");
             modelBuilder.Entity<OpcServer>().ToTable("OpcServer");
 
-            modelBuilder.Entity<MqttServerData>().ToTable("MqttServerData");
-            modelBuilder.Entity<OpcServerData>().ToTable("OpcServerData");
+            modelBuilder.Entity<MqttServerCfg>().ToTable("MqttServerCfg");
+            modelBuilder.Entity<OpcServerCfg>().ToTable("OpcServerCfg");
 
             //---------------------
             // Initial DB data

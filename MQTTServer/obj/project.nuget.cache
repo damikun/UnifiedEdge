@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "U0U5jPbioDoBWwDPh/nrzJZ+MO6c5SsWCXY16G4fan1ddFwyur7ByhSqKzqHMKadpdCYR+l0VTdtChPI8evuPA==",
+  "dgSpecHash": "cDt2LkYYcjzNOoNvIXj1kxORgdy18YFJQ/Z2KisZbMa5boFXnCcvuDqgfYGrjTGF6mDQHCvHp/tPVWu+jw3wJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
+  "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kunda\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",

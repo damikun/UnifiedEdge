@@ -35,8 +35,8 @@
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj"
               },
-              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj": {
-                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj"
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj"
               }
             }
           }
@@ -262,8 +262,11 @@
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj"
               },
-              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj": {
-                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj"
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj"
+              },
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj"
               }
             }
           }
@@ -472,14 +475,92 @@
         }
       }
     },
-    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj": {
+    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
-        "projectName": "Server",
-        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
+        "projectName": "Server.Mqtt",
+        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
         "packagesPath": "C:\\Users\\kunda\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\obj\\",
+        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\kunda\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MQTTnet": {
+              "target": "Package",
+              "version": "[4.0.0.167, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[10.0.1, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "System.Diagnostics.PerformanceCounter": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj",
+        "projectName": "Server",
+        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj",
+        "packagesPath": "C:\\Users\\kunda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kunda\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -506,10 +587,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "MQTTnet": {
-              "target": "Package",
-              "version": "[4.0.0.167, )"
-            },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[6.0.0, )"

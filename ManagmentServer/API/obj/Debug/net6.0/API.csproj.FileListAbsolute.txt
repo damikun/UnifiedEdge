@@ -135,9 +135,11 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\De
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\ManagmentUI - Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\ManagmentUI - Persistence.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.dll
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.Mqtt.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Domain.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\ManagmentUI - Persistence.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\ManagmentUI - Application.pdb
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.Mqtt.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.csproj.AssemblyReference.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\spa.proxy.json

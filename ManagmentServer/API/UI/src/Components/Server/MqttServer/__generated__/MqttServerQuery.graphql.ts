@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e9f1b51444b0fb1f8715518fb0ca69b5>>
+ * @generated SignedSource<<14e2cd7e6974de96ae63f37104dbe74e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -162,12 +162,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6aa48a1246e923be925fda5d03a7c33e",
+    "cacheID": "afa953befe40e2a7f5335df935a3eb79",
     "id": null,
     "metadata": {},
     "name": "MqttServerQuery",
     "operationKind": "query",
-    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
+    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
   }
 };
 })();

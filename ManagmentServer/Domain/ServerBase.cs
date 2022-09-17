@@ -1,11 +1,11 @@
 
-namespace Server.Domain
+namespace Domain.Server
 {
-    public class ServerBase
+    public abstract class ServerBase
     {
         public long ID { get; init; }
 
-        public string Guid { get; init; }
+        public string UID { get; init; }
 
         public string Name { get; set; }
 
@@ -19,7 +19,9 @@ namespace Server.Domain
 
         public DateTime Updated { get; set; }
 
-        public virtual ServerDataBase Data { get; set; }
+        public abstract ServerType Type { get; }
+
+        public virtual ServerCfgBase Cfg { get; set; }
     }
 
 }

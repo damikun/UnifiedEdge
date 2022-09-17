@@ -10,14 +10,11 @@ namespace Aplication.Graphql.Mutations
     [ExtendObjectType(OperationTypeNames.Mutation)]
     public class MqttMutations
     {
-        private readonly IMqttManager _manager;
 
         private readonly IMapper _mapper;
         public MqttMutations(
-            IMqttManager manager,
             IMapper mapper)
         {
-            _manager = manager;
             _mapper = mapper;
         }
 

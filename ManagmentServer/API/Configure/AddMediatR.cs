@@ -11,7 +11,6 @@ namespace API
     {
         public static IServiceCollection AddMediatR(this IServiceCollection services)
         {
-
             services.AddMediatR(cfg => cfg.Using<AppMediator>(), typeof(Templeate).GetTypeInfo().Assembly);
 
             services.AddTransient<Aplication.Services.IPublisher, Publisher>();

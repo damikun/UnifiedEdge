@@ -1,16 +1,22 @@
-using Server.Domain;
+using Domain.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Configuration
 {
-    public class ServerDataBaseConfiguration : IEntityTypeConfiguration<ServerDataBase>
+    public class ServerCfgBaseConfiguration : IEntityTypeConfiguration<ServerCfgBase>
     {
-        public void Configure(EntityTypeBuilder<ServerDataBase> builder)
+        public void Configure(EntityTypeBuilder<ServerCfgBase> builder)
         {
-            builder.HasKey(e => e.ServerID);
+            builder.HasKey(e => e.ServerUID);
 
-            builder.HasOne(e => e.Server).WithOne(e => e.Data);
+            builder.Ignore(e => e.Type);
+
+            builder.HasOne(e => e.Server)
+            .WithOne(e => e.Cfg)
+            .HasPrincipalKey<ServerCfgBase>(e => e.ServerUID);
+
+            // builder.HasOne(e => e.Server).WithOne(e => e.Data);
         }
     }
 }

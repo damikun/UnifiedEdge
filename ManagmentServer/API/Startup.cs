@@ -1,6 +1,7 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 
+using Aplication.Services.ServerFascade;
 using ElectronNET.API;
 
 namespace API
@@ -49,9 +50,13 @@ namespace API
 
             services.AddMediatR();
 
+            services.AddServerFascade();
+
             services.AddMapper();
 
             services.AddMqtt();
+
+            services.AddSingleton(services);
 
         }
 

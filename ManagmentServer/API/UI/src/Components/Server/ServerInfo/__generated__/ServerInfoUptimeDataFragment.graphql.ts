@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c0b752fd5b4c516b3c879de3df08483c>>
+ * @generated SignedSource<<ff02ab8e7841c51b723d9a56902bcdc5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,6 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ServerInfoUptimeDataFragment$data = {
-  readonly id: string;
   readonly uptime: {
     readonly days: number;
     readonly hours: number;
@@ -32,13 +31,6 @@ const node: ReaderFragment = {
   "metadata": null,
   "name": "ServerInfoUptimeDataFragment",
   "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
     {
       "alias": null,
       "args": null,
@@ -90,6 +82,6 @@ const node: ReaderFragment = {
   "abstractKey": "__isGQL_IServer"
 };
 
-(node as any).hash = "7032f1e6fc6b007c249bc95f83c7cafd";
+(node as any).hash = "dabd27e91a10e4311a08ea103d3d115c";
 
 export default node;

@@ -1,7 +1,6 @@
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
-using Server.Manager;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Types;
@@ -15,21 +14,13 @@ namespace Aplication.Graphql.Queries
     [ExtendObjectType(OperationTypeNames.Query)]
     public class MqttQueries
     {
-
-        /// <summary>
-        /// Injected <c>IMqttManager</c>
-        /// </summary>
-        private readonly IMqttManager _mqttManager;
-
         /// <summary>
         /// Injected <c>IMapper</c>
         /// </summary>
         private readonly IMapper _mapper;
 
-        public MqttQueries(IMqttManager manager, IMapper mapper)
+        public MqttQueries(IMapper mapper)
         {
-            _mqttManager = manager;
-
             _mapper = mapper;
         }
 

@@ -101,7 +101,7 @@ type GQL_MqttServer implements GQL_IServer & Node {
   location: String
   name: String!
   port: Int!
-  state: MqttState!
+  state: ServerState!
   type: GQL_ServerVariant!
   updated: DateTime!
   uptime: GQL_Uptime
@@ -189,7 +189,8 @@ type Mutation {
   createOpcServer(request: CreateOpcServerInput): CreateOpcServerPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
   removeMqttServer(input: RemoveMqttServerInput!): RemoveMqttServerPayload!
-  true: TruePayload!
+  serverCmd(input: ServerCmdInput!): ServerCmdPayload!
+  testik: TestikPayload!
 }
 
 "Information about pagination in a connection."
@@ -224,13 +225,18 @@ type RemoveMqttServerPayload {
   string: String
 }
 
+type ServerCmdPayload {
+  boolean: Boolean
+  query: Query!
+}
+
 type Subscription {
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   systemTime: DateTime!
   uptime: GQL_Uptime!
 }
 
-type TruePayload {
+type TestikPayload {
   boolean: Boolean
   query: Query!
 }
@@ -260,6 +266,11 @@ input RemoveServerInput {
   id: String
 }
 
+input ServerCmdInput {
+  cmd: GQL_ServerCmd!
+  uid: ID!
+}
+
 enum GQL_RuntimeMetricSource {
   TOTAL_CPU_USED
   PRIVILEGED_CPU_USED
@@ -272,6 +283,12 @@ enum GQL_RuntimeMetricSource {
   VIRTUAL_MEMORY
   GC_ALOCATED_MEMORY
   THREAD_COUNT
+}
+
+enum GQL_ServerCmd {
+  STOP
+  RESTART
+  START
 }
 
 enum GQL_ServerState {
@@ -288,15 +305,6 @@ enum GQL_ServerVariant {
   OPC
 }
 
-enum MqttState {
-  UNKNOWN
-  STOPPED
-  STOPPING
-  RESTARTING
-  STARTING
-  RUNNING
-}
-
 enum PlatformID {
   WIN32_S
   WIN32_WINDOWS
@@ -306,6 +314,15 @@ enum PlatformID {
   XBOX
   MAC_OSX
   OTHER
+}
+
+enum ServerState {
+  UNDEFINED
+  STOPPED
+  STARTING
+  STARTED
+  STOPPING
+  RESTARTING
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."

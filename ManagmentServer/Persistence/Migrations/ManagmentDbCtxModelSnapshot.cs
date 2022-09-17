@@ -50,25 +50,27 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "e62d200a-869f-47fc-a38d-31355247342b",
+                            Guid = "f049038a-dfaf-4858-b071-d4fe11ee8ca0",
                             Name = "Undefined"
                         });
                 });
 
-            modelBuilder.Entity("Server.Domain.ServerBase", b =>
+            modelBuilder.Entity("Domain.Server.ServerBase", b =>
                 {
                     b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("UID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CfgServerUID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Guid")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsEnabled")
@@ -84,30 +86,27 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Updated")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ID");
+                    b.HasKey("ID", "UID");
+
+                    b.HasIndex("CfgServerUID")
+                        .IsUnique();
 
                     b.ToTable("Servers");
                 });
 
-            modelBuilder.Entity("Server.Domain.ServerDataBase", b =>
+            modelBuilder.Entity("Domain.Server.ServerCfgBase", b =>
                 {
-                    b.Property<long>("ServerID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastStarted")
+                    b.Property<string>("ServerUID")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("LastStopped")
-                        .HasColumnType("TEXT");
+                    b.HasKey("ServerUID");
 
-                    b.HasKey("ServerID");
-
-                    b.ToTable("ServerData");
+                    b.ToTable("ServerCfg");
                 });
 
-            modelBuilder.Entity("Server.Domain.MqttServer", b =>
+            modelBuilder.Entity("Domain.Server.MqttServer", b =>
                 {
-                    b.HasBaseType("Server.Domain.ServerBase");
+                    b.HasBaseType("Domain.Server.ServerBase");
 
                     b.Property<int>("Port")
                         .HasColumnType("INTEGER");
@@ -115,77 +114,80 @@ namespace Persistence.Migrations
                     b.ToTable("MqttServer", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Domain.MqttServerData", b =>
+            modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
                 {
-                    b.HasBaseType("Server.Domain.ServerDataBase");
+                    b.HasBaseType("Domain.Server.ServerCfgBase");
 
-                    b.ToTable("MqttServerData", (string)null);
+                    b.Property<int?>("port")
+                        .HasColumnType("INTEGER");
+
+                    b.ToTable("MqttServerCfg", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Domain.OpcServer", b =>
+            modelBuilder.Entity("Domain.Server.OpcServer", b =>
                 {
-                    b.HasBaseType("Server.Domain.ServerBase");
+                    b.HasBaseType("Domain.Server.ServerBase");
 
                     b.ToTable("OpcServer", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Domain.OpcServerData", b =>
+            modelBuilder.Entity("Domain.Server.OpcServerCfg", b =>
                 {
-                    b.HasBaseType("Server.Domain.ServerDataBase");
+                    b.HasBaseType("Domain.Server.ServerCfgBase");
 
-                    b.ToTable("OpcServerData", (string)null);
+                    b.ToTable("OpcServerCfg", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Domain.ServerDataBase", b =>
+            modelBuilder.Entity("Domain.Server.ServerBase", b =>
                 {
-                    b.HasOne("Server.Domain.ServerBase", "Server")
-                        .WithOne("Data")
-                        .HasForeignKey("Server.Domain.ServerDataBase", "ServerID")
+                    b.HasOne("Domain.Server.ServerCfgBase", "Cfg")
+                        .WithOne("Server")
+                        .HasForeignKey("Domain.Server.ServerBase", "CfgServerUID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Server");
+                    b.Navigation("Cfg");
                 });
 
-            modelBuilder.Entity("Server.Domain.MqttServer", b =>
+            modelBuilder.Entity("Domain.Server.MqttServer", b =>
                 {
-                    b.HasOne("Server.Domain.ServerBase", null)
+                    b.HasOne("Domain.Server.ServerBase", null)
                         .WithOne()
-                        .HasForeignKey("Server.Domain.MqttServer", "ID")
+                        .HasForeignKey("Domain.Server.MqttServer", "ID", "UID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Server.Domain.MqttServerData", b =>
+            modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
                 {
-                    b.HasOne("Server.Domain.ServerDataBase", null)
+                    b.HasOne("Domain.Server.ServerCfgBase", null)
                         .WithOne()
-                        .HasForeignKey("Server.Domain.MqttServerData", "ServerID")
+                        .HasForeignKey("Domain.Server.MqttServerCfg", "ServerUID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Server.Domain.OpcServer", b =>
+            modelBuilder.Entity("Domain.Server.OpcServer", b =>
                 {
-                    b.HasOne("Server.Domain.ServerBase", null)
+                    b.HasOne("Domain.Server.ServerBase", null)
                         .WithOne()
-                        .HasForeignKey("Server.Domain.OpcServer", "ID")
+                        .HasForeignKey("Domain.Server.OpcServer", "ID", "UID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Server.Domain.OpcServerData", b =>
+            modelBuilder.Entity("Domain.Server.OpcServerCfg", b =>
                 {
-                    b.HasOne("Server.Domain.ServerDataBase", null)
+                    b.HasOne("Domain.Server.ServerCfgBase", null)
                         .WithOne()
-                        .HasForeignKey("Server.Domain.OpcServerData", "ServerID")
+                        .HasForeignKey("Domain.Server.OpcServerCfg", "ServerUID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Server.Domain.ServerBase", b =>
+            modelBuilder.Entity("Domain.Server.ServerCfgBase", b =>
                 {
-                    b.Navigation("Data")
+                    b.Navigation("Server")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

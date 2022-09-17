@@ -1,10 +1,12 @@
 using MediatR;
 using AutoMapper;
-using Server.Manager;
 using Aplication.DTO;
+using Server.Manager.Mqtt;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
+using Server.Manager;
+using Server.Mqtt;
 
 namespace Aplication.Graphql.Types
 {
@@ -14,17 +16,18 @@ namespace Aplication.Graphql.Types
     /// </summary>
     public class MqttServerType : ObjectType<GQL_MqttServer>
     {
-        private readonly IMqttManager _mqtt_manager;
-
         private readonly IMapper _mapper;
 
+        private readonly IServerManager _manager;
+
         public MqttServerType(
-            IMqttManager mqtt_manager,
-            IMapper mapper
+            IMapper mapper,
+            IServerManager manager
         )
         {
             _mapper = mapper;
-            _mqtt_manager = mqtt_manager;
+
+            _manager = manager;
         }
 
         protected override void Configure(IObjectTypeDescriptor<GQL_MqttServer> descriptor)
@@ -42,7 +45,7 @@ namespace Aplication.Graphql.Types
             {
                 var id = ctx.Parent<GQL_MqttServer>().Id;
 
-                return _mqtt_manager.State(id);
+                return _manager.State(id);
             });
 
             descriptor.Field(e => e.Uptime)
@@ -53,7 +56,7 @@ namespace Aplication.Graphql.Types
 
                 return new GQL_Uptime()
                 {
-                    Uptime = await _mqtt_manager.ServerUptime(id)
+                    Uptime = await _manager.ServerUptime(id)
                 };
             });
         }

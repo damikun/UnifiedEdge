@@ -102,7 +102,7 @@ namespace Aplication.CQRS.Queries
                 _factory.CreateDbContext();
 
             var server = await dbContext.Servers
-                .Where(e => e.Guid == request.Guid)
+                .Where(e => e.UID == request.Guid)
                 .AsNoTracking()
                 .ToListAsync();
 

@@ -1,4 +1,4 @@
-using Server.Domain;
+using Domain.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,7 @@ namespace Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<MqttServer> builder)
         {
-            // builder.HasKey(e => e.ID);
+            builder.Ignore(e => e.Type);
         }
     }
 }

@@ -1,14 +1,14 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Server.Domain;
+using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Aplication.Services;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
-using Aplication.Events.MqttServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -149,15 +149,21 @@ namespace Aplication.CQRS.Commands
             }
 
             //--------------
+            var UID = Guid.NewGuid().ToString();
 
             var new_db_obj = new MqttServer()
             {
-                Guid = Guid.NewGuid().ToString(),
+                UID = UID,
                 Name = request.Name,
                 Description = request.Description,
                 Port = request.Port,
                 Created = DateTime.Now,
-                Updated = DateTime.Now
+                Updated = DateTime.Now,
+                Cfg = new MqttServerCfg()
+                {
+                    ServerUID = UID,
+                    port = 1111,
+                }
             };
 
             dbContext.Add(new_db_obj);
@@ -200,7 +206,7 @@ namespace Aplication.CQRS.Commands
             if (response != null)
             {
                 await _publisher.Publish(
-                    new MqttServerCreatedNotifi(response.Guid),
+                    new ServerCreatedNotifi(response.Guid),
                     PublishStrategy.ParallelNoWait, default(CancellationToken)
                 );
             }

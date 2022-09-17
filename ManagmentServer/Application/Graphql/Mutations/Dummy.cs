@@ -11,6 +11,7 @@ namespace Aplication.Graphql.Mutations
         /// Returns always True
         /// </summary>
         /// <returns>True</returns>
+        [GraphQLIgnore]
         public async Task<bool> True()
         {
             return true;

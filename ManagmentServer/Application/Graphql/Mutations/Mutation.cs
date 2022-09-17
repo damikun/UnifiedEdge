@@ -1,14 +1,16 @@
-using Server;
 using MediatR;
 using AutoMapper;
 using Server.Manager;
 using Aplication.DTO;
 using Aplication.Core;
 using HotChocolate.Resolvers;
+using Aplication.CQRS.Queries;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Interfaces;
-using Server.Commander;
-using Aplication.CQRS.Queries;
+using Microsoft.Extensions.DependencyInjection;
+using Server.Manager.Mqtt;
+using Server.Mqtt;
+using Domain.Server;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -57,8 +59,8 @@ namespace Aplication.Graphql.Mutations
             return _mapper.Map<GQL_MqttServer>(dto);
         }
 
-        public async Task ServerCmd(
-            [ID] string Id,
+        public async Task<bool> ServerCmd(
+            [ID] string uid,
             GQL_ServerCmd cmd,
             [Service] IMediator mediator,
             IResolverContext context)
@@ -66,9 +68,50 @@ namespace Aplication.Graphql.Mutations
             var server_db = await mediator.Send(
                 new GetServer()
                 {
-                    Id = Id!
+                    Guid = uid!
                 }
             );
+
+            return true;
+        }
+        //
+        public Task<bool> Testik(
+            [Service] IServiceProvider provider,
+            [Service] IServiceCollection services
+            )
+        {
+            var ssss = provider.GetServices(typeof(IServerManager));
+
+            System.Console.WriteLine("--------------");
+            foreach (var item in ssss)
+            {
+                System.Console.WriteLine(item?.GetType().Name);
+            }
+
+            // services.Any
+
+            // var managers = services.Where(
+            //     e => e.ImplementationType?
+            //     .GetInterfaces()
+            //     .Any(e => e.Name == nameof(IServerManager)) == true
+            // ).ToList();
+
+            // managers.S
+
+            System.Console.WriteLine("*******************");
+            // foreach (var item in sss)
+            // {
+            //     System.Console.WriteLine(item.GetType().ToString());
+            //     System.Console.WriteLine(item.ImplementationType?.ToString());
+            //     System.Console.WriteLine(item.ImplementationInstance?.ToString());
+            //     System.Console.WriteLine(item.ServiceType);
+            //     System.Console.WriteLine();
+            // }
+
+            return Task.FromResult(false);
+
+            // return Task.CompletedTask;
+
         }
 
         [GraphQLIgnore]

@@ -664,6 +664,21 @@
             "rid": "win"
           }
         }
+      },
+      "Server/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Microsoft.Extensions.Hosting": "6.0.1",
+          "System.Diagnostics.PerformanceCounter": "6.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Server.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Server.dll": {}
+        }
       }
     }
   },
@@ -1695,6 +1710,11 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Server/1.0.0": {
+      "type": "project",
+      "path": "../ServerAbstraction/Server.csproj",
+      "msbuildProject": "../ServerAbstraction/Server.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1703,6 +1723,7 @@
       "MediatR >= 10.0.1",
       "Microsoft.Extensions.DependencyInjection >= 6.0.0",
       "Microsoft.Extensions.Hosting >= 6.0.1",
+      "Server >= 1.0.0",
       "System.Diagnostics.PerformanceCounter >= 6.0.1"
     ]
   },
@@ -1712,11 +1733,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
-      "projectName": "Server",
-      "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
+      "projectName": "Server.Mqtt",
+      "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
       "packagesPath": "C:\\Users\\kunda\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MQTTServer\\obj\\",
+      "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kunda\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1730,7 +1751,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj": {
+              "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ServerAbstraction\\Server.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

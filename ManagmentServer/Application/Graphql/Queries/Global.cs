@@ -17,19 +17,12 @@ namespace Aplication.Graphql.Queries
     {
 
         /// <summary>
-        /// Injected <c>IMqttManager</c>
-        /// </summary>
-        private readonly IMqttManager _mqttManager;
-
-        /// <summary>
         /// Injected <c>IMapper</c>
         /// </summary>
         private readonly IMapper _mapper;
 
-        public GlobalQueries(IMqttManager manager, IMapper mapper)
+        public GlobalQueries(IMapper mapper)
         {
-            _mqttManager = manager;
-
             _mapper = mapper;
         }
 
