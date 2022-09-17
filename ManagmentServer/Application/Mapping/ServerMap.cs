@@ -1,8 +1,8 @@
 using AutoMapper;
 using Domain.Server;
 using Aplication.DTO;
-using Aplication.Graphql.Interfaces;
 using Aplication.Interfaces;
+using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Mapping
 {
@@ -77,7 +77,9 @@ namespace Aplication.Mapping
                         return new Server.Mqtt.MqttServerCfg()
                         {
                             Server_UID = mqtt_cfg.ServerUID,
-                            port = mqtt_cfg.port
+                            TimeStamp = mqtt_cfg.TimeStamp,
+                            IsEnabled = mqtt_cfg.IsEnabled,
+                            Port = mqtt_cfg.port
                         };
 
                     default:

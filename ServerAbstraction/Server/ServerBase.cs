@@ -1,12 +1,28 @@
+using Server.Event;
 
 namespace Server
 {
-
     public abstract class ServerBase : IServerBase
     {
         public string UID { get; init; }
 
-        protected IServerCfg Config { get; private set; }
+        private IServerCfg Config { get; set; }
+
+        protected IServerCfg Current_Config { get; private set; }
+
+        public event EventHandler<ServerEventArgs> OnConfigMatch;
+
+        public event EventHandler<ServerEventArgs> OnConfigMissMatch;
+
+        public event EventHandler<ServerStateChangedEventArgs> OnStateChanged;
+
+        public bool isConfigMatch
+        {
+            get
+            {
+                return Config.TimeStamp == Current_Config.TimeStamp;
+            }
+        }
 
         public ServerBase(int MONITOR_PERIOD, IServerCfg cfg)
         {
@@ -36,7 +52,7 @@ namespace Server
 
                 _state = value;
 
-                OnStateChanged(_before, value);
+                _ = OnStateChangedInternal(_before, value);
             }
         }
 
@@ -60,8 +76,31 @@ namespace Server
             catch { }
         }
 
+        private async Task OnStateChangedInternal(ServerState before, ServerState after)
+        {
+            try
+            {
+                await StateChanged(before, after);
+            }
+            catch { }
+
+            try
+            {
+                EventHandler<ServerStateChangedEventArgs> handler = OnStateChanged;
+
+                var event_args = new ServerStateChangedEventArgs()
+                {
+                    Before = before,
+                    After = after
+                };
+
+                handler(this, event_args);
+            }
+            catch { }
+        }
+
         // Callback
-        public abstract Task OnStateChanged(ServerState before, ServerState after);
+        public abstract Task StateChanged(ServerState before, ServerState after);
 
         private async Task<ServerState> SetState(
             ServerState state,
@@ -136,19 +175,6 @@ namespace Server
             }
         }
 
-        private async Task<ServerState> HandleServerCommand(
-            ServerState state,
-            CancellationToken ct = default
-        )
-        {
-            if (_current != null && !_current.IsCompleted)
-            {
-                throw new Exception("Transition pending");
-            }
-
-            return await SetState(state, ct, true);
-        }
-
         //----------------------------
         //----------------------------
 
@@ -162,6 +188,11 @@ namespace Server
             if (_current != null && !_current.IsCompleted)
             {
                 throw new Exception("Transition pending");
+            }
+
+            if (!this.Current_Config.IsEnabled)
+            {
+                throw new Exception("Server is disabled");
             }
 
             try
@@ -202,16 +233,37 @@ namespace Server
 
         private async Task OnState(CancellationToken ct = default)
         {
+
             switch (State)
             {
                 case ServerState.undefined:
+                case ServerState.stopped:
+                case ServerState.disabled:
+                case ServerState.starting:
+                    HandleMatchConfig();
+                    break;
+            }
+
+            switch (State)
+            {
+                case ServerState.started:
+                    ServerStartTimestamp = DateTime.Now;
+                    break;
+                case ServerState.undefined:
+                case ServerState.stopped:
+                case ServerState.disabled:
                     ServerStartTimestamp = null;
+                    break;
+            }
+
+            switch (State)
+            {
+                case ServerState.undefined:
                     await OnAfterUndefined(ct);
                     await SetState(ServerState.stopped, ct);
                     break;
                 case ServerState.started:
                     await OnAfterRunning(ct);
-                    ServerStartTimestamp = DateTime.Now;
                     break;
                 case ServerState.stopping:
                     await OnAfterStopping(ct);
@@ -222,17 +274,46 @@ namespace Server
                     await SetState(ServerState.starting, ct);
                     break;
                 case ServerState.stopped:
-                    ServerStartTimestamp = null;
                     await OnAfterStopped(ct);
                     break;
                 case ServerState.starting:
                     await OnAfterStarting(ct);
                     await SetState(ServerState.started, ct);
                     break;
+                case ServerState.disabled:
+                    await OnAfterStopping(ct);
+                    await SetState(ServerState.disabled, ct);
+                    break;
             }
         }
 
-        public abstract dynamic MapCfgToOptions(IServerCfg cfg);
+        private void HandleMatchConfig()
+        {
+            Current_Config = Config;
+
+            var event_args = new ServerEventArgs()
+            {
+                Server_UID = this.UID,
+                Config = this.Config
+            };
+
+            EventHandler<ServerEventArgs> handler = OnConfigMatch;
+
+            handler(this, event_args);
+        }
+
+        private void HandleMissMatchConfig()
+        {
+            var event_args = new ServerEventArgs()
+            {
+                Server_UID = this.UID,
+                Config = this.Config
+            };
+
+            EventHandler<ServerEventArgs> handler = OnConfigMissMatch;
+
+            handler(this, event_args);
+        }
 
         public void SetConfiguration(IServerCfg cfg)
         {
@@ -241,9 +322,28 @@ namespace Server
                 throw new ArgumentNullException(nameof(cfg));
             }
 
+            if (cfg.Server_UID != this.UID)
+            {
+                throw new Exception(
+                    "Invalid Config UID. Server.UID and Config.UID does not match."
+                );
+            }
+
             MapCfgToOptions(cfg);
 
             Config = cfg;
+
+            if (State == ServerState.disabled ||
+            State == ServerState.stopped ||
+            State == ServerState.undefined)
+            {
+                HandleMatchConfig();
+            }
+            else
+            {
+                HandleMissMatchConfig();
+            }
+
         }
 
         protected abstract Task SyncServerState();
@@ -251,6 +351,8 @@ namespace Server
         protected abstract Task UnsafeStartAsync();
 
         protected abstract Task UnsafeStopAsync();
+
+        public abstract dynamic MapCfgToOptions(IServerCfg cfg);
 
         protected abstract Task OnAfterRunning(CancellationToken ct);
 
@@ -263,4 +365,5 @@ namespace Server
         protected abstract Task OnAfterUndefined(CancellationToken ct);
 
     }
+
 }

@@ -28,9 +28,9 @@ namespace Server.Mqtt
             {
                 builder.WithDefaultEndpoint();
 
-                if (mqtt_cfg.port.HasValue)
+                if (mqtt_cfg.Port.HasValue)
                 {
-                    builder.WithDefaultEndpointPort(mqtt_cfg.port.Value);
+                    builder.WithDefaultEndpointPort(mqtt_cfg.Port.Value);
                 };
 
             }
@@ -90,7 +90,7 @@ namespace Server.Mqtt
             try
             {
                 Server = CreateMqttServer(
-                    MapCfgToOptions(Config)
+                    MapCfgToOptions(Current_Config)
                 );
 
                 await Server.StartAsync();
@@ -181,7 +181,7 @@ namespace Server.Mqtt
             }
         }
 
-        public override Task OnStateChanged(ServerState before, ServerState after)
+        public override Task StateChanged(ServerState before, ServerState after)
         {
             throw new NotImplementedException();
         }

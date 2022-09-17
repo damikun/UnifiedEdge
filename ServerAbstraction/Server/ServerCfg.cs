@@ -4,6 +4,8 @@ namespace Server
     {
         public string Server_UID { get; init; }
 
-        DateTime TimeStamp { get; set; } = DateTime.Now;
+        public bool IsEnabled { get; set; }
+
+        public DateTime TimeStamp { get; init; } = DateTime.Now;
     }
 }

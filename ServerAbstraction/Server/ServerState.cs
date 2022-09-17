@@ -8,6 +8,7 @@ namespace Server
         starting,
         started,
         stopping,
-        restarting
+        restarting,
+        disabled
     }
 }
