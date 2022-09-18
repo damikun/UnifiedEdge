@@ -2,9 +2,11 @@ using Server.Event;
 
 namespace Server
 {
-    public abstract class ServerBase : IServerBase
+    public abstract class ServerBase : IServerBase, IDisposable
     {
         public string UID { get; init; }
+
+        private bool isDisposing { get; set; }
 
         private IServerCfg Config { get; set; }
 
@@ -44,7 +46,6 @@ namespace Server
 
         public ServerState State
         {
-
             get { return _state; }
             private set
             {
@@ -99,14 +100,16 @@ namespace Server
             catch { }
         }
 
-        // Callback
-        public abstract Task StateChanged(ServerState before, ServerState after);
-
         private async Task<ServerState> SetState(
             ServerState state,
             CancellationToken ct = default,
             bool in_background = false)
         {
+            if (isDisposing)
+            {
+                throw new Exception("Server termination is in progress");
+            }
+
             // Set state enum
             State = state;
 
@@ -183,6 +186,11 @@ namespace Server
             CancellationToken ct = default
         )
         {
+            if (isDisposing)
+            {
+                throw new Exception("Server termination is in progress");
+            }
+
             await _semaphore.WaitAsync(ct);
 
             if (_current != null && !_current.IsCompleted)
@@ -212,7 +220,7 @@ namespace Server
                         }
                         break;
                     case ServerCmd.restart:
-                        if (State == ServerState.started)
+                        if (State == ServerState.started && !isDisposing)
                         {
                             return await SetState(ServerState.restarting, ct, true);
                         }
@@ -259,14 +267,14 @@ namespace Server
             switch (State)
             {
                 case ServerState.undefined:
-                    await OnAfterUndefined(ct);
+                    await OnUndefined(ct);
                     await SetState(ServerState.stopped, ct);
                     break;
                 case ServerState.started:
-                    await OnAfterRunning(ct);
+                    await OnRunning(ct);
                     break;
                 case ServerState.stopping:
-                    await OnAfterStopping(ct);
+                    await OnStopping(ct);
                     await SetState(ServerState.stopped, ct);
                     break;
                 case ServerState.restarting:
@@ -274,14 +282,14 @@ namespace Server
                     await SetState(ServerState.starting, ct);
                     break;
                 case ServerState.stopped:
-                    await OnAfterStopped(ct);
+                    await OnStopped(ct);
                     break;
                 case ServerState.starting:
-                    await OnAfterStarting(ct);
+                    await OnStarting(ct);
                     await SetState(ServerState.started, ct);
                     break;
                 case ServerState.disabled:
-                    await OnAfterStopping(ct);
+                    await OnStopping(ct);
                     await SetState(ServerState.disabled, ct);
                     break;
             }
@@ -299,7 +307,11 @@ namespace Server
 
             EventHandler<ServerEventArgs> handler = OnConfigMatch;
 
-            handler(this, event_args);
+            try
+            {
+                handler(this, event_args);
+            }
+            catch { }
         }
 
         private void HandleMissMatchConfig()
@@ -312,7 +324,12 @@ namespace Server
 
             EventHandler<ServerEventArgs> handler = OnConfigMissMatch;
 
-            handler(this, event_args);
+            try
+            {
+                handler(this, event_args);
+            }
+            catch { }
+
         }
 
         public void SetConfiguration(IServerCfg cfg)
@@ -346,6 +363,83 @@ namespace Server
 
         }
 
+        // OnState
+
+        private async Task OnRunning(CancellationToken ct)
+        {
+            await OnBeforeRunning(ct);
+            await OnAfterRunning(ct);
+        }
+
+        private async Task OnStarting(CancellationToken ct)
+        {
+            await OnBeforeStarting(ct);
+
+            await Task.Delay(1000);
+            await this.UnsafeStartAsync();
+
+            await OnAfterStarting(ct);
+        }
+
+        private async Task OnStopping(CancellationToken ct)
+        {
+            await OnBeforeStopping(ct);
+
+            await this.UnsafeStopAsync();
+            await Task.Delay(1000);
+
+            await OnAfterStopping(ct);
+        }
+
+        private async Task Running(CancellationToken ct)
+        {
+            await OnBeforeRunning(ct);
+            await OnAfterRunning(ct);
+        }
+
+        private async Task OnStopped(CancellationToken ct)
+        {
+            await OnBeforeStopped(ct);
+            await OnAfterStopped(ct);
+        }
+
+        private async Task OnUndefined(CancellationToken ct)
+        {
+            await OnBeforeUndefined(ct);
+            await OnAfterUndefined(ct);
+        }
+
+        // OnBefore
+
+        protected virtual Task OnBeforeRunning(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnBeforeStarting(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnBeforeStopped(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnBeforeStopping(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnBeforeUndefined(CancellationToken ct) => Task.CompletedTask;
+
+
+        // OnAfter 
+
+        protected virtual Task OnAfterRunning(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnAfterStarting(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnAfterStopped(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnAfterStopping(CancellationToken ct) => Task.CompletedTask;
+
+        protected virtual Task OnAfterUndefined(CancellationToken ct) => Task.CompletedTask;
+
+
+        public virtual Task StateChanged(ServerState before, ServerState after) => Task.CompletedTask;
+
+
+        // Abstract members
+
         protected abstract Task SyncServerState();
 
         protected abstract Task UnsafeStartAsync();
@@ -354,16 +448,31 @@ namespace Server
 
         public abstract dynamic MapCfgToOptions(IServerCfg cfg);
 
-        protected abstract Task OnAfterRunning(CancellationToken ct);
 
-        protected abstract Task OnAfterStarting(CancellationToken ct);
+        public void Dispose()
+        {
+            if (!isDisposing)
+            {
+                try
+                {
+                    _monitor.Dispose();
+                }
+                catch { }
 
-        protected abstract Task OnAfterStopped(CancellationToken ct);
+                try
+                {
+                    if (_current != null)
+                    {
+                        _current.Dispose();
 
-        protected abstract Task OnAfterStopping(CancellationToken ct);
+                        _current = null;
+                    }
 
-        protected abstract Task OnAfterUndefined(CancellationToken ct);
+                }
+                catch { }
+            }
 
+        }
     }
 
 }

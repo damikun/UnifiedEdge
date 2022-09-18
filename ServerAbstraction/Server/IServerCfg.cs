@@ -1,5 +1,4 @@
 
-
 namespace Server
 {
     public interface IServerCfg

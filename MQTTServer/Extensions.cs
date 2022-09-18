@@ -11,10 +11,7 @@ namespace Server.Mqtt
             this IServiceCollection services,
             Action<MqttServerOptions>? setupAction = null)
         {
-            services.AddSingleton(
-                typeof(IServerManager),
-                typeof(MqttServerManager)
-            );
+            services.AddServerManager<MqttServerManager>();
 
             return services;
         }

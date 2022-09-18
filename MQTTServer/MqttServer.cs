@@ -49,7 +49,6 @@ namespace Server.Mqtt
 
         protected override Task SyncServerState()
         {
-
             if (this.State == ServerState.started)
             {
                 if (this.Server == null || !this.Server.IsStarted)
@@ -89,9 +88,7 @@ namespace Server.Mqtt
 
             try
             {
-                Server = CreateMqttServer(
-                    MapCfgToOptions(Current_Config)
-                );
+                Server = CreateMqttServer();
 
                 await Server.StartAsync();
             }
@@ -103,7 +100,6 @@ namespace Server.Mqtt
 
         protected override async Task UnsafeStopAsync()
         {
-
 
             await _semaphore.WaitAsync();
 
@@ -137,30 +133,16 @@ namespace Server.Mqtt
             GC.WaitForPendingFinalizers();
         }
 
-        private MQTTnet.Server.MqttServer CreateMqttServer(MqttServerOptions? options = null)
+        private MQTTnet.Server.MqttServer CreateMqttServer()
         {
-            var mqttFactory = new MqttFactory();
+            var options = MapCfgToOptions(Current_Config);
 
-            if (options == null)
-            {
-                options = GetDefaultOptions();
-            }
+            var mqttFactory = new MqttFactory();
 
             return mqttFactory.CreateMqttServer(options);
         }
 
-        private static MqttServerOptions GetDefaultOptions(int? port = null)
-        {
-            var mqttServerOptions = new MqttServerOptionsBuilder()
-            .WithDefaultEndpoint();
-
-            if (port.HasValue && port >= 1)
-                mqttServerOptions.WithDefaultEndpointPort(port.Value);
-
-            return mqttServerOptions.Build();
-        }
-
-        public void Dispose()
+        public async new void Dispose()
         {
             if (!isDisposing)
             {
@@ -168,8 +150,22 @@ namespace Server.Mqtt
 
                 try
                 {
-                    Server?.Dispose();
+                    base.Dispose();
+                }
+                catch { }
 
+                try
+                {
+                    try
+                    {
+                        if (Server != null && Server.IsStarted)
+                        {
+                            await Server.StopAsync();
+                        }
+                    }
+                    catch { }
+
+                    Server?.Dispose();
                 }
                 catch { }
                 finally
@@ -181,50 +177,5 @@ namespace Server.Mqtt
             }
         }
 
-        public override Task StateChanged(ServerState before, ServerState after)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Task OnAfterRunning(CancellationToken ct)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected async override Task OnAfterStarting(CancellationToken ct)
-        {
-            await Task.Delay(1000);
-
-            await this.UnsafeStartAsync();
-        }
-
-        protected override Task OnAfterStopped(CancellationToken ct)
-        {
-            return Task.CompletedTask;
-        }
-
-        protected async override Task OnAfterStopping(CancellationToken ct)
-        {
-            await this.UnsafeStopAsync();
-
-            await Task.Delay(1000);
-        }
-
-        protected override Task OnAfterUndefined(CancellationToken ct)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task<IServer> CreateServerInstance(IServerCfg cfg)
-        {
-            return Task.FromResult(
-                new EdgeMqttServer(cfg) as IServer
-            );
-        }
-
-        public Task<IServer> CreateDefaultServer()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
