@@ -2,9 +2,11 @@ using Server.Event;
 
 namespace Server
 {
-    public abstract class ServerBase : IServerBase, IDisposable
+    public abstract class ServerBase<T> : IServerBase, IDisposable
     {
         public string UID { get; init; }
+
+        private Type OptionsType { get; init; }
 
         private bool isDisposing { get; set; }
 
@@ -38,6 +40,8 @@ namespace Server
                 MONITOR_PERIOD,
                 MONITOR_PERIOD
             );
+
+            OptionsType = typeof(T);
         }
 
         private Task? _current;
@@ -70,7 +74,7 @@ namespace Server
             {
                 if (server != null)
                 {
-                    await ((ServerBase)server).SyncServerState();
+                    await ((ServerBase<T>)server).SyncServerState();
                 }
 
             }
@@ -461,7 +465,7 @@ namespace Server
 
         protected abstract Task UnsafeStopAsync();
 
-        public abstract dynamic MapCfgToOptions(IServerCfg cfg);
+        public abstract T MapCfgToOptions(IServerCfg cfg);
 
 
         public void Dispose()

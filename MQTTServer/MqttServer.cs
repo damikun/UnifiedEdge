@@ -3,7 +3,7 @@ using MQTTnet.Server;
 
 namespace Server.Mqtt
 {
-    public sealed class EdgeMqttServer : ServerBase, IServer, IDisposable
+    public sealed class EdgeMqttServer : ServerBase<MqttServerOptions>, IServer, IDisposable
     {
         private MQTTnet.Server.MqttServer? Server;
 
@@ -20,7 +20,7 @@ namespace Server.Mqtt
 
         }
 
-        public override dynamic MapCfgToOptions(IServerCfg cfg)
+        public override MqttServerOptions MapCfgToOptions(IServerCfg cfg)
         {
             var builder = new MqttServerOptionsBuilder();
 
