@@ -50,7 +50,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "f049038a-dfaf-4858-b071-d4fe11ee8ca0",
+                            Guid = "39b04b8e-312f-4c0a-95e6-a56885540940",
                             Name = "Undefined"
                         });
                 });
@@ -97,6 +97,12 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Server.ServerCfgBase", b =>
                 {
                     b.Property<string>("ServerUID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TimeStamp")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ServerUID");

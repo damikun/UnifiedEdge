@@ -103,7 +103,9 @@ namespace Aplication.Services.ServerFascade
 
             var m = GetManager(db_cfg.Type);
 
-            return m.CreateServerInstance(server_cfg);
+            return Task.FromResult(
+                m.CreateServer(server_cfg)
+            );
         }
 
         public async Task<string?> AddServer(ServerCfgBase db_cfg)

@@ -193,14 +193,14 @@ namespace Server
 
             await _semaphore.WaitAsync(ct);
 
-            if (_current != null && !_current.IsCompleted)
-            {
-                throw new Exception("Transition pending");
-            }
-
             if (!this.Current_Config.IsEnabled)
             {
                 throw new Exception("Server is disabled");
+            }
+
+            if (_current != null && !_current.IsCompleted)
+            {
+                throw new Exception("Transition pending");
             }
 
             try
@@ -339,7 +339,12 @@ namespace Server
                 throw new ArgumentNullException(nameof(cfg));
             }
 
-            if (cfg.Server_UID != this.UID)
+            if (cfg.Server_UID == null)
+            {
+                throw new ArgumentNullException(nameof(cfg.Server_UID));
+            }
+
+            if (this.UID != null && cfg.Server_UID != this.UID)
             {
                 throw new Exception(
                     "Invalid Config UID. Server.UID and Config.UID does not match."
@@ -363,6 +368,16 @@ namespace Server
 
         }
 
+        private Task StopAsync()
+        {
+            return UnsafeStopAsync();
+        }
+
+        private Task StartAsync()
+        {
+            return UnsafeStartAsync();
+        }
+
         // OnState
 
         private async Task OnRunning(CancellationToken ct)
@@ -376,7 +391,7 @@ namespace Server
             await OnBeforeStarting(ct);
 
             await Task.Delay(1000);
-            await this.UnsafeStartAsync();
+            await this.StartAsync();
 
             await OnAfterStarting(ct);
         }
@@ -385,7 +400,7 @@ namespace Server
         {
             await OnBeforeStopping(ct);
 
-            await this.UnsafeStopAsync();
+            await this.StopAsync();
             await Task.Delay(1000);
 
             await OnAfterStopping(ct);

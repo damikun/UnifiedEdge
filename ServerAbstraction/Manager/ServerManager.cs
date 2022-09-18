@@ -3,9 +3,11 @@ using System.Transactions;
 namespace Server.Manager
 {
 
-    public abstract class ServerManager : IServerManager
+    public abstract class ServerManager<T> : IServerManager where T : IServer
     {
         private readonly IServerStore _runtime_store;
+
+        public Type ManagedServerType { get; }
 
         public ServerManager(IServerStore? store = null)
         {
@@ -13,6 +15,8 @@ namespace Server.Manager
                 store = new ServerInMemoryStore();
 
             _runtime_store = store;
+
+            ManagedServerType = typeof(T);
         }
 
         public async Task<ServerState> ProcesCommand(
@@ -145,6 +149,11 @@ namespace Server.Manager
             );
         }
 
-        public abstract Task<IServer> CreateServerInstance(IServerCfg cfg);
+        protected abstract T CreateServerInstance(IServerCfg cfg);
+
+        public IServer CreateServer(IServerCfg cfg)
+        {
+            return CreateServerInstance(cfg) as IServer;
+        }
     }
 }

@@ -2,7 +2,7 @@ using Server.Mqtt;
 
 namespace Server.Manager.Mqtt
 {
-    public class MqttServerManager : ServerManager
+    public class MqttServerManager : ServerManager<EdgeMqttServer>
     {
 
         public MqttServerManager(IServerStore? store = null) : base(store!)
@@ -10,11 +10,9 @@ namespace Server.Manager.Mqtt
 
         }
 
-        public override Task<IServer> CreateServerInstance(IServerCfg cfg)
+        protected override EdgeMqttServer CreateServerInstance(IServerCfg cfg)
         {
-            return Task.FromResult(
-                new EdgeMqttServer(cfg) as IServer
-            );
+            return new EdgeMqttServer(cfg);
         }
     }
 }

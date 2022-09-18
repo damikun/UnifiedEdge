@@ -31,7 +31,9 @@ namespace Persistence.Migrations
                 name: "ServerCfg",
                 columns: table => new
                 {
-                    ServerUID = table.Column<string>(type: "TEXT", nullable: false)
+                    ServerUID = table.Column<string>(type: "TEXT", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,7 +140,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "f049038a-dfaf-4858-b071-d4fe11ee8ca0", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "39b04b8e-312f-4c0a-95e6-a56885540940", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Servers_CfgServerUID",

@@ -3,7 +3,9 @@ namespace Server.Manager
 {
     public interface IServerManager
     {
-        public Task<IServer> CreateServerInstance(IServerCfg cfg);
+        public Type ManagedServerType { get; }
+
+        public IServer CreateServer(IServerCfg cfg);
 
         public Task<string> RemoveServer(string server_id, CancellationToken ct = default);
 
