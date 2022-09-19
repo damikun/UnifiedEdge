@@ -1,19 +1,18 @@
 using Server;
 using Domain.Server;
 using Server.Manager;
-using Server.Manager.Mqtt;
 
 namespace Aplication.Services.ServerFascade
 {
     public interface IServerFascade
     {
-        // public IServerManager Mqtt_manager { get; init; }
-
-        // public IServerManager Opc_manager { get; init; }
+        public List<string> SupportedServers { get; }
 
         public T GetManager<T>() where T : IServerManager;
 
         public Task<IServer> CreateServer(ServerCfgBase db_cfg);
+
+        public IServerManager GetManagerByServerName(string display_name);
 
         public Task<string?> AddServer(IServer server);
 

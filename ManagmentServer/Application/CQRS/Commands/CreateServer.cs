@@ -1,7 +1,7 @@
-using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
+using Domain.Server;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
@@ -14,57 +14,47 @@ namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// ServerCmd
+    /// CreateServer
     /// </summary>
     // [Authorize]
-    public class ProcessServerCmd : CommandBase<Unit>
+    public class CreateServer : CommandBase<Unit>
     {
 #nullable disable
-        public string UID;
+        public string Name;
 #nullable enable
+        public string? Description;
 
-        public ServerCmd Command { get; set; }
+        public ServerType Type;
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - ServerCmd
+    /// Field validator - CreateServer
     /// </summary>
-    public class ServerCmdValidator : AbstractValidator<ProcessServerCmd>
+    public class CreateServerValidator : AbstractValidator<CreateServer>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public ServerCmdValidator(IDbContextFactory<ManagmentDbCtx> factory)
+        public CreateServerValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
 
-            RuleFor(e => e.UID)
+            RuleFor(e => e.Name)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3)
-            .MustAsync(Exist).WithMessage("Server not found");
+            .MinimumLength(3);
         }
 
-        public async Task<bool> Exist(
-            string Uid,
-            CancellationToken cancellationToken)
-        {
-            await using ManagmentDbCtx dbContext =
-                _factory.CreateDbContext();
-
-            return await dbContext.Servers
-                .AnyAsync(e => e.UID != Uid);
-        }
     }
 
     /// <summary>
-    /// Authorization validators - ServerCmd
+    /// Authorization validators - CreateServer
     /// </summary>
-    public class ServerCmdAuthorizationValidator : AuthorizationValidator<ProcessServerCmd>
+    public class CreateServerAuthorizationValidator : AuthorizationValidator<CreateServer>
     {
-        public ServerCmdAuthorizationValidator()
+        public CreateServerAuthorizationValidator()
         {
 
         }
@@ -74,8 +64,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>ServerCmdHandler</c> command </summary>
-    public class ServerCmdHandler : IRequestHandler<ProcessServerCmd, Unit>
+    /// <summary>Handler for <c>CreateServerHandler</c> command </summary>
+    public class CreateServerHandler : IRequestHandler<CreateServer, Unit>
     {
 
         /// <summary>
@@ -89,7 +79,7 @@ namespace Aplication.CQRS.Commands
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Injected <c>ManagmentDbCtx</c>
+        /// Injected <c>IDbContextFactory</c>
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
@@ -102,7 +92,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public ServerCmdHandler(
+        public CreateServerHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             IServerFascade fascade,
@@ -118,14 +108,42 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>ProcessServerCmd</c>
+        /// Command handler for <c>CreateServer</c>
         /// </summary>
-        public async Task<Unit> Handle(ProcessServerCmd request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateServer request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            await _fascade.ProcesCommand(request.UID, request.Command);
+            ServerBase new_server;
+
+            var m = _fascade.GetManagerByServerName("somename");
+
+            // Load somehow default config
+
+            var server = m.CreateServer(null);
+
+
+            // switch (request.Type)
+            // {
+            //     case ServerType.mqtt:
+            //         new_server = new MqttServer()
+            //         {
+            //             Name = request.Name,
+            //             Description = request.Description,
+            //         };
+
+            //     case ServerType.opc:
+            //         new_server = new CreateOpcServer()
+            //         {
+            //             Name = request.Name,
+            //             Description = request.Description,
+            //         };
+
+            //     default: throw new Exception("Unsupported server type");
+            // }
+
+            // await _fascade.ProcesCommand(request.UID, request.Command);
 
             return Unit.Value;
         }
@@ -136,15 +154,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class ServerCmd_PostProcessor
-        : IRequestPostProcessor<ProcessServerCmd, Unit>
+    public class CreateServer_PostProcessor
+        : IRequestPostProcessor<CreateServer, Unit>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public ServerCmd_PostProcessor(
+        public CreateServer_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher)
         {
@@ -152,7 +170,7 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            ProcessServerCmd request,
+            CreateServer request,
             Unit response,
             CancellationToken cancellationToken)
         {

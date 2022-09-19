@@ -19,7 +19,7 @@ namespace Aplication.Services.ServerFascade
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Injected <c>ManagmentDbCtx</c>
+        /// Injected <c>IDbContextFactory</c>
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
@@ -41,7 +41,58 @@ namespace Aplication.Services.ServerFascade
             _provider = provider;
         }
 
+        private List<ServerInfo> _supportedServers;
+        public List<string> SupportedServers
+        {
+            get
+            {
+                if (_supportedServers == null)
+                {
+                    _supportedServers = GetSupportedServers();
+                }
+
+                return _supportedServers
+                    .Select(e => e.DisplayName)
+                    .ToList();
+            }
+        }
+
+        private List<ServerInfo> GetSupportedServers()
+        {
+            List<ServerInfo> names = new List<ServerInfo>();
+
+            var managers = GetManagers();
+
+            foreach (var manager in managers)
+            {
+                names.Add(manager.ManagedServerInfo);
+            }
+
+            return names.DistinctBy(e => e.DisplayName).ToList();
+        }
+
         private IEnumerable<IServerManager> GetManagers() => _provider.GetServices<IServerManager>();
+
+        public IServerManager GetManagerByServerName(string display_name)
+        {
+            var managers = GetManagers();
+
+            var manager = managers
+            .Where(e => e.ManagedServerInfo.DisplayName == display_name)
+            .First();
+
+            if (manager == null)
+            {
+                throw new Exception(
+                    string.Format(
+                        "Manager `{0}` was not found",
+                        display_name
+                    )
+                );
+            }
+
+            return manager;
+        }
 
         public T GetManager<T>() where T : IServerManager
         {

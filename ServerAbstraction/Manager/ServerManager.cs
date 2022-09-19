@@ -7,7 +7,7 @@ namespace Server.Manager
     {
         private readonly IServerStore _runtime_store;
 
-        public Type ManagedServerType { get; }
+        public abstract ServerInfo ManagedServerInfo { get; }
 
         public ServerManager(IServerStore? store = null)
         {
@@ -15,8 +15,6 @@ namespace Server.Manager
                 store = new ServerInMemoryStore();
 
             _runtime_store = store;
-
-            ManagedServerType = typeof(T);
         }
 
         public async Task<ServerState> ProcesCommand(

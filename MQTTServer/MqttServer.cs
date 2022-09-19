@@ -11,6 +11,12 @@ namespace Server.Mqtt
 
         private bool isDisposing { get; set; }
 
+        public static ServerInfo Info = new ServerInfo()
+        {
+            DisplayName = "MQTT",
+            ServerType = typeof(EdgeMqttServer)
+        };
+
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         public EdgeMqttServer(
@@ -32,7 +38,6 @@ namespace Server.Mqtt
                 {
                     builder.WithDefaultEndpointPort(mqtt_cfg.Port.Value);
                 };
-
             }
             else
             {

@@ -50,7 +50,9 @@ namespace Server.Manager
 
         internal override Task<List<string>> HandlerGetServerIds()
         {
-            return Task.FromResult(Store.Select(e => e.Key).ToList());
+            return Task.FromResult(
+                Store.Select(e => e.Key).ToList()
+            );
         }
     }
 }

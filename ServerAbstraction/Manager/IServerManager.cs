@@ -3,7 +3,7 @@ namespace Server.Manager
 {
     public interface IServerManager
     {
-        public Type ManagedServerType { get; }
+        public ServerInfo ManagedServerInfo { get; }
 
         public IServer CreateServer(IServerCfg cfg);
 

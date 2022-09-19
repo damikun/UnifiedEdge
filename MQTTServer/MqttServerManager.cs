@@ -10,6 +10,8 @@ namespace Server.Manager.Mqtt
 
         }
 
+        public override ServerInfo ManagedServerInfo => EdgeMqttServer.Info;
+
         protected override EdgeMqttServer CreateServerInstance(IServerCfg cfg)
         {
             return new EdgeMqttServer(cfg);
