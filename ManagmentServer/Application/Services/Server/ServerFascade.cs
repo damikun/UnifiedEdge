@@ -233,6 +233,5 @@ namespace Aplication.Services.ServerFascade
 
             return await m.UpdateServer(server_cfg, ct);
         }
-
     }
 }

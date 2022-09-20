@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.Services.ServerFascade
 {
-    public static class Extensions
+    public static class ServerExtensions
     {
         public static IServiceCollection AddServerFascade(
             this IServiceCollection services

@@ -101,6 +101,27 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Endpoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Port = table.Column<int>(type: "INTEGER", nullable: false),
+                    IpAddress = table.Column<string>(type: "TEXT", nullable: false),
+                    ServerBaseID = table.Column<long>(type: "INTEGER", nullable: true),
+                    ServerBaseUID = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Endpoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Endpoints_Servers_ServerBaseID_ServerBaseUID",
+                        columns: x => new { x.ServerBaseID, x.ServerBaseUID },
+                        principalTable: "Servers",
+                        principalColumns: new[] { "ID", "UID" });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MqttServer",
                 columns: table => new
                 {
@@ -140,7 +161,24 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "39b04b8e-312f-4c0a-95e6-a56885540940", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "ffcd2b1c-5a78-46ae-9168-a84b3c877fed", null, null, null, "Undefined" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Endpoints_IpAddress",
+                table: "Endpoints",
+                column: "IpAddress",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Endpoints_Port",
+                table: "Endpoints",
+                column: "Port",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Endpoints_ServerBaseID_ServerBaseUID",
+                table: "Endpoints",
+                columns: new[] { "ServerBaseID", "ServerBaseUID" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Servers_CfgServerUID",
@@ -153,6 +191,9 @@ namespace Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Edge");
+
+            migrationBuilder.DropTable(
+                name: "Endpoints");
 
             migrationBuilder.DropTable(
                 name: "MqttServer");

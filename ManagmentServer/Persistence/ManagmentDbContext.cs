@@ -11,7 +11,10 @@ namespace Persistence
 
         public DbSet<ServerCfgBase> ServerCfg { get; set; }
 
+        public DbSet<ServerIPv4Endpoint> Endpoints { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
+
         public ManagmentDbCtx(
             DbContextOptions<ManagmentDbCtx> options)
             : base(options)

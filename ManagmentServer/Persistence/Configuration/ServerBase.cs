@@ -16,6 +16,8 @@ namespace Persistence.Configuration
             builder.HasOne(e => e.Cfg);
 
             builder.Ignore(e => e.Type);
+
+            builder.HasMany(e => e.Endpoints);
         }
     }
 }

@@ -58,6 +58,7 @@ namespace API
 
             services.AddSingleton(services);
 
+            services.AddEndpointProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

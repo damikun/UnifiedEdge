@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20220918104834_Init")]
+    [Migration("20220920155834_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "39b04b8e-312f-4c0a-95e6-a56885540940",
+                            Guid = "ffcd2b1c-5a78-46ae-9168-a84b3c877fed",
                             Name = "Undefined"
                         });
                 });
@@ -112,6 +112,38 @@ namespace Persistence.Migrations
                     b.ToTable("ServerCfg");
                 });
 
+            modelBuilder.Entity("Domain.Server.ServerIPv4Endpoint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("ServerBaseID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ServerBaseUID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IpAddress")
+                        .IsUnique();
+
+                    b.HasIndex("Port")
+                        .IsUnique();
+
+                    b.HasIndex("ServerBaseID", "ServerBaseUID");
+
+                    b.ToTable("Endpoints");
+                });
+
             modelBuilder.Entity("Domain.Server.MqttServer", b =>
                 {
                     b.HasBaseType("Domain.Server.ServerBase");
@@ -157,6 +189,13 @@ namespace Persistence.Migrations
                     b.Navigation("Cfg");
                 });
 
+            modelBuilder.Entity("Domain.Server.ServerIPv4Endpoint", b =>
+                {
+                    b.HasOne("Domain.Server.ServerBase", null)
+                        .WithMany("Endpoints")
+                        .HasForeignKey("ServerBaseID", "ServerBaseUID");
+                });
+
             modelBuilder.Entity("Domain.Server.MqttServer", b =>
                 {
                     b.HasOne("Domain.Server.ServerBase", null)
@@ -191,6 +230,11 @@ namespace Persistence.Migrations
                         .HasForeignKey("Domain.Server.OpcServerCfg", "ServerUID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Server.ServerBase", b =>
+                {
+                    b.Navigation("Endpoints");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerCfgBase", b =>

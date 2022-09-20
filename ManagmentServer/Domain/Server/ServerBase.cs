@@ -22,6 +22,8 @@ namespace Domain.Server
         public abstract ServerType Type { get; }
 
         public virtual ServerCfgBase Cfg { get; set; }
+
+        public virtual ICollection<ServerIPv4Endpoint> Endpoints { get; set; } = new List<ServerIPv4Endpoint>();
     }
 
 }
