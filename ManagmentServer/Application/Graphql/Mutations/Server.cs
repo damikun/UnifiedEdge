@@ -81,5 +81,39 @@ namespace Aplication.Graphql.Mutations
             return (GQL_ServerState)state;
         }
 
+
+        public class RemoveServerPayload
+        {
+            public string removed_id { get; set; }
+
+            public string typeName { get; set; }
+
+        }
+
+        /// <summary>
+        /// Remove server
+        /// </summary>
+        public async Task<RemoveServerPayload> RemoveServer(
+            [ID] string uid,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context)
+        {
+            var removed_server_dto = await mediator.Send(
+                new RemoveServer()
+                {
+                    UID = uid
+                }
+            );
+
+            var gql_dto = mapper.Map<GQL_ServerBase>(removed_server_dto);
+
+            return new RemoveServerPayload()
+            {
+                removed_id = gql_dto.Id,
+                typeName = gql_dto.GetType().Name
+            };
+        }
+
     }
 }

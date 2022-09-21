@@ -117,7 +117,8 @@ namespace Persistence.Migrations
                         name: "FK_Endpoints_Servers_ServerBaseID_ServerBaseUID",
                         columns: x => new { x.ServerBaseID, x.ServerBaseUID },
                         principalTable: "Servers",
-                        principalColumns: new[] { "ID", "UID" });
+                        principalColumns: new[] { "ID", "UID" },
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,7 +160,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "df4aef99-ec45-437a-9daf-61ed756da707", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "b7ccc1c1-f944-4b13-9182-ac6bfd58d8b4", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endpoints_IpAddress",

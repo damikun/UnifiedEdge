@@ -13,11 +13,11 @@ namespace Persistence.Configuration
             builder.Property(e => e.UID)
             .IsRequired();
 
-            builder.HasOne(e => e.Cfg);
+            builder.HasOne(e => e.Cfg).WithOne().OnDelete(DeleteBehavior.Cascade);
 
             builder.Ignore(e => e.Type);
 
-            builder.HasMany(e => e.Endpoints);
+            builder.HasMany(e => e.Endpoints).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

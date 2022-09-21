@@ -1,6 +1,7 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
+using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
 
+
 namespace Aplication.CQRS.Commands
 {
 
@@ -17,7 +19,7 @@ namespace Aplication.CQRS.Commands
     /// RemoveServer
     /// </summary>
     // [Authorize]
-    public class RemoveServer : CommandBase<string>
+    public class RemoveServer : CommandBase<DTO_Server>
     {
 #nullable disable
         public string UID;
@@ -76,7 +78,7 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>RemoveServerHandler</c> command </summary>
-    public class RemoveServerHandler : IRequestHandler<RemoveServer, string>
+    public class RemoveServerHandler : IRequestHandler<RemoveServer, DTO_Server>
     {
 
         /// <summary>
@@ -129,12 +131,13 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Command handler for <c>RemoveServer</c>
         /// </summary>
-        public async Task<string> Handle(RemoveServer request, CancellationToken cancellationToken)
+        public async Task<DTO_Server> Handle(RemoveServer request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
             var server = await dbContext.Servers
+            .AsNoTracking()
             .Where(e => e.UID == request.UID)
             .FirstAsync(cancellationToken);
 
@@ -142,7 +145,7 @@ namespace Aplication.CQRS.Commands
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return request.UID;
+            return _mapper.Map<DTO_Server>(server);
         }
     }
 
@@ -151,7 +154,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class RemoveServer_PostProcessor
-        : IRequestPostProcessor<RemoveServer, string>
+        : IRequestPostProcessor<RemoveServer, DTO_Server>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -168,12 +171,12 @@ namespace Aplication.CQRS.Commands
 
         public async Task Process(
             RemoveServer request,
-            string uid,
+            DTO_Server server,
             CancellationToken cancellationToken
         )
         {
             await _publisher.Publish<ServerRemovedNotifi>(
-                new ServerRemovedNotifi(uid),
+                new ServerRemovedNotifi(server.Guid),
                 Services.PublishStrategy.ParallelNoWait
             );
 

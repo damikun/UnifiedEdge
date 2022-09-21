@@ -50,7 +50,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "df4aef99-ec45-437a-9daf-61ed756da707",
+                            Guid = "b7ccc1c1-f944-4b13-9182-ac6bfd58d8b4",
                             Name = "Undefined"
                         });
                 });
@@ -183,7 +183,8 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Server.ServerBase", null)
                         .WithMany("Endpoints")
-                        .HasForeignKey("ServerBaseID", "ServerBaseUID");
+                        .HasForeignKey("ServerBaseID", "ServerBaseUID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.Server.MqttServer", b =>

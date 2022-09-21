@@ -88,6 +88,7 @@ namespace API
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<RemoveServerPayloadType>()
                 .AddType<UserType>()
                 .AddType<CpuMetricsType>()
                 .AddType<OsType>()
