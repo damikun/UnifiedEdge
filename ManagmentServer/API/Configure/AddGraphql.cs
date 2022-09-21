@@ -75,6 +75,7 @@ namespace API
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()
                     .AddTypeExtension<OpcMutations>()
+                    .AddTypeExtension<ServerMutations>()
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()
 

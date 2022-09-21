@@ -3,11 +3,12 @@ namespace Aplication.DTO
 {
     public enum GQL_ServerState
     {
-        unknown,
+        undefined,
         stopped,
+        starting,
+        started,
         stopping,
         restarting,
-        starting,
-        running
+        disabled
     }
 }

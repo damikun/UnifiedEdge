@@ -11,7 +11,7 @@ namespace Server.Mqtt
 
         private bool isDisposing { get; set; }
 
-        public static ServerInfo Info = new ServerInfo()
+        public static ServerInfo Info => new ServerInfo()
         {
             DisplayName = "MQTT",
             ServerType = typeof(EdgeMqttServer)

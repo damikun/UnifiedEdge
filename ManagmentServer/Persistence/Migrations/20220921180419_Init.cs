@@ -44,8 +44,7 @@ namespace Persistence.Migrations
                 name: "MqttServerCfg",
                 columns: table => new
                 {
-                    ServerUID = table.Column<string>(type: "TEXT", nullable: false),
-                    port = table.Column<int>(type: "INTEGER", nullable: true)
+                    ServerUID = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,8 +125,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     ID = table.Column<long>(type: "INTEGER", nullable: false),
-                    UID = table.Column<string>(type: "TEXT", nullable: false),
-                    Port = table.Column<int>(type: "INTEGER", nullable: false)
+                    UID = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,19 +159,17 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "ffcd2b1c-5a78-46ae-9168-a84b3c877fed", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "df4aef99-ec45-437a-9daf-61ed756da707", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endpoints_IpAddress",
                 table: "Endpoints",
-                column: "IpAddress",
-                unique: true);
+                column: "IpAddress");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endpoints_Port",
                 table: "Endpoints",
-                column: "Port",
-                unique: true);
+                column: "Port");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endpoints_ServerBaseID_ServerBaseUID",

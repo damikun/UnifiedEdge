@@ -91,13 +91,14 @@ namespace Aplication.Mapping
         {
             switch (source)
             {
-                case ServerState.started: return GQL_ServerState.running;
+                case ServerState.started: return GQL_ServerState.started;
                 case ServerState.restarting: return GQL_ServerState.restarting;
                 case ServerState.starting: return GQL_ServerState.starting;
                 case ServerState.stopping: return GQL_ServerState.stopping;
                 case ServerState.stopped: return GQL_ServerState.stopped;
+                case ServerState.disabled: return GQL_ServerState.disabled;
 
-                default: return GQL_ServerState.unknown;
+                default: return GQL_ServerState.undefined;
             }
         }
     }

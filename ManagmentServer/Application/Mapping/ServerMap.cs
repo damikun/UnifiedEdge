@@ -10,43 +10,41 @@ namespace Aplication.Mapping
     {
         public Server_Map_Profile()
         {
-            CreateMap<Domain.Server.MqttServer, DTO_MqttServer>()
-                .IncludeAllDerived()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
-                .ForMember(dest => dest.Port, opt => opt.MapFrom(src => src.Port))
-                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
-                .ReverseMap();
+            // CreateMap<Domain.Server.MqttServer, DTO_MqttServer>()
+            //     .IncludeAllDerived()
+            //     .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
+            //     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            //     .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+            //     .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
+            //     .ReverseMap();
 
-            CreateMap<DTO_MqttServer, GQL_MqttServer>()
-                .IncludeAllDerived()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
-                .ForMember(dest => dest.Port, opt => opt.MapFrom(src => src.Port))
-                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
-                .ReverseMap();
+            // CreateMap<DTO_MqttServer, GQL_MqttServer>()
+            //     .IncludeAllDerived()
+            //     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid))
+            //     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            //     .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+            //     .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
+            //     .ReverseMap();
 
-            CreateMap<Domain.Server.OpcServer, DTO_OpcServer>()
-                .IncludeAllDerived()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
-                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
-                .ReverseMap();
+            // CreateMap<Domain.Server.OpcServer, DTO_OpcServer>()
+            //     .IncludeAllDerived()
+            //     .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
+            //     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            //     .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+            //     .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
+            //     .ReverseMap();
 
-            CreateMap<DTO_OpcServer, GQL_OpcServer>()
-                .IncludeAllDerived()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
-                .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
-                .ReverseMap();
+            // CreateMap<DTO_OpcServer, GQL_OpcServer>()
+            //     .IncludeAllDerived()
+            //     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid))
+            //     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            //     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            //     .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
+            //     .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
+            //     .ReverseMap();
 
             CreateMap(typeof(IServer), typeof(GQL_IServer))
                 .ConvertUsing(typeof(DomainToGraphqlIServer));
@@ -78,8 +76,7 @@ namespace Aplication.Mapping
                         {
                             Server_UID = mqtt_cfg.ServerUID,
                             TimeStamp = mqtt_cfg.TimeStamp,
-                            IsEnabled = mqtt_cfg.IsEnabled,
-                            Port = mqtt_cfg.port
+                            IsEnabled = mqtt_cfg.IsEnabled
                         };
 
                     default:

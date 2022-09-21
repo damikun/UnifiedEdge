@@ -1,11 +1,3 @@
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.csproj.AssemblyReference.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\spa.proxy.json
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.AssemblyInfoInputs.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.AssemblyInfo.cs
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.csproj.CoreCompileInputs.cache
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\ManagmentUIAPI.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\ManagmentUIAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\spa.proxy.json
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\appsettings.json
@@ -149,6 +141,14 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\De
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\ManagmentUI - Application.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.Mqtt.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Server.pdb
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.csproj.AssemblyReference.cache
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\spa.proxy.json
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.AssemblyInfoInputs.cache
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.AssemblyInfo.cs
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.csproj.CoreCompileInputs.cache
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\ManagmentUIAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\ManagmentUIAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\scopedcss\bundle\ManagmentUIAPI.styles.css

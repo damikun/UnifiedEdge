@@ -7,9 +7,9 @@ namespace Server.Manager
     {
         private readonly IServerStore _runtime_store;
 
-        public abstract ServerInfo ManagedServerInfo { get; }
+        public ServerInfo ManagedServerInfo { get; } = T.Info;
 
-        public ServerManager(IServerStore? store = null)
+        public ServerManager(IEndpointService endpoint, IServerStore? store = null)
         {
             if (store == null)
                 store = new ServerInMemoryStore();
@@ -37,9 +37,13 @@ namespace Server.Manager
 
             using (TransactionScope scope = new TransactionScope())
             {
-                await _runtime_store.Remove(server_id);
+                try
+                {
+                    await _runtime_store.Remove(server_id);
 
-                scope.Complete();
+                    scope.Complete();
+                }
+                catch { }
 
                 try
                 {
@@ -153,5 +157,6 @@ namespace Server.Manager
         {
             return CreateServerInstance(cfg) as IServer;
         }
+
     }
 }

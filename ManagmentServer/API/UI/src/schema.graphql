@@ -20,16 +20,6 @@ interface Node {
   id: ID!
 }
 
-type CreateMqttServerPayload {
-  gQL_MqttServer: GQL_MqttServer
-  query: Query!
-}
-
-type CreateOpcServerPayload {
-  gQL_OpcServer: GQL_OpcServer
-  query: Query!
-}
-
 type CreateServerPayload {
   gQL_IServer: GQL_IServer
   query: Query!
@@ -97,10 +87,10 @@ type GQL_Metric {
 type GQL_MqttServer implements GQL_IServer & Node {
   description: String
   id: ID!
+  isEnabled: Boolean!
   isRunning: Boolean!
   location: String
   name: String!
-  port: Int!
   state: ServerState!
   type: GQL_ServerVariant!
   updated: DateTime!
@@ -131,19 +121,6 @@ type GQL_OS {
   isBrowser: Boolean!
   platform: PlatformID!
   version: String
-}
-
-type GQL_OpcServer implements GQL_IServer {
-  description: String
-  id: String!
-  isRunning: Boolean!
-  location: String
-  name: String!
-  port: Int!
-  state: GQL_ServerState!
-  type: GQL_ServerVariant!
-  updated: DateTime!
-  uptime: GQL_Uptime!
 }
 
 type GQL_RuntimeMetrics {
@@ -185,12 +162,9 @@ type HistorianRecord {
 }
 
 type Mutation {
-  createMqttServer(request: CreateMqttServerInput): CreateMqttServerPayload!
-  createOpcServer(request: CreateOpcServerInput): CreateOpcServerPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
-  removeMqttServer(input: RemoveMqttServerInput!): RemoveMqttServerPayload!
-  serverCmd(input: ServerCmdInput!): ServerCmdPayload!
-  testik: TestikPayload!
+  processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
+  test: TestPayload!
 }
 
 "Information about pagination in a connection."
@@ -203,6 +177,11 @@ type PageInfo {
   hasPreviousPage: Boolean!
   "When paginating backwards, the cursor to continue."
   startCursor: String
+}
+
+type ProcessServerCmdPayload {
+  gQL_ServerState: GQL_ServerState
+  query: Query!
 }
 
 type Query {
@@ -220,36 +199,15 @@ type Query {
   test: Boolean!
 }
 
-type RemoveMqttServerPayload {
-  query: Query!
-  string: String
-}
-
-type ServerCmdPayload {
-  boolean: Boolean
-  query: Query!
-}
-
 type Subscription {
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   systemTime: DateTime!
   uptime: GQL_Uptime!
 }
 
-type TestikPayload {
+type TestPayload {
   boolean: Boolean
   query: Query!
-}
-
-input CreateMqttServerInput {
-  description: String
-  name: String
-  port: Int!
-}
-
-input CreateOpcServerInput {
-  description: String
-  name: String
 }
 
 input CreateServerInput {
@@ -258,15 +216,7 @@ input CreateServerInput {
   type: GQL_ServerVariant!
 }
 
-input RemoveMqttServerInput {
-  request: RemoveServerInput!
-}
-
-input RemoveServerInput {
-  id: String
-}
-
-input ServerCmdInput {
+input ProcessServerCmdInput {
   cmd: GQL_ServerCmd!
   uid: ID!
 }
@@ -287,17 +237,18 @@ enum GQL_RuntimeMetricSource {
 
 enum GQL_ServerCmd {
   STOP
-  RESTART
   START
+  RESTART
 }
 
 enum GQL_ServerState {
-  UNKNOWN
+  UNDEFINED
   STOPPED
+  STARTING
+  STARTED
   STOPPING
   RESTARTING
-  STARTING
-  RUNNING
+  DISABLED
 }
 
 enum GQL_ServerVariant {
@@ -323,6 +274,7 @@ enum ServerState {
   STARTED
   STOPPING
   RESTARTING
+  DISABLED
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."

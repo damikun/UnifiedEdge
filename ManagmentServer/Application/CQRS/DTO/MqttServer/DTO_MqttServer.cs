@@ -1,49 +1,22 @@
-using Aplication.Interfaces;
+using Aplication.Mapping;
+using AutoMapper;
 
 namespace Aplication.DTO
 {
 
-    public class DTO_MqttServer : IServer
+    public class DTO_MqttServer : DTO_Server, IMapFrom<Domain.Server.MqttServer>
     {
         public DTO_MqttServer()
         {
 
         }
 
-        // <summary>
-        /// ID
-        /// </summary>
-        public string Guid { get; set; }
-
-        // <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
-
-        // <summary>
-        /// Description
-        /// </summary>
-        public string? Description { get; set; }
-
-        // <summary>
-        /// Location
-        /// </summary>
-        public string? Location { get; set; }
-
-        // <summary>
-        /// Port
-        /// </summary>
-        public int Port { get; set; }
-
-        // <summary>
-        /// Updated
-        /// </summary>
-        public DateTime Updated { get; set; }
-
-        // <summary>
-        /// Created
-        /// </summary>
-        public DateTime Created { get; set; }
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Domain.Server.MqttServer, DTO_MqttServer>()
+                .IncludeAllDerived()
+                .ReverseMap();
+        }
 
     }
 }

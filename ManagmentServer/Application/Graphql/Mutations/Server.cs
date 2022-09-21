@@ -1,9 +1,9 @@
+using Server;
 using MediatR;
 using AutoMapper;
+using Domain.Server;
 using Aplication.DTO;
-using Aplication.Core;
 using HotChocolate.Resolvers;
-using Aplication.CQRS.Queries;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Interfaces;
 
@@ -18,8 +18,7 @@ namespace Aplication.Graphql.Mutations
 
         private readonly IMapper _mapper;
 
-        public ServerMutations(
-            IMapper mapper)
+        public ServerMutations(IMapper mapper)
         {
             _mapper = mapper;
         }
@@ -46,52 +45,41 @@ namespace Aplication.Graphql.Mutations
         /// <returns>GQL_IServer</returns>
         public async Task<GQL_IServer> CreateServer(
             CreateServerInput request,
-            [Service] IMediator mediator)
+            [Service] IMediator mediator,
+            [Service] IMapper mapper
+        )
         {
-            ICommandCore? cmd = GetServerCreateCmd(request);
-
-            var dto = await mediator.Send(cmd!);
+            var dto = await mediator.Send(new CreateServer()
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Type = (ServerType)request.Type
+            });
 
             return _mapper.Map<GQL_MqttServer>(dto);
         }
 
-        public async Task<bool> ServerCmd(
+        /// <summary>
+        /// Process server cmd
+        /// </summary>
+        /// <returns>bool</returns>
+        public async Task<GQL_ServerState> ProcessServerCmd(
             [ID] string uid,
             GQL_ServerCmd cmd,
             [Service] IMediator mediator,
+            [Service] IMapper mapper,
             IResolverContext context)
         {
-            var server_db = await mediator.Send(
-                new GetServer()
+            var state = await mediator.Send(
+                new ProcessServerCmd()
                 {
-                    Guid = uid!
+                    Command = (ServerCmd)cmd,
+                    UID = uid
                 }
             );
 
-            return true;
+            return (GQL_ServerState)state;
         }
 
-        [GraphQLIgnore]
-        private CommandCore? GetServerCreateCmd(CreateServerInput request)
-        {
-            switch (request.Type)
-            {
-                case GQL_ServerVariant.mqtt:
-                    return new CreateMqttServer()
-                    {
-                        Name = request.Name,
-                        Description = request.Description,
-                    };
-
-                case GQL_ServerVariant.opc:
-                    return new CreateOpcServer()
-                    {
-                        Name = request.Name,
-                        Description = request.Description,
-                    };
-
-                default: return null;
-            }
-        }
     }
 }

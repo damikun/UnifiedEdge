@@ -5,6 +5,7 @@ using Persistence;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
@@ -17,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// ServerCmd
     /// </summary>
     // [Authorize]
-    public class ProcessServerCmd : CommandBase<Unit>
+    public class ProcessServerCmd : CommandBase<ServerState>
     {
 #nullable disable
         public string UID;
@@ -43,7 +44,6 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.UID)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3)
             .MustAsync(Exist).WithMessage("Server not found");
         }
 
@@ -55,7 +55,7 @@ namespace Aplication.CQRS.Commands
                 _factory.CreateDbContext();
 
             return await dbContext.Servers
-                .AnyAsync(e => e.UID != Uid);
+                .AnyAsync(e => e.UID == Uid);
         }
     }
 
@@ -75,7 +75,7 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>ServerCmdHandler</c> command </summary>
-    public class ServerCmdHandler : IRequestHandler<ProcessServerCmd, Unit>
+    public class ServerCmdHandler : IRequestHandler<ProcessServerCmd, ServerState>
     {
 
         /// <summary>
@@ -120,14 +120,12 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Command handler for <c>ProcessServerCmd</c>
         /// </summary>
-        public async Task<Unit> Handle(ProcessServerCmd request, CancellationToken cancellationToken)
+        public async Task<ServerState> Handle(ProcessServerCmd request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            await _fascade.ProcesCommand(request.UID, request.Command);
-
-            return Unit.Value;
+            return await _fascade.ProcesCommand(request.UID, request.Command);
         }
 
     }
@@ -137,7 +135,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class ServerCmd_PostProcessor
-        : IRequestPostProcessor<ProcessServerCmd, Unit>
+        : IRequestPostProcessor<ProcessServerCmd, ServerState>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -153,12 +151,16 @@ namespace Aplication.CQRS.Commands
 
         public async Task Process(
             ProcessServerCmd request,
-            Unit response,
+            ServerState state,
             CancellationToken cancellationToken)
         {
-            // To be implemented
-
-            await Task.CompletedTask;
+            await _publisher.Publish<ServerProcessCmdNotifi>(
+                new ServerProcessCmdNotifi(
+                    request.UID,
+                    request.Command
+                ),
+                Services.PublishStrategy.ParallelNoWait
+            );
         }
     }
 

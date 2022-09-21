@@ -1,7 +1,9 @@
+using Aplication.Mapping;
+
 namespace Aplication.DTO
 {
 
-    public class GQL_Edge
+    public class GQL_Edge : IMapFrom<DTO_Edge>
     {
         public GQL_Edge()
         {

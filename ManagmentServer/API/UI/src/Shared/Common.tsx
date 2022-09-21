@@ -1,9 +1,9 @@
 import { Badge_VARIANTS } from "../UIComponents/Badged/Badge";
 
-export type MqttState = "RESTARTING" | "RUNNING" | "STARTING" | "STOPPED" | "STOPPING" | "UNKNOWN" | "%future added value";
+export type GQL_ServerState = "DISABLED" | "RESTARTING" | "STARTED" | "STARTING" | "STOPPED" | "STOPPING" | "UNDEFINED" | "%future added value";
 
-export function GetMqttServerStateBadgetVariant(state:MqttState| undefined): keyof typeof Badge_VARIANTS{
-    if(state === "RUNNING"){
+export function GetMqttServerStateBadgetVariant(state:GQL_ServerState| undefined): keyof typeof Badge_VARIANTS{
+    if(state === "STARTED"){
         return "secondarygreen"
     }else if(state === "RESTARTING" || state === "STARTING"){
         return "secondaryellow"

@@ -1,12 +1,9 @@
-import { faClock, faPlay, faRefresh, faServer, faSignsPost, faStop, faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faRefresh, faStop } from "@fortawesome/free-solid-svg-icons";
 import { graphql } from "babel-plugin-relay/macro";
-import { useFragment, useSubscription } from "react-relay";
+import { useFragment } from "react-relay";
 import { useMemo } from "react";
 import clsx from "clsx";
-import { GraphQLSubscriptionConfig } from "relay-runtime";
-import Card from "../../../UIComponents/Card/Card";
-import CardContent from "../../../UIComponents/Card/CardContent";
-import {GQL_ServerState , ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
+import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
 import StayledButton, { STAYLED_BUTTON_VARIANTS } from "../../../UIComponents/Buttons/StayledButton";
@@ -159,7 +156,7 @@ function getBehaviour(data: ServerInfoStateDataFragment$data) {
                     className: "opacity-70"
                 },
             } as allowedCommands;
-        case "RUNNING":
+        case "STARTED":
             return {
                 play: {
                     variant: "primarygray",
@@ -178,7 +175,8 @@ function getBehaviour(data: ServerInfoStateDataFragment$data) {
         case "RESTARTING":
         case "STARTING":
         case "STOPPING":
-        case "UNKNOWN":
+        case "UNDEFINED":
+        case "DISABLED":
         default:
             return {
                 play: {

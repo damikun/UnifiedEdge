@@ -2,9 +2,11 @@ using MediatR;
 using AutoMapper;
 using Persistence;
 using Domain.Server;
+using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
@@ -17,7 +19,7 @@ namespace Aplication.CQRS.Commands
     /// CreateServer
     /// </summary>
     // [Authorize]
-    public class CreateServer : CommandBase<Unit>
+    public class CreateServer : CommandBase<DTO_Server>
     {
 #nullable disable
         public string Name;
@@ -65,7 +67,7 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>CreateServerHandler</c> command </summary>
-    public class CreateServerHandler : IRequestHandler<CreateServer, Unit>
+    public class CreateServerHandler : IRequestHandler<CreateServer, DTO_Server>
     {
 
         /// <summary>
@@ -88,6 +90,10 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IServerFascade _fascade;
 
+        /// <summary>
+        /// Injected <c>IEndpointProvider</c>
+        /// </summary>
+        private readonly IEndpointProvider _endpoint_provider;
 
         /// <summary>
         /// Main constructor
@@ -96,7 +102,9 @@ namespace Aplication.CQRS.Commands
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             IServerFascade fascade,
-            IMediator mediator)
+            IMediator mediator,
+            IEndpointProvider endpoint_provider
+        )
         {
             _factory = factory;
 
@@ -105,47 +113,76 @@ namespace Aplication.CQRS.Commands
             _mediator = mediator;
 
             _fascade = fascade;
+
+            _endpoint_provider = endpoint_provider;
         }
 
         /// <summary>
         /// Command handler for <c>CreateServer</c>
         /// </summary>
-        public async Task<Unit> Handle(CreateServer request, CancellationToken cancellationToken)
+        public async Task<DTO_Server> Handle(CreateServer request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            ServerBase new_server;
+            var new_server = await GetServer(request);
 
-            var m = _fascade.GetManagerByServerName("somename");
+            dbContext.Servers.Add(new_server);
 
-            // Load somehow default config
+            await dbContext.SaveChangesAsync(cancellationToken);
 
-            var server = m.CreateServer(null);
+            return _mapper.Map<DTO_Server>(new_server);
+        }
 
+        private async Task<ServerBase> GetServer(CreateServer request)
+        {
+            ServerBase base_server;
 
-            // switch (request.Type)
-            // {
-            //     case ServerType.mqtt:
-            //         new_server = new MqttServer()
-            //         {
-            //             Name = request.Name,
-            //             Description = request.Description,
-            //         };
+            var endpoint = await _endpoint_provider.GetRanodmEndpoint();
+            var uid = Guid.NewGuid().ToString();
 
-            //     case ServerType.opc:
-            //         new_server = new CreateOpcServer()
-            //         {
-            //             Name = request.Name,
-            //             Description = request.Description,
-            //         };
+            switch (request.Type)
+            {
+                case ServerType.mqtt:
+                    base_server = new MqttServer()
+                    {
+                        UID = uid,
+                        Created = DateTime.Now,
+                        Cfg = new MqttServerCfg()
+                        {
+                            ServerUID = uid
+                        },
+                    };
 
-            //     default: throw new Exception("Unsupported server type");
-            // }
+                    break;
 
-            // await _fascade.ProcesCommand(request.UID, request.Command);
+                case ServerType.opc:
+                    base_server = new OpcServer()
+                    {
+                        UID = uid,
+                        Created = DateTime.Now,
+                        Cfg = new OpcServerCfg()
+                        {
+                            ServerUID = uid
+                        },
+                    };
 
-            return Unit.Value;
+                    break;
+
+                default: throw new Exception("Unsupported server type");
+            }
+
+            base_server.Endpoints.Add(new ServerIPv4Endpoint()
+            {
+                IpAddress = endpoint.Address.ToString(),
+                Port = endpoint.Port
+            });
+
+            base_server.Name = request.Name;
+            base_server.Description = request.Description;
+            base_server.Updated = base_server.Created;
+
+            return base_server;
         }
 
     }
@@ -155,7 +192,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class CreateServer_PostProcessor
-        : IRequestPostProcessor<CreateServer, Unit>
+        : IRequestPostProcessor<CreateServer, DTO_Server>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -164,19 +201,29 @@ namespace Aplication.CQRS.Commands
 
         public CreateServer_PostProcessor(
             IMemoryCache cache,
-            Aplication.Services.IPublisher publisher)
+            Aplication.Services.IPublisher publisher
+        )
         {
             _publisher = publisher;
         }
 
         public async Task Process(
             CreateServer request,
-            Unit response,
-            CancellationToken cancellationToken)
+            DTO_Server response,
+            CancellationToken cancellationToken
+        )
         {
-            // To be implemented
-
-            await Task.CompletedTask;
+            try
+            {
+                await _publisher.Publish<ServerCreatedNotifi>(
+                    new ServerCreatedNotifi(response.Guid),
+                    Services.PublishStrategy.ParallelNoWait
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log?
+            }
         }
     }
 

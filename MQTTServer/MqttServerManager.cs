@@ -2,15 +2,16 @@ using Server.Mqtt;
 
 namespace Server.Manager.Mqtt
 {
-    public class MqttServerManager : ServerManager<EdgeMqttServer>
+    public class MqttServerManager : ServerManager<EdgeMqttServer>, IMqttServerManager
     {
 
-        public MqttServerManager(IServerStore? store = null) : base(store!)
+        public MqttServerManager(
+            IEndpointService endpoint,
+            IServerStore? store = null
+        ) : base(endpoint, store!)
         {
 
         }
-
-        public override ServerInfo ManagedServerInfo => EdgeMqttServer.Info;
 
         protected override EdgeMqttServer CreateServerInstance(IServerCfg cfg)
         {

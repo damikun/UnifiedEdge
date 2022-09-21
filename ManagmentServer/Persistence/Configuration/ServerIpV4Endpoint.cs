@@ -10,9 +10,9 @@ namespace Persistence.Configuration
         {
             builder.HasKey(e => e.Id);
 
-            builder.HasIndex(e => e.IpAddress).IsUnique();
+            builder.HasIndex(e => e.IpAddress);
 
-            builder.HasIndex(e => e.Port).IsUnique();
+            builder.HasIndex(e => e.Port);
         }
     }
 }

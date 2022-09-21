@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a93fba6139c53b7d1d5cac989298d182>>
+ * @generated SignedSource<<7f25ddd017f4cecb6f71629f1a07530b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,7 +9,7 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-export type GQL_ServerState = "RESTARTING" | "RUNNING" | "STARTING" | "STOPPED" | "STOPPING" | "UNKNOWN" | "%future added value";
+export type GQL_ServerState = "DISABLED" | "RESTARTING" | "STARTED" | "STARTING" | "STOPPED" | "STOPPING" | "UNDEFINED" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type ServerInfoStateDataFragment$data = {
   readonly state: GQL_ServerState;

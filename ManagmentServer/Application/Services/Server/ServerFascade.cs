@@ -63,10 +63,10 @@ namespace Aplication.Services.ServerFascade
 
             var managers = GetManagers();
 
-            foreach (var manager in managers)
-            {
-                names.Add(manager.ManagedServerInfo);
-            }
+            // foreach (var manager in managers)
+            // {
+            //     names.Add(manager.ManagedServerInfo);
+            // }
 
             return names.DistinctBy(e => e.DisplayName).ToList();
         }
@@ -78,7 +78,7 @@ namespace Aplication.Services.ServerFascade
             var managers = GetManagers();
 
             var manager = managers
-            .Where(e => e.ManagedServerInfo.DisplayName == display_name)
+            // .Where(e => e.ManagedServerInfo.DisplayName == display_name)
             .First();
 
             if (manager == null)

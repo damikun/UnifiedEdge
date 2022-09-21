@@ -31,14 +31,14 @@ namespace Aplication.DTO
         public string? Location { get; set; }
 
         // <summary>
-        /// Port
+        /// IsEnabled
         /// </summary>
-        public int Port { get; set; }
+        public bool IsEnabled { get; set; }
 
         // <summary>
         /// isRunning
         /// </summary>
-        public bool isRunning => State == GQL_ServerState.running;
+        public bool isRunning => State == GQL_ServerState.started;
 
         // <summary>
         /// Updated

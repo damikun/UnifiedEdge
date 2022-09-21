@@ -147,9 +147,7 @@ namespace Aplication.Services.ServerFascade
 
             var dif_ip = GetDefaultIp();
 
-            var taken = await GetUsedPorts(dif_ip);
-
-            var excludes = RESERVED.Concat(taken).Distinct().ToList();
+            var excludes = await GetUsedPorts(dif_ip);
 
             var port = getRandomWithExclusion(PORT_MIN, PORT_MAX, excludes);
 
@@ -164,7 +162,7 @@ namespace Aplication.Services.ServerFascade
 
             var db = await IsUsedByDb(endpoint);
 
-            return runtime && db;
+            return runtime || db;
         }
 
         private bool IsUsedByRuntime(IPEndPoint source_endpoint)
@@ -175,6 +173,14 @@ namespace Aplication.Services.ServerFascade
             foreach (IPEndPoint endpoint in tcpConnInfoArray)
             {
                 if (endpoint.AreEqual(source_endpoint))
+                {
+                    return true;
+                }
+            }
+
+            foreach (var port in RESERVED)
+            {
+                if (port == source_endpoint.Port)
                 {
                     return true;
                 }

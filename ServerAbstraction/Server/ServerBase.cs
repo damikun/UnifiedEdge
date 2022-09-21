@@ -159,7 +159,7 @@ namespace Server
                         ServerStartTimestamp = now;
                     }
 
-                    return DateTime.Now.Subtract(((DateTime)ServerStartTimestamp));
+                    return DateTime.Now.Subtract(ServerStartTimestamp.Value);
                 }
                 else
                 {
@@ -207,6 +207,8 @@ namespace Server
                 throw new Exception("Transition pending");
             }
 
+            bool in_background = true;
+
             try
             {
                 switch (cmd)
@@ -214,19 +216,31 @@ namespace Server
                     case ServerCmd.start:
                         if (State == ServerState.stopped)
                         {
-                            return await SetState(ServerState.starting, ct, true);
+                            return await SetState(
+                                ServerState.starting,
+                                ct,
+                                in_background
+                            );
                         }
                         break;
                     case ServerCmd.stop:
                         if (State != ServerState.stopping)
                         {
-                            return await SetState(ServerState.stopping, ct, true);
+                            return await SetState(
+                                ServerState.stopping,
+                                ct,
+                                in_background
+                            );
                         }
                         break;
                     case ServerCmd.restart:
                         if (State == ServerState.started && !isDisposing)
                         {
-                            return await SetState(ServerState.restarting, ct, true);
+                            return await SetState(
+                                ServerState.restarting,
+                                ct,
+                                in_background
+                            );
                         }
                         break;
                 }

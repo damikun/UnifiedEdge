@@ -1,8 +1,14 @@
 
 namespace Server.Manager
 {
+    public interface IServerManager<T> : IServerManager
+    {
+
+    }
+
     public interface IServerManager
     {
+
         public ServerInfo ManagedServerInfo { get; }
 
         public IServer CreateServer(IServerCfg cfg);

@@ -1,7 +1,10 @@
+using Domain;
+using Aplication.Mapping;
+
 namespace Aplication.DTO
 {
 
-    public class DTO_Edge
+    public class DTO_Edge : IMapFrom<Edge>
     {
         public DTO_Edge()
         {
@@ -9,7 +12,6 @@ namespace Aplication.DTO
         }
 
         public string Name { get; set; }
-
 
         public string Guid { get; set; }
 
@@ -22,4 +24,5 @@ namespace Aplication.DTO
         public string? Location3 { get; set; }
 
     }
+
 }

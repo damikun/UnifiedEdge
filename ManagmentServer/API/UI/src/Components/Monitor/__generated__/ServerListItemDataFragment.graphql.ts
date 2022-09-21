@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<319b83f9b3b4e5b08dfe8e72471cb09c>>
+ * @generated SignedSource<<8350e455b26cdc35a34bc22d69281966>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,7 +9,7 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-export type GQL_ServerState = "RESTARTING" | "RUNNING" | "STARTING" | "STOPPED" | "STOPPING" | "UNKNOWN" | "%future added value";
+export type GQL_ServerState = "DISABLED" | "RESTARTING" | "STARTED" | "STARTING" | "STOPPED" | "STOPPING" | "UNDEFINED" | "%future added value";
 export type GQL_ServerVariant = "MQTT" | "OPC" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type ServerListItemDataFragment$data = {

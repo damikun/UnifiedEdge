@@ -1,44 +1,22 @@
-using Aplication.Interfaces;
+using Aplication.Mapping;
+using AutoMapper;
 
 namespace Aplication.DTO
 {
 
-    public class DTO_OpcServer : IServer
+    public class DTO_OpcServer : DTO_Server, IMapFrom<Domain.Server.OpcServer>
     {
         public DTO_OpcServer()
         {
 
         }
 
-        // <summary>
-        /// ID
-        /// </summary>
-        public string Guid { get; set; }
-
-        // <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; }
-
-        // <summary>
-        /// Description
-        /// </summary>
-        public string? Description { get; set; }
-
-        // <summary>
-        /// Location
-        /// </summary>
-        public string? Location { get; set; }
-
-        // <summary>
-        /// Updated
-        /// </summary>
-        public DateTime Updated { get; set; }
-
-        // <summary>
-        /// Created
-        /// </summary>
-        public DateTime Created { get; set; }
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Domain.Server.OpcServer, DTO_OpcServer>()
+                .IncludeAllDerived()
+                .ReverseMap();
+        }
 
     }
 }

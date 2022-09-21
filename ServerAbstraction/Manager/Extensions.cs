@@ -6,10 +6,10 @@ namespace Server.Manager
     {
         public static IServiceCollection AddServerManager<T>(
             this IServiceCollection services)
+            where T : IServerManager
         {
-            services.AddSingleton(
-                typeof(IServerManager),
-                typeof(T)
+            services.AddSingleton(e =>
+                e.GetRequiredService<T>() as IServerManager
             );
 
             return services;

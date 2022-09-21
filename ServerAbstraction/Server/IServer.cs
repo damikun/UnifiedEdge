@@ -6,5 +6,7 @@ namespace Server
         public string UID { get; }
 
         public ServerState State { get; }
+
+        public abstract static ServerInfo Info { get; }
     }
 }

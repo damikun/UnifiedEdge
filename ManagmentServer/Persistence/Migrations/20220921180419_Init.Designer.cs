@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20220920155834_Init")]
+    [Migration("20220921180419_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "ffcd2b1c-5a78-46ae-9168-a84b3c877fed",
+                            Guid = "df4aef99-ec45-437a-9daf-61ed756da707",
                             Name = "Undefined"
                         });
                 });
@@ -133,11 +133,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IpAddress")
-                        .IsUnique();
+                    b.HasIndex("IpAddress");
 
-                    b.HasIndex("Port")
-                        .IsUnique();
+                    b.HasIndex("Port");
 
                     b.HasIndex("ServerBaseID", "ServerBaseUID");
 
@@ -148,18 +146,12 @@ namespace Persistence.Migrations
                 {
                     b.HasBaseType("Domain.Server.ServerBase");
 
-                    b.Property<int>("Port")
-                        .HasColumnType("INTEGER");
-
                     b.ToTable("MqttServer", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
                 {
                     b.HasBaseType("Domain.Server.ServerCfgBase");
-
-                    b.Property<int?>("port")
-                        .HasColumnType("INTEGER");
 
                     b.ToTable("MqttServerCfg", (string)null);
                 });
