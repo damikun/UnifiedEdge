@@ -1,11 +1,13 @@
-using Aplication.Interfaces;
-using Aplication.Mapping;
 using AutoMapper;
+using Domain.Server;
+using Aplication.Mapping;
+using Aplication.Interfaces;
 
 namespace Aplication.DTO
 {
 
-    public class DTO_Server : IServer, IMapFrom<Domain.Server.ServerBase>
+    public class DTO_Server : IServer,
+        IMapFrom<Domain.Server.ServerBase>
     {
         public DTO_Server()
         {
@@ -50,7 +52,7 @@ namespace Aplication.DTO
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Server.ServerBase, DTO_Server>()
+            profile.CreateMap<ServerBase, DTO_Server>()
                 .IncludeAllDerived()
                 .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.UID))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
@@ -60,7 +62,39 @@ namespace Aplication.DTO
                 .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dest => dest.IsEnabled, opt => opt.MapFrom(src => src.IsEnabled))
                 .ReverseMap();
+
+            profile.CreateMap<ServerBase, IServer>()
+                .ConvertUsing(typeof(ServerToIServer));
         }
 
+        public class ServerToIServer
+            : ITypeConverter<ServerBase, IServer>
+        {
+            public IServer Convert(
+                ServerBase source,
+                IServer destination,
+                ResolutionContext context
+            )
+            {
+                if (source == null)
+                    return null!;
+
+                switch (source)
+                {
+                    case MqttServer:
+                        return context.Mapper.Map<DTO_MqttServer>(source);
+                    case OpcServer:
+                        return context.Mapper.Map<DTO_OpcServer>(source);
+                    default:
+                        throw new Exception(
+                        string.Format(
+                            "Unsupported Map from {0} to {1}",
+                            typeof(ServerBase),
+                            typeof(IServer)
+                        )
+                    );
+                }
+            }
+        }
     }
 }

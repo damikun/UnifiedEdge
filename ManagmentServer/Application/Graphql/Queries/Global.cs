@@ -1,6 +1,5 @@
 using MediatR;
 using AutoMapper;
-using Server.Manager;
 using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;

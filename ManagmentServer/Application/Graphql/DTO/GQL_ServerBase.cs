@@ -1,9 +1,13 @@
+using AutoMapper;
+using Aplication.Mapping;
+using Aplication.Interfaces;
 using Aplication.Graphql.Interfaces;
 
 namespace Aplication.DTO
 {
 
-    public abstract class GQL_ServerBase : GQL_IServer
+    public abstract class GQL_ServerBase : GQL_IServer,
+            IMapFrom<IServer>
     {
         public GQL_ServerBase()
         {
@@ -59,5 +63,34 @@ namespace Aplication.DTO
         /// Type
         /// </summary>
         public virtual GQL_ServerVariant Type { get; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<IServer, GQL_IServer>()
+                .ConvertUsing(typeof(IServerToGqlIServer));
+        }
+
+        public class IServerToGqlIServer
+        : ITypeConverter<IServer, GQL_IServer>
+        {
+            public GQL_IServer Convert(
+                IServer source,
+                GQL_IServer destination,
+                ResolutionContext context)
+            {
+                if (source == null)
+                    return null!;
+
+                switch (source)
+                {
+                    case DTO_MqttServer:
+                        return context.Mapper.Map<GQL_MqttServer>(source);
+                    case DTO_OpcServer:
+                        return context.Mapper.Map<GQL_OpcServer>(source);
+
+                    default: throw new Exception("DomainToGraphqlIServerMapper => Not supported source type");
+                }
+            }
+        }
     }
 }

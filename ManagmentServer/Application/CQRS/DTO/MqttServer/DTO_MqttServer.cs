@@ -4,7 +4,8 @@ using AutoMapper;
 namespace Aplication.DTO
 {
 
-    public class DTO_MqttServer : DTO_Server, IMapFrom<Domain.Server.MqttServer>
+    public class DTO_MqttServer : DTO_Server,
+        IMapFrom<Domain.Server.MqttServer>
     {
         public DTO_MqttServer()
         {

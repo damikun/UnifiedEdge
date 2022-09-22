@@ -15,7 +15,6 @@ namespace Aplication.Graphql.Mutations
     [ExtendObjectType(OperationTypeNames.Mutation)]
     public class ServerMutations
     {
-
         private readonly IMapper _mapper;
 
         public ServerMutations(IMapper mapper)
@@ -94,7 +93,7 @@ namespace Aplication.Graphql.Mutations
         /// Remove server
         /// </summary>
         public async Task<RemoveServerPayload> RemoveServer(
-            [ID] string uid,
+            [ID] string id,
             [Service] IMediator mediator,
             [Service] IMapper mapper,
             IResolverContext context)
@@ -102,7 +101,7 @@ namespace Aplication.Graphql.Mutations
             var removed_server_dto = await mediator.Send(
                 new RemoveServer()
                 {
-                    UID = uid
+                    UID = id
                 }
             );
 

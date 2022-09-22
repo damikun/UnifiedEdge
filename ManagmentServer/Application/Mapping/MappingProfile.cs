@@ -24,28 +24,38 @@ namespace Aplication.Mapping
 
             foreach (var type in types)
             {
-                var instance = Activator.CreateInstance(type);
-
-                var methodInfo = type.GetMethod(mappingMethodName);
-
-                if (methodInfo != null)
+                if (type.IsAbstract)
                 {
-                    methodInfo.Invoke(instance, new object[] { this });
+                    var method = type.GetMethod(mappingMethodName);
+                    var func = (Action<Profile>)Delegate.CreateDelegate(typeof(Action<Profile>), null, method!);
+                    func(this);
                 }
                 else
                 {
-                    var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
+                    var instance = Activator.CreateInstance(type);
 
-                    if (interfaces.Count > 0)
+                    var methodInfo = type.GetMethod(mappingMethodName);
+
+                    if (methodInfo != null)
                     {
-                        foreach (var @interface in interfaces)
-                        {
-                            var interfaceMethodInfo = @interface.GetMethod(mappingMethodName, argumentTypes);
+                        methodInfo.Invoke(instance, new object[] { this });
+                    }
+                    else
+                    {
+                        var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
 
-                            interfaceMethodInfo?.Invoke(instance, new object[] { this });
+                        if (interfaces.Count > 0)
+                        {
+                            foreach (var @interface in interfaces)
+                            {
+                                var interfaceMethodInfo = @interface.GetMethod(mappingMethodName, argumentTypes);
+
+                                interfaceMethodInfo?.Invoke(instance, new object[] { this });
+                            }
                         }
                     }
                 }
+
             }
         }
     }
