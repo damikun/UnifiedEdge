@@ -38,7 +38,7 @@ export function FormInput({icon,label,error,focusOnMount = false, ...rest}:FormI
           : clsx(
               "border-gray-500 focus-within:border-blue-500",
               "hover:border-blue-500"
-            ),
+            )
       )}
     >
       {icon && (
@@ -59,8 +59,8 @@ export function FormInput({icon,label,error,focusOnMount = false, ...rest}:FormI
         {...rest}
         value={rest.value == null ? "" : rest.value}
         className={clsx(
-          "mx-1 w-full text-gray-500 focus:text-gray-700",
-          "my-auto placeholder-gray-500",
+          "mx-1 w-full text-gray-600 focus:text-gray-700",
+          "my-auto placeholder-gray-600",
           "outline-none border-transparent",
           "bg-transparent font-semibold",
           rest.disabled ? "cursor-not-allowed" : "cursor-pointer"

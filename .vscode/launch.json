@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             // "preLaunchTask": "build",
-            "program": "${workspaceFolder}/ManagmentServer/API/bin/Debug/net6.0/ManagmentUIAPI.dll",
+            "program": "${workspaceFolder}/ManagmentServer/API/bin/Debug/net6.0/API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ManagmentServer/API",
             "stopAtEntry": false,

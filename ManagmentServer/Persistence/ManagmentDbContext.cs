@@ -13,6 +13,8 @@ namespace Persistence
 
         public DbSet<ServerIPv4Endpoint> Endpoints { get; set; }
 
+        public DbSet<AdapterEvent> AdapterEvents { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(

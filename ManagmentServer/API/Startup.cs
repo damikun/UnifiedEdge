@@ -1,8 +1,10 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 
+using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using ElectronNET.API;
+using Hangfire;
 
 namespace API
 {
@@ -59,6 +61,8 @@ namespace API
             services.AddSingleton(services);
 
             services.AddEndpointProvider();
+
+            services.AddScheduler();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +72,10 @@ namespace API
             IServiceProvider serviceProvider,
             IServiceScopeFactory scopeFactory)
         {
+            // app.UseHangfireServer();
+
+            app.UseScheduledJobs(serviceProvider);
+
             app.UseHealthChecks("/health");
 
             // app.UseHttpsRedirection();
@@ -102,6 +110,8 @@ namespace API
             {
                 app.UseVoyager();
             }
+
+            app.UseHangfireDashboard();
 
             app.UseEndpoints(endpoints =>
             {

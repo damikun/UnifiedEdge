@@ -18,7 +18,10 @@ namespace Aplication.Services
 
             if (cfgOption is null || string.IsNullOrWhiteSpace(cfgOption?.SourceName))
             {
-                throw new ArgumentNullException(nameof(TelemetryOptions), "Options not found or value is incorrect!");
+                throw new ArgumentNullException(
+                    nameof(TelemetryOptions),
+                    "Options not found or value is incorrect!"
+                );
             }
 
             serviceCollection.Configure<TelemetryOptions>(

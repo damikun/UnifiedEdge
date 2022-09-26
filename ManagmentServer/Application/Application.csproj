@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>ManagmentUI - Application</AssemblyName>
+    <AssemblyName>Application</AssemblyName>
     <AssemblyTitle>ManagmentUI - Application</AssemblyTitle>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <PackageReference Include="Hangfire" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.2" />
 
     <PackageReference Include="OpenTelemetry" Version="1.2.0-rc2" />
 

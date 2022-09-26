@@ -3,6 +3,20 @@ import Servers from "../Servers/Servers";
 import Server from "../Server/MqttServer/MqttServer";
 import { Navigate, Route, Routes } from "react-router";
 
+// const Server = lazy(
+//   () =>
+//     import(
+//       /* webpackChunkName: "Monitor" */ "../Monitor/Monitor"
+//     )
+// );
+
+const Adapter = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Adapter" */ "../Adapter/Adapter"
+    )
+);
+
 const Monitor = lazy(
   () =>
     import(
@@ -60,6 +74,7 @@ export default function Body(){
           <Route path="/Monitor/Server/Mqtt/:id/*" element={<Server/>} />
           <Route path="/Monitor/Server/Opc/:id/*" element={<Server/>} />
           <Route path="/Servers/*" element={<Servers/>} />
+          <Route path="/Monitor/Adapter/:id/*" element={<Adapter/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />

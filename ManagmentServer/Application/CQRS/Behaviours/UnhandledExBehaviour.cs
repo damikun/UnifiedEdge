@@ -1,9 +1,9 @@
-
 using MediatR;
 using System.Diagnostics;
 using Aplication.Services;
 using Aplication.CQRS.Errors;
 using Microsoft.Extensions.Logging;
+using Aplication.Core;
 
 namespace Aplication.CQRS.Behaviours
 {
@@ -64,8 +64,18 @@ namespace Aplication.CQRS.Behaviours
             }
         }
 
-        private Activity GetActivity(TRequest request)
+        private Activity? GetActivity(TRequest request)
         {
+            if (request.GetType().IsSubclassOf(typeof(CommandBase)))
+            {
+                ISharedCommandBase I_base_command = request as ISharedCommandBase;
+
+                if (I_base_command is not null && I_base_command.Flags.diable_tracing)
+                {
+                    return null;
+                }
+            }
+
             return _telemetry.AppSource.StartActivity(
                 String.Format(
                     "UnhandledExBehaviour: Request<{0}>",

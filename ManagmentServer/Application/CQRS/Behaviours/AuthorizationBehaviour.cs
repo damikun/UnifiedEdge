@@ -65,6 +65,17 @@ namespace Aplication.CQRS.Behaviours
 
                 try
                 {
+
+                    if (typeof(TRequest).IsSubclassOf(typeof(CommandBase)))
+                    {
+                        ISharedCommandBase I_base_command = request as ISharedCommandBase;
+
+                        if (I_base_command is not null && I_base_command.Flags.diable_tracing)
+                        {
+                            return await next();
+                        }
+                    }
+
                     activity?.Start();
 
                     // Must be authenticated user
@@ -150,10 +161,10 @@ namespace Aplication.CQRS.Behaviours
         }
 
         private static void HandleUnAuthorised(object? error_obj = null)
-        {   
+        {
             if (error_obj is ValidationFailure[])
             {
-                throw new AuthorizationException( error_obj as ValidationFailure[]);
+                throw new AuthorizationException(error_obj as ValidationFailure[]);
             }
             else if (error_obj is string)
             {
@@ -182,8 +193,18 @@ namespace Aplication.CQRS.Behaviours
                 new ValidationFailure[0] : validationFailures;
         }
 
-        private Activity GetActivity(TRequest request)
+        private Activity? GetActivity(TRequest request)
         {
+            if (request.GetType().IsSubclassOf(typeof(CommandBase)))
+            {
+                ISharedCommandBase I_base_command = request as ISharedCommandBase;
+
+                if (I_base_command is not null && I_base_command.Flags.diable_tracing)
+                {
+                    return null;
+                }
+            }
+
             return _telemetry.AppSource.StartActivity(
                     String.Format(
                         "AuthorizationBehaviour: Request<{0}>",

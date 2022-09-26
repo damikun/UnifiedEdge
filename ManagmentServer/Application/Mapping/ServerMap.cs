@@ -3,6 +3,7 @@ using Domain.Server;
 using Aplication.DTO;
 using Aplication.Interfaces;
 using Aplication.Graphql.Interfaces;
+using Aplication.Core.Pagination;
 
 namespace Aplication.Mapping
 {

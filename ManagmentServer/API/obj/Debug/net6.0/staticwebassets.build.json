@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "x0o6FVXZWbZtOQWbb7VzVZP3ko6vUcEWG1XDofrcImQ=",
-  "Source": "ManagmentUIAPI",
-  "BasePath": "_content/ManagmentUIAPI",
+  "Hash": "bUm1vPqwZHJejLhtNIB7WgmMI8ngxypkYrDApg4MvgQ=",
+  "Source": "API",
+  "BasePath": "_content/API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

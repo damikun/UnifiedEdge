@@ -1,6 +1,7 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
+using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using Aplication.Interfaces;
@@ -13,13 +14,10 @@ namespace Aplication.CQRS.Queries
 {
 
     /// <summary>
-    /// Query Mqtt Servers (from db)
+    /// Query Servers (from db)
     /// </summary>
     public class GetServers
-        : CommandBase<(
-            IReadOnlyList<EdgeBase<IServer>> edges,
-            PageInfo pageInfo
-        )>
+        : CommandBase<DTO_Connection<IServer>>
     {
         public GetServers(CursorArguments arguments)
         {
@@ -61,7 +59,7 @@ namespace Aplication.CQRS.Queries
 
     /// <summary>Handler for <c>GetServers</c> command </summary>
     public class GetServersHandler
-        : IRequestHandler<GetServers, (IReadOnlyList<EdgeBase<IServer>> edges, PageInfo pageInfo)>
+        : IRequestHandler<GetServers, DTO_Connection<IServer>>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
@@ -104,24 +102,32 @@ namespace Aplication.CQRS.Queries
         /// <summary>
         /// Command handler for <c>GetServers</c>
         /// </summary>
-        public async Task<(IReadOnlyList<EdgeBase<IServer>> edges, PageInfo pageInfo)> Handle(
-            GetServers request, CancellationToken cancellationToken)
+        public async Task<DTO_Connection<IServer>> Handle(
+            GetServers request,
+            CancellationToken cancellationToken
+        )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var mqtt = await dbContext.Servers
+            var servers = await dbContext.Servers
                 .AsNoTracking()
                 .ToListAsync();
 
-            var mapped = _mapper.Map<List<IServer>>(mqtt);
+            var mapped = _mapper.Map<List<IServer>>(servers);
 
-            return await _cursor_provider.ApplyQueriablePagination(
+            var cursor_data = await _cursor_provider.ApplyQueriablePagination(
                 mapped.AsQueryable(),
                 request.Arguments,
                 (ct) => Task.FromResult(mapped.Count),
                 cancellationToken
             );
+
+            return new DTO_Connection<IServer>()
+            {
+                edges = cursor_data.edges,
+                pageInfo = cursor_data.pageInfo
+            };
         }
     }
 }

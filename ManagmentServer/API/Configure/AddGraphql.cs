@@ -88,6 +88,11 @@ namespace API
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<AdapterType>()
+                .AddType<AdapterStateEnumType>()
+                .AddType<AdapterInterfaceEnumType>()
+
+                .AddType<AdapterLogType>()
                 .AddType<RemoveServerPayloadType>()
                 .AddType<UserType>()
                 .AddType<CpuMetricsType>()

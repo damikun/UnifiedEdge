@@ -1,5 +1,6 @@
 using MediatR;
 using AutoMapper;
+using Aplication.DTO;
 using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
@@ -39,25 +40,62 @@ namespace Aplication.Graphql.Queries
                 cancellationToken
             );
 
-            IEnumerable<GQL_IServer> mqtt_edges = result.edges
-            .Where(e => e != null)
-            .Select(e =>
-                _mapper.Map<GQL_IServer>(e.Node)
+            return _mapper.Map<Connection<GQL_IServer>>(result);
+        }
+
+
+        public async Task<GQL_Adapter> GetAdapterById(
+            [ID] string id,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetAdapterById()
+                {
+                    ID = id
+                },
+                cancellationToken
             );
 
-            var pagination_result = await _cursor_provider
-                .ApplyQueriablePagination(
-                    mqtt_edges.AsQueryable(),
-                    arguments,
-                    (ct) => Task.FromResult(mqtt_edges.Count()),
-                    cancellationToken
+            return _mapper.Map<GQL_Adapter>(result);
+        }
+
+        [UseConnection(typeof(GQL_Adapter))]
+        public async Task<Connection<GQL_Adapter>> GetAdapters(
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            [Service] ICursorPagination<GQL_Adapter> _cursor_provider,
+            CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetAdapters(arguments),
+                cancellationToken
             );
 
-            return new Connection<GQL_IServer>(
-                _mapper.Map<List<Edge<GQL_IServer>>>(pagination_result.edges),
-                _mapper.Map<ConnectionPageInfo>(pagination_result.pageInfo),
-                pagination_result.pageInfo.TotalCount ?? 0
+            return _mapper.Map<Connection<GQL_Adapter>>(result);
+        }
+
+
+        [UseConnection(typeof(GQL_AdapterLog))]
+        public async Task<Connection<GQL_AdapterLog>> GetAdapterLogs(
+            IResolverContext ctx,
+            [ID] string adapter_id,
+            [Service] IMediator mediator,
+            [Service] ICursorPagination<GQL_AdapterLog> _cursor_provider,
+            CancellationToken cancellationToken
+        )
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetAdapterLogs(arguments, adapter_id),
+                cancellationToken
             );
+
+            return _mapper.Map<Connection<GQL_AdapterLog>>(result);
         }
     }
 }

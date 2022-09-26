@@ -28,6 +28,8 @@ namespace Aplication.Core
     public class CommandFlags
     {
         public bool long_running = false;
+
+        public bool diable_tracing = false;
     }
 
     public abstract class CommandBase<TResponse> : CommandCore, ICommandBase<TResponse> { }

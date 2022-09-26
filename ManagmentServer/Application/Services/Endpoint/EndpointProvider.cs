@@ -27,27 +27,61 @@ namespace Aplication.Services.ServerFascade
         {
             get
             {
-                return NetworkInterface.GetAllNetworkInterfaces()
-                .Where(e => e.OperationalStatus == OperationalStatus.Up &&
-                    (
-                        e.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
-                        e.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
-                        e.NetworkInterfaceType == NetworkInterfaceType.Loopback ||
-                        e.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
+                try
+                {
+                    return NetworkInterface.GetAllNetworkInterfaces()
+                    .Where(e => !e.IsReceiveOnly &&
+                        e.Name.StartsWith("vEthernet") == false &&
+                        e.Name.StartsWith("Bluetooth") == false &&
+                        (
+                            e.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                            e.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                            e.NetworkInterfaceType == NetworkInterfaceType.Loopback ||
+                            e.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
+                        )
                     )
-                )
-                .ToArray();
+                    .ToArray();
+                }
+                catch
+                {
+                    return new NetworkInterface[0];
+                }
             }
+        }
+
+        public NetworkInterface GetLoopbackInterface()
+        {
+            var index = NetworkInterface.LoopbackInterfaceIndex;
+
+            return NetworkInterface.GetAllNetworkInterfaces()[index];
         }
 
         public NetworkInterface GetDefaultAdapter()
         {
-            return NetworkAdapters
-                .First(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+            // First try get from UP adapters
+            var adapter = NetworkAdapters
+                .FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
                     && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
                     && x.OperationalStatus == OperationalStatus.Up
-                    && x.Name.StartsWith("vEthernet") == false
                 );
+
+            // If no UP adapters are available take first from all Down awailable
+            if (adapter == null)
+            {
+                adapter = NetworkAdapters
+                 .First(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                    && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
+                );
+            }
+
+            // If no match try get loopback
+            if (adapter == null)
+            {
+                adapter = NetworkAdapters
+                 .First(x => x.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
+            }
+
+            return adapter;
         }
 
         private int getRandomWithExclusion(
@@ -79,6 +113,20 @@ namespace Aplication.Services.ServerFascade
             .Distinct()
             .ToList();
         }
+
+
+        public bool Any(string? adapter_id = null)
+        {
+            if (string.IsNullOrWhiteSpace(adapter_id))
+            {
+                return NetworkAdapters.Any();
+            }
+            else
+            {
+                return NetworkAdapters.Any(e => e.Id == adapter_id);
+            }
+        }
+
 
         private async Task<List<int>> GetDbUsedPorts(
             IPAddress ip,
@@ -200,7 +248,10 @@ namespace Aplication.Services.ServerFascade
             string str_ip = requested.Address.ToString();
 
             return await dbContext.Endpoints
-                .Where(e => e.IpAddress == str_ip && e.Port == requested.Port)
+                .Where(e =>
+                    e.IpAddress == str_ip &&
+                    e.Port == requested.Port
+                )
                 .AnyAsync(ct);
         }
     }

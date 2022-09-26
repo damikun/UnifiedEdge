@@ -55,7 +55,7 @@ namespace Aplication.Graphql.Mutations
                 Type = (ServerType)request.Type
             });
 
-            return _mapper.Map<GQL_MqttServer>(dto);
+            return _mapper.Map<GQL_IServer>(dto);
         }
 
         /// <summary>
@@ -114,5 +114,69 @@ namespace Aplication.Graphql.Mutations
             };
         }
 
+
+        /// <summary>
+        /// Set server Name
+        /// </summary>
+        public async Task<GQL_IServer> SetServerName(
+            [ID] string id,
+            string name,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context)
+        {
+            var removed_server_dto = await mediator.Send(
+                new SetServerName()
+                {
+                    UID = id,
+                    Name = name
+                }
+            );
+
+            return mapper.Map<GQL_IServer>(removed_server_dto.server);
+        }
+
+
+        /// <summary>
+        /// Set server Description
+        /// </summary>
+        public async Task<GQL_IServer> SetServerDescription(
+            [ID] string id,
+            string name,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context)
+        {
+            var removed_server_dto = await mediator.Send(
+                new SetServerDescription()
+                {
+                    UID = id,
+                    Description = name
+                }
+            );
+
+            return mapper.Map<GQL_IServer>(removed_server_dto.server);
+        }
+
+        /// <summary>
+        /// Set server enabled/disabled
+        /// </summary>
+        public async Task<GQL_IServer> EnableDisableServer(
+            [ID] string id,
+            bool enable,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context)
+        {
+            var server = await mediator.Send(
+                new EnableDisableServer()
+                {
+                    UID = id,
+                    Enable = enable
+                }
+            );
+
+            return mapper.Map<GQL_IServer>(server);
+        }
     }
 }

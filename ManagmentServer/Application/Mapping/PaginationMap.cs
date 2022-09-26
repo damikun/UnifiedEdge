@@ -8,6 +8,33 @@ using HotChocolate.Types.Pagination;
 namespace Aplication.Mapping
 {
 
+    public class DomainToHcConnection<TSource, TDestination>
+         : ITypeConverter<DTO_Connection<TSource>, Connection<TDestination>>
+             where TDestination : class where TSource : class
+    {
+        public Connection<TDestination> Convert(
+            DTO_Connection<TSource> source,
+            Connection<TDestination> destination,
+            ResolutionContext context)
+        {
+            var _mapper = context.Mapper;
+
+            IEnumerable<EdgeBase<TDestination>> edges = source.edges
+                .Where(e => e != null)
+                .Select(e =>
+                    new EdgeBase<TDestination>(
+                        _mapper.Map<TDestination>(e.Node), e.Cursor
+                    )
+                );
+
+            return new Connection<TDestination>(
+                _mapper.Map<List<Edge<TDestination>>>(edges),
+                _mapper.Map<ConnectionPageInfo>(source.pageInfo),
+                source.pageInfo.TotalCount ?? 0
+            );
+        }
+    }
+
     public class DomainEdgeToGraphqlEdge<TSource, TDestination>
         : ITypeConverter<EdgeBase<TSource>, Edge<TDestination>>
             where TDestination : class where TSource : class
@@ -17,7 +44,6 @@ namespace Aplication.Mapping
             Edge<TDestination> destination,
             ResolutionContext context)
         {
-
             if (source.Node == null)
             {
                 return new Edge<TDestination>(null!, source.Cursor);
@@ -47,11 +73,8 @@ namespace Aplication.Mapping
             Edge<TDestination> destination,
             ResolutionContext context)
         {
-
             if (source.Node == null)
-            {
                 return new Edge<TDestination>(null!, source.Cursor);
-            }
 
             var mapped_node = source.Node;
 
@@ -68,9 +91,8 @@ namespace Aplication.Mapping
             ResolutionContext context)
         {
             if (source == null)
-            {
                 return null!;
-            }
+
 
             return new ConnectionPageInfo(
                 source.HasNextPage,
@@ -81,7 +103,7 @@ namespace Aplication.Mapping
         }
     }
 
-    public class MqttServerStateToGqlState
+    public class ServerStateToGqlState
         : ITypeConverter<ServerState, GQL_ServerState>
     {
         public GQL_ServerState Convert(
@@ -97,6 +119,7 @@ namespace Aplication.Mapping
                 case ServerState.stopping: return GQL_ServerState.stopping;
                 case ServerState.stopped: return GQL_ServerState.stopped;
                 case ServerState.disabled: return GQL_ServerState.disabled;
+                case ServerState.undefined: return GQL_ServerState.undefined;
 
                 default: return GQL_ServerState.undefined;
             }
@@ -111,14 +134,14 @@ namespace Aplication.Mapping
             CreateMap(typeof(EdgeBase<>), typeof(Edge<>))
                 .ConvertUsing(typeof(DomainEdgeToGraphqlEdge<,>));
 
-            // CreateMap(typeof(Edge<>), typeof(Edge<>))
-            //     .ConvertUsing(typeof(EdgeToEdge<,>));
+            CreateMap(typeof(DTO_Connection<>), typeof(Connection<>))
+                .ConvertUsing(typeof(DomainToHcConnection<,>));
 
             CreateMap<PageInfo, ConnectionPageInfo>()
                 .ConvertUsing(typeof(DomainPageInfoToGraphqlPageInfo));
 
             CreateMap<ServerState, GQL_ServerState>()
-                .ConvertUsing(typeof(MqttServerStateToGqlState));
+                .ConvertUsing(typeof(ServerStateToGqlState));
         }
     }
 }

@@ -1,4 +1,3 @@
-
 using MediatR;
 using Aplication.Core;
 using System.Diagnostics;
@@ -14,7 +13,7 @@ namespace Aplication.CQRS.Behaviours
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
     public class TracingBehaviour<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>  where TRequest : IRequest<TResponse>
+    : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ICurrentUser _currentUserService;
         private readonly ILogger _logger;
@@ -35,13 +34,16 @@ namespace Aplication.CQRS.Behaviours
             CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
         {
-
             var activity = GetActivity(request);
 
             if (typeof(TRequest).IsSubclassOf(typeof(CommandBase)))
             {
-
                 ISharedCommandBase I_base_command = request as ISharedCommandBase;
+
+                if (I_base_command is not null && I_base_command.Flags.diable_tracing)
+                {
+                    return await next();
+                }
 
                 if (I_base_command.ActivityId is null
                     && Activity.Current?.Id is not null)
@@ -62,7 +64,6 @@ namespace Aplication.CQRS.Behaviours
                 activity?.Start();
 
                 return await next();
-
             }
             finally
             {
@@ -71,8 +72,18 @@ namespace Aplication.CQRS.Behaviours
             }
         }
 
-        private Activity GetActivity(TRequest request)
+        private Activity? GetActivity(TRequest request)
         {
+            if (request.GetType().IsSubclassOf(typeof(CommandBase)))
+            {
+                ISharedCommandBase I_base_command = request as ISharedCommandBase;
+
+                if (I_base_command is not null && I_base_command.Flags.diable_tracing)
+                {
+                    return null;
+                }
+            }
+
             return _telemetry.AppSource.StartActivity(
                 String.Format(
                     "TracingBehaviour: Request<{0}>",

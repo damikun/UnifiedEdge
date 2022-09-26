@@ -21,5 +21,6 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\kunda\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.6</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgHangfire_SqlServer Condition=" '$(PkgHangfire_SqlServer)' == '' ">C:\Users\kunda\.nuget\packages\hangfire.sqlserver\1.8.0-rc1</PkgHangfire_SqlServer>
   </PropertyGroup>
 </Project>

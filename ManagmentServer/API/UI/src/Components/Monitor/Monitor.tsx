@@ -1,17 +1,22 @@
 import React from "react";
 import EdgeInfo from "./EdgeInfo";
-import ServerList from "./ServerList";
 import EdgeMetrics from "./EdgeMetrics";
-import ServerListBar from "./ServerListBar";
 import { useLazyLoadQuery } from "react-relay";
+import ServerList from "./ServerList/ServerList";
 import { graphql } from "babel-plugin-relay/macro";
+import AdapterList from "./AdapterList/AdapterList";
+import ServerListBar from "./ServerList/ServerListBar";
 import Section from "../../UIComponents/Section/Section";
-import { ServerListCtxProvider } from "./ServerListCtxProvider";
+import AdapterListBar from "./AdapterList/AdapterListBar";
 import { MonitorQuery } from "./__generated__/MonitorQuery.graphql";
+import { ServerListCtxProvider } from "./ServerList/ServerListCtxProvider";
+import { AdapterListCtxProvider } from "./AdapterList/AdapterListCtxProvider";
+
 
 const MonitorQueryTag = graphql`
   query MonitorQuery {
     ...EdgeInfoDataFragment
+    ...AdapterListDataFragment
     ...ServerListDataFragment
     ...ResourcesDataFragment
     ...EdgeMetricsFragment
@@ -39,11 +44,19 @@ function Monitor() {
 
     <ServerListCtxProvider>
       <Section 
+        name="Adapters"
+        bar={<AdapterListBar/>}
+        component={<AdapterList dataRef={data} />}
+      />
+    </ServerListCtxProvider>
+
+    <AdapterListCtxProvider>
+      <Section 
         name="Servers"
         bar={<ServerListBar/>}
         component={<ServerList dataRef={data} />}
       />
-    </ServerListCtxProvider>
+    </AdapterListCtxProvider>
 
     <Section 
       name="Instance"

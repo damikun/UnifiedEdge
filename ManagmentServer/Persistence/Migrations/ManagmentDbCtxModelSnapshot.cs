@@ -50,9 +50,28 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "b7ccc1c1-f944-4b13-9182-ac6bfd58d8b4",
+                            Guid = "6fb5394f-3892-48b8-b5b4-31c5a979a995",
                             Name = "Undefined"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Server.AdapterEvent", b =>
+                {
+                    b.Property<long>("ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AdapterId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("State")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID", "AdapterId");
+
+                    b.ToTable("AdapterEvents");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>
