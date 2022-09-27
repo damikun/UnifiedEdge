@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hjzurgpcz4zLVsIlssoCl017TYHh1uscq95RhBA1QAtZgyE8CsvWR4EQyV8CAybWQlfm0rvTIEOeGKSLsjTXyg==",
+  "dgSpecHash": "lGO9YKifmUsxIiMQY9lJpW8bDQfTKePVJ8RPOEnchZs50Y9JyETkYm1B88xQOl2rL2+/u1cltJqg3etjPVU8+Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -108,6 +108,8 @@
     "C:\\Users\\kunda\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.io.pipelines\\4.7.0\\system.io.pipelines.4.7.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\system.reactive\\5.0.0\\system.reactive.5.0.0.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\system.reactive.linq\\5.0.0\\system.reactive.linq.5.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.reflection.emit.lightweight\\4.7.0\\system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.security.accesscontrol\\6.0.0\\system.security.accesscontrol.6.0.0.nupkg.sha512",

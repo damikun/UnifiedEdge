@@ -94,7 +94,7 @@ namespace Aplication.CQRS.Commands
                         {
                             if (value == false)
                             {
-                                _adapter_state.TryUpdate(adapter.Id, true, value);
+                                _adapter_state.TryUpdate(adapter.Id, true, !value);
 
                                 dbContext.AdapterEvents.Add(
                                     new AdapterEvent()
@@ -109,7 +109,7 @@ namespace Aplication.CQRS.Commands
                         {
                             if (value == true)
                             {
-                                _adapter_state.TryUpdate(adapter.Id, false, value);
+                                _adapter_state.TryUpdate(adapter.Id, false, !value);
 
                                 dbContext.AdapterEvents.Add(
                                     new AdapterEvent()

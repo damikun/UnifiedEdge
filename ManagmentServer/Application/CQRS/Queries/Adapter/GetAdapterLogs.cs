@@ -45,6 +45,8 @@ namespace Aplication.CQRS.Queries
         private readonly IEndpointProvider _provider;
         public GetAdapterLogsValidator(IEndpointProvider provider)
         {
+            _provider = provider;
+
             RuleFor(e => e.AdapterId)
             .NotNull()
             .NotEmpty()

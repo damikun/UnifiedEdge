@@ -110,6 +110,14 @@
             "System.Diagnostics.PerformanceCounter": {
               "target": "Package",
               "version": "[6.0.1, )"
+            },
+            "System.Reactive": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Reactive.Linq": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
