@@ -16,7 +16,7 @@ namespace Aplication.Services.Scheduler
 
             services.AddHangfire((provider, configuration) =>
             {
-                configuration.UseSQLiteStorage("Data Source=managment.db");
+                configuration.UseSQLiteStorage("Scheduler.db");
 
                 configuration.UseFilter(new AutomaticRetryAttribute
                 {
