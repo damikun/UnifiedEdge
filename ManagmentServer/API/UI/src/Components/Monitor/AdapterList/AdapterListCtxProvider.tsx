@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState } from "react";
 
-// ---------------------------
 type AdapterListCtxProps = {
   children: React.ReactNode;
 };
+
 type AdapterListCtxType = {
   connection_id: string;
   setId(id:string): void;
