@@ -1,9 +1,9 @@
 using MediatR;
+using Aplication.Core;
 using System.Text.Json;
 using System.Reflection;
 using System.Diagnostics;
 using System.ComponentModel;
-using Aplication.Core;
 
 namespace Aplication.Services.Scheduler
 {

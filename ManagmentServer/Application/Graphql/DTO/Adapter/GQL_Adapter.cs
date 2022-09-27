@@ -30,5 +30,7 @@ namespace Aplication.DTO
 
         public bool SupportsIpv6 { get; set; }
 
+        public virtual ICollection<GQL_AdapterLog> Logs { get; set; }
+
     }
 }

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 //@ts-ignore
-import { createRef, SuspenseList } from "react";
+import React, { createRef, SuspenseList } from "react";
 import IsLoading from "./IsLoading";
 import LoadingBar from "../LoadingBar/LoadingBar";
 import useDivInfinityScroll from "../../Hooks/useDivInfinityScroll";
@@ -13,6 +13,7 @@ export type ScrollEndProps = {
   isLoading?: boolean;
   isLoadingMore?: boolean;
   divide?: boolean;
+  header?:React.ReactNode;
   isEmpty?: boolean;
 };
 
@@ -24,6 +25,7 @@ export default function StayledInfinityScrollContainer({
   isLoadingMore = undefined,
   isLoading = undefined,
   isEmpty,
+  header,
   divide = false,
 }: ScrollEndProps) {
   const reference = createRef<HTMLDivElement>();
@@ -44,6 +46,7 @@ export default function StayledInfinityScrollContainer({
         "bg-gray-100"
       )}
     >
+      {header}
       {isLoading && <LoadingBar isloading={isLoading} />}
 
       <div
@@ -66,21 +69,16 @@ export default function StayledInfinityScrollContainer({
             No records
           </div>
         ) : (
-          <div className="absolute w-full align-middle">
-            <div className={clsx(
-                "flex flex-col min-h-9rem max-w-full"
-              )}
-            >
+          <div className="absolute w-full align-middle h-96">
+ <>
               <SuspenseList revealOrder="together">
-                <div className={clsx(divide && "divide-y")}>
-                  <div className={clsx(divide && "divide-y")}>{children}</div>
-                </div>
+                <div className={clsx(divide && "divide-y")}>{children}</div>
               </SuspenseList>
 
               {isLoadingMore !== undefined && (
                 <IsLoading isloading={isLoadingMore} />
               )}
-            </div>
+          </>
           </div>
         )}
       </div>

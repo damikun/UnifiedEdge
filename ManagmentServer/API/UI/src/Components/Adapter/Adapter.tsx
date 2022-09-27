@@ -2,10 +2,11 @@ import React from "react";
 import AdapterAddress from "./AdapterAddress";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
-import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import Section from "../../UIComponents/Section/Section";
 import { AdapterQuery } from "./__generated__/AdapterQuery.graphql";
+import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+import AdapterLogs from "./AdapterLogs";
 
 export const SettingsTabs = [
   {
@@ -19,11 +20,14 @@ export const SettingsTabs = [
 ] as RouterTabItemType[];
 
 const AdapterQueryTag = graphql`
-  @argumentDefinitions(skipLogs: { type: Boolean, defaultValue: false })
+  # @argumentDefinitions(skipLogs: { type: Boolean, defaultValue: false })
   query AdapterQuery($id:ID!){
     adapterById(id:$id){
       name
-      ...AdapterAddressDataFragment @skip(if:$skipLogs)
+      ...AdapterAddressDataFragment
+      ...AdapterLogsPaginationFragment_logs
+      # ...AdapterLogsDataFragment
+      # @skip(if:$skipLogs)
     }
   }
 `;
@@ -37,10 +41,6 @@ function Adapter() {
   const resolved_path = useResolvedPath("/Logs/");
 
   const match = useMatch("/Logs/");
-
-  console.log("-------------")
-  console.log(match)
-  console.log(resolved_path)
 
   const data = useLazyLoadQuery<AdapterQuery>(
     AdapterQueryTag,
@@ -60,7 +60,7 @@ function Adapter() {
     <TabSection/>
 
     <Routes>
-      <Route path="/Logs/" element={<AdapterAddress dataRef={data.adapterById}/>} />
+      <Route path="/Logs/" element={<AdapterLogs dataRef={data.adapterById}/>} />
       <Route path="/*" element={<AdapterAddress dataRef={data.adapterById}/>} />
     </Routes>
 

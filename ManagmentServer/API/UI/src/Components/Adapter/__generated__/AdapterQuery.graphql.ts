@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2e441c4230967da96f7dab1974175f3f>>
+ * @generated SignedSource<<26f0156d470f88a268ef71a7af92d65f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type AdapterQuery$variables = {
 export type AdapterQuery$data = {
   readonly adapterById: {
     readonly name: string;
-    readonly " $fragmentSpreads": FragmentRefs<"AdapterAddressDataFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"AdapterAddressDataFragment" | "AdapterLogsPaginationFragment_logs">;
   };
 };
 export type AdapterQuery = {
@@ -45,6 +45,39 @@ v2 = {
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "state",
+  "storageKey": null
+},
+v5 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 20
+  }
+],
+v6 = {
+  "kind": "ClientExtension",
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__id",
+      "storageKey": null
+    }
+  ]
 };
 return {
   "fragment": {
@@ -66,6 +99,11 @@ return {
             "args": null,
             "kind": "FragmentSpread",
             "name": "AdapterAddressDataFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "AdapterLogsPaginationFragment_logs"
           }
         ],
         "storageKey": null
@@ -89,13 +127,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -103,13 +135,7 @@ return {
             "name": "interfaceType",
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "state",
-            "storageKey": null
-          },
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -208,23 +234,115 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          {
+            "alias": null,
+            "args": (v5/*: any*/),
+            "concreteType": "GQL_AdapterLogConnection",
+            "kind": "LinkedField",
+            "name": "logs",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "GQL_AdapterLogEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "GQL_AdapterLog",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v3/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "timeStamp",
+                        "storageKey": null
+                      },
+                      (v4/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "__typename",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "cursor",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              (v6/*: any*/)
+            ],
+            "storageKey": "logs(first:20)"
+          },
+          {
+            "alias": null,
+            "args": (v5/*: any*/),
+            "filters": null,
+            "handle": "connection",
+            "key": "AdapterLogsPaginationFragmentConnection_logs",
+            "kind": "LinkedHandle",
+            "name": "logs"
+          },
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "8918023d9fb5f1815ed964eb6f4515fe",
+    "cacheID": "96c368ea7cec4a5208e2a7ba93a2492e",
     "id": null,
     "metadata": {},
     "name": "AdapterQuery",
     "operationKind": "query",
-    "text": "query AdapterQuery(\n  $id: ID!\n) {\n  adapterById(id: $id) {\n    name\n    ...AdapterAddressDataFragment\n    id\n  }\n}\n\nfragment AdapterAddressDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n  supportsIpv4\n  supportsIpv6\n  physicalAddress\n  description\n  statistic {\n    bytesReceived\n    bytesSent\n  }\n  addresses {\n    dhcpServerAddresses\n    dnsAddresses\n    gatewayAddresses\n    multicastAddresses\n    unicastAddresses\n  }\n}\n"
+    "text": "query AdapterQuery(\n  $id: ID!\n) {\n  adapterById(id: $id) {\n    name\n    ...AdapterAddressDataFragment\n    ...AdapterLogsPaginationFragment_logs\n    id\n  }\n}\n\nfragment AdapterAddressDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n  supportsIpv4\n  supportsIpv6\n  physicalAddress\n  description\n  statistic {\n    bytesReceived\n    bytesSent\n  }\n  addresses {\n    dhcpServerAddresses\n    dnsAddresses\n    gatewayAddresses\n    multicastAddresses\n    unicastAddresses\n  }\n}\n\nfragment AdapterLogsItemDataFragment on GQL_AdapterLog {\n  id\n  timeStamp\n  state\n}\n\nfragment AdapterLogsPaginationFragment_logs on GQL_Adapter {\n  logs(first: 20) {\n    edges {\n      node {\n        id\n        ...AdapterLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6db816d46e41593507205541f079a993";
+(node as any).hash = "8e5b4602e8452d1add03252f35c427b5";
 
 export default node;

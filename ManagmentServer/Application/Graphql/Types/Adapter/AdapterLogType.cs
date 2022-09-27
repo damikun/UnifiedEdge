@@ -10,8 +10,9 @@ namespace Aplication.Graphql.Types
             IObjectTypeDescriptor<GQL_AdapterLog> descriptor
         )
         {
-            descriptor.Field(e => e.Id).ID();
-
+            descriptor
+            .Field(e => e.Id)
+            .ID();
         }
     }
 }

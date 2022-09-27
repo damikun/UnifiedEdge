@@ -1,118 +1,89 @@
-export {}
-// import clsx from "clsx";
-// import React, { useMemo } from "react";
-// import { useFragment } from "react-relay";
-// import { graphql } from "babel-plugin-relay/macro";
-// import Section from "../../UIComponents/Section/Section";
-// import { AdapterAddressDataFragment$key } from "./__generated__/AdapterAddressDataFragment.graphql";
+import clsx from "clsx";
+import React, { useCallback } from "react";
+import { usePaginationFragment } from "react-relay";
+import AdapterLogsItem from "./AdapterLogsItem";
+import { graphql } from "babel-plugin-relay/macro";
+import Section from "../../UIComponents/Section/Section";
+import StayledInfinityScrollContainer from "../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
+import { AdapterLogsPaginationFragment_logs$key } from "./__generated__/AdapterLogsPaginationFragment_logs.graphql";
+import { AdapterLogsPaginationFragmentRefetchQuery } from "./__generated__/AdapterLogsPaginationFragmentRefetchQuery.graphql";
 
-// export const AdapterAddressDataFragment = graphql`
-//   fragment AdapterAddressDataFragment on GQL_Adapter 
-//   {
-//     id
-//     interfaceType
-//     name
-//     state
-//     supportsIpv4
-//     supportsIpv6
-//     physicalAddress
-//     description
-//     statistic {
-//       bytesReceived
-//       bytesSent
-//     }
-//     addresses {
-//       dhcpServerAddresses
-//       dnsAddresses
-//       gatewayAddresses
-//       multicastAddresses
-//       unicastAddresses
-//     }
-//   }
-// `;
 
-// export default React.memo(AdapterAddress)
+const AdapterLogsPaginationFragment = graphql`
+  fragment AdapterLogsPaginationFragment_logs on GQL_Adapter
+  @argumentDefinitions(
+    first: { type: Int, defaultValue: 20 }
+    after: { type: String }
+  )
+  @refetchable(queryName: "AdapterLogsPaginationFragmentRefetchQuery") {
+    __id
+    logs(first: $first, after: $after)
+      @connection(key: "AdapterLogsPaginationFragmentConnection_logs") {
+      __id
+      edges {
+        node {
+          id
+          ...AdapterLogsItemDataFragment
+        }
+      }
+    }
+  }
+`;
 
-// type AdapterAddressProps = {
-//   dataRef:AdapterAddressDataFragment$key | null;
-// }
+export default React.memo(AdapterLogs)
 
-// function AdapterAddress({dataRef}:AdapterAddressProps) {
+type AdapterLogsProps = {
+  dataRef:AdapterLogsPaginationFragment_logs$key | null;
+}
 
-//   const data = useFragment(AdapterAddressDataFragment, dataRef);
+function AdapterLogs({dataRef}:AdapterLogsProps) {
+  const pagination = usePaginationFragment<
+  AdapterLogsPaginationFragmentRefetchQuery,
+  AdapterLogsPaginationFragment_logs$key
+  >(AdapterLogsPaginationFragment, dataRef);
 
-//   var supported_ip_prot = useMemo(() => {
-
-//     var protocols:string[] = [];
-
-//     if(data?.supportsIpv4){
-//       protocols.push("IPv4");
-//     }
-
-//     if(data?.supportsIpv6){
-//       protocols.push("IPv6");
-//     }
-
-//     var str:string = ""
-
-//     protocols.forEach((e,index)=>{
-//       if(index === 0){
-//         str = `${e}`
-//       }else{
-//         str = `${str}, ${e}`
-//       }
-//     });
-
-//     return str;
-
-//   }, [data])
+  const handleLoadMore = useCallback(
+    () => {
+      pagination.loadNext(10);
+    },
+    [pagination],
+  )
   
-//   return <Section 
-//     name={"Addresses"}
-//     component={
-//       <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
-//       "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
-//         <Value name="Interface type" value={data?.interfaceType}/>
-//         <Value name="Supported IP protocol" value={supported_ip_prot}/>
-//         <Value name="Physical address" value={data?.physicalAddress}/>
-//         <ValueArr name="DHCP address" value={data?.addresses.dhcpServerAddresses}/>
-//         <ValueArr name="DNS addresses" value={data?.addresses.dnsAddresses}/>
-//         <ValueArr name="Gateway addresses" value={data?.addresses.gatewayAddresses}/>
-//         <ValueArr name="Multicast addresses" value={data?.addresses.multicastAddresses}/>
-//         <ValueArr name="Unicast addresses" value={data?.addresses.unicastAddresses}/>
-//       </div>
-//     }
-//     />
-// }
+  return <Section 
+    name={"Logs"}
+    component={
+      <div className={clsx("flex bg-gray-100 flex-col w-full",
+      "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
+        <StayledInfinityScrollContainer
+          header={<Header/>}
+          onEnd={handleLoadMore}
+        >
+          {
+            pagination?.data?.logs?.edges?.map((edge,index)=>{
+                return <AdapterLogsItem 
+                key={edge.node?.id??index}
+                dataRef={edge.node}
+              />
+            })
+          }
+        </StayledInfinityScrollContainer>
+      </div>
+    }
+    />
+}
 
-// // --------------------------------
-
-// type ValueProps = {
-//   name:string
-//   value:string | undefined
-// }
-
-// function Value({name,value}:ValueProps){
-//   return <div className="flex flex-row space-x-5">
-//     <div className="font-semibold w-40">{`${name}:`}</div>
-//     <div className="font-mono truncate text-gray-600">{value}</div>
-//   </div>
-// }
-
-// type ValueArrProps = {
-//   name: string
-//   value: ReadonlyArray<string|undefined> | undefined
-// }
-
-// function ValueArr({name,value}:ValueArrProps){
-//   return <div className="flex flex-row space-x-5">
-//     <div className="font-semibold w-40">{`${name}:`}</div>
-//     <div className="flex flex-col space-y-1 font-mono">
-//       {
-//         value?.map(e=>{
-//           return <div className="truncate text-gray-600">{e}</div>
-//         })
-//       }
-//     </div>
-//   </div>
-// }
+function Header(){
+  return <div className={clsx("flex text-gray-600 w-full",
+  "space-x-2 justify-between border-b border-gray-200",
+  "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none font-semibold")}>
+  <div className="flex w-6/12 2xl:w-8/12">
+    <div>Name</div>
+  </div>
+  <div className="w-1/12 2xl:w-2/12 text-center justify-center hidden md:flex">
+    <div>State</div>
+  </div>
+  <div className="flex w-5/12 2xl:w-2/12 text-center justify-center">
+    <div>Timestamp</div>
+  </div>
+</div>
+}

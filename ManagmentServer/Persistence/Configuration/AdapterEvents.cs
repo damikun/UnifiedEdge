@@ -8,7 +8,9 @@ namespace Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<AdapterEvent> builder)
         {
-            builder.HasKey(e => new { e.ID, e.AdapterId });
+            builder.HasKey(e => e.ID);
+
+            builder.HasIndex(e => e.AdapterId);
         }
     }
 }

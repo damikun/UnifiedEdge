@@ -13,14 +13,15 @@ namespace Persistence.Migrations
                 name: "AdapterEvents",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "INTEGER", nullable: false),
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     AdapterId = table.Column<string>(type: "TEXT", nullable: false),
                     State = table.Column<int>(type: "INTEGER", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdapterEvents", x => new { x.ID, x.AdapterId });
+                    table.PrimaryKey("PK_AdapterEvents", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,7 +175,12 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "6fb5394f-3892-48b8-b5b4-31c5a979a995", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "b5d20b03-8cf7-46cf-a6d6-7126595e5da5", null, null, null, "Undefined" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdapterEvents_AdapterId",
+                table: "AdapterEvents",
+                column: "AdapterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endpoints_IpAddress",

@@ -48,6 +48,11 @@ export function GetServerDateTimeStr(gql_date:any){
     return `${utc_month}/${utc_day} ${utc_year} ${utc_hour}:${utc_minute}`
 } 
 
+export function GetLocalDate(gql_date:any){
+    var date = new Date(gql_date);
+    return date.toLocaleString()
+} 
+
 function FNum(num:number){
     return num>0 && num <10 ? `0${num}`: num;
 }

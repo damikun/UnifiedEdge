@@ -2,11 +2,9 @@ import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
 import { graphql } from "babel-plugin-relay/macro";
-import { useCallback, useMemo, useTransition } from "react";
-import { faEthernet } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Badge, { Badge_VARIANTS } from "../../../UIComponents/Badged/Badge";
-import { AdapterListItemDataFragment$key, AdapterState as GQLAdapterState } from "./__generated__/AdapterListItemDataFragment.graphql";
+import { useCallback, useTransition } from "react";
+import { AdapterStateBadget } from "../../Adapter/AdapterState";
+import { AdapterListItemDataFragment$key  } from "./__generated__/AdapterListItemDataFragment.graphql";
 
 const AdapterListItemDataFragment = graphql`
   fragment AdapterListItemDataFragment on GQL_Adapter {
@@ -62,7 +60,7 @@ export function AdapterListItem({dataRef, key_}:AdapterListItemProps){
     </tr>
     <tr className="w-3/12 2xl:w-2/12 flex justify-center text-center">
       <td>
-        <AdapterState state={data?.state}/>
+        <AdapterStateBadget state={data?.state}/>
       </td>
     </tr>
   </tbody>
@@ -71,59 +69,4 @@ export function AdapterListItem({dataRef, key_}:AdapterListItemProps){
 function PreventDefaults(e:any) {
   e.preventDefault();
   e.stopPropagation();
-}
-
-// -------------------------------
-
-type AdapterStateProps = {
-  state: GQLAdapterState | undefined
-}
-
-type StateInfo = {
-  variant: keyof typeof Badge_VARIANTS,
-  name:string
-}
-
-function AdapterState({state}:AdapterStateProps){
-
-  var variant =useMemo(() => {
-
-    // Default
-    var variant: StateInfo = {
-      variant: "ternarygray",
-      name: "N/A"
-    }
-
-    switch (state) {
-      case "DOWN": 
-        variant = {
-          variant: "ternaryred",
-          name: "Down"
-        }
-        break;
-  
-      case "UP": 
-        variant = {
-          variant: "ternarygreen",
-          name: "Up"
-        }
-        break;
-    }
-
-    return variant;
-  }, [state])
-
-  return <Badge
-    turncate
-    border={false}
-    className="text-xxs"
-    size="thin"
-    variant={variant.variant}
-  >
-    <div className="flex flex-row space-x-2 items-center">
-      <FontAwesomeIcon icon={faEthernet} />
-      <div>{variant.name}</div>
-    </div>
-
-  </Badge>
 }

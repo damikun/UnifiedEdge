@@ -64,7 +64,7 @@ namespace Aplication.Graphql.Types
         private class MqttServerTypeResolvers
         {
             public async Task<GQL_MqttServer> GetMqttServerNode(
-               string Id, // gql Id == Guid on DB side
+               string id, // gql Id == Guid on DB side
                IResolverContext ctx,
                CancellationToken cancellationToken)
             {
@@ -73,7 +73,7 @@ namespace Aplication.Graphql.Types
 
                 var command = new GetMqttServerByGuid()
                 {
-                    Guid = Id
+                    Guid = id
                 };
 
                 var response = await _mediator.Send(command);
