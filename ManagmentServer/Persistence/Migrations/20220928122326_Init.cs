@@ -56,10 +56,32 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServerEvents",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ServerUid = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    JsonData = table.Column<string>(type: "TEXT", nullable: true),
+                    ExceptionMessage = table.Column<string>(type: "TEXT", nullable: true),
+                    Exception = table.Column<string>(type: "TEXT", nullable: true),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServerEvents", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MqttServerCfg",
                 columns: table => new
                 {
-                    ServerUID = table.Column<string>(type: "TEXT", nullable: false)
+                    ServerUID = table.Column<string>(type: "TEXT", nullable: false),
+                    CommunicationTimeout = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    PresistentSession = table.Column<bool>(type: "INTEGER", nullable: false),
+                    MaxPendingMessagesPerClient = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,7 +197,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "b5d20b03-8cf7-46cf-a6d6-7126595e5da5", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "78a8d6fb-5055-4b86-984a-0d2543c5eec9", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -226,6 +248,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpcServerCfg");
+
+            migrationBuilder.DropTable(
+                name: "ServerEvents");
 
             migrationBuilder.DropTable(
                 name: "Servers");

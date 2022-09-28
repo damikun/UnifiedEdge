@@ -50,7 +50,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "b5d20b03-8cf7-46cf-a6d6-7126595e5da5",
+                            Guid = "78a8d6fb-5055-4b86-984a-0d2543c5eec9",
                             Name = "Undefined"
                         });
                 });
@@ -133,6 +133,40 @@ namespace Persistence.Migrations
                     b.ToTable("ServerCfg");
                 });
 
+            modelBuilder.Entity("Domain.Server.ServerEvent", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Exception")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExceptionMessage")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ServerUid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ServerEvents");
+                });
+
             modelBuilder.Entity("Domain.Server.ServerIPv4Endpoint", b =>
                 {
                     b.Property<int>("Id")
@@ -173,6 +207,15 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
                 {
                     b.HasBaseType("Domain.Server.ServerCfgBase");
+
+                    b.Property<TimeSpan>("CommunicationTimeout")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MaxPendingMessagesPerClient")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("PresistentSession")
+                        .HasColumnType("INTEGER");
 
                     b.ToTable("MqttServerCfg", (string)null);
                 });

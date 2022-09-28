@@ -28,9 +28,15 @@ namespace Aplication.Services.ServerFascade
         /// </summary>
         private readonly IServiceProvider _provider;
 
+        /// <summary>
+        /// Injected <c>IConfigMapper</c>
+        /// </summary>
+        private readonly IConfigMapper _cfgMapper;
+
         public ServerFascade(
             IMapper mapper,
             IServiceProvider provider,
+            IConfigMapper cfgMapper,
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
@@ -39,6 +45,8 @@ namespace Aplication.Services.ServerFascade
             _factory = factory;
 
             _provider = provider;
+
+            _cfgMapper = cfgMapper;
         }
 
         private List<ServerInfo> _supportedServers;
@@ -78,7 +86,7 @@ namespace Aplication.Services.ServerFascade
             var managers = GetManagers();
 
             var manager = managers
-            // .Where(e => e.ManagedServerInfo.DisplayName == display_name)
+            .Where(e => e.ManagedServerInfo.DisplayName == display_name)
             .First();
 
             if (manager == null)
@@ -148,15 +156,33 @@ namespace Aplication.Services.ServerFascade
             throw new Exception("Invalid server UID. Not present in any manager.");
         }
 
-        public Task<IServer> CreateServer(ServerCfgBase db_cfg)
+        public async Task<IServer> CreateServer(IServerCfg cfg)
         {
-            var server_cfg = _mapper.Map<Server.IServerCfg>(db_cfg);
+            var m = await GetManager(cfg.Server_UID);
+
+            return m.CreateServer(cfg);
+        }
+
+        public async Task<IServer> CreateServer(ServerCfgBase db_cfg)
+        {
+            var cfg = await _cfgMapper.Map(db_cfg);
 
             var m = GetManager(db_cfg.Type);
 
-            return Task.FromResult(
-                m.CreateServer(server_cfg)
-            );
+            return m.CreateServer(cfg);
+        }
+
+        public async Task<string?> AddServer(string server_uid)
+        {
+            var db_cfg = await _cfgMapper.GetDbConfig(server_uid);
+
+            var m = GetManager(db_cfg.Type);
+
+            var server_cfg = await _cfgMapper.Map(db_cfg);
+
+            var server = m.CreateServer(server_cfg);
+
+            return await m.AddServer(server);
         }
 
         public async Task<string?> AddServer(ServerCfgBase db_cfg)

@@ -15,6 +15,9 @@ namespace Persistence
 
         public DbSet<AdapterEvent> AdapterEvents { get; set; }
 
+        public DbSet<ServerEvent> ServerEvents { get; set; }
+
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(

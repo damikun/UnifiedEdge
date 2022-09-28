@@ -150,7 +150,12 @@ namespace Aplication.CQRS.Commands
                         Created = DateTime.Now,
                         Cfg = new MqttServerCfg()
                         {
-                            ServerUID = uid
+                            ServerUID = uid,
+                            IsEnabled = true,
+                            TimeStamp = DateTime.Now,
+                            PresistentSession = true,
+                            CommunicationTimeout = TimeSpan.FromSeconds(30),
+                            MaxPendingMessagesPerClient = 100
                         },
                     };
 

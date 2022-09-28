@@ -142,42 +142,4 @@ namespace Aplication.CQRS.Commands
             return Unit.Value;
         }
     }
-
-    //---------------------------------------
-    //---------------------------------------
-
-
-    public class CheckAdapters_PostProcessor
-        : IRequestPostProcessor<CheckAdaptersStatus, Unit>
-    {
-        /// <summary>
-        /// Injected <c>IPublisher</c>
-        /// </summary>
-        private readonly Aplication.Services.IPublisher _publisher;
-
-        public CheckAdapters_PostProcessor(
-            IMemoryCache cache,
-            Aplication.Services.IPublisher publisher
-        )
-        {
-            _publisher = publisher;
-        }
-
-        public async Task Process(
-            CheckAdaptersStatus request,
-            Unit unit,
-            CancellationToken cancellationToken
-        )
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                // Log?
-            }
-        }
-    }
-
 }

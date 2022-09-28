@@ -1,0 +1,201 @@
+using Server;
+using MediatR;
+using AutoMapper;
+using Persistence;
+using Domain.Server;
+using Aplication.Core;
+using MediatR.Pipeline;
+using Microsoft.EntityFrameworkCore;
+using Aplication.Services.ServerFascade;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Aplication.CQRS.Commands
+{
+
+    /// <summary>
+    /// InitServerManagers
+    /// </summary>
+    public class InitServerManagers : CommandBase<Unit>
+    {
+        public InitServerManagers()
+        {
+            this.Flags.diable_tracing = true;
+        }
+    }
+
+    //---------------------------------------
+    //---------------------------------------
+
+    /// <summary>Handler for <c>InitServerManagersHandler</c> command </summary>
+    public class InitServerManagersHandler : IRequestHandler<InitServerManagers, Unit>
+    {
+
+        /// <summary>
+        /// Injected <c>IMediator</c>
+        /// </summary>
+        private readonly IMediator _mediator;
+
+        /// <summary>
+        /// Injected <c>IMapper</c>
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        /// Injected <c>IDbContextFactory</c>
+        /// </summary>
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+
+        /// <summary>
+        /// Injected <c>IEndpointProvider</c>
+        /// </summary>
+        private readonly IEndpointProvider _endpoint_provider;
+
+        /// <summary>
+        /// Injected <c>IServerFascade</c>
+        /// </summary>
+        private readonly IServerFascade _fascade;
+
+        // Internal flag detectin job was triggered. This is one time job on app start!
+        private static bool processed { get; set; }
+
+        /// <summary>
+        /// Main constructor
+        /// </summary>
+        public InitServerManagersHandler(
+            IDbContextFactory<ManagmentDbCtx> factory,
+            IMapper mapper,
+            IMediator mediator,
+            IEndpointProvider endpoint_provider,
+            IServerFascade fascade
+        )
+        {
+            _factory = factory;
+
+            _mapper = mapper;
+
+            _mediator = mediator;
+
+            _endpoint_provider = endpoint_provider;
+
+            _fascade = fascade;
+        }
+
+        /// <summary>
+        /// Command handler for <c>InitServerManagers</c>
+        /// </summary>
+        public async Task<Unit> Handle(InitServerManagers request, CancellationToken cancellationToken)
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            if (processed)
+            {
+                return Unit.Value;
+            }
+
+            var servers = await dbContext.Servers
+            .TagWith("ServerManager init process -> Query all servers")
+            .AsNoTracking()
+            .Include(e => e.Cfg)
+            .ToListAsync();
+
+            foreach (var item in servers)
+            {
+                try
+                {
+                    var manager = _fascade.GetManager(item.Type);
+
+                    IServerCfg cfg;
+
+                    try
+                    {
+                        cfg = _mapper.Map<IServerCfg>(item.Cfg);
+
+                        manager.ValidateConfiguration(cfg);
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.ServerEvents.Add(
+                            new ServerEvent()
+                            {
+                                Name = "Invalid server config",
+                                Exception = ex.ToString(),
+                                ExceptionMessage = ex.Message,
+                                ServerUid = item.UID
+                            }
+                        );
+
+                        continue;
+                    }
+
+                    var server = manager.CreateServer(cfg);
+
+                    await manager.AddServer(server);
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        dbContext.ServerEvents.Add(
+                            new ServerEvent()
+                            {
+                                Name = "Failed to add server to manager",
+                                Exception = ex.ToString(),
+                                ExceptionMessage = ex.Message,
+                                ServerUid = item.UID
+                            }
+                        );
+
+                        await dbContext.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        // Nothing
+                    }
+                }
+            }
+
+            processed = true;
+
+            return Unit.Value;
+        }
+    }
+
+    //---------------------------------------
+    //---------------------------------------
+
+
+    public class InitServerManagers_PostProcessor
+        : IRequestPostProcessor<InitServerManagers, Unit>
+    {
+        /// <summary>
+        /// Injected <c>IPublisher</c>
+        /// </summary>
+        private readonly Aplication.Services.IPublisher _publisher;
+
+        public InitServerManagers_PostProcessor(
+            IMemoryCache cache,
+            Aplication.Services.IPublisher publisher
+        )
+        {
+            _publisher = publisher;
+        }
+
+        public async Task Process(
+            InitServerManagers request,
+            Unit unit,
+            CancellationToken cancellationToken
+        )
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                // Log?
+            }
+        }
+    }
+
+}

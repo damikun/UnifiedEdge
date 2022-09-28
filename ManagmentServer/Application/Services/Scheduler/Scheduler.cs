@@ -70,6 +70,21 @@ namespace Aplication.Services.Scheduler
             }
         }
 
+        public void Enqueue<T>() where T : CommandCore
+        {
+            var name = typeof(T).Name;
+
+            var instance = Activator.CreateInstance<T>();
+
+            var fullname = instance.GetType().FullName;
+
+            var mediatorSerializedObject = SerializeObject(instance, "");
+
+            BackgroundJob.Enqueue(
+                () => _handler.ExecuteCommand(mediatorSerializedObject)
+            );
+        }
+
         private string Enqueue(
             IRequest request,
             string parentJobId,

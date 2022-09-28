@@ -17,5 +17,7 @@ namespace Server.Manager.Mqtt
         {
             return new EdgeMqttServer(cfg);
         }
+
+
     }
 }

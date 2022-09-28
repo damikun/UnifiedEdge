@@ -14,6 +14,8 @@ namespace API
 
             scheduler.ScheduleRecurring<CheckAdaptersStatus>(CommonCrons.Minutely);
 
+            scheduler.ScheduleRecurring<CleanServerEvents>(CommonCrons.Daily);
+
             return builder;
         }
     }

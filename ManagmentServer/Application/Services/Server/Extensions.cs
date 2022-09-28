@@ -8,6 +8,8 @@ namespace Aplication.Services.ServerFascade
             this IServiceCollection services
         )
         {
+            services.AddSingleton<IConfigMapper, ConfigMapper>();
+
             services.AddSingleton<IServerFascade, ServerFascade>();
 
             return services;

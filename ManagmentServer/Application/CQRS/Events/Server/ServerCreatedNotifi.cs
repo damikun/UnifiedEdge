@@ -92,25 +92,7 @@ namespace Aplication.Events.Server
 
             try
             {
-                var db_server_record = await dbContext.Servers
-                .AsNoTracking()
-                .Include(e => e.Cfg)
-                .Where(e => e.UID == notifi.ServerGuid)
-                .FirstOrDefaultAsync(cancellationToken);
-
-                if (
-                    db_server_record == null ||
-                    db_server_record.Cfg == null
-                )
-                {
-                    _telemetry.SetOtelError(
-                        string.Format("Server or Data for Guid:{0} not found", notifi.ServerGuid)
-                    );
-
-                    return;
-                }
-
-                await _fascade.AddServer(db_server_record.Cfg);
+                await _fascade.AddServer(notifi.ServerGuid);
             }
             catch (Exception ex)
             {

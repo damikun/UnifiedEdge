@@ -48,6 +48,8 @@ namespace API
 
             ConfigureTelemetry(services);
 
+            services.AddIdentitiy();
+
             services.AddGlobalCfg();
 
             services.AddMediatR();
@@ -72,7 +74,7 @@ namespace API
             IServiceProvider serviceProvider,
             IServiceScopeFactory scopeFactory)
         {
-            // app.UseHangfireServer();
+            app.UseOnStartupProcedures(serviceProvider);
 
             app.UseScheduledJobs(serviceProvider);
 

@@ -3,7 +3,6 @@ using Domain.Server;
 using Aplication.DTO;
 using Aplication.Interfaces;
 using Aplication.Graphql.Interfaces;
-using Aplication.Core.Pagination;
 
 namespace Aplication.Mapping
 {
@@ -14,38 +13,8 @@ namespace Aplication.Mapping
             CreateMap(typeof(ServerBase), typeof(ServerType))
                 .ConvertUsing(typeof(ServerToEnumType));
 
-            CreateMap(typeof(ServerCfgBase), typeof(Server.IServerCfg))
-                .ConvertUsing(typeof(DbCfgToServerCfg));
-
         }
 
-        public class DbCfgToServerCfg
-            : ITypeConverter<ServerCfgBase, Server.IServerCfg>
-        {
-            public Server.IServerCfg Convert(
-                ServerCfgBase source,
-                Server.IServerCfg destination,
-                ResolutionContext context)
-            {
-                switch (source)
-                {
-                    case Domain.Server.MqttServerCfg mqtt_cfg:
-
-                        return new Server.Mqtt.MqttServerCfg()
-                        {
-                            Server_UID = mqtt_cfg.ServerUID,
-                            TimeStamp = mqtt_cfg.TimeStamp,
-                            IsEnabled = mqtt_cfg.IsEnabled
-                        };
-
-                    default:
-                        throw new Exception(
-                        string.Format("Unsupported type: {0}", source.GetType().ToString())
-                    );
-                }
-
-            }
-        }
         public class ServerToEnumType
             : ITypeConverter<ServerBase, ServerType>
         {

@@ -158,5 +158,12 @@ namespace Server.Manager
             return CreateServerInstance(cfg) as IServer;
         }
 
+        public void ValidateConfiguration(IServerCfg cfg)
+        {
+            var method = typeof(T).GetMethod("ValidateServerConfig");
+            var func = (Action)Delegate.CreateDelegate(typeof(Action), cfg, method!);
+            func();
+        }
+
     }
 }

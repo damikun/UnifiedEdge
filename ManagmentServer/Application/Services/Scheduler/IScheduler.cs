@@ -1,5 +1,5 @@
-using Aplication.Core;
 using MediatR;
+using Aplication.Core;
 
 namespace Aplication.Services.Scheduler
 {
@@ -8,6 +8,8 @@ namespace Aplication.Services.Scheduler
         string Enqueue(
             IRequest request,
             string description = "");
+
+        void Enqueue<T>() where T : CommandCore;
 
         void Schedule(
             IRequest request,

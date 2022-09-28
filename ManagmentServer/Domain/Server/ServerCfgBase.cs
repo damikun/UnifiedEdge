@@ -1,7 +1,9 @@
 
 namespace Domain.Server
 {
-    public abstract class ServerCfgBase
+    public interface IServerBase { }
+
+    public abstract class ServerCfgBase : IServerBase
     {
         public string ServerUID { get; init; }
 

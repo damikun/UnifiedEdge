@@ -2,9 +2,9 @@ using Server.Event;
 
 namespace Server
 {
-    public abstract class ServerBase<T> : IServerBase, IDisposable
+    public abstract class ServerBase<U, T> : IServerBase, IDisposable
     {
-        public string UID { get; init; }
+        public string UID { get; private set; }
 
         private Type OptionsType { get; init; }
 
@@ -30,9 +30,9 @@ namespace Server
 
         public ServerBase(int MONITOR_PERIOD, IServerCfg cfg)
         {
-            SetConfiguration(cfg);
+            this.UID = cfg.Server_UID;
 
-            UID = cfg.Server_UID ?? Guid.NewGuid().ToString();
+            SetConfiguration(cfg);
 
             _monitor = new Timer(
                 MonitorCallback!,
@@ -74,7 +74,7 @@ namespace Server
             {
                 if (server != null)
                 {
-                    await ((ServerBase<T>)server).SyncServerState();
+                    await ((ServerBase<U, T>)server).SyncServerState();
                 }
 
             }
@@ -352,24 +352,14 @@ namespace Server
 
         public void SetConfiguration(IServerCfg cfg)
         {
-            if (cfg == null)
-            {
-                throw new ArgumentNullException(nameof(cfg));
-            }
-
-            if (cfg.Server_UID == null)
-            {
-                throw new ArgumentNullException(nameof(cfg.Server_UID));
-            }
-
-            if (this.UID != null && cfg.Server_UID != this.UID)
+            if (cfg.Server_UID != this.UID)
             {
                 throw new Exception(
                     "Invalid Config UID. Server.UID and Config.UID does not match."
                 );
             }
 
-            MapCfgToOptions(cfg);
+            ValidateServerConfig(cfg);
 
             Config = cfg;
 
@@ -479,7 +469,7 @@ namespace Server
 
         protected abstract Task UnsafeStopAsync();
 
-        public abstract T MapCfgToOptions(IServerCfg cfg);
+        protected abstract T MapConfiguration(IServerCfg cfg);
 
 
         public void Dispose()
@@ -506,6 +496,36 @@ namespace Server
             }
 
         }
+
+        public void ValidateServerConfig(IServerCfg cfg)
+        {
+            if (cfg == null)
+            {
+                throw new ArgumentNullException(nameof(cfg));
+            }
+
+            if (cfg.Server_UID == null)
+            {
+                throw new ArgumentNullException(nameof(cfg.Server_UID));
+            }
+
+            if (cfg is not U)
+            {
+                throw new Exception(
+                    string.Format(
+                    "MapServerConfiguration -> Invalid config object type. Type: {0} is required",
+                    nameof(T)
+                    )
+                );
+            }
+
+            ValidateConfiguration(cfg);
+
+            MapConfiguration(cfg);
+        }
+
+        protected abstract void ValidateConfiguration(IServerCfg cfg);
+
     }
 
 }

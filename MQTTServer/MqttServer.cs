@@ -1,9 +1,10 @@
 using MQTTnet;
+using System.Net;
 using MQTTnet.Server;
 
 namespace Server.Mqtt
 {
-    public sealed class EdgeMqttServer : ServerBase<MqttServerOptions>, IServer, IDisposable
+    public sealed class EdgeMqttServer : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
     {
         private MQTTnet.Server.MqttServer? Server;
 
@@ -19,37 +20,35 @@ namespace Server.Mqtt
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
-        public EdgeMqttServer(
-            IServerCfg cfg
-        ) : base(MONITOR_PERIOD, cfg)
+        public EdgeMqttServer(IServerCfg cfg) : base(MONITOR_PERIOD, cfg)
         {
 
         }
 
-        public override MqttServerOptions MapCfgToOptions(IServerCfg cfg)
+        protected override MqttServerOptions MapConfiguration(IServerCfg cfg)
         {
             var builder = new MqttServerOptionsBuilder();
 
-            if (cfg is MqttServerCfg mqtt_cfg)
-            {
-                builder.WithDefaultEndpoint();
+            var mqtt_cfg = (MqttServerCfg)cfg as MqttServerCfg;
 
-                if (mqtt_cfg.Port.HasValue)
-                {
-                    builder.WithDefaultEndpointPort(mqtt_cfg.Port.Value);
-                };
-            }
-            else
-            {
-                throw new Exception(
-                    string.Format(
-                        "Invalid config object type. Type: {0} is required",
-                        nameof(MqttServerCfg)
-                    )
-                );
-            }
+            IPAddress ip = IPAddress.Parse(mqtt_cfg.IpAddress!);
+
+            builder.WithDefaultEndpointBoundIPAddress(ip);
+
+            builder.WithMaxPendingMessagesPerClient(mqtt_cfg.MaxPendingMessagesPerClient);
+
+            builder.WithPersistentSessions(mqtt_cfg.PresistentSession);
+
+            builder.WithDefaultCommunicationTimeout(mqtt_cfg.CommunicationTimeout);
+
+            builder.WithDefaultEndpointPort(mqtt_cfg.Port);
 
             return builder.Build();
+        }
+
+        protected override void ValidateConfiguration(IServerCfg cfg)
+        {
+
         }
 
         protected override Task SyncServerState()
@@ -140,7 +139,7 @@ namespace Server.Mqtt
 
         private MQTTnet.Server.MqttServer CreateMqttServer()
         {
-            var options = MapCfgToOptions(Current_Config);
+            var options = MapConfiguration(Current_Config);
 
             var mqttFactory = new MqttFactory();
 

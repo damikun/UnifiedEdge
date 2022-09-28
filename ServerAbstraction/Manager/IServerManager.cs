@@ -11,6 +11,8 @@ namespace Server.Manager
 
         public ServerInfo ManagedServerInfo { get; }
 
+        public void ValidateConfiguration(IServerCfg cfg);
+
         public IServer CreateServer(IServerCfg cfg);
 
         public Task<string> RemoveServer(string server_id, CancellationToken ct = default);

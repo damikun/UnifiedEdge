@@ -8,11 +8,15 @@ namespace Aplication.Services.ServerFascade
     {
         public List<string> SupportedServers { get; }
 
+        public IServerManager GetManager(ServerType type);
+
         public T GetManager<T>() where T : IServerManager;
 
         public Task<IServer> CreateServer(ServerCfgBase db_cfg);
 
         public IServerManager GetManagerByServerName(string display_name);
+
+        public Task<string?> AddServer(string server_uid);
 
         public Task<string?> AddServer(IServer server);
 
