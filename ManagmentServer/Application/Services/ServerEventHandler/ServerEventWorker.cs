@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Services.ServerEventHandler
 {
-    public sealed class MqttManagerMonitor : BackgroundService
+    public sealed class ServerEventWorker : BackgroundService
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         private readonly IServerEventQueue _queueProvider;
 
-        public MqttManagerMonitor(
+        public ServerEventWorker(
             IDbContextFactory<ManagmentDbCtx> factory,
             IServerEventQueue queueProvider)
         {
