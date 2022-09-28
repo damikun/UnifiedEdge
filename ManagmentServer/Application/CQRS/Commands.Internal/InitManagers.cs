@@ -122,13 +122,7 @@ namespace Aplication.CQRS.Commands
                     catch (Exception ex)
                     {
                         dbContext.ServerEvents.Add(
-                            new ServerEvent()
-                            {
-                                Name = "Invalid server config",
-                                Exception = ex.ToString(),
-                                ExceptionMessage = ex.Message,
-                                ServerUid = item.UID
-                            }
+                             new ServerEvent(item.UID, ex, "Invalid server config")
                         );
 
                         continue;
@@ -149,13 +143,7 @@ namespace Aplication.CQRS.Commands
                     catch (Exception ex)
                     {
                         dbContext.ServerEvents.Add(
-                            new ServerEvent()
-                            {
-                                Name = "Failed to start server",
-                                Exception = ex.ToString(),
-                                ExceptionMessage = ex.Message,
-                                ServerUid = item.UID
-                            }
+                            new ServerEvent(item.UID, ex, "Failed to start server")
                         );
 
                         continue;
@@ -166,13 +154,7 @@ namespace Aplication.CQRS.Commands
                     try
                     {
                         dbContext.ServerEvents.Add(
-                            new ServerEvent()
-                            {
-                                Name = "Failed to add server to manager",
-                                Exception = ex.ToString(),
-                                ExceptionMessage = ex.Message,
-                                ServerUid = item.UID
-                            }
+                            new ServerEvent(item.UID, ex, "Failed to add server to manager")
                         );
 
                         await dbContext.SaveChangesAsync(cancellationToken);

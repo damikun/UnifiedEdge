@@ -129,13 +129,7 @@ namespace Aplication.CQRS.Commands
                     try
                     {
                         dbContext.ServerEvents.Add(
-                            new ServerEvent()
-                            {
-                                Name = "Failed to cleanup events",
-                                Exception = ex.ToString(),
-                                ExceptionMessage = ex.Message,
-                                ServerUid = uid
-                            }
+                            new ServerEvent(uid, ex, "Failed to cleanup events")
                         );
 
                         await dbContext.SaveChangesAsync();

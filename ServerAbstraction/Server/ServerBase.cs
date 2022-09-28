@@ -20,6 +20,8 @@ namespace Server
 
         public event EventHandler<ServerStateChangedEventArgs> OnStateChanged;
 
+        internal readonly IServerEventPublisher _publisher;
+
         public bool isConfigMatch
         {
             get
@@ -28,8 +30,14 @@ namespace Server
             }
         }
 
-        public ServerBase(int MONITOR_PERIOD, IServerCfg cfg)
+        public ServerBase(
+            int MONITOR_PERIOD,
+            IServerCfg cfg,
+            IServerEventPublisher? publisher = null
+        )
         {
+            _publisher = publisher ?? new ServerEventPublisher();
+
             this.UID = cfg.Server_UID;
 
             SetConfiguration(cfg);
@@ -88,6 +96,12 @@ namespace Server
             try
             {
                 await StateChanged(before, after);
+
+                _publisher.PublishEvent(new ServerStateChangedEvent()
+                {
+                    UID = this.UID,
+                    State = after
+                });
             }
             catch { }
 
@@ -101,7 +115,8 @@ namespace Server
                     After = after
                 };
 
-                handler(this, event_args);
+                if (handler != null)
+                    handler(this, event_args);
             }
             catch { }
         }
@@ -347,7 +362,14 @@ namespace Server
 
             try
             {
-                handler(this, event_args);
+                if (handler != null)
+                    handler(this, event_args);
+
+                _publisher.PublishEvent(new ServerConfigDiffEvent()
+                {
+                    Config = Config,
+                    CurrentConfig = Current_Config
+                });
             }
             catch { }
 

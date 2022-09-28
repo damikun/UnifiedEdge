@@ -1,7 +1,8 @@
 namespace Domain.Server
 {
-    public class EventBase
+    public abstract class EventBase
     {
+
         public long ID { get; set; }
 #nullable disable
         public string Name { get; set; }
@@ -13,6 +14,8 @@ namespace Domain.Server
         public string? ExceptionMessage { get; set; }
 
         public string? Exception { get; set; }
+
+        public EventType Type { get; set; }
 
         public DateTime TimeStamp { get; set; } = DateTime.Now;
     }
