@@ -51,13 +51,13 @@ namespace Server.Mqtt
 
         }
 
-        protected override Task SyncServerState()
+        protected async override Task SyncServerState()
         {
             if (this.State == ServerState.started)
             {
                 if (this.Server == null || !this.Server.IsStarted)
                 {
-                    return UnsafeStopAsync();
+                    await UnsafeStopAsync();
                 }
             }
             else
@@ -69,11 +69,15 @@ namespace Server.Mqtt
                     this.State != ServerState.stopping ||
                     this.State != ServerState.restarting))
                 {
-                    return UnsafeStopAsync();
+                    await UnsafeStopAsync();
                 }
             }
 
-            return Task.CompletedTask;
+            if (this.State == ServerState.undefined)
+            {
+                await this.SetState(ServerState.stopped, default);
+            }
+
         }
 
         protected override async Task UnsafeStartAsync()

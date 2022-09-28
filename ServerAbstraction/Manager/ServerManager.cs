@@ -160,9 +160,9 @@ namespace Server.Manager
 
         public void ValidateConfiguration(IServerCfg cfg)
         {
-            var method = typeof(T).GetMethod("ValidateServerConfig");
-            var func = (Action)Delegate.CreateDelegate(typeof(Action), cfg, method!);
-            func();
+            // var method = typeof(T).GetMethod("ValidateServerConfig");
+            // var func = (Action<IServerCfg>)Delegate.CreateDelegate(typeof(Action<IServerCfg>), null, method!);
+            // func(cfg);
         }
 
     }

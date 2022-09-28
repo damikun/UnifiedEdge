@@ -11,43 +11,19 @@ namespace Aplication.Events.Server
     /// <summary>
     /// Notifi Server was created
     /// </summary>
-    public class ServerCreatedNotifi : ServerBaseNotifi
+    public class ManagerNewServerAdded : ServerBaseNotifi
     {
-        public ServerCreatedNotifi(string server_guid) : base(server_guid)
+        public ManagerNewServerAdded(string server_guid) : base(server_guid)
         {
 
         }
     }
 
-    /// <summary>
-    /// Command handler for user <c>ServerCreatedNotifi</c>
-    /// </summary>
-    public class ServerCreatedNotifi_Handler : INotificationHandler<ServerCreatedNotifi>
-    {
-
-        /// <summary>
-        /// Injected <c>ILogger</c>
-        /// </summary>
-        private readonly ILogger _logger;
-
-        public ServerCreatedNotifi_Handler(ILogger logger)
-        {
-            _logger = logger;
-        }
-
-        /// <summary>
-        /// Command handler for <c>ServerCreatedNotifi</c>
-        /// </summary>
-        public Task Handle(ServerCreatedNotifi request, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-    }
 
     /// <summary>
-    /// Command handler for user <c>ServerCreatedNotifi</c>
+    /// Command handler for user <c>ManagerNewServerAdded</c>
     /// </summary>
-    public class AddServerToManager_Handler : INotificationHandler<ServerCreatedNotifi>
+    public class StartServer_Handler : INotificationHandler<ManagerNewServerAdded>
     {
 
         /// <summary>
@@ -75,7 +51,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public AddServerToManager_Handler(
+        public StartServer_Handler(
             ILogger logger,
             IServerFascade fascade,
             IDbContextFactory<ManagmentDbCtx> factory,
@@ -91,17 +67,15 @@ namespace Aplication.Events.Server
         }
 
         /// <summary>
-        /// Command handler for <c>ServerCreatedNotifi</c>
+        /// Command handler for <c>ManagerNewServerAdded</c>
         /// </summary>
-        public async Task Handle(ServerCreatedNotifi notifi, CancellationToken cancellationToken)
+        public async Task Handle(ManagerNewServerAdded notifi, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
             try
             {
-                await _fascade.AddServer(notifi.ServerGuid);
-
                 await _fascade.ProcesCommand(
                     notifi.ServerGuid,
                     ServerCmd.start,
@@ -110,7 +84,6 @@ namespace Aplication.Events.Server
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex);
                 _telemetry.SetOtelError(ex);
             }
         }

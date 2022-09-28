@@ -55,6 +55,11 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IServerFascade _fascade;
 
+        /// <summary>
+        /// Injected <c>IConfigMapper</c>
+        /// </summary>
+        private readonly IConfigMapper _cfg_maper;
+
         // Internal flag detectin job was triggered. This is one time job on app start!
         private static bool processed { get; set; }
 
@@ -66,7 +71,8 @@ namespace Aplication.CQRS.Commands
             IMapper mapper,
             IMediator mediator,
             IEndpointProvider endpoint_provider,
-            IServerFascade fascade
+            IServerFascade fascade,
+            IConfigMapper cfg_maper
         )
         {
             _factory = factory;
@@ -78,6 +84,8 @@ namespace Aplication.CQRS.Commands
             _endpoint_provider = endpoint_provider;
 
             _fascade = fascade;
+
+            _cfg_maper = cfg_maper;
         }
 
         /// <summary>
@@ -97,7 +105,7 @@ namespace Aplication.CQRS.Commands
             .TagWith("ServerManager init process -> Query all servers")
             .AsNoTracking()
             .Include(e => e.Cfg)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
             foreach (var item in servers)
             {
@@ -109,9 +117,7 @@ namespace Aplication.CQRS.Commands
 
                     try
                     {
-                        cfg = _mapper.Map<IServerCfg>(item.Cfg);
-
-                        manager.ValidateConfiguration(cfg);
+                        cfg = await _cfg_maper.Map(item.Cfg, cancellationToken);
                     }
                     catch (Exception ex)
                     {
@@ -131,6 +137,29 @@ namespace Aplication.CQRS.Commands
                     var server = manager.CreateServer(cfg);
 
                     await manager.AddServer(server);
+
+                    try
+                    {
+                        await manager.ProcesCommand(
+                            cfg.Server_UID,
+                            ServerCmd.start,
+                            cancellationToken
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.ServerEvents.Add(
+                            new ServerEvent()
+                            {
+                                Name = "Failed to start server",
+                                Exception = ex.ToString(),
+                                ExceptionMessage = ex.Message,
+                                ServerUid = item.UID
+                            }
+                        );
+
+                        continue;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -146,7 +175,7 @@ namespace Aplication.CQRS.Commands
                             }
                         );
 
-                        await dbContext.SaveChangesAsync();
+                        await dbContext.SaveChangesAsync(cancellationToken);
                     }
                     catch
                     {

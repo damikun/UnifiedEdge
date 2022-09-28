@@ -6,6 +6,7 @@ using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
 using HotChocolate.Types.Pagination;
+using Server.Manager.Mqtt;
 
 namespace Aplication.Graphql.Queries
 {
@@ -43,6 +44,19 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<Connection<GQL_IServer>>(result);
         }
 
+        public async Task<GQL_Adapter?> Testik(
+        [ID] string id,
+        [Service] IMqttServerManager manager
+        )
+        {
+            var uptime = await manager.ServerUptime(id);
+            var contains = await manager.Contains(id);
+
+            System.Console.WriteLine(uptime?.ToString());
+            System.Console.WriteLine(contains);
+            System.Console.WriteLine(await manager.State(id));
+            return null;
+        }
 
         public async Task<GQL_Adapter> GetAdapterById(
             [ID] string id,

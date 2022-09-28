@@ -41,6 +41,8 @@ namespace Server
                 MONITOR_PERIOD
             );
 
+            _ = SyncServerState();
+
             OptionsType = typeof(T);
         }
 
@@ -104,7 +106,7 @@ namespace Server
             catch { }
         }
 
-        private async Task<ServerState> SetState(
+        protected async Task<ServerState> SetState(
             ServerState state,
             CancellationToken ct = default,
             bool in_background = false)
@@ -327,7 +329,8 @@ namespace Server
 
             try
             {
-                handler(this, event_args);
+                if (handler != null)
+                    handler(this, event_args);
             }
             catch { }
         }
