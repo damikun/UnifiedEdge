@@ -88,6 +88,14 @@ namespace API
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<ClientConnectedType>()
+                .AddType<ServerConfigDiffEventType>()
+                .AddType<ServerErrorEventType>()
+                .AddType<ServerEventTypeType>()
+                .AddType<ServerInfoEventType>()
+                .AddType<ServerStateChangedEventType>()
+                .AddType<IServerEventType>()
+
                 .AddType<AdapterType>()
                 .AddType<AdapterStateEnumType>()
                 .AddType<AdapterInterfaceEnumType>()
