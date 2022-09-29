@@ -219,12 +219,10 @@ namespace Server
                 throw new Exception("Server is disabled");
             }
 
-            // if (_current != null && !_current.IsCompleted)
-            // {
-            //     // return this.State;
-
-            //     throw new Exception("Transition pending");
-            // }
+            if (_current != null && !_current.IsCompleted)
+            {
+                throw new Exception("Transition pending");
+            }
 
             bool in_background = true;
 
