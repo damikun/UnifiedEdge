@@ -2,6 +2,7 @@
 // See LICENSE in root.
 
 using Aplication.Services.Scheduler;
+using Aplication.Services.ServerEventHandler;
 using Aplication.Services.ServerFascade;
 using ElectronNET.API;
 using Hangfire;
@@ -65,6 +66,8 @@ namespace API
             services.AddEndpointProvider();
 
             services.AddScheduler();
+
+            services.AddServerEventHandler();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

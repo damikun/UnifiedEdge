@@ -11,11 +11,14 @@ namespace Aplication.Services
         public Task<object?> Send(ICommandBase request, CancellationToken cancellationToken = default);
 #nullable disable
 
+
         public Task Publish<TNotification>(TNotification notification);
 
         public Task Publish<TNotification>(TNotification notification, PublishStrategy strategy);
 
         public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken);
+
+        public Task Publish(object notification, PublishStrategy strategy, CancellationToken cancellationToken = default);
 
         public Task Publish<TNotification>(TNotification notification, PublishStrategy strategy, CancellationToken cancellationToken);
     }

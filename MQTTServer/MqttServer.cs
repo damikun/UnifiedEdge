@@ -20,7 +20,10 @@ namespace Server.Mqtt
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
-        public EdgeMqttServer(IServerCfg cfg) : base(MONITOR_PERIOD, cfg)
+        public EdgeMqttServer(
+            IServerCfg cfg,
+            IServerEventPublisher? publisher = null
+        ) : base(MONITOR_PERIOD, cfg, publisher)
         {
 
         }

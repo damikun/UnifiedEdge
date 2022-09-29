@@ -9,7 +9,7 @@ namespace Aplication.Events.Server
     /// <summary>
     /// Base abstract class of all Server notifications (DomainEvents)
     /// </summary>
-    public abstract class ServerBaseNotifi : BaseNotifi
+    public abstract class ServerBaseNotifi : BaseNotifi, INotification
     {
         public ServerBaseNotifi(string server_guid)
         {

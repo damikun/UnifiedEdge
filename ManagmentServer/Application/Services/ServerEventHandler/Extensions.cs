@@ -1,6 +1,5 @@
 using Server;
 using Hangfire;
-using Aplication.Services.ServerEventHandler;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.Services.ServerEventHandler
@@ -11,11 +10,11 @@ namespace Aplication.Services.ServerEventHandler
             this IServiceCollection services
         )
         {
-            services.AddHangfireServer();
-
             services.AddSingleton<IServerEventQueue, ServerEventQueue>();
 
-            services.AddScoped<IServerEventPublisher, Aplication.Services.ServerEventHandler.ServerEventPublisher>();
+            services.AddSingleton<IServerEventPublisher, Aplication.Services.ServerEventHandler.ServerEventPublisher>();
+
+            services.AddHostedService<ServerEventWorker>();
 
             return services;
         }

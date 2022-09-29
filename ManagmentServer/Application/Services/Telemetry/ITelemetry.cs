@@ -17,8 +17,6 @@ namespace Aplication.Services
 
         void SetOtelWarning(string error);
 
-        string GetTraceId();
-
         ActivitySource AppSource { get; }
 
     }

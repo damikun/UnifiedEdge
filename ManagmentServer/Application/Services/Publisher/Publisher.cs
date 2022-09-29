@@ -243,5 +243,15 @@ namespace Aplication.Services
                 throw new AggregateException(exceptions);
             }
         }
+
+        public Task Publish(object notification, PublishStrategy strategy, CancellationToken cancellationToken = default)
+        {
+            if (!PublishStrategies.TryGetValue(strategy, out var mediator))
+            {
+                throw new ArgumentException($"Unknown strategy: {strategy}");
+            }
+
+            return mediator.Publish(notification, cancellationToken);
+        }
     }
 }

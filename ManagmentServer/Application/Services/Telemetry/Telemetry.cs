@@ -12,8 +12,6 @@ namespace Aplication.Services
 
         private readonly IOptions<TelemetryOptions> _options;
 
-        private readonly IHttpContextAccessor _accessor;
-
         private readonly ILogger<CurrentUser> _logger;
 
         /// <summary>
@@ -21,13 +19,10 @@ namespace Aplication.Services
         /// </summary>
         public Telemetry(
             IOptions<TelemetryOptions> options,
-            IHttpContextAccessor accessor,
             ILogger<CurrentUser> logger)
         {
 
             _options = options;
-
-            _accessor = accessor;
 
             _logger = logger;
 
@@ -81,9 +76,5 @@ namespace Aplication.Services
             }
         }
 
-        public string GetTraceId()
-        {
-            return Activity.Current?.TraceId.ToString() ?? _accessor?.HttpContext?.TraceIdentifier;
-        }
     }
 }

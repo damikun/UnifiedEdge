@@ -129,7 +129,7 @@ namespace API
                 opt.IncludeFormattedMessage = true;
             });
 
-            serviceCollection.AddScoped<ITelemetry, Telemetry>();
+            serviceCollection.AddSingleton<ITelemetry, Telemetry>();
 
             return serviceCollection;
         }

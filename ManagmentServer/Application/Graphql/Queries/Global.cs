@@ -7,6 +7,8 @@ using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
 using HotChocolate.Types.Pagination;
 using Server.Manager.Mqtt;
+using Aplication.Events.Server;
+using Server;
 
 namespace Aplication.Graphql.Queries
 {
@@ -49,12 +51,13 @@ namespace Aplication.Graphql.Queries
         [Service] IMqttServerManager manager
         )
         {
-            var uptime = await manager.ServerUptime(id);
-            var contains = await manager.Contains(id);
+            var ssss = new ServerGenericEventNotification<ServerStateChangedEvent>(new ServerStateChangedEvent());
 
-            System.Console.WriteLine(uptime?.ToString());
-            System.Console.WriteLine(contains);
-            System.Console.WriteLine(await manager.State(id));
+            System.Console.WriteLine("*************************");
+            System.Console.WriteLine(ssss.GetType().Name);
+            System.Console.WriteLine(ssss.GetType().FullName);
+            System.Console.WriteLine("*************************");
+
             return null;
         }
 
