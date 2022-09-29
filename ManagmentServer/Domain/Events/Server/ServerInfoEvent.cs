@@ -1,11 +1,7 @@
-namespace Server
+namespace Domain.Server.Events
 {
     public class ServerInfoEvent : ServerEventBase
     {
         public string Message { get; set; }
-
-        public string? Description { get; set; }
-
-        public string? Json { get; set; }
     }
 }

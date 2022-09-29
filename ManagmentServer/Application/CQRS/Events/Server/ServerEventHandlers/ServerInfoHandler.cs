@@ -1,6 +1,8 @@
 using Server;
 using MediatR;
+using Persistence;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Events.Server
 {
@@ -17,17 +19,42 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly ILogger _logger;
 
-        public ServerInfoEvent_Handler(ILogger logger)
+        /// <summary>
+        /// Injected <c>IDbContextFactory</c>
+        /// </summary>
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+
+        public ServerInfoEvent_Handler(
+            ILogger logger,
+            IDbContextFactory<ManagmentDbCtx> factory)
         {
             _logger = logger;
+            _factory = factory;
         }
 
-        public Task Handle(
+        public async Task Handle(
             ServerGenericEventNotification<ServerInfoEvent> notification,
             CancellationToken cancellationToken
         )
         {
-            return Task.CompletedTask;
+            await using ManagmentDbCtx dbContext =
+                    _factory.CreateDbContext();
+
+            var e = notification.ServerEvent;
+
+            dbContext.ServerEvents.Add(
+                new Domain.Server.Events.ServerErrorEvent()
+                {
+                    Json = e.Json,
+                    TimeStamp = e.TimeStamp,
+                    ServerUid = e.UID,
+                    Name = e.Message,
+                    Description = e.Description,
+                    Type = Domain.Server.EventType.info
+                }
+            );
+
+            await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -1,5 +1,6 @@
 using Domain;
 using Domain.Server;
+using Domain.Server.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
@@ -15,7 +16,7 @@ namespace Persistence
 
         public DbSet<AdapterEvent> AdapterEvents { get; set; }
 
-        public DbSet<ServerEvent> ServerEvents { get; set; }
+        public DbSet<ServerEventBase> ServerEvents { get; set; }
 
 
         public DbSet<Edge> Edge { get; set; }

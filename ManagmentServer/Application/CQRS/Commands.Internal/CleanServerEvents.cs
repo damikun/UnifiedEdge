@@ -1,7 +1,7 @@
+using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Domain.Server;
 using Aplication.Core;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
@@ -48,6 +48,11 @@ namespace Aplication.CQRS.Commands
         private readonly IEndpointProvider _endpoint_provider;
 
         /// <summary>
+        /// Injected <c>IServerEventPublisher</c>
+        /// </summary>
+        private readonly IServerEventPublisher _server_e_publisher;
+
+        /// <summary>
         /// Injected <c>IServerFascade</c>
         /// </summary>
         private readonly IServerFascade _fascade;
@@ -62,7 +67,8 @@ namespace Aplication.CQRS.Commands
             IMapper mapper,
             IMediator mediator,
             IEndpointProvider endpoint_provider,
-            IServerFascade fascade
+            IServerFascade fascade,
+            IServerEventPublisher server_e_publisher
         )
         {
             _factory = factory;
@@ -72,6 +78,8 @@ namespace Aplication.CQRS.Commands
             _mediator = mediator;
 
             _endpoint_provider = endpoint_provider;
+
+            _server_e_publisher = server_e_publisher;
 
             _fascade = fascade;
         }
@@ -126,18 +134,7 @@ namespace Aplication.CQRS.Commands
                 }
                 catch (Exception ex)
                 {
-                    try
-                    {
-                        dbContext.ServerEvents.Add(
-                            new ServerEvent(uid, ex, "Failed to cleanup events")
-                        );
-
-                        await dbContext.SaveChangesAsync();
-                    }
-                    catch
-                    {
-                        // Nothing
-                    }
+                    _server_e_publisher.PublishError(uid, "Failed to cleanup adapter events", ex);
                 }
             }
 

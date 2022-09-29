@@ -56,6 +56,11 @@ namespace Aplication.CQRS.Commands
         private readonly IServerFascade _fascade;
 
         /// <summary>
+        /// Injected <c>IServerEventPublisher</c>
+        /// </summary>
+        private readonly IServerEventPublisher _server_e_publisher;
+
+        /// <summary>
         /// Injected <c>IConfigMapper</c>
         /// </summary>
         private readonly IConfigMapper _cfg_maper;
@@ -72,7 +77,8 @@ namespace Aplication.CQRS.Commands
             IMediator mediator,
             IEndpointProvider endpoint_provider,
             IServerFascade fascade,
-            IConfigMapper cfg_maper
+            IConfigMapper cfg_maper,
+            IServerEventPublisher server_e_publisher
         )
         {
             _factory = factory;
@@ -82,6 +88,8 @@ namespace Aplication.CQRS.Commands
             _mediator = mediator;
 
             _endpoint_provider = endpoint_provider;
+
+            _server_e_publisher = server_e_publisher;
 
             _fascade = fascade;
 
@@ -121,10 +129,7 @@ namespace Aplication.CQRS.Commands
                     }
                     catch (Exception ex)
                     {
-                        dbContext.ServerEvents.Add(
-                             new ServerEvent(item.UID, ex, "Invalid server config")
-                        );
-
+                        _server_e_publisher.PublishError(item.UID, "Invalid server config", ex);
                         continue;
                     }
 
@@ -142,27 +147,14 @@ namespace Aplication.CQRS.Commands
                     }
                     catch (Exception ex)
                     {
-                        dbContext.ServerEvents.Add(
-                            new ServerEvent(item.UID, ex, "Failed to start server")
-                        );
-
+                        _server_e_publisher.PublishError(item.UID, "Failed to start server", ex);
                         continue;
                     }
                 }
                 catch (Exception ex)
                 {
-                    try
-                    {
-                        dbContext.ServerEvents.Add(
-                            new ServerEvent(item.UID, ex, "Failed to add server to manager")
-                        );
-
-                        await dbContext.SaveChangesAsync(cancellationToken);
-                    }
-                    catch
-                    {
-                        // Nothing
-                    }
+                    _server_e_publisher.PublishError(item.UID, "Dailed to add server to manager", ex);
+                    continue;
                 }
             }
 

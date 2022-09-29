@@ -9,12 +9,6 @@ namespace Domain.Server
 #nullable enable
         public string? Description { get; set; }
 
-        public string? JsonData { get; set; }
-
-        public string? ExceptionMessage { get; set; }
-
-        public string? Exception { get; set; }
-
         public EventType Type { get; set; }
 
         public DateTime TimeStamp { get; set; } = DateTime.Now;

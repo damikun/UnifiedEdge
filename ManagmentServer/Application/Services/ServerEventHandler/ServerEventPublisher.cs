@@ -11,9 +11,17 @@ namespace Aplication.Services.ServerEventHandler
             _queueProvider = queueProvider;
         }
 
-        public void PublishError(string server_uid, Exception ex)
+        public void PublishError(string server_uid, string name, Exception ex)
         {
-            throw new NotImplementedException();
+            _ = Task.Run(() => _queueProvider.Queue.Writer.WriteAsync(
+                new ServerErrorEvent()
+                {
+                    Message = name,
+                    Exception = ex,
+                    UID = server_uid,
+                    Description = ex.Message
+                })
+            );
         }
 
         public void PublishEvent(ServerEventBase server_event)
@@ -23,7 +31,15 @@ namespace Aplication.Services.ServerEventHandler
 
         public void PublishInfo(string server_uid, string name, string? description, string? json = null)
         {
-            throw new NotImplementedException();
+            _ = Task.Run(() => _queueProvider.Queue.Writer.WriteAsync(
+                new ServerInfoEvent()
+                {
+                    Message = name,
+                    UID = server_uid,
+                    Description = description,
+                    Json = json
+                })
+            );
         }
 
         public void PublishWarning(string server_uid, string name, string? description, string? json = null)
