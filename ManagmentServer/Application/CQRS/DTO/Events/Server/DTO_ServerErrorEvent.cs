@@ -1,6 +1,9 @@
-namespace Domain.Server.Events
+using Aplication.Mapping;
+using Domain.Server.Events;
+
+namespace Aplication.DTO
 {
-    public class ServerErrorEvent : ServerEventBase
+    public class DTO_ServerErrorEvent : DTO_ServerEventBase, IMapFrom<ServerErrorEvent>
     {
         public string Message { get; set; }
 

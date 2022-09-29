@@ -1,6 +1,7 @@
 
 namespace Server
 {
+    // Dummy publisher in case no other is registred using DI
     public class ServerEventPublisher : IServerEventPublisher
     {
         public void PublishInfo(string server_uid, string name, string? description, string? json = default)
@@ -18,12 +19,12 @@ namespace Server
 
         }
 
-        public void PublishError(string server_uid, Exception ex)
+        public void PublishEvent(ServerEventBase server_event)
         {
 
         }
 
-        public void PublishEvent(ServerEventBase server_event)
+        public void PublishError(string server_uid, string Name, Exception ex)
         {
 
         }

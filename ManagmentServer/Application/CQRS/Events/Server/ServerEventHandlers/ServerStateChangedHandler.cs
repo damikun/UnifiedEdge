@@ -39,7 +39,7 @@ namespace Aplication.Events.Server
         )
         {
             await using ManagmentDbCtx dbContext =
-                    _factory.CreateDbContext();
+                _factory.CreateDbContext();
 
             var e = notification.ServerEvent;
 

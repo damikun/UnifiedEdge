@@ -46,7 +46,8 @@ namespace Aplication.Events.Server
                 new Domain.Server.Events.ServerErrorEvent()
                 {
                     Json = e.Json,
-                    Exception = e.Exception,
+                    Exception = e.Exception != null ? e.Exception.ToString() : null,
+                    Message = e.Message,
                     TimeStamp = e.TimeStamp,
                     ServerUid = e.UID,
                     Name = e.Message,
