@@ -5,7 +5,6 @@ using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using Aplication.Interfaces;
-using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -16,63 +15,60 @@ namespace Aplication.CQRS.Queries
     /// <summary>
     /// Query Server logs (from db)
     /// </summary>
-    public class GetServerLogs
-     : CommandBase<DTO_Connection<DTO_IServerEventLog>>
+    public class GetServerLogById
+     : CommandBase<DTO_IServerEventLog>
     {
-        public string Uid { get; init; }
+        public long Id { get; init; }
 
-        public GetServerLogs(CursorArguments arguments, string uid)
+        public GetServerLogById(long id)
         {
-            Arguments = arguments;
-            Uid = uid;
+            Id = id;
         }
-
-        public CursorArguments Arguments { get; init; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// GetServerLogs Field Validator
+    /// GetServerLogById Field Validator
     /// </summary>
-    public class GetServerLogsValidator
-        : AbstractValidator<GetServerLogs>
+    public class GetServerLogByIdValidator
+        : AbstractValidator<GetServerLogById>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public GetServerLogsValidator(
+        public GetServerLogByIdValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
             _factory = factory;
 
-            RuleFor(e => e.Uid)
+            RuleFor(e => e.Id)
             .NotEmpty()
             .NotNull()
-            .MustAsync(Exist).WithMessage("Server uid not found");
+            .MustAsync(Exist).WithMessage("ServerLog not found");
         }
 
         public async Task<bool> Exist(
-            string uid,
+            long id,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.Servers
-                .AnyAsync(e => e.UID == uid, cancellationToken);
+            return await dbContext.ServerEvents
+                .AnyAsync(e => e.ID == id, cancellationToken);
         }
     }
 
     /// <summary>
-    /// GetServerLogs Field Authorization validator
+    /// GetServerLogById Field Authorization validator
     /// </summary>
-    public class GetServerLogsAuthorizationValidator
-        : AuthorizationValidator<GetServerLogs>
+    public class GetServerLogByIdAuthorizationValidator
+        : AuthorizationValidator<GetServerLogById>
     {
-        public GetServerLogsAuthorizationValidator()
+        public GetServerLogByIdAuthorizationValidator()
         {
             // Add Field authorization..
         }
@@ -81,9 +77,9 @@ namespace Aplication.CQRS.Queries
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>GetServerLogs</c> command </summary>
-    public class GetServerLogsHandler
-        : IRequestHandler<GetServerLogs, DTO_Connection<DTO_IServerEventLog>>
+    /// <summary>Handler for <c>GetServerLogById</c> command </summary>
+    public class GetServerLogByIdHandler
+        : IRequestHandler<GetServerLogById, DTO_IServerEventLog>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
@@ -108,7 +104,7 @@ namespace Aplication.CQRS.Queries
         /// <summary>
         /// Main constructor
         /// </summary>
-        public GetServerLogsHandler(
+        public GetServerLogByIdHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             ICursorPagination<Domain.Server.Events.ServerEventBase> cursor_provider,
@@ -124,41 +120,27 @@ namespace Aplication.CQRS.Queries
         }
 
         /// <summary>
-        /// Command handler for <c>GetServerLogs</c>
+        /// Command handler for <c>GetServerLogById</c>
         /// </summary>
-        public async Task<DTO_Connection<DTO_IServerEventLog>> Handle(
-            GetServerLogs request,
+        public async Task<DTO_IServerEventLog> Handle(
+            GetServerLogById request,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var events_queriable = dbContext.ServerEvents
+            var db_event = await dbContext.ServerEvents
                 .AsNoTracking()
-                .Where(e => e.ServerUid == request.Uid)
-                .OrderByDescending(e => e.TimeStamp)
-                .AsQueryable();
+                .Where(e => e.ID == request.Id)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            Func<CancellationToken, Task<int>> total_count = (ct) => dbContext.ServerEvents
-                .AsNoTracking()
-                .Where(e => e.ServerUid == request.Uid)
-                .CountAsync(ct);
-
-            var cursor_data = await _cursor_provider.ApplyQueriablePagination(
-                events_queriable,
-                request.Arguments,
-                total_count,
-                cancellationToken
-            );
-
-            var map_dto_edges = _mapper.Map<List<EdgeBase<DTO_IServerEventLog>>>(cursor_data.edges);
-
-            return new DTO_Connection<DTO_IServerEventLog>()
+            if (db_event == null)
             {
-                edges = map_dto_edges,
-                pageInfo = cursor_data.pageInfo
-            };
+                throw new Exception("Event not found");
+            }
+
+            return _mapper.Map<DTO_IServerEventLog>(db_event);
         }
     }
 }

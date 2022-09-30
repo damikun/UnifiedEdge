@@ -59,5 +59,18 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<Connection<GQL_IServerEventUnion>>(result);
         }
+
+        public async Task<GQL_IServerEventUnion> GetServerLogById(
+            [ID] long log_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetServerLogById(log_id),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_IServerEventUnion>(result);
+        }
     }
 }

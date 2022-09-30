@@ -47,7 +47,7 @@ export function ServerLogsItem({dataRef, key_}:ServerLogsItemProps){
 var bg_color = useMemo(() => {
   switch (data?.type) {
     case "ERROR":
-      return "bg-red-50"  
+      return "bg-red-50"
     default:
       return "" 
   }

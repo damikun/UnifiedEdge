@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React, { useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { ServerLogsItem } from "./ServerLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../UIComponents/Section/Section";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
@@ -8,7 +9,7 @@ import { ServerLogsQuery } from "./__generated__/ServerLogsQuery.graphql";
 import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
 import { ServerLogsPaginationFragment_logs$key } from "./__generated__/ServerLogsPaginationFragment_logs.graphql";
 import StayledInfinityScrollContainer from "../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
-import { ServerLogsItem } from "./ServerLogsItem";
+
 
 const ServerLogsTag = graphql`
   query ServerLogsQuery($id:ID!) {
