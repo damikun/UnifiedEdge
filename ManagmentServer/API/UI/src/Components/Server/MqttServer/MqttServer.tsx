@@ -6,6 +6,7 @@ import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
 import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
+import ServerLogs from "../ServerLogs/ServerLogs";
 
 export const SettingsTabs = [
   {
@@ -60,7 +61,7 @@ function MqttServer() {
 
     <Routes>
       <Route path="/Settings/" element={<Dummy/>} />
-      <Route path="/Logs/" element={<Dummy/>} />
+      <Route path="/Logs/" element={<ServerLogs/>} />
       <Route path="/Explore/" element={<Dummy/>} />
       <Route path="/*" element={<Dummy/>} />
     </Routes>

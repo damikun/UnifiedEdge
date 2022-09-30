@@ -135,16 +135,10 @@ namespace Aplication.CQRS.Queries
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var dsdsdsds = await dbContext.ServerEvents
-                .Where(e => e.ServerUid == request.Uid)
-                .AsNoTracking()
-                // .ProjectTo<DTO_ServerEventBase>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-
             var events_queriable = dbContext.ServerEvents
-                .Where(e => e.ServerUid == request.Uid)
                 .AsNoTracking()
-                // .ProjectTo<DTO_ServerEventBase>(_mapper.ConfigurationProvider)
+                .Where(e => e.ServerUid == request.Uid)
+                .OrderByDescending(e => e.TimeStamp)
                 .AsQueryable();
 
             Func<CancellationToken, Task<int>> total_count = (ct) => dbContext.ServerEvents
