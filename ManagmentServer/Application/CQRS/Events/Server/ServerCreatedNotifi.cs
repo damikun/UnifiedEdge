@@ -102,11 +102,11 @@ namespace Aplication.Events.Server
             {
                 await _fascade.AddServer(notifi.ServerGuid);
 
-                await _fascade.ProcesCommand(
-                    notifi.ServerGuid,
-                    ServerCmd.start,
-                    cancellationToken
-                );
+                // await _fascade.ProcesCommand(
+                //     notifi.ServerGuid,
+                //     ServerCmd.start,
+                //     cancellationToken
+                // );
             }
             catch (Exception ex)
             {

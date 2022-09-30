@@ -35,6 +35,7 @@ namespace Aplication.Mapping
         }
     }
 
+
     public class DomainEdgeToGraphqlEdge<TSource, TDestination>
         : ITypeConverter<EdgeBase<TSource>, Edge<TDestination>>
             where TDestination : class where TSource : class
@@ -63,6 +64,34 @@ namespace Aplication.Mapping
         }
     }
 
+    public class RemapEdgeBase<TSource, TDestination>
+        : ITypeConverter<EdgeBase<TSource>, EdgeBase<TDestination>>
+            where TDestination : class where TSource : class
+    {
+        public EdgeBase<TDestination> Convert(
+            EdgeBase<TSource> source,
+            EdgeBase<TDestination> destination,
+            ResolutionContext context)
+        {
+            if (source.Node == null)
+            {
+                return new EdgeBase<TDestination>(null!, source.Cursor);
+            }
+
+            if (source.Node is TDestination)
+            {
+                new EdgeBase<TDestination>(
+                    (source.Node as TDestination)!,
+                     source.Cursor
+                );
+            }
+
+            var mapped_node = context.Mapper.Map<TDestination>(source.Node);
+
+            return new EdgeBase<TDestination>(mapped_node, source.Cursor);
+        }
+    }
+
     public class EdgeToEdge<TSource, TDestination>
         : ITypeConverter<Edge<TSource>, Edge<TDestination>>
             where TSource : class, TDestination
@@ -76,9 +105,7 @@ namespace Aplication.Mapping
             if (source.Node == null)
                 return new Edge<TDestination>(null!, source.Cursor);
 
-            var mapped_node = source.Node;
-
-            return new Edge<TDestination>(mapped_node, source.Cursor);
+            return new Edge<TDestination>(source.Node, source.Cursor);
         }
     }
 
@@ -133,6 +160,9 @@ namespace Aplication.Mapping
         {
             CreateMap(typeof(EdgeBase<>), typeof(Edge<>))
                 .ConvertUsing(typeof(DomainEdgeToGraphqlEdge<,>));
+
+            CreateMap(typeof(EdgeBase<>), typeof(EdgeBase<>))
+                .ConvertUsing(typeof(RemapEdgeBase<,>));
 
             CreateMap(typeof(DTO_Connection<>), typeof(Connection<>))
                 .ConvertUsing(typeof(DomainToHcConnection<,>));

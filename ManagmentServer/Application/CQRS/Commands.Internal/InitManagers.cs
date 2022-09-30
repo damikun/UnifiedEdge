@@ -2,7 +2,6 @@ using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Domain.Server;
 using Aplication.Core;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -139,11 +138,11 @@ namespace Aplication.CQRS.Commands
 
                     try
                     {
-                        await manager.ProcesCommand(
-                            cfg.Server_UID,
-                            ServerCmd.start,
-                            cancellationToken
-                        );
+                        // await manager.ProcesCommand(
+                        //     cfg.Server_UID,
+                        //     ServerCmd.start,
+                        //     cancellationToken
+                        // );
                     }
                     catch (Exception ex)
                     {

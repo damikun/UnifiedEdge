@@ -4,12 +4,12 @@ using Aplication.Graphql.Types;
 using GraphQL.Server.Ui.Voyager;
 using Aplication.Graphql.Queries;
 using Aplication.Graphql.Mutations;
+using Aplication.Graphql.Interfaces;
 using HotChocolate.Types.Pagination;
 using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-using Aplication.Graphql.Interfaces;
 
 namespace API
 {
@@ -71,6 +71,7 @@ namespace API
                     .AddTypeExtension<MqttQueries>()
                     .AddTypeExtension<UserQueries>()
                     .AddTypeExtension<GlobalQueries>()
+                    .AddTypeExtension<ServerQueries>()
                 .AddMutationType<MutationType>()
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()
@@ -88,6 +89,7 @@ namespace API
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<ServerEventsUnionType>()
                 .AddType<ClientConnectedType>()
                 .AddType<ServerConfigDiffEventType>()
                 .AddType<ServerErrorEventType>()

@@ -110,6 +110,7 @@ namespace Aplication.CQRS.Queries
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
+            // Yes we query all together and than convert to queribale..
             var servers = await dbContext.Servers
                 .AsNoTracking()
                 .ToListAsync();

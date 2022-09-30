@@ -62,11 +62,11 @@ namespace Persistence.Migrations
                     ID = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerUid = table.Column<string>(type: "TEXT", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    JsonData = table.Column<string>(type: "TEXT", nullable: true),
-                    ExceptionMessage = table.Column<string>(type: "TEXT", nullable: true),
-                    Exception = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -197,7 +197,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "78a8d6fb-5055-4b86-984a-0d2543c5eec9", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "58c6785f-a561-4544-bc64-bcb324e79385", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -218,6 +218,11 @@ namespace Persistence.Migrations
                 name: "IX_Endpoints_ServerBaseID_ServerBaseUID",
                 table: "Endpoints",
                 columns: new[] { "ServerBaseID", "ServerBaseUID" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServerEvents_ServerUid",
+                table: "ServerEvents",
+                column: "ServerUid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Servers_CfgServerUID",

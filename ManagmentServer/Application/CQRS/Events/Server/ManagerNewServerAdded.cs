@@ -76,11 +76,11 @@ namespace Aplication.Events.Server
 
             try
             {
-                await _fascade.ProcesCommand(
-                    notifi.ServerGuid,
-                    ServerCmd.start,
-                    cancellationToken
-                );
+                // await _fascade.ProcesCommand(
+                //     notifi.ServerGuid,
+                //     ServerCmd.start,
+                //     cancellationToken
+                // );
             }
             catch (Exception ex)
             {

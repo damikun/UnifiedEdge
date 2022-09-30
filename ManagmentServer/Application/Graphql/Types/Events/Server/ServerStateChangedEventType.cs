@@ -12,10 +12,11 @@ namespace Aplication.Graphql.Types
 
         protected override void Configure(IObjectTypeDescriptor<GQL_ServerStateChangedEvent> descriptor)
         {
-
             descriptor.Implements<IServerEventType>();
 
             descriptor.Field(e => e.ID).ID();
+
+            descriptor.Field(e => e.ServerUid).Ignore();
         }
 
         private class Resolvers

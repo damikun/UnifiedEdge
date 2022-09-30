@@ -124,7 +124,8 @@ namespace Server
         protected async Task<ServerState> SetState(
             ServerState state,
             CancellationToken ct = default,
-            bool in_background = false)
+            bool in_background = false
+        )
         {
             if (isDisposing)
             {
@@ -133,6 +134,15 @@ namespace Server
 
             // Set state enum
             State = state;
+
+            try
+            {
+                if (_current != null)
+                {
+                    _current.Dispose();
+                }
+            }
+            catch { }
 
             // Handle OnState
             _current = Task.Run(async () =>
@@ -145,6 +155,8 @@ namespace Server
             {
                 await SetState(ServerState.stopping, ct, false);
                 await OnState();
+
+                _publisher.PublishError(this.UID, "State transition error");
             },
             TaskContinuationOptions.OnlyOnFaulted)
             .ContinueWith(t =>

@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20220928122326_Init")]
+    [Migration("20220930064148_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "78a8d6fb-5055-4b86-984a-0d2543c5eec9",
+                            Guid = "58c6785f-a561-4544-bc64-bcb324e79385",
                             Name = "Undefined"
                         });
                 });
@@ -78,6 +78,42 @@ namespace Persistence.Migrations
                     b.HasIndex("AdapterId");
 
                     b.ToTable("AdapterEvents");
+                });
+
+            modelBuilder.Entity("Domain.Server.Events.ServerEventBase", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ServerUid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ServerUid");
+
+                    b.ToTable("ServerEvents");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ServerEventBase");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>
@@ -135,40 +171,6 @@ namespace Persistence.Migrations
                     b.ToTable("ServerCfg");
                 });
 
-            modelBuilder.Entity("Domain.Server.ServerEvent", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Exception")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ExceptionMessage")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("JsonData")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ServerUid")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ServerEvents");
-                });
-
             modelBuilder.Entity("Domain.Server.ServerIPv4Endpoint", b =>
                 {
                     b.Property<int>("Id")
@@ -197,6 +199,17 @@ namespace Persistence.Migrations
                     b.HasIndex("ServerBaseID", "ServerBaseUID");
 
                     b.ToTable("Endpoints");
+                });
+
+            modelBuilder.Entity("Domain.Server.Events.ServerStateChangedEvent", b =>
+                {
+                    b.HasBaseType("Domain.Server.Events.ServerEventBase");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("ServerStateChangedEvent");
                 });
 
             modelBuilder.Entity("Domain.Server.MqttServer", b =>

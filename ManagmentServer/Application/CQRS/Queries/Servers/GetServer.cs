@@ -29,9 +29,30 @@ namespace Aplication.CQRS.Queries
     public class GetServerValidator
         : AbstractValidator<GetServer>
     {
-        public GetServerValidator()
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+
+        public GetServerValidator(
+            IDbContextFactory<ManagmentDbCtx> factory
+        )
         {
-            // Add Field validation..   
+            _factory = factory;
+
+            RuleFor(e => e.Guid)
+            .NotEmpty()
+            .NotNull()
+            .MustAsync(Exist).WithMessage("Server uid not found");
+        }
+
+        public async Task<bool> Exist(
+            string uid,
+            CancellationToken cancellationToken
+        )
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            return await dbContext.Servers
+                .AnyAsync(e => e.UID == uid, cancellationToken);
         }
     }
 

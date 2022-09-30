@@ -1,14 +1,13 @@
+using Server;
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
+using Server.Manager.Mqtt;
 using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
-using Aplication.Graphql.Interfaces;
-using HotChocolate.Types.Pagination;
-using Server.Manager.Mqtt;
 using Aplication.Events.Server;
-using Server;
+using HotChocolate.Types.Pagination;
 
 namespace Aplication.Graphql.Queries
 {
@@ -18,7 +17,6 @@ namespace Aplication.Graphql.Queries
     [ExtendObjectType(OperationTypeNames.Query)]
     public class GlobalQueries
     {
-
         /// <summary>
         /// Injected <c>IMapper</c>
         /// </summary>
@@ -29,34 +27,11 @@ namespace Aplication.Graphql.Queries
             _mapper = mapper;
         }
 
-        [UseConnection(typeof(GQL_IServer))]
-        public async Task<Connection<GQL_IServer>> GetServers(
-            IResolverContext ctx,
-            [Service] IMediator mediator,
-            [Service] ICursorPagination<GQL_IServer> _cursor_provider,
-            CancellationToken cancellationToken)
-        {
-            var arguments = ctx.GetPaggingArguments();
-
-            var result = await mediator.Send(
-                new GetServers(arguments),
-                cancellationToken
-            );
-
-            return _mapper.Map<Connection<GQL_IServer>>(result);
-        }
-
         public async Task<GQL_Adapter?> Testik(
         [ID] string id,
         [Service] IMqttServerManager manager
         )
         {
-            var ssss = new ServerGenericEventNotification<ServerStateChangedEvent>(new ServerStateChangedEvent());
-
-            System.Console.WriteLine("*************************");
-            System.Console.WriteLine(ssss.GetType().Name);
-            System.Console.WriteLine(ssss.GetType().FullName);
-            System.Console.WriteLine("*************************");
 
             return null;
         }
@@ -94,7 +69,6 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<Connection<GQL_Adapter>>(result);
         }
-
 
         [UseConnection(typeof(GQL_AdapterLog))]
         public async Task<Connection<GQL_AdapterLog>> GetAdapterLogs(

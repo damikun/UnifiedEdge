@@ -1,4 +1,3 @@
-using AutoMapper;
 using System.Collections;
 using Aplication.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +9,9 @@ namespace Aplication.Core.Pagination
 
     public sealed class CursorPagination<TEntity> : ICursorPagination<TEntity>
     {
-        public readonly IMapper _mapper;
-
-        public CursorPagination(IMapper mapper)
+        public CursorPagination()
         {
-            _mapper = mapper;
+
         }
 
         public EdgeBase<TEntity> CreateEdge(TEntity entity, int index)
@@ -60,7 +57,7 @@ namespace Aplication.Core.Pagination
                     }
 
                     list.Add(this.CreateEdge(
-                        _mapper.Map<TEntity>(item),
+                        item,
                         index++
                     ));
                 }
@@ -75,7 +72,7 @@ namespace Aplication.Core.Pagination
                     }
 
                     list.Add(this.CreateEdge(
-                        _mapper.Map<TEntity>(item),
+                        item,
                         index++
                     ));
                 }

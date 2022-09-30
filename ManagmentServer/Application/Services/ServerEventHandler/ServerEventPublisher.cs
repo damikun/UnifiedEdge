@@ -11,7 +11,7 @@ namespace Aplication.Services.ServerEventHandler
             _queueProvider = queueProvider;
         }
 
-        public void PublishError(string server_uid, string name, Exception ex)
+        public void PublishError(string server_uid, string name, Exception? ex = null)
         {
             _ = Task.Run(() => _queueProvider.Queue.Writer.WriteAsync(
                 new ServerErrorEvent()
@@ -19,7 +19,7 @@ namespace Aplication.Services.ServerEventHandler
                     Message = name,
                     Exception = ex,
                     UID = server_uid,
-                    Description = ex.Message
+                    Description = ex != null ? ex.Message : ""
                 })
             );
         }

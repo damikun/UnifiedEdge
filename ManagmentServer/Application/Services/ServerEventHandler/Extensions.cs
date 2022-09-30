@@ -1,5 +1,4 @@
 using Server;
-using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.Services.ServerEventHandler

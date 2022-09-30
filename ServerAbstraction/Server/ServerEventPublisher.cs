@@ -24,7 +24,7 @@ namespace Server
 
         }
 
-        public void PublishError(string server_uid, string Name, Exception ex)
+        public void PublishError(string server_uid, string Name, Exception? ex = null)
         {
 
         }

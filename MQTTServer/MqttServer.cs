@@ -60,7 +60,7 @@ namespace Server.Mqtt
             {
                 if (this.Server == null || !this.Server.IsStarted)
                 {
-                    await UnsafeStopAsync();
+                    await this.SetState(ServerState.stopping);
                 }
             }
             else
@@ -73,6 +73,8 @@ namespace Server.Mqtt
                     this.State != ServerState.restarting))
                 {
                     await UnsafeStopAsync();
+
+                    await this.SetState(ServerState.stopping);
                 }
             }
 

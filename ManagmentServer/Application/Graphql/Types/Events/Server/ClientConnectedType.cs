@@ -16,6 +16,7 @@ namespace Aplication.Graphql.Types
 
             descriptor.Field(e => e.ID).ID();
 
+            descriptor.Field(e => e.ServerUid).Ignore();
         }
 
         private class Resolvers

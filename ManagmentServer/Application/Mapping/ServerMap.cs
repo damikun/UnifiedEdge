@@ -1,7 +1,7 @@
 using AutoMapper;
 using Domain.Server;
 using Aplication.DTO;
-using Aplication.Interfaces;
+using Domain.Server.Events;
 using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Mapping
@@ -13,6 +13,70 @@ namespace Aplication.Mapping
             CreateMap(typeof(ServerBase), typeof(ServerType))
                 .ConvertUsing(typeof(ServerToEnumType));
 
+            CreateMap(typeof(ServerEventBase), typeof(DTO_IServerEventLog))
+                .ConvertUsing(typeof(MapServerEventToDtoInterface));
+
+            CreateMap(typeof(DTO_IServerEventLog), typeof(GQL_IServerEventUnion))
+                .ConvertUsing(typeof(MapServerLogsDtoToGqlInterfaces));
+        }
+
+        public class MapServerLogsDtoToGqlInterfaces
+            : ITypeConverter<DTO_IServerEventLog, GQL_IServerEventUnion>
+        {
+            public GQL_IServerEventUnion Convert(
+                DTO_IServerEventLog source,
+                GQL_IServerEventUnion destination,
+                ResolutionContext context)
+            {
+                if (source == null)
+                    return null!;
+
+                switch (source)
+                {
+                    case DTO_ClientConnected e:
+                        return context.Mapper.Map<GQL_ClientConnected>(e);
+                    case DTO_ServerConfigDiffEvent e:
+                        return context.Mapper.Map<GQL_ServerConfigDiffEvent>(e);
+                    case DTO_ServerErrorEvent e:
+                        return context.Mapper.Map<GQL_ServerErrorEvent>(e);
+                    case DTO_ServerInfoEvent e:
+                        return context.Mapper.Map<GQL_ServerInfoEvent>(e);
+                    case DTO_ServerStateChangedEvent e:
+                        return context.Mapper.Map<GQL_ServerStateChangedEvent>(e);
+
+                    default: throw new Exception("MapServerEventToDtoInterface => Not supported source type");
+                }
+            }
+        }
+
+
+        public class MapServerEventToDtoInterface
+            : ITypeConverter<ServerEventBase, DTO_IServerEventLog>
+        {
+            public DTO_IServerEventLog Convert(
+                ServerEventBase source,
+                DTO_IServerEventLog destination,
+                ResolutionContext context)
+            {
+                if (source == null)
+                    return null!;
+
+                switch (source)
+                {
+                    case ServerClientConnectedEvent e:
+                        return context.Mapper.Map<DTO_ClientConnected>(e);
+                    case ServerConfigDiffEvent e:
+                        return context.Mapper.Map<DTO_ServerConfigDiffEvent>(e);
+                    case ServerErrorEvent e:
+                        return context.Mapper.Map<DTO_ServerErrorEvent>(e);
+                    case ServerInfoEvent e:
+                        return context.Mapper.Map<DTO_ServerInfoEvent>(e);
+                    case ServerStateChangedEvent e:
+                        return context.Mapper.Map<DTO_ServerStateChangedEvent>(e);
+
+                    default: throw new Exception("MapServerEventToDtoInterface => Not supported source type");
+                }
+            }
         }
 
         public class ServerToEnumType
@@ -26,51 +90,5 @@ namespace Aplication.Mapping
                 return source.Type;
             }
         }
-
-        public class ServerToIServer
-            : ITypeConverter<ServerBase, IServer>
-        {
-            public IServer Convert(
-                ServerBase source,
-                IServer destination,
-                ResolutionContext context)
-            {
-                if (source == null)
-                    return null!;
-
-                switch (source)
-                {
-                    case MqttServer:
-                        return context.Mapper.Map<DTO_MqttServer>(source);
-                    case OpcServer:
-                        return context.Mapper.Map<DTO_OpcServer>(source);
-                    default: throw new Exception("Not supported source type");
-                }
-            }
-        }
-
-        public class DomainToGraphqlIServer
-            : ITypeConverter<IServer, GQL_IServer>
-        {
-            public GQL_IServer Convert(
-                IServer source,
-                GQL_IServer destination,
-                ResolutionContext context)
-            {
-                if (source == null)
-                    return null!;
-
-                switch (source)
-                {
-                    case DTO_MqttServer:
-                        return context.Mapper.Map<GQL_MqttServer>(source);
-                    case DTO_OpcServer:
-                        return context.Mapper.Map<GQL_OpcServer>(source);
-
-                    default: throw new Exception("DomainToGraphqlIServerMapper => Not supported source type");
-                }
-            }
-        }
-
     }
 }
