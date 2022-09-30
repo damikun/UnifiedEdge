@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
-import { useNavigate } from "react-router";
 import { graphql } from "babel-plugin-relay/macro";
 import { ServerLogTypeBadget } from "./ServerLogType";
 import { GetLocalDate } from "../../../Shared/Common";
 import { useCallback, useMemo, useTransition } from "react";
 import { ServerLogsItemDataFragment$key } from "./__generated__/ServerLogsItemDataFragment.graphql";
-
 
 const ServerLogsItemDataFragment = graphql`
   fragment ServerLogsItemDataFragment on GQL_IServerEvent {
@@ -19,10 +17,11 @@ const ServerLogsItemDataFragment = graphql`
 
 type ServerLogsItemProps = {
   dataRef:ServerLogsItemDataFragment$key | null;
+  onItemClick: (id:string|undefined)=>void
   key_?:string
 }
 
-export function ServerLogsItem({dataRef, key_}:ServerLogsItemProps){
+export function ServerLogsItem({dataRef, onItemClick,key_}:ServerLogsItemProps){
 
   const data = useFragment(ServerLogsItemDataFragment, dataRef);
   
@@ -31,18 +30,18 @@ export function ServerLogsItem({dataRef, key_}:ServerLogsItemProps){
       busyDelayMs: 2000,
   });
 
-  const navigate = useNavigate();
-  
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
-
+      data?.iD && startTransition(() => {
+        onItemClick(data.iD)
+      });
     },
-    [],
+    [onItemClick,data],
   )
 
   const dt = useMemo(()=>{
     return GetLocalDate(data?.timeStamp);
-},[data]) 
+  },[data]) 
 
 var bg_color = useMemo(() => {
   switch (data?.type) {

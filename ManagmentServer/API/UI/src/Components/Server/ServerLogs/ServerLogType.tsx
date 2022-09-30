@@ -64,8 +64,8 @@ type ServerLogTypeProps = {
       variant={variant.variant}
     >
       <div className="flex flex-row space-x-2 items-center">
-        <FontAwesomeIcon icon={variant.icon} />
-        <div>{variant.name}</div>
+        <FontAwesomeIcon  className="my-auto leading-none" icon={variant.icon} />
+        <div className="my-auto leading-none">{variant.name}</div>
       </div>
   
     </Badge>

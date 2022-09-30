@@ -1,14 +1,16 @@
 import clsx from "clsx";
-import React, { useCallback } from "react";
-import { useParams } from "react-router-dom";
+import ServerLogDetail from "./ServerlogDetail";
 import { ServerLogsItem } from "./ServerLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
+import React, { useCallback, useMemo } from "react";
+import Modal from "../../../UIComponents/Modal/Modal";
 import Section from "../../../UIComponents/Section/Section";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { ServerLogsQuery } from "./__generated__/ServerLogsQuery.graphql";
-import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
 import { ServerLogsPaginationFragment_logs$key } from "./__generated__/ServerLogsPaginationFragment_logs.graphql";
 import StayledInfinityScrollContainer from "../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
+import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
 
 
 const ServerLogsTag = graphql`
@@ -41,6 +43,8 @@ const ServerLogsPaginationFragment = graphql`
   }
 `;
 
+export const LOG_PARAM_NAME = "log_id"
+
 export default React.memo(ServerLogs)
 
 function ServerLogs() {
@@ -68,27 +72,60 @@ function ServerLogs() {
     [pagination],
   )
   
-  return <Section 
-    name={"Logs"}
-    component={
-      <div className={clsx("flex bg-gray-100 flex-col w-full",
-      "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
-        <StayledInfinityScrollContainer
-          header={<Header/>}
-          onEnd={handleLoadMore}
-        >
-          {
-            pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
-                return <ServerLogsItem 
-                key={edge.node?.iD??index}
-                dataRef={edge.node}
-              />
-            })
-          }
-        </StayledInfinityScrollContainer>
-      </div>
-    }
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const isOpen = useMemo(() => 
+    searchParams.get(LOG_PARAM_NAME)!== null, [searchParams]
+  );
+  
+  const handleModalClose = useCallback(() => {
+    searchParams.delete(LOG_PARAM_NAME);
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
+
+  const handleItemDetail = useCallback(
+    (log_id: string | null | undefined) => {
+      searchParams.delete(LOG_PARAM_NAME);
+      if (log_id) {
+        searchParams.append(LOG_PARAM_NAME, log_id);
+      }
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams]
+  );
+
+  return <>
+    <Modal
+      position="top"
+      isOpen={isOpen}
+      onClose={handleModalClose}
+      component={
+        <ServerLogDetail />
+      }
     />
+    <Section 
+      name={"Logs"}
+      component={
+        <div className={clsx("flex bg-gray-100 flex-col w-full",
+        "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
+          <StayledInfinityScrollContainer
+            header={<Header/>}
+            onEnd={handleLoadMore}
+          >
+            {
+              pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
+                  return <ServerLogsItem 
+                  key={edge.node?.iD??index}
+                  dataRef={edge.node}
+                  onItemClick={handleItemDetail}
+                />
+              })
+            }
+          </StayledInfinityScrollContainer>
+        </div>
+      }
+      />
+    </>
 }
 
 function Header(){
