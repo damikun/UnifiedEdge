@@ -1,12 +1,10 @@
 using MediatR;
 using AutoMapper;
+using Server.Manager;
 using Aplication.DTO;
-using Server.Manager.Mqtt;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
-using Server.Manager;
-using Server.Mqtt;
 
 namespace Aplication.Graphql.Types
 {

@@ -16,6 +16,7 @@ interface GQL_IServer {
 }
 
 interface GQL_IServerEvent {
+  asJson: String!
   description: String
   iD: ID!
   name: String!
@@ -56,7 +57,16 @@ type GQL_Adapter implements Node {
   description: String!
   id: ID!
   interfaceType: NetworkInterfaceType!
-  logs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
+  logs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterLogConnection
   name: String!
   physicalAddress: String!
   state: AdapterState!
@@ -112,10 +122,11 @@ type GQL_AdapterLogEdge {
 }
 
 type GQL_ClientConnected implements GQL_IServerEvent {
+  asJson: String
   clientId: String!
   description: String
   iD: ID!
-  name: String
+  name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
 }
@@ -245,39 +256,43 @@ type GQL_RuntimeMetrics {
 }
 
 type GQL_ServerConfigDiffEvent implements GQL_IServerEvent {
+  asJson: String
   configJson: String
   currentConfigJson: String
   description: String
   iD: ID!
-  name: String
+  name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
 }
 
 type GQL_ServerErrorEvent implements GQL_IServerEvent {
+  asJson: String
   description: String
   exception: String
   iD: ID!
   json: String
   message: String!
-  name: String
+  name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
 }
 
 type GQL_ServerInfoEvent implements GQL_IServerEvent {
+  asJson: String
   description: String
   iD: ID!
   message: String!
-  name: String
+  name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
 }
 
 type GQL_ServerStateChangedEvent implements GQL_IServerEvent {
+  asJson: String
   description: String
   iD: ID!
-  name: String
+  name: String!
   state: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
@@ -317,10 +332,14 @@ type HistorianRecord {
 
 type Mutation {
   createServer(request: CreateServerInput!): CreateServerPayload!
-  enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
+  enableDisableServer(
+    input: EnableDisableServerInput!
+  ): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
-  setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
+  setServerDescription(
+    input: SetServerDescriptionInput!
+  ): SetServerDescriptionPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   test: TestPayload!
 }
@@ -344,20 +363,67 @@ type ProcessServerCmdPayload {
 
 type Query {
   adapterById(id: ID!): GQL_Adapter!
-  adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
-  adapters("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterConnection
+  adapterLogs(
+    adapter_id: ID!
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterLogConnection
+  adapters(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterConnection
   edgeInfo: GQL_Edge!
   me: GQL_User
   mqttServerById(id: ID!): GQL_MqttServer!
-  mqttServers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_MqttServerConnection
+  mqttServers(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_MqttServerConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
   runtimeMetrics: GQL_RuntimeMetrics!
   serverLogById(log_id: ID!): GQL_IServerEventUnion!
-  serverLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_id: ID!): GQL_IServerEventUnionConnection
-  servers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_IServerConnection
+  serverLogs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    server_id: ID!
+  ): GQL_IServerEventUnionConnection
+  servers(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_IServerConnection
   systemInfo: GQL_SystemInfo!
   test: Boolean!
   testik(id: ID!): GQL_Adapter
@@ -389,7 +455,12 @@ type TestPayload {
   query: Query!
 }
 
-union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent
+union GQL_IServerEventUnion =
+    GQL_ClientConnected
+  | GQL_ServerConfigDiffEvent
+  | GQL_ServerErrorEvent
+  | GQL_ServerInfoEvent
+  | GQL_ServerStateChangedEvent
 
 input CreateServerInput {
   description: String
@@ -521,20 +592,35 @@ enum ServerState {
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
-directive @defer("Deferred when true." if: Boolean "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+directive @defer(
+  "Deferred when true."
+  if: Boolean
+  "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to."
+  label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 directive @export(as: String) on FIELD
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
-directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+directive @specifiedBy(
+  "The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types."
+  url: String!
+) on SCALAR
 
 "The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
-directive @stream("Streamed when true." if: Boolean "The initial elements that shall be send down to the consumer." initialCount: Int! = 0 "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String) on FIELD
+directive @stream(
+  "Streamed when true."
+  if: Boolean
+  "The initial elements that shall be send down to the consumer."
+  initialCount: Int! = 0
+  "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to."
+  label: String
+) on FIELD
 
 scalar Any
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

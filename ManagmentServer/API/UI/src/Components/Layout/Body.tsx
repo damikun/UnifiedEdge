@@ -1,14 +1,19 @@
 import { lazy, Suspense } from "react";
-import Servers from "../Servers/Servers";
-import Server from "../Server/MqttServer/MqttServer";
 import { Navigate, Route, Routes } from "react-router";
 
-// const Server = lazy(
-//   () =>
-//     import(
-//       /* webpackChunkName: "Monitor" */ "../Monitor/Monitor"
-//     )
-// );
+const Servers = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Servers" */ "../Servers/Servers"
+    )
+);
+
+const Server = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Server" */ "../Server/MqttServer/MqttServer"
+    )
+);
 
 const Adapter = lazy(
   () =>

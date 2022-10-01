@@ -1,5 +1,5 @@
-using Aplication.Graphql.Interfaces;
 using Aplication.Mapping;
+using Aplication.Graphql.Interfaces;
 
 namespace Aplication.DTO
 {

@@ -32,5 +32,10 @@ namespace Aplication.Graphql.Interfaces
         /// TimeStamp
         /// </summary>
         public DateTime TimeStamp { get; set; }
+
+        // <summary>
+        /// AsJson
+        /// </summary>
+        public string AsJson { get; set; }
     }
 }

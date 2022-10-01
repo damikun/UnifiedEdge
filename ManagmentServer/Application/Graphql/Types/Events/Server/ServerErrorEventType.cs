@@ -1,4 +1,5 @@
 using Aplication.DTO;
+using System.Text.Json;
 using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Graphql.Types
@@ -19,6 +20,10 @@ namespace Aplication.Graphql.Types
 
             descriptor.Field(e => e.ServerUid).Ignore();
 
+            descriptor.Field(e => e.AsJson).Resolve((ctx =>
+            {
+                return JsonSerializer.Serialize(ctx.Parent<GQL_ServerErrorEvent>());
+            }));
         }
 
         private class Resolvers

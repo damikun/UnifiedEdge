@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d0c4dbd3d6dd8f06c1c7f303b955837b>>
+ * @generated SignedSource<<1ff653dd1fc15f9fb836e52479e19d83>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type ServerlogDetailQuery$variables = {
 };
 export type ServerlogDetailQuery$data = {
   readonly serverLogById: {
+    readonly asJson?: string;
     readonly iD?: string;
     readonly name?: string;
     readonly timeStamp?: any;
@@ -54,6 +55,13 @@ v2 = {
       "args": null,
       "kind": "ScalarField",
       "name": "name",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "asJson",
       "storageKey": null
     },
     {
@@ -118,16 +126,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cce0340b3eaef76e6a5a315566725046",
+    "cacheID": "a6115a647fe5b2231ad346e338bbace1",
     "id": null,
     "metadata": {},
     "name": "ServerlogDetailQuery",
     "operationKind": "query",
-    "text": "query ServerlogDetailQuery(\n  $log_id: ID!\n) {\n  serverLogById(log_id: $log_id) {\n    __typename\n    ... on GQL_IServerEvent {\n      __isGQL_IServerEvent: __typename\n      iD\n      name\n      timeStamp\n    }\n  }\n}\n"
+    "text": "query ServerlogDetailQuery(\n  $log_id: ID!\n) {\n  serverLogById(log_id: $log_id) {\n    __typename\n    ... on GQL_IServerEvent {\n      __isGQL_IServerEvent: __typename\n      iD\n      name\n      asJson\n      timeStamp\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "38deadc1a0c7dd408a79ad4375e69e83";
+(node as any).hash = "33eb1c3f5be769536d0af86d642a71e4";
 
 export default node;

@@ -1,12 +1,12 @@
 import clsx from "clsx";
+import { useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { LOG_PARAM_NAME } from "./ServerLogs";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
+import { GetLocalDate } from "../../../Shared/Common";
 import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { ServerlogDetailQuery } from "./__generated__/ServerlogDetailQuery.graphql";
-import { useMemo } from "react";
-import { GetLocalDate } from "../../../Shared/Common";
 
 const ServerLogDetailTag = graphql`
   query ServerlogDetailQuery($log_id:ID!) {
@@ -14,6 +14,7 @@ const ServerLogDetailTag = graphql`
         ... on GQL_IServerEvent {
         iD
         name
+        asJson
         timeStamp
       }
     }
