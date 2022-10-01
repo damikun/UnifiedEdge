@@ -57,10 +57,10 @@ const Help = lazy(
       )
   );
 
-const Settings = lazy(
+const System = lazy(
   () =>
     import(
-      /* webpackChunkName: "Settings" */ "../Settings/EdgeSettings"
+      /* webpackChunkName: "Settings" */ "../System/SystemView"
     )
 );
 
@@ -84,7 +84,7 @@ export default function Body(){
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />
           <Route path="/Help/*" element={<Help/>} />
-          <Route path="/Settings/*" element={<Settings/>} />
+          <Route path="/System/*" element={<System/>} />
           <Route path="/Connections/*" element={<Connections/>} />
           <Route path="/*" element={<Navigate to={"/Monitor"}/>} />
         </Routes>

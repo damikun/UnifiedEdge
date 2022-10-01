@@ -1,4 +1,4 @@
-namespace Domain.Server
+namespace Domain.Event
 {
     public abstract class EventBase
     {

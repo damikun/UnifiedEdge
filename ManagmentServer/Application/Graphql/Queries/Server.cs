@@ -1,6 +1,5 @@
 using MediatR;
 using AutoMapper;
-using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
@@ -29,7 +28,6 @@ namespace Aplication.Graphql.Queries
         public async Task<Connection<GQL_IServer>> GetServers(
             IResolverContext ctx,
             [Service] IMediator mediator,
-            [Service] ICursorPagination<GQL_IServer> _cursor_provider,
             CancellationToken cancellationToken)
         {
             var arguments = ctx.GetPaggingArguments();
@@ -47,7 +45,6 @@ namespace Aplication.Graphql.Queries
             [ID] string server_id,
             IResolverContext ctx,
             [Service] IMediator mediator,
-            [Service] ICursorPagination<GQL_IServer> _cursor_provider,
             CancellationToken cancellationToken)
         {
             var arguments = ctx.GetPaggingArguments();

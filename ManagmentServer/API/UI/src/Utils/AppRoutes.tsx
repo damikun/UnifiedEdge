@@ -22,8 +22,6 @@ export default function AppRoutes() {
 
         <Route path={"*"} element={<Layout/>} />
         
-        <Route path={"*"} element={<Layout/>} />
-        
         <Route path={"/logout"} element={<Logout />} />
 
         <Route path="*" element={<FourOhFour />} />

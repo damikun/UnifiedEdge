@@ -4,10 +4,8 @@ using Persistence;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
-using Aplication.Interfaces;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Aplication.CQRS.Queries
 {
@@ -92,31 +90,15 @@ namespace Aplication.CQRS.Queries
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Injected <c>IMemoryCache</c>
-        /// </summary>
-        private readonly IMemoryCache _cache;
-
-        /// <summary>
-        /// Injected <c>ICursorPagination</c>
-        /// </summary>
-        private readonly ICursorPagination<Domain.Server.Events.ServerEventBase> _cursor_provider;
-
-        /// <summary>
         /// Main constructor
         /// </summary>
         public GetServerLogByIdHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
-            IMapper mapper,
-            ICursorPagination<Domain.Server.Events.ServerEventBase> cursor_provider,
-            IMemoryCache cache)
+            IMapper mapper)
         {
-            _cache = cache;
-
             _mapper = mapper;
 
             _factory = factory;
-
-            _cursor_provider = cursor_provider;
         }
 
         /// <summary>

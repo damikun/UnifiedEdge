@@ -89,6 +89,8 @@ namespace API
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<SystemEventType>()
+
                 .AddType<ServerEventsUnionType>()
                 .AddType<ClientConnectedType>()
                 .AddType<ServerConfigDiffEventType>()

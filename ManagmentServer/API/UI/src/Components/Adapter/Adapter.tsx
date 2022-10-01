@@ -1,4 +1,5 @@
 import React from "react";
+import AdapterLogs from "./AdapterLogs";
 import AdapterAddress from "./AdapterAddress";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
@@ -6,7 +7,6 @@ import Section from "../../UIComponents/Section/Section";
 import { AdapterQuery } from "./__generated__/AdapterQuery.graphql";
 import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
-import AdapterLogs from "./AdapterLogs";
 
 export const SettingsTabs = [
   {

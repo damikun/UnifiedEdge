@@ -1,6 +1,7 @@
 using Server;
 using MediatR;
 using Persistence;
+using Domain.Event;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,7 @@ namespace Aplication.Events.Server
                     ServerUid = e.UID,
                     Name = e.Message,
                     Description = e.Description,
-                    Type = Domain.Server.EventType.error
+                    Type = EventType.error
                 }
             );
 

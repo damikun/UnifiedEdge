@@ -1,6 +1,7 @@
 using Domain;
 using Domain.Server;
 using Domain.Server.Events;
+using Domain.System.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
@@ -18,6 +19,7 @@ namespace Persistence
 
         public DbSet<ServerEventBase> ServerEvents { get; set; }
 
+        public DbSet<SystemEvent> SystemEvents { get; set; }
 
         public DbSet<Edge> Edge { get; set; }
 

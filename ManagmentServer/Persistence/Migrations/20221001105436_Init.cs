@@ -75,6 +75,23 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SystemEvents",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Json = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SystemEvents", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MqttServerCfg",
                 columns: table => new
                 {
@@ -197,7 +214,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "58c6785f-a561-4544-bc64-bcb324e79385", null, null, null, "Undefined" });
+                values: new object[] { 1, null, "e54f5e0a-9688-4068-b5db-fdd7b1f690b2", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -256,6 +273,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ServerEvents");
+
+            migrationBuilder.DropTable(
+                name: "SystemEvents");
 
             migrationBuilder.DropTable(
                 name: "Servers");

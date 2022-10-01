@@ -1,6 +1,7 @@
 using Server;
 using MediatR;
 using Persistence;
+using Domain.Event;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +57,7 @@ namespace Aplication.Events.Server
                     ServerUid = e.UID,
                     Name = nameof(ServerClientConnected),
                     Description = "",
-                    Type = Domain.Server.EventType.warning
+                    Type = EventType.warning
                 }
             );
 

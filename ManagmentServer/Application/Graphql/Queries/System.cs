@@ -2,7 +2,9 @@ using MediatR;
 using AutoMapper;
 using Aplication.DTO;
 using Aplication.Services;
+using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
+using HotChocolate.Types.Pagination;
 
 namespace Aplication.Graphql.Queries
 {
@@ -52,6 +54,43 @@ namespace Aplication.Graphql.Queries
             var dto = await mediator.Send(new GetEdgeInfo());
 
             return _mapper.Map<GQL_Edge>(dto);
+        }
+
+        /// <summary>
+        /// Returns system logs connection
+        /// </summary>
+        /// <returns>Returns GQL_SystemEvent connection</returns>
+        [UseConnection(typeof(GQL_SystemEvent))]
+        public async Task<Connection<GQL_SystemEvent>> GetSystemLogs(
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetSystemLogs(arguments),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_SystemEvent>>(result);
+        }
+
+        /// <summary>
+        /// Returns system log
+        /// </summary>
+        /// <returns>Returns GQL_SystemEvent</returns>
+        public async Task<GQL_SystemEvent> GetSystemLogById(
+            [ID] long log_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetSystemLogById(log_id),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_SystemEvent>(result);
         }
     }
 }

@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20220930064148_Init")]
+    [Migration("20221001105436_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "58c6785f-a561-4544-bc64-bcb324e79385",
+                            Guid = "e54f5e0a-9688-4068-b5db-fdd7b1f690b2",
                             Name = "Undefined"
                         });
                 });
@@ -199,6 +199,33 @@ namespace Persistence.Migrations
                     b.HasIndex("ServerBaseID", "ServerBaseUID");
 
                     b.ToTable("Endpoints");
+                });
+
+            modelBuilder.Entity("Domain.System.Events.SystemEvent", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Json")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SystemEvents");
                 });
 
             modelBuilder.Entity("Domain.Server.Events.ServerStateChangedEvent", b =>

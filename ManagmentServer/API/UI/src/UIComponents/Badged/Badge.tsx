@@ -168,7 +168,7 @@ function Badge({
                 )}
               >
                 <div
-                  className={clsx(
+                  className={clsx("relative",
                     turncate === true && "truncate my-auto"
                   )}
                 >

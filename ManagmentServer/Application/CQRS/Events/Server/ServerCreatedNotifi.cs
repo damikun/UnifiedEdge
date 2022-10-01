@@ -110,7 +110,6 @@ namespace Aplication.Events.Server
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex);
                 _telemetry.SetOtelError(ex);
             }
         }

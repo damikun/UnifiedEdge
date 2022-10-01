@@ -66,7 +66,7 @@ var bg_color = useMemo(() => {
       </div>
     </div>
     <div className={clsx("w-1/12 2xl:w-2/12 flex truncate text-gray-500",
-        "justify-center text-center font-mono font-semibold text-sm hidden md:flex")}>
+        "justify-center text-center font-mono font-semibold text-sm hidden lg:flex")}>
         <div className="truncate">
           <ServerLogTypeBadget state={data?.type}/>
         </div>

@@ -65,7 +65,7 @@ type ServerLogTypeProps = {
     >
       <div className="flex flex-row space-x-2 items-center">
         <FontAwesomeIcon  className="my-auto leading-none" icon={variant.icon} />
-        <div className="my-auto leading-none">{variant.name}</div>
+        <div className="my-auto leading-none truncate">{variant.name}</div>
       </div>
   
     </Badge>

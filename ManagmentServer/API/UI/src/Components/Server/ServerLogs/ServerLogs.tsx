@@ -135,7 +135,7 @@ function Header(){
   <div className="flex w-6/12 2xl:w-8/12">
     <div>Name</div>
   </div>
-  <div className="w-1/12 2xl:w-2/12 text-center justify-center hidden md:flex">
+  <div className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
     <div>Type</div>
   </div>
   <div className="flex w-5/12 2xl:w-2/12 text-center justify-center">

@@ -34,7 +34,7 @@ export default function Layout(){
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
                 <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" />
                 <MenuItem to="/Users" icon={faUsers} name="Users" />
-                <MenuItem to="/Settings" icon={faGear} name="Settings" />
+                <MenuItem to="/System" pattern="/System/*"  icon={faGear} name="System" />
                 <MenuItem to="/Help" icon={faInfo} name="Help" />
             </MenuList>
 

@@ -1,6 +1,7 @@
 using Server;
 using MediatR;
 using Persistence;
+using Domain.Event;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,7 +51,7 @@ namespace Aplication.Events.Server
                     TimeStamp = e.TimeStamp,
                     ServerUid = e.UID,
                     Name = nameof(ServerStateChangedEvent),
-                    Type = Domain.Server.EventType.info
+                    Type = EventType.info
                 }
             );
 

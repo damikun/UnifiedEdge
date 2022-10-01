@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { LOG_PARAM_NAME } from "./ServerLogs";
 import { useSearchParams } from "react-router-dom";
@@ -37,9 +36,7 @@ export default function ServerLogDetail(){
 
   const modalCtx = useModalContext();
 
-  const dt = useMemo(()=>{
-    return GetLocalDate(data?.serverLogById.timeStamp);
-  },[data]) 
+  const dt = GetLocalDate(data?.serverLogById.timeStamp);
 
   return <ModalContainer label="Event detail">
       <div className="px-3 pb-2 w-fullflex-clex-col">

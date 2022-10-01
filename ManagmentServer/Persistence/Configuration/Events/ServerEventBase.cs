@@ -1,4 +1,3 @@
-using Domain.Server;
 using Domain.Server.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

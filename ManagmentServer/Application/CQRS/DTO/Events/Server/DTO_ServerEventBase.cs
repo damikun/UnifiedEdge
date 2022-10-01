@@ -1,5 +1,5 @@
 using AutoMapper;
-using Domain.Server;
+using Domain.Event;
 using Aplication.Mapping;
 using Domain.Server.Events;
 

@@ -298,6 +298,35 @@ type GQL_ServerStateChangedEvent implements GQL_IServerEvent {
   type: ServerEventTypes!
 }
 
+type GQL_SystemEvent {
+  description: String
+  iD: ID!
+  json: String
+  name: String!
+  timeStamp: DateTime!
+  type: EventType!
+}
+
+"A connection to a list of items."
+type GQL_SystemEventConnection {
+  "A list of edges."
+  edges: [GQL_SystemEventEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_SystemEvent]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_SystemEventEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_SystemEvent
+}
+
 type GQL_SystemInfo {
   appUrls: [String]
   id: ID
@@ -425,6 +454,17 @@ type Query {
     last: Int
   ): GQL_IServerConnection
   systemInfo: GQL_SystemInfo!
+  systemLogById(log_id: ID!): GQL_SystemEvent!
+  systemLogs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_SystemEventConnection
   test: Boolean!
   testik(id: ID!): GQL_Adapter
 }
@@ -496,6 +536,12 @@ enum AdapterState {
   UNKNOWN
   DOWN
   UP
+}
+
+enum EventType {
+  INFO
+  WARNING
+  ERROR
 }
 
 enum GQL_RuntimeMetricSource {
