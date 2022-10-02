@@ -18,6 +18,10 @@ namespace Aplication.GraphQL.Types
                     await ctx.Service<IMediator>().Send(new SchedulerGetRecurringJobById() { jobid = id }))
             );
 
+            descriptor.Field(e => e.ID).ID("SchedulerUid");
+
+            descriptor.Field(e => e.LastJobId).ID("SchedulerUid");
+
             descriptor.Field(t => t.LastJobState).Type<ScheduleStateEnumType>().Resolve((ctx) =>
             {
                 string state = ctx.Parent<GQL_RecurringJob>().LastJobState;

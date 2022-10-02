@@ -19,6 +19,8 @@ namespace Aplication.GraphQL.Types
                     await ctx.Service<IMediator>().Send(new SchedulerGetSuccessJobById() { jobid = id }))
             );
 
+            descriptor.Field(e => e.ID).ID("SchedulerUid");
+
             descriptor.Field(e => e.JobDetail)
                 .ResolveWith<Resolvers>(e => e.GetJobDetail(default!, default!, default));
         }
