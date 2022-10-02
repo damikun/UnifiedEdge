@@ -73,6 +73,7 @@ namespace API
                     .AddTypeExtension<UserQueries>()
                     .AddTypeExtension<GlobalQueries>()
                     .AddTypeExtension<ServerQueries>()
+                    .AddTypeExtension<SchedulerQueries>()
                 .AddMutationType<MutationType>()
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()

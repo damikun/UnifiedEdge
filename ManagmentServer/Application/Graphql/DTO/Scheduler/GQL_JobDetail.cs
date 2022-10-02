@@ -6,7 +6,7 @@ namespace Aplication.DTO.Scheduler
     {
         public GQL_JobDetail()
         {
-            Parametrs = new List<GQL_JobParameter>();
+
         }
 
         public string JobId { get; set; }

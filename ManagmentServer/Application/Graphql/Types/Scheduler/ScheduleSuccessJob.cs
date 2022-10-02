@@ -12,7 +12,6 @@ namespace Aplication.GraphQL.Types
     /// </summary>
     public class SchedulerSuccessJobType : ObjectType<GQL_SuccessJob>
     {
-
         protected override void Configure(IObjectTypeDescriptor<GQL_SuccessJob> descriptor)
         {
             descriptor.ImplementsNode().IdField(t => t.ID).ResolveNode(async (ctx, id) =>
@@ -27,14 +26,14 @@ namespace Aplication.GraphQL.Types
         private class Resolvers
         {
             public async Task<GQL_JobDetail> GetJobDetail(
-                    GQL_RecurringJob jobdetail,
+                    [Parent] GQL_SuccessJob JobDetail,
                     JobDetailByJobId_DataLoader grouploader,
                     CancellationToken cancellationToken)
             {
 
-                if (jobdetail.LastJobId != null && jobdetail.LastJobId != "")
+                if (JobDetail != null && JobDetail.ID != null)
                 {
-                    return await grouploader.LoadAsync(jobdetail.LastJobId, cancellationToken)!;
+                    return await grouploader.LoadAsync(JobDetail.ID, cancellationToken)!;
                 }
 
                 return null;

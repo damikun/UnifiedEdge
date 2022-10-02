@@ -15,6 +15,6 @@ namespace Aplication.DTO.Scheduler
         public DateTime? SucceededAt { get; set; }
         public bool InSucceededState { get; set; }
 
-        public virtual GQL_JobDetail? JobDetail { get; set; }
+        public GQL_JobDetail? JobDetail { get; set; }
     }
 }

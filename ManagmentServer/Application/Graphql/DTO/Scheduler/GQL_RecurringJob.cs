@@ -20,7 +20,7 @@ namespace Aplication.DTO.Scheduler
         public string LastJobState { get; set; }
         public bool Removed { get; set; }
         public string TimeZoneId { get; set; }
-        public string Error { get; set; }
+        public string? Error { get; set; }
         public int RetryAttempt { get; set; }
 
         public virtual GQL_JobDetail? JobDetail { get; set; }

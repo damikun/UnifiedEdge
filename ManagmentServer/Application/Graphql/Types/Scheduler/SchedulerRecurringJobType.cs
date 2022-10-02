@@ -33,14 +33,14 @@ namespace Aplication.GraphQL.Types
         private class Resolvers
         {
             public async Task<GQL_JobDetail> GetJobDetail(
-                GQL_RecurringJob jobdetail,
+                 [Parent] GQL_RecurringJob JobDetail,
                 JobDetailByJobId_DataLoader grouploader,
                 CancellationToken cancellationToken)
             {
 
-                if (jobdetail.LastJobId != null && jobdetail.LastJobId != "")
+                if (JobDetail.LastJobId != null && JobDetail.LastJobId != "")
                 {
-                    return await grouploader.LoadAsync(jobdetail.LastJobId, cancellationToken)!;
+                    return await grouploader.LoadAsync(JobDetail.LastJobId, cancellationToken)!;
                 }
 
                 return null;

@@ -22,16 +22,16 @@ namespace Aplication.GraphQL.Types
         private class Resolvers
         {
             public async Task<string?> GetJobLastState(
-            GQL_JobDetail jobdetail,
+            [Parent] GQL_JobDetail JobDetailParrent,
             JobStateByJobId_DataLoader grouploader,
             CancellationToken cancellationToken) =>
-                await grouploader.LoadAsync(jobdetail.JobId, cancellationToken);
+                await grouploader.LoadAsync(JobDetailParrent.JobId, cancellationToken);
 
             public async Task<string?> GetJobMethodCall(
-            GQL_JobDetail jobdetail,
+            [Parent] GQL_JobDetail JobDetailParrent,
             JobMethodByJobId_DataLoader grouploader,
             CancellationToken cancellationToken) =>
-                await grouploader.LoadAsync(jobdetail.JobId, cancellationToken);
+                await grouploader.LoadAsync(JobDetailParrent.JobId, cancellationToken);
         }
     }
 }
