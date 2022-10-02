@@ -110,8 +110,6 @@ namespace Aplication.CQRS.Queries.Scheduler
 
             joblist = monitor.FailedJobs(0, 250);
 
-            List<DTO_FailedJob> response = new List<DTO_FailedJob>();
-
             var jobs = joblist
             .Where(e => e.Value != null && e.Key != null)
             .Select(item => new DTO_FailedJob()

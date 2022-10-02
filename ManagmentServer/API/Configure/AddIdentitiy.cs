@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Server.Mqtt;
 
 namespace API
@@ -9,12 +10,26 @@ namespace API
         public static IServiceCollection AddIdentitiy(this IServiceCollection serviceCollection)
         {
 
-            // serviceCollection.AddIdentity<ApplicationUser, IdentityRole>()
-            //     .AddEntityFrameworkStores<ApplicationDbContext>()
-            //     .AddDefaultTokenProviders();
+            // serviceCollection.AddIdentityServer()
+            // .AddInMemoryIdentityResources(Config.IdentityResources)
+            // .AddInMemoryApiScopes(Config.ApiScopes)
+            // .AddInMemoryClients(Config.Clients)
+            // .AddTestUsers(TestUsers.Users);
+
+            // var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
+            // const string connectionString = @"Data Source=Duende.IdentityServer.Quickstart.EntityFramework.db";
 
             // serviceCollection.AddIdentityServer()
-            //     .AddAspNetIdentity<ApplicationUser>();
+            //     .AddConfigurationStore(options =>
+            //     {
+            //         options.ConfigureDbContext = b => b.UseSqlite(connectionString,
+            //             sql => sql.MigrationsAssembly(migrationsAssembly));
+            //     })
+            //     .AddOperationalStore(options =>
+            //     {
+            //         options.ConfigureDbContext = b => b.UseSqlite(connectionString,
+            //             sql => sql.MigrationsAssembly(migrationsAssembly));
+            //     });
 
             return serviceCollection;
         }
