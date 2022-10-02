@@ -13,5 +13,3 @@ namespace Aplication.DTO.Scheduler
         Awaiting
     }
 }
-
-

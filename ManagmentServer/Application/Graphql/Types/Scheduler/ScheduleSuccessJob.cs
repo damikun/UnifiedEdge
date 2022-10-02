@@ -10,7 +10,7 @@ namespace Aplication.GraphQL.Types
     /// <summary>
     /// Graphql SuccessJobType
     /// </summary>
-    public class SuccessJobType : ObjectType<GQL_SuccessJob>
+    public class SchedulerSuccessJobType : ObjectType<GQL_SuccessJob>
     {
 
         protected override void Configure(IObjectTypeDescriptor<GQL_SuccessJob> descriptor)

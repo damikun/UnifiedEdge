@@ -1,7 +1,6 @@
 
 namespace Aplication.DTO.Scheduler
 {
-
     public class GQL_JobParameter
     {
         public GQL_JobParameter()

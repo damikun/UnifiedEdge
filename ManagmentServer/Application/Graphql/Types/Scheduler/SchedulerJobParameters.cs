@@ -14,7 +14,7 @@ namespace Aplication.GraphQL.Types
 
         }
 
-        private class SchedulerJobParameterResolvers
+        private class Resolvers
         {
 
         }

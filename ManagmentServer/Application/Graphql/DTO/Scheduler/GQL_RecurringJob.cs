@@ -1,7 +1,8 @@
+using Aplication.Mapping;
 
 namespace Aplication.DTO.Scheduler
 {
-    public class GQL_RecurringJob
+    public class GQL_RecurringJob : IMapFrom<DTO_RecurringJob>
     {
         public GQL_RecurringJob()
         {

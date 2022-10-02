@@ -1,5 +1,8 @@
+using MediatR;
+using AutoMapper;
 using Aplication.DTO.Scheduler;
 using Aplication.Graphql.DataLoaders;
+using Aplication.CQRS.Queries.Scheduler;
 
 namespace Aplication.GraphQL.Types
 {
@@ -10,8 +13,10 @@ namespace Aplication.GraphQL.Types
     {
         protected override void Configure(IObjectTypeDescriptor<GQL_FailedJob> descriptor)
         {
-
-            descriptor.Field(e => e.ID).ID();
+            descriptor.ImplementsNode().IdField(t => t.ID).ResolveNode(async (ctx, id) =>
+                ctx.Service<IMapper>().Map<DTO_FailedJob, GQL_FailedJob>(
+                    await ctx.Service<IMediator>().Send(new SchedulerGetFailedJobById() { jobid = id }))
+            );
 
             descriptor.Field(e => e.JobDetail)
                 .ResolveWith<Resolvers>(e => e.GetJobDetail(default!, default!, default));

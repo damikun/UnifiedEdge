@@ -1,6 +1,4 @@
 
-using Aplication.GraphQL.DTO;
-
 namespace Aplication.DTO.Scheduler
 {
 

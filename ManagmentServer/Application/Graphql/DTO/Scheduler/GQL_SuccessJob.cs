@@ -1,7 +1,8 @@
+using Aplication.Mapping;
 
 namespace Aplication.DTO.Scheduler
 {
-    public class GQL_SuccessJob
+    public class GQL_SuccessJob : IMapFrom<DTO_SuccessJob>
     {
         public GQL_SuccessJob()
         {

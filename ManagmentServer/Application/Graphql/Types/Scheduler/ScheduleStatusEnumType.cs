@@ -1,5 +1,3 @@
-using HotChocolate.Types;
-using Aplication.GraphQL.DTO;
 using Aplication.DTO.Scheduler;
 
 namespace Aplication.GraphQL.Types

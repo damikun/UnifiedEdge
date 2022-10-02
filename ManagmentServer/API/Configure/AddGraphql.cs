@@ -10,6 +10,7 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
+using Aplication.GraphQL.Types;
 
 namespace API
 {
@@ -88,6 +89,14 @@ namespace API
                 .AddType<MetricType>()
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
+
+                .AddType<FailedJobType>()
+                .AddType<SchedulerJobDetailType>()
+                .AddType<SchedulerJobParameterType>()
+                .AddType<SchedulerJobsStatisticType>()
+                .AddType<SchedulerRecurringJobType>()
+                .AddType<ScheduleStateEnumType>()
+                .AddType<SchedulerSuccessJobType>()
 
                 .AddType<SystemEventType>()
 

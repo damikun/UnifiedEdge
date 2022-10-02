@@ -6,7 +6,10 @@ using Aplication.CQRS.Queries.Scheduler;
 
 namespace Aplication.GraphQL.Types
 {
-    public class RecurringJobType : ObjectType<GQL_RecurringJob>
+    /// <summary>
+    /// Graphql RecurringJobType
+    /// </summary>
+    public class SchedulerRecurringJobType : ObjectType<GQL_RecurringJob>
     {
         protected override void Configure(IObjectTypeDescriptor<GQL_RecurringJob> descriptor)
         {
@@ -14,8 +17,6 @@ namespace Aplication.GraphQL.Types
                 ctx.Service<IMapper>().Map<DTO_RecurringJob, GQL_RecurringJob>(
                     await ctx.Service<IMediator>().Send(new SchedulerGetRecurringJobById() { jobid = id }))
             );
-
-            descriptor.Field(t => t.ID).Type<NonNullType<IdType>>();
 
             descriptor.Field(t => t.LastJobState).Type<ScheduleStateEnumType>().Resolve((ctx) =>
             {
