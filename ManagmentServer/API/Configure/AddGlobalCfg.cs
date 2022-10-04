@@ -24,7 +24,6 @@ namespace API
             });
 
             return serviceCollection;
-
         }
     }
 }

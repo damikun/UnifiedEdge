@@ -1,3 +1,4 @@
+using MediatR;
 using Hangfire;
 using Aplication.Core;
 using Hangfire.Storage;
@@ -50,7 +51,7 @@ namespace Aplication.CQRS.Queries.Scheduler
 
     /// <summary>Handler for <c>SchedulerGetFailedJobById</c> command </summary>
     public class SchedulerGetFailedJobByIdHandler
-    // : IRequestHandler<SchedulerGetFailedJobById, DTO_FailedJob>
+    : IRequestHandler<SchedulerGetFailedJobById, DTO_FailedJob>
     {
         /// <summary>
         /// Main constructor
@@ -84,6 +85,7 @@ namespace Aplication.CQRS.Queries.Scheduler
                     ID = item.Key,
                     Reason = item.Value.Reason,
                     FailedAt = item.Value.FailedAt,
+                    JobName = SchedulerHelpers.JobName(item.Value.Job) ?? "Unknown",
                     ExceptionType = item.Value.ExceptionType,
                     ExceptionMessage = item.Value.ExceptionMessage,
                     ExceptionDetails = item.Value.ExceptionDetails,

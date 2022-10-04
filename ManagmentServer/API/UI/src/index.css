@@ -15,6 +15,94 @@
     -ms-overflow-style: none;
   }
   
+  .ql-editor {
+    -webkit-user-select: text;
+  }
+  
+  .ql-editor {
+    cursor: default;
+  }
+  
+  .ql-editor * {
+    cursor: text;
+  }
+
+  code pre .keyword {
+    color: rgb(0, 0, 255);
+  }
+  
+  code pre .comment {
+    color: rgb(0, 128, 0);
+  }
+  
+  code pre .string {
+    color: rgb(163, 21, 21);
+  }
+  code pre .type {
+    color: rgb(43, 145, 175);
+  }
+  
+  code pre .xmldoc {
+    color: rgb(128, 128, 128);
+  }
+
+  code pre {
+    background-color: inherit;
+    -webkit-box-shadow: none;
+    -ms-box-shadow: none;
+    padding: 2px 4px;
+    border: none;
+    margin: 0;
+    overflow: hidden;
+  }
+
+pre,
+code,
+kbd,
+samp {
+  font-size: 1em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+}
+pre {
+  margin-top: 0;
+  margin-bottom: 1em;
+  overflow: auto;
+}
+figure {
+  margin: 0 0 1em;
+}
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-size: 1em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace;
+}
+pre {
+  margin-top: 0;
+  margin-bottom: 1em;
+  overflow: auto;
+}
+figure {
+  margin: 0 0 1em;
+}
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

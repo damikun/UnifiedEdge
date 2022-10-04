@@ -16,6 +16,8 @@ namespace API
 
             scheduler.ScheduleRecurring<CleanServerEvents>(CommonCrons.Daily);
 
+            // scheduler.ScheduleRecurring<ThrowErrorCommand>(CommonCrons.Yearly);
+
             return builder;
         }
     }

@@ -18,7 +18,7 @@ namespace Aplication.GraphQL.Types
                     await ctx.Service<IMediator>().Send(new SchedulerGetFailedJobById() { jobid = id }))
             );
 
-            descriptor.Field(e => e.ID).ID("SchedulerUid");
+            descriptor.Field(e => e.ID).ID();
 
             descriptor.Field(e => e.JobDetail)
                 .ResolveWith<Resolvers>(e => e.GetJobDetail(default!, default!, default));
@@ -26,15 +26,15 @@ namespace Aplication.GraphQL.Types
 
         private class Resolvers
         {
-            public async Task<GQL_JobDetail> GetJobDetail(
-            [Parent] GQL_FailedJob JobDetail,
+            public async Task<GQL_JobDetail?> GetJobDetail(
+            [Parent] GQL_FailedJob FailedJob,
             JobDetailByJobId_DataLoader grouploader,
             CancellationToken cancellationToken)
             {
 
-                if (JobDetail != null && JobDetail.ID != null)
+                if (FailedJob != null && FailedJob.ID != null)
                 {
-                    return await grouploader.LoadAsync(JobDetail.ID, cancellationToken)!;
+                    return await grouploader.LoadAsync(FailedJob.ID, cancellationToken)!;
                 }
 
                 return null;

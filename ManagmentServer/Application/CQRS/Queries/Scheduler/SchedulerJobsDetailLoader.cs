@@ -117,7 +117,7 @@ namespace Aplication.CQRS.Queries.Scheduler
                         continue;
                     }
 
-                    List<GQL_JobParameter> detailparams = new List<GQL_JobParameter>();
+                    List<GQL_JobParameter?> detailparams = new List<GQL_JobParameter?>();
 
                     foreach (var item in detaildto.Properties)
                     {
@@ -135,7 +135,10 @@ namespace Aplication.CQRS.Queries.Scheduler
                     });
 
                 }
-                catch { }
+                catch
+                {
+                    response.Add(id, null);
+                }
 
 
             }

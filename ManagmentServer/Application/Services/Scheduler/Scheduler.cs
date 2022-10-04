@@ -76,6 +76,8 @@ namespace Aplication.Services.Scheduler
 
             var instance = Activator.CreateInstance<T>();
 
+            instance.Flags.scheduled = true;
+
             var fullname = instance.GetType().FullName;
 
             var mediatorSerializedObject = SerializeObject(instance, "");

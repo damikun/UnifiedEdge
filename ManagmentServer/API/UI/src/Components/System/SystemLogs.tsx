@@ -58,6 +58,7 @@ function SystemLogs() {
   SystemLogsPaginationFragment$key
   >(SystemLogsPaginationFragment, data);
 
+  
   const handleLoadMore = useCallback(
     () => {
       pagination.loadNext(10);
@@ -117,7 +118,7 @@ function SystemLogs() {
           </StayledInfinityScrollContainer>
         </div>
       }
-      />
+    />
   </>
 }
 

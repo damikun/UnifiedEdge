@@ -6,6 +6,7 @@ using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
 
+
 namespace Aplication.Graphql.Types
 {
 

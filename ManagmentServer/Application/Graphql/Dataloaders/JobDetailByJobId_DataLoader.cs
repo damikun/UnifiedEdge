@@ -39,9 +39,9 @@ namespace Aplication.Graphql.DataLoaders
             }
         }
 
-        private IReadOnlyDictionary<string, GQL_JobDetail> Empty()
+        private IReadOnlyDictionary<string, GQL_JobDetail?> Empty()
         {
-            return new List<GQL_JobDetail>().ToDictionary(e => e.JobId, null);
+            return new List<GQL_JobDetail?>().ToDictionary(e => e.JobId, null);
         }
     }
 }

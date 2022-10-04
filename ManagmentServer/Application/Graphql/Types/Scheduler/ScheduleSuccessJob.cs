@@ -14,12 +14,21 @@ namespace Aplication.GraphQL.Types
     {
         protected override void Configure(IObjectTypeDescriptor<GQL_SuccessJob> descriptor)
         {
-            descriptor.ImplementsNode().IdField(t => t.ID).ResolveNode(async (ctx, id) =>
+            descriptor
+            .ImplementsNode()
+            .IdField(t => t.ID)
+            .ResolveNode(async (ctx, id) =>
                 ctx.Service<IMapper>().Map<DTO_SuccessJob, GQL_SuccessJob>(
-                    await ctx.Service<IMediator>().Send(new SchedulerGetSuccessJobById() { jobid = id }))
+                    await ctx.Service<IMediator>().Send(
+                        new SchedulerGetSuccessJobById()
+                        {
+                            jobid = id
+                        }
+                    )
+                )
             );
 
-            descriptor.Field(e => e.ID).ID("SchedulerUid");
+            descriptor.Field(e => e.ID).ID();
 
             descriptor.Field(e => e.JobDetail)
                 .ResolveWith<Resolvers>(e => e.GetJobDetail(default!, default!, default));
@@ -27,7 +36,7 @@ namespace Aplication.GraphQL.Types
 
         private class Resolvers
         {
-            public async Task<GQL_JobDetail> GetJobDetail(
+            public async Task<GQL_JobDetail?> GetJobDetail(
                     [Parent] GQL_SuccessJob JobDetail,
                     JobDetailByJobId_DataLoader grouploader,
                     CancellationToken cancellationToken)

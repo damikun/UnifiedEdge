@@ -30,6 +30,8 @@ namespace Aplication.Core
         public bool long_running = false;
 
         public bool diable_tracing = false;
+
+        public bool scheduled = false;
     }
 
     public abstract class CommandBase<TResponse> : CommandCore, ICommandBase<TResponse> { }

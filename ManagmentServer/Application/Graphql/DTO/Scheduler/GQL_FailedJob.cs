@@ -1,4 +1,3 @@
-
 using Aplication.Mapping;
 
 namespace Aplication.DTO.Scheduler
@@ -13,11 +12,12 @@ namespace Aplication.DTO.Scheduler
         public string ID { get; set; }
         public string Reason { get; set; }
         public DateTime? FailedAt { get; set; }
+        public string? JobName { get; set; }
         public string ExceptionType { get; set; }
         public string ExceptionMessage { get; set; }
         public string ExceptionDetails { get; set; }
         public bool InFailedState { get; set; }
 
-        public virtual GQL_JobDetail? JobDetail { get; set; }
+        public GQL_JobDetail? JobDetail { get; set; } = null;
     }
 }

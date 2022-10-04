@@ -26,14 +26,18 @@ namespace Aplication.GraphQL.Types
             {
                 IMediator mediator = context.Service<IMediator>();
 
-                return await mediator.Send(new SchedulerFailedStatitic());
+                return context.Service<IMapper>().Map<List<GQL_CountByDate>>(
+                    await mediator.Send(new SchedulerFailedStatitic())
+                );
             });
 
             descriptor.Field(e => e.RecentSucceededByDate).Resolve(async (IResolverContext context) =>
             {
                 IMediator mediator = context.Service<IMediator>();
 
-                return await mediator.Send(new SchedulerSuccessStatitic());
+                return context.Service<IMapper>().Map<List<GQL_CountByDate>>(
+                    await mediator.Send(new SchedulerSuccessStatitic())
+                );
             });
         }
     }

@@ -84,7 +84,7 @@ namespace Aplication.CQRS.Queries.Scheduler
                     {
                         ID = e.Id,
                         Cron = e.Cron,
-                        CallName = e.Job.Method.GetCustomAttribute<JobDisplayNameAttribute>() != null ? e.Job.Method.GetCustomAttribute<JobDisplayNameAttribute>().DisplayName : null,
+                        CallName = SchedulerHelpers.JobName(e.Job) ?? "Unknown",
                         Queue = e.Queue,
                         NextExecution = e.NextExecution,
                         LastExecution = e.LastExecution,

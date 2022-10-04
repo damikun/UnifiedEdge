@@ -1,3 +1,4 @@
+using MediatR;
 using Hangfire;
 using Aplication.Core;
 using Hangfire.Storage;
@@ -13,7 +14,7 @@ namespace Aplication.CQRS.Queries.Scheduler
     /// Query Scheduler get success Job by Id
     /// </summary>
     public class SchedulerGetSuccessJobById
-        : CommandBase<DTO_SuccessJob?>
+        : CommandBase<DTO_SuccessJob>
     {
         public string jobid { get; set; }
     }
@@ -50,7 +51,7 @@ namespace Aplication.CQRS.Queries.Scheduler
 
     /// <summary>Handler for <c>SchedulerGetSuccessJobById</c> command </summary>
     public class SchedulerGetSuccessJobByIdHandler
-    // : IRequestHandler<SchedulerGetSuccessJobById, DTO_SuccessJob>
+    : IRequestHandler<SchedulerGetSuccessJobById, DTO_SuccessJob>
     {
         /// <summary>
         /// Main constructor
@@ -63,7 +64,7 @@ namespace Aplication.CQRS.Queries.Scheduler
         /// <summary>
         /// Command handler for <c>SchedulerGetSuccessJobById</c>
         /// </summary>
-        public async Task<DTO_SuccessJob?> Handle(
+        public async Task<DTO_SuccessJob> Handle(
             SchedulerGetSuccessJobById request,
             CancellationToken cancellationToken
         )
@@ -82,7 +83,7 @@ namespace Aplication.CQRS.Queries.Scheduler
                 .Select(e => new DTO_SuccessJob()
                 {
                     ID = e.Key,
-                    Name = e.Value.Job != null ? SchedulerHelpers.JobName(e.Value.Job) : "",
+                    Name = e.Value?.Job != null ? SchedulerHelpers.JobName(e.Value.Job) : "Unknown",
                     TotalDuration = e.Value.TotalDuration,
                     SucceededAt = e.Value.SucceededAt,
                     InSucceededState = e.Value.InSucceededState,

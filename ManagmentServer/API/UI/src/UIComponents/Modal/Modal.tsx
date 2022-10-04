@@ -4,6 +4,7 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import useOnClickOutside from "../../Hooks/useOnOutsideElementClick";
 import React, { Suspense, useCallback, useContext, useRef } from "react";
 import ModalBounderyErrorHandler from "../../Components/ModalBounderyErrorHandler";
+import ReactDOM from "react-dom";
 
 export type ModalProps = {
   children?: React.ReactNode;
@@ -98,7 +99,7 @@ export default function Modal({
     };
   }, [onClose, onConfirm]);
 
-  return (
+  return ( ReactDOM.createPortal(
     <ModalContext.Provider value={ModalContexd()}>
       <AnimatePresence key={isOpen.toString()}>
         {isOpen && (
@@ -147,6 +148,6 @@ export default function Modal({
           </motion.div>
         )}
       </AnimatePresence>
-    </ModalContext.Provider>
+    </ModalContext.Provider>, document.getElementById("modal_portal")!)
   );
 }

@@ -10,6 +10,7 @@ namespace Aplication.DTO.Scheduler
 
         public string ID { get; set; }
         public string Reason { get; set; }
+        public string JobName { get; set; }
         public DateTime? FailedAt { get; set; }
         public string ExceptionType { get; set; }
         public string ExceptionMessage { get; set; }

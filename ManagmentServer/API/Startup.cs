@@ -1,12 +1,11 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
-
+using Hangfire;
+using ElectronNET.API;
 using Aplication.Services.Scheduler;
 using Aplication.Services.ServerEventHandler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
-using ElectronNET.API;
-using Hangfire;
 
 namespace API
 {

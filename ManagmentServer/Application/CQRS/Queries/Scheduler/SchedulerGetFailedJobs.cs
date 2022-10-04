@@ -117,6 +117,7 @@ namespace Aplication.CQRS.Queries.Scheduler
                 ID = item.Key,
                 Reason = item.Value.Reason,
                 FailedAt = item.Value.FailedAt,
+                JobName = item.Value?.Job != null ? SchedulerHelpers.JobName(item.Value.Job) : "Unknown",
                 ExceptionType = item.Value.ExceptionType,
                 ExceptionMessage = item.Value.ExceptionMessage,
                 ExceptionDetails = item.Value.ExceptionDetails,

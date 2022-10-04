@@ -69,7 +69,7 @@ export default function StayledInfinityScrollContainer({
             No records
           </div>
         ) : (
-          <div className="absolute w-full align-middle h-96">
+          <div className="absolute w-full align-middle h-40">
  <>
               <SuspenseList revealOrder="together">
                 <div className={clsx(divide && "divide-y")}>{children}</div>

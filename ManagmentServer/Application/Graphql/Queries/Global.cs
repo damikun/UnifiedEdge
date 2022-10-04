@@ -1,4 +1,3 @@
-using Server;
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
@@ -6,7 +5,6 @@ using Server.Manager.Mqtt;
 using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
-using Aplication.Events.Server;
 using HotChocolate.Types.Pagination;
 
 namespace Aplication.Graphql.Queries
@@ -32,7 +30,6 @@ namespace Aplication.Graphql.Queries
         [Service] IMqttServerManager manager
         )
         {
-
             return null;
         }
 

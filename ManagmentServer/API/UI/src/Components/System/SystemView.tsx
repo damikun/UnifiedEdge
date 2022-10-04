@@ -8,6 +8,7 @@ import Section from "../../UIComponents/Section/Section";
 import { SystemViewQuery } from "./__generated__/SystemViewQuery.graphql";
 import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+import SchedulerView from "./Scheduler/SchedulerView";
 
 
 export const SettingsTabs = [
@@ -64,6 +65,7 @@ function SystemView() {
 
     <Routes>
       <Route path="/Logs/" element={<SystemLogs />} />
+      <Route path="/Scheduler/" element={<SchedulerView />} />
       <Route path="/*" element={<SystemSettings dataRef={data}/>} />
     </Routes>
 
@@ -71,7 +73,7 @@ function SystemView() {
 }
 
 function TabSection() {
-  return <div className="flex sticky top-16 bg-gray-100 shadow-sm w-full">
+  return <div className="flex sticky top-16 z-10 border-t border-r border-l bg-gray-100 shadow-sm w-full">
     <RouterTabList
       hoverEffect
       tabStyle={"h-11 hover:bg-transparent"}
