@@ -1,14 +1,17 @@
 import clsx from "clsx"
 
 type FieldGroupProps = {
-    name:string
+    name?:string
     children: React.ReactNode
 }
 
 export function FieldGroup({name,children}:FieldGroupProps) {
     return <div className="flex flex-col">
-        <div className="font-semibold capitalize mb-2">{name}:</div>
-        <div className="pl-5">{children}</div>
+        {
+            name && <div className="font-bold capitalize mb-2 underline">{name}:</div>
+        }
+       
+        <div className={clsx(name && "")}>{children}</div>
     </div>
 }
 

@@ -1,11 +1,14 @@
 import clsx from "clsx";
 import { useLazyLoadQuery } from "react-relay";
 import { LOG_PARAM_NAME } from "./ServerLogs";
+import { JsonViewer } from "@textea/json-viewer";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { GetLocalDate } from "../../../Shared/Common";
 import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { ServerlogDetailQuery } from "./__generated__/ServerlogDetailQuery.graphql";
+import { FieldDivider, FieldGroup, FieldSection } from "../../../Shared/Field/FieldHelpers";
+
 
 const ServerLogDetailTag = graphql`
   query ServerlogDetailQuery($log_id:ID!) {
@@ -39,15 +42,23 @@ export default function ServerLogDetail(){
   const dt = GetLocalDate(data?.serverLogById.timeStamp);
 
   return <ModalContainer label="Event detail">
-      <div className="px-3 pb-2 w-fullflex-clex-col">
-        <div className="flex flex-row flex-nowrap space-x-2">
-          <div className="font-semibold">Type:</div>
-          <div className=" text-gray-700">{data.serverLogById.name}</div>
+    <div className="flex flex-col space-y-2 w-full max-w-2xl">
+
+      <FieldGroup>
+        <FieldSection name="Type">{data.serverLogById.name}</FieldSection>
+        <FieldSection name="Date">{dt}</FieldSection>
+      </FieldGroup>
+
+      <FieldDivider/>
+      
+      <FieldGroup>
+        <div className="rounded-md p-3 bg-gray-50 shadow-sm border border-gray-300">
+          <div className="flex overflow-hidden overflow-y-auto text-xs h-full break-all flex-wrap max-w-full">
+            <JsonViewer collapseStringsAfterLength={1000} enableClipboard={false} value={data.serverLogById.asJson}/>
+          </div>
         </div>
-        <div className="flex flex-row flex-nowrap space-x-2">
-          <div className="font-semibold">DateTime:</div>
-          <div className=" text-gray-700">{dt}</div>
-        </div>
+      </FieldGroup>
+      
       </div>
     </ModalContainer>
 }
@@ -73,7 +84,7 @@ type ModalHeaderProps = {
 
 function ModalHeader({label}:ModalHeaderProps){
   return <div className={clsx("w-full bg-gray-200 overflow-hidden",
-  "px-2 py-1 font-semibold text-gray-800 shadow-sm")}>
+  "px-5 py-2 font-bold text-gray-500 shadow-sm")}>
     {label}
   </div>
 }
