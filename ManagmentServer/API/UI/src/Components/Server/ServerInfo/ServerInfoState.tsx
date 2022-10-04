@@ -1,36 +1,33 @@
-import { faPlay, faRefresh, faStop } from "@fortawesome/free-solid-svg-icons";
-import { graphql } from "babel-plugin-relay/macro";
-import { useFragment } from "react-relay";
-import { useMemo } from "react";
 import clsx from "clsx";
-import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
+import { useCallback, useMemo } from "react";
+import { graphql } from "babel-plugin-relay/macro";
+import { useFragment, useMutation } from "react-relay";
 import Badge from "../../../UIComponents/Badged/Badge";
+import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
+import { faPlay, faRefresh, faStop } from "@fortawesome/free-solid-svg-icons";
 import StayledButton, { STAYLED_BUTTON_VARIANTS } from "../../../UIComponents/Buttons/StayledButton";
+import { GQL_ServerCmd, ServerInfoStateProcessCmdMutation } from "./__generated__/ServerInfoStateProcessCmdMutation.graphql";
+import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
+
 
 const ServerInfoStateDataFragment = graphql`
     fragment ServerInfoStateDataFragment on GQL_IServer
     {
+        id
         state
     }
 `;
 
-// const UptimeSub = graphql`
-//     subscription ServerInfoStateUptimeSubscription{
-//         uptime {
-//             hours
-//             minutes
-//             days
-//         }
-//     }
-// `;
-
-// const DateTimeSub = graphql`
-//     subscription ServerInfoStateDateTimeSubscription{
-//         systemTime
-//     }
-// `;
-
+const ServerInfoStateProcessCmdMutationTag = graphql`
+    mutation ServerInfoStateProcessCmdMutation($input: ProcessServerCmdInput!) {
+        processServerCmd(input: $input) {
+        ... on ProcessServerCmdPayload {          
+            gQL_ServerState
+        }
+    }   
+}
+`
 
 type ServerInfoStateProps = {
     dataRef:ServerInfoStateDataFragment$key;
@@ -59,6 +56,69 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
         [data?.state],
     )
 
+    const [commit,isInFlight] = useMutation<ServerInfoStateProcessCmdMutation>(ServerInfoStateProcessCmdMutationTag);
+
+    const toast = useToast();
+    
+    const handleCommand = useCallback(
+        (cmd:GQL_ServerCmd) => {
+        !isInFlight && commit({
+            variables: {
+              input: {
+                uid: data.id,
+                cmd:cmd
+              }
+            },
+    
+            onError(error) {
+              toast?.pushError("Failed to process mutation");
+              console.log(error);
+            },
+    
+            onCompleted(response) {},
+    
+            updater(store, response) {
+                if(response.processServerCmd?.gQL_ServerState){
+
+                var server = store.get(data.id)
+
+                server?.setValue(response.processServerCmd.gQL_ServerState,"state");
+            }
+
+                // HandleErrors(toast, response.createServer?);
+                // if (response.createServer?.errors?.length === 0) {
+                //   startTransition(() => {
+                //     navigate(`/Hooks`);
+                //   });
+                // }
+            },
+    
+          });
+      },
+      [commit, isInFlight, data, toast],
+    )
+    
+    const handleStart = useCallback(
+      () => {
+        handleCommand("START")
+      },
+      [handleCommand],
+    )
+    
+    const handleStop = useCallback(
+        () => {
+          handleCommand("STOP")
+        },
+        [handleCommand],
+    )
+
+    const handleRestart = useCallback(
+        () => {
+          handleCommand("RESTART")
+        },
+        [handleCommand],
+    )
+    
     // const uptime_sub_config = useMemo(() => ({
     //     variables: {},
     //     subscription:UptimeSub,
@@ -108,26 +168,29 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
             <div className="flex-row flex space-x-2 px-2 py-1 bg-gray-200 shadow-sm rounded-lg">
                 <StayledButton
                     variant={behaviour.play.variant}
-                    disabled={!behaviour.play.enabled}
+                    disabled={!behaviour.play.enabled || isInFlight}
                     className={behaviour.play.className}
                     iconOnly
                     iconLeft={faPlay}
+                    onClick={handleStart}
                 />
                 <Divider/>
                 <StayledButton
                     variant={behaviour.stop.variant}
-                    disabled={!behaviour.stop.enabled}
+                    disabled={!behaviour.stop.enabled || isInFlight}
                     className={behaviour.stop.className}
                     iconOnly
                     iconLeft={faStop}
+                    onClick={handleStop}
                 />
                 <Divider/>
                 <StayledButton
                     variant={behaviour.restart.variant}
-                    disabled={!behaviour.restart.enabled}
+                    disabled={!behaviour.restart.enabled || isInFlight}
                     className={behaviour.restart.className}
                     iconOnly
                     iconLeft={faRefresh}
+                    onClick={handleRestart}
                 />
             </div>
         </div>
