@@ -165,7 +165,7 @@ namespace Server
             },
             TaskContinuationOptions.NotOnFaulted);
 
-            if (in_background)
+            if (!in_background)
             {
                 await _current;
             }

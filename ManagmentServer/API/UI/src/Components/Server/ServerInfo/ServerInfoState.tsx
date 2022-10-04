@@ -25,7 +25,7 @@ const ServerInfoStateProcessCmdMutationTag = graphql`
         ... on ProcessServerCmdPayload {          
             gQL_ServerState
         }
-    }   
+    }
 }
 `
 
@@ -151,7 +151,7 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
                     State
                 </div>
             <div className={clsx("text-gray-600 text-sm w-full justify-end",
-            " truncate capitalize text-end whitespace-pre items-center")}>
+            "truncate capitalize text-end whitespace-pre items-center")}>
                 <Badge
                     turncate
                     border={false}
