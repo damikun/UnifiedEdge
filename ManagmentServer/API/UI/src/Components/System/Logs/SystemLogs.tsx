@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import SystemLogDetail from "./SystemLogDetail";
 import { SystemLogItem } from "./SystemLogItem";
-import Modal from "../../UIComponents/Modal/Modal";
+import Modal from "../../../UIComponents/Modal/Modal";
 import { graphql } from "babel-plugin-relay/macro";
 import { useSearchParams } from "react-router-dom";
 import React, { useCallback, useMemo } from "react";
-import Section from "../../UIComponents/Section/Section";
+import Section from "../../../UIComponents/Section/Section";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { SystemLogsQuery } from "./__generated__/SystemLogsQuery.graphql";
 import { SystemLogsPaginationFragment$key } from "./__generated__/SystemLogsPaginationFragment.graphql";
-import StayledInfinityScrollContainer from "../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
+import StayledInfinityScrollContainer from "../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
 import { SystemLogsPaginationFragmentRefetchQuery } from "./__generated__/SystemLogsPaginationFragmentRefetchQuery.graphql";
 
 const SystemLogsTag = graphql`

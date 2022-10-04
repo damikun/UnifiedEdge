@@ -4,8 +4,8 @@ import { LOG_PARAM_NAME } from "./SystemLogs";
 import { useLazyLoadQuery } from "react-relay";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import { GetLocalDate } from "../../Shared/Common";
-import { useModalContext } from "../../UIComponents/Modal/Modal";
+import { GetLocalDate } from "../../../Shared/Common";
+import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { SystemLogDetailQuery } from "./__generated__/SystemLogDetailQuery.graphql";
 
 

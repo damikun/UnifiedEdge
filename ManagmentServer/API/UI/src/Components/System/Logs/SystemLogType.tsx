@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Badge, { Badge_VARIANTS } from "../../UIComponents/Badged/Badge";
+import Badge, { Badge_VARIANTS } from "../../../UIComponents/Badged/Badge";
 import { EventType } from "./__generated__/SystemLogTypeDataFragment.graphql";
 import { faExclamationCircle, faExclamationTriangle, faInfo } from "@fortawesome/free-solid-svg-icons";
 

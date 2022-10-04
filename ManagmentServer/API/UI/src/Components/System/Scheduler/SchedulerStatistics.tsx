@@ -77,7 +77,7 @@ export default function SchedulerStatistics({
           xScaleType={ScaleType.Ordinal}
           yScaleType={ScaleType.Log}
           xAccessor="x"
-          color={["#1EA593"]}
+          color={["#78eda3"]}
           yAccessors={["y1"]}
           data={chartData}
         />

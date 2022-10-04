@@ -1,14 +1,14 @@
 import React from "react";
-import SystemLogs from "./SystemLogs";
+import SystemLogs from "./Logs/SystemLogs";
 import EdgeInfo from "../Monitor/EdgeInfo";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
+import SchedulerView from "./Scheduler/SchedulerView";
 import SystemSettings from "./Settings/SystemSettings";
 import Section from "../../UIComponents/Section/Section";
 import { SystemViewQuery } from "./__generated__/SystemViewQuery.graphql";
 import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
-import SchedulerView from "./Scheduler/SchedulerView";
 
 
 export const SettingsTabs = [

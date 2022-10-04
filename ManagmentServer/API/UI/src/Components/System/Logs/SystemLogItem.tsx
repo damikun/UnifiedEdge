@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
-import { GetLocalDate } from "../../Shared/Common";
+import { GetLocalDate } from "../../../Shared/Common";
 import { SystemLogTypeBadget } from "./SystemLogType";
 import { useCallback, useMemo, useTransition } from "react";
 import { SystemLogItemDataFragment$key } from "./__generated__/SystemLogItemDataFragment.graphql";
