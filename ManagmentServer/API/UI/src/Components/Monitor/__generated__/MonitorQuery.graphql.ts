@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a60ec91a6241307bc62e7168f98f0963>>
+ * @generated SignedSource<<1d250754e8e5295affefaf9b8b661d4d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -262,6 +262,7 @@ return {
         "name": "edgeInfo",
         "plural": false,
         "selections": [
+          (v0/*: any*/),
           (v1/*: any*/),
           {
             "alias": null,
@@ -550,12 +551,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9ad865944aced7f81e232702fccb7ce5",
+    "cacheID": "051799df4058657e42d319b7a6694704",
     "id": null,
     "metadata": {},
     "name": "MonitorQuery",
     "operationKind": "query",
-    "text": "query MonitorQuery {\n  ...EdgeInfoDataFragment\n  ...AdapterListDataFragment\n  ...ServerListDataFragment\n  ...ResourcesDataFragment\n  ...EdgeMetricsFragment\n}\n\nfragment AdapterListDataFragment on Query {\n  adapters {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...AdapterListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n\nfragment EdgeInfoDataFragment on Query {\n  systemInfo {\n    serverDateTime\n    targetFramework\n    osVersion {\n      platform\n      version\n    }\n    uptime {\n      days\n      hours\n      minutes\n    }\n    id\n  }\n  edgeInfo {\n    name\n    guid\n  }\n}\n\nfragment EdgeMetricsFragment on Query {\n  Memory: runtimeMetrics {\n    ...MetricTrendHistoryFragment_25nOzF @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_25nOzF\")\n  }\n  Threads: runtimeMetrics {\n    ...MetricTrendHistoryFragment_25BTjH @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_25BTjH\")\n  }\n  Cpu: runtimeMetrics {\n    ...MetricTrendHistoryFragment_2v8vXl @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_2v8vXl\")\n  }\n}\n\nfragment MetricTrendHistoryFragment_25BTjH on GQL_RuntimeMetrics {\n  metricHistory(name: THREAD_COUNT) {\n    timeStamp\n    value\n  }\n}\n\nfragment MetricTrendHistoryFragment_25nOzF on GQL_RuntimeMetrics {\n  metricHistory(name: PAGED_MEMORY) {\n    timeStamp\n    value\n  }\n}\n\nfragment MetricTrendHistoryFragment_2v8vXl on GQL_RuntimeMetrics {\n  metricHistory(name: TOTAL_CPU_USED) {\n    timeStamp\n    value\n  }\n}\n\nfragment ResourcesDataFragment on Query {\n  runtimeMetrics {\n    cpuMetrics {\n      totalCpuUsed\n      threadCount\n      id\n    }\n    memoryMetrics {\n      memoryUssage\n      id\n    }\n  }\n  systemInfo {\n    processName\n    id\n  }\n}\n\nfragment ServerListDataFragment on Query {\n  servers {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        ...ServerListItemDataFragment\n      }\n      cursor\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n  state\n  type\n  __typename\n}\n"
+    "text": "query MonitorQuery {\n  ...EdgeInfoDataFragment\n  ...AdapterListDataFragment\n  ...ServerListDataFragment\n  ...ResourcesDataFragment\n  ...EdgeMetricsFragment\n}\n\nfragment AdapterListDataFragment on Query {\n  adapters {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...AdapterListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n\nfragment EdgeInfoDataFragment on Query {\n  systemInfo {\n    serverDateTime\n    targetFramework\n    osVersion {\n      platform\n      version\n    }\n    uptime {\n      days\n      hours\n      minutes\n    }\n    id\n  }\n  edgeInfo {\n    id\n    name\n    guid\n  }\n}\n\nfragment EdgeMetricsFragment on Query {\n  Memory: runtimeMetrics {\n    ...MetricTrendHistoryFragment_25nOzF @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_25nOzF\")\n  }\n  Threads: runtimeMetrics {\n    ...MetricTrendHistoryFragment_25BTjH @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_25BTjH\")\n  }\n  Cpu: runtimeMetrics {\n    ...MetricTrendHistoryFragment_2v8vXl @defer(label: \"EdgeMetricsFragment$defer$MetricTrendHistoryFragment_2v8vXl\")\n  }\n}\n\nfragment MetricTrendHistoryFragment_25BTjH on GQL_RuntimeMetrics {\n  metricHistory(name: THREAD_COUNT) {\n    timeStamp\n    value\n  }\n}\n\nfragment MetricTrendHistoryFragment_25nOzF on GQL_RuntimeMetrics {\n  metricHistory(name: PAGED_MEMORY) {\n    timeStamp\n    value\n  }\n}\n\nfragment MetricTrendHistoryFragment_2v8vXl on GQL_RuntimeMetrics {\n  metricHistory(name: TOTAL_CPU_USED) {\n    timeStamp\n    value\n  }\n}\n\nfragment ResourcesDataFragment on Query {\n  runtimeMetrics {\n    cpuMetrics {\n      totalCpuUsed\n      threadCount\n      id\n    }\n    memoryMetrics {\n      memoryUssage\n      id\n    }\n  }\n  systemInfo {\n    processName\n    id\n  }\n}\n\nfragment ServerListDataFragment on Query {\n  servers {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        ...ServerListItemDataFragment\n      }\n      cursor\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n  state\n  type\n  __typename\n}\n"
   }
 };
 })();

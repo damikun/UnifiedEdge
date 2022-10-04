@@ -29,6 +29,7 @@ const EdgeInfoDataFragment = graphql`
         }
         
         edgeInfo {
+            id
             name
             guid
         }

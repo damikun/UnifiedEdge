@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<edc5f46d4e929fb5367af75b8b8abef7>>
+ * @generated SignedSource<<c1a6099157dc31e84ef5d57b2ad52661>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,9 +12,7 @@ import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type SystemSettingsDataFragment$data = {
   readonly edgeInfo: {
-    readonly description: string | null;
-    readonly guid: string;
-    readonly name: string;
+    readonly " $fragmentSpreads": FragmentRefs<"EdgeDescriptionDataFragment" | "EdgeLocation1DataFragment" | "EdgeLocation2DataFragment" | "EdgeLocation3DataFragment" | "EdgeNameDataFragment">;
   };
   readonly " $fragmentType": "SystemSettingsDataFragment";
 };
@@ -38,25 +36,29 @@ const node: ReaderFragment = {
       "plural": false,
       "selections": [
         {
-          "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "name",
-          "storageKey": null
+          "kind": "FragmentSpread",
+          "name": "EdgeNameDataFragment"
         },
         {
-          "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "description",
-          "storageKey": null
+          "kind": "FragmentSpread",
+          "name": "EdgeDescriptionDataFragment"
         },
         {
-          "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "guid",
-          "storageKey": null
+          "kind": "FragmentSpread",
+          "name": "EdgeLocation1DataFragment"
+        },
+        {
+          "args": null,
+          "kind": "FragmentSpread",
+          "name": "EdgeLocation2DataFragment"
+        },
+        {
+          "args": null,
+          "kind": "FragmentSpread",
+          "name": "EdgeLocation3DataFragment"
         }
       ],
       "storageKey": null
@@ -66,6 +68,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "8e2a550d0452b7d894547db3ca1c770d";
+(node as any).hash = "f985cd0119cd60f1c5cdffa8bea4fb13";
 
 export default node;

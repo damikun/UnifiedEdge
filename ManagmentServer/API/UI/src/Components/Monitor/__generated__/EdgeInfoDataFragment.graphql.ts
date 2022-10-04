@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<602c76f6729d9b86b40828110669f46b>>
+ * @generated SignedSource<<673f354b8ff724be76238f067169be8b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ import { FragmentRefs } from "relay-runtime";
 export type EdgeInfoDataFragment$data = {
   readonly edgeInfo: {
     readonly guid: string;
+    readonly id: string;
     readonly name: string;
   };
   readonly systemInfo: {
@@ -136,6 +137,13 @@ const node: ReaderFragment = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
+          "name": "id",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
           "name": "name",
           "storageKey": null
         },
@@ -154,6 +162,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "6075744b1567c558bd56e35f43b52f11";
+(node as any).hash = "41f87c510ee6df03e5dded61ab20a7bf";
 
 export default node;

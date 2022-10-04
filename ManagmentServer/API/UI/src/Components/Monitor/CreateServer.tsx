@@ -6,10 +6,10 @@ import { is, generateErrors } from "../../Utils/Validation";
 import { FormInput } from "../../UIComponents/Form/FormInput";
 import { useModalContext } from "../../UIComponents/Modal/Modal";
 import { useToast } from "../../UIComponents/Toast/ToastProvider";
-import { CreateServerInput, CreateServerMutation } from "./__generated__/CreateServerMutation.graphql";
 import StayledButton from "../../UIComponents/Buttons/StayledButton";
-import FormSelect, { FormSelectOption } from "../../UIComponents/Form/FormSelect";
 import { useMonitorServerListCtx } from "./ServerList/ServerListCtxProvider";
+import FormSelect, { FormSelectOption } from "../../UIComponents/Form/FormSelect";
+import { CreateServerInput, CreateServerMutation } from "./__generated__/CreateServerMutation.graphql";
 
 
 const CreateServerMutationTag = graphql`

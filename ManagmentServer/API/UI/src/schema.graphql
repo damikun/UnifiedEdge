@@ -138,6 +138,7 @@ type GQL_CpuMetrics {
 type GQL_Edge {
   description: String
   guid: String!
+  id: ID!
   location: String
   location1: String
   location2: String
@@ -485,6 +486,11 @@ type Mutation {
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
+  setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
+  setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
+  setEdgeLocation2(request: SetEdgeLocation2Input!): SetEdgeLocation2Payload!
+  setEdgeLocation3(request: SetEdgeLocation3Input!): SetEdgeLocation3Payload!
+  setEdgeName(request: SetEdgeNameInput!): SetEdgeNamePayload!
   setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   test: TestPayload!
@@ -542,6 +548,31 @@ type RemoveServerPayload {
   removed_id: ID
 }
 
+type SetEdgeDescriptionPayload {
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
+type SetEdgeLocation1Payload {
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
+type SetEdgeLocation2Payload {
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
+type SetEdgeLocation3Payload {
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
+type SetEdgeNamePayload {
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
 type SetServerDescriptionPayload {
   gQL_IServer: GQL_IServer
   query: Query!
@@ -583,6 +614,26 @@ input ProcessServerCmdInput {
 
 input RemoveServerInput {
   id: ID!
+}
+
+input SetEdgeDescriptionInput {
+  description: String!
+}
+
+input SetEdgeLocation1Input {
+  location1: String!
+}
+
+input SetEdgeLocation2Input {
+  location2: String!
+}
+
+input SetEdgeLocation3Input {
+  location3: String!
+}
+
+input SetEdgeNameInput {
+  name: String!
 }
 
 input SetServerDescriptionInput {

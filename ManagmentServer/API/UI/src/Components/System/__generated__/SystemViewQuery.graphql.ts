@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f1f54c10a1b65378c9a7dfa9ccb68e44>>
+ * @generated SignedSource<<324ef52985ab99d34ee90438323ba8cf>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,6 +28,13 @@ var v0 = {
   "args": null,
   "kind": "ScalarField",
   "name": "name",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
   "storageKey": null
 };
 return {
@@ -78,6 +85,7 @@ return {
         "plural": false,
         "selections": [
           (v0/*: any*/),
+          (v1/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -90,6 +98,27 @@ return {
             "args": null,
             "kind": "ScalarField",
             "name": "description",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "location1",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "location2",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "location3",
             "storageKey": null
           }
         ],
@@ -174,25 +203,19 @@ return {
             ],
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          }
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "679121b9af8004ec8e5a4112f32e772c",
+    "cacheID": "f9ecacb7d5b49792509e8a07b1f3b98d",
     "id": null,
     "metadata": {},
     "name": "SystemViewQuery",
     "operationKind": "query",
-    "text": "query SystemViewQuery {\n  edgeInfo {\n    name\n  }\n  ...EdgeInfoDataFragment\n  ...SystemSettingsDataFragment\n}\n\nfragment EdgeInfoDataFragment on Query {\n  systemInfo {\n    serverDateTime\n    targetFramework\n    osVersion {\n      platform\n      version\n    }\n    uptime {\n      days\n      hours\n      minutes\n    }\n    id\n  }\n  edgeInfo {\n    name\n    guid\n  }\n}\n\nfragment SystemSettingsDataFragment on Query {\n  edgeInfo {\n    name\n    description\n    guid\n  }\n}\n"
+    "text": "query SystemViewQuery {\n  edgeInfo {\n    name\n    id\n  }\n  ...EdgeInfoDataFragment\n  ...SystemSettingsDataFragment\n}\n\nfragment EdgeDescriptionDataFragment on GQL_Edge {\n  id\n  description\n}\n\nfragment EdgeInfoDataFragment on Query {\n  systemInfo {\n    serverDateTime\n    targetFramework\n    osVersion {\n      platform\n      version\n    }\n    uptime {\n      days\n      hours\n      minutes\n    }\n    id\n  }\n  edgeInfo {\n    id\n    name\n    guid\n  }\n}\n\nfragment EdgeLocation1DataFragment on GQL_Edge {\n  id\n  location1\n}\n\nfragment EdgeLocation2DataFragment on GQL_Edge {\n  id\n  location2\n}\n\nfragment EdgeLocation3DataFragment on GQL_Edge {\n  id\n  location3\n}\n\nfragment EdgeNameDataFragment on GQL_Edge {\n  id\n  name\n}\n\nfragment SystemSettingsDataFragment on Query {\n  edgeInfo {\n    ...EdgeNameDataFragment\n    ...EdgeDescriptionDataFragment\n    ...EdgeLocation1DataFragment\n    ...EdgeLocation2DataFragment\n    ...EdgeLocation3DataFragment\n    id\n  }\n}\n"
   }
 };
 })();

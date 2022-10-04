@@ -8,12 +8,14 @@ type FormInput = {
  label:string
  error?:string
  focusOnMount?: Boolean
+ afterFieldComponent?: React.ReactNode;
+ flexOrientation?:"flex-row" | "flex-col"
 } & React.DetailedHTMLProps<
 React.InputHTMLAttributes<HTMLInputElement>,
 HTMLInputElement
 >;
 
-export function FormInput({icon,label,error,focusOnMount = false, ...rest}:FormInput){
+export function FormInput({icon,label,error,afterFieldComponent,flexOrientation = "flex-col",focusOnMount = false, ...rest}:FormInput){
   const ref = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -25,14 +27,15 @@ export function FormInput({icon,label,error,focusOnMount = false, ...rest}:FormI
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref.current]);
 
-  return <div className="flex flex-col">
-    <label className="font-semibold text-sm">{label}</label>
+  return <div className={clsx("flex w-full",
+    flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col")}>
+    <label className="font-semibold text-base">{label}</label>
     <div
       className={clsx(
         "flex flex-row my-auto justify-start align-middle",
         "content-center p-1 my-2 border-2 rounded-md",
         "transition duration-200 focus:bg-white",
-        "focus-within:bg-white",
+        "focus-within:bg-white h-10",
         error
           ? " border-red-500 "
           : clsx(
@@ -54,18 +57,22 @@ export function FormInput({icon,label,error,focusOnMount = false, ...rest}:FormI
           />
         </div>
       )}
-      <input
-        ref={ref}
-        {...rest}
-        value={rest.value == null ? "" : rest.value}
-        className={clsx(
-          "mx-1 w-full text-gray-600 focus:text-gray-700",
-          "my-auto placeholder-gray-600",
-          "outline-none border-transparent",
-          "bg-transparent font-semibold",
-          rest.disabled ? "cursor-not-allowed" : "cursor-pointer"
-        )}
-      />
+      <div className="flex flex-row space-x-2 w-full">
+        <input
+          ref={ref}
+          {...rest}
+          value={rest.value == null ? "" : rest.value}
+          className={clsx(
+            "mx-1 w-full text-gray-600 focus:text-gray-700",
+            "my-auto placeholder-gray-600",
+            "outline-none border-transparent",
+            "bg-transparent font-semibold",
+            rest.disabled ? "cursor-not-allowed" : "cursor-pointer"
+          )}
+        />
+        {afterFieldComponent}
+      </div>
+
     </div>
 
 </div>

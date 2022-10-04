@@ -48,11 +48,12 @@ namespace Aplication.Graphql.Mutations
             return _mapper.Map<GQL_Edge>(dto);
         }
 
+
         //----------------------------------------------
         //----------------------------------------------
 
         /// <summary>
-        /// Sets Edge Description Input (update edge description)
+        /// Sets Edge Description Input(update edge description)
         /// </summary>
         public class SetEdgeDescriptionInput
         {
@@ -66,10 +67,10 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
-        /// Sets Edge description
+        /// Sets Edge description 
         /// </summary>
         /// <returns>GQL_Edge</returns>
-        public async Task<GQL_Edge> SetEdgeName(
+        public async Task<GQL_Edge> SetEdgeDescription(
              SetEdgeDescriptionInput request,
              [Service] IMediator mediator)
         {
@@ -87,14 +88,70 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Sets Edge Location Input (update edge location)
         /// </summary>
-        public class SetEdgeLocationInput
+        public class SetEdgeLocation1Input
         {
 
 #nullable disable
             /// <summary> LocationA </summary>
             public string Location1 { get; set; }
+
+#nullable enable
+
+        }
+
+        /// <summary>
+        /// Sets Edge location1
+        /// </summary>
+        /// <returns>GQL_Edge</returns>
+        public async Task<GQL_Edge> SetEdgeLocation1(
+             SetEdgeLocation1Input request,
+             [Service] IMediator mediator)
+        {
+            var dto = await mediator.Send(new UpdateEdgeLocation1()
+            {
+                Location1 = request.Location1,
+            });
+
+            return _mapper.Map<GQL_Edge>(dto);
+        }
+
+        /// <summary>
+        /// Sets Edge Location Input (update edge location)
+        /// </summary>
+        public class SetEdgeLocation2Input
+        {
+
+#nullable disable
             /// <summary> LocationB </summary>
             public string Location2 { get; set; }
+
+#nullable enable
+
+        }
+
+        /// <summary>
+        /// Sets Edge location2
+        /// </summary>
+        /// <returns>GQL_Edge</returns>
+        public async Task<GQL_Edge> SetEdgeLocation2(
+             SetEdgeLocation2Input request,
+             [Service] IMediator mediator)
+        {
+            var dto = await mediator.Send(new UpdateEdgeLocation2()
+            {
+                Location2 = request.Location2,
+            });
+
+            return _mapper.Map<GQL_Edge>(dto);
+        }
+
+        /// <summary>
+        /// Sets Edge Location Input (update edge location)
+        /// </summary>
+        public class SetEdgeLocation3Input
+        {
+
+#nullable disable
             /// <summary> LocationC </summary>
             public string Location3 { get; set; }
 
@@ -103,17 +160,15 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
-        /// Sets Edge location
+        /// Sets Edge location3
         /// </summary>
         /// <returns>GQL_Edge</returns>
-        public async Task<GQL_Edge> SetEdgeLocation(
-             SetEdgeLocationInput request,
+        public async Task<GQL_Edge> SetEdgeLocation3(
+             SetEdgeLocation3Input request,
              [Service] IMediator mediator)
         {
-            var dto = await mediator.Send(new UpdateEdgeLocation()
+            var dto = await mediator.Send(new UpdateEdgeLocation3()
             {
-                Location1 = request.Location1,
-                Location2 = request.Location2,
                 Location3 = request.Location3,
             });
 

@@ -28,7 +28,7 @@ export default function CardContent({icon,title,value,className,children}:CardCo
         </div>
 
         <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden">
-            <div className="font-semibold text-base capitalize text-center truncate">
+            <div className="font-semibold text-base capitalize text-end truncate">
                 {title}
             </div>
             <div className={clsx("text-gray-600 text-sm w-full justify-end",

@@ -1,5 +1,6 @@
 using Aplication;
 using HotChocolate.AspNetCore;
+using Aplication.GraphQL.Types;
 using Aplication.Graphql.Types;
 using GraphQL.Server.Ui.Voyager;
 using Aplication.Graphql.Queries;
@@ -10,7 +11,6 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-using Aplication.GraphQL.Types;
 
 namespace API
 {
@@ -79,6 +79,7 @@ namespace API
                     .AddTypeExtension<MqttMutations>()
                     .AddTypeExtension<OpcMutations>()
                     .AddTypeExtension<ServerMutations>()
+                    .AddTypeExtension<EdgeMutations>()
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()
 
@@ -100,6 +101,8 @@ namespace API
                 .AddType<SchedulerSuccessJobType>()
 
                 .AddType<SystemEventType>()
+
+                .AddType<EdgeType>()
 
                 .AddType<ServerEventsUnionType>()
                 .AddType<ClientConnectedType>()

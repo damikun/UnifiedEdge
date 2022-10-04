@@ -9,6 +9,7 @@ namespace Aplication.DTO
         {
 
         }
+        public string Id { get { return "DTO_Edge"; } }
 
         public string Name { get; set; }
 

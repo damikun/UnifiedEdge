@@ -12,10 +12,10 @@ HTMLSelectElement
 export default function FormSelect({label,error,children, ...rest}:FormSelectProps){
 
   return <div className="flex flex-col">
-    <label className="font-semibold text-sm">{label}</label>
+    <label className="font-semibold text-base">{label}</label>
 
     <select {...rest} className={clsx("bg-gray-50 border-2",
-    "rounded-md block w-full p-1 my-2 text-gray-600",
+    "rounded-md block w-full p-1 my-2 text-gray-600 h-10",
     "focus:text-gray-700",
     "focus:bg-white focus-within:bg-white text-base font-semibold",
     error 

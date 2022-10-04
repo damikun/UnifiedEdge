@@ -15,13 +15,13 @@ namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// UpdateEdgeName
+    /// UpdateEdgeLocation2
     /// </summary>
     // [Authorize]
-    public class UpdateEdgeName : CommandBase<DTO_Edge>
+    public class UpdateEdgeLocation2 : CommandBase<DTO_Edge>
     {
-#nullable disable
-        public string Name;
+#nullable enable
+        public string? Location2;
 #nullable enable
     }
 
@@ -29,29 +29,26 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - UpdateEdgeName
+    /// Field validator - UpdateEdgeLocation2
     /// </summary>
-    public class UpdateEdgeNameValidator : AbstractValidator<UpdateEdgeName>
+    public class UpdateEdgeLocation2Validator : AbstractValidator<UpdateEdgeLocation2>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public UpdateEdgeNameValidator(IDbContextFactory<ManagmentDbCtx> factory)
+        public UpdateEdgeLocation2Validator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
 
-            RuleFor(e => e.Name)
-            .NotEmpty()
-            .NotNull()
-            .MinimumLength(3);
+            RuleFor(e => e.Location2);
         }
     }
 
     /// <summary>
-    /// Authorization validators - UpdateEdgeName
+    /// Authorization validators - UpdateEdgeLocation2
     /// </summary>
-    public class UpdateEdgeNameAuthorizationValidator : AuthorizationValidator<UpdateEdgeName>
+    public class UpdateEdgeLocation2AuthorizationValidator : AuthorizationValidator<UpdateEdgeLocation2>
     {
-        public UpdateEdgeNameAuthorizationValidator()
+        public UpdateEdgeLocation2AuthorizationValidator()
         {
 
         }
@@ -61,8 +58,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>UpdateEdgeNameHandler</c> command </summary>
-    public class UpdateEdgeNameHandler : IRequestHandler<UpdateEdgeName, DTO_Edge>
+    /// <summary>Handler for <c>UpdateEdgeLocation2Handler</c> command </summary>
+    public class UpdateEdgeLocation2Handler : IRequestHandler<UpdateEdgeLocation2, DTO_Edge>
     {
 
         /// <summary>
@@ -78,12 +75,12 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Concurrent lock
         /// </summary>
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(2);
 
         /// <summary>
         /// Main constructor
         /// </summary>
-        public UpdateEdgeNameHandler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
+        public UpdateEdgeLocation2Handler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
         {
             _factory = factory;
 
@@ -91,9 +88,9 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>UpdateEdgeName</c>
+        /// Command handler for <c>UpdateEdgeLocation2</c>
         /// </summary>
-        public async Task<DTO_Edge> Handle(UpdateEdgeName request, CancellationToken cancellationToken)
+        public async Task<DTO_Edge> Handle(UpdateEdgeLocation2 request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
@@ -109,7 +106,8 @@ namespace Aplication.CQRS.Commands
                     throw new Exception("Please make sure DB migrations was applied. Edges record not found");
                 }
 
-                edge.Name = request.Name;
+                if (edge.Location2 != request.Location2)
+                    edge.Location2 = request.Location2;
 
                 dbContext.Update(edge);
 
@@ -130,15 +128,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class UpdateEdgeName_PostProcessor
-        : IRequestPostProcessor<UpdateEdgeName, DTO_Edge>
+    public class UpdateEdgeLocation2_PostProcessor
+        : IRequestPostProcessor<UpdateEdgeLocation2, DTO_Edge>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public UpdateEdgeName_PostProcessor(
+        public UpdateEdgeLocation2_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher)
         {
@@ -146,14 +144,14 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            UpdateEdgeName request,
+            UpdateEdgeLocation2 request,
             DTO_Edge response,
             CancellationToken cancellationToken)
         {
             if (response != null)
             {
                 await _publisher.Publish(
-                    new EdgeNameUpdatedNotifi(response),
+                    new EdgeLocationUpdatedNotifi(response),
                     PublishStrategy.ParallelNoWait, default(CancellationToken)
                 );
             }

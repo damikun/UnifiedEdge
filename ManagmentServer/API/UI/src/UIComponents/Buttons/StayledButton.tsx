@@ -216,7 +216,7 @@ function StayledButton({
     >
       <div className={clsx("p-1 w-full m-auto")}>
         {isloadingDebounced ? (
-          <FontAwesomeIcon className="animate-spin" icon={faSpinner} />
+          <FontAwesomeIcon size="xs" className="animate-spin text-xs max-w-fit" icon={faSpinner} />
         ) : (
           <div className="flex flex-row flex-nowrap space-x-2 leading-none justify-center items-center">
             {iconLeft && <FontAwesomeIcon icon={iconLeft} />}
