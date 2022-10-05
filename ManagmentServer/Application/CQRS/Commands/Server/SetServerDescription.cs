@@ -51,10 +51,7 @@ namespace Aplication.CQRS.Commands
             .MustAsync(Exist).WithMessage("Server not found");
 
             RuleFor(e => e.Description)
-            .NotEmpty()
-            .NotNull()
-            .MinimumLength(3);
-
+            .NotNull();
         }
 
         public async Task<bool> Exist(

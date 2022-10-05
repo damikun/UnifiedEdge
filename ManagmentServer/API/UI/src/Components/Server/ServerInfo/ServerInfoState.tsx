@@ -68,7 +68,9 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
         [data?.state],
     )
 
-    const [commit,isInFlight] = useMutation<ServerInfoStateProcessCmdMutation>(ServerInfoStateProcessCmdMutationTag);
+    const [commit,isInFlight] = useMutation<ServerInfoStateProcessCmdMutation>(
+        ServerInfoStateProcessCmdMutationTag
+    );
 
     const toast = useToast();
     
@@ -91,11 +93,10 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
     
             updater(store, response) {
                 if(response.processServerCmd?.gQL_ServerState){
+                    var server = store.get(data.id)
 
-                var server = store.get(data.id)
-
-                server?.setValue(response.processServerCmd.gQL_ServerState,"state");
-            }
+                    server?.setValue(response.processServerCmd.gQL_ServerState,"state");
+                }
 
                 // HandleErrors(toast, response.createServer?);
                 // if (response.createServer?.errors?.length === 0) {
@@ -112,7 +113,7 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
     
     const handleStart = useCallback(
         () => {
-        handleCommand("START")
+            handleCommand("START")
         },
         [handleCommand],
     )
@@ -135,13 +136,11 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
         variables: {id:data.id},
         subscription:ServerInfoStateSubscriptionRef,
         updater: (store,element) => { 
-            console.warn(element)
             if(element?.serverStateChanged?.server_Uid){
                 var server_data = store.get(element.serverStateChanged.server_Uid);
                 
                 server_data?.setValue(element.serverStateChanged.state,"state")
             }
-            
         },
         onCompleted: () => {} /* Subscription established */,
         onError: error => {} /* Subscription errored */,
@@ -212,6 +211,7 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
 function Divider(){
     return <div className="whitespace-pre w-0.5 bg-gray-300 bg-opacity-80"></div>
 }
+
 function getBehaviour(data: ServerInfoStateDataFragment$data) {
     switch (data.state) {
         case "STOPPED":

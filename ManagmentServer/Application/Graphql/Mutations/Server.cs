@@ -125,7 +125,7 @@ namespace Aplication.Graphql.Mutations
             [Service] IMapper mapper,
             IResolverContext context)
         {
-            var removed_server_dto = await mediator.Send(
+            var dto = await mediator.Send(
                 new SetServerName()
                 {
                     UID = id,
@@ -133,7 +133,7 @@ namespace Aplication.Graphql.Mutations
                 }
             );
 
-            return mapper.Map<GQL_IServer>(removed_server_dto.server);
+            return mapper.Map<GQL_IServer>(dto.server);
         }
 
 
@@ -142,20 +142,42 @@ namespace Aplication.Graphql.Mutations
         /// </summary>
         public async Task<GQL_IServer> SetServerDescription(
             [ID] string id,
-            string name,
+            string description,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context
+        )
+        {
+            var dto = await mediator.Send(
+                new SetServerDescription()
+                {
+                    UID = id,
+                    Description = description
+                }
+            );
+
+            return mapper.Map<GQL_IServer>(dto.server);
+        }
+
+        /// <summary>
+        /// Set server Description
+        /// </summary>
+        public async Task<GQL_IServer> SetServerLocation(
+            [ID] string id,
+            string location,
             [Service] IMediator mediator,
             [Service] IMapper mapper,
             IResolverContext context)
         {
-            var removed_server_dto = await mediator.Send(
-                new SetServerDescription()
+            var dto = await mediator.Send(
+                new SetServerLocation()
                 {
                     UID = id,
-                    Description = name
+                    Location = location
                 }
             );
 
-            return mapper.Map<GQL_IServer>(removed_server_dto.server);
+            return mapper.Map<GQL_IServer>(dto);
         }
 
         /// <summary>
