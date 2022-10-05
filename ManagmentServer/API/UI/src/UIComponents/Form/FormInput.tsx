@@ -39,7 +39,7 @@ export function FormInput({icon,label,error,afterFieldComponent,flexOrientation 
         error
           ? " border-red-500 "
           : clsx(
-              "border-gray-500 focus-within:border-blue-500",
+              "border-gray-300 focus-within:border-blue-500",
               "hover:border-blue-500"
             )
       )}

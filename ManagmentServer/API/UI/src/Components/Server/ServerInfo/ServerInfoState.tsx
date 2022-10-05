@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
-import { useFragment, useMutation } from "react-relay";
 import Badge from "../../../UIComponents/Badged/Badge";
+import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
+import { useFragment, useMutation, useSubscription } from "react-relay";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
 import { faPlay, faRefresh, faStop } from "@fortawesome/free-solid-svg-icons";
+import { ServerInfoStateSubscription } from "./__generated__/ServerInfoStateSubscription.graphql";
 import StayledButton, { STAYLED_BUTTON_VARIANTS } from "../../../UIComponents/Buttons/StayledButton";
 import { GQL_ServerCmd, ServerInfoStateProcessCmdMutation } from "./__generated__/ServerInfoStateProcessCmdMutation.graphql";
 import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
@@ -28,6 +30,16 @@ const ServerInfoStateProcessCmdMutationTag = graphql`
     }
 }
 `
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const ServerInfoStateSubscriptionRef = graphql`
+    subscription ServerInfoStateSubscription($id:ID!) {
+        serverStateChanged(server_id: $id) {
+            server_Uid
+            state
+        }
+    }
+`;
 
 type ServerInfoStateProps = {
     dataRef:ServerInfoStateDataFragment$key;
@@ -99,57 +111,54 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
     )
     
     const handleStart = useCallback(
-      () => {
+        () => {
         handleCommand("START")
-      },
-      [handleCommand],
+        },
+        [handleCommand],
     )
     
     const handleStop = useCallback(
         () => {
-          handleCommand("STOP")
+            handleCommand("STOP")
         },
         [handleCommand],
     )
 
     const handleRestart = useCallback(
         () => {
-          handleCommand("RESTART")
+            handleCommand("RESTART")
         },
         [handleCommand],
     )
     
-    // const uptime_sub_config = useMemo(() => ({
-    //     variables: {},
-    //     subscription:UptimeSub,
-    //     updater: store => { },
-    //     onCompleted: () => {} /* Subscription established */,
-    //     onError: error => {} /* Subscription errored */,
-    //     onNext: response => {} /* Subscription payload received */,
-    //   }as GraphQLSubscriptionConfig<ServerInfoStateUptimeSubscription>), []);
+    const state_sub = useMemo(() => ({
+        variables: {id:data.id},
+        subscription:ServerInfoStateSubscriptionRef,
+        updater: (store,element) => { 
+            console.warn(element)
+            if(element?.serverStateChanged?.server_Uid){
+                var server_data = store.get(element.serverStateChanged.server_Uid);
+                
+                server_data?.setValue(element.serverStateChanged.state,"state")
+            }
+            
+        },
+        onCompleted: () => {} /* Subscription established */,
+        onError: error => {} /* Subscription errored */,
+        onNext: response => {} /* Subscription payload received */,
+      }as GraphQLSubscriptionConfig<ServerInfoStateSubscription>), [data]);
     
-    // useSubscription<ServerInfoStateUptimeSubscription>(uptime_sub_config);
-
-    // const datetime_sub_config = useMemo(() => ({
-    //     variables: {},
-    //     subscription:DateTimeSub,
-    //     updater: store => { },
-    //     onCompleted: () => {} /* Subscription established */,
-    //     onError: error => {} /* Subscription errored */,
-    //     onNext: response => {} /* Subscription payload received */,
-    //   }as GraphQLSubscriptionConfig<ServerInfoStateDateTimeSubscription>), []);
-    
-    // useSubscription<ServerInfoStateDateTimeSubscription>(datetime_sub_config);
+    useSubscription<ServerInfoStateSubscription>(state_sub);
 
     const behaviour = useMemo(() => {
         return getBehaviour(data);
     }, [data])
 
     return <div className={clsx("flex flex-row w-full justify-between space-x-2 items-center")}>
-            <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden">
-                <div className="font-semibold text-base capitalize text-center truncate">
-                    State
-                </div>
+        <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden w-28">
+            <div className="font-semibold text-base capitalize text-center truncate">
+                State
+            </div>
             <div className={clsx("text-gray-600 text-sm w-full justify-end",
             "truncate capitalize text-end whitespace-pre items-center")}>
                 <Badge
@@ -169,7 +178,8 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
                 <StayledButton
                     variant={behaviour.play.variant}
                     disabled={!behaviour.play.enabled || isInFlight}
-                    className={behaviour.play.className}
+                    className={clsx(behaviour.play.className,"h-7 w-9")}
+                    isloading={data.state === "STARTING"}
                     iconOnly
                     iconLeft={faPlay}
                     onClick={handleStart}
@@ -178,7 +188,8 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
                 <StayledButton
                     variant={behaviour.stop.variant}
                     disabled={!behaviour.stop.enabled || isInFlight}
-                    className={behaviour.stop.className}
+                    className={clsx(behaviour.stop.className,"h-7 w-9")}
+                    isloading={data.state === "STOPPING"}
                     iconOnly
                     iconLeft={faStop}
                     onClick={handleStop}
@@ -187,7 +198,8 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
                 <StayledButton
                     variant={behaviour.restart.variant}
                     disabled={!behaviour.restart.enabled || isInFlight}
-                    className={behaviour.restart.className}
+                    className={clsx(behaviour.restart.className,"h-7 w-9")}
+                    isloading={data.state === "RESTARTING"}
                     iconOnly
                     iconLeft={faRefresh}
                     onClick={handleRestart}

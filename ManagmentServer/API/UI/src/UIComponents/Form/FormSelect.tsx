@@ -20,7 +20,7 @@ export default function FormSelect({label,error,children, ...rest}:FormSelectPro
     "focus:bg-white focus-within:bg-white text-base font-semibold",
     error 
       ? "border-red-500"
-      : clsx("border-gray-500 focus-within:border-blue-500",
+      : clsx("border-gray-300 focus-within:border-blue-500",
         "hover:border-blue-500")
     )}>
       {children}

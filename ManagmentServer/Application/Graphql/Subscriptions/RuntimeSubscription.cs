@@ -49,5 +49,15 @@ namespace Aplication.Graphql.Queries
 
             return receiver.SubscribeAsync<string, GQL_Metric>(topic);
         }
+
+        [SubscribeAndResolve]
+        public ValueTask<ISourceStream<GQL_ServerStateChangedNotification>> ServerStateChanged(
+            [ID] string server_id,
+            [Service] ITopicEventReceiver receiver)
+        {
+            var topic = $"ServerStateChanged.{server_id}";
+
+            return receiver.SubscribeAsync<string, GQL_ServerStateChangedNotification>(topic);
+        }
     }
 }

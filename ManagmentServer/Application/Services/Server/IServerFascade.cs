@@ -8,6 +8,8 @@ namespace Aplication.Services.ServerFascade
     {
         public List<string> SupportedServers { get; }
 
+        public Task<IServerManager> GetManager(string server_uid);
+
         public IServerManager GetManager(ServerType type);
 
         public T GetManager<T>() where T : IServerManager;

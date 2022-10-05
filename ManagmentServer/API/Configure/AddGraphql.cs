@@ -104,6 +104,8 @@ namespace API
 
                 .AddType<EdgeType>()
 
+                .AddType<ServerStateChangedNotificationType>()
+
                 .AddType<ServerEventsUnionType>()
                 .AddType<ClientConnectedType>()
                 .AddType<ServerConfigDiffEventType>()
