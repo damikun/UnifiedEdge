@@ -60,7 +60,7 @@ namespace Server.Manager
             return _runtime_store.Any();
         }
 
-        internal async Task<IServer?> GetServer(string server_id)
+        protected async Task<IServer?> GetServer(string server_id)
         {
             return await _runtime_store.GetById(server_id);
         }

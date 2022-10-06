@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.6" />
-    <PackageReference Include="MQTTnet" Version="4.0.0.167" />
+    <PackageReference Include="MQTTnet" Version="4.1.1.318" />
     <PackageReference Include="Quartz" Version="3.5.0" />
     <PackageReference Include="Quartz.AspNetCore" Version="3.5.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.5.0" />

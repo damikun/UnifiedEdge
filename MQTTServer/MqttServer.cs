@@ -1,6 +1,7 @@
 using MQTTnet;
 using System.Net;
 using MQTTnet.Server;
+using Server.Mqtt.DTO;
 
 namespace Server.Mqtt
 {
@@ -26,6 +27,114 @@ namespace Server.Mqtt
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
 
+        }
+
+        public async Task<DTO_MqttClientStatistics?> GetClientStatistic(string client_uid)
+        {
+            if (Server != null)
+            {
+                try
+                {
+                    var client_list = await Server.GetClientsAsync();
+
+                    return client_list
+                    .Where(e => e != null && e.Session != null && e.Id == client_uid)
+                    .Select(e => new DTO_MqttClientStatistics()
+                    {
+                        ClientUid = e.Id,
+                        ServerUid = this.UID,
+                        SentPacketsCount = e.SentPacketsCount,
+                        ReceivedPacketsCount = e.ReceivedPacketsCount,
+                        SentApplicationMessagesCount = e.SentApplicationMessagesCount,
+                        ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
+                        BytesSent = e.BytesSent,
+                        BytesReceived = e.BytesReceived,
+                        LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
+                        ConnectedTimestamp = e.ConnectedTimestamp,
+                        LastPacketSentTimestamp = e.LastPacketSentTimestamp,
+                        LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
+                    }).FirstOrDefault();
+
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        public async Task<DTO_MqttClientSession?> GetClientSession(string client_uid)
+        {
+            if (Server != null)
+            {
+                try
+                {
+                    var client_list = await Server.GetClientsAsync();
+
+                    return client_list
+                    .Where(e => e != null && e.Session != null && e.Id == client_uid)
+                    .Select(e => new DTO_MqttClientSession()
+                    {
+                        ClientUid = e.Id,
+                        Uid = e.Session.Id,
+                        Created = e.Session?.CreatedTimestamp,
+                        PendingMessages = e.Session?.PendingApplicationMessagesCount ?? 0
+                    }).FirstOrDefault();
+
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        public async Task<IList<DTO_MqttClientSession>> GetServerSessions()
+        {
+
+            if (Server != null)
+            {
+                try
+                {
+                    var client_list = await Server.GetClientsAsync();
+
+                    return client_list
+                    .Where(e => e != null && e.Session != null)
+                    .Select(e => new DTO_MqttClientSession()
+                    {
+                        ClientUid = e.Id,
+                        Uid = e.Session.Id,
+                        Created = e.Session?.CreatedTimestamp,
+                        PendingMessages = e.Session?.PendingApplicationMessagesCount ?? 0
+                    }).ToList();
+                }
+                catch { }
+
+            }
+
+            return new List<DTO_MqttClientSession>() as IList<DTO_MqttClientSession>;
+        }
+
+        public async Task<IList<DTO_MqttClient>> GetClients()
+        {
+            if (Server != null)
+            {
+                try
+                {
+                    var client_list = await Server.GetClientsAsync();
+
+                    return client_list
+                    .Where(e => e != null)
+                    .Select(e => new DTO_MqttClient()
+                    {
+                        Uid = e.Id,
+                        ServerUid = this.UID,
+                        Protocol = (DTO_MqttProtocol)e.ProtocolVersion,
+                        ConnectedAt = e.ConnectedTimestamp
+                    })
+                    .ToList();
+                }
+                catch { }
+
+            }
+
+            return new List<DTO_MqttClient>() as IList<DTO_MqttClient>;
         }
 
         protected override MqttServerOptions MapConfiguration(IServerCfg cfg)

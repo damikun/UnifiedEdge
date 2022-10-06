@@ -8,8 +8,9 @@ namespace Aplication.DTO
     public class DTO_ServerEventBase : DTO_IServerEventLog,
     IMapFrom<ServerEventBase>
     {
+#nullable disable
         public string ServerUid { get; set; }
-
+#nullable enable
         public long ID { get; set; }
 #nullable disable
         public string Name { get; set; }

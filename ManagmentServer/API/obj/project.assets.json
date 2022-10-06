@@ -1844,7 +1844,7 @@
           }
         }
       },
-      "MQTTnet/4.0.0.167": {
+      "MQTTnet/4.1.1.318": {
         "type": "package",
         "compile": {
           "lib/net6.0/MQTTnet.dll": {}
@@ -4043,7 +4043,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "MQTTnet": "4.0.0.167",
+          "MQTTnet": "4.1.1.318",
           "MediatR": "10.0.1",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Microsoft.Extensions.Hosting": "6.0.1",
@@ -6742,14 +6742,13 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "MQTTnet/4.0.0.167": {
-      "sha512": "nF+QGoltNg8/uKCP2sh7nOuTWSOKNf6bqG5G5Px6ToFe4V70mMcjiigbzgVkntwdxjDJHXDhbxSRVvc8QDP6Jg==",
+    "MQTTnet/4.1.1.318": {
+      "sha512": "k1a7CGmWZv97hMuokI7hmqCqjs07/gJ+UtRKYYJkvph0wkSJBO0HAuLV8OOPPiM6BZnDYvy65/Y8EuNKjZqCng==",
       "type": "package",
-      "path": "mqttnet/4.0.0.167",
+      "path": "mqttnet/4.1.1.318",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "LICENSE",
         "lib/net452/MQTTnet.dll",
         "lib/net452/MQTTnet.xml",
         "lib/net461/MQTTnet.dll",
@@ -6769,7 +6768,7 @@
         "lib/uap10.0.10240/MQTTnet.dll",
         "lib/uap10.0.10240/MQTTnet.pri",
         "lib/uap10.0.10240/MQTTnet.xml",
-        "mqttnet.4.0.0.167.nupkg.sha512",
+        "mqttnet.4.1.1.318.nupkg.sha512",
         "mqttnet.nuspec",
         "nuget.png"
       ]
@@ -11459,7 +11458,7 @@
       "HotChocolate.PersistedQueries.InMemory >= 13.0.0-preview.33",
       "HotChocolate.Subscriptions >= 13.0.0-preview.33",
       "HotChocolate.Subscriptions.InMemory >= 13.0.0-preview.33",
-      "MQTTnet >= 4.0.0.167",
+      "MQTTnet >= 4.1.1.318",
       "ManagmentUI - Persistence >= 1.0.0",
       "MediatR.Extensions.Microsoft.DependencyInjection >= 10.0.1",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.6",
@@ -11634,7 +11633,7 @@
           },
           "MQTTnet": {
             "target": "Package",
-            "version": "[4.0.0.167, )"
+            "version": "[4.1.1.318, )"
           },
           "MediatR.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",

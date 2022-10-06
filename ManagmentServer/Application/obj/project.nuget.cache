@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "A4CP3IqidMpKkvDd63z+VK3PDyDawWcWrZrYq8f5IbKHiLO8jlALmlbibWgUgRBIL1VHjJkfpIwOQ0fLilgKUA==",
+  "dgSpecHash": "67CRgSWm6tvTWw6X6ank1Ws/t22Jnns3PPA33rfZoAjH4fBT3QhAsjswEqOZrskkGn6bTXc/MnHncVLWRWhFgw==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -116,7 +116,7 @@
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\mqttnet\\4.0.0.167\\mqttnet.4.0.0.167.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\mqttnet\\4.1.1.318\\mqttnet.4.1.1.318.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\opentelemetry\\1.2.0-rc2\\opentelemetry.1.2.0-rc2.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\opentelemetry.api\\1.2.0-rc2\\opentelemetry.api.1.2.0-rc2.nupkg.sha512",

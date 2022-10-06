@@ -1,4 +1,5 @@
 using Server.Mqtt;
+using Server.Mqtt.DTO;
 
 namespace Server.Manager.Mqtt
 {
@@ -19,6 +20,92 @@ namespace Server.Manager.Mqtt
         protected override EdgeMqttServer CreateServerInstance(IServerCfg cfg)
         {
             return new EdgeMqttServer(cfg, _event_publisher);
+        }
+
+        public async Task<IList<DTO_MqttClient>> GetClients(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return await mqtt_server.GetClients();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<IList<DTO_MqttClientSession>> GetServerSessions(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return await mqtt_server.GetServerSessions();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<DTO_MqttClientStatistics?> GetClientStatistics(
+            string server_uid,
+            string server_client_uid
+        )
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(server_client_uid))
+                    {
+                        return null;
+                    }
+
+                    return await mqtt_server.GetClientStatistic(server_client_uid);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<DTO_MqttClientSession?> GetClientSession(
+            string server_uid,
+            string server_client_uid
+        )
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(server_client_uid))
+                    {
+                        return null;
+                    }
+
+                    return await mqtt_server.GetClientSession(server_client_uid);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
         }
     }
 }

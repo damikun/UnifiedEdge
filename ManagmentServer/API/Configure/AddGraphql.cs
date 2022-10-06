@@ -115,6 +115,10 @@ namespace API
                 .AddType<ServerStateChangedEventType>()
                 .AddType<IServerEventType>()
 
+                .AddType<MqttServerClientSessionType>()
+                .AddType<MqttServerClientStatisticsType>()
+                .AddType<MqttServerClientType>()
+
                 .AddType<AdapterType>()
                 .AddType<AdapterStateEnumType>()
                 .AddType<AdapterInterfaceEnumType>()
@@ -133,6 +137,7 @@ namespace API
                 // .AddInterfaceType<IServerType>()
 
                 .AddDataLoader<UserByIdDataLoader>()
+                .AddDataLoader<ServerClientSessionByServerIdAndClientId>()
 
                 .AddInMemorySubscriptions()
                 .UseCustomPipeline();

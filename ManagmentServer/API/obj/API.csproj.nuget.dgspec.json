@@ -137,7 +137,7 @@
             },
             "MQTTnet": {
               "target": "Package",
-              "version": "[4.0.0.167, )"
+              "version": "[4.1.1.318, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
@@ -623,7 +623,7 @@
           "dependencies": {
             "MQTTnet": {
               "target": "Package",
-              "version": "[4.0.0.167, )"
+              "version": "[4.1.1.318, )"
             },
             "MediatR": {
               "target": "Package",

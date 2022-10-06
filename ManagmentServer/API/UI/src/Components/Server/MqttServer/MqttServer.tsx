@@ -8,6 +8,7 @@ import Section from "../../../UIComponents/Section/Section";
 import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
 import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 import MqttServerSettings from "./MqttServerSettings";
+import MqttServerInfo from "./MqttServerInfo ";
 
 
 export const SettingsTabs = [
@@ -65,7 +66,7 @@ function MqttServer() {
       <Route path="/Settings/" element={<MqttServerSettings/>} />
       <Route path="/Logs/" element={<ServerLogs/>} />
       <Route path="/Explore/" element={<Dummy/>} />
-      <Route path="/*" element={<Dummy/>} />
+      <Route path="/*" element={<MqttServerInfo/>} />
     </Routes>
 
   </>

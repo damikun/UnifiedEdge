@@ -1,9 +1,9 @@
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
+using Server.Mqtt.DTO;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
-using Aplication.Graphql.Types;
 using HotChocolate.Types.Pagination;
 
 namespace Aplication.Graphql.Queries
@@ -36,33 +36,92 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<GQL_MqttServer>(dto);
         }
 
-        public async Task<bool> Test(
-            [Service] IMediator mediator)
+        [UseConnection(typeof(GQL_MqttClient))]
+        public async Task<Connection<GQL_MqttClient>> GetMqttServerClients(
+            [ID] string server_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
         {
-            // var dto = await mediator.Send(new GetMqttServers()
-            // {
+            var arguments = ctx.GetPaggingArguments();
 
-            // });
+            var result = await mediator.Send(
+                new GetMqttServerClients(arguments, server_uid),
+                cancellationToken
+            );
 
-            return true;
+            return _mapper.Map<Connection<GQL_MqttClient>>(result);
         }
 
-        [UseConnection(typeof(MqttServerType))]
-        public async Task<Connection<GQL_MqttServer>> GetMqttServers(
+        [UseConnection(typeof(GQL_MqttClientSession))]
+        public async Task<Connection<GQL_MqttClientSession>> GetMqttServerSessions(
+            [ID] string server_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerSessions(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttClientSession>>(result);
+        }
+
+        public async Task<GQL_MqttClientSession> GetMqttServerClientSession(
+            [ID] string server_uid,
+            [ID] string server_client_uid,
             IResolverContext ctx,
             [Service] IMediator mediator,
             CancellationToken cancellationToken)
         {
             var result = await mediator.Send(
-                new GetMqttServers(ctx.GetPaggingArguments()),
+                new GetMqttServerClientSession()
+                {
+                    server_uid = server_uid,
+                    server_client_uid = server_client_uid
+                },
                 cancellationToken
             );
 
-            return new Connection<GQL_MqttServer>(
-                _mapper.Map<List<Edge<GQL_MqttServer>>>(result.edges),
-                _mapper.Map<ConnectionPageInfo>(result.pageInfo),
-                result.pageInfo.TotalCount ?? 0
-            );
+            return _mapper.Map<GQL_MqttClientSession>(result);
         }
+
+        public async Task<GQL_MqttClientStatistics> GetMqttServerClientStatistic(
+            [ID] string server_uid,
+            [ID] string server_client_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerClientStatistics()
+                {
+                    server_uid = server_uid,
+                    server_client_uid = server_client_uid
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttClientStatistics>(result);
+        }
+
+        public async Task<GQL_MqttClient> GetMqttServerClient(
+            [ID] string server_uid,
+            [ID] string server_client_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerClientById(server_uid, server_client_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttClient>(result);
+        }
+
     }
 }

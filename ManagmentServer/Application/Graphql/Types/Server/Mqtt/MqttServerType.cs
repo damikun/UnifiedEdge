@@ -6,12 +6,11 @@ using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Aplication.Graphql.Interfaces;
 
-
 namespace Aplication.Graphql.Types
 {
 
     /// <summary>
-    /// Graphql MqttServer Type converter
+    /// Graphql MqttServer Type 
     /// </summary>
     public class MqttServerType : ObjectType<GQL_MqttServer>
     {

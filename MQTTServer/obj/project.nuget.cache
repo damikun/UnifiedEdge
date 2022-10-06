@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cDt2LkYYcjzNOoNvIXj1kxORgdy18YFJQ/Z2KisZbMa5boFXnCcvuDqgfYGrjTGF6mDQHCvHp/tPVWu+jw3wJg==",
+  "dgSpecHash": "sH2ILAHGdUsSkCUrcmALC57/gbqPjSjy6R1hMd3esgh2R4Hm/heWTF0MvjWEsUEgYTC4Dql72PbXLWVX97ntJw==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj",
   "expectedPackageFiles": [
@@ -32,7 +32,7 @@
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\6.0.0\\microsoft.extensions.options.configurationextensions.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\mqttnet\\4.0.0.167\\mqttnet.4.0.0.167.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\mqttnet\\4.1.1.318\\mqttnet.4.1.1.318.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.0\\system.configuration.configurationmanager.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.diagnostics.eventlog\\6.0.0\\system.diagnostics.eventlog.6.0.0.nupkg.sha512",
