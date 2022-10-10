@@ -46,7 +46,7 @@ export default function ServerLogDetail(){
 
       <FieldGroup>
         <FieldSection name="Type">{data.serverLogById.name}</FieldSection>
-        <FieldSection name="Date">{dt}</FieldSection>
+        <FieldSection name="Timestamp">{dt}</FieldSection>
       </FieldGroup>
 
       <FieldDivider/>

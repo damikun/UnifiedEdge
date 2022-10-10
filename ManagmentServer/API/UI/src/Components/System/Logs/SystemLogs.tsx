@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import SystemLogDetail from "./SystemLogDetail";
 import { SystemLogItem } from "./SystemLogItem";
-import Modal from "../../../UIComponents/Modal/Modal";
 import { graphql } from "babel-plugin-relay/macro";
 import { useSearchParams } from "react-router-dom";
 import React, { useCallback, useMemo } from "react";
+import Modal from "../../../UIComponents/Modal/Modal";
 import Section from "../../../UIComponents/Section/Section";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { SystemLogsQuery } from "./__generated__/SystemLogsQuery.graphql";

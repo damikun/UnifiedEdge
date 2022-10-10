@@ -35,7 +35,8 @@ namespace Persistence.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Location1 = table.Column<string>(type: "TEXT", nullable: true),
                     Location2 = table.Column<string>(type: "TEXT", nullable: true),
-                    Location3 = table.Column<string>(type: "TEXT", nullable: true)
+                    Location3 = table.Column<string>(type: "TEXT", nullable: true),
+                    DefaultAdapterId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,8 +214,8 @@ namespace Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Edge",
-                columns: new[] { "Id", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, "e54f5e0a-9688-4068-b5db-fdd7b1f690b2", null, null, null, "Undefined" });
+                columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
+                values: new object[] { 1, null, null, "361ac9df-d6cd-4e82-aa74-a46313a19b02", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

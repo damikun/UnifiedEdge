@@ -22,5 +22,7 @@ namespace Domain
 
         public string? Location3 { get; set; }
 
+        public string? DefaultAdapterId { get; set; }
+
     }
 }

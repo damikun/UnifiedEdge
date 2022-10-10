@@ -3,11 +3,15 @@ using System.Net;
 using MQTTnet.Server;
 using Server.Mqtt.DTO;
 
+
 namespace Server.Mqtt
 {
-    public sealed class EdgeMqttServer : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
+    public sealed class EdgeMqttServer
+        : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
     {
         private MQTTnet.Server.MqttServer? Server;
+
+        private readonly EdgeMqttServerMeter Meter;
 
         const int MONITOR_PERIOD = 30000;
 
@@ -26,12 +30,69 @@ namespace Server.Mqtt
             IServerEventPublisher? publisher = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
-
+            Meter = new EdgeMqttServerMeter(this);
         }
 
-        public async Task<DTO_MqttClientStatistics?> GetClientStatistic(string client_uid)
+        private bool isTransition()
         {
-            if (Server != null)
+            if (State == ServerState.starting ||
+                State == ServerState.stopping ||
+                State == ServerState.restarting
+            )
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<int> GetClientsCount()
+        {
+            try
+            {
+                return (await this.GetClients()).Count;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public async Task<List<DTO_MqttClientStatistics>> GetClientsStatistics()
+        {
+            if (!isTransition() && Server != null)
+            {
+                try
+                {
+                    var client_list = await Server.GetClientsAsync();
+
+                    return client_list
+                    .Where(e => e != null && e.Session != null)
+                    .Select(e => new DTO_MqttClientStatistics()
+                    {
+                        ClientUid = e.Id,
+                        ServerUid = this.UID,
+                        SentPacketsCount = e.SentPacketsCount,
+                        ReceivedPacketsCount = e.ReceivedPacketsCount,
+                        SentApplicationMessagesCount = e.SentApplicationMessagesCount,
+                        ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
+                        BytesSent = e.BytesSent,
+                        BytesReceived = e.BytesReceived,
+                        LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
+                        ConnectedTimestamp = e.ConnectedTimestamp,
+                        LastPacketSentTimestamp = e.LastPacketSentTimestamp,
+                        LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
+                    }).ToList();
+
+                }
+                catch { }
+            }
+
+            return new List<DTO_MqttClientStatistics>();
+        }
+
+        public async Task<DTO_MqttClientStatistics?> GetClientStatistics(string client_uid)
+        {
+            if (!isTransition() && Server != null)
             {
                 try
                 {
@@ -63,7 +124,7 @@ namespace Server.Mqtt
 
         public async Task<DTO_MqttClientSession?> GetClientSession(string client_uid)
         {
-            if (Server != null)
+            if (!isTransition() && Server != null)
             {
                 try
                 {
@@ -88,7 +149,7 @@ namespace Server.Mqtt
         public async Task<IList<DTO_MqttClientSession>> GetServerSessions()
         {
 
-            if (Server != null)
+            if (!isTransition() && Server != null)
             {
                 try
                 {
@@ -113,7 +174,7 @@ namespace Server.Mqtt
 
         public async Task<IList<DTO_MqttClient>> GetClients()
         {
-            if (Server != null)
+            if (!isTransition() && Server != null)
             {
                 try
                 {
@@ -194,6 +255,46 @@ namespace Server.Mqtt
 
         }
 
+        private void RegisterServerEvents(MqttServer server)
+        {
+            server.ClientConnectedAsync += (d) =>
+            {
+                Meter.ConnectedClientsCounter.Add(1);
+                return Task.CompletedTask;
+            };
+
+            server.ClientDisconnectedAsync += (d) =>
+            {
+                Meter.ConnectedClientsCounter.Add(-1);
+                return Task.CompletedTask;
+            };
+
+            server.StartedAsync += (d) =>
+            {
+                Meter.ServerStateCounter.Add(true);
+                return Task.CompletedTask;
+            };
+
+            server.StoppedAsync += (d) =>
+            {
+                Meter.ServerStateCounter.Add(true);
+                return Task.CompletedTask;
+            };
+
+            server.InterceptingInboundPacketAsync += (d) =>
+            {
+                Meter.InboundPacketCounter.Add(1);
+                return Task.CompletedTask;
+            };
+
+            server.InterceptingOutboundPacketAsync += (d) =>
+            {
+                Meter.OutboundPacketCounter.Add(1);
+                return Task.CompletedTask;
+            };
+
+        }
+
         protected override async Task UnsafeStartAsync()
         {
             if (isDisposing)
@@ -210,7 +311,11 @@ namespace Server.Mqtt
 
             try
             {
-                Server = CreateMqttServer();
+                var server = CreateMqttServer();
+
+                RegisterServerEvents(server);
+
+                Server = server;
 
                 await Server.StartAsync();
             }
@@ -260,7 +365,7 @@ namespace Server.Mqtt
             var options = MapConfiguration(Current_Config);
 
             var mqttFactory = new MqttFactory();
-
+            options.DefaultEndpointOptions.IsEnabled = true;
             return mqttFactory.CreateMqttServer(options);
         }
 

@@ -2,10 +2,10 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
-import { generateErrors } from "../../../Utils/Validation";
-import { FormInput } from "../../../UIComponents/Form/FormInput";
-import { useToast } from "../../../UIComponents/Toast/ToastProvider";
-import StayledButton from "../../../UIComponents/Buttons/StayledButton";
+import { generateErrors } from "../../../../Utils/Validation";
+import { FormInput } from "../../../../UIComponents/Form/FormInput";
+import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
+import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { EdgeLocation3DataFragment$key } from "./__generated__/EdgeLocation3DataFragment.graphql";import { EdgeLocation3UpdateMutation, SetEdgeLocation3Input } from "./__generated__/EdgeLocation3UpdateMutation.graphql";
 ;
 

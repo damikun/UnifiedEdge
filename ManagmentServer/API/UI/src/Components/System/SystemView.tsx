@@ -33,6 +33,7 @@ const SystemViewQueryTag = graphql`
     }
     ...EdgeInfoDataFragment
     ...SystemSettingsDataFragment
+    ...NetworkSettingsDataFragment
   }
 `;
 

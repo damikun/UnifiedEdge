@@ -14,8 +14,14 @@ namespace Aplication.Services.ServerFascade
 
         public System.Net.IPAddress GetDefaultIp();
 
+        public bool IsDefault(string adapter_id);
+
         public System.Net.IPAddress GetDefaultGateway();
 
         public Task<List<int>> GetUsedPorts(IPAddress ip);
+
+        public NetworkInterface GetLoopbackInterface();
+
+        public NetworkInterface? GetAdapterById(string adapter_id);
     }
 }

@@ -33,7 +33,7 @@ export function FormInput({icon,label,error,afterFieldComponent,flexOrientation 
     <div
       className={clsx(
         "flex flex-row my-auto justify-start align-middle",
-        "content-center p-1 my-2 border-2 rounded-md",
+        "content-center p-1 my-2 border shadow-sm rounded-md",
         "transition duration-200 focus:bg-white",
         "focus-within:bg-white h-10",
         error

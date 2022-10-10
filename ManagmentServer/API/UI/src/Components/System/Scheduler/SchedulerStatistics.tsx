@@ -1,5 +1,8 @@
+import clsx from "clsx";
+import { useMemo } from "react";
 import { useFragment } from "react-relay/hooks";
 import { graphql } from "babel-plugin-relay/macro";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Chart,
   Axis,
@@ -8,11 +11,9 @@ import {
   ScaleType,
   Settings,
 } from "@elastic/charts";
-
-import { useMemo } from "react";
-import "@elastic/charts/dist/theme_only_light.css";
 import { SchedulerStatisticsFragment_jobsStatistic$key } from "./__generated__/SchedulerStatisticsFragment_jobsStatistic.graphql";
-import clsx from "clsx";
+import "@elastic/charts/dist/theme_only_light.css";
+
 
 const SchedulerStatisticsTag = graphql`
   fragment SchedulerStatisticsFragment_jobsStatistic on Query {
@@ -62,9 +63,13 @@ export default function SchedulerStatistics({
       });
   }, [data]);
 
-  return (
-    <div className={clsx("flex w-full h-72 bg-gray-100 p-2 lg:p-5 border",
-    "border-gray-200 rounded-sm shadow-sm")}>
+  return (<AnimatePresence>
+    <motion.div className={clsx("flex w-full h-72 bg-gray-100 p-2 lg:p-5 border",
+    "border-gray-200 rounded-sm shadow-sm")}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 1 }}
+    transition={{duration:0.5}}>
       {
       //@ts-ignore
       <Chart className="story-chart h-full w-full">
@@ -92,7 +97,8 @@ export default function SchedulerStatistics({
         />
       </Chart>
         }
-    </div>
+    </motion.div>
+    </AnimatePresence>
   );
 }
 

@@ -30,6 +30,9 @@ namespace Aplication.Graphql.Types
             .Field(e => e.Id)
             .ID();
 
+            descriptor
+            .Field(e => e.RawId)
+            .Resolve(e => e.Parent<GQL_MqttClient>().Id);
         }
     }
 }

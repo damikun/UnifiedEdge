@@ -29,6 +29,19 @@ namespace API
                 builder.AddAspNetCoreInstrumentation();
 
                 builder.AddRuntimeMetrics(serviceCollection);
+
+                builder.AddOtlpExporter(options =>
+                {
+                    // Export to collector
+                    options.Endpoint = new Uri(Configuration["ConnectionStrings:OtelCollector"]);
+
+                    options.TimeoutMilliseconds = 10000;
+
+                    // Export dirrectly to APM
+                    // options.Endpoint = new Uri("http://localhost:8200"); 
+                    // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
+                    // };                
+                });
             });
 
             serviceCollection.AddOpenTelemetryTracing((builder) =>

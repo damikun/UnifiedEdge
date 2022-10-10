@@ -63,7 +63,7 @@ const containerVariant = {
 
 export type ModalContextType = {
   close: () => void;
-  confirm: () => void;
+  confirm: (data?:any) => void;
 };
 
 export const ModalContext = React.createContext<ModalContextType>({

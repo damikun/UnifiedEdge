@@ -9,10 +9,31 @@ export const is = {
     min: number,
     message: string = `Must have min ${min} characters`
   ) => (value: any) => value && value.length < min && message,
+  
   maxLength: (
     max: number,
     message: string = `Must have max ${max} characters`
   ) => (value: any) => value && value.length > max && message,
+
+  notEqual: (
+    compare: number,
+    message: string = `Must not equal ${compare}`
+  ) => (value: any) => value && value === compare && message,
+
+  greaterThan: (
+    compare: number,
+    message: string = `Must be grater than ${compare}`
+  ) => (value: any) => value && value < compare && message,
+
+  lessThan: (
+    compare: number,
+    message: string = `Must be lower than ${compare}`
+  ) => (value: any) => value && value > compare && message,
+
+  notContains: (
+    restricted: number[],
+    message: string = `Must not contain`
+  ) => (value: any) => value && restricted.find(e=>e === value) === undefined && message,
 
   email: () => (value: any, message: string = "Is not valid email") =>
     !!value && !/.+@.+\..+/.test(value) && message,

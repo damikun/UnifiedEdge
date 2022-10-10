@@ -1,14 +1,15 @@
 import clsx from "clsx";
 import React from "react";
-import EdgeName from "./EdgeName";
+import EdgeName from "./Edge/EdgeName";
 import { useFragment } from "react-relay";
-import EdgeLocation1 from "./EdgeLocation1";
-import EdgeLocation2 from "./EdgeLocation2";
-import EdgeLocation3 from "./EdgeLocation3";
-import EdgeDescription from "./EdgeDescription";
+import EdgeLocation1 from "./Edge//EdgeLocation1";
+import EdgeLocation2 from "./Edge/EdgeLocation2";
+import EdgeLocation3 from "./Edge/EdgeLocation3";
+import EdgeDescription from "./Edge/EdgeDescription";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../UIComponents/Section/Section";
 import { SystemSettingsDataFragment$key } from "./__generated__/SystemSettingsDataFragment.graphql";
+import NetworkSettings from "./Network/NetworkSettings";
 
 
 export const SystemSettingsDataFragmentTag = graphql`
@@ -21,6 +22,7 @@ export const SystemSettingsDataFragmentTag = graphql`
       ...EdgeLocation2DataFragment
       ...EdgeLocation3DataFragment
     }
+    ...NetworkSettingsDataFragment
   }
 `;
 
@@ -36,7 +38,8 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
   
   return <>
   {
-    data?.edgeInfo && <Section 
+    data?.edgeInfo && <Section
+      name="System"
       component={
         <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
         "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
@@ -56,5 +59,6 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
       }
       />
   }
+    <NetworkSettings dataRef={data}/>
   </>
 }

@@ -66,7 +66,7 @@ namespace Server.Manager.Mqtt
                         return null;
                     }
 
-                    return await mqtt_server.GetClientStatistic(server_client_uid);
+                    return await mqtt_server.GetClientStatistics(server_client_uid);
                 }
                 catch
                 {

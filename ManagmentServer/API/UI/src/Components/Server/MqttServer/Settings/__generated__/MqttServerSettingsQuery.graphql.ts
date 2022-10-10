@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ef8de8f1da035a327a5bd02598d30ee7>>
+ * @generated SignedSource<<30883bf121d0035a5320788aa147e635>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type MqttServerSettingsQuery$data = {
   readonly mqttServerById: {
     readonly " $fragmentSpreads": FragmentRefs<"ServerSharedSettingsFragment">;
   };
+  readonly " $fragmentSpreads": FragmentRefs<"MqttServerNetworkSettingsFragment">;
 };
 export type MqttServerSettingsQuery = {
   response: MqttServerSettingsQuery$data;
@@ -37,7 +38,21 @@ v1 = [
     "name": "id",
     "variableName": "id"
   }
-];
+],
+v2 = [
+  {
+    "kind": "Variable",
+    "name": "server_uid",
+    "variableName": "id"
+  }
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -60,6 +75,11 @@ return {
           }
         ],
         "storageKey": null
+      },
+      {
+        "args": (v2/*: any*/),
+        "kind": "FragmentSpread",
+        "name": "MqttServerNetworkSettingsFragment"
       }
     ],
     "type": "Query",
@@ -79,13 +99,7 @@ return {
         "name": "mqttServerById",
         "plural": false,
         "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
+          (v3/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
@@ -116,20 +130,53 @@ return {
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "GQL_MqttServerEndpoint",
+        "kind": "LinkedField",
+        "name": "mqttServerEndpoint",
+        "plural": false,
+        "selections": [
+          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "port",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "iPAddress",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "serverUid",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "416f313a0157188cfe569813f36efd1f",
+    "cacheID": "787d135dc0a0b7465f0240a01c6689d3",
     "id": null,
     "metadata": {},
     "name": "MqttServerSettingsQuery",
     "operationKind": "query",
-    "text": "query MqttServerSettingsQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    ...ServerSharedSettingsFragment\n    id\n  }\n}\n\nfragment ServerDescriptionDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  description\n}\n\nfragment ServerLocationDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  location\n}\n\nfragment ServerNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerSharedSettingsFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  ...ServerNameDataFragment\n  ...ServerLocationDataFragment\n  ...ServerDescriptionDataFragment\n}\n"
+    "text": "query MqttServerSettingsQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    ...ServerSharedSettingsFragment\n    id\n  }\n  ...MqttServerNetworkSettingsFragment_2YLYDF\n}\n\nfragment MqttServerEndpointDataFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    port\n    iPAddress\n    serverUid\n  }\n}\n\nfragment MqttServerNetworkSettingsFragment_2YLYDF on Query {\n  ...MqttServerEndpointDataFragment_2YLYDF\n}\n\nfragment ServerDescriptionDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  description\n}\n\nfragment ServerLocationDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  location\n}\n\nfragment ServerNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerSharedSettingsFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  ...ServerNameDataFragment\n  ...ServerLocationDataFragment\n  ...ServerDescriptionDataFragment\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3d154d82230b9348501f5230e5079e8b";
+(node as any).hash = "71503d102235cf6cf7f69946b1562a2c";
 
 export default node;

@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221001105436_Init")]
+    [Migration("20221008160448_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,9 @@ namespace Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("DefaultAdapterId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -52,7 +55,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "e54f5e0a-9688-4068-b5db-fdd7b1f690b2",
+                            Guid = "361ac9df-d6cd-4e82-aa74-a46313a19b02",
                             Name = "Undefined"
                         });
                 });

@@ -11,6 +11,8 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
+using System.Net;
+
 
 namespace API
 {
@@ -87,11 +89,15 @@ namespace API
                 .BindRuntimeType<TimeSpan, TimeSpanType>()
                 .BindRuntimeType<int, IntType>()
                 .BindRuntimeType<long, LongType>()
+                // .BindRuntimeType<IPAddress, IPAddressType>()
+
+                .AddType<MqttServerEndpointType>()
 
                 .AddType<MetricType>()
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
 
+                .AddType<DefaultAdapterType>()
                 .AddType<FailedJobType>()
                 .AddType<SchedulerJobDetailType>()
                 .AddType<SchedulerJobParameterType>()

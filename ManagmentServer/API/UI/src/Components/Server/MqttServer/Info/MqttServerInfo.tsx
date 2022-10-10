@@ -1,9 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
+import MqttClients from "./ClientList/MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
-import ServerSharedInfo from "../ServerSharedInfo/ServerSharedInfo";
+import ServerSharedInfo from "../../ServerSharedInfo/ServerSharedInfo";
 import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
+import MqttServerNetworkInfo from "./MqttServerNetworkInfo";
 
 
 export const MqttServerInfoQueryTag = graphql`
@@ -13,6 +15,9 @@ export const MqttServerInfoQueryTag = graphql`
       id
       ...ServerSharedInfoFragment
     }
+    ...MqttClientsPaginationFragment @arguments(server_uid: $id)
+
+    ...MqttServerNetworkInfoFragment @arguments(server_uid: $id)
   }
 `;
 
@@ -32,6 +37,8 @@ function MqttServerInfo() {
   );
 
   return <>
-    <ServerSharedInfo dataRef={data.mqttServerById}/>
+    <MqttServerNetworkInfo dataRef={data}/>
+    {/* <ServerSharedInfo dataRef={data.mqttServerById}/> */}
+    <MqttClients dataRef={data}/>
   </>
 }

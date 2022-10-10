@@ -50,7 +50,6 @@ namespace Aplication.Services
             ReadOnlySpan<KeyValuePair<string, object>> tags,
             object state)
         {
-
             _queue.Writer.WriteAsync((instrument.Name, measurement, instrument.Unit)).GetAwaiter();
         }
 
@@ -80,8 +79,6 @@ namespace Aplication.Services
                 _listener.RecordObservableInstruments();
 
                 // Propagate to GQL subscriptions
-                await _sender.SendAsync("CpuMetrics", _mapper.Map<GQL_CpuMetrics>(_runtime.GetCpuMetrics()));
-                await _sender.SendAsync("MemoryMetrics", _mapper.Map<GQL_MemoryMetrics>(_runtime.GetMemoryMetrics()));
                 await _sender.SendAsync("Uptime", new GQL_Uptime() { Uptime = _runtime.Uptime });
                 await _sender.SendAsync("SystemTime", DateTime.Now);
             }
@@ -92,10 +89,10 @@ namespace Aplication.Services
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var item = await _queue.Reader.ReadAsync(cancellationToken);
-
                 try
                 {
+                    var item = await _queue.Reader.ReadAsync(cancellationToken);
+
                     PropagateMeasurement(item, cancellationToken);
 
                     SaveValueToMemoryHistorian(item);
@@ -103,7 +100,7 @@ namespace Aplication.Services
                 }
                 catch
                 {
-                    // Nothing keep looping
+                    await Task.Delay(100);
                 }
 
             }
@@ -137,8 +134,7 @@ namespace Aplication.Services
                 TimeStamp = DateTime.Now
             };
 
-            _sender.SendAsync(item.name, metric, ct)
-                .GetAwaiter();
+            _sender.SendAsync(item.name, metric, ct).GetAwaiter();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -165,8 +161,9 @@ namespace Aplication.Services
                 }
             };
 
-            _listener.RecordObservableInstruments();
             _listener.Start();
+
+            _listener.RecordObservableInstruments();
         }
 
         private void ListenerDisableMeasurement()

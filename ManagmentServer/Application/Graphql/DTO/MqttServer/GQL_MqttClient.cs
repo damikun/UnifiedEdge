@@ -16,6 +16,10 @@ namespace Server.Mqtt.DTO
         /// </summary>
         public string Id { get; set; }
 
+        // <summary>
+        /// RawId
+        /// </summary>
+        public string RawId { get; set; }
 
         // <summary>
         /// ServerUid
@@ -46,6 +50,13 @@ namespace Server.Mqtt.DTO
         [GraphQLIgnore]
         public void Mapping(Profile profile)
         {
+            profile.CreateMap<DTO_MqttClient, GQL_MqttClient>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Uid))
+            .ForMember(dest => dest.Protocol, opt => opt.MapFrom(src => src.Protocol))
+            .ForMember(dest => dest.RawId, opt => opt.MapFrom(src => src.Uid))
+            .ForMember(dest => dest.ServerUid, opt => opt.MapFrom(src => src.ServerUid))
+            .ForMember(dest => dest.ConnectedAt, opt => opt.MapFrom(src => src.ConnectedAt));
+
             profile.CreateMap<DTO_MqttProtocol, GQL_MqttProtocol>()
                 .ConvertUsing(typeof(MqttProtocolVersionEnumMap));
         }

@@ -11,6 +11,7 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\De
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.dll
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.AspNetIdentity.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.EntityFramework.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.EntityFramework.Storage.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.Storage.dll
@@ -57,6 +58,7 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\De
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\MediatR.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\MediatR.Contracts.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -210,5 +212,3 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\De
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\obj\Debug\net6.0\ref\API.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Duende.IdentityServer.AspNetIdentity.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

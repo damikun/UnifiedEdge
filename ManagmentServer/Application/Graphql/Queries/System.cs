@@ -92,5 +92,24 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<GQL_SystemEvent>(result);
         }
+
+        /// <summary>
+        /// Get default adapter
+        /// </summary>
+        /// <returns>Returns GQL_DefaultAdapter</returns>
+        public async Task<GQL_DefaultAdapter> GetDefaultAdapter(
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetDefaultAdapter(),
+                cancellationToken
+            );
+
+            return new GQL_DefaultAdapter()
+            {
+                Adapter = _mapper.Map<GQL_Adapter?>(result)
+            };
+        }
     }
 }

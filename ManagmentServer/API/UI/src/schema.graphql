@@ -135,6 +135,11 @@ type GQL_CpuMetrics {
   userCpuUsed: Float!
 }
 
+type GQL_DefaultAdapter {
+  adapter: GQL_Adapter
+  id: ID!
+}
+
 type GQL_Edge {
   description: String
   guid: String!
@@ -266,6 +271,76 @@ type GQL_Metric {
   value: Any
 }
 
+type GQL_MqttClient {
+  connectedAt: DateTime
+  id: ID!
+  protocol: GQL_MqttProtocol!
+  rawId: String
+  serverUid: String!
+}
+
+"A connection to a list of items."
+type GQL_MqttClientConnection {
+  "A list of edges."
+  edges: [GQL_MqttClientEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttClient]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttClientEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttClient
+}
+
+type GQL_MqttClientSession {
+  clientUid: ID!
+  created: DateTime
+  pendingMessages: Long!
+  uid: ID!
+}
+
+"A connection to a list of items."
+type GQL_MqttClientSessionConnection {
+  "A list of edges."
+  edges: [GQL_MqttClientSessionEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttClientSession]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttClientSessionEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttClientSession
+}
+
+type GQL_MqttClientStatistics {
+  bytesReceived: Long!
+  bytesSent: Long!
+  clientUid: ID!
+  connectedTimestamp: DateTime
+  lastNonKeepAlivePacketReceivedTimestamp: DateTime
+  lastPacketReceivedTimestamp: DateTime
+  lastPacketSentTimestamp: DateTime
+  receivedApplicationMessagesCount: Long!
+  receivedPacketsCount: Long!
+  sentApplicationMessagesCount: Long!
+  sentPacketsCount: Long!
+  serverUid: ID!
+}
+
 type GQL_MqttServer implements GQL_IServer & Node {
   description: String
   id: ID!
@@ -279,24 +354,11 @@ type GQL_MqttServer implements GQL_IServer & Node {
   uptime: GQL_Uptime
 }
 
-"A connection to a list of items."
-type GQL_MqttServerConnection {
-  "A list of edges."
-  edges: [GQL_MqttServerEdge!]
-  "A flattened list of the nodes."
-  nodes: [GQL_MqttServer]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type GQL_MqttServerEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: GQL_MqttServer
+type GQL_MqttServerEndpoint {
+  id: ID!
+  iPAddress: String!
+  port: Long!
+  serverUid: ID!
 }
 
 type GQL_OS {
@@ -492,11 +554,13 @@ type Mutation {
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
+  setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
   setEdgeLocation2(request: SetEdgeLocation2Input!): SetEdgeLocation2Payload!
   setEdgeLocation3(request: SetEdgeLocation3Input!): SetEdgeLocation3Payload!
   setEdgeName(request: SetEdgeNameInput!): SetEdgeNamePayload!
+  setMqttServerEndpoint(input: SetMqttServerEndpointInput!): SetMqttServerEndpointPayload!
   setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
@@ -524,13 +588,19 @@ type Query {
   adapterById(id: ID!): GQL_Adapter!
   adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
   adapters("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterConnection
+  defaultAdapter: GQL_DefaultAdapter!
   edgeInfo: GQL_Edge!
   failedJob(jobid: ID!): GQL_FailedJob!
   failedJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_FailedJobConnection
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
   mqttServerById(id: ID!): GQL_MqttServer!
-  mqttServers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_MqttServerConnection
+  mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
+  mqttServerClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientConnection
+  mqttServerClientSession(server_client_uid: ID! server_uid: ID!): GQL_MqttClientSession!
+  mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics!
+  mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
+  mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
@@ -546,13 +616,17 @@ type Query {
   systemInfo: GQL_SystemInfo!
   systemLogById(log_id: ID!): GQL_SystemEvent!
   systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
-  test: Boolean!
   testik(id: ID!): GQL_Adapter
 }
 
 type RemoveServerPayload {
   query: Query!
   removed_id: ID
+}
+
+type SetEdgeDefaultNetworkAdapterPayload {
+  gQL_DefaultAdapter: GQL_DefaultAdapter
+  query: Query!
 }
 
 type SetEdgeDescriptionPayload {
@@ -577,6 +651,11 @@ type SetEdgeLocation3Payload {
 
 type SetEdgeNamePayload {
   gQL_Edge: GQL_Edge
+  query: Query!
+}
+
+type SetMqttServerEndpointPayload {
+  gQL_MqttServerEndpoint: GQL_MqttServerEndpoint
   query: Query!
 }
 
@@ -629,6 +708,10 @@ input RemoveServerInput {
   id: ID!
 }
 
+input SetEdgeDefaultNetworkAdapterInput {
+  adapter_id: ID!
+}
+
 input SetEdgeDescriptionInput {
   description: String!
 }
@@ -647,6 +730,12 @@ input SetEdgeLocation3Input {
 
 input SetEdgeNameInput {
   name: String!
+}
+
+input SetMqttServerEndpointInput {
+  ip: String!
+  port: Int!
+  server_uid: ID!
 }
 
 input SetServerDescriptionInput {
@@ -674,6 +763,13 @@ enum EventType {
   INFO
   WARNING
   ERROR
+}
+
+enum GQL_MqttProtocol {
+  UNKNOWN
+  V310
+  V311
+  V500
 }
 
 enum GQL_RuntimeMetricSource {

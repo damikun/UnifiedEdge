@@ -28,9 +28,9 @@
     <PackageReference Include="Hangfire.Core" Version="1.8.0-rc1" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.0-rc1" />
     <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6"  />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6"  />
 
     <PackageReference Include="OpenTelemetry" Version="1.2.0-rc2" />
 
@@ -39,7 +39,7 @@
     <PackageReference Include="HotChocolate.Data" Version="13.0.0-preview.33" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.33" />
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"  />
 
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.1" />

@@ -2,13 +2,13 @@ import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 import ServerLogs from "../ServerLogs/ServerLogs";
 import ServerInfo from "../ServerInfo/ServerInfo";
+import MqttServerInfo from "./Info/MqttServerInfo";
 import { graphql } from "babel-plugin-relay/macro";
+import MqttServerSettings from "./Settings/MqttServerSettings";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
 import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
-import MqttServerSettings from "./MqttServerSettings";
-import MqttServerInfo from "./MqttServerInfo ";
 
 
 export const SettingsTabs = [

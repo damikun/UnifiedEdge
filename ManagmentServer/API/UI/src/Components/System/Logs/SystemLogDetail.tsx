@@ -49,7 +49,7 @@ export default function SystemLogDetail(){
 
       <FieldGroup>
         <FieldSection name="Type">{data.systemLogById.name}</FieldSection>
-        <FieldSection name="Date">{dt}</FieldSection>
+        <FieldSection name="Timestamp">{dt}</FieldSection>
       </FieldGroup>
 
       <FieldDivider/>

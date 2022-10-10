@@ -73,7 +73,6 @@ namespace Aplication.Graphql.Queries
         public async Task<GQL_MqttClientSession> GetMqttServerClientSession(
             [ID] string server_uid,
             [ID] string server_client_uid,
-            IResolverContext ctx,
             [Service] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -92,7 +91,6 @@ namespace Aplication.Graphql.Queries
         public async Task<GQL_MqttClientStatistics> GetMqttServerClientStatistic(
             [ID] string server_uid,
             [ID] string server_client_uid,
-            IResolverContext ctx,
             [Service] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -111,7 +109,6 @@ namespace Aplication.Graphql.Queries
         public async Task<GQL_MqttClient> GetMqttServerClient(
             [ID] string server_uid,
             [ID] string server_client_uid,
-            IResolverContext ctx,
             [Service] IMediator mediator,
             CancellationToken cancellationToken)
         {
@@ -121,6 +118,19 @@ namespace Aplication.Graphql.Queries
             );
 
             return _mapper.Map<GQL_MqttClient>(result);
+        }
+
+        public async Task<GQL_MqttServerEndpoint> GetMqttServerEndpoint(
+            [ID] string server_uid,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerEndpoint(server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttServerEndpoint>(result);
         }
 
     }

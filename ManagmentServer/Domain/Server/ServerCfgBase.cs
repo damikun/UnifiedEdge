@@ -9,11 +9,11 @@ namespace Domain.Server
 
         public abstract ServerType Type { get; }
 
-        public ServerBase Server { get; set; }
+        public ServerBase Server { get; init; }
 
         public bool IsEnabled { get; set; }
 
-        public DateTime TimeStamp { get; init; }
+        public DateTime TimeStamp { get; set; }
     }
 
 }

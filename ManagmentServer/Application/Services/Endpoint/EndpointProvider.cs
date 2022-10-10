@@ -3,9 +3,11 @@ using Persistence;
 using System.Net.Sockets;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Aplication.Services.ServerFascade
 {
+
     public class EndpointProvider : IEndpointProvider
     {
         /// <summary>
@@ -13,14 +15,36 @@ namespace Aplication.Services.ServerFascade
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        /// <summary>
+        /// Injected <c>IMemoryCache</c>
+        /// </summary>
+        private readonly IMemoryCache _cache;
+
         private const int PORT_MIN = 1000;
         private const int PORT_MAX = 65535;
 
         private ICollection<int> RESERVED = new List<int>() { 0, 80, 8080 };
 
-        public EndpointProvider(IDbContextFactory<ManagmentDbCtx> factory)
+        public EndpointProvider(
+            IDbContextFactory<ManagmentDbCtx> factory,
+            IMemoryCache cache)
         {
             _factory = factory;
+            _cache = cache;
+        }
+
+        public NetworkInterface? GetAdapterById(string adapter_id)
+        {
+            try
+            {
+                return NetworkAdapters
+                .Where(e => e.Id == adapter_id)
+                .FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public NetworkInterface[] NetworkAdapters
@@ -29,7 +53,16 @@ namespace Aplication.Services.ServerFascade
             {
                 try
                 {
-                    return NetworkInterface.GetAllNetworkInterfaces()
+
+                    if (_cache.TryGetValue<NetworkInterface[]>(
+                        EndpointProviderCacheConsts.AdapterList,
+                        out NetworkInterface[] cached)
+                    )
+                    {
+                        return cached;
+                    }
+
+                    var adapters = NetworkInterface.GetAllNetworkInterfaces()
                     .Where(e => !e.IsReceiveOnly &&
                         e.Name.StartsWith("vEthernet") == false &&
                         e.Name.StartsWith("Bluetooth") == false &&
@@ -41,6 +74,16 @@ namespace Aplication.Services.ServerFascade
                         )
                     )
                     .ToArray();
+
+                    _cache.Set<NetworkInterface[]>(
+                    EndpointProviderCacheConsts.AdapterList,
+                    adapters,
+                    new MemoryCacheEntryOptions()
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2)
+                    });
+
+                    return adapters;
                 }
                 catch
                 {
@@ -51,35 +94,70 @@ namespace Aplication.Services.ServerFascade
 
         public NetworkInterface GetLoopbackInterface()
         {
+            if (_cache.TryGetValue<NetworkInterface>(
+                EndpointProviderCacheConsts.LoopbackAdapter,
+                out NetworkInterface cached)
+            )
+            {
+                return cached;
+            }
+
             var index = NetworkInterface.LoopbackInterfaceIndex;
 
-            return NetworkInterface.GetAllNetworkInterfaces()[index];
+            var adapter = NetworkInterface.GetAllNetworkInterfaces()[index];
+
+            _cache.Set<NetworkInterface>(
+            EndpointProviderCacheConsts.LoopbackAdapter,
+            adapter,
+            new MemoryCacheEntryOptions()
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2)
+            });
+
+            return adapter;
+
         }
 
         public NetworkInterface GetDefaultAdapter()
         {
-            // First try get from UP adapters
-            var adapter = NetworkAdapters
-                .FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
-                    && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
-                    && x.OperationalStatus == OperationalStatus.Up
-                );
 
-            // If no UP adapters are available take first from all Down awailable
+            if (_cache.TryGetValue<NetworkInterface>(
+                EndpointProviderCacheConsts.DefaultAdapter,
+                out NetworkInterface cached)
+            )
+            {
+                return cached;
+            }
+
+            // First try get loopback
+            var adapter = NetworkAdapters
+                .FirstOrDefault(x => x.NetworkInterfaceType == NetworkInterfaceType.Loopback
+                && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
+
+            // Try to get most significat up adapter
             if (adapter == null)
             {
                 adapter = NetworkAdapters
-                 .First(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
-                    && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
-                );
+                    .FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                        && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
+                        && x.OperationalStatus == OperationalStatus.Up
+                    );
             }
 
-            // If no match try get loopback
+            // If no match try get any available
             if (adapter == null)
             {
                 adapter = NetworkAdapters
                  .First(x => x.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
             }
+
+            _cache.Set<NetworkInterface>(
+                EndpointProviderCacheConsts.DefaultAdapter,
+                adapter,
+                new MemoryCacheEntryOptions()
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(2)
+                });
 
             return adapter;
         }
@@ -127,7 +205,6 @@ namespace Aplication.Services.ServerFascade
             }
         }
 
-
         private async Task<List<int>> GetDbUsedPorts(
             IPAddress ip,
             CancellationToken ct = default
@@ -157,7 +234,7 @@ namespace Aplication.Services.ServerFascade
             IPEndPoint[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpListeners();
 
             var list = tcpConnInfoArray
-            .Where(e => e.Address.Equals(ip))
+            .Where(e => e.Address.MapToIPv4().Equals(ip))
             .Select(e => e.Port)
             .ToList();
 
@@ -173,7 +250,7 @@ namespace Aplication.Services.ServerFascade
         {
             return GetDefaultAdapter()
             .GetIPProperties().GatewayAddresses
-            .Select(g => g.Address)
+            .Select(g => g.Address.MapToIPv4())
             .Where(a => a != null)
             .First();
         }
@@ -183,9 +260,16 @@ namespace Aplication.Services.ServerFascade
             return GetDefaultAdapter()
             .GetIPProperties().UnicastAddresses
             .Where(u => u.Address.AddressFamily == AddressFamily.InterNetwork)
-            .Select(i => i.Address)
+            .Select(i => i.Address.MapToIPv4())
             .Where(a => a != null)
             .First();
+        }
+
+        public bool IsDefault(string adapter_id)
+        {
+            var default_adapter = GetDefaultAdapter();
+
+            return default_adapter.Id == adapter_id;
         }
 
         public async Task<IPEndPoint> GetRanodmEndpoint()
@@ -193,7 +277,32 @@ namespace Aplication.Services.ServerFascade
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var dif_ip = GetDefaultIp();
+            var db_default_adapter = await dbContext.Edge
+            .Select(e => e.DefaultAdapterId)
+            .FirstOrDefaultAsync();
+
+            IPAddress? dif_ip = null;
+
+            if (db_default_adapter != null)
+            {
+                var adapter = GetAdapterById(db_default_adapter);
+
+                if (adapter != null)
+                {
+                    dif_ip = adapter
+                    .GetIPProperties()
+                    .UnicastAddresses
+                    .Where(e => e.Address.AddressFamily == AddressFamily.InterNetwork)
+                    .Select(e => e.Address.MapToIPv4())
+                    .First();
+                }
+
+            }
+
+            if (dif_ip == null)
+            {
+                dif_ip = GetDefaultIp();
+            }
 
             var excludes = await GetUsedPorts(dif_ip);
 
@@ -245,7 +354,7 @@ namespace Aplication.Services.ServerFascade
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            string str_ip = requested.Address.ToString();
+            string str_ip = requested.Address.MapToIPv4().ToString();
 
             return await dbContext.Endpoints
                 .Where(e =>
@@ -254,5 +363,15 @@ namespace Aplication.Services.ServerFascade
                 )
                 .AnyAsync(ct);
         }
+    }
+
+    public static class EndpointProviderCacheConsts
+    {
+
+        public static string DefaultAdapter = "DefaultAdapter";
+
+        public static string LoopbackAdapter = "LoopbackAdapter";
+
+        public static string AdapterList = "AdapterList";
     }
 }

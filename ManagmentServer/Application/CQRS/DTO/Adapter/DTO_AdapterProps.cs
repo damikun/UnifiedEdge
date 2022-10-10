@@ -1,6 +1,7 @@
 using AutoMapper;
 using Aplication.Mapping;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace Aplication.DTO
 {
@@ -24,11 +25,11 @@ namespace Aplication.DTO
         public void Mapping(Profile profile)
         {
             profile.CreateMap<IPInterfaceProperties, DTO_AdapterAddresses>()
-            .ForMember(dest => dest.UnicastAddresses, opt => opt.MapFrom(src => src.UnicastAddresses.Select(e => e.Address.ToString()).ToList()))
-            .ForMember(dest => dest.MulticastAddresses, opt => opt.MapFrom(src => src.MulticastAddresses.Select(e => e.Address.ToString()).ToList()))
-            .ForMember(dest => dest.GatewayAddresses, opt => opt.MapFrom(src => src.GatewayAddresses.Select(e => e.Address.ToString()).ToList()))
-            .ForMember(dest => dest.DnsAddresses, opt => opt.MapFrom(src => src.DnsAddresses.Select(e => e.ToString()).ToList()))
-            .ForMember(dest => dest.DhcpServerAddresses, opt => opt.MapFrom(src => src.DhcpServerAddresses.Select(e => e.ToString()).ToList()));
+            .ForMember(dest => dest.UnicastAddresses, opt => opt.MapFrom(src => src.UnicastAddresses.Where(e => e.Address.AddressFamily == AddressFamily.InterNetwork).Select(e => e.Address.MapToIPv4().ToString()).ToList()))
+            .ForMember(dest => dest.MulticastAddresses, opt => opt.MapFrom(src => src.MulticastAddresses.Where(e => e.Address.AddressFamily == AddressFamily.InterNetwork).Select(e => e.Address.MapToIPv4().ToString()).ToList()))
+            .ForMember(dest => dest.GatewayAddresses, opt => opt.MapFrom(src => src.GatewayAddresses.Where(e => e.Address.AddressFamily == AddressFamily.InterNetwork).Select(e => e.Address.MapToIPv4().ToString()).ToList()))
+            .ForMember(dest => dest.DnsAddresses, opt => opt.MapFrom(src => src.DnsAddresses.Where(e => e.AddressFamily == AddressFamily.InterNetwork).Select(e => e.MapToIPv4().ToString()).ToList()))
+            .ForMember(dest => dest.DhcpServerAddresses, opt => opt.MapFrom(src => src.DhcpServerAddresses.Where(e => e.AddressFamily == AddressFamily.InterNetwork).Select(e => e.MapToIPv4().ToString()).ToList()));
         }
     }
 }

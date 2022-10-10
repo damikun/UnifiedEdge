@@ -174,5 +174,24 @@ namespace Aplication.Graphql.Mutations
 
             return _mapper.Map<GQL_Edge>(dto);
         }
+
+        /// <summary>
+        /// Sets Edge default adapter
+        /// </summary>
+        /// <returns>GQL_DefaultAdapter</returns>
+        public async Task<GQL_DefaultAdapter> SetEdgeDefaultNetworkAdapter(
+             [ID] string adapter_id,
+             [Service] IMediator mediator)
+        {
+            var dto = await mediator.Send(new SetDefaultAdapter()
+            {
+                adapter_id = adapter_id,
+            });
+
+            return new GQL_DefaultAdapter()
+            {
+                Adapter = _mapper.Map<GQL_Adapter>(dto)
+            };
+        }
     }
 }

@@ -37,7 +37,7 @@ export const Badge_VARIANTS = {
     border: "border-gray-600 border-2 border-opacity-50",
   },
   secondarygray: {
-    base: "bg-gray-200 hover:text-gray-700",
+    base: "bg-gray-200 hover:text-gray-700 text-gray-600",
     border: "border-gray-300 border-2 border-opacity-50",
   },
   secondarygreen: {

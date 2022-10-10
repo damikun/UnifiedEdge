@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c1a6099157dc31e84ef5d57b2ad52661>>
+ * @generated SignedSource<<c32262fbac832ccebdb79715cd17dda7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type SystemSettingsDataFragment$data = {
   readonly edgeInfo: {
     readonly " $fragmentSpreads": FragmentRefs<"EdgeDescriptionDataFragment" | "EdgeLocation1DataFragment" | "EdgeLocation2DataFragment" | "EdgeLocation3DataFragment" | "EdgeNameDataFragment">;
   };
+  readonly " $fragmentSpreads": FragmentRefs<"NetworkSettingsDataFragment">;
   readonly " $fragmentType": "SystemSettingsDataFragment";
 };
 export type SystemSettingsDataFragment$key = {
@@ -62,12 +63,17 @@ const node: ReaderFragment = {
         }
       ],
       "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "NetworkSettingsDataFragment"
     }
   ],
   "type": "Query",
   "abstractKey": null
 };
 
-(node as any).hash = "f985cd0119cd60f1c5cdffa8bea4fb13";
+(node as any).hash = "ee53cb9c5bd533c2df88164eed2b2e8d";
 
 export default node;
