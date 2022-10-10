@@ -19,8 +19,8 @@ namespace API
                 var services = scope.ServiceProvider;
 
                 var hostEnvironment = scope
-                                        .ServiceProvider
-                                        .GetRequiredService<IWebHostEnvironment>();
+                    .ServiceProvider
+                    .GetRequiredService<IWebHostEnvironment>();
 
                 var configuration = GetLogConfigurationFromJson();
 

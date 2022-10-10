@@ -10,8 +10,6 @@ namespace API
 
             serviceCollection.AddMqttServer();
 
-            // serviceCollection.AddHostedService<MqttManagerMonitor>();
-
             return serviceCollection;
         }
     }

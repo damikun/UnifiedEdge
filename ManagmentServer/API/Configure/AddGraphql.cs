@@ -11,7 +11,6 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-using System.Net;
 
 
 namespace API

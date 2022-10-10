@@ -51,9 +51,9 @@ namespace API
 
                 builder.SetResourceBuilder(ResourceBuilder
                   .CreateDefault()
-                //   .AddAttributes( new List<KeyValuePair<String, object>> { 
-                //     new KeyValuePair<String, object>("SomeKey", "This is String Value")
-                //     })
+                  //   .AddAttributes( new List<KeyValuePair<String, object>> { 
+                  //     new KeyValuePair<String, object>("SomeKey", "This is String Value")
+                  //     })
                   .AddService(Environment.ApplicationName));
 
                 builder.AddAspNetCoreInstrumentation(opts =>
