@@ -3,15 +3,12 @@ using System.Net;
 using MQTTnet.Server;
 using Server.Mqtt.DTO;
 
-
 namespace Server.Mqtt
 {
     public sealed class EdgeMqttServer
         : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
     {
         private MQTTnet.Server.MqttServer? Server;
-
-        private readonly EdgeMqttServerMeter Meter;
 
         const int MONITOR_PERIOD = 30000;
 
@@ -23,7 +20,11 @@ namespace Server.Mqtt
             ServerType = typeof(EdgeMqttServer)
         };
 
+        private EdgeMqttServerMeter Meter { get; set; }
+
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+
+        public override string MeterName => Meter.MeterName;
 
         public EdgeMqttServer(
             IServerCfg cfg,
@@ -259,6 +260,8 @@ namespace Server.Mqtt
         {
             server.ClientConnectedAsync += (d) =>
             {
+                System.Console.WriteLine("*******************************************");
+                System.Console.WriteLine("Increasing counter");
                 Meter.ConnectedClientsCounter.Add(1);
                 return Task.CompletedTask;
             };
@@ -271,13 +274,12 @@ namespace Server.Mqtt
 
             server.StartedAsync += (d) =>
             {
-                Meter.ServerStateCounter.Add(true);
                 return Task.CompletedTask;
             };
 
             server.StoppedAsync += (d) =>
             {
-                Meter.ServerStateCounter.Add(true);
+                // Meter.ServerStateCounter.Add(true);
                 return Task.CompletedTask;
             };
 

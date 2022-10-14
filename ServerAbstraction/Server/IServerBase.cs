@@ -3,6 +3,7 @@ namespace Server
 {
     public interface IServerBase
     {
+        string UID { get; }
         Task<bool> IsRunning();
         TimeSpan? Uptime { get; }
         bool isConfigMatch { get; }

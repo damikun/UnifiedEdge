@@ -1,3 +1,4 @@
+using Server.Mqtt;
 using Server.Event;
 
 namespace Server
@@ -6,7 +7,7 @@ namespace Server
     {
         public string UID { get; private set; }
 
-        private Type OptionsType { get; init; }
+        private Type OptionsType { get; init; } = typeof(T);
 
         private bool isDisposing { get; set; }
 
@@ -21,6 +22,8 @@ namespace Server
         public event EventHandler<ServerStateChangedEventArgs> OnStateChanged;
 
         internal readonly IServerEventPublisher _publisher;
+
+        public abstract string MeterName { get; }
 
         public bool isConfigMatch
         {
@@ -50,8 +53,6 @@ namespace Server
             );
 
             _ = SyncServerState();
-
-            OptionsType = typeof(T);
         }
 
         private Task? _current;

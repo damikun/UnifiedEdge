@@ -17,16 +17,19 @@ namespace API
         {
             serviceCollection.AddTelemetryService(Configuration, out string trace_source);
 
+            // var sss = OpenTelemetry.Sdk.CreateMeterProviderBuilder();
+
+            // var provider = sss.Build();
+
+            // ---------------------------------------
+            // ---------------------------------------
+
             serviceCollection.AddOpenTelemetryMetrics(builder =>
             {
-                builder.AddPrometheusExporter(options =>
-                {
-                    options.StartHttpListener = true;
-                    options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
-                    options.ScrapeResponseCacheDurationMilliseconds = 0;
-                });
 
                 builder.AddAspNetCoreInstrumentation();
+
+                builder.AddMeter("Server.*");
 
                 builder.AddRuntimeMetrics(serviceCollection);
 
@@ -42,7 +45,17 @@ namespace API
                     // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
                     // };                
                 });
+
+                builder.AddPrometheusExporter(options =>
+                {
+                    options.StartHttpListener = true;
+                    options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
+                    options.ScrapeResponseCacheDurationMilliseconds = 0;
+                });
+
             });
+
+            // --------------------------------------------
 
             serviceCollection.AddOpenTelemetryTracing((builder) =>
             {
@@ -132,6 +145,7 @@ namespace API
 
                     e.IncludeScopes = true;
                 });
+
             });
 
             // Alternatively defined as options
