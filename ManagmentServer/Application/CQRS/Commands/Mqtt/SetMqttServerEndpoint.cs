@@ -11,7 +11,7 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
-
+using Aplication.Events.Server;
 
 namespace Aplication.CQRS.Commands
 {
@@ -63,7 +63,7 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.Port)
                 .NotNull()
                 .GreaterThan(0)
-                .LessThan(10000);
+                .LessThan(50000);
 
             RuleFor(e => e.Server_uid)
                 .NotEmpty()
@@ -269,14 +269,10 @@ namespace Aplication.CQRS.Commands
             CancellationToken cancellationToken
         )
         {
-            // await _publisher.Publish<ServerDescriptionUpdatedNotifi>(
-            //     new ServerDescriptionUpdatedNotifi(
-            //         response.server.Guid,
-            //         response.old_description,
-            //         response.server.Description!
-            //     ),
-            //     Services.PublishStrategy.ParallelNoWait
-            // );
+            await _publisher.Publish<ServerConfigChangedNotifi>(
+                new ServerConfigChangedNotifi(request.Server_uid),
+                Services.PublishStrategy.ParallelNoWait
+            );
         }
     }
 

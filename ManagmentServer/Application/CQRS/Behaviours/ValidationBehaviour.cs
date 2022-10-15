@@ -91,6 +91,11 @@ namespace Aplication.CQRS.Behaviours
 
         private static TResponse HandleValidationErrors(List<ValidationFailure> error_obj)
         {
+            // foreach (var item in error_obj?.ToArray())
+            // {
+            //     Debug.Write(item.ErrorMessage);
+            // }
+
             throw new Aplication.CQRS.Errors.ValidationException(error_obj?.ToArray());
         }
 
