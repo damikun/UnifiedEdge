@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221008160448_Init")]
+    [Migration("20221015084705_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "361ac9df-d6cd-4e82-aa74-a46313a19b02",
+                            Guid = "c68ea38d-0492-4a0d-9c62-0d9c7852005b",
                             Name = "Undefined"
                         });
                 });

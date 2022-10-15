@@ -1,4 +1,3 @@
-using Server.Mqtt;
 using Server.Event;
 
 namespace Server
@@ -53,6 +52,21 @@ namespace Server
             );
 
             _ = SyncServerState();
+        }
+
+        private void ValidateUid(string uid)
+        {
+            if (string.IsNullOrWhiteSpace(uid))
+            {
+                throw new ArgumentNullException(nameof(uid));
+            }
+
+            if (uid.Contains("-") || uid.Contains("."))
+            {
+                throw new Exception("Invalid Server Uid format");
+            }
+
+            // Todo Add Regex uid format validation
         }
 
         private Task? _current;
@@ -542,10 +556,7 @@ namespace Server
                 throw new ArgumentNullException(nameof(cfg));
             }
 
-            if (cfg.Server_UID == null)
-            {
-                throw new ArgumentNullException(nameof(cfg.Server_UID));
-            }
+            ValidateUid(cfg.Server_UID);
 
             if (cfg is not U)
             {

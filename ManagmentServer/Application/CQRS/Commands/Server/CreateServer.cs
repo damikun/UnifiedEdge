@@ -139,7 +139,7 @@ namespace Aplication.CQRS.Commands
             ServerBase base_server;
 
             var endpoint = await _endpoint_provider.GetRanodmEndpoint();
-            var uid = Guid.NewGuid().ToString();
+            var uid = UidHelper.GetNormalisedUid();
 
             switch (request.Type)
             {
