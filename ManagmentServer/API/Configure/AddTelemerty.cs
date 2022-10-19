@@ -4,11 +4,34 @@ using Aplication.Services;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
+using HotChocolate.Subscriptions;
 
 namespace API
 {
     public static partial class ServiceExtension
     {
+        public static MeterProviderBuilder AddServerMetricToGraphqlExporter(
+            this MeterProviderBuilder builder,
+            int exportIntervalMilliseconds = 2500,
+            int exportTimeoutMilliseconds = 5000
+        )
+        {
+            builder.Configure((sp, builder) =>
+            {
+                var topic_sender = sp.GetRequiredService<ITopicEventSender>();
+
+                var exporter = new ServerMetricsToGraphqlExporter(topic_sender);
+
+                var reader = new PeriodicExportingMetricReader(exporter, exportIntervalMilliseconds, exportTimeoutMilliseconds)
+                {
+                    TemporalityPreference = MetricReaderTemporalityPreference.Cumulative,
+                };
+
+                builder.AddReader(reader);
+            });
+
+            return builder;
+        }
 
         public static IServiceCollection AddTelemerty(
             this IServiceCollection serviceCollection,
@@ -17,144 +40,146 @@ namespace API
         {
             serviceCollection.AddTelemetryService(Configuration, out string trace_source);
 
-            // var sss = OpenTelemetry.Sdk.CreateMeterProviderBuilder();
-
-            // var provider = sss.Build();
-
             // ---------------------------------------
             // ---------------------------------------
 
-            serviceCollection.AddOpenTelemetryMetrics(builder =>
-            {
+            //!Temporary test
+            serviceCollection.AddSingleton<ServerMetricsProvider>(
+                e => new ServerMetricsProvider(
+                    e.GetRequiredService<ITopicEventSender>()
+                )
+            );
 
-                builder.AddAspNetCoreInstrumentation();
+            // serviceCollection.AddOpenTelemetryMetrics(builder =>
+            // {
+            //     builder.AddAspNetCoreInstrumentation();
 
-                builder.AddMeter("Server.*");
+            //     builder.AddMeter("Server.*");
 
-                builder.AddRuntimeMetrics(serviceCollection);
+            //     builder.AddRuntimeMetrics(serviceCollection);
 
-                builder.AddOtlpExporter(options =>
-                {
-                    // Export to collector
-                    options.Endpoint = new Uri(Configuration["ConnectionStrings:OtelCollector"]);
+            //     builder.AddOtlpExporter(options =>
+            //     {
+            //         // Export to collector
+            //         options.Endpoint = new Uri(Configuration["ConnectionStrings:OtelCollector"]);
 
-                    options.TimeoutMilliseconds = 10000;
+            //         options.TimeoutMilliseconds = 10000;
 
-                    // Export dirrectly to APM
-                    // options.Endpoint = new Uri("http://localhost:8200"); 
-                    // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
-                    // };                
-                });
+            //         // Export dirrectly to APM
+            //         // options.Endpoint = new Uri("http://localhost:8200"); 
+            //         // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
+            //         // };                
+            //     });
 
-                builder.AddPrometheusExporter(options =>
-                {
-                    options.StartHttpListener = true;
-                    options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
-                    options.ScrapeResponseCacheDurationMilliseconds = 0;
-                });
+            //     builder.AddPrometheusExporter(options =>
+            //     {
+            //         options.StartHttpListener = true;
+            //         options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
+            //         options.ScrapeResponseCacheDurationMilliseconds = 0;
+            //     });
 
-            });
+            // });
 
-            // --------------------------------------------
+            // // --------------------------------------------
 
-            serviceCollection.AddOpenTelemetryTracing((builder) =>
-            {
-                // Sources
-                builder.AddSource(trace_source);
+            // serviceCollection.AddOpenTelemetryTracing((builder) =>
+            // {
+            //     // Sources
+            //     builder.AddSource(trace_source);
 
-                builder.SetResourceBuilder(ResourceBuilder
-                  .CreateDefault()
-                  //   .AddAttributes( new List<KeyValuePair<String, object>> { 
-                  //     new KeyValuePair<String, object>("SomeKey", "This is String Value")
-                  //     })
-                  .AddService(Environment.ApplicationName));
+            //     builder.SetResourceBuilder(ResourceBuilder
+            //       .CreateDefault()
+            //       //   .AddAttributes( new List<KeyValuePair<String, object>> { 
+            //       //     new KeyValuePair<String, object>("SomeKey", "This is String Value")
+            //       //     })
+            //       .AddService(Environment.ApplicationName));
 
-                builder.AddAspNetCoreInstrumentation(opts =>
-                {
-                    opts.RecordException = true;
+            //     builder.AddAspNetCoreInstrumentation(opts =>
+            //     {
+            //         opts.RecordException = true;
 
-                    opts.Enrich = (activity, eventName, rawObject) =>
-                    {
-                        if (eventName.Equals("OnStartActivity"))
-                        {
-                            if (rawObject is HttpRequest { Path: { Value: "/graphql" } })
-                            {
-                                // Do something with request..
-                            }
-                        }
-                    };
-                });
+            //         opts.Enrich = (activity, eventName, rawObject) =>
+            //         {
+            //             if (eventName.Equals("OnStartActivity"))
+            //             {
+            //                 if (rawObject is HttpRequest { Path: { Value: "/graphql" } })
+            //                 {
+            //                     // Do something with request..
+            //                 }
+            //             }
+            //         };
+            //     });
 
-                builder.AddSqlClientInstrumentation(x =>
+            //     builder.AddSqlClientInstrumentation(x =>
 
-                    x.Enrich = (a, name, cmd) =>
-                    {
-                        var db_cmd = (IDbCommand)cmd;
+            //         x.Enrich = (a, name, cmd) =>
+            //         {
+            //             var db_cmd = (IDbCommand)cmd;
 
-                        a.DisplayName = db_cmd.CommandText;
+            //             a.DisplayName = db_cmd.CommandText;
 
-                        if (db_cmd.Connection != null)
-                            a.SetTag("peer", db_cmd.Connection.Database);
-                    }
-                );
+            //             if (db_cmd.Connection != null)
+            //                 a.SetTag("peer", db_cmd.Connection.Database);
+            //         }
+            //     );
 
-                builder.AddHttpClientInstrumentation(
-                    opts => opts.RecordException = true);
+            //     builder.AddHttpClientInstrumentation(
+            //         opts => opts.RecordException = true);
 
-                builder.AddEntityFrameworkCoreInstrumentation(
-                    e => e.SetDbStatementForText = true
-                );
+            //     builder.AddEntityFrameworkCoreInstrumentation(
+            //         e => e.SetDbStatementForText = true
+            //     );
 
-                builder.AddHotChocolateInstrumentation();
+            //     builder.AddHotChocolateInstrumentation();
 
-                builder.AddOtlpExporter(options =>
-                {
-                    // Export to collector
-                    options.Endpoint = new Uri(Configuration["ConnectionStrings:OtelCollector"]);
+            //     builder.AddOtlpExporter(options =>
+            //     {
+            //         // Export to collector
+            //         options.Endpoint = new Uri(Configuration["ConnectionStrings:OtelCollector"]);
 
-                    options.TimeoutMilliseconds = 10000;
+            //         options.TimeoutMilliseconds = 10000;
 
-                    // Export dirrectly to APM
-                    // options.Endpoint = new Uri("http://localhost:8200"); 
-                    // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
-                    // };                
-                });
+            //         // Export dirrectly to APM
+            //         // options.Endpoint = new Uri("http://localhost:8200"); 
+            //         // options.BatchExportProcessorOptions = new OpenTelemetry.BatchExportProcessorOptions<Activity>() {
+            //         // };                
+            //     });
 
-                // This is example for Jaeger integration
-                if (Uri.TryCreate(Configuration.GetConnectionString("Jaeger"), UriKind.Absolute, out var uri))
-                {
-                    builder.AddJaegerExporter(opts =>
-                    {
-                        opts.AgentHost = uri.Host;
-                        opts.AgentPort = uri.Port;
-                    });
+            //     // This is example for Jaeger integration
+            //     if (Uri.TryCreate(Configuration.GetConnectionString("Jaeger"), UriKind.Absolute, out var uri))
+            //     {
+            //         builder.AddJaegerExporter(opts =>
+            //         {
+            //             opts.AgentHost = uri.Host;
+            //             opts.AgentPort = uri.Port;
+            //         });
 
-                    // builder.AddZipkinExporter(opts => {
-                    //     opts.Endpoint = new Uri("http://localhost:9412/api/v2/spans");
-                    // });
-                }
-            });
+            //         // builder.AddZipkinExporter(opts => {
+            //         //     opts.Endpoint = new Uri("http://localhost:9412/api/v2/spans");
+            //         // });
+            //     }
+            // });
 
-            serviceCollection.AddLogging(opt =>
-            {
-                opt.AddTraceSource(trace_source);
+            // serviceCollection.AddLogging(opt =>
+            // {
+            //     opt.AddTraceSource(trace_source);
 
-                opt.AddOpenTelemetry(e =>
-                {
-                    e.IncludeFormattedMessage = true;
+            //     opt.AddOpenTelemetry(e =>
+            //     {
+            //         e.IncludeFormattedMessage = true;
 
-                    e.IncludeScopes = true;
-                });
+            //         e.IncludeScopes = true;
+            //     });
 
-            });
+            // });
 
-            // Alternatively defined as options
-            serviceCollection.Configure<OpenTelemetryLoggerOptions>(opt =>
-            {
-                opt.IncludeScopes = true;
-                opt.ParseStateValues = true;
-                opt.IncludeFormattedMessage = true;
-            });
+            // // Alternatively defined as options
+            // serviceCollection.Configure<OpenTelemetryLoggerOptions>(opt =>
+            // {
+            //     opt.IncludeScopes = true;
+            //     opt.ParseStateValues = true;
+            //     opt.IncludeFormattedMessage = true;
+            // });
 
             serviceCollection.AddSingleton<ITelemetry, Telemetry>();
 

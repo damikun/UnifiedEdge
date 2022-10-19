@@ -83,6 +83,7 @@ namespace API
                     .AddTypeExtension<EdgeMutations>()
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()
+                    .AddTypeExtension<ServerSubscription>()
 
                 .BindRuntimeType<DateTime, DateTimeType>()
                 .BindRuntimeType<TimeSpan, TimeSpanType>()
@@ -135,6 +136,7 @@ namespace API
                 .AddType<OsType>()
                 .AddType<MqttServerType>()
                 .AddType<UptimeType>()
+                .AddType<ServerMetricsType>()
                 .AddType<MemoryMetricsType>()
                 .AddType<SystemInfoType>()
                 .AddType<HistorianRecordType>()

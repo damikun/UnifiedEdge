@@ -6,6 +6,10 @@ using Aplication.Services.Scheduler;
 using Aplication.Services.ServerEventHandler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
+using Aplication.Services;
+using HotChocolate.Subscriptions;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
 
 namespace API
 {
@@ -70,6 +74,18 @@ namespace API
             services.AddServerEventHandler();
 
             services.AddSystemEventHandler();
+
+            // var provider = Sdk.CreateMeterProviderBuilder()
+            // .AddMeter("*")
+
+            // .AddPrometheusExporter()
+            // .AddReader(
+            //     new ServerMetricReader(
+            //         new ServerMetricsToGraphqlExporter(_sender)
+            //     )
+            // )
+            // .Build();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +95,12 @@ namespace API
             IServiceProvider serviceProvider,
             IServiceScopeFactory scopeFactory)
         {
+            var _sender = serviceProvider.GetRequiredService<ITopicEventSender>();
+
+            serviceProvider.GetRequiredService<ServerMetricsProvider>();
+
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
             app.UseOnStartupProcedures(serviceProvider);
 
             app.UseScheduledJobs(serviceProvider);

@@ -21,9 +21,7 @@ namespace Aplication.DTO
 
         public string? Type { get; set; }
 
-        public string Category => Name.Split(".").First();
-
-        public string Source => Name.Split(".").Last();
+        public string ServerUid => Name.Split(".").Last();
 
     }
 }

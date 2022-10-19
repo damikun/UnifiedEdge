@@ -36,9 +36,10 @@ namespace Server.Mqtt
 
         }
 
-        protected internal string GetFullMetricName(string metric_name)
+        public string GetFullMetricName(string metric_name)
         {
-            return $"{Meter.Name}.{metric_name}";
+            //return $"{Meter.Name}.{metric_name}";
+            return $"{metric_name}";
         }
     }
 }

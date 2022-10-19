@@ -11,7 +11,7 @@ namespace Aplication.Services
     {
 
         private readonly IOptions<TelemetryOptions> _options;
-
+ 
         private readonly ILogger<CurrentUser> _logger;
 
         /// <summary>

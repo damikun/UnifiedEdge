@@ -7,11 +7,11 @@ using Server.Mqtt.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
-using Aplication.Events.Server;
 
 namespace Aplication.CQRS.Commands
 {
