@@ -2,6 +2,7 @@ using MQTTnet;
 using System.Net;
 using MQTTnet.Server;
 using Server.Mqtt.DTO;
+using System.Collections.Concurrent;
 
 namespace Server.Mqtt
 {
@@ -23,6 +24,8 @@ namespace Server.Mqtt
         private EdgeMqttServerMeter Meter { get; set; }
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+
+        private readonly ConcurrentDictionary<string, int> Topics = new ConcurrentDictionary<string, int>();
 
         public override string MeterName => Meter.MeterName;
 
@@ -56,6 +59,11 @@ namespace Server.Mqtt
             {
                 return 0;
             }
+        }
+
+        public ICollection<string> GetTopicList()
+        {
+            return Topics.Select(e => e.Key).ToHashSet();
         }
 
         public async Task<List<DTO_MqttClientStatistics>> GetClientsStatistics()
@@ -256,27 +264,98 @@ namespace Server.Mqtt
 
         }
 
+        private void ClearTopics()
+        {
+            Topics.Clear();
+        }
+
         private void RegisterServerEvents(MqttServer server)
         {
             server.ClientConnectedAsync += (d) =>
             {
                 Meter.ConnectedClientsCounter.Add(1);
+
+                this._publisher.PublishEvent(
+                    new ServerClientConnected()
+                    {
+                        ClientId = d.ClientId
+                    }
+                );
+
                 return Task.CompletedTask;
             };
 
             server.ClientDisconnectedAsync += (d) =>
             {
                 Meter.ConnectedClientsCounter.Add(-1);
+
+                this._publisher.PublishEvent(
+                    new ServerClientDisconnected()
+                    {
+                        ClientId = d.ClientId
+                    }
+                );
+
+                return Task.CompletedTask;
+            };
+
+
+            server.ApplicationMessageNotConsumedAsync += (d) =>
+            {
+                Meter.NotConsumedMessagesCounter.Add(1);
+                return Task.CompletedTask;
+            };
+
+            server.InterceptingPublishAsync += (d) =>
+            {
+                Meter.TopicSubscriptionsCounter.Add(1);
+
+                Topics.AddOrUpdate(d.ApplicationMessage.Topic, 1, (key, old) => old + 1);
+
+                return Task.CompletedTask;
+            };
+
+            server.ClientSubscribedTopicAsync += (d) =>
+            {
+                Meter.TopicSubscriptionsCounter.Add(1);
+
+                Topics.AddOrUpdate(d.TopicFilter.Topic, 1, (key, old) => old + 1);
+
+                return Task.CompletedTask;
+            };
+
+            server.ClientUnsubscribedTopicAsync += (d) =>
+            {
+                Meter.TopicSubscriptionsCounter.Add(-1);
+
+                Topics.AddOrUpdate(d.TopicFilter, 0, (key, old) => old - 1);
+
                 return Task.CompletedTask;
             };
 
             server.StartedAsync += (d) =>
             {
+                this._publisher.PublishEvent(
+                    new ServerStarted()
+                    {
+                        UID = this.UID
+                    }
+                );
+
                 return Task.CompletedTask;
             };
 
             server.StoppedAsync += (d) =>
             {
+                ClearTopics();
+
+                this._publisher.PublishEvent(
+                    new ServerStopped()
+                    {
+                        UID = this.UID
+                    }
+                );
+
                 return Task.CompletedTask;
             };
 
@@ -291,7 +370,6 @@ namespace Server.Mqtt
                 Meter.OutboundPacketCounter.Add(1);
                 return Task.CompletedTask;
             };
-
         }
 
         protected override async Task UnsafeStartAsync()

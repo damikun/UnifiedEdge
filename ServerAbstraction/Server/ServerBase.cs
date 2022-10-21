@@ -20,7 +20,7 @@ namespace Server
 
         public event EventHandler<ServerStateChangedEventArgs> OnStateChanged;
 
-        internal readonly IServerEventPublisher _publisher;
+        protected internal readonly IServerEventPublisher _publisher;
 
         public abstract string MeterName { get; }
 

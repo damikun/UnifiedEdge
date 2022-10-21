@@ -43,7 +43,6 @@ namespace API
             // ---------------------------------------
             // ---------------------------------------
 
-            // //!Temporary test
             serviceCollection.AddSingleton<ServerMetricsProvider>(
                 e => new ServerMetricsProvider(
                     e.GetRequiredService<ITopicEventSender>()
@@ -53,6 +52,8 @@ namespace API
             serviceCollection.AddOpenTelemetryMetrics(builder =>
             {
                 builder.AddAspNetCoreInstrumentation();
+
+                builder.AddMeter("Server.*");
 
                 builder.AddRuntimeMetrics(serviceCollection);
 

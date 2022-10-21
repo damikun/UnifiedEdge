@@ -31,8 +31,7 @@ namespace Aplication.Services
                     TRIGGER_PERIOD,
                     TIMEOUT
                 )
-            )
-            .Build();
+            ).Build();
 
             return provider;
         }
