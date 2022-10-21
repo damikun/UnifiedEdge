@@ -73,17 +73,6 @@ namespace API
 
             services.AddSystemEventHandler();
 
-            // var provider = Sdk.CreateMeterProviderBuilder()
-            // .AddMeter("*")
-
-            // .AddPrometheusExporter()
-            // .AddReader(
-            //     new ServerMetricReader(
-            //         new ServerMetricsToGraphqlExporter(_sender)
-            //     )
-            // )
-            // .Build();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,7 +86,7 @@ namespace API
 
             serviceProvider.GetRequiredService<ServerMetricsProvider>();
 
-            // app.UseOpenTelemetryPrometheusScrapingEndpoint();
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
             app.UseOnStartupProcedures(serviceProvider);
 

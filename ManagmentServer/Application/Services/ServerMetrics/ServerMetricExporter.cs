@@ -67,7 +67,7 @@ namespace Aplication.Services
 
                     if (value != null)
                     {
-                        // Struct: A.B.C.D
+                        // Struct: A.B.C.D 
                         // Struct description: Server.ServerName.Uid.Event
                         // Example: Server.EdgeMqttServer.91ed3dbfc06a4aafb5793d000854cab7.InboundPackets
                         var topic_name = $"{metric.MeterName}.{metric.Name}";
