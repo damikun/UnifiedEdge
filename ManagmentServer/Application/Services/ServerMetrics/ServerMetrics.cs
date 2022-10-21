@@ -10,6 +10,10 @@ namespace Aplication.Services
 
         private MeterProvider _provider { get; set; }
 
+        private const int TIMEOUT = 5000;
+
+        private const int TRIGGER_PERIOD = 2500;
+
         public ServerMetricsProvider(ITopicEventSender sender)
         {
             _sender = sender;
@@ -23,7 +27,9 @@ namespace Aplication.Services
             .AddMeter("Server.*")
             .AddReader(
                 new ServerMetricReader(
-                    new ServerMetricsToGraphqlExporter(_sender)
+                    new ServerMetricsToGraphqlExporter(_sender),
+                    TRIGGER_PERIOD,
+                    TIMEOUT
                 )
             )
             .Build();

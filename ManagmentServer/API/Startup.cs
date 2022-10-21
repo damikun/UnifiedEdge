@@ -73,7 +73,6 @@ namespace API
 
             services.AddSystemEventHandler();
 
-
             // var provider = Sdk.CreateMeterProviderBuilder()
             // .AddMeter("*")
 

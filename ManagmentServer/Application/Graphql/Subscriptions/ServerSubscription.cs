@@ -26,11 +26,12 @@ namespace Aplication.Graphql.Queries
         }
 
         [SubscribeAndResolve]
-        public ValueTask<ISourceStream<GQL_ServerMetric>> ServerMetrics(
-            [ID] string? server_id,
+        public ValueTask<ISourceStream<GQL_ServerMetric>> MqttServerMetrics(
+            [ID] string server_id,
+            GQL_MqttServerMetricSource metric,
             [Service] ITopicEventReceiver receiver)
         {
-            var topic = $"Server.EdgeMqttServer.ConnectedClients";
+            var topic = $"Server.EdgeMqttServer.{server_id}.{metric.ToString()}";
 
             return receiver.SubscribeAsync<string, GQL_ServerMetric>(topic);
         }

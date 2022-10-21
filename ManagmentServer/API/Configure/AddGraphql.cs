@@ -120,6 +120,7 @@ namespace API
                 .AddType<ServerInfoEventType>()
                 .AddType<ServerStateChangedEventType>()
                 .AddType<IServerEventType>()
+                .AddType<ServerMetricsSourceType>()
 
                 .AddType<MqttServerClientSessionType>()
                 .AddType<MqttServerClientStatisticsType>()

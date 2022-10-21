@@ -20,6 +20,8 @@ namespace Aplication.DTO
 
         public string MeterName { get; set; }
 
+        public string EventName { get; set; }
+
         public DateTime TimeStamp { get; set; }
 
 

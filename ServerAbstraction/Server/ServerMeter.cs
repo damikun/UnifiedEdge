@@ -23,22 +23,21 @@ namespace Server.Mqtt
             }
         }
 
-        public static string GetMeterName<T>(T obj = default!) where T : IServerBase
+        public static string GetMeterName<T>(T server = default!) where T : IServerBase
         {
-            if (obj != null)
+            if (server != null)
             {
-                return $"Server.{obj.GetType().Name}";
+                return $"Server.{server.GetType().Name}.{server.UID}";
             }
             else
             {
                 return $"Server.{typeof(T).Name}";
             }
-
         }
 
         public string GetFullMetricName(string metric_name)
         {
-            //return $"{Meter.Name}.{metric_name}";
+            // return $"{Meter.Name}.{metric_name}";
             return $"{metric_name}";
         }
     }

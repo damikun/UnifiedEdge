@@ -33,9 +33,9 @@ namespace Server.Mqtt
 
             public static string ApplicationRcvd = "ApplicationRcvd";
 
-            public static string InboundPacketCount = "InboundPacket";
+            public static string InboundPacketCount = "InboundPackets";
 
-            public static string OutboundPacketCount = "OutboundPacket";
+            public static string OutboundPacketCount = "OutboundPackets";
         }
     }
 }
