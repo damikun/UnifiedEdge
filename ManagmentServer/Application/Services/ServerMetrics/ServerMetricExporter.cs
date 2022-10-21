@@ -24,12 +24,17 @@ namespace Aplication.Services
 
                 dynamic? value = null;
 
+                DateTime? timestamp = null;
+
                 try
                 {
                     MetricPointsAccessor points = metric.GetMetricPoints();
 
                     foreach (ref readonly var metricPoint in points)
                     {
+
+                        timestamp = metricPoint.EndTime.DateTime;
+
                         if (metricType.IsHistogram())
                         {
                             // Transformation Histogram to subscriptions is not supported
@@ -62,21 +67,24 @@ namespace Aplication.Services
 
                     if (value != null)
                     {
+                        // Struct: A.B.C.D
+                        // Struct description: Server.ServerName.Uid.Event
+                        // Example: Server.EdgeMqttServer.91ed3dbfc06a4aafb5793d000854cab7.InboundPackets
+                        var topic_name = $"{metric.MeterName}.{metric.Name}";
+
                         GQL_ServerMetric server_metric = new GQL_ServerMetric()
                         {
                             Id = metric.Name,
-                            Topic = metric.Name,
+                            Topic = topic_name,
                             Unit = metric.Unit,
                             Value = value,
                             Description = metric.Description,
                             MeterName = metric.MeterName,
-                            TimeStamp = DateTime.Now
+                            EventName = metric.Name,
+                            TimeStamp = timestamp ?? DateTime.Now
                         };
 
-                        // Example Metric Server.EdgeMqttServer.InboundPacket
-                        var topic_name = $"{metric.MeterName}.{server_metric.Topic}";
                         // System.Console.WriteLine(topic_name);
-                        // System.Console.WriteLine(value);
 
                         _ = _sender.SendAsync(topic_name, server_metric, default).ConfigureAwait(false);
 
