@@ -2,14 +2,12 @@
 // See LICENSE in root.
 using Hangfire;
 using ElectronNET.API;
-using Aplication.Services.Scheduler;
-using Aplication.Services.ServerEventHandler;
-using Aplication.Services.ServerFascade;
-using Aplication.Services.SystemEventHandler;
 using Aplication.Services;
 using HotChocolate.Subscriptions;
-using OpenTelemetry;
-using OpenTelemetry.Metrics;
+using Aplication.Services.Scheduler;
+using Aplication.Services.ServerFascade;
+using Aplication.Services.SystemEventHandler;
+using Aplication.Services.ServerEventHandler;
 
 namespace API
 {
@@ -75,6 +73,7 @@ namespace API
 
             services.AddSystemEventHandler();
 
+
             // var provider = Sdk.CreateMeterProviderBuilder()
             // .AddMeter("*")
 
@@ -99,7 +98,7 @@ namespace API
 
             serviceProvider.GetRequiredService<ServerMetricsProvider>();
 
-            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+            // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
             app.UseOnStartupProcedures(serviceProvider);
 

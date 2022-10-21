@@ -260,8 +260,6 @@ namespace Server.Mqtt
         {
             server.ClientConnectedAsync += (d) =>
             {
-                System.Console.WriteLine("*******************************************");
-                System.Console.WriteLine("Increasing counter");
                 Meter.ConnectedClientsCounter.Add(1);
                 return Task.CompletedTask;
             };
@@ -279,7 +277,6 @@ namespace Server.Mqtt
 
             server.StoppedAsync += (d) =>
             {
-                // Meter.ServerStateCounter.Add(true);
                 return Task.CompletedTask;
             };
 

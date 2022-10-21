@@ -17,16 +17,10 @@ namespace Aplication.Services
             _provider = GetProvider();
         }
 
-        private MeterProvider? GetProvider()
+        private MeterProvider GetProvider()
         {
-            return null;
-
-            System.Console.WriteLine("----------------------------");
-            System.Console.WriteLine("Initializing SDK");
-            System.Console.WriteLine("----------------------------");
-
             var provider = Sdk.CreateMeterProviderBuilder()
-            .AddMeter("Server.EdgeMqttServer")
+            .AddMeter("Server.*")
             .AddReader(
                 new ServerMetricReader(
                     new ServerMetricsToGraphqlExporter(_sender)
@@ -34,9 +28,6 @@ namespace Aplication.Services
             )
             .Build();
 
-            System.Console.WriteLine("----------------------------");
-            System.Console.WriteLine("Initializing SDK DONE");
-            System.Console.WriteLine("----------------------------");
             return provider;
         }
 

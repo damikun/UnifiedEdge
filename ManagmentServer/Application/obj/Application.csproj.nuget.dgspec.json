@@ -125,7 +125,31 @@
             },
             "OpenTelemetry": {
               "target": "Package",
-              "version": "[1.2.0-rc2, )"
+              "version": "[1.2.0, )"
+            },
+            "OpenTelemetry.Exporter.Jaeger": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "OpenTelemetry.Exporter.Prometheus": {
+              "target": "Package",
+              "version": "[1.2.0-rc5, )"
+            },
+            "OpenTelemetry.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[1.0.0-rc9.2, )"
+            },
+            "OpenTelemetry.Instrumentation.AspNetCore": {
+              "target": "Package",
+              "version": "[1.0.0-rc9.2, )"
+            },
+            "OpenTelemetry.Instrumentation.Http": {
+              "target": "Package",
+              "version": "[1.0.0-rc9.2, )"
             },
             "System.Diagnostics.PerformanceCounter": {
               "target": "Package",

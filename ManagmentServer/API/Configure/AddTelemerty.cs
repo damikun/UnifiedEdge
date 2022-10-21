@@ -43,7 +43,7 @@ namespace API
             // ---------------------------------------
             // ---------------------------------------
 
-            //!Temporary test
+            // //!Temporary test
             serviceCollection.AddSingleton<ServerMetricsProvider>(
                 e => new ServerMetricsProvider(
                     e.GetRequiredService<ITopicEventSender>()

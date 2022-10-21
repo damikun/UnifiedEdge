@@ -54,7 +54,6 @@ namespace OpenTelemetry.Metrics
             // Guard.ThrowIfZero(exportIntervalMilliseconds);
             // Guard.ThrowIfInvalidTimeout(exportTimeoutMilliseconds);
 
-            System.Console.WriteLine("***** 1 ******");
             if ((this.SupportedExportModes & ExportModes.Push) != ExportModes.Push)
             {
                 throw new InvalidOperationException($"The '{nameof(exporter)}' does not support '{nameof(ExportModes)}.{nameof(ExportModes.Push)}'");
@@ -68,9 +67,7 @@ namespace OpenTelemetry.Metrics
                 IsBackground = true,
                 Name = $"OpenTelemetry-{nameof(PeriodicExportingMetricReader)}-{exporter.GetType().Name}",
             };
-            System.Console.WriteLine("***** 2 ******");
             this.exporterThread.Start();
-            System.Console.WriteLine("***** 3 ******");
         }
 
         /// <inheritdoc />
@@ -126,37 +123,30 @@ namespace OpenTelemetry.Metrics
             int timeout;
             var triggers = new WaitHandle[] { this.exportTrigger, this.shutdownTrigger };
             var sw = Stopwatch.StartNew();
-            System.Console.WriteLine("***** Export Thread 1 ******");
+
             while (true)
             {
-                System.Console.WriteLine("***** Export Thread 2 ******");
                 timeout = (int)(this.ExportIntervalMilliseconds - (sw.ElapsedMilliseconds % this.ExportIntervalMilliseconds));
 
                 try
                 {
-                    System.Console.WriteLine("*****ait for triggers ******");
                     index = WaitHandle.WaitAny(triggers, timeout);
                 }
                 catch (ObjectDisposedException)
                 {
-                    System.Console.WriteLine("***** Export Thread Error ******");
                     return;
                 }
 
-                System.Console.WriteLine("***** Export Thread 3 ******");
                 switch (index)
                 {
                     case 0: // export
-                        System.Console.WriteLine("***** Export Thread 4 ******");
                         this.Collect(this.ExportTimeoutMilliseconds);
                         break;
                     case 1: // shutdown
                         this.Collect(this.ExportTimeoutMilliseconds); // TODO: do we want to use the shutdown timeout here?
                         return;
                     case WaitHandle.WaitTimeout: // timer
-                        System.Console.WriteLine("***** Export Thread 5 ******");
                         this.Collect(this.ExportTimeoutMilliseconds);
-                        System.Console.WriteLine("***** Collected ******");
 
                         break;
                 }

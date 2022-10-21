@@ -11,20 +11,15 @@ namespace Aplication.Services
 
         public ServerMetricsToGraphqlExporter(ITopicEventSender sender)
         {
-            System.Console.WriteLine("*****EXPORTER INSTANCE CREATED*****");
             _sender = sender;
         }
 
         public override ExportResult Export(in Batch<Metric> batch)
         {
-            System.Console.WriteLine("*****EXPORT*****");
             using var scope = SuppressInstrumentationScope.Begin();
 
-            System.Console.WriteLine("*****************");
             foreach (var metric in batch)
             {
-                System.Console.WriteLine(metric.Meter.Name);
-                System.Console.WriteLine(metric.Name);
                 var metricType = metric.MetricType;
 
                 dynamic? value = null;
@@ -74,11 +69,17 @@ namespace Aplication.Services
                             Unit = metric.Unit,
                             Value = value,
                             Description = metric.Description,
-                            MeterName = metric.Meter.Name,
+                            MeterName = metric.MeterName,
                             TimeStamp = DateTime.Now
                         };
 
-                        _ = _sender.SendAsync(server_metric.Topic, server_metric, default).ConfigureAwait(false);
+                        // Example Metric Server.EdgeMqttServer.InboundPacket
+                        var topic_name = $"{metric.MeterName}.{server_metric.Topic}";
+                        // System.Console.WriteLine(topic_name);
+                        // System.Console.WriteLine(value);
+
+                        _ = _sender.SendAsync(topic_name, server_metric, default).ConfigureAwait(false);
+
                     }
 
                 }

@@ -30,7 +30,7 @@ namespace Aplication.Graphql.Queries
             [ID] string? server_id,
             [Service] ITopicEventReceiver receiver)
         {
-            var topic = $"Server.EdgeMqttServer.{server_id}.ConnectedClients";
+            var topic = $"Server.EdgeMqttServer.ConnectedClients";
 
             return receiver.SubscribeAsync<string, GQL_ServerMetric>(topic);
         }
