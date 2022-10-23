@@ -13,6 +13,10 @@ namespace Server.Manager.Mqtt
            string server_client_uid
         );
 
+        Task<DTO_MqttServerStats?> GetServerStatistics(
+            string server_uid
+        );
+
         public Task<DTO_MqttClientSession?> GetClientSession(
             string server_uid,
             string server_client_uid

@@ -19,6 +19,11 @@ export const MqttServerNetworkInfoFragmentTag = graphql`
       port
       serverUid
     }
+
+    mqttServerStats(server_uid: $server_uid) {
+      packetRcvCount
+      packetSndCount
+    }
   }
 `;
 
@@ -33,26 +38,46 @@ function MqttServerNetworkInfo({dataRef}:MqttServerNetworkInfoProps) {
   const data = useFragment(MqttServerNetworkInfoFragmentTag, dataRef);
   
   return <Section 
-  name="General"
+  name="Network"
   component={
-  <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
-    "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
-    <FieldGroup>
-      <FieldSection
-      variant="flex-row"
-      name="Port">
-        <div className="font-mono">
-          {data?.mqttServerEndpoint.port}
-        </div>
-      </FieldSection>
-      <FieldSection
-      variant="flex-row"
-      name="IP Address">
-        <div className="font-mono">
-          {data?.mqttServerEndpoint.iPAddress}
-        </div>
-      </FieldSection>
-    </FieldGroup>
+  <div className={clsx("flex bg-gray-100 flex-col w-full",
+    "border border-gray-200 rounded-sm shadow-sm p-5 space-y-2")}>
+
+      <div className="flex flex-col lg:flex-row lg:space-x-10 justify-between 2xl:justify-start">
+      <FieldGroup>
+        <FieldSection
+        variant="flex-row"
+        name="Port">
+          <div className="font-mono">
+            {data?.mqttServerEndpoint.port}
+          </div>
+        </FieldSection>
+        <FieldSection
+        variant="flex-row"
+        name="IP Address">
+          <div className="font-mono">
+            {data?.mqttServerEndpoint.iPAddress}
+          </div>
+        </FieldSection>
+      </FieldGroup>
+
+      <FieldGroup>
+        <FieldSection
+        variant="flex-row"
+        name="Inbound">
+          <div className="font-mono truncate">
+            {data?.mqttServerStats.packetSndCount}
+          </div>
+        </FieldSection>
+        <FieldSection
+        variant="flex-row"
+        name="Outbound  ">
+          <div className="font-mono truncate">
+            {data?.mqttServerStats.packetRcvCount}
+          </div>
+        </FieldSection>
+      </FieldGroup>
+    </div>
   </div>
   }/>
 }

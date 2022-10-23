@@ -133,5 +133,18 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<GQL_MqttServerEndpoint>(result);
         }
 
+        public async Task<GQL_MqttServerStats> GetMqttServerStats(
+            [ID] string server_uid,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerStatistics(server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttServerStats>(result);
+        }
+
     }
 }

@@ -261,10 +261,9 @@ type GQL_MemoryMetrics {
 }
 
 type GQL_Metric {
-  category: String!
   id: ID!
   name: String!
-  source: String!
+  serverUid: String!
   timeStamp: DateTime!
   type: String
   unit: String
@@ -361,6 +360,16 @@ type GQL_MqttServerEndpoint {
   serverUid: ID!
 }
 
+type GQL_MqttServerStats {
+  connectionsCount: Long!
+  notConsumedCount: Long!
+  packetRcvCount: Long!
+  packetSndCount: Long!
+  publishedTopicCount: Long!
+  subscribedTopicCount: Long!
+  subscriptionsCount: Long!
+}
+
 type GQL_OS {
   isBrowser: Boolean!
   platform: PlatformID!
@@ -441,6 +450,17 @@ type GQL_ServerInfoEvent implements GQL_IServerEvent {
   name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
+}
+
+type GQL_ServerMetric {
+  description: String
+  eventName: String!
+  id: ID!
+  meterName: String!
+  timeStamp: DateTime!
+  topic: String!
+  unit: String
+  value: Any
 }
 
 type GQL_ServerStateChangedEvent implements GQL_IServerEvent {
@@ -601,6 +621,7 @@ type Query {
   mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics!
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
   mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
+  mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
@@ -675,6 +696,7 @@ type SetServerNamePayload {
 }
 
 type Subscription {
+  mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!
   systemTime: DateTime!
@@ -770,6 +792,12 @@ enum GQL_MqttProtocol {
   V310
   V311
   V500
+}
+
+enum GQL_MqttServerMetricSource {
+  CONNECTED_CLIENTS
+  INBOUND_PACKETS
+  OUTBOUND_PACKETS
 }
 
 enum GQL_RuntimeMetricSource {

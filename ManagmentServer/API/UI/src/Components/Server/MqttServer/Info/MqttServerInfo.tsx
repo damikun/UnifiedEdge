@@ -1,16 +1,18 @@
+import clsx from "clsx";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import MqttClients from "./ClientList/MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
-import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
+import MqttServerStatistic from "./MqttServerStatistic";
 import MqttServerNetworkInfo from "./MqttServerNetworkInfo";
+import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
 
 
 export const MqttServerInfoQueryTag = graphql`
   query MqttServerInfoQuery($id:ID!) 
   {
-    mqttServerById(id:$id){
+    mqttServerById(id:$id){ 
       id
       ...ServerSharedInfoFragment
     }
@@ -18,7 +20,7 @@ export const MqttServerInfoQueryTag = graphql`
 
     ...MqttServerNetworkInfoFragment @arguments(server_uid: $id)
 
-    ...MqttServerStatisticFragment
+    ...MqttServerStatisticFragment @arguments(server_uid: $id)
   }
 `;
 
@@ -38,10 +40,10 @@ function MqttServerInfo() {
   );
 
   return <>
-    <div className="flex flex-col space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0">
-    <MqttServerNetworkInfo dataRef={data}/>
-    <MqttServerNetworkInfo dataRef={data}/>
-</div>
+    <div className={clsx("grid grid-flow-row-dense xl:grid-flow-col gap-5")}>
+      <MqttServerNetworkInfo dataRef={data}/>
+      <MqttServerStatistic dataRef={data}/>
+    </div>
 
     {/* <ServerSharedInfo dataRef={data.mqttServerById}/> */}
     <MqttClients dataRef={data}/>

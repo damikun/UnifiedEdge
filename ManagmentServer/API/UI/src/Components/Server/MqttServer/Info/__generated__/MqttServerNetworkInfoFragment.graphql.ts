@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d5888fd133615390734d6f33f0c088c1>>
+ * @generated SignedSource<<214f977d25ffe39c5afd429d33590ae1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,10 @@ export type MqttServerNetworkInfoFragment$data = {
     readonly port: any;
     readonly serverUid: string;
   };
+  readonly mqttServerStats: {
+    readonly packetRcvCount: any;
+    readonly packetSndCount: any;
+  };
   readonly " $fragmentType": "MqttServerNetworkInfoFragment";
 };
 export type MqttServerNetworkInfoFragment$key = {
@@ -24,7 +28,15 @@ export type MqttServerNetworkInfoFragment$key = {
   readonly " $fragmentSpreads": FragmentRefs<"MqttServerNetworkInfoFragment">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = [
+  {
+    "kind": "Variable",
+    "name": "server_uid",
+    "variableName": "server_uid"
+  }
+];
+return {
   "argumentDefinitions": [
     {
       "defaultValue": null,
@@ -38,13 +50,7 @@ const node: ReaderFragment = {
   "selections": [
     {
       "alias": null,
-      "args": [
-        {
-          "kind": "Variable",
-          "name": "server_uid",
-          "variableName": "server_uid"
-        }
-      ],
+      "args": (v0/*: any*/),
       "concreteType": "GQL_MqttServerEndpoint",
       "kind": "LinkedField",
       "name": "mqttServerEndpoint",
@@ -80,12 +86,38 @@ const node: ReaderFragment = {
         }
       ],
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": (v0/*: any*/),
+      "concreteType": "GQL_MqttServerStats",
+      "kind": "LinkedField",
+      "name": "mqttServerStats",
+      "plural": false,
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "packetRcvCount",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "packetSndCount",
+          "storageKey": null
+        }
+      ],
+      "storageKey": null
     }
   ],
   "type": "Query",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "29db57048d1c5adf7231d458598f61bd";
+(node as any).hash = "778f18099ad91da4ec3067f2a08a07db";
 
 export default node;

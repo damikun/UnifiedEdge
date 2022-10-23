@@ -3,7 +3,7 @@ import React from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../../UIComponents/Section/Section";
-import { FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
+import { MqttServerStatisticFragment$key } from "./__generated__/MqttServerStatisticFragment.graphql";
 
 
 export const MqttServerStatisticFragmentTag = graphql`
@@ -12,11 +12,12 @@ export const MqttServerStatisticFragmentTag = graphql`
     server_uid: { type: "ID!" }
   )
   {
-    mqttServerEndpoint(server_uid:$server_uid) {
-      id
-      iPAddress
-      port
-      serverUid
+    mqttServerStats(server_uid: $server_uid) {
+      connectionsCount
+      notConsumedCount
+      publishedTopicCount
+      subscribedTopicCount
+      subscriptionsCount
     }
   }
 `;
@@ -34,24 +35,30 @@ function MqttServerStatistic({dataRef}:MqttServerStatisticProps) {
   return <Section 
   name="Statistic"
   component={
-  <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
-    "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
-    <FieldGroup>
-      <FieldSection
-      variant="flex-row"
-      name="Port">
-        <div className="font-mono">
-          {data?.mqttServerEndpoint.port}
+  <div className={clsx("flex flex-row bg-gray-100 w-full",
+    "border border-gray-200 rounded-sm shadow-sm p-5 w-full",
+    "space-x-2 justify-around h-full align-middle")}>
+
+      <div className="flex-flex-col items-center text-center">
+        <div className="text-xl font-semibold">
+          {data?.mqttServerStats.connectionsCount}
         </div>
-      </FieldSection>
-      <FieldSection
-      variant="flex-row"
-      name="IP Address">
-        <div className="font-mono">
-          {data?.mqttServerEndpoint.iPAddress}
+        <div className="font-semibold">Connections</div>
+      </div>
+
+      <div className="flex-flex-col items-center text-center">
+        <div className="text-xl font-semibold">
+          {data?.mqttServerStats.publishedTopicCount}
         </div>
-      </FieldSection>
-    </FieldGroup>
+        <div className="font-semibold">Topics</div>
+      </div>
+
+      <div className="flex-flex-col items-center text-center">
+        <div className="text-xl font-semibold">
+          {data?.mqttServerStats.subscriptionsCount}
+        </div>
+        <div className="font-semibold">Subscriptions</div>
+      </div>
   </div>
   }/>
 }

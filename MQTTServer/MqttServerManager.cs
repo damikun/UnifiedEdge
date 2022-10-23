@@ -79,6 +79,39 @@ namespace Server.Manager.Mqtt
             }
         }
 
+        public async Task<DTO_MqttServerStats?> GetServerStatistics(string server_uid)
+        {
+            var server = await GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                try
+                {
+                    var stats = mqtt_server.Stats;
+
+                    return new DTO_MqttServerStats()
+                    {
+                        ConnectionsCount = stats.ConnectionsCount,
+                        SubscriptionsCount = stats.SubscriptionsCount,
+                        NotConsumedCount = stats.NotConsumedCount,
+                        PacketSndCount = stats.PacketSndCount,
+                        PacketRcvCount = stats.PacketRcvCount,
+                        PublishedTopicCount = stats.PublishedTopicCount,
+                        SubscribedTopicCount = stats.SubscribedTopicCount,
+                    };
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+
+        }
+
         public async Task<DTO_MqttClientSession?> GetClientSession(
             string server_uid,
             string server_client_uid

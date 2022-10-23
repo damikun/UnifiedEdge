@@ -33,7 +33,7 @@ namespace Server.Mqtt
         }
 
         public long PublishedTopicCount { get => _PublishedTopics.Count; }
-        public long SubscribedTopicCount { get => _PublishedTopics.Count; }
+        public long SubscribedTopicCount { get => _SubscribedTopics.Count; }
         public long SubscriptionsCount { get => Interlocked.Read(ref _Subscriptions); }
         public long ConnectionsCount { get => Interlocked.Read(ref _Connections); }
         public long PacketRcvCount { get => Interlocked.Read(ref _PacketRcv); }

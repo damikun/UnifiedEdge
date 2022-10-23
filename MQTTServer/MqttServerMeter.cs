@@ -18,7 +18,6 @@ namespace Server.Mqtt
             TopicSubscriptionsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), () => server.Stats.SubscriptionsCount, "Activ client subscriptions count");
         }
 
-
         internal readonly ObservableCounter<long> ApplicationSendCounter;
         internal readonly ObservableCounter<long> ApplicationRcvdCounter;
         internal readonly ObservableCounter<long> ConnectedClientsCounter;
