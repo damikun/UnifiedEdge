@@ -6,29 +6,26 @@ namespace Server.Mqtt
     {
         public EdgeMqttServerMeter(EdgeMqttServer server) : base(server)
         {
-            // ApplicationSendCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.ApplicationSend), null, "Aplication send messages");
 
-            // ApplicationRcvdCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.ApplicationRcvd), null, "Aplication rcvd messages");
+            InboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.InboundPacketCount), () => server.Stats.PacketRcvCount, "Inbound packet count");
 
-            InboundPacketCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.InboundPacketCount), null, "Inbound packet count");
+            OutboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.OutboundPacketCount), () => server.Stats.PacketSndCount, "Outbound packet count");
 
-            OutboundPacketCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.OutboundPacketCount), null, "Outbound packet count");
+            ConnectedClientsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.ConnectedClients), () => server.Stats.ConnectionsCount, "Connected client");
 
-            ConnectedClientsCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.ConnectedClients), null, "Connected client");
+            NotConsumedMessagesCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.NotConsumedMessagesCount), () => server.Stats.NotConsumedCount, "Not consumed messages count");
 
-            NotConsumedMessagesCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.NotConsumedMessagesCount), null, "Not consumed messages count");
-
-            TopicSubscriptionsCounter = Meter.CreateCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), null, "Activ client subscriptions count");
+            TopicSubscriptionsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), () => server.Stats.SubscriptionsCount, "Activ client subscriptions count");
         }
 
 
-        internal readonly Counter<long> ApplicationSendCounter;
-        internal readonly Counter<long> ApplicationRcvdCounter;
-        internal readonly Counter<long> ConnectedClientsCounter;
-        internal readonly Counter<long> InboundPacketCounter;
-        internal readonly Counter<long> OutboundPacketCounter;
-        internal readonly Counter<long> NotConsumedMessagesCounter;
-        internal readonly Counter<long> TopicSubscriptionsCounter;
+        internal readonly ObservableCounter<long> ApplicationSendCounter;
+        internal readonly ObservableCounter<long> ApplicationRcvdCounter;
+        internal readonly ObservableCounter<long> ConnectedClientsCounter;
+        internal readonly ObservableCounter<long> InboundPacketCounter;
+        internal readonly ObservableCounter<long> OutboundPacketCounter;
+        internal readonly ObservableCounter<long> NotConsumedMessagesCounter;
+        internal readonly ObservableCounter<long> TopicSubscriptionsCounter;
 
         public static class MqttMetricsConst
         {
@@ -39,10 +36,6 @@ namespace Server.Mqtt
             public static string TopicsCounter = "Topics";
 
             public static string NotConsumedMessagesCount = "NotConsumedMessages";
-
-            // public static string ApplicationSend = "ApplicationSend";
-
-            // public static string ApplicationRcvd = "ApplicationRcvd";
 
             public static string InboundPacketCount = "InboundPackets";
 

@@ -33,6 +33,7 @@ function ServerSharedSettings({dataRef}:ServerSharedSettingsProps) {
   return <>
   {
     data && <Section 
+      name="General"
       component={
         <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
         "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
