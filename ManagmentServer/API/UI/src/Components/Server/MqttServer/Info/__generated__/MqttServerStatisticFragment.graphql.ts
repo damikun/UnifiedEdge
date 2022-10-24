@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<60ff758ed448f3e12d25575657cb9640>>
+ * @generated SignedSource<<8096e811387aad54287025f00fc41324>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type MqttServerStatisticFragment$data = {
   readonly mqttServerStats: {
     readonly connectionsCount: any;
+    readonly id: string;
     readonly notConsumedCount: any;
     readonly publishedTopicCount: any;
     readonly subscribedTopicCount: any;
@@ -51,6 +52,13 @@ const node: ReaderFragment = {
       "name": "mqttServerStats",
       "plural": false,
       "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "id",
+          "storageKey": null
+        },
         {
           "alias": null,
           "args": null,
@@ -94,6 +102,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "1c0bdce5ee9fc6f1dccca8ae38e2d2fc";
+(node as any).hash = "588b51eb6ceb1a80a861f714cf5c0fb7";
 
 export default node;

@@ -10,6 +10,16 @@ namespace Server.Mqtt.DTO
 
         }
 
+        public string Id
+        {
+            get
+            {
+                return $"MqttStat.{this.ServerUid}";
+            }
+        }
+
+        public string ServerUid { get; set; }
+
         public long PublishedTopicCount { get; init; }
         public long SubscribedTopicCount { get; init; }
         public long SubscriptionsCount { get; init; }

@@ -107,6 +107,7 @@ namespace API
                 .AddType<SchedulerSuccessJobType>()
 
                 .AddType<SystemEventType>()
+                .AddType<MqttServerStatsType>()
 
                 .AddType<EdgeType>()
 

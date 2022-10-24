@@ -117,10 +117,37 @@ namespace Server.Mqtt
         protected internal void IncrementNotConsumedCount() => Interlocked.Increment(ref _NotConsumed);
 
         protected internal void IncrementSubscriptionsCount() => Interlocked.Increment(ref _Subscriptions);
-        protected internal void DecremenSubscriptionsCount() => Interlocked.Decrement(ref _Subscriptions);
+        protected internal void DecremenSubscriptionsCount()
+        {
+            var value = Interlocked.Read(ref _Connections);
+
+            if (value > 0)
+            {
+                Interlocked.Decrement(ref _Subscriptions);
+            }
+
+            if (value < 0)
+            {
+                Interlocked.Exchange(ref _Subscriptions, 0);
+            }
+        }
 
         protected internal void IncrementConnectionsCount() => Interlocked.Increment(ref _Connections);
-        protected internal void DecrementConnectionsCount() => Interlocked.Decrement(ref _Connections);
+
+        protected internal void DecrementConnectionsCount()
+        {
+            var value = Interlocked.Read(ref _Connections);
+
+            if (value > 0)
+            {
+                Interlocked.Decrement(ref _Connections);
+            }
+
+            if (value < 0)
+            {
+                Interlocked.Exchange(ref _Connections, 0);
+            }
+        }
 
         protected internal void IncrementRcvCount() => Interlocked.Increment(ref _PacketRcv);
 

@@ -362,6 +362,7 @@ type GQL_MqttServerEndpoint {
 
 type GQL_MqttServerStats {
   connectionsCount: Long!
+  id: ID!
   notConsumedCount: Long!
   packetRcvCount: Long!
   packetSndCount: Long!
@@ -798,6 +799,9 @@ enum GQL_MqttServerMetricSource {
   CONNECTED_CLIENTS
   INBOUND_PACKETS
   OUTBOUND_PACKETS
+  NOT_CONSUMED_MESSAGES
+  TOPIC_SUBSCRIPTIONS
+  TOPICS
 }
 
 enum GQL_RuntimeMetricSource {

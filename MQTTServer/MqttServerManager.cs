@@ -91,6 +91,7 @@ namespace Server.Manager.Mqtt
 
                     return new DTO_MqttServerStats()
                     {
+                        ServerUid = server_uid,
                         ConnectionsCount = stats.ConnectionsCount,
                         SubscriptionsCount = stats.SubscriptionsCount,
                         NotConsumedCount = stats.NotConsumedCount,

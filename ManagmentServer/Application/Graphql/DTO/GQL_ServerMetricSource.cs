@@ -5,6 +5,9 @@ namespace Aplication.DTO
     {
         ConnectedClients,
         InboundPackets,
-        OutboundPackets
+        OutboundPackets,
+        NotConsumedMessages,
+        TopicSubscriptions,
+        Topics
     }
 }

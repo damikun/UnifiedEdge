@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<214f977d25ffe39c5afd429d33590ae1>>
+ * @generated SignedSource<<f1060e50e2cc86d4398bbc2c76daf71f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,7 @@ export type MqttServerNetworkInfoFragment$data = {
     readonly serverUid: string;
   };
   readonly mqttServerStats: {
+    readonly id: string;
     readonly packetRcvCount: any;
     readonly packetSndCount: any;
   };
@@ -35,7 +36,14 @@ var v0 = [
     "name": "server_uid",
     "variableName": "server_uid"
   }
-];
+],
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "argumentDefinitions": [
     {
@@ -56,13 +64,7 @@ return {
       "name": "mqttServerEndpoint",
       "plural": false,
       "selections": [
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "id",
-          "storageKey": null
-        },
+        (v1/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -95,6 +97,7 @@ return {
       "name": "mqttServerStats",
       "plural": false,
       "selections": [
+        (v1/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -118,6 +121,6 @@ return {
 };
 })();
 
-(node as any).hash = "778f18099ad91da4ec3067f2a08a07db";
+(node as any).hash = "7bd7933fb77c5dda87e7b6f3341ac298";
 
 export default node;

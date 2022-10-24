@@ -16,6 +16,8 @@ namespace Server.Mqtt
             NotConsumedMessagesCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.NotConsumedMessagesCount), () => server.Stats.NotConsumedCount, "Not consumed messages count");
 
             TopicSubscriptionsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), () => server.Stats.SubscriptionsCount, "Activ client subscriptions count");
+
+            TopicCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicsCounter), () => server.Stats.PublishedTopicCount, "Number of topics published over broker");
         }
 
         internal readonly ObservableCounter<long> ApplicationSendCounter;
@@ -25,6 +27,7 @@ namespace Server.Mqtt
         internal readonly ObservableCounter<long> OutboundPacketCounter;
         internal readonly ObservableCounter<long> NotConsumedMessagesCounter;
         internal readonly ObservableCounter<long> TopicSubscriptionsCounter;
+        internal readonly ObservableCounter<long> TopicCounter;
 
         public static class MqttMetricsConst
         {
