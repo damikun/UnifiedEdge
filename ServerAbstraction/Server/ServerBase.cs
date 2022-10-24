@@ -375,6 +375,18 @@ namespace Server
                     handler(this, event_args);
             }
             catch { }
+
+            try
+            {
+                _publisher.PublishEvent(new ServerConfigMatch()
+                {
+                    UID = this.UID,
+                    isMatch = true,
+                    Config = Config,
+                    CurrentConfig = Current_Config
+                });
+            }
+            catch { }
         }
 
         private void HandleMissMatchConfig()
@@ -391,9 +403,15 @@ namespace Server
             {
                 if (handler != null)
                     handler(this, event_args);
+            }
+            catch { }
 
-                _publisher.PublishEvent(new ServerConfigDiffEvent()
+            try
+            {
+                _publisher.PublishEvent(new ServerConfigMatch()
                 {
+                    UID = this.UID,
+                    isMatch = false,
                     Config = Config,
                     CurrentConfig = Current_Config
                 });

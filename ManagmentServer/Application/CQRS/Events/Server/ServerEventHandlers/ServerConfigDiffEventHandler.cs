@@ -1,10 +1,16 @@
 using Server;
 using MediatR;
+using AutoMapper;
 using Persistence;
 using Domain.Event;
+using Aplication.DTO;
 using Newtonsoft.Json;
+using Aplication.CQRS.Queries;
+using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Aplication.Graphql.Interfaces;
+using Domain.Server;
 
 namespace Aplication.Events.Server
 {
@@ -12,8 +18,8 @@ namespace Aplication.Events.Server
     /// <summary>
     /// Command handler for user <c>ServerConfigDiffEvent_Handler</c>
     /// </summary>
-    public class ServerConfigDiffEvent_Handler
-        : INotificationHandler<ServerGenericEventNotification<ServerConfigDiffEvent>>
+    public class ServerConfigDiff_SaveEvent_Handler
+        : INotificationHandler<ServerGenericEventNotification<ServerConfigMatch>>
     {
 
         /// <summary>
@@ -26,7 +32,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public ServerConfigDiffEvent_Handler(
+        public ServerConfigDiff_SaveEvent_Handler(
             ILogger logger,
             IDbContextFactory<ManagmentDbCtx> factory)
         {
@@ -36,7 +42,7 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<ServerConfigDiffEvent> notification,
+            ServerGenericEventNotification<ServerConfigMatch> notification,
             CancellationToken cancellationToken
         )
         {
@@ -45,26 +51,47 @@ namespace Aplication.Events.Server
 
             var e = notification.ServerEvent;
 
-            var serialized_current = Serialize(e.CurrentConfig);
-            var serialized_cfg = Serialize(e.Config);
+            var serialized_current = SerializeCfg(e.CurrentConfig);
 
-            dbContext.ServerEvents.Add(
-                new Domain.Server.Events.ServerConfigDiffEvent()
-                {
-                    ConfigJson = serialized_cfg,
-                    CurrentConfigJson = serialized_current,
-                    TimeStamp = e.TimeStamp,
-                    ServerUid = e.UID,
-                    Name = nameof(ServerClientConnected),
-                    Description = "",
-                    Type = EventType.warning
-                }
-            );
+            var serialized_cfg = SerializeCfg(e.Config);
+
+            if (notification.ServerEvent.isMatch)
+            {
+                dbContext.ServerEvents.Add(
+                    new Domain.Server.Events.ServerConfigDiffEvent()
+                    {
+                        IsMatch = true,
+                        ConfigJson = serialized_cfg,
+                        CurrentConfigJson = serialized_current,
+                        TimeStamp = e.TimeStamp,
+                        ServerUid = e.UID,
+                        Name = nameof(ServerConfigMatch),
+                        Description = "",
+                        Type = EventType.info
+                    }
+                );
+            }
+            else
+            {
+                dbContext.ServerEvents.Add(
+                    new Domain.Server.Events.ServerConfigDiffEvent()
+                    {
+                        IsMatch = false,
+                        ConfigJson = serialized_cfg,
+                        CurrentConfigJson = serialized_current,
+                        TimeStamp = e.TimeStamp,
+                        ServerUid = e.UID,
+                        Name = nameof(ServerConfigMatch),
+                        Description = "",
+                        Type = EventType.warning
+                    }
+                );
+            }
 
             await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private string Serialize(IServerCfg cfg)
+        private string SerializeCfg(IServerCfg cfg)
         {
             return JsonConvert.SerializeObject(
                 cfg,
@@ -73,6 +100,82 @@ namespace Aplication.Events.Server
                     Formatting = Formatting.None,
                     TypeNameHandling = TypeNameHandling.All
                 }
+            );
+        }
+    }
+
+    public class ServerConfigDiff_PublishToGqlSub_Handler
+        : INotificationHandler<ServerGenericEventNotification<ServerConfigMatch>>
+    {
+
+        /// <summary>
+        /// Injected <c>ITopicEventSender</c>
+        /// </summary>
+        private readonly ITopicEventSender _sender;
+
+        /// <summary>
+        /// Injected <c>IMapper</c>
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        /// Injected <c>IMediator</c>
+        /// </summary>
+        private readonly IMediator _mediator;
+
+        /// <summary>
+        /// Injected <c>IDbContextFactory</c>
+        /// </summary>
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+
+        public ServerConfigDiff_PublishToGqlSub_Handler(
+            ITopicEventSender sender,
+            IMapper mapper,
+            IMediator mediator,
+            IDbContextFactory<ManagmentDbCtx> factory)
+        {
+            _sender = sender;
+
+            _factory = factory;
+
+            _mapper = mapper;
+
+            _mediator = mediator;
+        }
+
+        public async Task Handle(
+            ServerGenericEventNotification<ServerConfigMatch> notification,
+            CancellationToken cancellationToken
+        )
+        {
+            await using ManagmentDbCtx dbContext =
+            _factory.CreateDbContext();
+
+            var e = notification.ServerEvent;
+
+            var server = await dbContext.Servers
+                .AsNoTracking()
+                .Where(e => e.UID == notification.ServerGuid)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (server == null)
+            {
+                return;
+            }
+
+            var dto_server = _mapper.Map<ServerBase, Aplication.Interfaces.IServer>(server);
+
+            var gql_server = _mapper.Map<GQL_IServer>(dto_server);
+
+            var sub_event = new GQL_ConfigMatch()
+            {
+                IsMatch = e.isMatch,
+                Server = gql_server
+            };
+
+            await _sender.SendAsync(
+                $"Server.{e.UID}.ConfigState",
+                sub_event
             );
         }
     }

@@ -267,7 +267,9 @@ namespace Server.Mqtt
                 this._publisher.PublishEvent(
                     new ServerClientConnected()
                     {
-                        ClientId = d.ClientId
+                        ClientId = d.ClientId,
+                        ConnectedAt = DateTime.Now,
+                        Protocol = d.ProtocolVersion,
                     }
                 );
 

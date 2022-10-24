@@ -125,7 +125,7 @@ namespace Aplication.CQRS.Queries
             var server = await dbContext.Servers
                 .Where(e => e.UID == request.Guid)
                 .AsNoTracking()
-                .ToListAsync();
+                .FirstOrDefaultAsync(cancellationToken);
 
             return _mapper.Map<IServer>(server);
         }

@@ -35,5 +35,15 @@ namespace Aplication.Graphql.Queries
 
             return receiver.SubscribeAsync<string, GQL_ServerMetric>(topic);
         }
+
+        [SubscribeAndResolve]
+        public ValueTask<ISourceStream<GQL_ConfigMatch>> MqttServerConfigState(
+            [ID] string server_id,
+            [Service] ITopicEventReceiver receiver)
+        {
+            var topic = $"Server.{server_id}.ConfigState";
+
+            return receiver.SubscribeAsync<string, GQL_ConfigMatch>(topic);
+        }
     }
 }

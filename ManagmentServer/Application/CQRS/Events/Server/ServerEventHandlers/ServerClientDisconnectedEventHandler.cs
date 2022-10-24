@@ -11,8 +11,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Aplication.Events.Server
 {
 
-    public class ServerClientConnected_SaveEvent_Handler
-        : INotificationHandler<ServerGenericEventNotification<ServerClientConnected>>
+    /// <summary>
+    /// Command handler for user <c>ServerClientDisconnectedEvent_Handler</c>
+    /// </summary>
+    public class ServerClientDisconnectedEvent_Handler
+        : INotificationHandler<ServerGenericEventNotification<ServerClientDisconnected>>
     {
 
         /// <summary>
@@ -25,7 +28,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public ServerClientConnected_SaveEvent_Handler(
+        public ServerClientDisconnectedEvent_Handler(
             ILogger logger,
             IDbContextFactory<ManagmentDbCtx> factory)
         {
@@ -35,7 +38,7 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<ServerClientConnected> notification,
+            ServerGenericEventNotification<ServerClientDisconnected> notification,
             CancellationToken cancellationToken
         )
         {
@@ -45,12 +48,12 @@ namespace Aplication.Events.Server
             var e = notification.ServerEvent;
 
             dbContext.ServerEvents.Add(
-                new Domain.Server.Events.ServerClientConnectedEvent()
+                new Domain.Server.Events.ServerClientDisconnectedEvent()
                 {
                     ClientId = e.ClientId,
                     TimeStamp = e.TimeStamp,
                     ServerUid = e.UID,
-                    Name = nameof(ServerClientConnected),
+                    Name = nameof(ServerClientDisconnected),
                     Description = "",
                     Type = EventType.info
                 }
@@ -60,7 +63,8 @@ namespace Aplication.Events.Server
         }
     }
 
-    public class ServerClientConnected_PublishToGqlSub_Handler
+
+    public class ServerClientDisconnected_PublishToGqlSub_Handler
         : INotificationHandler<ServerGenericEventNotification<ServerClientConnected>>
     {
 
@@ -79,7 +83,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public ServerClientConnected_PublishToGqlSub_Handler(
+        public ServerClientDisconnected_PublishToGqlSub_Handler(
             ITopicEventSender sender,
             IMapper mapper,
             IDbContextFactory<ManagmentDbCtx> factory)
@@ -112,7 +116,7 @@ namespace Aplication.Events.Server
             var gql_dto = _mapper.Map<GQL_MqttClient>(dto);
 
             await _sender.SendAsync(
-                $"EdgeMqttServer.{gql_dto.ServerUid}.ClientConnected",
+                $"EdgeMqttServer.{gql_dto.ServerUid}.ClientDisconnected",
                 gql_dto
             );
         }

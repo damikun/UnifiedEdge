@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "c68ea38d-0492-4a0d-9c62-0d9c7852005b",
+                            Guid = "f8abb2e0-5442-4737-906b-b4f5413f7cd5",
                             Name = "Undefined"
                         });
                 });

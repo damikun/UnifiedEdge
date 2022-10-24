@@ -20,8 +20,6 @@ namespace Server.Mqtt
             TopicCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicsCounter), () => server.Stats.PublishedTopicCount, "Number of topics published over broker");
         }
 
-        internal readonly ObservableCounter<long> ApplicationSendCounter;
-        internal readonly ObservableCounter<long> ApplicationRcvdCounter;
         internal readonly ObservableCounter<long> ConnectedClientsCounter;
         internal readonly ObservableCounter<long> InboundPacketCounter;
         internal readonly ObservableCounter<long> OutboundPacketCounter;

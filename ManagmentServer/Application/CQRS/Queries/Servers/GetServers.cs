@@ -9,6 +9,7 @@ using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Domain.Server;
 
 namespace Aplication.CQRS.Queries
 {
@@ -113,7 +114,7 @@ namespace Aplication.CQRS.Queries
             // Yes we query all together and than convert to queribale..
             var servers = await dbContext.Servers
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             var mapped = _mapper.Map<List<IServer>>(servers);
 

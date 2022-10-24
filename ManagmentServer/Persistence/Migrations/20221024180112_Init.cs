@@ -215,7 +215,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "c68ea38d-0492-4a0d-9c62-0d9c7852005b", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "f8abb2e0-5442-4737-906b-b4f5413f7cd5", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

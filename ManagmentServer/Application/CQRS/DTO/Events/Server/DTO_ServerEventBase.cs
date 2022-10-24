@@ -52,6 +52,8 @@ namespace Aplication.DTO
                 {
                     case ServerClientConnectedEvent:
                         return context.Mapper.Map<DTO_ClientConnected>(source);
+                    case ServerClientDisconnectedEvent:
+                        return context.Mapper.Map<DTO_ClientDisconnected>(source);
                     case ServerConfigDiffEvent:
                         return context.Mapper.Map<DTO_ServerConfigDiffEvent>(source);
                     case ServerErrorEvent:

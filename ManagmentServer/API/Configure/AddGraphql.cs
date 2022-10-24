@@ -84,6 +84,7 @@ namespace API
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()
                     .AddTypeExtension<ServerSubscription>()
+                    .AddTypeExtension<MqttServerSubscription>()
 
                 .BindRuntimeType<DateTime, DateTimeType>()
                 .BindRuntimeType<TimeSpan, TimeSpanType>()

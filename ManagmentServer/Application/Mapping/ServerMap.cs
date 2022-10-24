@@ -35,6 +35,8 @@ namespace Aplication.Mapping
                 {
                     case DTO_ClientConnected e:
                         return context.Mapper.Map<GQL_ClientConnected>(e);
+                    case DTO_ClientDisconnected e:
+                        return context.Mapper.Map<GQL_ClientDisconnected>(e);
                     case DTO_ServerConfigDiffEvent e:
                         return context.Mapper.Map<GQL_ServerConfigDiffEvent>(e);
                     case DTO_ServerErrorEvent e:
@@ -65,6 +67,8 @@ namespace Aplication.Mapping
                 {
                     case ServerClientConnectedEvent e:
                         return context.Mapper.Map<DTO_ClientConnected>(e);
+                    case ServerClientDisconnectedEvent e:
+                        return context.Mapper.Map<DTO_ClientDisconnected>(e);
                     case ServerConfigDiffEvent e:
                         return context.Mapper.Map<DTO_ServerConfigDiffEvent>(e);
                     case ServerErrorEvent e:
