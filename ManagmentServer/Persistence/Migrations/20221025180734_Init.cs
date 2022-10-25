@@ -66,6 +66,9 @@ namespace Persistence.Migrations
                     Discriminator = table.Column<string>(type: "TEXT", nullable: false),
                     ServerClientConnectedEvent_ClientId = table.Column<string>(type: "TEXT", nullable: true),
                     ClientId = table.Column<string>(type: "TEXT", nullable: true),
+                    IsMatch = table.Column<bool>(type: "INTEGER", nullable: true),
+                    ConfigJson = table.Column<string>(type: "TEXT", nullable: true),
+                    CurrentConfigJson = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
@@ -217,7 +220,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "0d501eea-b93c-465e-bc4f-65294ed70450", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "20a85984-b3fe-4895-b7b3-46e5248faaba", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

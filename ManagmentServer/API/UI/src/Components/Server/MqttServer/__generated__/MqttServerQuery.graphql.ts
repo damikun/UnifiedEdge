@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<28ffed6d9c4adf4040fc9ad002750b27>>
+ * @generated SignedSource<<214f40c1f114b0e20088cf3bb7bf7fe1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -151,6 +151,13 @@ return {
                   }
                 ],
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isConfigMatch",
+                "storageKey": null
               }
             ],
             "type": "GQL_IServer",
@@ -162,12 +169,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "152830f43318ceee7da1f72bf05ec4db",
+    "cacheID": "4328e01352b728c29e448d25498eb284",
     "id": null,
     "metadata": {},
     "name": "MqttServerQuery",
     "operationKind": "query",
-    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
+    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoConfigDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  isConfigMatch\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n  ...ServerInfoConfigDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
   }
 };
 })();

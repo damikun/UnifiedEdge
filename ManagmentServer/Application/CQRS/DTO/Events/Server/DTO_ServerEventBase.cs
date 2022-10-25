@@ -61,7 +61,6 @@ namespace Aplication.DTO
                     case ServerInfoEvent:
                         return context.Mapper.Map<DTO_ServerInfoEvent>(source);
                     case ServerStateChangedEvent:
-                        var eeee = context.Mapper.Map<DTO_ServerStateChangedEvent>(source);
                         return context.Mapper.Map<DTO_ServerStateChangedEvent>(source);
 
                     default: throw new Exception("DBServerEventToDtoEvent => Not supported source type");

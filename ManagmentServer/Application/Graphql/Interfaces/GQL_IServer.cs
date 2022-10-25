@@ -19,6 +19,11 @@ namespace Aplication.Graphql.Interfaces
         public string Name { get; set; }
 
         // <summary>
+        /// ConfigMatch
+        /// </summary>
+        public bool? IsConfigMatch { get; set; }
+
+        // <summary>
         /// Description
         /// </summary>
         public string? Description { get; set; }
@@ -47,5 +52,6 @@ namespace Aplication.Graphql.Interfaces
         /// Updated
         /// </summary>
         public DateTime Updated { get; set; }
+
     }
 }

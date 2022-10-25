@@ -9,7 +9,6 @@ using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Domain.Server;
 
 namespace Aplication.CQRS.Queries
 {
@@ -124,6 +123,8 @@ namespace Aplication.CQRS.Queries
                 (ct) => Task.FromResult(mapped.Count),
                 cancellationToken
             );
+
+            var sss = cursor_data;
 
             return new DTO_Connection<IServer>()
             {

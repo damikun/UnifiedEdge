@@ -38,6 +38,9 @@ namespace Aplication.Graphql.Types
                 e => e.GetMqttServerNode(default!, default!, default!)
             );
 
+            descriptor.Field(e => e.IsConfigMatch)
+            .ResolveWith<MqttServerTypeResolvers>(e => e.IsConfigMatch(default!, default!, default!));
+
             descriptor.Field(e => e.State)
             .Resolve((ctx) =>
             {
@@ -74,11 +77,27 @@ namespace Aplication.Graphql.Types
                     Guid = id
                 };
 
-                var response = await _mediator.Send(command);
+                var response = await _mediator.Send(command, cancellationToken);
 
                 IMapper _mapper = ctx.Service<IMapper>();
 
                 return _mapper.Map<GQL_MqttServer>(response);
+            }
+
+            public async Task<bool> IsConfigMatch(
+                [Parent] GQL_MqttServer server,
+                IResolverContext ctx,
+                CancellationToken cancellationToken)
+            {
+
+                IMediator _mediator = ctx.Service<IMediator>();
+
+                var command = new GetMqttServerConfigState()
+                {
+                    Guid = server.Id
+                };
+
+                return await _mediator.Send(command, cancellationToken);
             }
         }
     }

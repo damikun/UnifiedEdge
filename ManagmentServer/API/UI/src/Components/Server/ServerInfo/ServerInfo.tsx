@@ -6,12 +6,14 @@ import ServerInfoUptime from "./ServerInfoUptime";
 import { graphql } from "babel-plugin-relay/macro";
 import Card from "../../../UIComponents/Card/Card";
 import { ServerInfoDataFragment$key } from "./__generated__/ServerInfoDataFragment.graphql";
+import ServerInfoConfig from "./ServerInfoConfig";
 
 const ServerInfoDataFragment = graphql`
     fragment ServerInfoDataFragment on GQL_IServer {
         ...ServerInfoNameDataFragment
         ...ServerInfoStateDataFragment
         ...ServerInfoUptimeDataFragment
+        ...ServerInfoConfigDataFragment
     }
 `;
 
@@ -75,8 +77,11 @@ export default function ServerInfo({dataRef}:ServerInfoProps){
         </Card>
 
         <Card className="bg-gray-100">
-            <ServerInfoState dataRef={data}/>
+            <ServerInfoConfig dataRef={data}/>
         </Card>
 
+        <Card className="bg-gray-100">
+            <ServerInfoState dataRef={data}/>
+        </Card>
     </div>
 }

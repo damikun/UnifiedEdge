@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "0d501eea-b93c-465e-bc4f-65294ed70450",
+                            Guid = "20a85984-b3fe-4895-b7b3-46e5248faaba",
                             Name = "Undefined"
                         });
                 });
@@ -250,6 +250,22 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ServerClientDisconnectedEvent");
+                });
+
+            modelBuilder.Entity("Domain.Server.Events.ServerConfigDiffEvent", b =>
+                {
+                    b.HasBaseType("Domain.Server.Events.ServerEventBase");
+
+                    b.Property<string>("ConfigJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CurrentConfigJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsMatch")
+                        .HasColumnType("INTEGER");
+
+                    b.HasDiscriminator().HasValue("ServerConfigDiffEvent");
                 });
 
             modelBuilder.Entity("Domain.Server.Events.ServerStateChangedEvent", b =>

@@ -259,5 +259,12 @@ namespace Aplication.Services.ServerFascade
 
             return await m.UpdateServer(server_cfg, ct);
         }
+
+        public async Task<bool> IsConfigMatch(string server_uid)
+        {
+            var m = await GetManager(server_uid);
+
+            return await m.IsConfigMatch(server_uid);
+        }
     }
 }

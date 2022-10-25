@@ -64,6 +64,11 @@ namespace Aplication.DTO
         /// </summary>
         public virtual GQL_ServerVariant Type { get; }
 
+        // <summary>
+        /// Configuration match
+        /// </summary>
+        public bool? IsConfigMatch { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<IServer, GQL_IServer>()

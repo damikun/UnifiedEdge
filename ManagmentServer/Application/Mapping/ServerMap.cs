@@ -78,7 +78,7 @@ namespace Aplication.Mapping
                     case ServerStateChangedEvent e:
                         return context.Mapper.Map<DTO_ServerStateChangedEvent>(e);
 
-                    default: throw new Exception("MapServerEventToDtoInterface => Not supported source type");
+                    default: throw new Exception($"MapServerEventToDtoInterface => Not supported source type: {source.GetType()}");
                 }
             }
         }

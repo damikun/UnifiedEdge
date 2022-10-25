@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2b38e7807bb797dbd264afb90bb46b59>>
+ * @generated SignedSource<<5b9400a0a0a4002c910190c8a60344d8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ServerInfoDataFragment$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"ServerInfoNameDataFragment" | "ServerInfoStateDataFragment" | "ServerInfoUptimeDataFragment">;
+  readonly " $fragmentSpreads": FragmentRefs<"ServerInfoConfigDataFragment" | "ServerInfoNameDataFragment" | "ServerInfoStateDataFragment" | "ServerInfoUptimeDataFragment">;
   readonly " $fragmentType": "ServerInfoDataFragment";
 };
 export type ServerInfoDataFragment$key = {
@@ -39,12 +39,17 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "FragmentSpread",
       "name": "ServerInfoUptimeDataFragment"
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "ServerInfoConfigDataFragment"
     }
   ],
   "type": "GQL_IServer",
   "abstractKey": "__isGQL_IServer"
 };
 
-(node as any).hash = "9d5978cb65588edf9f8a131d7f464282";
+(node as any).hash = "560e38fcd68f01ea791e010920078f2b";
 
 export default node;

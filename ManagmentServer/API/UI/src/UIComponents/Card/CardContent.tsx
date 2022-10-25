@@ -7,6 +7,7 @@ type CardContentProps = {
     title:string;
     value?:string | null | undefined | React.ReactNode
     className?:string,
+    inocnClassName?:string,
     children?:React.ReactNode
 }
 
@@ -22,7 +23,7 @@ export default function CardContent({icon,title,value,className,children}:CardCo
         <div className={clsx("p-2 h-10 w-10 lg:w-12 lg:h-12 rounded-full",
             "bg-gray-100 m-2 justify-cente flex")}>
             <FontAwesomeIcon
-                className="mx-auto my-auto text-xl lg:text-2xl text-blue-600"
+                className="mx-auto my-auto text-xl lg:text-2xl text-blue-500"
                 icon={icon} 
             />
         </div>

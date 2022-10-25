@@ -56,7 +56,7 @@ function MqttServer() {
 
   return <>
     <Section 
-      name={data.mqttServerById.name}
+      name={"Server"}
       component={<ServerInfo dataRef={data.mqttServerById}/>}
     />
 

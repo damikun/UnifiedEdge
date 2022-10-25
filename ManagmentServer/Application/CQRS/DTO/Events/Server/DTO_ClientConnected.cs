@@ -1,4 +1,5 @@
 using Aplication.Mapping;
+using AutoMapper;
 using Domain.Server.Events;
 
 namespace Aplication.DTO
@@ -8,5 +9,11 @@ namespace Aplication.DTO
         IMapFrom<ServerClientConnectedEvent>
     {
         public string ClientId { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Domain.Server.Events.ServerClientConnectedEvent, DTO_ClientConnected>()
+            .IncludeAllDerived();
+        }
     }
 }

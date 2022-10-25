@@ -28,6 +28,8 @@ namespace Aplication.Services.ServerFascade
 
         public Task<bool> Contains(string server_uid);
 
+        public Task<bool> IsConfigMatch(string server_uid);
+
         public Task<ServerState> ProcesCommand(string server_uid, ServerCmd cmd, CancellationToken ct = default);
 
         public Task<string> RemoveServer(string server_uid, CancellationToken ct = default);
