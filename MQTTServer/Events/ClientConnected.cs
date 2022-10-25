@@ -1,6 +1,6 @@
 using MQTTnet.Formatter;
 
-namespace Server
+namespace Server.Mqtt
 {
     public class ServerClientConnected : ServerEventBase
     {

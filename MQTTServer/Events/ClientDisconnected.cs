@@ -1,4 +1,4 @@
-namespace Server
+namespace Server.Mqtt
 {
     public class ServerClientDisconnected : ServerEventBase
     {

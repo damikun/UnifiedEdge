@@ -270,6 +270,7 @@ namespace Server.Mqtt
                         ClientId = d.ClientId,
                         ConnectedAt = DateTime.Now,
                         Protocol = d.ProtocolVersion,
+                        UID = this.UID
                     }
                 );
 
@@ -283,7 +284,8 @@ namespace Server.Mqtt
                 this._publisher.PublishEvent(
                     new ServerClientDisconnected()
                     {
-                        ClientId = d.ClientId
+                        ClientId = d.ClientId,
+                        UID = this.UID
                     }
                 );
 

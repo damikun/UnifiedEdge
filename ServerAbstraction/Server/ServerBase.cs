@@ -159,6 +159,8 @@ namespace Server
             }
             catch { }
 
+            _current = null;
+
             // Handle OnState
             _current = Task.Run(async () =>
             {
@@ -180,7 +182,7 @@ namespace Server
             },
             TaskContinuationOptions.NotOnFaulted);
 
-            if (!in_background)
+            if (!in_background && _current != null)
             {
                 await _current;
             }
@@ -248,6 +250,7 @@ namespace Server
 
             if (_current != null && !_current.IsCompleted)
             {
+                // await _current;
                 throw new Exception("Transition pending");
             }
 

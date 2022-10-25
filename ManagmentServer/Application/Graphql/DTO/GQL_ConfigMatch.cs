@@ -12,5 +12,7 @@ namespace Aplication.DTO
         public bool IsMatch { get; set; }
 
         public GQL_IServer Server { get; set; }
+
+        public DateTime Timestamp { get; set; }
     }
 }

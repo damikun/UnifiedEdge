@@ -26,25 +26,27 @@ namespace Aplication.Graphql.Queries
         }
 
         [SubscribeAndResolve]
-        public ValueTask<ISourceStream<GQL_MqttClient>> MqttClientConnected(
+        public ValueTask<ISourceStream<GQL_MqttClientConnected>> MqttClientConnected(
             [ID] string server_id,
             [Service] ITopicEventReceiver receiver
         )
         {
+            //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.ClientConnected"
             var topic = $"EdgeMqttServer.{server_id}.ClientConnected";
 
-            return receiver.SubscribeAsync<string, GQL_MqttClient>(topic);
+            return receiver.SubscribeAsync<string, GQL_MqttClientConnected>(topic);
         }
 
         [SubscribeAndResolve]
-        public ValueTask<ISourceStream<GQL_MqttClient>> MqttClientDisconnected(
+        public ValueTask<ISourceStream<GQL_MqttClientDisconnected>> MqttClientDisconnected(
             [ID] string server_id,
             [Service] ITopicEventReceiver receiver
         )
         {
+            //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.ClientDisconnected"
             var topic = $"EdgeMqttServer.{server_id}.ClientDisconnected";
 
-            return receiver.SubscribeAsync<string, GQL_MqttClient>(topic);
+            return receiver.SubscribeAsync<string, GQL_MqttClientDisconnected>(topic);
         }
     }
 }

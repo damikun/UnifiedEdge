@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221024180112_Init")]
+    [Migration("20221025151633_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "f8abb2e0-5442-4737-906b-b4f5413f7cd5",
+                            Guid = "0d501eea-b93c-465e-bc4f-65294ed70450",
                             Name = "Undefined"
                         });
                 });
@@ -229,6 +229,29 @@ namespace Persistence.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("SystemEvents");
+                });
+
+            modelBuilder.Entity("Domain.Server.Events.ServerClientConnectedEvent", b =>
+                {
+                    b.HasBaseType("Domain.Server.Events.ServerEventBase");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ServerClientConnectedEvent_ClientId");
+
+                    b.HasDiscriminator().HasValue("ServerClientConnectedEvent");
+                });
+
+            modelBuilder.Entity("Domain.Server.Events.ServerClientDisconnectedEvent", b =>
+                {
+                    b.HasBaseType("Domain.Server.Events.ServerEventBase");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("ServerClientDisconnectedEvent");
                 });
 
             modelBuilder.Entity("Domain.Server.Events.ServerStateChangedEvent", b =>

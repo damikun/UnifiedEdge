@@ -1,12 +1,13 @@
-using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
+using Server.Mqtt;
 using Domain.Event;
 using Server.Mqtt.DTO;
 using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Aplication.Events.Server
 {
@@ -52,7 +53,7 @@ namespace Aplication.Events.Server
                     ServerUid = e.UID,
                     Name = nameof(ServerClientConnected),
                     Description = "",
-                    Type = EventType.info
+                    Type = EventType.info,
                 }
             );
 
@@ -96,8 +97,6 @@ namespace Aplication.Events.Server
             CancellationToken cancellationToken
         )
         {
-            await using ManagmentDbCtx dbContext =
-            _factory.CreateDbContext();
 
             var e = notification.ServerEvent;
 
@@ -109,12 +108,17 @@ namespace Aplication.Events.Server
                 ConnectedAt = e.ConnectedAt,
             };
 
-            var gql_dto = _mapper.Map<GQL_MqttClient>(dto);
+            var gql_client_dto = _mapper.Map<GQL_MqttClient>(dto);
 
-            await _sender.SendAsync(
-                $"EdgeMqttServer.{gql_dto.ServerUid}.ClientConnected",
-                gql_dto
-            );
+            var gql_event = new GQL_MqttClientConnected()
+            {
+                TimeStamp = DateTime.Now,
+                Client = gql_client_dto
+            };
+
+            var topic = $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientConnected";
+
+            await _sender.SendAsync(topic, gql_event);
         }
     }
 }

@@ -64,6 +64,8 @@ namespace Persistence.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerUid = table.Column<string>(type: "TEXT", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    ServerClientConnectedEvent_ClientId = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientId = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
@@ -215,7 +217,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "f8abb2e0-5442-4737-906b-b4f5413f7cd5", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "0d501eea-b93c-465e-bc4f-65294ed70450", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

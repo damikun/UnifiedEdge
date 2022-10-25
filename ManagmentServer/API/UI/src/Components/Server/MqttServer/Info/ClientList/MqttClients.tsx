@@ -1,21 +1,49 @@
 import clsx from "clsx";
 import { MqttClientItem } from "./MqttClientItem";
 import { graphql } from "babel-plugin-relay/macro";
-import React, { useCallback, useMemo } from "react";
-import { usePaginationFragment } from "react-relay";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { GraphQLSubscriptionConfig } from "relay-runtime";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
+import { usePaginationFragment, useSubscription } from "react-relay";
 import { MqttClientsPaginationFragment$key } from "./__generated__/MqttClientsPaginationFragment.graphql";
+import { MqttClientsClientConnectedSubscription } from "./__generated__/MqttClientsClientConnectedSubscription.graphql";
 import StayledInfinityScrollContainer from "../../../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
 import { MqttClientsPaginationFragmentRefetchQuery } from "./__generated__/MqttClientsPaginationFragmentRefetchQuery.graphql";
+import { MqttClientsClientDisconnectedSubscription } from "./__generated__/MqttClientsClientDisconnectedSubscription.graphql";
 
 
-// const MqttClientsTag = graphql`
-//   query MqttClientsQuery($server_uid:ID!){
-//     ...MqttClientsPaginationFragment @arguments(server_uid: $server_uid)
-//   }
-// `;
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const MqttClientsClientConnectedTag = graphql`
+    subscription MqttClientsClientConnectedSubscription(
+      $id:ID!,
+      $connections: [ID!]!
+    ) {
+        mqttClientConnected(server_id: $id){
+          client@prependNode(
+            connections: $connections
+            edgeTypeName: "GQL_MqttClientEdge"
+          ){
+            ...MqttClientItemDataFragment 
+          }   
+        }
+    }
+`;
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const MqttClientsClientDisconnectedTag = graphql`
+    subscription MqttClientsClientDisconnectedSubscription(
+      $id:ID!,
+      $connections: [ID!]!
+    ) {
+        mqttClientDisconnected(server_id: $id){
+          client{
+            id  @deleteEdge(connections: $connections)
+          }
+        }
+    }
+`;
 
 const MqttClientsPaginationFragment = graphql`
   fragment MqttClientsPaginationFragment on Query
@@ -51,18 +79,44 @@ function MqttClients({dataRef}:MqttClientsProps) {
 
   const { id }: any = useParams<string>();
 
-  // const data = useLazyLoadQuery<MqttClientsQuery>(
-  //   MqttClientsTag,
-  //   {server_uid:id},
-  //   {
-  //     fetchPolicy: "store-and-network",
-  //   },
-  // );
-
   const pagination = usePaginationFragment<
   MqttClientsPaginationFragmentRefetchQuery,
   MqttClientsPaginationFragment$key
   >(MqttClientsPaginationFragment, dataRef);
+
+  const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttServerClients?.__id);
+  console.log(connectionId);
+  useEffect(() => {
+    setConnectionId(pagination.data?.mqttServerClients?.__id)
+  }, [pagination.data?.mqttServerClients?.__id])
+  
+  const client_connected_sub = useMemo(() => ({
+    variables: {id:id,connections:connectionId?[connectionId]:[]},
+    subscription:MqttClientsClientConnectedTag,
+    updater: (store,element) => { 
+      // Update using prepenNode
+
+      console.log("Client connected sub")
+    },
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<MqttClientsClientConnectedSubscription>), [id,connectionId]);
+
+  useSubscription<MqttClientsClientConnectedSubscription>(client_connected_sub);
+
+  const client_disconnected_sub = useMemo(() => ({
+    variables: {id:id,connections:connectionId?[connectionId]:[]},
+    subscription:MqttClientsClientDisconnectedTag,
+    updater: (store,element) => { 
+      // update using DeleteEdge
+    },
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<MqttClientsClientDisconnectedSubscription>), [id,connectionId]);
+
+  useSubscription<MqttClientsClientDisconnectedSubscription>(client_disconnected_sub);
 
   const handleLoadMore = useCallback(
     () => {

@@ -3,6 +3,7 @@ using Persistence;
 using Aplication.Events.Server;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Aplication.Services.ServerEventHandler
 {
@@ -43,11 +44,19 @@ namespace Aplication.Services.ServerEventHandler
                 {
                     var server_event = await _queueProvider.Queue.Reader.ReadAsync();
 
+                    Assembly.Load(server_event.GetType().Assembly.FullName);
+
+                    var even_type = server_event.GetType();
+
+                    var event_type_name = even_type.FullName;
+                    var event_assembly = even_type.Assembly.FullName;
+
                     var notifi_obj_handler = Activator.CreateInstance(
                         typeof(ServerGenericEventNotification<>).Assembly.FullName!,
                         string.Format(
-                            "Aplication.Events.Server.ServerGenericEventNotification`1[[Server.{0}, Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                            server_event.GetType().Name
+                            "Aplication.Events.Server.ServerGenericEventNotification`1[[{0}, {1}]]",
+                            event_type_name,
+                            event_assembly
                         ),
                         true,
                         System.Reflection.BindingFlags.Default,

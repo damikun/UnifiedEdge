@@ -1,7 +1,7 @@
-using Server;
 using MediatR;
 using AutoMapper;
 using Persistence;
+using Server.Mqtt;
 using Domain.Event;
 using Server.Mqtt.DTO;
 using HotChocolate.Subscriptions;
@@ -65,7 +65,7 @@ namespace Aplication.Events.Server
 
 
     public class ServerClientDisconnected_PublishToGqlSub_Handler
-        : INotificationHandler<ServerGenericEventNotification<ServerClientConnected>>
+        : INotificationHandler<ServerGenericEventNotification<ServerClientDisconnected>>
     {
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<ServerClientConnected> notification,
+            ServerGenericEventNotification<ServerClientDisconnected> notification,
             CancellationToken cancellationToken
         )
         {
@@ -108,16 +108,21 @@ namespace Aplication.Events.Server
             var dto = new DTO_MqttClient()
             {
                 Uid = e.ClientId,
-                ServerUid = e.UID,
-                Protocol = (DTO_MqttProtocol)e.Protocol,
-                ConnectedAt = e.ConnectedAt,
+                ServerUid = e.UID
             };
 
-            var gql_dto = _mapper.Map<GQL_MqttClient>(dto);
+            var gql_client_dto = _mapper.Map<GQL_MqttClient>(dto);
+
+            var gql_event = new GQL_MqttClientDisconnected()
+            {
+                TimeStamp = DateTime.Now,
+                Client = gql_client_dto
+            };
+
 
             await _sender.SendAsync(
-                $"EdgeMqttServer.{gql_dto.ServerUid}.ClientDisconnected",
-                gql_dto
+                $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientDisconnected",
+                gql_event
             );
         }
     }

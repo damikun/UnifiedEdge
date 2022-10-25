@@ -170,7 +170,8 @@ namespace Aplication.Events.Server
             var sub_event = new GQL_ConfigMatch()
             {
                 IsMatch = e.isMatch,
-                Server = gql_server
+                Server = gql_server,
+                Timestamp = e.TimeStamp
             };
 
             await _sender.SendAsync(
