@@ -178,5 +178,19 @@ namespace Server.Manager
                 return server.isConfigMatch;
             }
         }
+
+        public async Task<ServerConfigState> ServerConfigState(string server_id)
+        {
+            IServer? server = await _runtime_store?.GetById(server_id)!;
+
+            if (server == null)
+            {
+                throw ServerNotFound(server_id);
+            }
+            else
+            {
+                return server.ConfigState();
+            }
+        }
     }
 }

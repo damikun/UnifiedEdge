@@ -60,6 +60,11 @@ namespace Aplication.DTO
         public GQL_ServerState State { get; set; }
 
         // <summary>
+        /// ConfigState
+        /// </summary>
+        public GQL_ServerConfigState? ConfigState { get; set; }
+
+        // <summary>
         /// Type
         /// </summary>
         public virtual GQL_ServerVariant Type { get; }

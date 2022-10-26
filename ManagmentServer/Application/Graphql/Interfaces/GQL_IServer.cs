@@ -44,6 +44,11 @@ namespace Aplication.Graphql.Interfaces
         public GQL_ServerVariant Type { get; }
 
         // <summary>
+        /// ConfigState
+        /// </summary>
+        public GQL_ServerConfigState? ConfigState { get; set; }
+
+        // <summary>
         /// Uptime
         /// </summary>
         public GQL_Uptime Uptime { get; set; }

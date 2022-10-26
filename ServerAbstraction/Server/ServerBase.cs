@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Server.Event;
 
 namespace Server
@@ -28,7 +29,7 @@ namespace Server
         {
             get
             {
-                return Config.TimeStamp == Current_Config.TimeStamp;
+                return Config?.TimeStamp == Current_Config?.TimeStamp;
             }
         }
 
@@ -86,6 +87,33 @@ namespace Server
             }
         }
 
+        public ServerConfigState ConfigState()
+        {
+            return new ServerConfigState()
+            {
+                // ToDo This must be Read/write as sigle operation...
+                ServerUid = this.UID,
+                IsConfigMatch = this.isConfigMatch,
+                OnlineConfig = SerializeConfig(this.Current_Config),
+                OfflineConfig = SerializeConfig(this.Config),
+                OfflineTimeStamp = this.Config?.TimeStamp ?? null,
+                OnlineTimeStamp = this.Current_Config?.TimeStamp ?? null
+            };
+        }
+
+        private string? SerializeConfig(IServerCfg cfg)
+        {
+            if (cfg == null)
+            {
+                return null;
+            }
+
+            return JsonSerializer.Serialize(
+                cfg,
+                cfg.GetType(),
+                new JsonSerializerOptions() { WriteIndented = true }
+            );
+        }
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
@@ -362,6 +390,11 @@ namespace Server
 
         private void HandleMatchConfig()
         {
+            if (Current_Config == Config)
+            {
+                return;
+            };
+
             Current_Config = Config;
 
             var event_args = new ServerEventArgs()

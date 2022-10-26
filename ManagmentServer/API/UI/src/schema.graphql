@@ -5,6 +5,7 @@
 }
 
 interface GQL_IServer {
+  configState: GQL_ServerConfigState
   description: String
   id: ID!
   isConfigMatch: Boolean
@@ -358,6 +359,7 @@ type GQL_MqttClientStatistics {
 }
 
 type GQL_MqttServer implements GQL_IServer & Node {
+  configState: GQL_ServerConfigState
   description: String
   id: ID!
   isConfigMatch: Boolean!
@@ -447,6 +449,14 @@ type GQL_ServerConfigDiffEvent implements GQL_IServerEvent {
   name: String!
   timeStamp: DateTime!
   type: ServerEventTypes!
+}
+
+type GQL_ServerConfigState {
+  isConfigMatch: Boolean!
+  offlineConfig: String
+  offlineTimeStamp: DateTime
+  onlineConfig: String
+  onlineTimeStamp: DateTime
 }
 
 type GQL_ServerErrorEvent implements GQL_IServerEvent {

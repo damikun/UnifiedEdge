@@ -7,6 +7,7 @@ namespace Server
         Task<bool> IsRunning();
         TimeSpan? Uptime { get; }
         bool isConfigMatch { get; }
+        ServerConfigState ConfigState();
         Task StateChanged(ServerState before, ServerState after);
         void SetConfiguration(IServerCfg cfg);
         abstract void ValidateServerConfig(IServerCfg cfg);

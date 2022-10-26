@@ -14,6 +14,12 @@ const ServerInfoConfigDataFragment = graphql`
     fragment ServerInfoConfigDataFragment on GQL_IServer
     {   
         isConfigMatch
+
+        configState {
+          isConfigMatch
+          offlineTimeStamp
+          onlineTimeStamp
+        }
     }
 `;
 
@@ -55,10 +61,15 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
 
     useSubscription<ServerInfoConfigMatchSubscription>(sub);
 
-
-    const value = useMemo(
-        () => data.isConfigMatch?"Match":"Mismatch",
+    const name = useMemo(
+        () => data.isConfigMatch? 
+        `Config match`: `Config mismatch`,
         [data.isConfigMatch]
+    )
+
+    const config_timestamp = useMemo(
+        () => data.configState?.offlineTimeStamp ?new Date(data.configState?.offlineTimeStamp).toLocaleString():"N/A",
+        [data.configState?.offlineTimeStamp]
     )
 
     const icon = useMemo(
@@ -80,11 +91,11 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
 
     <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden">
         <div className="font-semibold text-base capitalize text-end truncate">
-            Config
+            {name}
         </div>
         <div className={clsx("text-gray-600 text-sm w-full justify-end",
         " truncate capitalize text-end whitespace-pre")}>
-            {value}
+            {config_timestamp}
         </div>
     </div>
 </div>

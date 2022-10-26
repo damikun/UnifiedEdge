@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<214f40c1f114b0e20088cf3bb7bf7fe1>>
+ * @generated SignedSource<<38450b42b24780834417ce7340d90a05>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -44,6 +44,13 @@ v2 = {
   "args": null,
   "kind": "ScalarField",
   "name": "name",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "isConfigMatch",
   "storageKey": null
 };
 return {
@@ -152,11 +159,31 @@ return {
                 ],
                 "storageKey": null
               },
+              (v3/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "isConfigMatch",
+                "concreteType": "GQL_ServerConfigState",
+                "kind": "LinkedField",
+                "name": "configState",
+                "plural": false,
+                "selections": [
+                  (v3/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "offlineTimeStamp",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "onlineTimeStamp",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               }
             ],
@@ -169,12 +196,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4328e01352b728c29e448d25498eb284",
+    "cacheID": "4048e1fcbedfcae9c76f955e51ec6e48",
     "id": null,
     "metadata": {},
     "name": "MqttServerQuery",
     "operationKind": "query",
-    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoConfigDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  isConfigMatch\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n  ...ServerInfoConfigDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
+    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoConfigDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  isConfigMatch\n  configState {\n    isConfigMatch\n    offlineTimeStamp\n    onlineTimeStamp\n  }\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n  ...ServerInfoConfigDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
   }
 };
 })();

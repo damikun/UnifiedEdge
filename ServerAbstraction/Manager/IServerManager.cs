@@ -25,6 +25,8 @@ namespace Server.Manager
 
         public Task<bool> IsConfigMatch(string server_uid);
 
+        public Task<ServerConfigState> ServerConfigState(string server_id);
+
         public Task<bool> Contains(string server_id);
 
         public Task<ServerState> State(string server_id);
