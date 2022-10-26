@@ -2,13 +2,31 @@ import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { MqttTopicItem } from "./MqttTopicItem";
 import { graphql } from "babel-plugin-relay/macro";
-import { usePaginationFragment } from "react-relay";
-import React, { useCallback, useEffect, useState } from "react";
+import { usePaginationFragment, useSubscription } from "react-relay";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Section from "../../../../../UIComponents/Section/Section";
 import { MqttTopicsPaginationFragment$key } from "./__generated__/MqttTopicsPaginationFragment.graphql";
 import StayledInfinityScrollContainer from "../../../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
 import { MqttTopicsPaginationFragmentRefetchQuery } from "./__generated__/MqttTopicsPaginationFragmentRefetchQuery.graphql";
+import { GraphQLSubscriptionConfig } from "relay-runtime";
+import { MqttTopicsNewInboundSubscription } from "./__generated__/MqttTopicsNewInboundSubscription.graphql";
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const MqttTopicsNewInboundTag = graphql`
+    subscription MqttTopicsNewInboundSubscription(
+      $id:ID!,
+      $connections: [ID!]!
+    ) {
+      mqttNewInboundTopic(server_id: $id){
+        topic@prependNode(
+          connections: $connections
+          edgeTypeName: "GQL_MqttServerTopicStat"
+        ){
+          ...MqttTopicItemDataFragment 
+        }   
+      }
+    }
+`;
 
 const MqttTopicsPaginationFragment = graphql`
   fragment MqttTopicsPaginationFragment on Query
@@ -48,6 +66,19 @@ function MqttTopics({dataRef}:MqttTopicsProps) {
   >(MqttTopicsPaginationFragment, dataRef);
 
   const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttServerTopicStats?.__id);
+
+  const client_connected_sub = useMemo(() => ({
+    variables: {id:id,connections:connectionId?[connectionId]:[]},
+    subscription:MqttTopicsNewInboundTag,
+    updater: (store,element) => { 
+      // Update using prepenNode
+    },
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<MqttTopicsNewInboundSubscription>), [id,connectionId]);
+
+  useSubscription<MqttTopicsNewInboundSubscription>(client_connected_sub);
 
   useEffect(() => {
     setConnectionId(pagination.data?.mqttServerTopicStats?.__id)

@@ -48,5 +48,17 @@ namespace Aplication.Graphql.Queries
 
             return receiver.SubscribeAsync<string, GQL_MqttClientDisconnected>(topic);
         }
+
+        [SubscribeAndResolve]
+        public ValueTask<ISourceStream<GQL_MqttNewInboundTopic>> MqttNewInboundTopic(
+            [ID] string server_id,
+            [Service] ITopicEventReceiver receiver
+        )
+        {
+            //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.NewInboundTopic"
+            var topic = $"EdgeMqttServer.{server_id}.NewInboundTopic";
+
+            return receiver.SubscribeAsync<string, GQL_MqttNewInboundTopic>(topic);
+        }
     }
 }

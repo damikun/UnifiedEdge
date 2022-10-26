@@ -95,8 +95,6 @@ function MqttClients({dataRef}:MqttClientsProps) {
     subscription:MqttClientsClientConnectedTag,
     updater: (store,element) => { 
       // Update using prepenNode
-
-      console.log("Client connected sub")
     },
     onCompleted: () => {} /* Subscription established */,
     onError: error => {} /* Subscription errored */,

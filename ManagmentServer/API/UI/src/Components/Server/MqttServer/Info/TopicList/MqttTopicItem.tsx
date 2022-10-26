@@ -50,7 +50,7 @@ export function MqttTopicItem({dataRef, onItemClick,key_}:MqttTopicItemProps){
     </div>
     <div className={clsx("w-4/12 2xl:w-3/12 flex truncate",
       "justify-center text-center text-sm")}>
-      <div className="truncate">
+      <div className="truncate break-all">
         {data?.count}
       </div>
     </div>

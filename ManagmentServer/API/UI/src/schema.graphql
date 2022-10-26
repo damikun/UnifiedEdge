@@ -358,6 +358,11 @@ type GQL_MqttClientStatistics {
   serverUid: ID!
 }
 
+type GQL_MqttNewInboundTopic {
+  timeStamp: DateTime!
+  topic: GQL_MqttServerTopicStat!
+}
+
 type GQL_MqttServer implements GQL_IServer & Node {
   configState: GQL_ServerConfigState
   description: String
@@ -754,6 +759,7 @@ type SetServerNamePayload {
 type Subscription {
   mqttClientConnected(server_id: ID!): GQL_MqttClientConnected!
   mqttClientDisconnected(server_id: ID!): GQL_MqttClientDisconnected!
+  mqttNewInboundTopic(server_id: ID!): GQL_MqttNewInboundTopic!
   mqttServerConfigState(server_id: ID!): GQL_ConfigMatch!
   mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!

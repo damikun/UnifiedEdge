@@ -306,8 +306,26 @@ namespace Server.Mqtt
 
             server.InterceptingPublishAsync += (d) =>
             {
-                if (d != null && d.ApplicationMessage != null)
+                if (d.ApplicationMessage != null)
+                {
+                    try
+                    {
+                        if (!Stats.InbountTopicExist(d.ApplicationMessage.Topic))
+                        {
+                            this._publisher.PublishEvent(
+                                new ServerNewInboundTopic()
+                                {
+                                    UID = this.UID,
+                                    Topic = d.ApplicationMessage.Topic
+                                }
+                            );
+                        }
+                    }
+                    catch { }
+
                     Stats.RecordInboundTopic(d.ApplicationMessage.Topic);
+                }
+
 
                 return Task.CompletedTask;
             };

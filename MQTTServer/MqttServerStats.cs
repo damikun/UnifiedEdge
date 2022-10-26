@@ -72,6 +72,11 @@ namespace Server.Mqtt
         }
 
 
+        protected internal bool InbountTopicExist(string topic)
+        {
+            return _PublishedTopics.ContainsKey(topic);
+        }
+
         protected internal void RecordInboundTopic(string topic)
         {
             if (string.IsNullOrWhiteSpace(topic))
