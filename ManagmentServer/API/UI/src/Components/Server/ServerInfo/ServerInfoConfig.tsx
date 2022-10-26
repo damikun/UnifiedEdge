@@ -16,9 +16,9 @@ const ServerInfoConfigDataFragment = graphql`
         isConfigMatch
 
         configState {
-          isConfigMatch
-          offlineTimeStamp
-          onlineTimeStamp
+            isConfigMatch
+            offlineTimeStamp
+            onlineTimeStamp
         }
     }
 `;
@@ -51,7 +51,10 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
             if(element.mqttServerConfigState){
                 var server = store.get(id);
 
-                server?.setValue(element.mqttServerConfigState.isMatch,"isConfigMatch");
+                server?.setValue(
+                    element.mqttServerConfigState.isMatch,
+                    "isConfigMatch"
+                );
             }
         },
         onCompleted: () => {} /* Subscription established */,
@@ -68,7 +71,9 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
     )
 
     const config_timestamp = useMemo(
-        () => data.configState?.offlineTimeStamp ?new Date(data.configState?.offlineTimeStamp).toLocaleString():"N/A",
+        () => data.configState?.offlineTimeStamp ?
+        new Date(data.configState?.offlineTimeStamp).toLocaleString() :
+        "N/A",
         [data.configState?.offlineTimeStamp]
     )
 
@@ -94,7 +99,7 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
             {name}
         </div>
         <div className={clsx("text-gray-600 text-sm w-full justify-end",
-        " truncate capitalize text-end whitespace-pre")}>
+            " truncate capitalize text-end whitespace-pre")}>
             {config_timestamp}
         </div>
     </div>

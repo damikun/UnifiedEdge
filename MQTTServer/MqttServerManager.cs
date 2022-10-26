@@ -141,5 +141,66 @@ namespace Server.Manager.Mqtt
                 throw new Exception("Server not found");
             }
         }
+
+        public async Task<List<string>> GetPublishedTopics(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                try
+                {
+                    var topics = mqtt_server.GetPublishedTopics().ToList();
+
+                    if (topics == null)
+                    {
+                        return new List<string>();
+                    }
+                    else
+                    {
+                        return topics;
+                    }
+
+                }
+                catch
+                {
+                    return new List<string>();
+                }
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<List<DTO_MqttServerTopicStat>> GetServerTopicStatistics(string server_uid)
+        {
+            var server = await GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                try
+                {
+                    var pulished_topics = mqtt_server.Stats.PublishedTopics;
+
+                    return pulished_topics.Select(e => new DTO_MqttServerTopicStat()
+                    {
+                        ServerUid = server_uid,
+                        Topic = e.Key,
+                        Count = e.Value
+                    })
+                    .Distinct()
+                    .ToList();
+                }
+                catch
+                {
+                    return new List<DTO_MqttServerTopicStat>();
+                }
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
     }
 }

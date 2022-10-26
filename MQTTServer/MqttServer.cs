@@ -149,6 +149,11 @@ namespace Server.Mqtt
             return null;
         }
 
+        public ICollection<string> GetPublishedTopics()
+        {
+            return Stats.PublishedTopics.Select(e => e.Key).ToList();
+        }
+
         public async Task<IList<DTO_MqttClientSession>> GetServerSessions()
         {
 
