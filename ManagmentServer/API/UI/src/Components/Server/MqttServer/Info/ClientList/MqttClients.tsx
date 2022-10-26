@@ -85,7 +85,7 @@ function MqttClients({dataRef}:MqttClientsProps) {
   >(MqttClientsPaginationFragment, dataRef);
 
   const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttServerClients?.__id);
-  console.log(connectionId);
+
   useEffect(() => {
     setConnectionId(pagination.data?.mqttServerClients?.__id)
   }, [pagination.data?.mqttServerClients?.__id])

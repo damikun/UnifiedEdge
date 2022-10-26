@@ -1,4 +1,3 @@
-
 using Aplication.Mapping;
 
 namespace Server.Mqtt.DTO

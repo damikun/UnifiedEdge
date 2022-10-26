@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
+import MqttTopics from "./TopicList/MqttTopics";
 import MqttClients from "./ClientList/MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
 import MqttServerStatistic from "./MqttServerStatistic";
@@ -21,6 +22,8 @@ export const MqttServerInfoQueryTag = graphql`
     ...MqttServerNetworkInfoFragment @arguments(server_uid: $id)
 
     ...MqttServerStatisticFragment @arguments(server_uid: $id)
+
+    ...MqttTopicsPaginationFragment @arguments(server_uid: $id)
   }
 `;
 
@@ -45,7 +48,7 @@ function MqttServerInfo() {
       <MqttServerStatistic dataRef={data}/>
     </div>
 
-    {/* <ServerSharedInfo dataRef={data.mqttServerById}/> */}
     <MqttClients dataRef={data}/>
+    <MqttTopics dataRef={data}/>
   </>
 }
