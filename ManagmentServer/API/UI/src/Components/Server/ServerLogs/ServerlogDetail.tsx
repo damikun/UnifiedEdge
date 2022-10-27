@@ -1,11 +1,11 @@
 import clsx from "clsx";
+import { useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { LOG_PARAM_NAME } from "./ServerLogs";
 import { JsonViewer } from "@textea/json-viewer";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { GetLocalDate } from "../../../Shared/Common";
-import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { ServerlogDetailQuery } from "./__generated__/ServerlogDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../Shared/Field/FieldHelpers";
 
@@ -25,6 +25,7 @@ const ServerLogDetailTag = graphql`
 
 export default function ServerLogDetail(){
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   var log_id = searchParams.get(LOG_PARAM_NAME);
@@ -37,9 +38,13 @@ export default function ServerLogDetail(){
     },
   );
 
-  const modalCtx = useModalContext();
-
   const dt = GetLocalDate(data?.serverLogById.timeStamp);
+
+  const log_json = useMemo(() => 
+    data.serverLogById.asJson ?
+    JSON.parse(data.serverLogById.asJson) : 
+    data.serverLogById.asJson, [data]
+  )
 
   return <ModalContainer label="Event detail">
     <div className="flex flex-col space-y-2 w-full max-w-2xl">
@@ -54,7 +59,13 @@ export default function ServerLogDetail(){
       <FieldGroup>
         <div className="rounded-md p-3 bg-gray-50 shadow-sm border border-gray-300">
           <div className="flex overflow-hidden overflow-y-auto text-xs h-full break-all flex-wrap max-w-full">
-            <JsonViewer collapseStringsAfterLength={1000} enableClipboard={false} value={data.serverLogById.asJson}/>
+            <JsonViewer 
+              collapseStringsAfterLength={1000}
+              enableClipboard={false}
+              rootName={false}
+              displayDataTypes={false}
+              value={log_json}
+            />
           </div>
         </div>
       </FieldGroup>
