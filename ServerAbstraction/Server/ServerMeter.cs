@@ -37,7 +37,6 @@ namespace Server.Mqtt
 
         public string GetFullMetricName(string metric_name)
         {
-            // return $"{Meter.Name}.{metric_name}";
             return $"{metric_name}";
         }
     }

@@ -471,6 +471,12 @@ namespace Server.Mqtt
 
                 try
                 {
+                    Meter.Dispose();
+                }
+                catch { }
+
+                try
+                {
                     base.Dispose();
                 }
                 catch { }

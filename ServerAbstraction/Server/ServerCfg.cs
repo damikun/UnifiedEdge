@@ -7,5 +7,6 @@ namespace Server
         public bool IsEnabled { get; set; }
 
         public DateTime TimeStamp { get; init; } = DateTime.Now;
+
     }
 }

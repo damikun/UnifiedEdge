@@ -2,7 +2,7 @@ using System.Diagnostics.Metrics;
 
 namespace Server.Mqtt
 {
-    public sealed class EdgeMqttServerMeter : ServerMeterBase
+    public sealed class EdgeMqttServerMeter : ServerMeterBase, IDisposable
     {
         public EdgeMqttServerMeter(EdgeMqttServer server) : base(server)
         {
@@ -40,6 +40,11 @@ namespace Server.Mqtt
             public static string InboundPacketCount = "InboundPackets";
 
             public static string OutboundPacketCount = "OutboundPackets";
+        }
+
+        public void Dispose()
+        {
+            Meter.Dispose();
         }
     }
 }
