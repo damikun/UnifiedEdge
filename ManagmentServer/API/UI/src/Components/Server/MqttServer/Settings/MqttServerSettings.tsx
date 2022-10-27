@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import MqttServerNetworkSettings from "./MqttServerNetworkSettings";
+import MqttServerMqttClientSettings from "./MqttServerMqttClientSettings";
 import ServerSharedSettings from "../../ServerSharedSettings/ServerSharedSettings";
 import { MqttServerSettingsQuery } from "./__generated__/MqttServerSettingsQuery.graphql";
 
@@ -14,6 +15,8 @@ export const MqttServerSettingsQueryTag = graphql`
       ...ServerSharedSettingsFragment 
     }
     ...MqttServerNetworkSettingsFragment @arguments(server_uid:$id)
+
+    ...MqttServerMqttClientSettingsFragment @arguments(server_uid:$id)
   }
 `;
 
@@ -35,5 +38,6 @@ function MqttServerSettings() {
   return <>
     <ServerSharedSettings dataRef={data.mqttServerById} />
     <MqttServerNetworkSettings dataRef={data} />
+    <MqttServerMqttClientSettings dataRef={data} />
   </>
 }

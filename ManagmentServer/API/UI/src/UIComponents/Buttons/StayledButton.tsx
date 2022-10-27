@@ -19,6 +19,7 @@ export type StayledButtonPorps = {
   variant?: keyof typeof STAYLED_BUTTON_VARIANTS;
   rounding?: keyof typeof ROUNDING;
   iconOnly?: boolean;
+  invisible?:boolean;
   onMobileIconOnly?: boolean;
   transitionTime?: number;
   turncate?: boolean;
@@ -149,6 +150,7 @@ function StayledButton({
   iconLeft,
   iconRight,
   disabled,
+  invisible = false,
   onClick,
   turncate = true,
   transitionTime = 500,
@@ -211,7 +213,8 @@ function StayledButton({
         Var.tab,
         Size,
         rest.className,
-        disabled && "cursor-not-allowed"
+        disabled && "cursor-not-allowed",
+        invisible ?"invisible":"visible"
       )}
     >
       <div className={clsx("p-1 w-full m-auto")}>

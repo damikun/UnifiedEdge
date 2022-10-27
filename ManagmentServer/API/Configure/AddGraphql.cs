@@ -128,6 +128,8 @@ namespace API
                 .AddType<MqttServerClientStatisticsType>()
                 .AddType<MqttServerClientType>()
 
+                .AddType<MqttServerClientConfigType>()
+
                 .AddType<AdapterType>()
                 .AddType<AdapterStateEnumType>()
                 .AddType<AdapterInterfaceEnumType>()

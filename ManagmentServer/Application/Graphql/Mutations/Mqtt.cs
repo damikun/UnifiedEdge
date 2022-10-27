@@ -1,7 +1,6 @@
 using MediatR;
 using AutoMapper;
 using Server.Mqtt.DTO;
-using HotChocolate.Resolvers;
 using Aplication.CQRS.Commands;
 
 namespace Aplication.Graphql.Mutations
@@ -25,8 +24,7 @@ namespace Aplication.Graphql.Mutations
             string ip,
             int port,
             [Service] IMediator mediator,
-            [Service] IMapper mapper,
-            IResolverContext context)
+            [Service] IMapper mapper)
         {
             var response = await mediator.Send(
                 new SetMqttServerEndpoint()
@@ -38,6 +36,66 @@ namespace Aplication.Graphql.Mutations
             );
 
             return mapper.Map<GQL_MqttServerEndpoint>(response);
+        }
+
+        /// <summary>
+        /// Set mqtt client communication timeout
+        /// </summary>
+        public async Task<GQL_MqttServerClientCfg> SetMqttServerClientCommunicationTimeout(
+            [ID] string server_uid,
+            int timeout_ms,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new SetMqttServerClientComunicationTimeout()
+                {
+                    Server_uid = server_uid,
+                    Timeout_ms = timeout_ms
+                }
+            );
+
+            return mapper.Map<GQL_MqttServerClientCfg>(response);
+        }
+
+        /// <summary>
+        /// Set mqtt client MaxPendingMessages
+        /// </summary>
+        public async Task<GQL_MqttServerClientCfg> SetMqttServerClientMaxPendingMessages(
+            [ID] string server_uid,
+            int maxPendingMessages,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new SetMqttServerClientMaxPendingMessages()
+                {
+                    Server_uid = server_uid,
+                    MaxPendingMessages = maxPendingMessages
+                }
+            );
+
+            return mapper.Map<GQL_MqttServerClientCfg>(response);
+        }
+
+        /// <summary>
+        /// Set mqtt client Presist Session
+        /// </summary>
+        public async Task<GQL_MqttServerClientCfg> SetMqttServerClientPresistSession(
+            [ID] string server_uid,
+            bool presistSession,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new SetMqttServerClientPresistentSession()
+                {
+                    Server_uid = server_uid,
+                    PresistSession = presistSession
+                }
+            );
+
+            return mapper.Map<GQL_MqttServerClientCfg>(response);
         }
     }
 }
