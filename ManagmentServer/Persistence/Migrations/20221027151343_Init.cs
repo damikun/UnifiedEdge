@@ -67,8 +67,8 @@ namespace Persistence.Migrations
                     ServerClientConnectedEvent_ClientId = table.Column<string>(type: "TEXT", nullable: true),
                     ClientId = table.Column<string>(type: "TEXT", nullable: true),
                     IsMatch = table.Column<bool>(type: "INTEGER", nullable: true),
-                    ConfigJson = table.Column<string>(type: "TEXT", nullable: true),
-                    CurrentConfigJson = table.Column<string>(type: "TEXT", nullable: true),
+                    OfflineJson = table.Column<string>(type: "TEXT", nullable: true),
+                    OnlineJson = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
@@ -220,7 +220,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "20a85984-b3fe-4895-b7b3-46e5248faaba", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "1395e3c9-a92d-4f0a-8e9b-22e50604aa96", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

@@ -4,8 +4,8 @@ namespace Domain.Server.Events
     {
         public bool IsMatch { get; set; }
 
-        public string? ConfigJson { get; set; }
+        public string? OfflineJson { get; set; }
 
-        public string? CurrentConfigJson { get; set; }
+        public string? OnlineJson { get; set; }
     }
 }

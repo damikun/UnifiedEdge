@@ -4,8 +4,8 @@ namespace Server
     {
         public bool isMatch { get; set; }
 
-        public IServerCfg Config { get; set; }
+        public IServerCfg Offline_Config { get; set; }
 
-        public IServerCfg CurrentConfig { get; set; }
+        public IServerCfg Online_Config { get; set; }
     }
 }

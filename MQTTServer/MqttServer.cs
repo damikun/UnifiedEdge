@@ -456,7 +456,7 @@ namespace Server.Mqtt
 
         private MQTTnet.Server.MqttServer CreateMqttServer()
         {
-            var options = MapConfiguration(Current_Config);
+            var options = MapConfiguration(Online_Config);
 
             var mqttFactory = new MqttFactory();
             options.DefaultEndpointOptions.IsEnabled = true;

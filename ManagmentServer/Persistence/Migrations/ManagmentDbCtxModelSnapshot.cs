@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "20a85984-b3fe-4895-b7b3-46e5248faaba",
+                            Guid = "1395e3c9-a92d-4f0a-8e9b-22e50604aa96",
                             Name = "Undefined"
                         });
                 });
@@ -256,14 +256,14 @@ namespace Persistence.Migrations
                 {
                     b.HasBaseType("Domain.Server.Events.ServerEventBase");
 
-                    b.Property<string>("ConfigJson")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CurrentConfigJson")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("IsMatch")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("OfflineJson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OnlineJson")
+                        .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ServerConfigDiffEvent");
                 });

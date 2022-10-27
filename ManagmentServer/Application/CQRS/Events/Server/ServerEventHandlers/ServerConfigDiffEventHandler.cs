@@ -3,14 +3,13 @@ using MediatR;
 using AutoMapper;
 using Persistence;
 using Domain.Event;
+using Domain.Server;
 using Aplication.DTO;
 using Newtonsoft.Json;
-using Aplication.CQRS.Queries;
 using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Graphql.Interfaces;
-using Domain.Server;
 
 namespace Aplication.Events.Server
 {
@@ -51,9 +50,9 @@ namespace Aplication.Events.Server
 
             var e = notification.ServerEvent;
 
-            var serialized_current = SerializeCfg(e.CurrentConfig);
+            var serialized_online = SerializeCfg(e.Online_Config);
 
-            var serialized_cfg = SerializeCfg(e.Config);
+            var serialized_offline = SerializeCfg(e.Offline_Config);
 
             if (notification.ServerEvent.isMatch)
             {
@@ -61,8 +60,8 @@ namespace Aplication.Events.Server
                     new Domain.Server.Events.ServerConfigDiffEvent()
                     {
                         IsMatch = true,
-                        ConfigJson = serialized_cfg,
-                        CurrentConfigJson = serialized_current,
+                        OnlineJson = serialized_online,
+                        OfflineJson = serialized_offline,
                         TimeStamp = e.TimeStamp,
                         ServerUid = e.UID,
                         Name = nameof(ServerConfigMatch),
@@ -77,8 +76,8 @@ namespace Aplication.Events.Server
                     new Domain.Server.Events.ServerConfigDiffEvent()
                     {
                         IsMatch = false,
-                        ConfigJson = serialized_cfg,
-                        CurrentConfigJson = serialized_current,
+                        OnlineJson = serialized_online,
+                        OfflineJson = serialized_offline,
                         TimeStamp = e.TimeStamp,
                         ServerUid = e.UID,
                         Name = nameof(ServerConfigMatch),

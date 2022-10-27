@@ -11,9 +11,9 @@ namespace Server
 
         private bool isDisposing { get; set; }
 
-        private IServerCfg Config { get; set; }
+        private IServerCfg Offline_Config { get; set; }
 
-        protected IServerCfg Current_Config { get; private set; }
+        protected IServerCfg Online_Config { get; private set; }
 
         public event EventHandler<ServerEventArgs> OnConfigMatch;
 
@@ -29,7 +29,7 @@ namespace Server
         {
             get
             {
-                return Config?.TimeStamp == Current_Config?.TimeStamp;
+                return Offline_Config?.TimeStamp == Online_Config?.TimeStamp;
             }
         }
 
@@ -94,10 +94,10 @@ namespace Server
                 // ToDo This must be Read/write as sigle operation...
                 ServerUid = this.UID,
                 IsConfigMatch = this.isConfigMatch,
-                OnlineConfig = SerializeConfig(this.Current_Config),
-                OfflineConfig = SerializeConfig(this.Config),
-                OfflineTimeStamp = this.Config?.TimeStamp ?? null,
-                OnlineTimeStamp = this.Current_Config?.TimeStamp ?? null
+                OnlineConfig = SerializeConfig(this.Online_Config),
+                OfflineConfig = SerializeConfig(this.Offline_Config),
+                OfflineTimeStamp = this.Offline_Config?.TimeStamp ?? null,
+                OnlineTimeStamp = this.Online_Config?.TimeStamp ?? null
             };
         }
 
@@ -271,7 +271,7 @@ namespace Server
 
             await _semaphore.WaitAsync(ct);
 
-            if (!this.Current_Config.IsEnabled)
+            if (!this.Online_Config.IsEnabled)
             {
                 throw new Exception("Server is disabled");
             }
@@ -390,17 +390,17 @@ namespace Server
 
         private void HandleMatchConfig()
         {
-            if (Current_Config == Config)
+            if (Online_Config == Offline_Config)
             {
                 return;
             };
 
-            Current_Config = Config;
+            Online_Config = Offline_Config;
 
             var event_args = new ServerEventArgs()
             {
                 Server_UID = this.UID,
-                Config = this.Config
+                Config = this.Offline_Config
             };
 
             EventHandler<ServerEventArgs> handler = OnConfigMatch;
@@ -418,8 +418,8 @@ namespace Server
                 {
                     UID = this.UID,
                     isMatch = true,
-                    Config = Config,
-                    CurrentConfig = Current_Config
+                    Offline_Config = Offline_Config,
+                    Online_Config = Online_Config
                 });
             }
             catch { }
@@ -430,7 +430,7 @@ namespace Server
             var event_args = new ServerEventArgs()
             {
                 Server_UID = this.UID,
-                Config = this.Config
+                Config = this.Offline_Config
             };
 
             EventHandler<ServerEventArgs> handler = OnConfigMissMatch;
@@ -448,8 +448,8 @@ namespace Server
                 {
                     UID = this.UID,
                     isMatch = false,
-                    Config = Config,
-                    CurrentConfig = Current_Config
+                    Offline_Config = Offline_Config,
+                    Online_Config = Online_Config
                 });
             }
             catch { }
@@ -461,13 +461,13 @@ namespace Server
             if (cfg.Server_UID != this.UID)
             {
                 throw new Exception(
-                    "Invalid Config UID. Server.UID and Config.UID does not match."
+                    "Invalid Offline_Config UID. Server.UID and Offline_Config.UID does not match."
                 );
             }
 
             ValidateServerConfig(cfg);
 
-            Config = cfg;
+            Offline_Config = cfg;
 
             if (State == ServerState.disabled ||
             State == ServerState.stopped ||
@@ -616,7 +616,7 @@ namespace Server
             {
                 throw new Exception(
                     string.Format(
-                    "MapServerConfiguration -> Invalid config object type. Type: {0} is required",
+                    "MapServerConfiguration -> Invalid Offline_Config object type. Type: {0} is required",
                     nameof(T)
                     )
                 );
