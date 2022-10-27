@@ -2,9 +2,10 @@ import { useMemo, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { JsonViewer } from "@textea/json-viewer";
 import { graphql } from "babel-plugin-relay/macro";
+import Badge, {Badge_VARIANTS} from "../../../UIComponents/Badged/Badge";
 import ModalContainer from "../../../UIComponents/Modal/ModalContainer";
-import { FieldDivider, FieldGroup, FieldLabel, FieldSection } from "../../../Shared/Field/FieldHelpers";
 import { ServerInfoConfigModalQuery } from "./__generated__/ServerInfoConfigModalQuery.graphql";
+import { FieldDivider, FieldGroup, FieldLabel, FieldSection } from "../../../Shared/Field/FieldHelpers";
 
 
 const ServerInfoConfigModalTag = graphql`
@@ -68,7 +69,9 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
     <div className="flex flex-col space-y-2 w-full max-w-2xl">
 
       <FieldGroup>
-        <FieldSection name="State">{data.node?.configState?.isConfigMatch}</FieldSection>
+        <FieldSection name="State">
+            <ConfigBadget state={data.node?.configState?.isConfigMatch}/>
+        </FieldSection>
         <FieldSection name="Online Timestamp">{online_dt}</FieldSection>
         <FieldSection name="Offline Timestamp">{offline_dt}</FieldSection>
       </FieldGroup>
@@ -85,6 +88,7 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
                         collapseStringsAfterLength={1000}
                         enableClipboard={false}
                         rootName={false}
+                        displayDataTypes={false}
                         value={online_json}
                     />
                     </div>
@@ -103,7 +107,7 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
                 collapseStringsAfterLength={1000}
                 enableClipboard={false}
                 rootName={false}
-                displayDataTypes={false }
+                displayDataTypes={false}
                 value={offline_json}
             />
           </div>
@@ -112,4 +116,52 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
       
     </div>
 </ModalContainer>
+}
+
+// -------------------------------------
+
+
+type ConfigBadgetProps = {
+    state:boolean | undefined | null
+}
+
+type ConfigVariantDataType = {
+    name:string,
+    variant: keyof typeof Badge_VARIANTS
+}
+
+function ConfigBadget({state}:ConfigBadgetProps){
+
+    const data: ConfigVariantDataType = useMemo(() => {
+
+        if(state === null || state === undefined){
+            return {
+                name:"Unknown",
+                variant: "secondarygray"
+            }
+        }
+
+        if(state){
+            return {
+                name:"Config Match",
+                variant: "secondarygreen"
+            }
+        }else{
+            return {
+                name:"Config Mismatch",
+                variant: "secondaryred"
+            }
+        }
+
+    }, [state])
+
+
+    return <Badge
+        turncate
+        border={false}
+        className="text-xxs mx-auto"
+        size="thin"
+        variant={data.variant}>
+        {data?.name}
+    </Badge>    
 }
