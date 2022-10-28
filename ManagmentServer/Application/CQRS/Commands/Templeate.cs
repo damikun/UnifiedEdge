@@ -81,17 +81,14 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    public class CreateWebHookPostProcessor
+    public class TempleatePostProcessor
         : IRequestPostProcessor<Templeate, Unit>
     {
-        /// <summary>
-        /// Injected <c>IPublisher</c>
-        /// </summary>
-        private readonly Aplication.Services.IPublisher _publisher;
 
-        public CreateWebHookPostProcessor(Aplication.Services.IPublisher publisher)
+
+        public TempleatePostProcessor()
         {
-            _publisher = publisher;
+
         }
 
         public async Task Process(
@@ -99,14 +96,7 @@ namespace Aplication.CQRS.Commands
             Unit response,
             CancellationToken cancellationToken)
         {
-            if (response != null)
-            {
-                try
-                {
-                    // Do whatever
-                }
-                catch { }
-            }
+            await Task.CompletedTask;
         }
     }
 }

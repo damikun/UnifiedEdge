@@ -31,8 +31,18 @@ interface Node {
   id: ID!
 }
 
+type ActivateWebHookPayload {
+  gQL_WebHook: GQL_WebHook
+  query: Query!
+}
+
 type CreateServerPayload {
   gQL_IServer: GQL_IServer
+  query: Query!
+}
+
+type CreateWebHookPayload {
+  gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
@@ -59,7 +69,16 @@ type GQL_Adapter implements Node {
   description: String!
   id: ID!
   interfaceType: NetworkInterfaceType!
-  logs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
+  logs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterLogConnection
   name: String!
   physicalAddress: String!
   state: AdapterState!
@@ -632,30 +651,119 @@ type GQL_User implements Node {
   sessionId: String
 }
 
+type GQL_WebHook {
+  contentType: String
+  eventGroup: [HookEventGroup!]
+  id: Long!
+  isActive: Boolean!
+  lastTrigger: DateTime
+  secret: String
+  serverUid: String
+  webHookUrl: String!
+}
+
+"A connection to a list of items."
+type GQL_WebHookConnection {
+  "A list of edges."
+  edges: [GQL_WebHookEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_WebHook]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_WebHookEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_WebHook
+}
+
+type GQL_WebHookRecord {
+  exception: String!
+  guid: String!
+  id: Long!
+  requestBody: String!
+  requestHeaders: String!
+  responseBody: String!
+  result: RecordResult!
+  statusCode: Int!
+  timestamp: DateTime!
+  webHookID: Long!
+}
+
+"A connection to a list of items."
+type GQL_WebHookRecordConnection {
+  "A list of edges."
+  edges: [GQL_WebHookRecordEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_WebHookRecord]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_WebHookRecordEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_WebHookRecord
+}
+
 type HistorianRecord {
   timeStamp: DateTime
   value: Any
 }
 
 type Mutation {
+  activateWebHook(input: ActivateWebHookInput!): ActivateWebHookPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
-  enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
+  createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
+  enableDisableServer(
+    input: EnableDisableServerInput!
+  ): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
-  setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
-  setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
+  setEdgeDefaultNetworkAdapter(
+    input: SetEdgeDefaultNetworkAdapterInput!
+  ): SetEdgeDefaultNetworkAdapterPayload!
+  setEdgeDescription(
+    request: SetEdgeDescriptionInput!
+  ): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
   setEdgeLocation2(request: SetEdgeLocation2Input!): SetEdgeLocation2Payload!
   setEdgeLocation3(request: SetEdgeLocation3Input!): SetEdgeLocation3Payload!
   setEdgeName(request: SetEdgeNameInput!): SetEdgeNamePayload!
-  setMqttServerClientCommunicationTimeout(input: SetMqttServerClientCommunicationTimeoutInput!): SetMqttServerClientCommunicationTimeoutPayload!
-  setMqttServerClientMaxPendingMessages(input: SetMqttServerClientMaxPendingMessagesInput!): SetMqttServerClientMaxPendingMessagesPayload!
-  setMqttServerClientPresistSession(input: SetMqttServerClientPresistSessionInput!): SetMqttServerClientPresistSessionPayload!
-  setMqttServerEndpoint(input: SetMqttServerEndpointInput!): SetMqttServerEndpointPayload!
-  setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
+  setMqttServerClientCommunicationTimeout(
+    input: SetMqttServerClientCommunicationTimeoutInput!
+  ): SetMqttServerClientCommunicationTimeoutPayload!
+  setMqttServerClientMaxPendingMessages(
+    input: SetMqttServerClientMaxPendingMessagesInput!
+  ): SetMqttServerClientMaxPendingMessagesPayload!
+  setMqttServerClientPresistSession(
+    input: SetMqttServerClientPresistSessionInput!
+  ): SetMqttServerClientPresistSessionPayload!
+  setMqttServerEndpoint(
+    input: SetMqttServerEndpointInput!
+  ): SetMqttServerEndpointPayload!
+  setServerDescription(
+    input: SetServerDescriptionInput!
+  ): SetServerDescriptionPayload!
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   test: TestPayload!
+  updateWebHookEventGroups(
+    input: UpdateWebHookEventGroupsInput!
+  ): UpdateWebHookEventGroupsPayload!
+  updateWebHookSecret(
+    input: UpdateWebHookSecretInput!
+  ): UpdateWebHookSecretPayload!
+  updateWebHookUrl(input: UpdateWebHookUrlInput!): UpdateWebHookUrlPayload!
 }
 
 "Information about pagination in a connection."
@@ -677,40 +785,171 @@ type ProcessServerCmdPayload {
 
 type Query {
   adapterById(id: ID!): GQL_Adapter!
-  adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
-  adapters("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterConnection
+  adapterLogs(
+    adapter_id: ID!
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterLogConnection
+  adapters(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_AdapterConnection
   defaultAdapter: GQL_DefaultAdapter!
   edgeInfo: GQL_Edge!
   failedJob(jobid: ID!): GQL_FailedJob!
-  failedJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_FailedJobConnection
+  failedJobs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_FailedJobConnection
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
   mqttServerById(id: ID!): GQL_MqttServer!
-  mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
+  mqttServerClient(server_client_uid: ID!, server_uid: ID!): GQL_MqttClient!
   mqttServerClientConfig(server_uid: ID!): GQL_MqttServerClientCfg!
-  mqttServerClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientConnection
-  mqttServerClientSession(server_client_uid: ID! server_uid: ID!): GQL_MqttClientSession!
-  mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics!
+  mqttServerClients(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    server_uid: ID!
+  ): GQL_MqttClientConnection
+  mqttServerClientSession(
+    server_client_uid: ID!
+    server_uid: ID!
+  ): GQL_MqttClientSession!
+  mqttServerClientStatistic(
+    server_client_uid: ID!
+    server_uid: ID!
+  ): GQL_MqttClientStatistics!
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
-  mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
+  mqttServerSessions(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    server_uid: ID!
+  ): GQL_MqttClientSessionConnection
   mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
-  mqttServerTopicStats("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttServerTopicStatConnection
+  mqttServerTopicStats(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    server_uid: ID!
+  ): GQL_MqttServerTopicStatConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
   recurringJob(jobid: ID!): GQL_RecurringJob!
-  recurringJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_RecurringJobConnection
+  recurringJobs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_RecurringJobConnection
   runtimeMetrics: GQL_RuntimeMetrics!
   serverLogById(log_id: ID!): GQL_IServerEventUnion!
-  serverLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_id: ID!): GQL_IServerEventUnionConnection
-  servers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_IServerConnection
+  serverLogs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+    server_id: ID!
+  ): GQL_IServerEventUnionConnection
+  servers(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_IServerConnection
   successJob(jobid: ID!): GQL_SuccessJob!
-  successJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SuccessJobConnection
+  successJobs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_SuccessJobConnection
   systemInfo: GQL_SystemInfo!
   systemLogById(log_id: ID!): GQL_SystemEvent!
-  systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
+  systemLogs(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_SystemEventConnection
   testik(id: ID!): GQL_Adapter
+  webHookRecords(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    hook_id: ID!
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_WebHookRecordConnection
+  webHooks(
+    "Returns the elements in the list that come after the specified cursor."
+    after: String
+    "Returns the elements in the list that come before the specified cursor."
+    before: String
+    "Returns the first _n_ elements from the list."
+    first: Int
+    "Returns the last _n_ elements from the list."
+    last: Int
+  ): GQL_WebHookConnection
 }
 
 type RemoveServerPayload {
@@ -788,7 +1027,10 @@ type Subscription {
   mqttClientDisconnected(server_id: ID!): GQL_MqttClientDisconnected!
   mqttNewInboundTopic(server_id: ID!): GQL_MqttNewInboundTopic!
   mqttServerConfigState(server_id: ID!): GQL_ConfigMatch!
-  mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
+  mqttServerMetrics(
+    metric: GQL_MqttServerMetricSource!
+    server_id: ID!
+  ): GQL_ServerMetric!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!
   systemTime: DateTime!
@@ -800,12 +1042,42 @@ type TestPayload {
   query: Query!
 }
 
-union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent
+type UpdateWebHookEventGroupsPayload {
+  gQL_WebHook: GQL_WebHook
+  query: Query!
+}
+
+type UpdateWebHookSecretPayload {
+  gQL_WebHook: GQL_WebHook
+  query: Query!
+}
+
+type UpdateWebHookUrlPayload {
+  gQL_WebHook: GQL_WebHook
+  query: Query!
+}
+
+union GQL_IServerEventUnion =
+    GQL_ClientConnected
+  | GQL_ServerConfigDiffEvent
+  | GQL_ServerErrorEvent
+  | GQL_ServerInfoEvent
+  | GQL_ServerStateChangedEvent
+
+input ActivateWebHookInput {
+  activ: Boolean!
+}
 
 input CreateServerInput {
   description: String
   name: String!
   type: GQL_ServerVariant!
+}
+
+input CreateWebHookInput {
+  groups: [HookEventGroup!]!
+  secret: String
+  url: String!
 }
 
 input EnableDisableServerInput {
@@ -880,6 +1152,18 @@ input SetServerLocationInput {
 input SetServerNameInput {
   id: ID!
   name: String!
+}
+
+input UpdateWebHookEventGroupsInput {
+  groups: [HookEventGroup!]!
+}
+
+input UpdateWebHookSecretInput {
+  secret: String!
+}
+
+input UpdateWebHookUrlInput {
+  url: String!
 }
 
 enum AdapterState {
@@ -962,6 +1246,13 @@ enum GQL_ServerVariant {
   OPC
 }
 
+enum HookEventGroup {
+  SYSTEM
+  MQTT
+  OPC
+  S7
+}
+
 enum NetworkInterfaceType {
   UNKNOWN
   ETHERNET
@@ -1004,6 +1295,14 @@ enum PlatformID {
   OTHER
 }
 
+enum RecordResult {
+  UNDEFINED
+  OK
+  PARAMETER_ERROR
+  HTTP_ERROR
+  DATA_QUERY_ERROR
+}
+
 enum ServerEventTypes {
   INFO
   WARNING
@@ -1021,20 +1320,35 @@ enum ServerState {
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
-directive @defer("Deferred when true." if: Boolean "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+directive @defer(
+  "Deferred when true."
+  if: Boolean
+  "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to."
+  label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 directive @export(as: String) on FIELD
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
-directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+directive @specifiedBy(
+  "The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types."
+  url: String!
+) on SCALAR
 
 "The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
-directive @stream("Streamed when true." if: Boolean "The initial elements that shall be send down to the consumer." initialCount: Int! = 0 "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String) on FIELD
+directive @stream(
+  "Streamed when true."
+  if: Boolean
+  "The initial elements that shall be send down to the consumer."
+  initialCount: Int! = 0
+  "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to."
+  label: String
+) on FIELD
 
 scalar Any
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

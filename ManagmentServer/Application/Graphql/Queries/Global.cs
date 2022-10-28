@@ -85,5 +85,40 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<Connection<GQL_AdapterLog>>(result);
         }
+
+        [UseConnection(typeof(GQL_WebHook))]
+        public async Task<Connection<GQL_WebHook>> GetWebHooks(
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetWebHooks(arguments),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_WebHook>>(result);
+        }
+
+        [UseConnection(typeof(GQL_WebHookRecord))]
+        public async Task<Connection<GQL_WebHookRecord>> GetWebHookRecords(
+            IResolverContext ctx,
+            [ID] long hook_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetWebHookRecords(arguments, hook_id),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_WebHookRecord>>(result);
+        }
     }
 }

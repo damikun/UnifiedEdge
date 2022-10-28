@@ -9,6 +9,7 @@ namespace Aplication.Core
 
     public static class Common
     {
+        public const string URI_REGEX = @"^((https:|http:|[/][/]|www.)([a-z]|[A-Z]|[:0-9]|[/.])*)$";
 
         // Check if object is derived from specific type
         public static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
@@ -31,7 +32,7 @@ namespace Aplication.Core
 
             try
             {
-               // To be implemented !
+                // To be implemented !
             }
             finally
             {

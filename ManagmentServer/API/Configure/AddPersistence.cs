@@ -14,7 +14,7 @@ namespace API
 
             serviceCollection.AddPooledDbContextFactory<ManagmentDbCtx>(
                 (s, o) => o
-                    // .UseNpgsql(Configuration["ConnectionStrings:ApiDbContext"], option => {
+                    // .UseNpgsql(Configuration["ConnectionStrings:ManagmentDbCtx"], option => {
                     // option.EnableRetryOnFailure();
 
                     // if (Environment.IsDevelopment()) {

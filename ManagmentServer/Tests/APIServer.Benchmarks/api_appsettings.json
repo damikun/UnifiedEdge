@@ -18,7 +18,7 @@
 
   "ConnectionStrings": {
     "HangfireConnection": "Host=localhost;Port=5555;Database=scheduler;Username=postgres;Password=postgres",
-    "ApiDbContext": "Host=localhost;Port=5555;Database=APIServer;Username=postgres;Password=postgres",
+    "ManagmentDbCtx": "Host=localhost;Port=5555;Database=APIServer;Username=postgres;Password=postgres",
     "AppIdnetityDbContext": "Host=localhost;Port=5555;Database=IdentityDB;Username=postgres;Password=postgres",
     "Elasticsearch": "http://admin:admin@localhost:9200",
     "Opentelemetry": "http://localhost:55680",

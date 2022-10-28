@@ -98,6 +98,24 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WebHooks",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WebHookUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    ServerUid = table.Column<string>(type: "TEXT", nullable: true),
+                    Secret = table.Column<string>(type: "TEXT", nullable: true),
+                    ContentType = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LastTrigger = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WebHooks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MqttServerCfg",
                 columns: table => new
                 {
@@ -157,6 +175,53 @@ namespace Persistence.Migrations
                         principalTable: "ServerCfg",
                         principalColumn: "ServerUID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WebHookHeader",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WebHookID = table.Column<long>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Value = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedTimestamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WebHookHeader", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_WebHookHeader_WebHooks_WebHookID",
+                        column: x => x.WebHookID,
+                        principalTable: "WebHooks",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WebHooksHistory",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    WebHookID = table.Column<long>(type: "INTEGER", nullable: false),
+                    Guid = table.Column<string>(type: "TEXT", nullable: false),
+                    Result = table.Column<int>(type: "INTEGER", nullable: false),
+                    StatusCode = table.Column<int>(type: "INTEGER", nullable: false),
+                    ResponseBody = table.Column<string>(type: "TEXT", nullable: false),
+                    RequestBody = table.Column<string>(type: "TEXT", nullable: false),
+                    RequestHeaders = table.Column<string>(type: "TEXT", nullable: false),
+                    Exception = table.Column<string>(type: "TEXT", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WebHooksHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WebHooksHistory_WebHooks_WebHookID",
+                        column: x => x.WebHookID,
+                        principalTable: "WebHooks",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -220,7 +285,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "1395e3c9-a92d-4f0a-8e9b-22e50604aa96", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "b004b61a-a695-42c0-9fe9-aa7f00d8d002", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -252,6 +317,16 @@ namespace Persistence.Migrations
                 table: "Servers",
                 column: "CfgServerUID",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WebHookHeader_WebHookID",
+                table: "WebHookHeader",
+                column: "WebHookID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WebHooksHistory_WebHookID",
+                table: "WebHooksHistory",
+                column: "WebHookID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -284,7 +359,16 @@ namespace Persistence.Migrations
                 name: "SystemEvents");
 
             migrationBuilder.DropTable(
+                name: "WebHookHeader");
+
+            migrationBuilder.DropTable(
+                name: "WebHooksHistory");
+
+            migrationBuilder.DropTable(
                 name: "Servers");
+
+            migrationBuilder.DropTable(
+                name: "WebHooks");
 
             migrationBuilder.DropTable(
                 name: "ServerCfg");

@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221027151343_Init")]
+    [Migration("20221028110027_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "1395e3c9-a92d-4f0a-8e9b-22e50604aa96",
+                            Guid = "b004b61a-a695-42c0-9fe9-aa7f00d8d002",
                             Name = "Undefined"
                         });
                 });
@@ -204,6 +204,108 @@ namespace Persistence.Migrations
                     b.ToTable("Endpoints");
                 });
 
+            modelBuilder.Entity("Domain.Server.WebHook", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastTrigger")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Secret")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ServerUid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WebHookUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WebHooks");
+                });
+
+            modelBuilder.Entity("Domain.Server.WebHookHeader", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedTimestamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("WebHookID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("WebHookID");
+
+                    b.ToTable("WebHookHeader");
+                });
+
+            modelBuilder.Entity("Domain.Server.WebHookRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Exception")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Guid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RequestBody")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RequestHeaders")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResponseBody")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StatusCode")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("WebHookID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WebHookID");
+
+                    b.ToTable("WebHooksHistory");
+                });
+
             modelBuilder.Entity("Domain.System.Events.SystemEvent", b =>
                 {
                     b.Property<long>("ID")
@@ -337,6 +439,46 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Domain.Server.WebHook", b =>
+                {
+                    b.OwnsOne("System.Collections.Generic.HashSet<Domain.Server.HookEventGroup>", "EventGroup", b1 =>
+                        {
+                            b1.Property<long>("WebHookId")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("WebHookId");
+
+                            b1.ToTable("WebHooks");
+
+                            b1.WithOwner()
+                                .HasForeignKey("WebHookId");
+                        });
+
+                    b.Navigation("EventGroup");
+                });
+
+            modelBuilder.Entity("Domain.Server.WebHookHeader", b =>
+                {
+                    b.HasOne("Domain.Server.WebHook", "WebHook")
+                        .WithMany("Headers")
+                        .HasForeignKey("WebHookID")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("WebHook");
+                });
+
+            modelBuilder.Entity("Domain.Server.WebHookRecord", b =>
+                {
+                    b.HasOne("Domain.Server.WebHook", "WebHook")
+                        .WithMany("Records")
+                        .HasForeignKey("WebHookID")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("WebHook");
+                });
+
             modelBuilder.Entity("Domain.Server.MqttServer", b =>
                 {
                     b.HasOne("Domain.Server.ServerBase", null)
@@ -382,6 +524,13 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Server")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Server.WebHook", b =>
+                {
+                    b.Navigation("Headers");
+
+                    b.Navigation("Records");
                 });
 #pragma warning restore 612, 618
         }

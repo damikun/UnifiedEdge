@@ -21,6 +21,10 @@ namespace Persistence
 
         public DbSet<SystemEvent> SystemEvents { get; set; }
 
+        public DbSet<WebHook> WebHooks { get; set; }
+
+        public DbSet<WebHookRecord> WebHooksHistory { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(
@@ -49,6 +53,9 @@ namespace Persistence
                 //     )
                 // );
             }
+
+            // modelBuilder.Entity<WebHookBase>(e => e.EventType)
+            // .HasConversion(e => e.ToString(), e => Type.GetType(e, false)!);
 
             modelBuilder.Entity<MqttServer>().ToTable("MqttServer");
             modelBuilder.Entity<OpcServer>().ToTable("OpcServer");
