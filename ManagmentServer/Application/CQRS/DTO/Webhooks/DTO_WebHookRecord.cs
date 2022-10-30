@@ -56,7 +56,7 @@ namespace Aplication.DTO
         /// <summary>
         /// Exception
         /// </summary>
-        public string Exception { get; set; }
+        public string? Exception { get; set; }
 
         /// <summary>
         /// Hook Call Timestamp

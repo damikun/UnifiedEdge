@@ -19,19 +19,19 @@ namespace Aplication.Webhooks.Events
             this._payload = payload;
         }
 
-        public string Name => this.GetType().Name;
+        public string Name { get { return this.GetType().Name; } }
 
         private T _action { get; set; }
 
         private U _payload { get; set; }
 
-        public string action
+        public string Action
         {
             get { return _action.ToString(); }
         }
-        public U payload
+        public U Payload
         {
-            get { return payload; }
+            get { return _payload; }
         }
 
         public DateTime timeStamp { get; set; } = DateTime.Now;

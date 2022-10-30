@@ -49,18 +49,18 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
   return <div
     onClick={handleClick}
     key={data?.id}
-    className={clsx("flex space-y-1 space-x-2 hover:bg-gray-200",
-    "text-center cursor-pointer justify-between py-1",
+    className={clsx("flex space-x-2 hover:bg-gray-200",
+    "cursor-pointer py-1",
     "rounded-sm hover:shadow-sm px-2 md:px-5")}>
-    <div className="w-2/12 2xl:w-3/12 flex">
+    <div className="w-20 flex items-center justify-center">
       <StateSection state={data?.result} />
     </div>
-    <div className="flex flex-col w-4/12 justify-center capitalize">
+    <div className="flex-1 flex-col justify-start hidden lg:flex">
       <div
         className={clsx(
           "flex py-0.5 truncate-1-lines",
           "break-all rounded-md font-semibold",
-          "whitespace-pre"
+          "whitespace-pre capitalize text-sm"
         )}
       >
         {data?.hookEventGroup}
@@ -70,16 +70,13 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
         {data?.guid}
       </div>
     </div>
-    <div className="flex-1 flex space-x-2 items-center justify-end">
-      <div className="flex space-x-2 items-center">
-        <div className="flex justify-end truncate">
-            {dt}
-        </div>
-        <div className="flex w-16 justify-center">
-          <StatusCodeSection status={data?.statusCode} />
-        </div>
-      </div>
+    <div className="flex-1 lg:w-44 items-center truncate my-auto">
+      {dt}
     </div>
+    <div className="flex w-24 md:w-28 items-center text-center">
+      <StatusCodeSection status={data?.statusCode} />
+    </div>
+
   </div>
 }
 
@@ -121,7 +118,7 @@ type StatusCodeSectionProps = {
   status: number | null | undefined;
 };
 
-function StatusCodeSection({ status }: StatusCodeSectionProps) {
+export function StatusCodeSection({ status }: StatusCodeSectionProps) {
   const status_style = useMemo(() => {
     if (status) {
       if (status >= 200 && status <= 299) {

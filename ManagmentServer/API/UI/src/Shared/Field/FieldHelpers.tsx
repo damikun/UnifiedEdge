@@ -28,7 +28,8 @@ type FieldSectionProps = {
 }
 
 export function FieldSection({name,children,multiline,className,variant = "flex-row"}:FieldSectionProps) {
-    return <div className={clsx("flex flex-row align-middle w-full py-0.5",variant)}>
+    return <div className={clsx("flex flex-row align-middle w-full py-0.5",variant,
+        variant === "flex-col" && "space-y-2")}>
         <FieldLabel name={name}/>
         <div className={clsx(multiline?"overflow-y-auto pb-0.5 overflow-x-hidden break-words max-w-full max-h-60":"flex truncate",className)}>{children}</div>
     </div>

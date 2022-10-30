@@ -44,7 +44,7 @@ namespace Domain.Server
         /// <summary>
         /// Response json
         /// </summary>
-        public string ResponseBody { get; set; }
+        public string? ResponseBody { get; set; }
 
         /// <summary>
         /// Request json
@@ -59,7 +59,7 @@ namespace Domain.Server
         /// <summary>
         /// Exception
         /// </summary>
-        public string Exception { get; set; }
+        public string? Exception { get; set; }
 
         /// <summary>
         /// Hook Call Timestamp

@@ -275,7 +275,7 @@ namespace Server.Mqtt
                         ClientId = d.ClientId,
                         ConnectedAt = DateTime.Now,
                         Protocol = d.ProtocolVersion,
-                        UID = this.UID
+                        UID = this.UID,
                     }
                 );
 

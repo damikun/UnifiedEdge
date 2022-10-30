@@ -212,10 +212,10 @@ namespace Persistence.Migrations
                     Guid = table.Column<string>(type: "TEXT", nullable: false),
                     Result = table.Column<int>(type: "INTEGER", nullable: false),
                     StatusCode = table.Column<int>(type: "INTEGER", nullable: false),
-                    ResponseBody = table.Column<string>(type: "TEXT", nullable: false),
+                    ResponseBody = table.Column<string>(type: "TEXT", nullable: true),
                     RequestBody = table.Column<string>(type: "TEXT", nullable: false),
                     RequestHeaders = table.Column<string>(type: "TEXT", nullable: false),
-                    Exception = table.Column<string>(type: "TEXT", nullable: false),
+                    Exception = table.Column<string>(type: "TEXT", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -289,7 +289,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "20043353-5cc7-4684-af21-8b126a1d8462", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "afda4d86-4e8e-474d-965c-815685ebab14", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

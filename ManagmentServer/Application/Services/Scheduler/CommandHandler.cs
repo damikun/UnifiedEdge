@@ -88,7 +88,17 @@ namespace Aplication.Services.Scheduler
 
         private dynamic DeserializeCommand(string data, Type type)
         {
-            return JsonSerializer.Deserialize(data, type);
+            try
+            {
+                return JsonSerializer.Deserialize(data, type);
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.ToString());
+
+                throw ex;
+            }
+
         }
 
         public Task ExecuteCommand(string reuest)

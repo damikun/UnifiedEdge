@@ -11,15 +11,15 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command for transforming event to Webhook scheduled object
     /// </summary>
-    public class EnqueWebHooks : CommandBase
+    public class EnqueWebHookEvent : CommandBase
     {
-        public EnqueWebHooks(HookEventGroup g, object e)
-        {
-            // this.Flags.scheduled = true;
+        // public EnqueWebHookEvent(HookEventGroup g, object e)
+        // {
+        //     // this.Flags.scheduled = true;
 
-            EventGroup = g;
-            Event = e;
-        }
+        //     EventGroup = g;
+        //     Event = e;
+        // }
 
         public HookEventGroup EventGroup { get; set; }
         public object Event { get; set; }
@@ -28,7 +28,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command handler for <c>EnqueWebHooks</c>
     /// </summary>
-    public class EnqueWebHooksHandler : IRequestHandler<EnqueWebHooks, Unit>
+    public class EnqueWebHooksHandler : IRequestHandler<EnqueWebHookEvent, Unit>
     {
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for  <c>EnqueWebHooks</c>
+        /// Command handler for <c>EnqueWebHookEvent</c>
         /// </summary>
-        public async Task<Unit> Handle(EnqueWebHooks request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EnqueWebHookEvent request, CancellationToken cancellationToken)
         {
 
             if (request == null || request.Event == null)

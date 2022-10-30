@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "20043353-5cc7-4684-af21-8b126a1d8462",
+                            Guid = "afda4d86-4e8e-474d-965c-815685ebab14",
                             Name = "Undefined"
                         });
                 });
@@ -279,7 +279,6 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Exception")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Guid")
@@ -298,7 +297,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ResponseBody")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Result")

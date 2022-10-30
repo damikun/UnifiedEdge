@@ -2,7 +2,9 @@ using MediatR;
 using AutoMapper;
 using Persistence;
 using Server.Mqtt;
-using Microsoft.Extensions.Logging;
+using Domain.Server;
+using Aplication.CQRS.Commands;
+using Aplication.Webhooks.Events;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.Scheduler;
 
@@ -22,11 +24,6 @@ namespace Aplication.Events.Server
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Injected <c>ILogger</c>
-        /// </summary>
-        private readonly ILogger _logger;
-
-        /// <summary>
         /// Injected <c>IScheduler</c>
         /// </summary>
         private readonly IScheduler _scheduler;
@@ -38,13 +35,10 @@ namespace Aplication.Events.Server
 
 
         public Hook_MqttServerClientConnected_WebHook_Handler(
-            ILogger logger,
             IDbContextFactory<ManagmentDbCtx> factory,
             IScheduler scheduler,
             IMapper mapper)
         {
-            _logger = logger;
-
             _factory = factory;
 
             _scheduler = scheduler;
@@ -57,6 +51,23 @@ namespace Aplication.Events.Server
             CancellationToken cancellationToken
         )
         {
+            var DomianEvent = notification.ServerEvent;
+
+            var Payload = new Hook_Mqtt_ClientConnectedPayload()
+            {
+                ClientId = DomianEvent.ClientId,
+                ServerId = DomianEvent.UID
+            };
+
+            var HookEvent = new Hook_Mqtt_ClientConnected(Payload);
+
+            _scheduler.Enqueue(
+                new EnqueWebHookEvent()
+                {
+                    EventGroup = HookEventGroup.mqtt,
+                    Event = HookEvent
+                }
+            );
             await Task.CompletedTask;
         }
     }

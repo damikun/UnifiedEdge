@@ -1,15 +1,10 @@
 using Server;
 using MediatR;
-using AutoMapper;
 using Persistence;
 using Domain.Event;
-using Domain.Server;
-using Aplication.DTO;
 using Newtonsoft.Json;
-using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Events.Server
 {

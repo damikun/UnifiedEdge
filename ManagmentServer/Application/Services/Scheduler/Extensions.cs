@@ -26,9 +26,9 @@ namespace Aplication.Services.Scheduler
 
             services.AddHangfireServer();
 
-            services.AddScoped<ICommandHandler, CommandHandler>();
+            services.AddTransient<ICommandHandler, CommandHandler>();
 
-            services.AddScoped<IScheduler, Scheduler>();
+            services.AddTransient<IScheduler, Scheduler>();
 
             return services;
         }
