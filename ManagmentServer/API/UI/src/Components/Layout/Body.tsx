@@ -1,10 +1,17 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router";
 
-const Servers = lazy(
+const WebHook = lazy(
   () =>
     import(
-      /* webpackChunkName: "Servers" */ "../Servers/Servers"
+      /* webpackChunkName: "WebHook" */ "../WebHooks/WebHook/WebHook"
+    )
+);
+
+const WebHooks = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "WebHooks" */ "../WebHooks/WebHooks"
     )
 );
 
@@ -78,8 +85,9 @@ export default function Body(){
           <Route path="/Monitor/" element={<Monitor/>} />
           <Route path="/Monitor/Server/Mqtt/:id/*" element={<Server/>} />
           <Route path="/Monitor/Server/Opc/:id/*" element={<Server/>} />
-          <Route path="/Servers/*" element={<Servers/>} />
           <Route path="/Monitor/Adapter/:id/*" element={<Adapter/>} />
+          <Route path="/WebHooks/" element={<WebHooks/>} />
+          <Route path="/WebHooks/Hook/:id/*" element={<WebHook/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />

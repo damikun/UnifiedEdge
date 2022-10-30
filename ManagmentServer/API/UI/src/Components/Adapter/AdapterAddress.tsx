@@ -5,6 +5,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../UIComponents/Section/Section";
 import { AdapterAddressDataFragment$key } from "./__generated__/AdapterAddressDataFragment.graphql";
 
+
 export const AdapterAddressDataFragment = graphql`
   fragment AdapterAddressDataFragment on GQL_Adapter 
   {
@@ -108,8 +109,10 @@ function ValueArr({name,value}:ValueArrProps){
     <div className="font-semibold w-40">{`${name}:`}</div>
     <div className="flex flex-col space-y-1 font-mono">
       {
-        value?.map(e=>{
-          return <div className="truncate text-gray-600">{e}</div>
+        value?.map((e,i)=>{
+          return <div key={i} className="truncate text-gray-600">
+            {e}
+          </div>
         })
       }
     </div>

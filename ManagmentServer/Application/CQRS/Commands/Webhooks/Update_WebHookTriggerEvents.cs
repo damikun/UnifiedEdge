@@ -8,14 +8,12 @@ using FluentValidation;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
     /// Command for updating webhook Uri
     /// </summary>
-    [Authorize]
     public class UpdateWebHookTriggerGroups : CommandBase<DTO_WebHook>
     {
         public UpdateWebHookTriggerGroups()
@@ -45,7 +43,6 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             RuleFor(e => e.WebHookId)
-            .NotNull()
             .GreaterThan(0);
 
             RuleFor(e => e.HookGroups)

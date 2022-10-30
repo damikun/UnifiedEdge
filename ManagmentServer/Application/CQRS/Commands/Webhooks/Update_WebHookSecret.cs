@@ -22,7 +22,7 @@ namespace Aplication.CQRS.Commands
         public long WebHookId { get; set; }
 
         /// <summary> Secret </summary>
-        public string Secret { get; set; }
+        public string? Secret { get; set; }
     }
 
     //---------------------------------------
@@ -41,7 +41,6 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             RuleFor(e => e.WebHookId)
-            .NotNull()
             .GreaterThan(0);
 
             RuleFor(e => e.Secret)
@@ -108,7 +107,7 @@ namespace Aplication.CQRS.Commands
             .Where(e => e.Id == request.WebHookId)
             .FirstAsync(cancellationToken);
 
-            wh.Secret = request.Secret;
+            wh.Secret = string.IsNullOrWhiteSpace(request.Secret) ? null : request.Secret;
 
             await dbContext.SaveChangesAsync(cancellationToken);
 

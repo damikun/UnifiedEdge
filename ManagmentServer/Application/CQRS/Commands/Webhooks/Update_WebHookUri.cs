@@ -42,7 +42,6 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             RuleFor(e => e.WebHookId)
-            .NotNull()
             .GreaterThan(0);
 
             RuleFor(e => e.WebHookUrl)
@@ -86,7 +85,7 @@ namespace Aplication.CQRS.Commands
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.WebHooks.AnyAsync(e => e.WebHookUrl == request.WebHookUrl);
+            return !await dbContext.WebHooks.AnyAsync(e => e.WebHookUrl == request.WebHookUrl);
         }
     }
 

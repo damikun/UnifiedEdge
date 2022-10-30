@@ -1,7 +1,6 @@
 using MediatR;
 using AutoMapper;
 using Persistence;
-using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
@@ -26,10 +25,11 @@ namespace Aplication.CQRS.Queries
             long hook_id
         )
         {
+            Hook_id = hook_id;
             Arguments = arguments;
         }
 
-        public long hook_id { get; set; }
+        public long Hook_id { get; set; }
 
         public CursorArguments Arguments { get; init; }
     }
@@ -45,7 +45,7 @@ namespace Aplication.CQRS.Queries
     {
         public GetWebHookRecordsValidator()
         {
-            RuleFor(e => e.hook_id)
+            RuleFor(e => e.Hook_id)
             .GreaterThan(0);
         }
     }
@@ -107,7 +107,7 @@ namespace Aplication.CQRS.Queries
 
             var query = dbContext.WebHooksHistory
             .AsNoTracking()
-            .Where(e => e.WebHookID == request.hook_id)
+            .Where(e => e.WebHookID == request.Hook_id)
             .ProjectTo<DTO_WebHookRecord>(_mapper.ConfigurationProvider)
             .AsQueryable();
 

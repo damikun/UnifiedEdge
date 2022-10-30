@@ -22,6 +22,11 @@ namespace Domain.Server
         public WebHook WebHook { get; set; }
 
         /// <summary>
+        /// HookEventGroup
+        /// </summary>
+        public HookEventGroup HookEventGroup { get; set; }
+
+        /// <summary>
         /// Unique GUID
         /// </summary>
         public string Guid { get; set; }
@@ -72,4 +77,3 @@ namespace Domain.Server
         dataQueryError
     }
 }
-

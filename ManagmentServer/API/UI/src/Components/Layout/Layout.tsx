@@ -29,7 +29,7 @@ export default function Layout(){
 
             <MenuList state={isOpen}>
                 <MenuItem to="/Monitor" pattern="/Monitor/*" icon={faDesktop} name="Monitor" />
-                <MenuItem to="/Servers" icon={faServer} name="Servers" />
+                <MenuItem to="/WebHooks" pattern="/WebHooks/*" icon={faServer} name="WebHooks" />
                 <MenuItem to="/Connections" icon={faLink} name="Connections" />
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
                 <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" />

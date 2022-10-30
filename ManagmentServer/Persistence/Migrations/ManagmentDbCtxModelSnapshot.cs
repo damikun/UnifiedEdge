@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "b004b61a-a695-42c0-9fe9-aa7f00d8d002",
+                            Guid = "20043353-5cc7-4684-af21-8b126a1d8462",
                             Name = "Undefined"
                         });
                 });
@@ -211,10 +211,17 @@ namespace Persistence.Migrations
                     b.Property<string>("ContentType")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EventGroup")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("LastTrigger")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Secret")
@@ -223,11 +230,17 @@ namespace Persistence.Migrations
                     b.Property<string>("ServerUid")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("WebHookUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Uid");
 
                     b.ToTable("WebHooks");
                 });
@@ -272,6 +285,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Guid")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("HookEventGroup")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("RequestBody")
                         .IsRequired()
@@ -435,24 +451,6 @@ namespace Persistence.Migrations
                         .WithMany("Endpoints")
                         .HasForeignKey("ServerBaseID", "ServerBaseUID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Domain.Server.WebHook", b =>
-                {
-                    b.OwnsOne("System.Collections.Generic.HashSet<Domain.Server.HookEventGroup>", "EventGroup", b1 =>
-                        {
-                            b1.Property<long>("WebHookId")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("WebHookId");
-
-                            b1.ToTable("WebHooks");
-
-                            b1.WithOwner()
-                                .HasForeignKey("WebHookId");
-                        });
-
-                    b.Navigation("EventGroup");
                 });
 
             modelBuilder.Entity("Domain.Server.WebHookHeader", b =>

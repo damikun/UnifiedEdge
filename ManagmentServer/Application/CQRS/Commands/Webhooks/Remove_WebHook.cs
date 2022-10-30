@@ -37,7 +37,6 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             RuleFor(e => e.WebHookId)
-            .NotNull()
             .GreaterThan(0);
 
             RuleFor(e => e.WebHookId)

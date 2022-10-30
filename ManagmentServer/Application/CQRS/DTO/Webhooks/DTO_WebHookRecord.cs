@@ -29,6 +29,11 @@ namespace Aplication.DTO
         public RecordResult Result { get; set; }
 
         /// <summary>
+        /// HookEventGroup
+        /// </summary>
+        public HookEventGroup HookEventGroup { get; set; }
+
+        /// <summary>
         /// Response
         /// </summary>
         public int StatusCode { get; set; }

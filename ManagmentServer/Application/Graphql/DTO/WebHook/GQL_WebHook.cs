@@ -17,6 +17,16 @@ namespace Aplication.DTO
         public long Id { get; set; }
 
         /// <summary>
+        /// Uid 
+        /// </summary>
+        public string Uid { get; set; }
+
+        /// <summary>
+        /// Name 
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Webhook endpoint
         /// </summary>
         public string WebHookUrl { get; set; }
@@ -46,7 +56,7 @@ namespace Aplication.DTO
         /// <summary>
         /// EventGroup
         /// </summary>
-        public ICollection<HookEventGroup> EventGroup { get; set; }
+        public HashSet<HookEventGroup> EventGroup { get; set; }
 
         /// <summary>
         /// Timestamp of last hook trigger

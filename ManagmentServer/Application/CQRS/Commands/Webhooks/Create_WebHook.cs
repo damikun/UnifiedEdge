@@ -23,12 +23,18 @@ namespace Aplication.CQRS.Commands
             this.HookGroups = new HashSet<HookEventGroup>();
         }
 
+        /// <summary> Name </summary>
+        public string Name { get; set; }
+
         /// <summary> Url </summary>
         public string WebHookUrl { get; set; }
 
         /// <summary> Secret </summary>
 #nullable enable
         public string? Secret { get; set; }
+
+        /// <summary> ServerUid </summary>
+        public string? ServerUid { get; set; }
 #nullable disable
 
         /// <summary> IsActive </summary>
@@ -57,6 +63,11 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.WebHookUrl)
             .NotEmpty()
             .NotNull();
+
+            RuleFor(e => e.Name)
+            .NotEmpty()
+            .NotNull()
+            .MinimumLength(3);
 
             RuleFor(e => e.WebHookUrl)
             .Matches(Common.URI_REGEX)
@@ -159,7 +170,10 @@ namespace Aplication.CQRS.Commands
                 Secret = request.Secret,
                 ContentType = "application/json",
                 IsActive = request.IsActive,
-                EventGroup = request.HookGroups ?? new HashSet<HookEventGroup>()
+                EventGroup = request.HookGroups ?? new HashSet<HookEventGroup>(),
+                ServerUid = request.ServerUid,
+                Uid = UidHelper.GetNormalisedUid(),
+                Name = request.Name
             };
 
             dbContext.WebHooks.Add(hook);

@@ -5,6 +5,9 @@ export const is = {
   required: (message: string = "Field is required") => (value: any) =>
     isNullOrEmptyString(value) && message,
 
+  notUndefined: (message: string = "Field is required") => (value: any) =>
+    value !== undefined && message,
+
   minLength: (
     min: number,
     message: string = `Must have min ${min} characters`

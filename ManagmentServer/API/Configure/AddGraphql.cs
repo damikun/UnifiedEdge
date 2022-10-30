@@ -108,6 +108,9 @@ namespace API
                 .AddType<ScheduleStateEnumType>()
                 .AddType<SchedulerSuccessJobType>()
 
+                .AddType<WebHookRecordType>()
+                .AddType<WebHookType>()
+
                 .AddType<SystemEventType>()
                 .AddType<MqttServerStatsType>()
 

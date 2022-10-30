@@ -8,7 +8,12 @@ namespace Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<WebHook> builder)
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => new { e.Id });
+
+            builder.HasIndex(e => e.Uid);
+
+            builder.Property(e => e.Name)
+            .IsRequired();
 
             builder.HasMany(e => e.Headers)
             .WithOne(e => e.WebHook)
@@ -20,7 +25,15 @@ namespace Persistence.Configuration
             .HasForeignKey(e => e.WebHookID)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-            builder.OwnsOne(e => e.EventGroup);
+            builder.Property(e => e.EventGroup)
+            .HasConversion(
+                new EnumArrToString_StringToEnumArr_Converter(
+                    e => EnumArrToString_StringToEnumArr_Converter.Convert(e),
+                    s => EnumArrToString_StringToEnumArr_Converter.Convert(s)
+                )
+            );
+
+            // builder.OwnsOne(e => e.EventGroup);
 
         }
     }

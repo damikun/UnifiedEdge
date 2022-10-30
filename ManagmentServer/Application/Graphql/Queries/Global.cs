@@ -120,5 +120,35 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<Connection<GQL_WebHookRecord>>(result);
         }
+
+        public async Task<GQL_WebHook> GetWebHookById(
+            [ID] long hook_id,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new GetWebHookById(hook_id),
+                cancellationToken
+            );
+
+            return mapper.Map<GQL_WebHook>(result);
+        }
+
+        public async Task<GQL_WebHook> GetWebHookByUid(
+            string hook_uid,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new GetWebHookByUid(hook_uid),
+                cancellationToken
+            );
+
+            return mapper.Map<GQL_WebHook>(result);
+        }
     }
 }

@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -18,9 +18,12 @@ HTMLInputElement
 export function FormInput({icon,label,error,afterFieldComponent,flexOrientation = "flex-col",focusOnMount = false, ...rest}:FormInput){
   const ref = useRef<HTMLInputElement | null>(null);
 
+  const [focused, setFocused] = useState(false)
+
   useEffect(() => {
-    focusOnMount && ref.current && setTimeout(() => {
+    !focused && focusOnMount && ref.current && setTimeout(() => {
       if (ref.current) {
+        setFocused(true)
         ref.current?.focus();
       }
     }, 50);

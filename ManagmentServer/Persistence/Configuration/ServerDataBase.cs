@@ -16,7 +16,6 @@ namespace Persistence.Configuration
             .WithOne(e => e.Cfg)
             .HasPrincipalKey<ServerCfgBase>(e => e.ServerUID);
 
-            // builder.HasOne(e => e.Server).WithOne(e => e.Data);
         }
     }
 }

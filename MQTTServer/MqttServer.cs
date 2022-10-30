@@ -270,7 +270,7 @@ namespace Server.Mqtt
                 Stats.IncrementConnectionsCount();
 
                 this._publisher.PublishEvent(
-                    new ServerClientConnected()
+                    new MqttServerClientConnected()
                     {
                         ClientId = d.ClientId,
                         ConnectedAt = DateTime.Now,
@@ -287,7 +287,7 @@ namespace Server.Mqtt
                 Stats.DecrementConnectionsCount();
 
                 this._publisher.PublishEvent(
-                    new ServerClientDisconnected()
+                    new MqttServerClientDisconnected()
                     {
                         ClientId = d.ClientId,
                         UID = this.UID
@@ -313,7 +313,7 @@ namespace Server.Mqtt
                         if (!Stats.InbountTopicExist(d.ApplicationMessage.Topic))
                         {
                             this._publisher.PublishEvent(
-                                new ServerNewInboundTopic()
+                                new MqttServerNewInboundTopic()
                                 {
                                     UID = this.UID,
                                     Topic = d.ApplicationMessage.Topic

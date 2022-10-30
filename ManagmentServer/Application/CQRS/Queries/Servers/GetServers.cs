@@ -124,8 +124,6 @@ namespace Aplication.CQRS.Queries
                 cancellationToken
             );
 
-            var sss = cursor_data;
-
             return new DTO_Connection<IServer>()
             {
                 edges = cursor_data.edges,
