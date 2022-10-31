@@ -42,9 +42,24 @@ namespace Domain.Server
         public int StatusCode { get; set; }
 
         /// <summary>
-        /// Response json
+        /// Response body
         /// </summary>
         public string? ResponseBody { get; set; }
+
+        /// <summary>
+        /// ResponseContentType
+        /// </summary>
+        public string? ResponseContentType { get; set; }
+
+        /// <summary>
+        /// isJsonResponse
+        /// </summary>
+        public bool? isJsonResponse { get; set; }
+
+        /// <summary>
+        /// isTextHtmlResponse
+        /// </summary>
+        public bool? isTextHtmlResponse { get; set; }
 
         /// <summary>
         /// Request json
@@ -72,8 +87,8 @@ namespace Domain.Server
     {
         undefined = 0,
         ok,
-        parameter_error,
-        http_error,
-        dataQueryError
+        param,
+        http,
+        query
     }
 }

@@ -675,9 +675,12 @@ type GQL_WebHookRecord {
   guid: String!
   hookEventGroup: HookEventGroup!
   id: ID!
+  isJsonResponse: Boolean
+  isTextHtmlResponse: Boolean
   requestBody: String!
   requestHeaders: String!
-  responseBody: String!
+  responseBody: String
+  responseContentType: String
   result: RecordResult!
   statusCode: Int!
   timestamp: DateTime!
@@ -1165,9 +1168,9 @@ enum PlatformID {
 enum RecordResult {
   UNDEFINED
   OK
-  PARAMETER_ERROR
-  HTTP_ERROR
-  DATA_QUERY_ERROR
+  PARAM
+  HTTP
+  QUERY
 }
 
 enum ServerEventTypes {

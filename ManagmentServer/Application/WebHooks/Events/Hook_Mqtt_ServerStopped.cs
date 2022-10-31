@@ -9,6 +9,10 @@ namespace Aplication.Webhooks.Events
     public class Hook_Mqtt_ServerStopped
         : WebHookEventBase<MqttWebHookAction, Hook_Mqtt_ServerStoppedPayload>
     {
+        public Hook_Mqtt_ServerStopped()
+        {
+
+        }
 
         public Hook_Mqtt_ServerStopped(Hook_Mqtt_ServerStoppedPayload payload)
             : base(MqttWebHookAction.ServerStopped, payload)

@@ -41,7 +41,22 @@ namespace Aplication.DTO
         /// <summary>
         /// Response json
         /// </summary>
-        public string ResponseBody { get; set; }
+        public string? ResponseBody { get; set; }
+
+        /// <summary>
+        /// ResponseContentType
+        /// </summary>
+        public string? ResponseContentType { get; set; }
+
+        /// <summary>
+        /// isJsonResponse
+        /// </summary>
+        public bool? isJsonResponse { get; set; }
+
+        /// <summary>
+        /// isTextHtmlResponse
+        /// </summary>
+        public bool? isTextHtmlResponse { get; set; }
 
         /// <summary>
         /// Request json

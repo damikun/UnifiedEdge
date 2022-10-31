@@ -1,9 +1,9 @@
 using MediatR;
 using Aplication.Core;
-using System.Text.Json;
 using System.Reflection;
 using System.Diagnostics;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Aplication.Services.Scheduler
 {
@@ -35,7 +35,7 @@ namespace Aplication.Services.Scheduler
 
             if (type != null)
             {
-                dynamic req = DeserializeCommand(mediatorSerializedObject.Data, type);
+                dynamic? req = DeserializeCommand(mediatorSerializedObject.Data, type);
 
                 if (req != null)
                 {
@@ -86,11 +86,17 @@ namespace Aplication.Services.Scheduler
             return Unit.Value;
         }
 
-        private dynamic DeserializeCommand(string data, Type type)
+        private dynamic? DeserializeCommand(string data, Type type)
         {
             try
             {
-                return JsonSerializer.Deserialize(data, type);
+                var options = new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    TypeNameHandling = TypeNameHandling.All
+                };
+
+                return JsonConvert.DeserializeObject<dynamic>(data, options);
             }
             catch (Exception ex)
             {
@@ -103,7 +109,18 @@ namespace Aplication.Services.Scheduler
 
         public Task ExecuteCommand(string reuest)
         {
-            MediatorSerializedObject mediatorSerializedObject = JsonSerializer.Deserialize<MediatorSerializedObject>(reuest);
+            var options = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+
+            MediatorSerializedObject? mediatorSerializedObject = JsonConvert.DeserializeObject<MediatorSerializedObject>(reuest, options);
+
+            if (mediatorSerializedObject == null)
+            {
+                return Task.CompletedTask;
+            }
 
             return ExecuteCommand(mediatorSerializedObject);
         }

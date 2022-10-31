@@ -9,6 +9,10 @@ namespace Aplication.Webhooks.Events
     public class Hook_Mqtt_ClientDisconnected
         : WebHookEventBase<MqttWebHookAction, Hook_Mqtt_ClientDisconnectedPayload>
     {
+        public Hook_Mqtt_ClientDisconnected()
+        {
+
+        }
 
         public Hook_Mqtt_ClientDisconnected(Hook_Mqtt_ClientDisconnectedPayload payload)
             : base(MqttWebHookAction.ClientDisconnected, payload)

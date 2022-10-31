@@ -1,5 +1,5 @@
 {
-  "executable": "ManagmentUIAPI",
+  "executable": "API",
   "splashscreen": {
     "imageFile": ""
   },
@@ -8,7 +8,7 @@
     "127.0.0.1",
     "https://localhost:8003"
   ],
-  "name": "ManagmentUIAPI",
+  "name": "API",
   "author": "",
   "ignoreAllCertificateErrors":true,
   "singleInstance": false,

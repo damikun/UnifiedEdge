@@ -11,7 +11,6 @@ import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { WebHookRecordDetailQuery } from "./__generated__/WebHookRecordDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../Shared/Field/FieldHelpers";
 
-
 const WebHookRecordDetailTag = graphql`
   query WebHookRecordDetailQuery($record_id:ID!) {
     webHookRecordById(record_id: $record_id){
@@ -25,12 +24,16 @@ const WebHookRecordDetailTag = graphql`
       requestHeaders
       requestBody
       responseBody
+      isJsonResponse
+      isTextHtmlResponse
+      responseContentType
     }
   }
 `;
 
 export default function WebHookRecordDetail(){
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   var record_id = searchParams.get(RECORD_PARAM_NAME);
@@ -57,9 +60,13 @@ export default function WebHookRecordDetail(){
         <FieldSection className="items-center" name="Status">
           <StatusCodeSection status={data?.webHookRecordById.statusCode} />
         </FieldSection>
-        <FieldSection name="Trigger">{data.webHookRecordById.hookEventGroup}</FieldSection>
-        <FieldSection name="Timestamp">{dt}</FieldSection>
-        <FieldSection name="Hook Guid">
+        <FieldSection name="Trigger">
+          {data.webHookRecordById.hookEventGroup}
+        </FieldSection>
+        <FieldSection name="Timestamp">
+          {dt}
+        </FieldSection>
+        <FieldSection name="Record Uid">
           <div className="font-mono select-text">
             {data.webHookRecordById.guid}
           </div>
@@ -72,32 +79,49 @@ export default function WebHookRecordDetail(){
         <FieldSection variant="flex-col" name="Request headers">
           <JsonSection raw_json={data.webHookRecordById.requestHeaders}/>
         </FieldSection>
+
         {
-          data.webHookRecordById.requestBody && <FieldSection variant="flex-col" name="Request body">
-            <JsonSection raw_json={data.webHookRecordById.requestBody}/>
-          </FieldSection>
+          data.webHookRecordById.requestBody && <>
+            <FieldSection variant="flex-col" name="Request body">
+              <JsonSection raw_json={data.webHookRecordById.requestBody}/>
+            </FieldSection>
+          </>
         }
-        {/* {
-          data.webHookRecordById.responseBody && <FieldSection variant="flex-col" name="Response body">
-            <JsonSection raw_json={data.webHookRecordById.responseBody}/>
-          </FieldSection>
-        } */}
+
+        {
+          data.webHookRecordById.responseBody && 
+          (data.webHookRecordById.isJsonResponse || data.webHookRecordById.isTextHtmlResponse) && <>
+            <FieldDivider/>
+            <FieldSection className="font-mono" name="Response Type">
+              {data.webHookRecordById.responseContentType}
+            </FieldSection>
+            {
+              data.webHookRecordById.isJsonResponse && <>
+                <FieldSection variant="flex-col" name="Response body">
+                  <JsonSection raw_json={data.webHookRecordById.responseBody}/>
+                </FieldSection>
+              </>
+            }
+            {
+              data.webHookRecordById.isTextHtmlResponse && <>
+                <FieldSection variant="flex-col" name="Response body">
+                  <HtmlSection raw_html={data.webHookRecordById.responseBody}/>
+                </FieldSection>
+              </>
+            }
+          </>
+        }
 
       </FieldGroup>
    
-      {data.webHookRecordById.exception && (
-        <FieldGroup>
+      {data.webHookRecordById.exception && <>
           <FieldDivider/>
           <FieldSection
-            className={clsx("border p-2 lg:p-5 bg-gray-800 text-sm",
-            "text-white text font-mono rounded")}
-            variant="flex-col"
-            multiline
-            name="Exception">
-              {data?.webHookRecordById.exception}
+            name="Exception"
+            variant="flex-col">
+              <ExceptionSection exception={data.webHookRecordById.exception}/>
           </FieldSection>
-        </FieldGroup>
-        )
+        </>
       }
     </div>
   </ModalContainer>
@@ -151,7 +175,8 @@ function JsonSection({ raw_json }: JsonSectionProps) {
 
   return (
     <FieldGroup className="w-full">
-      <div className="rounded-md p-3 bg-gray-100 shadow-sm border border-gray-300 w-full">
+      <div className={clsx("rounded-md p-3 bg-gray-100",
+        "shadow-sm border border-gray-300 w-full")}>
         <div className={clsx("flex overflow-hidden overflow-y-auto",
         "text-xs h-full break-all flex-wrap max-w-full")}>
           <JsonViewer 
@@ -167,3 +192,53 @@ function JsonSection({ raw_json }: JsonSectionProps) {
     </FieldGroup>
   );
 }
+
+
+// -------------------------------
+
+type HtmlSectionProps = {
+  raw_html: string | null | undefined;
+};
+
+function HtmlSection({ raw_html }: HtmlSectionProps) {
+
+  if (raw_html === null || raw_html ===undefined) {
+    return <></>;
+  }
+
+
+  return (
+    <div className={clsx("flex w-full h-full max-h-96 overflow-y-scroll",
+      "overflow-x-hidden border border-gray-200 shadow-sm",
+      "p-2 md:p-5 bg-gray-900 text-white rounded-md")}>
+      <div className="break-all whitespace-pre-wrap font-mono">
+        {raw_html}
+      </div>
+    </div>
+  );
+} 
+
+// ---------------------------------
+
+
+type ExceptionSectionProps = {
+  exception: string | null | undefined;
+};
+
+function ExceptionSection({ exception }: ExceptionSectionProps) {
+
+  if (exception === null || exception ===undefined) {
+    return <></>;
+  }
+
+
+  return (
+    <div className={clsx("flex w-full h-full max-h-96 overflow-y-scroll",
+      "overflow-x-hidden border border-gray-200 shadow-sm",
+      "p-2 md:p-5 bg-gray-900 text-white rounded-md")}>
+      <div className="break-all whitespace-pre-wrap font-mono">
+        {exception}
+      </div>
+    </div>
+  );
+} 

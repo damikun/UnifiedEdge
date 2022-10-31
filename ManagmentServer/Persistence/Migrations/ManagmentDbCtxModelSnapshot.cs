@@ -53,7 +53,7 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "afda4d86-4e8e-474d-965c-815685ebab14",
+                            Guid = "3fe38afc-e85b-406f-a99f-55ac44d018a3",
                             Name = "Undefined"
                         });
                 });
@@ -299,6 +299,9 @@ namespace Persistence.Migrations
                     b.Property<string>("ResponseBody")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ResponseContentType")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Result")
                         .HasColumnType("INTEGER");
 
@@ -309,6 +312,12 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<long>("WebHookID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isJsonResponse")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("isTextHtmlResponse")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

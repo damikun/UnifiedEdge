@@ -9,6 +9,10 @@ namespace Aplication.Webhooks.Events
     public class Hook_System_Started
         : WebHookEventBase<SystemWebHookAction, Hook_System_StartedPayload>
     {
+        public Hook_System_Started()
+        {
+
+        }
 
         public Hook_System_Started(Hook_System_StartedPayload payload)
             : base(SystemWebHookAction.EdgeStarted, payload)

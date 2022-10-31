@@ -6,7 +6,6 @@ using Aplication.Core;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Aplication.CQRS.Commands
 {
 
@@ -75,7 +74,7 @@ namespace Aplication.CQRS.Commands
 
             if (request == null || request.HookId <= 0)
             {
-                record.Result = RecordResult.parameter_error;
+                record.Result = RecordResult.param;
             }
 
             await using ManagmentDbCtx dbContext =
@@ -89,13 +88,20 @@ namespace Aplication.CQRS.Commands
                 try
                 {
                     hook = await dbContext.WebHooks
-                        .Where(e => e.Id == request.HookId)
-                        .FirstOrDefaultAsync(cancellationToken);
+                    .Where(e => e.Id == request.HookId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                    if (hook != null)
+                    {
+                        hook.LastTrigger = DateTime.Now;
+
+                        await dbContext.SaveChangesAsync(cancellationToken);
+                    }
 
                 }
                 catch (Exception ex)
                 {
-                    record.Result = RecordResult.dataQueryError;
+                    record.Result = RecordResult.query;
                     record.Exception = ex.ToString();
 
                     return Unit.Value;
@@ -103,7 +109,6 @@ namespace Aplication.CQRS.Commands
 
                 if (hook != null)
                 {
-
                     var options = new JsonSerializerOptions
                     {
                         WriteIndented = true,
@@ -155,9 +160,29 @@ namespace Aplication.CQRS.Commands
                             {
                                 record.StatusCode = (int)httpResponse.StatusCode;
 
+                                if (httpResponse.Content.Headers != null && httpResponse.Content.Headers.Any())
+                                {
+                                    if (httpResponse.Content.Headers.ContentType != null)
+                                    {
+                                        record.ResponseContentType = httpResponse.Content.Headers.ContentType.MediaType;
+
+                                        if (httpResponse.Content.Headers.ContentType.MediaType != null)
+                                            record.isJsonResponse = httpResponse.Content.Headers.ContentType.MediaType
+                                                .Equals("application/json", StringComparison.OrdinalIgnoreCase);
+
+                                        if (httpResponse.Content.Headers.ContentType.MediaType != null)
+                                            record.isTextHtmlResponse = httpResponse.Content.Headers.ContentType.MediaType
+                                                .Equals("text/html", StringComparison.OrdinalIgnoreCase);
+                                    }
+                                }
+
                                 if (httpResponse.Content != null)
                                 {
-                                    record.ResponseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+                                    try
+                                    {
+                                        record.ResponseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+                                    }
+                                    catch { }
                                 }
                             }
 
@@ -165,18 +190,18 @@ namespace Aplication.CQRS.Commands
                         }
                         catch (Exception ex)
                         {
-                            record.Result = RecordResult.http_error;
+                            record.Result = RecordResult.http;
                             record.Exception = ex.ToString();
                         }
                     }
                     else
                     {
-                        record.Result = RecordResult.parameter_error;
+                        record.Result = RecordResult.param;
                     }
                 }
                 else
                 {
-                    record.Result = RecordResult.parameter_error;
+                    record.Result = RecordResult.param;
                 }
 
             }

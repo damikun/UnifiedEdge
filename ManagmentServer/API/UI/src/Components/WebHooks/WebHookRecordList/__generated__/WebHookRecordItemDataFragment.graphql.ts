@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<33a70073bf41f4bd233cdf6a439925c4>>
+ * @generated SignedSource<<f07bb69bed58a8630b133a3ef23d067e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 export type HookEventGroup = "MQTT" | "OPC" | "S7" | "SYSTEM" | "%future added value";
-export type RecordResult = "DATA_QUERY_ERROR" | "HTTP_ERROR" | "OK" | "PARAMETER_ERROR" | "UNDEFINED" | "%future added value";
+export type RecordResult = "HTTP" | "OK" | "PARAM" | "QUERY" | "UNDEFINED" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type WebHookRecordItemDataFragment$data = {
   readonly guid: string;

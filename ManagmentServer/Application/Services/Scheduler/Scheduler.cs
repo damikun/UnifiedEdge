@@ -241,8 +241,9 @@ namespace Aplication.Services.Scheduler
 
             string data = JsonConvert.SerializeObject(mediatorObject, new JsonSerializerSettings
             {
-                Formatting = Formatting.None,
-                TypeNameHandling = TypeNameHandling.All
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All,
+                MaxDepth = null
             });
 
             return new MediatorSerializedObject(data, description, fullTypeName);

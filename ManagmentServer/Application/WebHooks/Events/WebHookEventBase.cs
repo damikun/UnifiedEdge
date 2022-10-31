@@ -13,26 +13,21 @@ namespace Aplication.Webhooks.Events
         : IWebHookEventBase where T : System.Enum
     {
 
+        public WebHookEventBase()
+        {
+            // Empty constructor is required because of serialization
+        }
+
         public WebHookEventBase(T action, U payload)
         {
-            this._action = action;
-            this._payload = payload;
+            this.Action = action;
+            this.Payload = payload;
         }
 
         public string Name { get { return this.GetType().Name; } }
 
-        private T _action { get; set; }
-
-        private U _payload { get; set; }
-
-        public string Action
-        {
-            get { return _action.ToString(); }
-        }
-        public U Payload
-        {
-            get { return _payload; }
-        }
+        public T Action { get; set; }
+        public U Payload { get; set; }
 
         public DateTime timeStamp { get; set; } = DateTime.Now;
     }

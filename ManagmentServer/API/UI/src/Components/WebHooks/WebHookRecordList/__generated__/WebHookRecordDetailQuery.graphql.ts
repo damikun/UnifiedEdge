@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c6ab0d221761bf63afccb06b869011f>>
+ * @generated SignedSource<<71e82690d70db49246ebd6c16bc0bf73>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type HookEventGroup = "MQTT" | "OPC" | "S7" | "SYSTEM" | "%future added value";
-export type RecordResult = "DATA_QUERY_ERROR" | "HTTP_ERROR" | "OK" | "PARAMETER_ERROR" | "UNDEFINED" | "%future added value";
+export type RecordResult = "HTTP" | "OK" | "PARAM" | "QUERY" | "UNDEFINED" | "%future added value";
 export type WebHookRecordDetailQuery$variables = {
   record_id: string;
 };
@@ -20,9 +20,12 @@ export type WebHookRecordDetailQuery$data = {
     readonly guid: string;
     readonly hookEventGroup: HookEventGroup;
     readonly id: string;
+    readonly isJsonResponse: boolean | null;
+    readonly isTextHtmlResponse: boolean | null;
     readonly requestBody: string;
     readonly requestHeaders: string;
-    readonly responseBody: string;
+    readonly responseBody: string | null;
+    readonly responseContentType: string | null;
     readonly result: RecordResult;
     readonly statusCode: number;
     readonly timestamp: any;
@@ -125,6 +128,27 @@ v1 = [
         "kind": "ScalarField",
         "name": "responseBody",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "isJsonResponse",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "isTextHtmlResponse",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "responseContentType",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -148,16 +172,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "901358a887f7c23e556bd87d0ffa8bd1",
+    "cacheID": "7032f311b8d1338848354bf8f9f2d81e",
     "id": null,
     "metadata": {},
     "name": "WebHookRecordDetailQuery",
     "operationKind": "query",
-    "text": "query WebHookRecordDetailQuery(\n  $record_id: ID!\n) {\n  webHookRecordById(record_id: $record_id) {\n    id\n    statusCode\n    timestamp\n    hookEventGroup\n    guid\n    result\n    exception\n    requestHeaders\n    requestBody\n    responseBody\n  }\n}\n"
+    "text": "query WebHookRecordDetailQuery(\n  $record_id: ID!\n) {\n  webHookRecordById(record_id: $record_id) {\n    id\n    statusCode\n    timestamp\n    hookEventGroup\n    guid\n    result\n    exception\n    requestHeaders\n    requestBody\n    responseBody\n    isJsonResponse\n    isTextHtmlResponse\n    responseContentType\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "422d2344ea609285e7c22f6127c4a842";
+(node as any).hash = "7917cb14bf4aea22aa3b34744e13e6a4";
 
 export default node;

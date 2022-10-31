@@ -213,6 +213,9 @@ namespace Persistence.Migrations
                     Result = table.Column<int>(type: "INTEGER", nullable: false),
                     StatusCode = table.Column<int>(type: "INTEGER", nullable: false),
                     ResponseBody = table.Column<string>(type: "TEXT", nullable: true),
+                    ResponseContentType = table.Column<string>(type: "TEXT", nullable: true),
+                    isJsonResponse = table.Column<bool>(type: "INTEGER", nullable: true),
+                    isTextHtmlResponse = table.Column<bool>(type: "INTEGER", nullable: true),
                     RequestBody = table.Column<string>(type: "TEXT", nullable: false),
                     RequestHeaders = table.Column<string>(type: "TEXT", nullable: false),
                     Exception = table.Column<string>(type: "TEXT", nullable: true),
@@ -289,7 +292,7 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "afda4d86-4e8e-474d-965c-815685ebab14", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "3fe38afc-e85b-406f-a99f-55ac44d018a3", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
