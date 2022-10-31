@@ -41,7 +41,7 @@ namespace API
 
             services.AddGraphqlPortal(Environment);
 
-            services.AddGraphqlPortal(Environment);
+            services.AddGraphqlPublic(Environment);
 
             services.AddRuntimeService();
 
