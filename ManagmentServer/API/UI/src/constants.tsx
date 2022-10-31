@@ -15,7 +15,7 @@ export const BASE_SERVER_URL =
 
 /*-----------------------------------------------------------------------*/
 
-export const GQL_ENDPOINT = "graphql";
+export const GQL_ENDPOINT = "internal";
 
 export const LOGIN_ENDPOINT = `${BASE_SERVER_URL}/system/login`;
 

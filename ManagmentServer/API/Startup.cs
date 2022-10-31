@@ -39,7 +39,9 @@ namespace API
 
             services.AddHealthChecks();
 
-            services.AddGraphql(Environment);
+            services.AddGraphqlPortal(Environment);
+
+            services.AddGraphqlPortal(Environment);
 
             services.AddRuntimeService();
 
@@ -133,7 +135,9 @@ namespace API
             {
                 endpoints.MapControllers();
 
-                endpoints.MapGraphQLEndpoint();
+                endpoints.MapInternalGraphQLEndpoint();
+
+                endpoints.MapPublicGraphQLEndpoint();
 
                 endpoints.MapBCPEndpoint();
 

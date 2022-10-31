@@ -17,7 +17,7 @@ namespace API
 {
     public static partial class ServiceExtension
     {
-        private const string Endpoint_path = "/graphql";
+        private const string Endpoint_path = "/internal";
         private const string BCP_path = "/bcp";
         private const string Voyager_path = "/voyager";
         private const string GA_Tracking = null;
@@ -25,11 +25,11 @@ namespace API
 
         //--------------------------------------------------
 
-        public static IServiceCollection AddGraphql(
+        public static IServiceCollection AddGraphqlPortal(
             this IServiceCollection serviceCollection,
             IWebHostEnvironment env)
         {
-            serviceCollection.AddGraphQLServer()
+            serviceCollection.AddGraphQLServer("internal")
                 .SetPagingOptions(
                     new PagingOptions
                     {
@@ -194,12 +194,12 @@ namespace API
 
         //--------------------------------------------------
 
-        public static GraphQLEndpointConventionBuilder MapGraphQLEndpoint(
+        public static GraphQLEndpointConventionBuilder MapInternalGraphQLEndpoint(
             this IEndpointRouteBuilder builder)
         {
             var env = builder.ServiceProvider.GetService<IWebHostEnvironment>();
 
-            return builder.MapGraphQL()
+            return builder.MapGraphQL(Endpoint_path, "internal")
             .WithOptions(new GraphQLServerOptions
             {
 
