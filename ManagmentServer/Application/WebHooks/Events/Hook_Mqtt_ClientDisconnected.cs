@@ -6,6 +6,7 @@ namespace Aplication.Webhooks.Events
     /// <summary>
     /// Hook_Mqtt_ClientDisconnected
     /// </summary>
+    [Serializable]
     public class Hook_Mqtt_ClientDisconnected
         : WebHookEventBase<MqttWebHookAction, Hook_Mqtt_ClientDisconnectedPayload>
     {

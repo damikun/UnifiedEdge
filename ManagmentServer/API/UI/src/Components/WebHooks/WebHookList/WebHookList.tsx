@@ -88,7 +88,7 @@ function WebHookListHeader({}:WebHookListHeaderProps){
     <tr className="w-6/12 2xl:w-7/12 hidden lg:flex">
       <th>Url</th>
     </tr>
-    <tr className="w-3/12 2xl:w-2/12 justify-center">
+    <tr className="w-3/12 2xl:w-2/12 justify-start">
       <th>Last run</th>
     </tr>
   </thead>

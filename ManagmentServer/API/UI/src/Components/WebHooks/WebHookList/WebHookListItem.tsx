@@ -58,7 +58,8 @@ export function WebHookListItem({dataRef, key_}:WebHookListItemProps){
     "text-center cursor-pointer py-2 hover:bg-gray-200 hover:bg-opacity-40",
     "rounded-sm hover:shadow-sm px-2 md:px-5 justify-between lg:justify-start")}>
     <tr className="flex w-3/12 items-center">
-      <td className="truncate break-all font-sans text-gray-700 font-semibold text-sm">
+      <td className={clsx("truncate break-all font-sans text-gray-700",
+      "font-semibold text-sm capitalize")}>
         {data?.name}
       </td>
     </tr>
@@ -67,9 +68,11 @@ export function WebHookListItem({dataRef, key_}:WebHookListItemProps){
         {data?.webHookUrl}
       </td>
     </tr>
-    <tr className="w-3/12 2xl:w-2/12 justify-center items-center">
-      <td>
-        {dt}
+    <tr className="flex w-3/12 2xl:w-2/12 justify-start items-center">
+      <td className="flex max-w-full break-all">
+        <div className="truncate">
+          {dt}
+        </div>
       </td>
     </tr>
   </tbody>
