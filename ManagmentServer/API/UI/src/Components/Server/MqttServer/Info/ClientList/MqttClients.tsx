@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import MqttClientDetail from "./MqttClientDetail";
 import { MqttClientItem } from "./MqttClientItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
@@ -154,8 +155,7 @@ function MqttClients({dataRef}:MqttClientsProps) {
           isOpen={isOpen}
           onClose={handleModalClose}
           component={
-            <div>Future modal</div>
-            // <SystemLogDetail />
+            <MqttClientDetail />
           }
         />
         <div className={clsx("flex bg-gray-100 flex-col w-full",

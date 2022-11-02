@@ -135,7 +135,6 @@ namespace Aplication.CQRS.Queries
 
             var clients = await manager.GetClients(request.server_uid);
 
-
             var client = clients
             .Where(e => e.Uid == request.server_client_uid)
             .FirstOrDefault();

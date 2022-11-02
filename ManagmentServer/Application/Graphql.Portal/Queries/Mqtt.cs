@@ -88,7 +88,7 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<GQL_MqttClientSession>(result);
         }
 
-        public async Task<GQL_MqttClientStatistics> GetMqttServerClientStatistic(
+        public async Task<GQL_MqttClientStatistics?> GetMqttServerClientStatistic(
             [ID] string server_uid,
             [ID] string server_client_uid,
             [Service] IMediator mediator,

@@ -40,7 +40,7 @@ namespace API
             services.AddHealthChecks();
 
             services.AddGraphqlPortal(Environment);
-
+ 
             services.AddGraphqlPublic(Environment);
 
             services.AddRuntimeService();
