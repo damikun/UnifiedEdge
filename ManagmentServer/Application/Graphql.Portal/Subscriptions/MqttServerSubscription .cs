@@ -2,6 +2,7 @@ using AutoMapper;
 using Server.Mqtt.DTO;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
+using Server.Mqtt;
 
 namespace Aplication.Graphql.Queries
 {
@@ -59,6 +60,19 @@ namespace Aplication.Graphql.Queries
             var topic = $"EdgeMqttServer.{server_id}.NewInboundTopic";
 
             return receiver.SubscribeAsync<string, GQL_MqttNewInboundTopic>(topic);
+        }
+
+        [SubscribeAndResolve]
+        public ValueTask<ISourceStream<GQL_MqttClientStatsUpdate>> MqttServerClientStatistics(
+            [ID] string server_id,
+            [ID] string client_id,
+            [Service] ITopicEventReceiver receiver
+        )
+        {
+            //EdgeMqttServer.e3680052bcdb4ccf8034ee6856d88448.Client.dsdsdsdsds.Statistics
+            var topic = $"EdgeMqttServer.{server_id}.Client.{client_id}.Statistics";
+
+            return receiver.SubscribeAsync<string, GQL_MqttClientStatsUpdate>(topic);
         }
     }
 }

@@ -3,10 +3,12 @@ using Server.Mqtt.DTO;
 
 namespace Server.Manager.Mqtt
 {
-    public class MqttServerManager : ServerManager<EdgeMqttServer>, IMqttServerManager
+    public class MqttServerManager
+        : ServerManager<EdgeMqttServer>, IMqttServerManager
     {
 
         public readonly IServerEventPublisher _event_publisher;
+
 
         public MqttServerManager(
             IEndpointService endpoint,
@@ -87,7 +89,7 @@ namespace Server.Manager.Mqtt
             {
                 try
                 {
-                    var stats = mqtt_server.Stats;
+                    var stats = mqtt_server.ServerStats;
 
                     return new DTO_MqttServerStats()
                     {
@@ -181,7 +183,7 @@ namespace Server.Manager.Mqtt
             {
                 try
                 {
-                    var pulished_topics = mqtt_server.Stats.PublishedTopics;
+                    var pulished_topics = mqtt_server.ServerStats.PublishedTopics;
 
                     return pulished_topics.Select(e => new DTO_MqttServerTopicStat()
                     {

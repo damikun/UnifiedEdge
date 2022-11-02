@@ -138,6 +138,8 @@ namespace API
                 .AddType<AdapterStateEnumType>()
                 .AddType<AdapterInterfaceEnumType>()
 
+                .AddType<MqttClientStatsUpdateType>()
+
                 .AddType<AdapterLogType>()
                 .AddType<RemoveServerPayloadType>()
                 .AddType<UserType>()

@@ -1,14 +1,16 @@
 import clsx from "clsx";
-import { useMemo } from "react";
-import { useLazyLoadQuery } from "react-relay";
+import { useMemo, useState } from "react";
 import { JsonViewer } from "@textea/json-viewer";
 import { CLIENT_PARAM_NAME } from "./MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
+import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import Badge from "../../../../../UIComponents/Badged/Badge";
 import { useParams, useSearchParams } from "react-router-dom";
+import { useLazyLoadQuery, useSubscription } from "react-relay";
 import { MqttClientDetailQuery } from "./__generated__/MqttClientDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
+import { MqttClientDetailSubscription } from "./__generated__/MqttClientDetailSubscription.graphql";
 
 
 const MqttClientDetailTag = graphql`
@@ -26,6 +28,7 @@ const MqttClientDetailTag = graphql`
         server_uid:$server_uid,
         server_client_uid: $server_client_uid) {
 
+            id
             bytesReceived
             bytesSent
 
@@ -42,13 +45,44 @@ const MqttClientDetailTag = graphql`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const MqttClientDetailSubscriptionTag = graphql`
+    subscription MqttClientDetailSubscription(
+      $server_id:ID!,
+      $client_id:ID!,
+    ) {
+      mqttServerClientStatistics(server_id:$server_id, client_id:$client_id){
+        clientId
+        serverId
+
+        stats {
+            id
+            bytesReceived
+            bytesSent
+
+            sentPacketsCount
+            receivedPacketsCount
+
+            sentApplicationMessagesCount
+            receivedApplicationMessagesCount
+
+            lastNonKeepAlivePacketReceivedTimestamp
+            lastPacketReceivedTimestamp
+            lastPacketSentTimestamp
+        }
+      }
+    }
+`;
+
 export default function MqttClientDetail(){
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { id }: any = useParams<string>();
-  var client_id = searchParams.get(CLIENT_PARAM_NAME) as string;
+
+  const [server_id] = useState(id)
+  const [client_id] = useState(searchParams.get(CLIENT_PARAM_NAME) as string)
 
   const data = useLazyLoadQuery<MqttClientDetailQuery>(
     MqttClientDetailTag,
@@ -60,6 +94,23 @@ export default function MqttClientDetail(){
       fetchKey:"webhookRecordDetailFetchKey"
     },
   );
+
+  const data_sub = useMemo(() => ({
+    variables: {
+      client_id:client_id,
+      server_id:server_id
+    },
+    subscription:MqttClientDetailSubscriptionTag,
+    updater: (store,element) => { 
+
+    },
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<MqttClientDetailSubscription>), [client_id,server_id]);
+
+  useSubscription<MqttClientDetailSubscription>(data_sub);
+
 
   const dt_lastPacketSentTimestamp = useMemo(()=>{
     return GetLocalDate(data?.mqttServerClientStatistic?.lastPacketSentTimestamp);
@@ -101,14 +152,14 @@ export default function MqttClientDetail(){
                 <FieldDivider/>
 
                 <FieldGroup>
-                    <FieldSection variant="flex-col" name="Last send">
+                    <FieldSection variant="flex-row" name="Last message">
+                        {dt_lastNonKeepAlivePacketReceivedTimestamp}
+                    </FieldSection>
+                    <FieldSection variant="flex-row" name="Last packet send">
                         {dt_lastPacketSentTimestamp}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Last rcv">
+                    <FieldSection variant="flex-row" name="Last packet rcv">
                         {dt_lastPacketReceivedTimestamp}
-                    </FieldSection>
-                    <FieldSection variant="flex-col" name="Last message">
-                        {dt_lastNonKeepAlivePacketReceivedTimestamp}
                     </FieldSection>
                 </FieldGroup>
             </>
@@ -120,22 +171,22 @@ export default function MqttClientDetail(){
                 <FieldDivider/>
 
                 <FieldGroup>
-                    <FieldSection variant="flex-col" name="Messages send">
+                    <FieldSection variant="flex-row" name="Messages send">
                         {data.mqttServerClientStatistic.sentApplicationMessagesCount}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Messages rcvd">
+                    <FieldSection variant="flex-row" name="Messages rcvd">
                         {data.mqttServerClientStatistic.receivedApplicationMessagesCount}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Packets send">
+                    <FieldSection variant="flex-row" name="Packets send">
                         {data.mqttServerClientStatistic.sentPacketsCount}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Packets rcvd">
+                    <FieldSection variant="flex-row" name="Packets rcvd">
                         {data.mqttServerClientStatistic.receivedPacketsCount}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Bytes send">
+                    <FieldSection variant="flex-row" name="Bytes send">
                         {data.mqttServerClientStatistic.bytesSent}
                     </FieldSection>
-                    <FieldSection variant="flex-col" name="Bytes rcv">
+                    <FieldSection variant="flex-row" name="Bytes rcv">
                         {data.mqttServerClientStatistic.bytesReceived}
                     </FieldSection>
                 </FieldGroup>

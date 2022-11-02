@@ -26,7 +26,7 @@ namespace Server.Mqtt
 
         public override string MeterName => Meter.MeterName;
 
-        public readonly MqttServerStats Stats = new MqttServerStats();
+        public readonly MqttServerStats ServerStats = new MqttServerStats();
 
         public EdgeMqttServer(
             IServerCfg cfg,
@@ -70,21 +70,8 @@ namespace Server.Mqtt
 
                     return client_list
                     .Where(e => e != null && e.Session != null)
-                    .Select(e => new DTO_MqttClientStatistics()
-                    {
-                        ClientUid = e.Id,
-                        ServerUid = this.UID,
-                        SentPacketsCount = e.SentPacketsCount,
-                        ReceivedPacketsCount = e.ReceivedPacketsCount,
-                        SentApplicationMessagesCount = e.SentApplicationMessagesCount,
-                        ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
-                        BytesSent = e.BytesSent,
-                        BytesReceived = e.BytesReceived,
-                        LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
-                        ConnectedTimestamp = e.ConnectedTimestamp,
-                        LastPacketSentTimestamp = e.LastPacketSentTimestamp,
-                        LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
-                    }).ToList();
+                    .Select(e => MapStatusToStatusDto(e))
+                    .ToList();
 
                 }
                 catch { }
@@ -103,21 +90,8 @@ namespace Server.Mqtt
 
                     return client_list
                     .Where(e => e != null && e.Session != null && e.Id == client_uid)
-                    .Select(e => new DTO_MqttClientStatistics()
-                    {
-                        ClientUid = e.Id,
-                        ServerUid = this.UID,
-                        SentPacketsCount = e.SentPacketsCount,
-                        ReceivedPacketsCount = e.ReceivedPacketsCount,
-                        SentApplicationMessagesCount = e.SentApplicationMessagesCount,
-                        ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
-                        BytesSent = e.BytesSent,
-                        BytesReceived = e.BytesReceived,
-                        LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
-                        ConnectedTimestamp = e.ConnectedTimestamp,
-                        LastPacketSentTimestamp = e.LastPacketSentTimestamp,
-                        LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
-                    }).FirstOrDefault();
+                    .Select(e => MapStatusToStatusDto(e))
+                    .FirstOrDefault();
 
                 }
                 catch { }
@@ -151,7 +125,7 @@ namespace Server.Mqtt
 
         public ICollection<string> GetPublishedTopics()
         {
-            return Stats.PublishedTopics.Select(e => e.Key).ToList();
+            return ServerStats.PublishedTopics.Select(e => e.Key).ToList();
         }
 
         public async Task<IList<DTO_MqttClientSession>> GetServerSessions()
@@ -267,7 +241,7 @@ namespace Server.Mqtt
         {
             server.ClientConnectedAsync += (d) =>
             {
-                Stats.IncrementConnectionsCount();
+                ServerStats.IncrementConnectionsCount();
 
                 this._publisher.PublishEvent(
                     new MqttServerClientConnected()
@@ -284,7 +258,7 @@ namespace Server.Mqtt
 
             server.ClientDisconnectedAsync += (d) =>
             {
-                Stats.DecrementConnectionsCount();
+                ServerStats.DecrementConnectionsCount();
 
                 this._publisher.PublishEvent(
                     new MqttServerClientDisconnected()
@@ -300,7 +274,7 @@ namespace Server.Mqtt
 
             server.ApplicationMessageNotConsumedAsync += (d) =>
             {
-                Stats.IncrementNotConsumedCount();
+                ServerStats.IncrementNotConsumedCount();
                 return Task.CompletedTask;
             };
 
@@ -310,7 +284,7 @@ namespace Server.Mqtt
                 {
                     try
                     {
-                        if (!Stats.InbountTopicExist(d.ApplicationMessage.Topic))
+                        if (!ServerStats.InbountTopicExist(d.ApplicationMessage.Topic))
                         {
                             this._publisher.PublishEvent(
                                 new MqttServerNewInboundTopic()
@@ -323,7 +297,7 @@ namespace Server.Mqtt
                     }
                     catch { }
 
-                    Stats.RecordInboundTopic(d.ApplicationMessage.Topic);
+                    ServerStats.RecordInboundTopic(d.ApplicationMessage.Topic);
                 }
 
 
@@ -332,18 +306,18 @@ namespace Server.Mqtt
 
             server.ClientSubscribedTopicAsync += (d) =>
             {
-                Stats.IncrementSubscriptionsCount();
+                ServerStats.IncrementSubscriptionsCount();
 
-                Stats.RecordTopicSubscribed(d.TopicFilter.Topic);
+                ServerStats.RecordTopicSubscribed(d.TopicFilter.Topic);
 
                 return Task.CompletedTask;
             };
 
             server.ClientUnsubscribedTopicAsync += (d) =>
             {
-                Stats.DecremenSubscriptionsCount();
+                ServerStats.DecremenSubscriptionsCount();
 
-                Stats.RecordTopicUnsubscibed(d.TopicFilter);
+                ServerStats.RecordTopicUnsubscibed(d.TopicFilter);
 
                 return Task.CompletedTask;
             };
@@ -362,7 +336,7 @@ namespace Server.Mqtt
 
             server.StoppedAsync += (d) =>
             {
-                Stats.ResetStats();
+                ServerStats.ResetStats();
 
                 this._publisher.PublishEvent(
                     new ServerStopped()
@@ -376,13 +350,13 @@ namespace Server.Mqtt
 
             server.InterceptingInboundPacketAsync += (d) =>
             {
-                Stats.IncrementRcvCount();
+                ServerStats.IncrementRcvCount();
                 return Task.CompletedTask;
             };
 
             server.InterceptingOutboundPacketAsync += (d) =>
             {
-                Stats.IncrementSndCount();
+                ServerStats.IncrementSndCount();
                 return Task.CompletedTask;
             };
         }
@@ -422,7 +396,7 @@ namespace Server.Mqtt
 
             await _semaphore.WaitAsync();
 
-            Stats.ResetStats();
+            ServerStats.ResetStats();
 
             try
             {
@@ -502,6 +476,25 @@ namespace Server.Mqtt
                     GC.SuppressFinalize(this);
                 }
             }
+        }
+
+        private DTO_MqttClientStatistics MapStatusToStatusDto(MqttClientStatus e)
+        {
+            return new DTO_MqttClientStatistics()
+            {
+                ClientUid = e.Id,
+                ServerUid = this.UID,
+                BytesSent = e.BytesSent,
+                BytesReceived = e.BytesReceived,
+                SentPacketsCount = e.SentPacketsCount,
+                ConnectedTimestamp = e.ConnectedTimestamp,
+                ReceivedPacketsCount = e.ReceivedPacketsCount,
+                LastPacketSentTimestamp = e.LastPacketSentTimestamp,
+                LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
+                SentApplicationMessagesCount = e.SentApplicationMessagesCount,
+                ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
+                LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
+            };
         }
 
     }

@@ -60,6 +60,11 @@ namespace Server.Manager
             return _runtime_store.Any();
         }
 
+        public Task<List<string>> GetManagedServerIds()
+        {
+            return this._runtime_store.GetServerIds();
+        }
+
         protected async Task<IServer?> GetServer(string server_id)
         {
             return await _runtime_store.GetById(server_id);

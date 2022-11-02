@@ -27,6 +27,10 @@ namespace Aplication.Graphql.Types
         protected override void Configure(IObjectTypeDescriptor<GQL_MqttClientStatistics> descriptor)
         {
             descriptor
+            .Field(e => e.Id)
+            .ID();
+
+            descriptor
             .Field(e => e.ClientUid)
             .ID(typeof(GQL_MqttClient).Name);
 

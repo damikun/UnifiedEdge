@@ -23,6 +23,8 @@ namespace Server.Manager
 
         public Task<bool> Any();
 
+        public Task<List<string>> GetManagedServerIds();
+
         public Task<bool> IsConfigMatch(string server_uid);
 
         public Task<ServerConfigState> ServerConfigState(string server_id);

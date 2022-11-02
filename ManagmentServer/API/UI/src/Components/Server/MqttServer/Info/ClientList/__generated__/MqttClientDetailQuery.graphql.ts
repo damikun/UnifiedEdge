@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<469a16b63f18d5209b105954486f7ef4>>
+ * @generated SignedSource<<367e892994fcb35b09402db8ad0361bf>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -24,6 +24,7 @@ export type MqttClientDetailQuery$data = {
   readonly mqttServerClientStatistic: {
     readonly bytesReceived: any;
     readonly bytesSent: any;
+    readonly id: string;
     readonly lastNonKeepAlivePacketReceivedTimestamp: any | null;
     readonly lastPacketReceivedTimestamp: any | null;
     readonly lastPacketSentTimestamp: any | null;
@@ -61,7 +62,14 @@ v2 = [
     "variableName": "server_uid"
   }
 ],
-v3 = [
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v4 = [
   {
     "alias": null,
     "args": (v2/*: any*/),
@@ -70,13 +78,7 @@ v3 = [
     "name": "mqttServerClient",
     "plural": false,
     "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
+      (v3/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -109,6 +111,7 @@ v3 = [
     "name": "mqttServerClientStatistic",
     "plural": false,
     "selections": [
+      (v3/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -185,7 +188,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "MqttClientDetailQuery",
-    "selections": (v3/*: any*/),
+    "selections": (v4/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -197,19 +200,19 @@ return {
     ],
     "kind": "Operation",
     "name": "MqttClientDetailQuery",
-    "selections": (v3/*: any*/)
+    "selections": (v4/*: any*/)
   },
   "params": {
-    "cacheID": "e1f1bcc2fcb111cd2ba3fd8dd9a420af",
+    "cacheID": "a6354adbd5566bc0e164046dbe10bf57",
     "id": null,
     "metadata": {},
     "name": "MqttClientDetailQuery",
     "operationKind": "query",
-    "text": "query MqttClientDetailQuery(\n  $server_uid: ID!\n  $server_client_uid: ID!\n) {\n  mqttServerClient(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    id\n    protocol\n    rawId\n    serverUid\n  }\n  mqttServerClientStatistic(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    bytesReceived\n    bytesSent\n    sentPacketsCount\n    receivedPacketsCount\n    sentApplicationMessagesCount\n    receivedApplicationMessagesCount\n    lastNonKeepAlivePacketReceivedTimestamp\n    lastPacketReceivedTimestamp\n    lastPacketSentTimestamp\n  }\n}\n"
+    "text": "query MqttClientDetailQuery(\n  $server_uid: ID!\n  $server_client_uid: ID!\n) {\n  mqttServerClient(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    id\n    protocol\n    rawId\n    serverUid\n  }\n  mqttServerClientStatistic(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    id\n    bytesReceived\n    bytesSent\n    sentPacketsCount\n    receivedPacketsCount\n    sentApplicationMessagesCount\n    receivedApplicationMessagesCount\n    lastNonKeepAlivePacketReceivedTimestamp\n    lastPacketReceivedTimestamp\n    lastPacketSentTimestamp\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e8771166e89e855d0fa5b44772cfd476";
+(node as any).hash = "758df6b22391966efbda1bbf8f1dc401";
 
 export default node;

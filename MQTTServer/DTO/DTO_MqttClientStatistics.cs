@@ -9,6 +9,14 @@ namespace Server.Mqtt.DTO
 
         }
 
+        public string Id
+        {
+            get
+            {
+                return $"ClientStat.{this.ServerUid}.{this.ClientUid}";
+            }
+        }
+
         // <summary>
         /// ClientUid
         /// </summary>

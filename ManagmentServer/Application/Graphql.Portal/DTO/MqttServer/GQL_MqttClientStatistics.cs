@@ -11,6 +11,8 @@ namespace Server.Mqtt.DTO
 
         }
 
+        public string Id { get; set; }
+
         // <summary>
         /// ClientUid
         /// </summary>
@@ -75,6 +77,7 @@ namespace Server.Mqtt.DTO
         public void Mapping(Profile profile)
         {
             profile.CreateMap<DTO_MqttClientStatistics, GQL_MqttClientStatistics>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.ClientUid, opt => opt.MapFrom(src => src.ClientUid))
             .ForMember(dest => dest.ServerUid, opt => opt.MapFrom(src => src.ServerUid))
             .ForMember(dest => dest.SentPacketsCount, opt => opt.MapFrom(src => src.SentPacketsCount))

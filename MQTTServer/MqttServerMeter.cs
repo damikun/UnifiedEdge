@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using System.Diagnostics.Metrics;
+using System.Collections.Concurrent;
 
 namespace Server.Mqtt
 {
@@ -10,17 +10,17 @@ namespace Server.Mqtt
         {
             _server = server;
 
-            InboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.InboundPacketCount), () => server.Stats.PacketRcvCount, "Inbound packet count");
+            InboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.InboundPacketCount), () => server.ServerStats.PacketRcvCount, "Inbound packet count");
 
-            OutboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.OutboundPacketCount), () => server.Stats.PacketSndCount, "Outbound packet count");
+            OutboundPacketCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.OutboundPacketCount), () => server.ServerStats.PacketSndCount, "Outbound packet count");
 
-            ConnectedClientsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.ConnectedClients), () => server.Stats.ConnectionsCount, "Connected clients count");
+            ConnectedClientsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.ConnectedClients), () => server.ServerStats.ConnectionsCount, "Connected clients count");
 
-            NotConsumedMessagesCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.NotConsumedMessagesCount), () => server.Stats.NotConsumedCount, "Not consumed messages count");
+            NotConsumedMessagesCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.NotConsumedMessagesCount), () => server.ServerStats.NotConsumedCount, "Not consumed messages count");
 
-            TopicSubscriptionsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), () => server.Stats.SubscriptionsCount, "Activ subscriptions count");
+            TopicSubscriptionsCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicSubscriptionsCounter), () => server.ServerStats.SubscriptionsCount, "Activ subscriptions count");
 
-            TopicCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicsCounter), () => server.Stats.PublishedTopicCount, "Number of topics published over broker");
+            TopicCounter = Meter.CreateObservableCounter<long>(GetFullMetricName(MqttMetricsConst.TopicsCounter), () => server.ServerStats.PublishedTopicCount, "Number of topics published over broker");
         }
 
         internal readonly ObservableCounter<long> ConnectedClientsCounter;
@@ -40,9 +40,9 @@ namespace Server.Mqtt
                     GetFullMetricName(MqttMetricsConst.InboundPacketCount),
                     () =>
                     {
-                        if (_server.Stats.InbountTopicExist(topic_name))
+                        if (_server.ServerStats.InbountTopicExist(topic_name))
                         {
-                            return _server.Stats.PublishedTopics[topic_name];
+                            return _server.ServerStats.PublishedTopics[topic_name];
                         }
                         else
                         {

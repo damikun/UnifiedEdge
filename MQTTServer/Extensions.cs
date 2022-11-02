@@ -15,6 +15,8 @@ namespace Server.Mqtt
 
             services.AddServerManager<IMqttServerManager>();
 
+            services.AddHostedService<MqttServerPeriodicStatsPropagator>();
+
             return services;
         }
     }
