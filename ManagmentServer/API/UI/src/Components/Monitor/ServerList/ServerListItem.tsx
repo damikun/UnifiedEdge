@@ -1,11 +1,13 @@
 import clsx from "clsx";
-import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
 import { graphql } from "babel-plugin-relay/macro";
 import Badge from "../../../UIComponents/Badged/Badge";
+import { GraphQLSubscriptionConfig } from "relay-runtime";
+import { useFragment, useSubscription } from "react-relay";
 import { useCallback, useMemo, useTransition } from "react";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
 import { GQL_ServerVariant, ServerListItemDataFragment$key } from "./__generated__/ServerListItemDataFragment.graphql";
+import { ServerListItemServerStateChengedSubscription } from "./__generated__/ServerListItemServerStateChengedSubscription.graphql";
 
 
 const ServerListItemDataFragment = graphql`
@@ -18,6 +20,17 @@ const ServerListItemDataFragment = graphql`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const ServerListItemServerStateChengedSubscriptionTag = graphql`
+    subscription ServerListItemServerStateChengedSubscription($id:ID!) {
+        serverStateChanged(server_id: $id) {
+            server_Uid
+            state
+            ...ServerListItemDataFragment
+        }
+    }
+`;
+
 type ServerListItemProps = {
   dataRef:ServerListItemDataFragment$key | null;
   key_?:string
@@ -27,6 +40,23 @@ export function ServerListItem({dataRef, key_}:ServerListItemProps){
 
   const data = useFragment(ServerListItemDataFragment, dataRef);
   
+  const state_sub = useMemo(() => ({
+    variables: {id:data?.id},
+    subscription:ServerListItemServerStateChengedSubscriptionTag,
+    updater: (store,element) => { 
+        if(element?.serverStateChanged?.server_Uid){
+            var server_data = store.get(element.serverStateChanged.server_Uid);
+            
+            server_data?.setValue(element.serverStateChanged.state,"state")
+        }
+    },
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<ServerListItemServerStateChengedSubscription>), [data]);
+
+  useSubscription<ServerListItemServerStateChengedSubscription>(state_sub);
+
   const state_variant = useMemo(
     () => {
       return GetMqttServerStateBadgetVariant(data?.state)

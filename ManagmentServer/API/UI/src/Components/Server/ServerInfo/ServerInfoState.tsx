@@ -14,7 +14,7 @@ import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } fro
 
 
 const ServerInfoStateDataFragment = graphql`
-    fragment ServerInfoStateDataFragment on GQL_IServer
+    fragment ServerInfoStateDataFragment  on GQL_IServer
     {
         id
         state

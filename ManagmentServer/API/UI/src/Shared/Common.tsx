@@ -5,9 +5,9 @@ export type GQL_ServerState = "DISABLED" | "RESTARTING" | "STARTED" | "STARTING"
 export function GetMqttServerStateBadgetVariant(state:GQL_ServerState| undefined): keyof typeof Badge_VARIANTS{
     if(state === "STARTED"){
         return "secondarygreen"
-    }else if(state === "RESTARTING" || state === "STARTING"){
+    }else if(state === "RESTARTING" || state === "STARTING" || state === "STOPPING"){
         return "secondaryellow"
-    }else if(state === "STOPPING" || state === "STOPPED"){
+    }else if(state === "STOPPED"){
         return "secondaryred"
     }else{
         return "secondarygray"

@@ -18,29 +18,28 @@ const MqttClientDetailTag = graphql`
     mqttServerClient(
         server_uid:$server_uid,
         server_client_uid: $server_client_uid) {
-            id
-            protocol
-            rawId
-            serverUid
+          id
+          protocol
+          rawId
+          serverUid
     }
 
     mqttServerClientStatistic(
         server_uid:$server_uid,
         server_client_uid: $server_client_uid) {
+          id
+          bytesReceived
+          bytesSent
 
-            id
-            bytesReceived
-            bytesSent
+          sentPacketsCount
+          receivedPacketsCount
 
-            sentPacketsCount
-            receivedPacketsCount
+          sentApplicationMessagesCount
+          receivedApplicationMessagesCount
 
-            sentApplicationMessagesCount
-            receivedApplicationMessagesCount
-
-            lastNonKeepAlivePacketReceivedTimestamp
-            lastPacketReceivedTimestamp
-            lastPacketSentTimestamp
+          lastNonKeepAlivePacketReceivedTimestamp
+          lastPacketReceivedTimestamp
+          lastPacketSentTimestamp
     }
   }
 `;
