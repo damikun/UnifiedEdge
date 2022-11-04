@@ -1,7 +1,7 @@
 using MediatR;
 using AutoMapper;
 using Server.Mqtt;
-using Persistence;
+using Persistence.Portal;
 using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;

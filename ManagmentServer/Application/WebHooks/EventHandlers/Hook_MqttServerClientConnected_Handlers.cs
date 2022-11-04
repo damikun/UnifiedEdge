@@ -1,6 +1,6 @@
 using MediatR;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Server.Mqtt;
 using Domain.Server;
 using Aplication.CQRS.Commands;

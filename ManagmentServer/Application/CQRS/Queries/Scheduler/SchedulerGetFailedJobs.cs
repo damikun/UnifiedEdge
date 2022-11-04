@@ -1,7 +1,7 @@
 using MediatR;
 using Hangfire;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using Hangfire.Storage;

@@ -1,5 +1,5 @@
 using MediatR;
-using Persistence;
+using Persistence.Portal;
 using Aplication.Core;
 using FluentValidation;
 using Aplication.Services;

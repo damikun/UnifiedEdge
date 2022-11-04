@@ -1,8 +1,11 @@
 
+using Aplication.Mapping;
+using Domain.Server;
+
 namespace Aplication.DTO
 {
 
-    public class DTO_User
+    public class DTO_User : IMapFrom<ApplicationUser>
     {
         public DTO_User()
         {
@@ -11,12 +14,10 @@ namespace Aplication.DTO
 
         public string Id { get; set; }
 
-        public string? Name { get; set; }
+        public string? UserName { get; set; }
 
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
     }
 }
-
-

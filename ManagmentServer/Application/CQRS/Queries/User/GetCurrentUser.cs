@@ -1,6 +1,6 @@
 using MediatR;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
@@ -121,7 +121,7 @@ namespace Aplication.CQRS.Queries
             return new DTO_User()
             {
                 Id = result.Principal.GetId<string>(),
-                Name = result.Principal.GetFullName(),
+                UserName = result.Principal.GetFullName(),
                 FirstName = result.Principal.FirstName(),
                 LastName = result.Principal.LastName(),
             };

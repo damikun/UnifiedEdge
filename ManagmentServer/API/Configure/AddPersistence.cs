@@ -1,4 +1,4 @@
-using Persistence;
+using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 
 namespace API

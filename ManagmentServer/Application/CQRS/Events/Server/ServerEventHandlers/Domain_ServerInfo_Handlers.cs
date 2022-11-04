@@ -1,6 +1,6 @@
 using Server;
 using MediatR;
-using Persistence;
+using Persistence.Portal;
 using Domain.Event;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;

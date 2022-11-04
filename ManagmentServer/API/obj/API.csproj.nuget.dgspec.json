@@ -32,8 +32,11 @@
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj"
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\Persistence.Identity.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\Persistence.Identity.csproj"
+              },
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj"
               },
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj"
@@ -286,24 +289,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -313,11 +298,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     },
@@ -346,8 +326,8 @@
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj"
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj"
               },
               "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj": {
                 "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\MqttServer\\Server.Mqtt.csproj"
@@ -491,35 +471,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     },
@@ -576,24 +533,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -601,21 +540,98 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\Persistence.Identity.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\Persistence.Identity.csproj",
+        "projectName": "Persistence.Identity",
+        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\Persistence.Identity.csproj",
+        "packagesPath": "C:\\Users\\kunda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Identity\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\kunda\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Domain\\Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
       },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "Microsoft.Data.Sqlite.Core": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite.Core": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
+            "SQLitePCLRaw.bundle_e_sqlite3": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj": {
+    "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj",
-        "projectName": "ManagmentUI - Persistence",
-        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj",
+        "projectName": "Persistence.Portal",
+        "projectPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\Persistence.Portal.csproj",
         "packagesPath": "C:\\Users\\kunda\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\obj\\",
+        "outputPath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Persistence\\Persistence.Portal\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kunda\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -685,35 +701,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     },
@@ -786,35 +779,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     },
@@ -875,35 +845,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[6.0.3, 6.0.3]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

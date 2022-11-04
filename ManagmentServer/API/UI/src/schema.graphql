@@ -36,6 +36,11 @@ type CreateServerPayload {
   query: Query!
 }
 
+type CreateUeserPayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
 type CreateWebHookPayload {
   gQL_WebHook: GQL_WebHook
   query: Query!
@@ -641,8 +646,8 @@ type GQL_User {
   firstName: String
   id: ID!
   lastName: String
-  name: String
   sessionId: String
+  userName: String
 }
 
 type GQL_WebHook {
@@ -722,6 +727,7 @@ type HistorianRecord {
 
 type Mutation {
   createServer(request: CreateServerInput!): CreateServerPayload!
+  createUeser(input: CreateUeserInput!): CreateUeserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
@@ -932,6 +938,13 @@ input CreateServerInput {
   description: String
   name: String!
   type: GQL_ServerVariant!
+}
+
+input CreateUeserInput {
+  first_name: String!
+  last_name: String!
+  password: String!
+  user_name: String!
 }
 
 input CreateWebHookInput {

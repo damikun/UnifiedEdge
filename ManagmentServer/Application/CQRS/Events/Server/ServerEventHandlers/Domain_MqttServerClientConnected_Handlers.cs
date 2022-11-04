@@ -1,5 +1,5 @@
 using MediatR;
-using Persistence;
+using Persistence.Portal;
 using Server.Mqtt;
 using Domain.Event;
 using Microsoft.Extensions.Logging;

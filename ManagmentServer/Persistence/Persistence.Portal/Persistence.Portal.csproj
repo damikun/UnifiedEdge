@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Persistence.Portal</AssemblyName>
+    <AssemblyTitle>Persistence.Portal</AssemblyTitle>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6"  />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
+
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6"  />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

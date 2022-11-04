@@ -1,6 +1,6 @@
 using MediatR;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;

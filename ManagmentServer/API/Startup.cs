@@ -75,6 +75,12 @@ namespace API
 
             services.AddSystemEventHandler();
 
+            if (HybridSupport.IsElectronActive)
+            {
+                System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                    new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications!);
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -158,7 +164,9 @@ namespace API
 
         private async void CreateWindow()
         {
-            var window = await Electron.WindowManager.CreateWindowAsync(loadUrl: "https://localhost:5001");
+            var window = await Electron.WindowManager.CreateWindowAsync(
+                loadUrl: "https://localhost:5001"
+            );
 
             window.OnClosed += () =>
             {
@@ -169,6 +177,16 @@ namespace API
         public virtual void ConfigureTelemetry(IServiceCollection services)
         {
             services.AddTelemerty(Configuration, Environment);
+        }
+
+        private static bool AcceptAllCertifications(
+            object sender,
+            System.Security.Cryptography.X509Certificates.X509Certificate certification,
+            System.Security.Cryptography.X509Certificates.X509Chain chain,
+            System.Net.Security.SslPolicyErrors sslPolicyErrors
+        )
+        {
+            return true;
         }
 
     }

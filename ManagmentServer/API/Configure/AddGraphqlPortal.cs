@@ -81,6 +81,7 @@ namespace API
                     .AddTypeExtension<OpcMutations>()
                     .AddTypeExtension<ServerMutations>()
                     .AddTypeExtension<EdgeMutations>()
+                    .AddTypeExtension<UserMutations>()
                     .AddTypeExtension<GlobalMutations>()
                 .AddSubscriptionType<Subscription>()
                     .AddTypeExtension<RuntimeSubscription>()

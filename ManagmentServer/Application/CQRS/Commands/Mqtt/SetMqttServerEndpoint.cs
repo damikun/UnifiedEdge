@@ -1,7 +1,7 @@
 using MediatR;
 using System.Net;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Domain.Server;
 using Server.Mqtt.DTO;
 using Aplication.Core;

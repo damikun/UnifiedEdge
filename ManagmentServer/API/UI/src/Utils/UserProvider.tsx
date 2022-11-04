@@ -9,7 +9,7 @@ export const UserProviderQueryTag = graphql`
   query UserProviderQuery {
     me {
       id
-      name
+      userName
       firstName
       lastName
       sessionId
@@ -20,7 +20,7 @@ export const UserProviderQueryTag = graphql`
 export type UserType = {
     readonly me: {
       readonly id: string;
-      readonly name: string | null;
+      readonly userName: string | null;
       readonly sessionId: string | null;
   } | null;
 } | null;

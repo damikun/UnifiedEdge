@@ -21,5 +21,5 @@ function UserInfo({}:UserInfoProps){
         return null
     }
 
-    return  <div className="flex select-none font-semibold text-gray-600">{userStore?.user?.me.name}</div>
+    return  <div className="flex select-none font-semibold text-gray-600">{userStore?.user?.me.userName}</div>
 }

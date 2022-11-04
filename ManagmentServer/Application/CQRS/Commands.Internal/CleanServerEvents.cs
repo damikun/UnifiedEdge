@@ -1,7 +1,7 @@
 using Server;
 using MediatR;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Aplication.Core;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;

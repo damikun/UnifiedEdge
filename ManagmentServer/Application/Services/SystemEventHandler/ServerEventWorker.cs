@@ -1,5 +1,5 @@
 using MediatR;
-using Persistence;
+using Persistence.Portal;
 using Aplication.Events.System;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;

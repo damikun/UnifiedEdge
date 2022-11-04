@@ -2,11 +2,11 @@ C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Applicatio
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Domain.dll
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Persistence.dll
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Persistence.Portal.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Server.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Server.Mqtt.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Domain.pdb
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Persistence.pdb
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Persistence.Portal.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Server.Mqtt.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Server.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\obj\Debug\net6.0\Application.csproj.AssemblyReference.cache

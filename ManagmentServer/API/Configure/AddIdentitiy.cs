@@ -1,8 +1,9 @@
 
 using Domain.Server;
+using ElectronNET.API;
+using Persistence.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using IdentityServerAspNetIdentity.Data;
 using Aplication.Services.Identitiy;
 
 namespace API
@@ -11,16 +12,14 @@ namespace API
     {
         public static IServiceCollection AddIdentitiy(this IServiceCollection serviceCollection)
         {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-
             serviceCollection.AddRazorPages();
 
-            serviceCollection.AddDbContext<IdentityDbContext>(options =>
+            serviceCollection.AddDbContext<PortalIdentityDbContext>(options =>
                 options.UseSqlite("Data Source=identity.db")
             );
 
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddEntityFrameworkStores<PortalIdentityDbContext>()
             .AddDefaultTokenProviders();
 
             serviceCollection
@@ -31,6 +30,10 @@ namespace API
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
+                if (HybridSupport.IsElectronActive)
+                {
+                    options.Endpoints.EnableUserInfoEndpoint = false;
+                }
                 // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
             })
@@ -41,15 +44,6 @@ namespace API
             .AddProfileService<CustomProfileService>();
 
             return serviceCollection;
-        }
-
-        private static bool AcceptAllCertifications(
-            object sender,
-            System.Security.Cryptography.X509Certificates.X509Certificate certification,
-            System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors
-        )
-        {
-            return true;
         }
     }
 }

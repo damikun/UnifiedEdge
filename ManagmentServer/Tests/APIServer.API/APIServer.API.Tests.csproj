@@ -30,11 +30,5 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.6"  />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- <ProjectReference Include="..\..\APIServer\Domain\APIDomain.Server.csproj" />
-    <ProjectReference Include="..\..\APIServer\API\APIServer.csproj" />
-    <ProjectReference Include="..\..\APIServer\Persistence\APIServer.Persistence.csproj" />
-    <ProjectReference Include="..\..\IdentityServer\API\IdentityServer.csproj" /> -->
-  </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using Server;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Domain.Server;
 using Server.Manager;
 using Server.Manager.Mqtt;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<93a5bc47edb2ed7d042960b09330940d>>
+ * @generated SignedSource<<ff5de973d4b23a82d7815e8a2d4ba1eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,8 +15,8 @@ export type UserProviderQuery$data = {
     readonly firstName: string | null;
     readonly id: string;
     readonly lastName: string | null;
-    readonly name: string | null;
     readonly sessionId: string | null;
+    readonly userName: string | null;
   } | null;
 };
 export type UserProviderQuery = {
@@ -45,7 +45,7 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "name",
+        "name": "userName",
         "storageKey": null
       },
       {
@@ -91,16 +91,16 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "a1777c16c6d8d2beba3bb172581c90e3",
+    "cacheID": "35a5f4fdb696db91f696bdf2c6913b65",
     "id": null,
     "metadata": {},
     "name": "UserProviderQuery",
     "operationKind": "query",
-    "text": "query UserProviderQuery {\n  me {\n    id\n    name\n    firstName\n    lastName\n    sessionId\n  }\n}\n"
+    "text": "query UserProviderQuery {\n  me {\n    id\n    userName\n    firstName\n    lastName\n    sessionId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1ef03aab8607f1a58c734ca3f8b352e6";
+(node as any).hash = "e6bd66a29f77c299f750ff6350a83309";
 
 export default node;

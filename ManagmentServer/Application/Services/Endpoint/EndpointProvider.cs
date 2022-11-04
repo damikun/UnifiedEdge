@@ -1,5 +1,5 @@
 using System.Net;
-using Persistence;
+using Persistence.Portal;
 using System.Net.Sockets;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;

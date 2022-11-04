@@ -1,5 +1,5 @@
 using MediatR;
-using Persistence;
+using Persistence.Portal;
 using System.Text;
 using Domain.Server;
 using Aplication.Core;

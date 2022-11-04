@@ -1,7 +1,7 @@
 
 using MediatR;
 using AutoMapper;
-using Persistence;
+using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;

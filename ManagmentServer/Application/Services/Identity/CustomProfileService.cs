@@ -1,7 +1,7 @@
 ﻿using Domain.Server;
-using Duende.IdentityServer.AspNetIdentity;
 using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
+using Duende.IdentityServer.AspNetIdentity;
 using System.Security.Claims;
 
 namespace Aplication.Services.Identitiy
@@ -17,10 +17,6 @@ namespace Aplication.Services.Identitiy
             var principal = await GetUserClaimsAsync(user);
 
             var id = (ClaimsIdentity)principal.Identity;
-            if (!string.IsNullOrEmpty(user.FavoriteColor))
-            {
-                id.AddClaim(new Claim("favorite_color", user.FavoriteColor));
-            }
 
             context.AddRequestedClaims(principal.Claims);
         }
