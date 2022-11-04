@@ -28,6 +28,9 @@ namespace API
                 "wss://localhost:7060",
                 "wss://localhost:7060/graphql",
                 "wss://localhost:7060/",
+                "wss://localhost:5001",
+                "wss://localhost:5001/internal",
+                "wss://localhost:5001/",
                 "wss://localhost:8003",
                 "wss://localhost:8003/graphql",
                 "wss://localhost:8003/",
@@ -35,18 +38,27 @@ namespace API
                 "ws://localhost:8003/graphql",
                 "ws://localhost:8003/",
                 "http://localhost:8003",
-                "https://localhost:8003"
+                "https://localhost:8003",
+                "http://localhost:5000",
+                "https://localhost:5001",
+                "http://localhost:5000/internal",
+                "https://localhost:5001/internal"
             });
 
             serviceCollection.AddCors(options =>
             {
+                // options.AddPolicy("CorsPolicy",
+                // builder => builder.AllowAnyOrigin()
+                // .AllowAnyMethod()
+                // .AllowAnyHeader());
+
                 options.AddPolicy("cors_policy", policy =>
                 {
                     policy.AllowAnyHeader();
                     policy.AllowAnyMethod();
                     //------------------------------------
                     policy.WithOrigins(allowed_origins.ToArray());
-                    //policy.AllowAnyOrigin()
+                    // policy.AllowAnyOrigin();
                     //------------------------------------
                     policy.AllowCredentials();
                     policy.SetPreflightMaxAge(TimeSpan.FromSeconds(10000));

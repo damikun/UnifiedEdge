@@ -1,8 +1,10 @@
 
+using Aplication.Mapping;
+
 namespace Aplication.DTO
 {
 
-    public class GQL_User
+    public class GQL_User : IMapFrom<DTO_User>
     {
         public GQL_User()
         {
@@ -12,7 +14,7 @@ namespace Aplication.DTO
         // <summary>
         /// ID
         /// </summary>
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string? Name { get; set; }
 

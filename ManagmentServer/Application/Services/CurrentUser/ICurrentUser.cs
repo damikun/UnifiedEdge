@@ -17,7 +17,7 @@ namespace Aplication.Services
         /// <summary>
         /// Returns curren user system Id
         /// </summary>
-        Guid? UserId { get; }
+        string? UserId { get; }
 #nullable disable
         /// <summary>
         /// Returns user name

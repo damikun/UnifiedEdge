@@ -4,7 +4,7 @@ using Aplication.Services;
 namespace Aplication.Graphql.DataLoaders
 {
 
-    public class UserByIdDataLoader : BatchDataLoader<int, GQL_User>
+    public class UserByIdDataLoader : BatchDataLoader<string, GQL_User>
     {
 
         /// <summary>
@@ -22,8 +22,8 @@ namespace Aplication.Graphql.DataLoaders
 
         }
 
-        protected async override Task<IReadOnlyDictionary<int, GQL_User>> LoadBatchAsync(
-            IReadOnlyList<int> keys,
+        protected async override Task<IReadOnlyDictionary<string, GQL_User>> LoadBatchAsync(
+            IReadOnlyList<string> keys,
             CancellationToken cancellationToken)
         {
             if (!_current.Exist)

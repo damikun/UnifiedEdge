@@ -1,5 +1,4 @@
 using Aplication.DTO;
-using Aplication.Graphql.DataLoaders;
 
 namespace Aplication.Graphql.Types
 {
@@ -13,11 +12,7 @@ namespace Aplication.Graphql.Types
         protected override void Configure(IObjectTypeDescriptor<GQL_User> descriptor)
         {
 
-            descriptor.ImplementsNode().IdField(t => t.Id)
-            .ResolveNode((ctx, id) =>
-                 ctx.DataLoader<UserByIdDataLoader>()
-                 .LoadAsync(id, ctx.RequestAborted)!);
-
+            descriptor.Field(e => e.Id).ID();
 
         }
 

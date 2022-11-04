@@ -6,7 +6,7 @@ namespace Aplication
 
     public static partial class Extensions
     {
-        public static TId GetId<TId>(this ClaimsPrincipal principal)
+        private static void Validate(ClaimsPrincipal principal)
         {
             if (principal == null || principal.Identity == null)
             {
@@ -17,6 +17,39 @@ namespace Aplication
             {
                 throw new UnauthorizedAccessException(nameof(principal));
             }
+        }
+
+        public static string GetFullName(this ClaimsPrincipal principal)
+        {
+            Validate(principal);
+
+            return principal.FindFirstValue("name");
+        }
+
+        public static string FirstName(this ClaimsPrincipal principal)
+        {
+            Validate(principal);
+
+            return principal.FindFirstValue("given_name");
+        }
+
+        public static string LastName(this ClaimsPrincipal principal)
+        {
+            Validate(principal);
+
+            return principal.FindFirstValue("family_name");
+        }
+
+        public static string Uid(this ClaimsPrincipal principal)
+        {
+            Validate(principal);
+
+            return principal.FindFirstValue("sub");
+        }
+
+        public static TId GetId<TId>(this ClaimsPrincipal principal)
+        {
+            Validate(principal);
 
             var loggedInUserId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
 

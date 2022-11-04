@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cc1400e12cf4a2da3ba78d7983badf66>>
+ * @generated SignedSource<<93a5bc47edb2ed7d042960b09330940d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,9 @@ import { ConcreteRequest, Query } from 'relay-runtime';
 export type UserProviderQuery$variables = {};
 export type UserProviderQuery$data = {
   readonly me: {
+    readonly firstName: string | null;
     readonly id: string;
+    readonly lastName: string | null;
     readonly name: string | null;
     readonly sessionId: string | null;
   } | null;
@@ -50,6 +52,20 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "firstName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "lastName",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "sessionId",
         "storageKey": null
       }
@@ -75,16 +91,16 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "9c6f1f3926fad9be130e3bf12552447e",
+    "cacheID": "a1777c16c6d8d2beba3bb172581c90e3",
     "id": null,
     "metadata": {},
     "name": "UserProviderQuery",
     "operationKind": "query",
-    "text": "query UserProviderQuery {\n  me {\n    id\n    name\n    sessionId\n  }\n}\n"
+    "text": "query UserProviderQuery {\n  me {\n    id\n    name\n    firstName\n    lastName\n    sessionId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c286cf347237f71a26a8641ef3f29069";
+(node as any).hash = "1ef03aab8607f1a58c734ca3f8b352e6";
 
 export default node;

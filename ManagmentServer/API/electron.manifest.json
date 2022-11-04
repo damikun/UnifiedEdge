@@ -3,16 +3,12 @@
   "splashscreen": {
     "imageFile": ""
   },
-  "domainNamesToIgnoreCertificateErrors": [
-    "localhost",
-    "127.0.0.1",
-    "https://localhost:8003"
-  ],
   "name": "API",
   "author": "",
   "ignoreAllCertificateErrors":true,
   "singleInstance": false,
   "environment": "Development",
+  "aspCoreBackendPort": 5001,
   "build": {
     "appId": "com.API.app",
     "productName": "API",
@@ -27,12 +23,22 @@
         "from": "./bin",
         "to": "bin",
         "filter": [ "**/*" ]
+      },
+      {
+        "from": "./Certificates",
+        "to": "bin",
+        "filter": [ "**/*" ]
       }
     ],
     "files": [
       {
         "from": "./ElectronHostHook/node_modules",
         "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      {
+        "from": "./Certificates",
+        "to": "Certtificates",
         "filter": [ "**/*" ]
       },
       "**/*"

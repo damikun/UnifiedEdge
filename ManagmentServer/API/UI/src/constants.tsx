@@ -2,9 +2,9 @@
 /*-----------------------------------------------------------------------*/
 
 export const BASE_SERVER_URL_PROD = "";
-export const BASE_SERVER_URL_DEV = "https://localhost:7060";
+export const BASE_SERVER_URL_DEV = "https://localhost:5001";
 
-export const BASE_SERVER_WS_URL_DEV = "wss://localhost:7060";
+export const BASE_SERVER_WS_URL_DEV = "wss://localhost:5001";
 
 // export const BASE_SERVER_WS_URL_DEV = "ws://localhost:8001";
 
@@ -17,7 +17,7 @@ export const BASE_SERVER_URL =
 
 export const GQL_ENDPOINT = "internal";
 
-export const LOGIN_ENDPOINT = `${BASE_SERVER_URL}/system/login`;
+export const LOGIN_ENDPOINT = `${BASE_SERVER_URL}/Account/Login?ReturnUrl=~/`;
 
 export const LOGOUT_ENDPOINT = `${BASE_SERVER_URL}/system/logout`;
 

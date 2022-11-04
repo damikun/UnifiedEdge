@@ -40,7 +40,7 @@ namespace API
             services.AddHealthChecks();
 
             services.AddGraphqlPortal(Environment);
- 
+
             services.AddGraphqlPublic(Environment);
 
             services.AddRuntimeService();
@@ -96,7 +96,7 @@ namespace API
 
             app.UseHealthChecks("/health");
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseWebSockets(new WebSocketOptions()
             {
@@ -120,7 +120,7 @@ namespace API
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseIdentityServer();
 
             app.UseAuthorization();
 
@@ -133,6 +133,8 @@ namespace API
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+
                 endpoints.MapControllers();
 
                 endpoints.MapInternalGraphQLEndpoint();
@@ -156,7 +158,7 @@ namespace API
 
         private async void CreateWindow()
         {
-            var window = await Electron.WindowManager.CreateWindowAsync();
+            var window = await Electron.WindowManager.CreateWindowAsync(loadUrl: "https://localhost:5001");
 
             window.OnClosed += () =>
             {

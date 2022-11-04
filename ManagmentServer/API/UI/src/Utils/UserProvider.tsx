@@ -1,14 +1,17 @@
+import { PreloadedQuery } from "react-relay";
 import React, { useContext, useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import {  usePreloadedQuery } from "react-relay/hooks";
 import * as MeQuery from "../Utils/__generated__/UserProviderQuery.graphql";
-import { PreloadedQuery } from "react-relay";
+
 
 export const UserProviderQueryTag = graphql`
   query UserProviderQuery {
     me {
       id
       name
+      firstName
+      lastName
       sessionId
     }
   }

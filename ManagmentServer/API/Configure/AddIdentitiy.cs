@@ -1,7 +1,9 @@
 
+using Domain.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Server.Mqtt;
+using IdentityServerAspNetIdentity.Data;
+using Aplication.Services.Identitiy;
 
 namespace API
 {
@@ -9,29 +11,45 @@ namespace API
     {
         public static IServiceCollection AddIdentitiy(this IServiceCollection serviceCollection)
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
 
-            // serviceCollection.AddIdentityServer()
-            // .AddInMemoryIdentityResources(Config.IdentityResources)
-            // .AddInMemoryApiScopes(Config.ApiScopes)
-            // .AddInMemoryClients(Config.Clients)
-            // .AddTestUsers(TestUsers.Users);
+            serviceCollection.AddRazorPages();
 
-            // var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
-            // const string connectionString = @"Data Source=Duende.IdentityServer.Quickstart.EntityFramework.db";
+            serviceCollection.AddDbContext<IdentityDbContext>(options =>
+                options.UseSqlite("Data Source=identity.db")
+            );
 
-            // serviceCollection.AddIdentityServer()
-            //     .AddConfigurationStore(options =>
-            //     {
-            //         options.ConfigureDbContext = b => b.UseSqlite(connectionString,
-            //             sql => sql.MigrationsAssembly(migrationsAssembly));
-            //     })
-            //     .AddOperationalStore(options =>
-            //     {
-            //         options.ConfigureDbContext = b => b.UseSqlite(connectionString,
-            //             sql => sql.MigrationsAssembly(migrationsAssembly));
-            //     });
+            serviceCollection.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddDefaultTokenProviders();
+
+            serviceCollection
+            .AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+
+                // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
+                options.EmitStaticAudienceClaim = true;
+            })
+            .AddInMemoryIdentityResources(IdentitiyCfg.IdentityResources)
+            .AddInMemoryApiScopes(IdentitiyCfg.ApiScopes)
+            .AddInMemoryClients(IdentitiyCfg.Clients)
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddProfileService<CustomProfileService>();
 
             return serviceCollection;
+        }
+
+        private static bool AcceptAllCertifications(
+            object sender,
+            System.Security.Cryptography.X509Certificates.X509Certificate certification,
+            System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors
+        )
+        {
+            return true;
         }
     }
 }

@@ -35,6 +35,12 @@ namespace API
                     webBuilder.UseElectron(args);
                     webBuilder.UseEnvironment("Development");
                     webBuilder.UseStartup<Startup>();
+
+                    if (HybridSupport.IsElectronActive)
+                    {
+                        webBuilder.UseUrls("https://localhost:5001");
+                    }
+
                 })
                 .UseSerilog();
     }

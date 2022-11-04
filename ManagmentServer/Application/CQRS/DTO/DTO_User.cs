@@ -9,23 +9,13 @@ namespace Aplication.DTO
 
         }
 
-        // <summary>
-        /// ID
-        /// </summary>
-        public string Guid { get; set; }
+        public string Id { get; set; }
 
-        /// <summary>
-        ///  Name
-        /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-#nullable enable
+        public string? FirstName { get; set; }
 
-        /// <summary>
-        ///  Email
-        /// </summary>
-        public string? Email { get; set; }
-#nullable disable
+        public string? LastName { get; set; }
     }
 }
 

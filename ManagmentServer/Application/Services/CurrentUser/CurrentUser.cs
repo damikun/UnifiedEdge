@@ -45,7 +45,7 @@ namespace Aplication.Services
         }
 
 #nullable enable
-        public Guid? UserId
+        public string? UserId
         {
 
             get
@@ -53,7 +53,7 @@ namespace Aplication.Services
 
                 try
                 {
-                    return _contextAccessor?.HttpContext?.User?.GetId<Guid>();
+                    return _contextAccessor?.HttpContext?.User?.GetId<string>();
                 }
                 catch
                 {

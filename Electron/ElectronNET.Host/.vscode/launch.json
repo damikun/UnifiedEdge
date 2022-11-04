@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Electron App",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "program": "${workspaceFolder}/main.js",
+            "sourceMaps": true,
+            "args": [
+                "--test=true",
+                "--blub=wuhuu"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch build-helper",
+            "program": "${workspaceFolder}/build-helper.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "args": [
+                "electron.manifest.json"
+            ]
+        }
+    ]
+}

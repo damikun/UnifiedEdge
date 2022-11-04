@@ -1,6 +1,9 @@
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
+using Aplication.CQRS.Queries;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Aplication.Graphql.Queries
 {
@@ -22,20 +25,31 @@ namespace Aplication.Graphql.Queries
         }
 
         public async Task<GQL_User?> me(
-            [Service] IMediator mediator)
+            [Service] IHttpContextAccessor accessor,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
         {
-            // var dto = await mediator.Send(new GetMqttServerByGuid()
+            var dto = await mediator.Send(new GetCurrentUser());
+
+            // var result = await accessor?.HttpContext?.AuthenticateAsync();
+
+            // System.Console.WriteLine("***********************");
+            // if (result != null && result.Principal != null)
             // {
-            //     Guid = guid
-            // });
 
-            return new GQL_User()
-            {
-                Id = 21,
-                Name = "Dalibor"
-            };
+            //     foreach (var item in result.Principal.Claims)
+            //     {
+            //         System.Console.WriteLine(item.Value);
+            //     }
+            // }
 
-            // return _mapper.Map<GQL_MqttServer>(dto);
+            // return new GQL_User()
+            // {
+            //     Id = 21,
+            //     Name = "Dalibor"
+            // };
+
+            return mapper.Map<GQL_User>(dto);
         }
     }
 }

@@ -7,6 +7,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <SpaRoot>UI\</SpaRoot>
+    <Certificates>Certificates\</Certificates>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <SpaProxyServerUrl>https://localhost:44459</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
@@ -94,6 +95,18 @@
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
   </Target>
+  <ItemGroup>
+    <None Update="identity.db"  CopyToOutputDirectory="PreserveNewest"  />
+  </ItemGroup>
+    <ItemGroup>
+    <None Update="schedulery.db"  CopyToOutputDirectory="PreserveNewest"  />
+  </ItemGroup>
+    <ItemGroup>
+    <None Update="managment.db"  CopyToOutputDirectory="PreserveNewest"  />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="$(Certificates)**"  CopyToOutputDirectory="PreserveNewest"  />
+  </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />

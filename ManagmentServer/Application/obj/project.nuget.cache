@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "17XuIhxPh2fWmf/RtURtSKqYxnch8WzOWuEBMJvnvxiXNMvm6Te2FjcrBBlkpgy6wihJ+DVTvUFdb8APy2bm/A==",
+  "dgSpecHash": "W4c091Dy2G4TwL5B8o6HPFj7/s+YUVt9Byj7bEQ5RkZxOim3nzmgeblIC3kXyBojDsjslQGaFU8SczYAEUZ9ww==",
   "success": true,
   "projectFilePath": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -169,7 +169,11 @@
     "C:\\Users\\kunda\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.threading.channels\\4.7.0\\system.threading.channels.4.7.0.nupkg.sha512",
     "C:\\Users\\kunda\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\kunda\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
+    "C:\\Users\\kunda\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.3\\microsoft.netcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.3\\microsoft.aspnetcore.app.runtime.win-x64.6.0.3.nupkg.sha512",
+    "C:\\Users\\kunda\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.3\\microsoft.netcore.app.crossgen2.win-x64.6.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -26,7 +26,6 @@ const ServerListItemServerStateChengedSubscriptionTag = graphql`
         serverStateChanged(server_id: $id) {
             server_Uid
             state
-            ...ServerListItemDataFragment
         }
     }
 `;

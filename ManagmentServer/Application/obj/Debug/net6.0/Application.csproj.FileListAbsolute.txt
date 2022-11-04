@@ -1,5 +1,5 @@
-C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.deps.json
+C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Application.pdb
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\Domain.dll
 C:\Users\kunda\OneDrive\Dokumenty\Dev\MQTTManagmentUI\ManagmentServer\Application\bin\Debug\net6.0\ManagmentUI - Persistence.dll
