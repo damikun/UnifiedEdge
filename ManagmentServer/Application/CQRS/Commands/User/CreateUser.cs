@@ -1,12 +1,12 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using IdentityModel;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using System.Security.Claims;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
@@ -58,6 +58,10 @@ namespace Aplication.CQRS.Commands
             .NotEmpty()
             .NotNull()
             .MinimumLength(3);
+
+            RuleFor(e => e.UserName)
+            .MustAsync(BeUniqueUserName)
+            .WithMessage("Username is allready used");
 
             RuleFor(e => e.FirstName)
             .NotEmpty()
@@ -173,7 +177,7 @@ namespace Aplication.CQRS.Commands
             }
 
             var result = await _userManager.AddClaimsAsync(user, new Claim[]{
-                new Claim(JwtClaimTypes.Name, user.FirstName),
+                new Claim(JwtClaimTypes.Name, user.UserName),
                 new Claim(JwtClaimTypes.GivenName, user.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, user.LastName),
             });

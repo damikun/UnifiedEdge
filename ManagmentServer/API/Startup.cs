@@ -53,7 +53,7 @@ namespace API
 
             ConfigureTelemetry(services);
 
-            services.AddIdentitiy();
+            services.AddIdentity();
 
             services.AddGlobalCfg();
 

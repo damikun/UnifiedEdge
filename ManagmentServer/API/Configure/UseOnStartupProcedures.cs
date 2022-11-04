@@ -17,6 +17,8 @@ namespace API
 
             mediator.Send(new InitServerManagers());
 
+            mediator.Send(new SeedIdentitiy());
+
             system_e_publisher.PublishInfo("System started", "Host aplication was started");
 
             return builder;

@@ -1,9 +1,10 @@
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
+using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using Microsoft.AspNetCore.Http;
-
+using HotChocolate.Types.Pagination;
 
 namespace Aplication.Graphql.Queries
 {
@@ -27,29 +28,47 @@ namespace Aplication.Graphql.Queries
         public async Task<GQL_User?> me(
             [Service] IHttpContextAccessor accessor,
             [Service] IMediator mediator,
-            [Service] IMapper mapper)
+            [Service] IMapper mapper
+        )
         {
             var dto = await mediator.Send(new GetCurrentUser());
 
-            // var result = await accessor?.HttpContext?.AuthenticateAsync();
-
-            // System.Console.WriteLine("***********************");
-            // if (result != null && result.Principal != null)
-            // {
-
-            //     foreach (var item in result.Principal.Claims)
-            //     {
-            //         System.Console.WriteLine(item.Value);
-            //     }
-            // }
-
-            // return new GQL_User()
-            // {
-            //     Id = 21,
-            //     Name = "Dalibor"
-            // };
-
             return mapper.Map<GQL_User>(dto);
         }
+
+        [UseConnection(typeof(GQL_User))]
+        public async Task<Connection<GQL_User>> GetUsers(
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetUsers(arguments),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_User>>(result);
+        }
+
+        public async Task<GQL_User> GetUserById(
+            [ID] string user_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new GetUserById
+                {
+                    UserId = user_id
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_User>(result);
+        }
+
     }
 }

@@ -24,5 +24,6 @@ namespace Aplication.DTO
 
         public string? SessionId { get; set; }
 
+        public bool Enabled { get; set; }
     }
 }

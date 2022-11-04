@@ -3988,6 +3988,7 @@
           "OpenTelemetry.Extensions.Hosting": "1.0.0-rc9.2",
           "OpenTelemetry.Instrumentation.AspNetCore": "1.0.0-rc9.2",
           "OpenTelemetry.Instrumentation.Http": "1.0.0-rc9.2",
+          "Persistence.Identity": "1.0.0",
           "Persistence.Portal": "1.0.0",
           "Server": "1.0.0",
           "Server.Mqtt": "1.0.0",

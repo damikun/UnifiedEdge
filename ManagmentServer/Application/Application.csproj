@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.Portal\Persistence.Portal.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.Identity\Persistence.Identity.csproj" />
     <ProjectReference Include="..\..\MqttServer\Server.Mqtt.csproj" />
     <ProjectReference Include="..\..\ServerAbstraction\Server.csproj" />
   </ItemGroup>

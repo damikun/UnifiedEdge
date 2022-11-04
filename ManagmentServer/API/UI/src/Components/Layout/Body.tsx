@@ -88,6 +88,8 @@ export default function Body(){
           <Route path="/Monitor/Adapter/:id/*" element={<Adapter/>} />
           <Route path="/WebHooks/" element={<WebHooks/>} />
           <Route path="/WebHooks/Hook/:id/*" element={<WebHook/>} />
+          <Route path="/Users/" element={<Users/>} />
+          <Route path="/Users/User/:id/*" element={<WebHook/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />

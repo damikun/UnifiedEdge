@@ -10,7 +10,7 @@ namespace API
 {
     public static partial class ServiceExtension
     {
-        public static IServiceCollection AddIdentitiy(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddIdentity(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddRazorPages();
 
@@ -18,7 +18,22 @@ namespace API
                 options.UseSqlite("Data Source=identity.db")
             );
 
-            serviceCollection.AddIdentity<ApplicationUser, IdentityRole>()
+            serviceCollection.AddPooledDbContextFactory<PortalIdentityDbContextPooled>(
+            (s, o) =>
+            {
+                o.UseSqlite("Data Source=identity.db");
+
+                // o.UseInternalServiceProvider(s);
+            });
+
+            serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 5;
+            })
             .AddEntityFrameworkStores<PortalIdentityDbContext>()
             .AddDefaultTokenProviders();
 
@@ -29,6 +44,7 @@ namespace API
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
+
 
                 if (HybridSupport.IsElectronActive)
                 {

@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain.Server;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
@@ -96,10 +93,24 @@ public class Index : PageModel
 
         if (ModelState.IsValid)
         {
+            var user = await _userManager.FindByNameAsync(Input.Username);
+
+            if (user == null)
+            {
+                await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId: context?.Client.ClientId));
+            }
+            else
+            {
+                if (!user.Enabled!)
+                {
+                    await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "user disabled", clientId: context?.Client.ClientId));
+                }
+            }
+
             var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberLogin, lockoutOnFailure: true);
+
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(Input.Username);
                 await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
 
                 if (context != null)

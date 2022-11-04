@@ -1,7 +1,7 @@
 ﻿
 using Domain.Server;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Persistence.Identity
 {
@@ -10,6 +10,10 @@ namespace Persistence.Identity
     {
         public PortalIdentityDbContext(DbContextOptions<PortalIdentityDbContext> options)
             : base(options)
+        {
+        }
+        protected PortalIdentityDbContext(DbContextOptions options)
+         : base(options)
         {
         }
 

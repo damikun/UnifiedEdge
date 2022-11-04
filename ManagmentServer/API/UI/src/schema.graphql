@@ -36,7 +36,7 @@ type CreateServerPayload {
   query: Query!
 }
 
-type CreateUeserPayload {
+type CreateUserPayload {
   gQL_User: GQL_User
   query: Query!
 }
@@ -643,11 +643,32 @@ type GQL_Uptime {
 }
 
 type GQL_User {
+  enabled: Boolean!
   firstName: String
   id: ID!
   lastName: String
   sessionId: String
   userName: String
+}
+
+"A connection to a list of items."
+type GQL_UserConnection {
+  "A list of edges."
+  edges: [GQL_UserEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_User]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_UserEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_User
 }
 
 type GQL_WebHook {
@@ -727,11 +748,13 @@ type HistorianRecord {
 
 type Mutation {
   createServer(request: CreateServerInput!): CreateServerPayload!
-  createUeser(input: CreateUeserInput!): CreateUeserPayload!
+  createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
+  removeUeser(input: RemoveUeserInput!): RemoveUeserPayload!
+  removeUserAdmin(input: RemoveUserAdminInput!): RemoveUserAdminPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
   setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
@@ -746,7 +769,11 @@ type Mutation {
   setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
+  setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
   test: TestPayload!
+  updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
+  updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
+  updateUserLastName(input: UpdateUserLastNameInput!): UpdateUserLastNamePayload!
   updateWebHookActiveState(input: UpdateWebHookActiveStateInput!): UpdateWebHookActiveStatePayload!
   updateWebHookEventGroups(input: UpdateWebHookEventGroupsInput!): UpdateWebHookEventGroupsPayload!
   updateWebHookName(input: UpdateWebHookNameInput!): UpdateWebHookNamePayload!
@@ -807,6 +834,8 @@ type Query {
   systemLogById(log_id: ID!): GQL_SystemEvent!
   systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
   testik(id: ID!): GQL_Adapter
+  userById(user_id: ID!): GQL_User!
+  users("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_UserConnection
   webHookById(hook_id: ID!): GQL_WebHook!
   webHookByUid(hook_uid: String!): GQL_WebHook!
   webHookRecordById(record_id: ID!): GQL_WebHookRecord!
@@ -817,6 +846,16 @@ type Query {
 type RemoveServerPayload {
   query: Query!
   removed_id: ID
+}
+
+type RemoveUeserPayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
+type RemoveUserAdminPayload {
+  gQL_User: GQL_User
+  query: Query!
 }
 
 type RemoveWebHookPayload {
@@ -889,6 +928,11 @@ type SetServerNamePayload {
   query: Query!
 }
 
+type SetUserAdminPayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
 type Subscription {
   mqttClientConnected(server_id: ID!): GQL_MqttClientConnected!
   mqttClientDisconnected(server_id: ID!): GQL_MqttClientDisconnected!
@@ -904,6 +948,21 @@ type Subscription {
 
 type TestPayload {
   boolean: Boolean
+  query: Query!
+}
+
+type UpdateUserEnabledPayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
+type UpdateUserFirstNamePayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
+type UpdateUserLastNamePayload {
+  gQL_User: GQL_User
   query: Query!
 }
 
@@ -940,7 +999,7 @@ input CreateServerInput {
   type: GQL_ServerVariant!
 }
 
-input CreateUeserInput {
+input CreateUserInput {
   first_name: String!
   last_name: String!
   password: String!
@@ -967,6 +1026,14 @@ input ProcessServerCmdInput {
 
 input RemoveServerInput {
   id: ID!
+}
+
+input RemoveUeserInput {
+  user_id: ID!
+}
+
+input RemoveUserAdminInput {
+  user_id: ID!
 }
 
 input RemoveWebHookInput {
@@ -1031,6 +1098,25 @@ input SetServerLocationInput {
 input SetServerNameInput {
   id: ID!
   name: String!
+}
+
+input SetUserAdminInput {
+  user_id: ID!
+}
+
+input UpdateUserEnabledInput {
+  enable: Boolean!
+  user_id: ID!
+}
+
+input UpdateUserFirstNameInput {
+  first_name: String!
+  user_id: ID!
+}
+
+input UpdateUserLastNameInput {
+  first_name: String!
+  user_id: ID!
 }
 
 input UpdateWebHookActiveStateInput {
