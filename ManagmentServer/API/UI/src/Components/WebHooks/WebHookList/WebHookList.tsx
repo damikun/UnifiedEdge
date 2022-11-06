@@ -1,5 +1,7 @@
-import clsx from "clsx";
 import { useEffect } from "react";
+import Table from "../../Table/Table";
+import TableBody from "../../Table/TableBody";
+import TableHeader from "../../Table/TableHeader";
 import { WebHookListItem } from "./WebHookListItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
@@ -55,9 +57,9 @@ export default function WebHookList({dataRef}:WebHookListProps){
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page_data?.data.webHooks?.__id])
 
-  return <table className={clsx("flex bg-gray-100 flex-col w-full",
-    "border border-gray-200 rounded-sm shadow-sm pt-2")}>
+  return <Table>
     <WebHookListHeader/>
+    <TableBody>
     {
       page_data?.data?.webHooks?.edges
         ?.filter(e=>e !== null && e !== undefined)
@@ -68,7 +70,8 @@ export default function WebHookList({dataRef}:WebHookListProps){
                   />
         })
     }
-  </table> 
+    </TableBody>
+  </Table> 
 }
 
 // -------------------------------
@@ -79,9 +82,7 @@ type WebHookListHeaderProps = {
 
 function WebHookListHeader({}:WebHookListHeaderProps){
 
-  return <thead className={clsx("flex text-gray-600 w-full",
-    "space-x-2 border-b justify-between lg:justify-start border-gray-200",
-    "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none")}>
+  return <TableHeader>
     <tr className="flex w-3/12">
       <th>Name</th>
     </tr>
@@ -91,5 +92,5 @@ function WebHookListHeader({}:WebHookListHeaderProps){
     <tr className="w-3/12 2xl:w-2/12 justify-start">
       <th>Last run</th>
     </tr>
-  </thead>
+  </TableHeader>
 } 

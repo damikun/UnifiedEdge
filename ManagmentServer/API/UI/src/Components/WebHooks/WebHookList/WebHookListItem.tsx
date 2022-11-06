@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
+import TableItem from "../../Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useMemo, useTransition } from "react";
 import { WebHookListItemDataFragment$key } from "./__generated__/WebHookListItemDataFragment.graphql";
@@ -37,7 +38,7 @@ export function WebHookListItem({dataRef, key_}:WebHookListItemProps){
   const navigate = useNavigate();
   
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
 
         PreventDefaults(e);
         
@@ -54,28 +55,26 @@ export function WebHookListItem({dataRef, key_}:WebHookListItemProps){
     "N/A"
   }, [data?.lastTrigger])
 
-  return <tbody onClick={handleClick} key={key_} className={clsx("flex space-y-1 space-x-2",
-    "text-center cursor-pointer py-2 hover:bg-gray-200 hover:bg-opacity-40",
-    "rounded-sm hover:shadow-sm px-2 md:px-5 justify-between lg:justify-start")}>
-    <tr className="flex w-3/12 items-center">
-      <td className={clsx("truncate break-all font-sans text-gray-700",
+  return <TableItem onClick={handleClick} key={key_}>
+    <td className="flex w-3/12 items-center">
+      <div className={clsx("truncate break-all font-sans text-gray-700",
       "font-semibold text-sm capitalize")}>
         {data?.name}
-      </td>
-    </tr>
-    <tr className="w-6/12 2xl:w-7/12 hidden lg:flex items-center">
-      <td className="truncate font-normal text-gray-600">
+      </div>
+    </td>
+    <td className="w-6/12 2xl:w-7/12 hidden lg:flex items-center">
+      <div className="truncate font-normal text-gray-600">
         {data?.webHookUrl}
-      </td>
-    </tr>
-    <tr className="flex w-3/12 2xl:w-2/12 justify-start items-center">
-      <td className="flex max-w-full break-all">
+      </div>
+    </td>
+    <td className="flex w-3/12 2xl:w-2/12 justify-start items-center">
+      <div className="flex max-w-full break-all">
         <div className="truncate">
           {dt}
         </div>
-      </td>
-    </tr>
-  </tbody>
+      </div>
+    </td>
+  </TableItem>
 }
 
 function PreventDefaults(e:any) {

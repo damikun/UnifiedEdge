@@ -1,10 +1,12 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
+import TableItem from "../../Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useTransition } from "react";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { UserListItemDataFragment$key } from "./__generated__/UserListItemDataFragment.graphql";
+
 
 
 const UserListItemDataFragment = graphql`
@@ -35,7 +37,7 @@ export function UserListItem({dataRef, key_}:UserListItemProps){
   const navigate = useNavigate();
   
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
 
         PreventDefaults(e);
         
@@ -46,36 +48,33 @@ export function UserListItem({dataRef, key_}:UserListItemProps){
     [data, navigate],
   )
 
-  return <tbody onClick={handleClick} key={key_} className={clsx("flex space-y-1 space-x-2",
-    "text-center cursor-pointer py-2 hover:bg-gray-200 hover:bg-opacity-40",
-    "rounded-sm hover:shadow-sm px-2 md:px-5 justify-between",
-    "lg:justify-start w-full")}>
-    <tr className="flex w-3/12">
-      <td className={clsx("truncate break-all font-sans text-gray-700",
+  return <TableItem onClick={handleClick} key={key_}>
+    <td className="flex w-3/12">
+      <div className={clsx("truncate break-all font-sans text-gray-700",
       "font-semibold text-sm capitalize")}>
         {data?.userName}
-      </td>
-    </tr>
-    <tr className="w-3/12 hidden lg:flex">
-      <td className="truncate font-normal text-gray-600">
+      </div>
+    </td>
+    <td className="w-3/12 hidden lg:flex">
+      <div className="truncate font-normal text-gray-600">
         {data?.firstName}
-      </td>
-    </tr>
-    <tr className="w-3/12 hidden lg:flex">
-      <td className="truncate font-normal text-gray-600">
+      </div>
+    </td>
+    <td className="w-3/12 hidden lg:flex">
+      <div className="truncate font-normal text-gray-600">
         {data?.lastName}
-      </td>
-    </tr>
-    <tr className="flex w-3/12 justify-center items-center">
-      <td className="flex">
+      </div>
+    </td>
+    <td className="flex w-3/12 justify-center items-center">
+      <div className="flex">
         <Badge
           variant={data?.enabled?"primarygreen":"primaryred"}
           >
           {data?.enabled?"Enabled":"Disabled"}
         </Badge>
-      </td>
-    </tr>
-  </tbody>
+      </div>
+    </td>
+  </TableItem>
 }
 
 function PreventDefaults(e:any) {

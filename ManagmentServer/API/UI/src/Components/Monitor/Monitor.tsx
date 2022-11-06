@@ -42,14 +42,6 @@ function Monitor() {
       component={<EdgeInfo dataRef={data} />}
     />
 
-    <AdapterListCtxProvider>
-      <Section 
-        name="Adapters"
-        bar={<AdapterListBar/>}
-        component={<AdapterList dataRef={data} />}
-      />
-    </AdapterListCtxProvider>
-
     <ServerListCtxProvider>
       <Section 
         name="Servers"
@@ -57,6 +49,14 @@ function Monitor() {
         component={<ServerList dataRef={data} />}
       />
     </ServerListCtxProvider>
+
+    <AdapterListCtxProvider>
+      <Section 
+        name="Adapters"
+        bar={<AdapterListBar/>}
+        component={<AdapterList dataRef={data} />}
+      />
+    </AdapterListCtxProvider>
 
     <Section 
       name="Instance"

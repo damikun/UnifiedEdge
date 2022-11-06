@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router";
+import TableItem from "../../Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
@@ -71,7 +72,7 @@ export function ServerListItem({dataRef, key_}:ServerListItemProps){
   const navigate = useNavigate();
   
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
 
         PreventDefaults(e);
 
@@ -84,22 +85,20 @@ export function ServerListItem({dataRef, key_}:ServerListItemProps){
     [data, navigate],
   )
 
-  return <tbody onClick={handleClick} key={key_} className={clsx("flex space-y-1 space-x-2",
-    "text-center cursor-pointer justify-between py-1 hover:bg-gray-200",
-    "rounded-sm hover:shadow-sm px-2 md:px-5")}>
-    <tr className="w-6/12 2xl:w-8/12 flex truncate capitalize">
-      <td className="truncate font-sans text-gray-700 font-semibold text-sm">
+  return <TableItem onClick={handleClick} key={key_}>
+    <td className="w-6/12 2xl:w-8/12 flex truncate capitalize">
+      <div className="truncate font-sans text-gray-700 font-semibold text-sm">
         {data?.name}
-      </td>
-    </tr>
-    <tr className={clsx("w-3/12 2xl:w-2/12 flex truncate",
+      </div>
+    </td>
+    <td className={clsx("w-3/12 2xl:w-2/12 flex truncate",
       "justify-center text-center font-mono")}>
-      <td>
+      <div>
         <ServerType type={data?.__typename}/>
-      </td>
-    </tr>
-    <tr className="w-3/12 2xl:w-2/12 flex justify-center text-center">
-      <td>
+      </div>
+    </td>
+    <td className="w-3/12 2xl:w-2/12 flex justify-center text-center">
+      <div>
         <Badge
           turncate
           border={false}
@@ -108,9 +107,9 @@ export function ServerListItem({dataRef, key_}:ServerListItemProps){
           variant={state_variant}>
           {data?.state}
         </Badge>
-      </td>
-    </tr>
-  </tbody>
+      </div>
+    </td>
+  </TableItem>
 }
 
 function PreventDefaults(e:any) {

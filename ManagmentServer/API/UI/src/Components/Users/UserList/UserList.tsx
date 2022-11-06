@@ -1,6 +1,8 @@
-import clsx from "clsx";
 import { useEffect } from "react";
+import Table from "../../Table/Table";
+import TableBody from "../../Table/TableBody";
 import { UserListItem } from "./UserListItem";
+import TableHeader from "../../Table/TableHeader";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import { useUserListCtx } from "./UserListCtxProvider";
@@ -55,9 +57,9 @@ export default function UserList({dataRef}:UserListProps){
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page_data?.data.users?.__id])
 
-  return <table className={clsx("flex bg-gray-100 flex-col w-full",
-    "border border-gray-200 rounded-sm shadow-sm pt-2")}>
+  return <Table>
     <UserListHeader/>
+    <TableBody>
     {
       page_data?.data?.users?.edges
         ?.filter(e=>e !== null && e !== undefined)
@@ -68,7 +70,8 @@ export default function UserList({dataRef}:UserListProps){
           />
         })
     }
-  </table> 
+    </TableBody>
+  </Table> 
 }
 
 // -------------------------------
@@ -79,10 +82,7 @@ type UserListHeaderProps = {
 
 function UserListHeader({}:UserListHeaderProps){
 
-  return <thead className={clsx("flex text-gray-600 w-full",
-    "space-x-2 border-b lg:justify-start border-gray-200",
-    "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none justify-between",
-    "lg:justify-start ")}>
+  return <TableHeader>
     <tr className="flex w-3/12">
       <th>UserName</th>
     </tr>
@@ -95,5 +95,5 @@ function UserListHeader({}:UserListHeaderProps){
     <tr className="flex w-3/12 justify-center items-center text-center">
       <th>Enabled</th>
     </tr>
-  </thead>
+  </TableHeader>
 } 
