@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
@@ -6,8 +5,9 @@ import Modal from "../../../UIComponents/Modal/Modal";
 import { WebHookRecordItem } from "./WebHookRecordItem";
 import WebHookRecordDetail from "./WebHookRecordDetail";
 import Section from "../../../UIComponents/Section/Section";
+import TableHeader from "../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import StayledInfinityScrollContainer from "../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
+import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { WebHookRecordListPaginationFragment$key } from "./__generated__/WebHookRecordListPaginationFragment.graphql";
 import { WebHookRecordListPaginationFragmentRefetchQuery } from "./__generated__/WebHookRecordListPaginationFragmentRefetchQuery.graphql";
 
@@ -84,23 +84,24 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
     [searchParams, setSearchParams]
   );
   
-  return <Section 
-    name={"Records"}
-    component={
-      <>
-      <Modal
-        position="top"
-        isOpen={isOpen}
-        onClose={handleModalClose}
-        component={
-          <WebHookRecordDetail />
-        }
-      />
-      <div className={clsx("flex bg-gray-100 flex-col w-full",
-      "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
-        <StayledInfinityScrollContainer
-          header={<Header/>}
-          onEnd={handleLoadMore}
+  return <>
+
+    <Modal
+      position="top"
+      isOpen={isOpen}
+      onClose={handleModalClose}
+      component={
+        <WebHookRecordDetail />
+      }
+    />
+
+    <Section 
+      name={"Records"}
+      component={
+      <InfinityScrollTable
+        header={<Header/>}
+        height="h-72"
+        onEnd={handleLoadMore}
         >
           {
             pagination?.data?.webHookRecords?.edges?.map((edge,index)=>{
@@ -111,28 +112,25 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
               />
             })
           }
-        </StayledInfinityScrollContainer>
-      </div>
-      </>
-    }
-  />
+        </InfinityScrollTable>
+      }
+    />
+  </>
 }
 
 function Header(){
-  return <div className={clsx("flex space-x-2 py-1",
-  "text-gray-700 border-gray-200 border-b",
-  "py-2 lg:pb-3 mb-1 px-2 md:px-5 select-none font-semibold")}>
-    <div className="flex w-20 items-center justify-center">
-      <div>State</div>
-    </div>
-    <div className="flex-1 hidden lg:flex">
-      <div>Trigger</div>
-    </div>
-    <div className="flex-1 lg:w-44">
-      <div>Time</div>
-    </div>
-    <div className="flex w-24 md:w-28 items-center text-center">
-      <div>Status</div>
-    </div>
-  </div>
+  return <TableHeader>
+    <tr className="flex w-20 items-center justify-center">
+      <th>State</th>
+    </tr>
+    <tr className="flex-1 hidden lg:flex">
+      <th>Trigger</th>
+    </tr>
+    <tr className="flex-1 lg:w-44">
+      <th>Time</th>
+    </tr>
+    <tr className="flex w-24 md:w-28 items-center text-center">
+      <th>Status</th>
+    </tr>
+  </TableHeader>
 }

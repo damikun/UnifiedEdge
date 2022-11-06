@@ -7,10 +7,11 @@ import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
 import { usePaginationFragment, useSubscription } from "react-relay";
+import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttClientsPaginationFragment$key } from "./__generated__/MqttClientsPaginationFragment.graphql";
 import { MqttClientsClientConnectedSubscription } from "./__generated__/MqttClientsClientConnectedSubscription.graphql";
-import StayledInfinityScrollContainer from "../../../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
 import { MqttClientsPaginationFragmentRefetchQuery } from "./__generated__/MqttClientsPaginationFragmentRefetchQuery.graphql";
 import { MqttClientsClientDisconnectedSubscription } from "./__generated__/MqttClientsClientDisconnectedSubscription.graphql";
 
@@ -146,52 +147,48 @@ function MqttClients({dataRef}:MqttClientsProps) {
     [searchParams, setSearchParams]
   );
   
-  return <Section 
+  return <>
+  <Modal
+    position="top"
+    isOpen={isOpen}
+    onClose={handleModalClose}
+    component={
+      <MqttClientDetail />
+    }
+  />
+  <Section 
       name={"Connected clients"}
       component={
-        <>
-        <Modal
-          position="top"
-          isOpen={isOpen}
-          onClose={handleModalClose}
-          component={
-            <MqttClientDetail />
+        <InfinityScrollTable
+          header={<Header/>}
+          height="h-72"
+          onEnd={handleLoadMore}
+        >
+          {
+            pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
+                return <MqttClientItem 
+                key={edge.node?.id??index}
+                dataRef={edge.node}
+                onItemClick={handleItemDetail}
+              />
+            })
           }
-        />
-        <div className={clsx("flex bg-gray-100 flex-col w-full",
-        "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
-          <StayledInfinityScrollContainer
-            header={<Header/>}
-            onEnd={handleLoadMore}
-          >
-            {
-              pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
-                  return <MqttClientItem 
-                  key={edge.node?.id??index}
-                  dataRef={edge.node}
-                  onItemClick={handleItemDetail}
-                />
-              })
-            }
-          </StayledInfinityScrollContainer>
-        </div>
-        </>
+        </InfinityScrollTable>
       }
     />
+  </>
 }
 
 function Header(){
-  return <div className={clsx("flex text-gray-600 w-full",
-  "space-x-2 justify-between border-b border-gray-200",
-  "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none font-semibold")}>
-    <div className="flex w-6/12 2xl:w-8/12">
-      <div>Uid</div>
-    </div>
-    <div className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
-      <div>Version</div>
-    </div>
-    <div className="flex w-5/12 2xl:w-2/12 text-center justify-center">
-      <div>Connected</div>
-    </div>
-  </div>
+  return <TableHeader>
+    <tr className="flex w-6/12 2xl:w-8/12">
+      <th>Uid</th>
+    </tr>
+    <tr className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
+      <th>Version</th>
+    </tr>
+    <tr className="flex w-5/12 2xl:w-2/12 text-center justify-center">
+      <th>Connected</th>
+    </tr>
+  </TableHeader>
 }

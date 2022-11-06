@@ -1,14 +1,13 @@
-import clsx from "clsx";
 import { useEffect } from "react";
-import Table from "../../Table/Table";
-import TableBody from "../../Table/TableBody";
 import { ServerListItem } from "./ServerListItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
+import Table from "../../../UIComponents/Table/Table";
+import TableBody from "../../../UIComponents/Table/TableBody";
+import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { useMonitorServerListCtx } from "./ServerListCtxProvider";
 import { ServerListRefetchQuery } from "./__generated__/ServerListRefetchQuery.graphql";
 import { ServerListDataFragment$key } from "./__generated__/ServerListDataFragment.graphql";
-import TableHeader from "../../Table/TableHeader";
 
 
 export const ServerListDataFragment = graphql`

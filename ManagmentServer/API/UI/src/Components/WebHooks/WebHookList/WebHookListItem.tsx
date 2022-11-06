@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
-import TableItem from "../../Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useMemo, useTransition } from "react";
+import TableItem from "../../../UIComponents/Table/TableItem";
 import { WebHookListItemDataFragment$key } from "./__generated__/WebHookListItemDataFragment.graphql";
 
 

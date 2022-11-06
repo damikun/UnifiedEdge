@@ -24,7 +24,7 @@ function WebHookInfo() {
 
   const { id }: any = useParams<string>();
 
-  console.log(id)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hook_id, setHook_id] = useState(id)
 
   const data = useLazyLoadQuery<WebHookInfoQuery>(

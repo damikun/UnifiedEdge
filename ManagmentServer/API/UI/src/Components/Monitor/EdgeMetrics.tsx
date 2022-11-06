@@ -48,7 +48,7 @@ export default function EdgeMetrics({dataRef}:EdgeMetricsProps){
         "grid-cols-1 lg:grid-cols-2 flex-wrap z-0")}>
        
         <SuspenseList revealOrder={"together"}>
-            <Card className="bg-gray-100">
+            <Card className="bg-gray-50">
                 <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         scale="percentage"
@@ -59,7 +59,7 @@ export default function EdgeMetrics({dataRef}:EdgeMetricsProps){
                 </Suspense>
             </Card>
 
-            <Card className="bg-gray-100">
+            <Card className="bg-gray-50">
                 <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         curve={CurveType.CURVE_STEP}
@@ -71,7 +71,7 @@ export default function EdgeMetrics({dataRef}:EdgeMetricsProps){
                 </Suspense>
             </Card>
 
-            <Card className="bg-gray-100">
+            <Card className="bg-gray-50">
                 <Suspense fallback={<MetricTrendPlaceholder/>}>
                     <MetricTrend
                         curve={CurveType.CURVE_STEP}

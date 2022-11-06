@@ -3,7 +3,7 @@ import useDebouncedHandler from "../Hooks/useDebouncedHandler";
 import useDidMountEffect from "../Hooks/useDidMountEffect";
 
 export type useDivInfinityScrollProps = {
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<any>;
   fromEnd_px?: number;
   handleOnEnd?: () => void;
 };

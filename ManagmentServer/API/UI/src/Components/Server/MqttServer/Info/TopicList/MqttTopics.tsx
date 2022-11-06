@@ -1,15 +1,16 @@
-import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { MqttTopicItem } from "./MqttTopicItem";
 import { graphql } from "babel-plugin-relay/macro";
-import { usePaginationFragment, useSubscription } from "react-relay";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Section from "../../../../../UIComponents/Section/Section";
-import { MqttTopicsPaginationFragment$key } from "./__generated__/MqttTopicsPaginationFragment.graphql";
-import StayledInfinityScrollContainer from "../../../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
-import { MqttTopicsPaginationFragmentRefetchQuery } from "./__generated__/MqttTopicsPaginationFragmentRefetchQuery.graphql";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
+import Section from "../../../../../UIComponents/Section/Section";
+import { usePaginationFragment, useSubscription } from "react-relay";
+import TableHeader from "../../../../../UIComponents/Table/TableHeader";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
+import { MqttTopicsPaginationFragment$key } from "./__generated__/MqttTopicsPaginationFragment.graphql";
 import { MqttTopicsNewInboundSubscription } from "./__generated__/MqttTopicsNewInboundSubscription.graphql";
+import { MqttTopicsPaginationFragmentRefetchQuery } from "./__generated__/MqttTopicsPaginationFragmentRefetchQuery.graphql";
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 const MqttTopicsNewInboundTag = graphql`
@@ -99,40 +100,34 @@ function MqttTopics({dataRef}:MqttTopicsProps) {
   );
   
   return <Section 
-      name={"Topics"}
-      component={
-        <>
-        <div className={clsx("flex bg-gray-100 flex-col w-full",
-        "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
-          <StayledInfinityScrollContainer
-            header={<Header/>}
-            onEnd={handleLoadMore}
-          >
-            {
-              pagination?.data?.mqttServerTopicStats?.edges?.map((edge,index)=>{
-                  return <MqttTopicItem 
-                  key={edge.node?.id??index}
-                  dataRef={edge.node}
-                  onItemClick={handleItemDetail}
-                />
-              })
-            }
-          </StayledInfinityScrollContainer>
-        </div>
-        </>
+    name={"Topics"}
+    component={
+    <InfinityScrollTable
+      header={<Header/>}
+      height="h-72"
+      onEnd={handleLoadMore}
+    >
+      {
+        pagination?.data?.mqttServerTopicStats?.edges?.map((edge,index)=>{
+            return <MqttTopicItem 
+            key={edge.node?.id??index}
+            dataRef={edge.node}
+            onItemClick={handleItemDetail}
+          />
+        })
       }
-    />
+    </InfinityScrollTable>
+    }
+  />
 }
 
 function Header(){
-  return <div className={clsx("flex text-gray-600 w-full",
-  "space-x-2 justify-between border-b border-gray-200",
-  "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none font-semibold")}>
-    <div className="flex w-8/12 2xl:w-9/12">
-      <div>Name</div>
-    </div>
-    <div className="flex w-4/12 2xl:w-3/12 text-center justify-center">
-      <div>Message Count</div>
-    </div>
-  </div>
+  return <TableHeader>
+    <tr className="flex w-8/12 2xl:w-9/12">
+      <th>Name</th>
+    </tr>
+    <tr className="flex w-4/12 2xl:w-3/12 text-center justify-center">
+      <th>Message Count</th>
+    </tr>
+  </TableHeader>
 }

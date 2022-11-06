@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import ServerLogDetail from "./ServerlogDetail";
 import { ServerLogsItem } from "./ServerLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
@@ -6,10 +5,11 @@ import React, { useCallback, useMemo } from "react";
 import Modal from "../../../UIComponents/Modal/Modal";
 import Section from "../../../UIComponents/Section/Section";
 import { useParams, useSearchParams } from "react-router-dom";
+import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { ServerLogsQuery } from "./__generated__/ServerLogsQuery.graphql";
+import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { ServerLogsPaginationFragment_logs$key } from "./__generated__/ServerLogsPaginationFragment_logs.graphql";
-import StayledInfinityScrollContainer from "../../../UIComponents/ScrollContainter/StayledInfinityScrollContainer";
 import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
 
 
@@ -106,40 +106,35 @@ function ServerLogs() {
     <Section 
       name={"Logs"}
       component={
-        <div className={clsx("flex bg-gray-100 flex-col w-full",
-        "border border-gray-200 rounded-sm shadow-sm pt-2 h-96")}>
-          <StayledInfinityScrollContainer
-            header={<Header/>}
-            onEnd={handleLoadMore}
-          >
-            {
-              pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
-                  return <ServerLogsItem 
-                  key={edge.node?.iD??index}
-                  dataRef={edge.node}
-                  onItemClick={handleItemDetail}
-                />
-              })
-            }
-          </StayledInfinityScrollContainer>
-        </div>
+        <InfinityScrollTable
+          header={<Header/>}
+          onEnd={handleLoadMore}
+        >
+          {
+            pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
+                return <ServerLogsItem 
+                key={edge.node?.iD??index}
+                dataRef={edge.node}
+                onItemClick={handleItemDetail}
+              />
+            })
+          }
+        </InfinityScrollTable>
       }
       />
     </>
 }
 
 function Header(){
-  return <div className={clsx("flex text-gray-600 w-full",
-  "space-x-2 justify-between border-b border-gray-200",
-  "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none font-semibold")}>
-  <div className="flex w-6/12 2xl:w-8/12">
-    <div>Name</div>
-  </div>
-  <div className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
-    <div>Type</div>
-  </div>
-  <div className="flex w-5/12 2xl:w-2/12 text-center justify-center">
-    <div>Timestamp</div>
-  </div>
-</div>
+  return <TableHeader>
+  <tr className="flex w-6/12 2xl:w-8/12">
+    <th>Name</th>
+  </tr>
+  <tr className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
+    <th>Type</th>
+  </tr>
+  <tr className="flex w-5/12 2xl:w-2/12 text-center justify-center">
+    <th>Timestamp</th>
+  </tr>
+</TableHeader>
 }

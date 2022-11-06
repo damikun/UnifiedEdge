@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useNavigate } from "react-router";
-import TableItem from "../../Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
 import { useCallback, useMemo, useTransition } from "react";
+import TableItem from "../../../UIComponents/Table/TableItem";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
 import { GQL_ServerVariant, ServerListItemDataFragment$key } from "./__generated__/ServerListItemDataFragment.graphql";
 import { ServerListItemServerStateChengedSubscription } from "./__generated__/ServerListItemServerStateChengedSubscription.graphql";

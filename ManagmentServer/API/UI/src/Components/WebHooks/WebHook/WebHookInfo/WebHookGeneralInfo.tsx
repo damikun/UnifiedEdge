@@ -58,9 +58,8 @@ function WebHookGeneralInfo({dataRef}:WebHookGeneralInfoProps) {
             {  
               data?.eventGroup &&  data?.eventGroup.length > 0 ?
                 data?.eventGroup.map((e,i)=>{
-                  return <div className="mr-2">
+                  return <div key={i} className="mr-2">
                   <Badge
-                    key={i}
                     size="thin"
                     variant="secondarygray">
                       {e}

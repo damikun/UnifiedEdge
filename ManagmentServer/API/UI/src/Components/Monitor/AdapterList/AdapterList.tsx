@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import Table from "../../Table/Table";
-import TableBody from "../../Table/TableBody";
-import TableHeader from "../../Table/TableHeader";
+import Table from "../../../UIComponents/Table/Table";
+import TableBody from "../../../UIComponents/Table/TableBody";
+import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { AdapterListItem } from "./AdapterListItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";

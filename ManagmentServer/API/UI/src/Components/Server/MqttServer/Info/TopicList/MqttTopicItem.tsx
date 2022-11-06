@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useTransition } from "react";
+import TableItem from "../../../../../UIComponents/Table/TableItem";
 import { MqttTopicItemDataFragment$key } from "./__generated__/MqttTopicItemDataFragment.graphql";
 
 
@@ -29,7 +30,7 @@ export function MqttTopicItem({dataRef, onItemClick,key_}:MqttTopicItemProps){
   });
 
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
       data?.id && startTransition(() => {
         onItemClick(data.id)
       });
@@ -37,23 +38,19 @@ export function MqttTopicItem({dataRef, onItemClick,key_}:MqttTopicItemProps){
     [onItemClick,data],
   )
 
-  return <div
+  return <TableItem
     onClick={handleClick}
-    key={data?.id}
-    className={clsx("flex space-y-1 space-x-2 hover:bg-gray-200",
-    "text-center cursor-pointer justify-between py-1",
-    "rounded-sm hover:shadow-sm px-2 md:px-5",
-    "h-12 items-center")}>
-    <div className="w-8/12 2xl:w-9/12 flex truncate capitalize">
+    key={data?.id}>
+    <td className="w-8/12 2xl:w-9/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">
         {data?.topic}
       </div>
-    </div>
-    <div className={clsx("w-4/12 2xl:w-3/12 flex truncate",
+    </td>
+    <td className={clsx("w-4/12 2xl:w-3/12 flex truncate",
       "justify-center text-center text-sm")}>
       <div className="truncate break-all">
         {data?.count}
       </div>
-    </div>
-  </div>
+    </td>
+  </TableItem>
 }

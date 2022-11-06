@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { useNavigate } from "react-router";
-import TableItem from "../../Table/TableItem";
+import TableItem from "../../../UIComponents/Table/TableItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useTransition } from "react";
 import { AdapterStateBadget } from "../../Adapter/AdapterState";

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import Table from "../../Table/Table";
-import TableBody from "../../Table/TableBody";
+import Table from "../../../UIComponents/Table/Table";
+import TableBody from "../../../UIComponents/Table/TableBody";
 import { UserListItem } from "./UserListItem";
-import TableHeader from "../../Table/TableHeader";
+import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import { useUserListCtx } from "./UserListCtxProvider";

@@ -4,7 +4,9 @@ import { graphql } from "babel-plugin-relay/macro";
 import { ServerLogTypeBadget } from "./ServerLogType";
 import { GetLocalDate } from "../../../Shared/Common";
 import { useCallback, useMemo, useTransition } from "react";
+import TableItem from "../../../UIComponents/Table/TableItem";
 import { ServerLogsItemDataFragment$key } from "./__generated__/ServerLogsItemDataFragment.graphql";
+
 
 const ServerLogsItemDataFragment = graphql`
   fragment ServerLogsItemDataFragment on GQL_IServerEvent {
@@ -31,7 +33,7 @@ export function ServerLogsItem({dataRef, onItemClick,key_}:ServerLogsItemProps){
   });
 
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
       data?.iD && startTransition(() => {
         onItemClick(data.iD)
       });
@@ -52,30 +54,27 @@ var bg_color = useMemo(() => {
   }
 }, [data])
 
-  return <div
+  return <TableItem
     onClick={handleClick}
     key={data?.iD}
-    className={clsx("flex space-y-1 space-x-2 hover:bg-gray-200",
-    "text-center cursor-pointer justify-between py-1",
-    "rounded-sm hover:shadow-sm px-2 md:px-5", bg_color,
-    "border-l-2",
+    className={clsx(bg_color,"border-l-2",
     data?.type==="ERROR"?"border-red-500":"border-transparent")}>
-    <div className="w-6/12 2xl:w-8/12 flex truncate capitalize">
+    <td className="w-6/12 2xl:w-8/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">
         {data?.name}
       </div>
-    </div>
-    <div className={clsx("w-1/12 2xl:w-2/12 flex truncate text-gray-500",
+    </td>
+    <td className={clsx("w-1/12 2xl:w-2/12 flex truncate text-gray-500",
         "justify-center text-center font-mono font-semibold text-sm hidden lg:flex")}>
         <div className="truncate">
           <ServerLogTypeBadget state={data?.type}/>
         </div>
-    </div>
-    <div className={clsx("w-5/12 2xl:w-2/12 flex truncate",
+    </td>
+    <td className={clsx("w-5/12 2xl:w-2/12 flex truncate",
       "justify-center text-center text-sm")}>
       <div className="truncate">
         {dt}
       </div>
-    </div>
-  </div>
+    </td>
+  </TableItem>
 }

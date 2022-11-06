@@ -4,6 +4,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import { GetLocalDate } from "../../../Shared/Common";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { useCallback, useMemo, useTransition } from "react";
+import TableItem from "../../../UIComponents/Table/TableItem";
 import { WebHookRecordItemDataFragment$key } from "./__generated__/WebHookRecordItemDataFragment.graphql";
 
 
@@ -34,7 +35,7 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
   });
 
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLTableSectionElement, MouseEvent>) => {
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
       data?.id && startTransition(() => {
         onItemClick(data.id)
       });
@@ -46,16 +47,11 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
     return GetLocalDate(data?.timestamp);
   },[data]) 
 
-  return <div
-    onClick={handleClick}
-    key={data?.id}
-    className={clsx("flex space-x-2 hover:bg-gray-200",
-    "cursor-pointer py-1",
-    "rounded-sm hover:shadow-sm px-2 md:px-5")}>
-    <div className="w-20 flex items-center justify-center">
+  return <TableItem onClick={handleClick} key={key_}>
+    <td className="w-20 flex items-center justify-center">
       <StateSection state={data?.result} />
-    </div>
-    <div className="flex-1 flex-col justify-start hidden lg:flex">
+    </td>
+    <td className="flex-1 flex-col justify-start hidden lg:flex">
       <div
         className={clsx(
           "flex py-0.5 truncate-1-lines",
@@ -69,15 +65,15 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
       <div className="flex text-xs font-semibold text-gray-500">
         {data?.guid}
       </div>
-    </div>
-    <div className="flex-1 lg:w-44 items-center truncate my-auto">
+    </td>
+    <td className="flex-1 lg:w-44 items-center truncate my-auto">
       {dt}
-    </div>
-    <div className="flex w-24 md:w-28 items-center text-center">
+    </td>
+    <td className="flex w-24 md:w-28 items-center text-center">
       <StatusCodeSection status={data?.statusCode} />
-    </div>
+    </td>
 
-  </div>
+  </TableItem>
 }
 
 
