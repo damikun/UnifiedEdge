@@ -19,9 +19,11 @@ export const UserProviderQueryTag = graphql`
 
 export type UserType = {
     readonly me: {
+      readonly firstName: string | null;
       readonly id: string;
-      readonly userName: string | null;
+      readonly lastName: string | null;
       readonly sessionId: string | null;
+      readonly userName: string | null;
   } | null;
 } | null;
 

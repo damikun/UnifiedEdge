@@ -48,27 +48,28 @@ export function UserListItem({dataRef, key_}:UserListItemProps){
 
   return <tbody onClick={handleClick} key={key_} className={clsx("flex space-y-1 space-x-2",
     "text-center cursor-pointer py-2 hover:bg-gray-200 hover:bg-opacity-40",
-    "rounded-sm hover:shadow-sm px-2 md:px-5 justify-between lg:justify-start")}>
-    <tr className="flex w-3/12 items-center">
+    "rounded-sm hover:shadow-sm px-2 md:px-5 justify-between",
+    "lg:justify-start w-full")}>
+    <tr className="flex w-3/12">
       <td className={clsx("truncate break-all font-sans text-gray-700",
       "font-semibold text-sm capitalize")}>
         {data?.userName}
       </td>
     </tr>
-    <tr className="w-6/12 2xl:w-7/12 hidden lg:flex items-center">
+    <tr className="w-3/12 hidden lg:flex">
       <td className="truncate font-normal text-gray-600">
         {data?.firstName}
       </td>
     </tr>
-    <tr className="w-6/12 2xl:w-7/12 hidden lg:flex items-center">
+    <tr className="w-3/12 hidden lg:flex">
       <td className="truncate font-normal text-gray-600">
         {data?.lastName}
       </td>
     </tr>
-    <tr className="flex w-3/12 2xl:w-2/12 justify-start items-center">
-      <td className="flex max-w-full break-all">
+    <tr className="flex w-3/12 justify-center items-center">
+      <td className="flex">
         <Badge
-          variant={data?.enabled?"secondarygreen":"primaryred"}
+          variant={data?.enabled?"primarygreen":"primaryred"}
           >
           {data?.enabled?"Enabled":"Disabled"}
         </Badge>

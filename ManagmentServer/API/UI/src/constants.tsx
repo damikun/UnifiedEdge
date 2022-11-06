@@ -19,7 +19,7 @@ export const GQL_ENDPOINT = "internal";
 
 export const LOGIN_ENDPOINT = `${BASE_SERVER_URL}/Account/Login?ReturnUrl=~/`;
 
-export const LOGOUT_ENDPOINT = `${BASE_SERVER_URL}/system/logout`;
+export const LOGOUT_ENDPOINT = `${BASE_SERVER_URL}/Account/Logout`;
 
 export const TRACES_ENDPOINT = `${BASE_SERVER_URL}/traces`;
 

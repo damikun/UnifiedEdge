@@ -1,13 +1,11 @@
 using MediatR;
 using AutoMapper;
-using IdentityModel;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
-using System.Security.Claims;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.AspNetCore.Identity;
@@ -141,14 +139,14 @@ namespace Aplication.CQRS.Commands
 
             var user_claims = await _userManager.GetClaimsAsync(user);
 
-            var admin_clain = user_claims.FirstOrDefault(e => e.Type == JwtClaimTypes.Role && e.Value == "admin");
+            var is_admin = await _userManager.IsInRoleAsync(user, "admin");
 
-            if (admin_clain == null)
+            if (!is_admin)
             {
                 return _mapper.Map<DTO_User>(user);
             }
 
-            var result = await _userManager.RemoveClaimAsync(user, admin_clain);
+            var result = await _userManager.RemoveFromRoleAsync(user, "admin");
 
             if (!result.Succeeded)
             {

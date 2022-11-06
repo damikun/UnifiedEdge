@@ -1,6 +1,14 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router";
 
+const User = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "User" */ "../Users/User/User"
+    )
+);
+
+
 const WebHook = lazy(
   () =>
     import(
@@ -89,7 +97,7 @@ export default function Body(){
           <Route path="/WebHooks/" element={<WebHooks/>} />
           <Route path="/WebHooks/Hook/:id/*" element={<WebHook/>} />
           <Route path="/Users/" element={<Users/>} />
-          <Route path="/Users/User/:id/*" element={<WebHook/>} />
+          <Route path="/Users/User/:id/*" element={<User/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />

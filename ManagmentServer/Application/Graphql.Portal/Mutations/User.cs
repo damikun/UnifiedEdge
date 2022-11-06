@@ -43,7 +43,7 @@ namespace Aplication.Graphql.Mutations
         /// Remove user
         /// </summary>
         /// <returns>GQL_User</returns>
-        public async Task<GQL_User> RemoveUeser(
+        public async Task<GQL_User> RemoveUser(
             [ID] string user_id,
             [Service] IMediator mediator,
             [Service] IMapper mapper
@@ -83,7 +83,7 @@ namespace Aplication.Graphql.Mutations
         /// <returns>GQL_User</returns>
         public async Task<GQL_User> UpdateUserLastName(
             [ID] string user_id,
-            string first_name,
+            string last_name,
             [Service] IMediator mediator,
             [Service] IMapper mapper
         )
@@ -91,7 +91,7 @@ namespace Aplication.Graphql.Mutations
             var dto = await mediator.Send(new UpdateUserLastName()
             {
                 UserId = user_id,
-                LastName = first_name
+                LastName = last_name
             });
 
             return _mapper.Map<GQL_User>(dto);
@@ -125,38 +125,59 @@ namespace Aplication.Graphql.Mutations
         /// <returns>GQL_User</returns>
         public async Task<GQL_User> SetUserAdmin(
             [ID] string user_id,
+            bool is_admin,
             [Service] IMediator mediator,
             [Service] IMapper mapper
         )
         {
-            var dto = await mediator.Send(
-                new SetUserAdmin()
-                {
-                    UserId = user_id,
-                }
-            );
+            if (is_admin)
+            {
+                var dto = await mediator.Send(
+                    new SetUserAdmin()
+                    {
+                        UserId = user_id,
+                    }
+                );
 
-            return _mapper.Map<GQL_User>(dto);
+                return _mapper.Map<GQL_User>(dto);
+            }
+            else
+            {
+                var dto = await mediator.Send(
+                    new RemoveUserAdmin()
+                    {
+                        UserId = user_id,
+                    }
+                );
+
+                return _mapper.Map<GQL_User>(dto);
+            }
         }
+
 
         /// <summary>
-        /// Remove user admin
+        /// Set user Password
         /// </summary>
         /// <returns>GQL_User</returns>
-        public async Task<GQL_User> RemoveUserAdmin(
+        public async Task<GQL_User> SetUserPassword(
             [ID] string user_id,
+            string current_password,
+            string new_password,
             [Service] IMediator mediator,
             [Service] IMapper mapper
         )
         {
             var dto = await mediator.Send(
-                new RemoveUserAdmin()
+                new SetUserPassword()
                 {
                     UserId = user_id,
+                    CurrentPassword = current_password,
+                    NewPassword = new_password
                 }
             );
 
             return _mapper.Map<GQL_User>(dto);
         }
+
     }
 }

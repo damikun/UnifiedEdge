@@ -124,6 +124,11 @@ type GQL_AdapterLogEdge {
   node: GQL_AdapterLog
 }
 
+type GQL_Claim {
+  type: String
+  value: String
+}
+
 type GQL_ClientConnected implements GQL_IServerEvent {
   asJson: String
   clientId: String!
@@ -746,6 +751,10 @@ type HistorianRecord {
   value: Any
 }
 
+type IsAdminResult {
+  isAdmin: Boolean!
+}
+
 type Mutation {
   createServer(request: CreateServerInput!): CreateServerPayload!
   createUser(input: CreateUserInput!): CreateUserPayload!
@@ -753,8 +762,7 @@ type Mutation {
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
-  removeUeser(input: RemoveUeserInput!): RemoveUeserPayload!
-  removeUserAdmin(input: RemoveUserAdminInput!): RemoveUserAdminPayload!
+  removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
   setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
@@ -770,6 +778,7 @@ type Mutation {
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
+  setUserPassword(input: SetUserPasswordInput!): SetUserPasswordPayload!
   test: TestPayload!
   updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
   updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
@@ -806,6 +815,7 @@ type Query {
   edgeInfo: GQL_Edge!
   failedJob(jobid: ID!): GQL_FailedJob!
   failedJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_FailedJobConnection
+  isAdmin(user_id: ID!): IsAdminResult!
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
   mqttServerById(id: ID!): GQL_MqttServer!
@@ -835,6 +845,8 @@ type Query {
   systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
   testik(id: ID!): GQL_Adapter
   userById(user_id: ID!): GQL_User!
+  userClaims(user_id: ID!): [GQL_Claim!]!
+  userRoles(user_id: ID!): [String!]!
   users("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_UserConnection
   webHookById(hook_id: ID!): GQL_WebHook!
   webHookByUid(hook_uid: String!): GQL_WebHook!
@@ -848,12 +860,7 @@ type RemoveServerPayload {
   removed_id: ID
 }
 
-type RemoveUeserPayload {
-  gQL_User: GQL_User
-  query: Query!
-}
-
-type RemoveUserAdminPayload {
+type RemoveUserPayload {
   gQL_User: GQL_User
   query: Query!
 }
@@ -929,6 +936,11 @@ type SetServerNamePayload {
 }
 
 type SetUserAdminPayload {
+  gQL_User: GQL_User
+  query: Query!
+}
+
+type SetUserPasswordPayload {
   gQL_User: GQL_User
   query: Query!
 }
@@ -1028,11 +1040,7 @@ input RemoveServerInput {
   id: ID!
 }
 
-input RemoveUeserInput {
-  user_id: ID!
-}
-
-input RemoveUserAdminInput {
+input RemoveUserInput {
   user_id: ID!
 }
 
@@ -1101,6 +1109,13 @@ input SetServerNameInput {
 }
 
 input SetUserAdminInput {
+  is_admin: Boolean!
+  user_id: ID!
+}
+
+input SetUserPasswordInput {
+  current_password: String!
+  new_password: String!
   user_id: ID!
 }
 
@@ -1115,7 +1130,7 @@ input UpdateUserFirstNameInput {
 }
 
 input UpdateUserLastNameInput {
-  first_name: String!
+  last_name: String!
   user_id: ID!
 }
 

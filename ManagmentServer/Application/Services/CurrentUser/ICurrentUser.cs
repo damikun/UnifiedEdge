@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Aplication.DTO;
 
 namespace Aplication.Services
 {
@@ -45,8 +46,17 @@ namespace Aplication.Services
         /// Test user regarding to specific role
         /// </summary>
         /// <param name="role_name"></param>
-        /// <returns></returns>
+        /// <returns>True if user is has specific role</returns>
         bool HasRole(string role_name);
+
+#nullable enable
+        /// <summary>
+        /// Return User object DTO for current user
+        /// </summary>
+        /// <param name="role_name"></param>
+        /// <returns>DTO_User</returns>
+        Task<DTO_User?> GetUser(CancellationToken ct = default);
+#nullable disable
 
         /// <summary>
         /// Returns API authentication state

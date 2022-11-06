@@ -74,7 +74,7 @@ function SystemView() {
 }
 
 function TabSection() {
-  return <div className="flex sticky top-16 z-10 border-t border-r border-l bg-gray-100 shadow-sm w-full">
+  return <div className="flex z-10 sticky top-16 border-t border-r border-l bg-gray-100 shadow-sm w-full">
     <RouterTabList
       hoverEffect
       tabStyle={"h-11 hover:bg-transparent"}

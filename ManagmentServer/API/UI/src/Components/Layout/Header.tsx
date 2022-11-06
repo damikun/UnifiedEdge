@@ -1,5 +1,7 @@
 import clsx from "clsx";
+import UserMenu from "./UserMenu";
 import { useUserStore } from "../../Utils/UserProvider";
+
 
 export default function Header(){
     return <div className={clsx("flex sticky top-0 h-16 bg-gradient-to-t",
@@ -21,5 +23,5 @@ function UserInfo({}:UserInfoProps){
         return null
     }
 
-    return  <div className="flex select-none font-semibold text-gray-600">{userStore?.user?.me.userName}</div>
+    return <UserMenu/>
 }

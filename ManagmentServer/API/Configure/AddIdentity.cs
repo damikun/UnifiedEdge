@@ -22,8 +22,6 @@ namespace API
             (s, o) =>
             {
                 o.UseSqlite("Data Source=identity.db");
-
-                // o.UseInternalServiceProvider(s);
             });
 
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -57,7 +55,8 @@ namespace API
             .AddInMemoryApiScopes(IdentitiyCfg.ApiScopes)
             .AddInMemoryClients(IdentitiyCfg.Clients)
             .AddAspNetIdentity<ApplicationUser>()
-            .AddProfileService<CustomProfileService>();
+            .AddProfileService<CustomProfileService>()
+            .AddInMemoryCaching();
 
             return serviceCollection;
         }

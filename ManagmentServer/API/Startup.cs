@@ -55,13 +55,13 @@ namespace API
 
             services.AddIdentity();
 
-            services.AddGlobalCfg();
+            services.AddMapper();
 
             services.AddMediatR();
 
-            services.AddServerFascade();
+            services.AddGlobalCfg();
 
-            services.AddMapper();
+            services.AddServerFascade();
 
             services.AddMqtt();
 

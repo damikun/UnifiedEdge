@@ -1,19 +1,16 @@
 using MediatR;
 using AutoMapper;
-using IdentityModel;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
-using System.Security.Claims;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
 
 namespace Aplication.CQRS.Commands
 {
@@ -141,12 +138,14 @@ namespace Aplication.CQRS.Commands
 
             var user_claims = await _userManager.GetClaimsAsync(user);
 
-            if (user_claims.Any(e => e.Type == JwtClaimTypes.Role && e.Value == "admin"))
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (await _userManager.IsInRoleAsync(user, "admin"))
             {
                 return _mapper.Map<DTO_User>(user);
             }
 
-            var result = await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Name, user.FirstName));
+            var result = await _userManager.AddToRoleAsync(user, "admin");
 
             if (!result.Succeeded)
             {

@@ -1,3 +1,4 @@
+using IdentityModel;
 using System.ComponentModel;
 using System.Security.Claims;
 
@@ -23,35 +24,30 @@ namespace Aplication
         {
             Validate(principal);
 
-            return principal.FindFirstValue("name");
+            return principal.FindFirstValue(JwtClaimTypes.Name);
         }
 
         public static string FirstName(this ClaimsPrincipal principal)
         {
             Validate(principal);
 
-            return principal.FindFirstValue("given_name");
+            return principal.FindFirstValue(JwtClaimTypes.GivenName);
         }
 
         public static string LastName(this ClaimsPrincipal principal)
         {
             Validate(principal);
 
-            return principal.FindFirstValue("family_name");
-        }
-
-        public static string Uid(this ClaimsPrincipal principal)
-        {
-            Validate(principal);
-
-            return principal.FindFirstValue("sub");
+            return principal.FindFirstValue(JwtClaimTypes.FamilyName);
         }
 
         public static TId GetId<TId>(this ClaimsPrincipal principal)
         {
             Validate(principal);
 
-            var loggedInUserId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInUserId = principal.FindFirstValue(JwtClaimTypes.Subject) ??
+                  principal.FindFirstValue(ClaimTypes.NameIdentifier) ??
+                  throw new Exception("Unknown userid");
 
             if (typeof(TId) == typeof(string) ||
                 typeof(TId) == typeof(int) ||
@@ -66,9 +62,9 @@ namespace Aplication
             throw new InvalidOperationException("The user id type is invalid");
         }
 
-        public static Guid GetId(this ClaimsPrincipal principal)
+        public static string GetId(this ClaimsPrincipal principal)
         {
-            return principal.GetId<Guid>();
+            return principal.GetId<string>();
         }
 
     }

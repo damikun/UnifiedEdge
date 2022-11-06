@@ -19,7 +19,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// RemoveUser
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class RemoveUser : CommandBase<DTO_User>
     {
         public string UserId;
@@ -42,10 +42,13 @@ namespace Aplication.CQRS.Commands
         public RemoveUserValidator(
             IDbContextFactory<ManagmentDbCtx> factory,
             IUserStore<ApplicationUser> store,
-            ICurrentUser current
+            ICurrentUser current,
+            UserManager<ApplicationUser> _manager
             )
         {
             _factory = factory;
+
+            _current = current;
 
             _store = store;
 
@@ -53,13 +56,16 @@ namespace Aplication.CQRS.Commands
             .MinimumLength(3);
 
             RuleFor(e => e.UserId)
-            .MinimumLength(3)
-            .MustAsync(Exist)
-            .WithMessage("User not found");
+                .MustAsync(Exist)
+                .WithMessage("User not found");
 
             RuleFor(e => e.UserId)
-            .Must(IsNotCurrent)
-            .WithMessage("Cannot disable yourself");
+                .Must(IsAuthenticated)
+                .WithMessage("User must be Authenticated");
+
+            RuleFor(e => e.UserId)
+                .Must(IsNotCurrent)
+                .WithMessage("Cannot disable yourself");
         }
 
         public async Task<bool> Exist(
@@ -69,14 +75,26 @@ namespace Aplication.CQRS.Commands
             return (await _store.FindByIdAsync(id, cancellationToken)) != null;
         }
 
+        public bool IsAuthenticated(string id)
+        {
+            if (_current.IsAuthenticated)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool IsNotCurrent(string id)
         {
             if (string.IsNullOrWhiteSpace(_current.UserId))
             {
-                return true;
+                return false;
             }
 
-            return id.Equals(_current.UserId, StringComparison.OrdinalIgnoreCase);
+            return id.Equals(_current.UserId, StringComparison.OrdinalIgnoreCase) == false;
         }
 
     }

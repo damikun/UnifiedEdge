@@ -1,16 +1,15 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using Aplication.Services;
+using Persistence.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
-
 
 namespace Aplication.CQRS.Queries
 {
@@ -61,9 +60,9 @@ namespace Aplication.CQRS.Queries
         private readonly ICurrentUser _current;
 
         /// <summary>
-        /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
+        /// Injected <c>IDbContextFactory<PortalIdentityDbContext></c>
         /// </summary>
-        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+        private readonly IDbContextFactory<PortalIdentityDbContextPooled> _factory;
 
         /// <summary>
         /// Injected <c>IHttpContextAccessor</c>
@@ -79,7 +78,7 @@ namespace Aplication.CQRS.Queries
         /// Main constructor
         /// </summary>
         public GetCurrentUserHandler(
-            IDbContextFactory<ManagmentDbCtx> factory,
+            IDbContextFactory<PortalIdentityDbContextPooled> factory,
             ICurrentUser currentuser,
             IHttpContextAccessor accessor,
             IMapper mapper)
@@ -101,7 +100,7 @@ namespace Aplication.CQRS.Queries
             CancellationToken cancellationToken
         )
         {
-            await using ManagmentDbCtx dbContext =
+            await using PortalIdentityDbContextPooled dbContext =
                 _factory.CreateDbContext();
 
             if (_accessor == null || _accessor.HttpContext == null)
@@ -116,15 +115,18 @@ namespace Aplication.CQRS.Queries
                 return null;
             }
 
-            //PrintClaimsToConsole(result.Principal.Claims);
+            var user_id = result.Principal.GetId();
 
-            return new DTO_User()
+            var user = await dbContext.Users
+            .Where(e => e.Id == user_id)
+            .FirstOrDefaultAsync(cancellationToken);
+
+            if (user == null)
             {
-                Id = result.Principal.GetId<string>(),
-                UserName = result.Principal.GetFullName(),
-                FirstName = result.Principal.FirstName(),
-                LastName = result.Principal.LastName(),
-            };
+                return null;
+            }
+
+            return _mapper.Map<DTO_User>(user);
         }
 
         private static void PrintClaimsToConsole(IEnumerable<Claim> claims)

@@ -13,7 +13,7 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
+using Persistence.Identity;
 
 namespace Aplication.CQRS.Commands
 {
@@ -41,12 +41,12 @@ namespace Aplication.CQRS.Commands
     /// </summary>
     public class CreateUserValidator : AbstractValidator<CreateUser>
     {
-        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+        private readonly IDbContextFactory<PortalIdentityDbContextPooled> _factory;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
         public CreateUserValidator(
-            IDbContextFactory<ManagmentDbCtx> factory,
+            IDbContextFactory<PortalIdentityDbContextPooled> factory,
              UserManager<ApplicationUser> userManager
             )
         {
@@ -83,7 +83,13 @@ namespace Aplication.CQRS.Commands
             string name,
             CancellationToken cancellationToken)
         {
-            return (await _userManager.FindByNameAsync(name)) == null;
+            PortalIdentityDbContextPooled context = await _factory
+            .CreateDbContextAsync(cancellationToken);
+
+            var normalised = name.ToUpperInvariant();
+
+            return (await context.Users
+            .AnyAsync(e => e.NormalizedUserName == normalised, cancellationToken)) == false;
         }
 
     }
@@ -165,6 +171,7 @@ namespace Aplication.CQRS.Commands
                 LastName = request.LastName,
                 EmailConfirmed = true,
                 TwoFactorEnabled = false,
+                Enabled = true
             };
 
             await _userStore.SetUserNameAsync(user, request.UserName, cancellationToken);

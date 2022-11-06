@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Identity;
 
 namespace IdentityServerHost.Pages.Login;
 
@@ -22,6 +24,8 @@ public class Index : PageModel
     private readonly IEventService _events;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
+    private readonly IDbContextFactory<PortalIdentityDbContextPooled> _factory;
+    private readonly IHttpContextAccessor _accessor;
 
     public ViewModel View { get; set; }
 
@@ -35,7 +39,9 @@ public class Index : PageModel
         IIdentityProviderStore identityProviderStore,
         IEventService events,
         UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        IDbContextFactory<PortalIdentityDbContextPooled> factory,
+        IHttpContextAccessor accessor)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -44,6 +50,8 @@ public class Index : PageModel
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
         _events = events;
+        _factory = factory;
+        _accessor = accessor;
     }
 
     public async Task<IActionResult> OnGet(string returnUrl)
@@ -95,15 +103,29 @@ public class Index : PageModel
         {
             var user = await _userManager.FindByNameAsync(Input.Username);
 
-            if (user == null)
+            await using PortalIdentityDbContextPooled dbContext =
+                _factory.CreateDbContext();
+
+            var normalised_name = Input.Username.ToUpperInvariant();
+
+            var db_user = await dbContext.Users
+            .Where(e => e.NormalizedUserName == normalised_name)
+            .FirstOrDefaultAsync(_accessor?.HttpContext?.RequestAborted ?? default);
+
+            if (db_user == null)
             {
                 await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId: context?.Client.ClientId));
             }
             else
             {
-                if (!user.Enabled!)
+                if (!db_user.Enabled)
                 {
-                    await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "user disabled", clientId: context?.Client.ClientId));
+                    await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "user is disabled", clientId: context?.Client.ClientId));
+
+                    ModelState.AddModelError(string.Empty, LoginOptions.UserIsDissabled);
+
+                    await BuildModelAsync(Input.ReturnUrl);
+                    return Page();
                 }
             }
 

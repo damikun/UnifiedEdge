@@ -80,8 +80,9 @@ type UserListHeaderProps = {
 function UserListHeader({}:UserListHeaderProps){
 
   return <thead className={clsx("flex text-gray-600 w-full",
-    "space-x-2 border-b justify-between lg:justify-start border-gray-200",
-    "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none")}>
+    "space-x-2 border-b lg:justify-start border-gray-200",
+    "py-2 lg:pb-5 mb-1 px-2 md:px-5 select-none justify-between",
+    "lg:justify-start ")}>
     <tr className="flex w-3/12">
       <th>UserName</th>
     </tr>
@@ -91,7 +92,7 @@ function UserListHeader({}:UserListHeaderProps){
     <tr className="w-3/12 hidden lg:flex">
       <th>LastName</th>
     </tr>
-    <tr className="w-3/12 justify-start">
+    <tr className="flex w-3/12 justify-center items-center text-center">
       <th>Enabled</th>
     </tr>
   </thead>

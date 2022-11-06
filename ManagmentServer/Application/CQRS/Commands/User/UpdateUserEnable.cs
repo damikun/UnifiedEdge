@@ -20,7 +20,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateUserEnabled
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateUserEnabled : CommandBase<DTO_User>
     {
         public string UserId;
@@ -77,10 +77,10 @@ namespace Aplication.CQRS.Commands
         {
             if (string.IsNullOrWhiteSpace(_current.UserId))
             {
-                return true;
+                return false;
             }
 
-            return id.Equals(_current.UserId, StringComparison.OrdinalIgnoreCase);
+            return id.Equals(_current.UserId, StringComparison.OrdinalIgnoreCase) == false;
         }
 
     }

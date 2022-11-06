@@ -1,6 +1,10 @@
+using AutoMapper;
+using Aplication.DTO;
+using Persistence.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Services
 {
@@ -9,21 +13,34 @@ namespace Aplication.Services
     public class CurrentUser : ICurrentUser
     {
 
+        /// <summary>DI object of IMapper</summary>
+        private readonly IMapper _mapper;
+
         /// <summary>DI object of ILogger</summary>
         private readonly ILogger<CurrentUser> _logger;
 
         /// <summary>DI object of IHttpContextAccessor</summary>
         private readonly IHttpContextAccessor _contextAccessor;
 
+        /// <summary>DI object of IDbContextFactory</summary>
+        private readonly IDbContextFactory<PortalIdentityDbContextPooled> _factory;
+
+
         /// <summary>
         /// Main constructor of CurrentUserProvider
         /// </summary>
         public CurrentUser(
+            IMapper mapper,
             ILogger<CurrentUser> logger,
-            IHttpContextAccessor contextAccessor
+            IHttpContextAccessor contextAccessor,
+            IDbContextFactory<PortalIdentityDbContextPooled> factory
         )
         {
+            _mapper = mapper;
+
             _logger = logger;
+
+            _factory = factory;
 
             _contextAccessor = contextAccessor;
         }
@@ -53,7 +70,7 @@ namespace Aplication.Services
 
                 try
                 {
-                    return _contextAccessor?.HttpContext?.User?.GetId<string>();
+                    return _contextAccessor?.HttpContext?.User?.GetId();
                 }
                 catch
                 {
@@ -111,6 +128,39 @@ namespace Aplication.Services
 
             return TestRole(_contextAccessor, role_name);
         }
+
+#nullable enable
+        public async Task<DTO_User?> GetUser(CancellationToken ct = default)
+        {
+            await using PortalIdentityDbContext dbContext =
+            _factory.CreateDbContext();
+
+            var user_id = UserId;
+
+            if (user_id == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                var user = await dbContext.Users
+                .Where(e => e.Id == user_id)
+                .FirstOrDefaultAsync(ct);
+
+                if (user == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<DTO_User>(user);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+#nullable disable
 
         public string GetClaim(string type)
         {

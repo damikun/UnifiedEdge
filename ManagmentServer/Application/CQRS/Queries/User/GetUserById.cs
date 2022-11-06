@@ -41,7 +41,7 @@ namespace Aplication.CQRS.Queries
             RuleFor(e => e.UserId)
             .NotEmpty()
             .NotNull()
-            .MustAsync(Exist).WithMessage("ServerLog not found");
+            .MustAsync(Exist).WithMessage("User not found");
         }
 
         public async Task<bool> Exist(

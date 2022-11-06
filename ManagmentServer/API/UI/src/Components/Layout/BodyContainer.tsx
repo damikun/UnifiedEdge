@@ -9,9 +9,12 @@ type BodyContainerProps={
 export default function BodyContainer({state}:BodyContainerProps){
 
     return <div className={clsx("flex-1 transition-none w-full h-full",
-        "overflow-x-hidden overflow-y-scroll",
+        "overflow-x-hidden overflow-y-scroll z-0",
         state ? "w-0 md:w-full": "w-full")}>
         <Header/>
-        <Body/>
+        <div className="relative z-0">
+            <Body/>
+        </div>
+ 
     </div>
 }

@@ -3,8 +3,10 @@ using AutoMapper;
 using Aplication.DTO;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
+using Aplication.CQRS.Commands;
 using Microsoft.AspNetCore.Http;
 using HotChocolate.Types.Pagination;
+
 
 namespace Aplication.Graphql.Queries
 {
@@ -70,5 +72,63 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<GQL_User>(result);
         }
 
+        public async Task<List<GQL_Claim>> GetUserClaims(
+            [ID] string user_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new GetUserClaims
+                {
+                    UserId = user_id
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<List<GQL_Claim>>(result);
+        }
+
+        public async Task<List<string>> GetUserRoles(
+            [ID] string user_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new GetUserRoles
+                {
+                    UserId = user_id
+                },
+                cancellationToken
+            );
+
+            return result;
+        }
+
+        public class IsAdminResult
+        {
+            public bool isAdmin { get; set; }
+        }
+
+        public async Task<IsAdminResult> IsAdmin(
+            [ID] string user_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(
+                new TestIsAdmin
+                {
+                    UserId = user_id
+                },
+                cancellationToken
+            );
+
+            return new IsAdminResult()
+            {
+                isAdmin = result
+            };
+        }
     }
 }
