@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Application</AssemblyName>
+    <AssemblyTitle>ManagmentUI - Application</AssemblyTitle>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <EnablePreviewFeatures>true</EnablePreviewFeatures>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.Portal\Persistence.Portal.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.Identity\Persistence.Identity.csproj" />
+    <ProjectReference Include="..\..\Server.Mqtt\Server.Mqtt.csproj" />
+    <ProjectReference Include="..\..\Server.Abstraction\Server.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.5" />
+
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.1.5" />
+
+    <PackageReference Include="Hangfire" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.0-rc1" />
+    <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6"  />
+
+    <PackageReference Include="OpenTelemetry" Version="1.2.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus" Version="1.2.0-rc5" />
+    <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.2.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.2.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.2" />
+
+    <PackageReference Include="HotChocolate" Version="13.0.0-preview.33" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.33" />
+    <PackageReference Include="HotChocolate.Data" Version="13.0.0-preview.33" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.33" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"  />
+
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.1" />
+
+
+    <PackageReference Include="FluentValidation" Version="11.0.3" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.3" />
+
+    <PackageReference Include="MediatR" Version="10.0.1" />
+
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

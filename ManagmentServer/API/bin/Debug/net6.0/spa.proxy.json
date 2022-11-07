@@ -1,8 +1,0 @@
-{
-"SpaProxyServer": {
-"ServerUrl": "https://localhost:44459",
-"LaunchCommand": "npm start",
-"WorkingDirectory": "C:\\Users\\kunda\\OneDrive\\Dokumenty\\Dev\\MQTTManagmentUI\\ManagmentServer\\API\\UI\\",
-"MaxTimeoutInSeconds": "120"
-}
-}
