@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Server.Event;
 
 namespace Server
 {
@@ -14,12 +13,6 @@ namespace Server
         private IServerCfg Offline_Config { get; set; }
 
         protected IServerCfg Online_Config { get; private set; }
-
-        public event EventHandler<ServerEventArgs> OnConfigMatch;
-
-        public event EventHandler<ServerEventArgs> OnConfigMissMatch;
-
-        public event EventHandler<ServerStateChangedEventArgs> OnStateChanged;
 
         protected internal readonly IServerEventPublisher _publisher;
 
@@ -148,20 +141,6 @@ namespace Server
             }
             catch { }
 
-            try
-            {
-                EventHandler<ServerStateChangedEventArgs> handler = OnStateChanged;
-
-                var event_args = new ServerStateChangedEventArgs()
-                {
-                    Before = before,
-                    After = after
-                };
-
-                if (handler != null)
-                    handler(this, event_args);
-            }
-            catch { }
         }
 
         protected async Task<ServerState> SetState(
@@ -397,21 +376,6 @@ namespace Server
 
             Online_Config = Offline_Config;
 
-            var event_args = new ServerEventArgs()
-            {
-                Server_UID = this.UID,
-                Config = this.Offline_Config
-            };
-
-            EventHandler<ServerEventArgs> handler = OnConfigMatch;
-
-            try
-            {
-                if (handler != null)
-                    handler(this, event_args);
-            }
-            catch { }
-
             try
             {
                 _publisher.PublishEvent(new ServerConfigMatch()
@@ -427,20 +391,6 @@ namespace Server
 
         private void HandleMissMatchConfig()
         {
-            var event_args = new ServerEventArgs()
-            {
-                Server_UID = this.UID,
-                Config = this.Offline_Config
-            };
-
-            EventHandler<ServerEventArgs> handler = OnConfigMissMatch;
-
-            try
-            {
-                if (handler != null)
-                    handler(this, event_args);
-            }
-            catch { }
 
             try
             {

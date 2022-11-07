@@ -62,6 +62,7 @@ namespace Server.Mqtt
 
         public async Task<List<DTO_MqttClientStatistics>> GetClientsStatistics()
         {
+
             if (!isTransition() && Server != null)
             {
                 try
