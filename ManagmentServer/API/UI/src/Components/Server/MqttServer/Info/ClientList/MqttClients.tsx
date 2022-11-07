@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import MqttClientDetail from "./MqttClientDetail";
 import { MqttClientItem } from "./MqttClientItem";
 import { graphql } from "babel-plugin-relay/macro";

@@ -1,16 +1,15 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
-
 
 namespace Aplication.CQRS.Commands
 {

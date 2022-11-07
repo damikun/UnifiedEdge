@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d9928ea3f2529a24aeab1a602edc6c0c>>
+ * @generated SignedSource<<e2242e40c30ede9f5f852094f85bb63d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type MqttServerSettingsQuery$variables = {
 };
 export type MqttServerSettingsQuery$data = {
   readonly mqttServerById: {
-    readonly " $fragmentSpreads": FragmentRefs<"ServerSharedSettingsFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"ServerRemoveDataFragment" | "ServerSharedSettingsFragment">;
   };
   readonly " $fragmentSpreads": FragmentRefs<"MqttServerMqttClientSettingsFragment" | "MqttServerNetworkSettingsFragment">;
 };
@@ -72,6 +72,11 @@ return {
             "args": null,
             "kind": "FragmentSpread",
             "name": "ServerSharedSettingsFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "ServerRemoveDataFragment"
           }
         ],
         "storageKey": null
@@ -212,16 +217,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1dade83713824c875ec7f1f9669a685c",
+    "cacheID": "3d672ebb87cf05bb2c0ee73825bfb4a8",
     "id": null,
     "metadata": {},
     "name": "MqttServerSettingsQuery",
     "operationKind": "query",
-    "text": "query MqttServerSettingsQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    ...ServerSharedSettingsFragment\n    id\n  }\n  ...MqttServerNetworkSettingsFragment_2YLYDF\n  ...MqttServerMqttClientSettingsFragment_2YLYDF\n}\n\nfragment MqttServerClientComTimeoutDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  communicationTimeout\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n\nfragment MqttServerEndpointDataFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    port\n    iPAddress\n    serverUid\n  }\n}\n\nfragment MqttServerMqttClientSettingsFragment_2YLYDF on Query {\n  mqttServerClientConfig(server_uid: $id) {\n    ...MqttServerClientComTimeoutDataFragment\n    ...MqttServerClientPresistSessionDataFragment\n    ...MqttServerClientMaxPendingMessagesDataFragment\n    id\n  }\n}\n\nfragment MqttServerNetworkSettingsFragment_2YLYDF on Query {\n  ...MqttServerEndpointDataFragment_2YLYDF\n}\n\nfragment ServerDescriptionDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  description\n}\n\nfragment ServerLocationDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  location\n}\n\nfragment ServerNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerSharedSettingsFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  ...ServerNameDataFragment\n  ...ServerLocationDataFragment\n  ...ServerDescriptionDataFragment\n}\n"
+    "text": "query MqttServerSettingsQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    ...ServerSharedSettingsFragment\n    ...ServerRemoveDataFragment\n    id\n  }\n  ...MqttServerNetworkSettingsFragment_2YLYDF\n  ...MqttServerMqttClientSettingsFragment_2YLYDF\n}\n\nfragment MqttServerClientComTimeoutDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  communicationTimeout\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n\nfragment MqttServerEndpointDataFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    port\n    iPAddress\n    serverUid\n  }\n}\n\nfragment MqttServerMqttClientSettingsFragment_2YLYDF on Query {\n  mqttServerClientConfig(server_uid: $id) {\n    ...MqttServerClientComTimeoutDataFragment\n    ...MqttServerClientPresistSessionDataFragment\n    ...MqttServerClientMaxPendingMessagesDataFragment\n    id\n  }\n}\n\nfragment MqttServerNetworkSettingsFragment_2YLYDF on Query {\n  ...MqttServerEndpointDataFragment_2YLYDF\n}\n\nfragment ServerDescriptionDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  description\n}\n\nfragment ServerLocationDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  location\n}\n\nfragment ServerNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerRemoveDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n\nfragment ServerSharedSettingsFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  ...ServerNameDataFragment\n  ...ServerLocationDataFragment\n  ...ServerDescriptionDataFragment\n}\n"
   }
 };
 })();
 
-(node as any).hash = "afb3655a7b912f825df5d89c549c86fa";
+(node as any).hash = "ed4e63d1ea9a38fc0df5e745aa78e7a4";
 
 export default node;
