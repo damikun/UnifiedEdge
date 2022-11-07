@@ -2,6 +2,7 @@ import React, {
   useTransition,
   useCallback,
   useMemo,
+  useState,
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -176,9 +177,11 @@ function StayledButton({
   busyDelayMs: 2000,
 });
 
+  const [effect, setEffect] = useState(false);
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
+      setEffect(true)
       if (transitionTime === 0) {
         onClick && onClick(event);
       } else {
@@ -194,11 +197,19 @@ function StayledButton({
 
   const isloadingDebounced: boolean = useDebounce(isloading, 150);
 
+  const handleAnimationEnd = useCallback(
+    () => {
+      setEffect(false)
+    },
+    [],
+  )
+  
   return (
     <button
       onClick={handleClick}
       disabled={is_disabled}
       {...rest}
+      onAnimationEnd={handleAnimationEnd}
       className={clsx(
         `px-1
         focus:outline-none 
@@ -214,7 +225,8 @@ function StayledButton({
         Size,
         rest.className,
         disabled && "cursor-not-allowed",
-        invisible ?"invisible":"visible"
+        invisible ?"invisible":"visible",
+        effect && "animate-wiggle"
       )}
     >
       <div className={clsx("p-1 w-full m-auto")}>

@@ -103,7 +103,7 @@ function EdgeLocation3({dataRef}:EdgeLocation3Props) {
 
   return <form
         onSubmit={formik.handleSubmit}
-        className="px-3 pb-2 w-full flex flex-row space-x-2 max-w-sm">
+        className="pb-2 w-full flex flex-row space-x-2 max-w-sm">
           <FormInput
           label="Location C"
           id="location3"
