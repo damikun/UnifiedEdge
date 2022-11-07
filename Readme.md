@@ -1,5 +1,7 @@
 # Unified Edge
 
+![Backend-cOMPILE](https://github.com/damikun/UnifiedEdge/actions/workflows/Clean-Restore-Compile.yml/badge.svg)
+
 ## This is early BETA!
 - App is in BETA with known bugs and is not ready for production or ussage
 - Many parts will get optimized and changed in time...

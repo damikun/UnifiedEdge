@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronNET.CLI", "Electron
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{D45EB033-901F-4D98-B99C-9460156FF7ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\.build\_build.csproj", "{56024A09-9EF5-49AB-A15E-DAA6A3FD7CB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56024A09-9EF5-49AB-A15E-DAA6A3FD7CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56024A09-9EF5-49AB-A15E-DAA6A3FD7CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D45EB033-901F-4D98-B99C-9460156FF7ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D45EB033-901F-4D98-B99C-9460156FF7ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FEF058C-45D1-4F6B-B84C-711B9E5C3C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

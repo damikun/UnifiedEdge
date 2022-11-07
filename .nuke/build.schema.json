@@ -74,7 +74,18 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Portal_Clean",
+              "Portal_Compile",
+              "Portal_Restore",
+              "Print_Net_SDK",
+              "Server_Clean",
+              "Server_Compile",
+              "ServerCore_Clean",
+              "ServerCore_Compile",
+              "ServerCore_Restore",
+              "ServerMqtt_Clean",
+              "ServerMqtt_Compile",
+              "ServerMqtt_Restore"
             ]
           }
         },
@@ -86,7 +97,18 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Portal_Clean",
+              "Portal_Compile",
+              "Portal_Restore",
+              "Print_Net_SDK",
+              "Server_Clean",
+              "Server_Compile",
+              "ServerCore_Clean",
+              "ServerCore_Compile",
+              "ServerCore_Restore",
+              "ServerMqtt_Clean",
+              "ServerMqtt_Compile",
+              "ServerMqtt_Restore"
             ]
           }
         },
