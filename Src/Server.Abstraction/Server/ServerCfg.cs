@@ -2,7 +2,7 @@ namespace Server
 {
     public abstract class ServerCfg : IServerCfg
     {
-        public string Server_UID { get; init; }
+        public string? Server_UID { get; init; }
 
         public bool IsEnabled { get; set; }
 

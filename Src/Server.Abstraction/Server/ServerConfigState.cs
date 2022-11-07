@@ -3,7 +3,7 @@ namespace Server
     public class ServerConfigState
     {
 
-        public string ServerUid { get; set; }
+        public string? ServerUid { get; set; }
 
         public bool IsConfigMatch { get; set; }
 

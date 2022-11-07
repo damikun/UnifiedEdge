@@ -4,12 +4,12 @@ namespace Server.Event
 
     public class ServerBaseArgs : EventArgs
     {
-        public string Server_UID { get; init; }
+        public string? Server_UID { get; init; }
     }
 
     public class ServerEventArgs : ServerBaseArgs
     {
-        public IServerCfg Config { get; set; }
+        public IServerCfg? Config { get; set; }
     }
 
     public class ServerStateChangedEventArgs : ServerBaseArgs

@@ -2,8 +2,8 @@ namespace Server
 {
     public class ServerInfo
     {
-        public string DisplayName { get; init; }
+        public string? DisplayName { get; init; }
 
-        public Type ServerType { get; init; }
+        public Type? ServerType { get; init; }
     }
 }
