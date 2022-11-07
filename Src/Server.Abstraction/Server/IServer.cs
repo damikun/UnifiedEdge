@@ -7,6 +7,6 @@ namespace Server
 
         public ServerState State { get; }
 
-        public abstract static ServerInfo Info { get; }
+        // public abstract ServerInfo Info { get; set; }
     }
 }

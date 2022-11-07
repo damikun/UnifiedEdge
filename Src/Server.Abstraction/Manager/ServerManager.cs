@@ -7,10 +7,12 @@ namespace Server.Manager
     {
         private readonly IServerStore _runtime_store;
 
-        public ServerInfo ManagedServerInfo { get; } = T.Info;
+        public ServerInfo ManagedServerInfo { get; private set; }
 
-        public ServerManager(IEndpointService endpoint, IServerStore? store = null)
+        public ServerManager(IEndpointService endpoint, ServerInfo info, IServerStore? store = null)
         {
+            ManagedServerInfo = info;
+
             if (store == null)
                 store = new ServerInMemoryStore();
 

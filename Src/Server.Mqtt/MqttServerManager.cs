@@ -14,7 +14,7 @@ namespace Server.Manager.Mqtt
             IEndpointService endpoint,
             IServerEventPublisher event_publisher,
             IServerStore? store = null
-        ) : base(endpoint, store!)
+        ) : base(endpoint, EdgeMqttServer.Info, store!)
         {
             _event_publisher = event_publisher;
         }

@@ -3,15 +3,14 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-        {
+    "configurations": [{
             "name": "API",
             "type": "coreclr",
             "request": "launch",
             // "preLaunchTask": "build",
-            "program": "${workspaceFolder}/ManagmentServer/API/bin/Debug/net6.0/API.dll",
+            "program": "${workspaceFolder}/Src/Portal/API/bin/Debug/net6.0/API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/ManagmentServer/API",
+            "cwd": "${workspaceFolder}/Src/Portal/API",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
