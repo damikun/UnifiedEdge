@@ -160,7 +160,7 @@ namespace Aplication.Services
 #elif NET5_0
                 return "net5.0";
 #elif NET6_0
-            return "net6.0";
+            return "net7.0";
 #elif NET7_0
                 return "net7.0";
 #endif

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6"  />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"  />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6" >
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0" >
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -22,12 +22,12 @@
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0"  />
     <PackageReference Include="Respawn" Version="5.0.1" />
     
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6"  />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6"  />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.6"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0"  />
   </ItemGroup>
 
 
