@@ -53,6 +53,7 @@ namespace Aplication.CQRS.Commands
             _store = store;
 
             RuleFor(e => e.UserId)
+            .Cascade(CascadeMode.Stop)
             .MinimumLength(3);
 
             RuleFor(e => e.UserId)

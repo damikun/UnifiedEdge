@@ -4,17 +4,18 @@ namespace Aplication.CQRS.Errors
 
     public class InternalServerException : Exception
     {
-        public Exception? SourceException { get;private set;} = null;
+        public Exception? SourceException { get; private set; } = null;
 
         public InternalServerException(Exception? ex = null)
             : base("Unhalted exception.")
         {
-
             SetException(ex);
         }
 
-        private void SetException(Exception? ex){
-            if(ex != null){
+        private void SetException(Exception? ex)
+        {
+            if (ex != null)
+            {
                 SourceException = ex;
             }
         }

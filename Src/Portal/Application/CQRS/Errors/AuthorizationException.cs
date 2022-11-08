@@ -6,7 +6,7 @@ namespace Aplication.CQRS.Errors
     public class AuthorizationException : Exception
     {
         public AuthorizationException()
-            : base("One or more authorization failures have occurred.")
+            : base("Unauthorised")
         {
             Errors = new ValidationFailure[0];
         }

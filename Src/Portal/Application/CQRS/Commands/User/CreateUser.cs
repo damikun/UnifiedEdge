@@ -54,15 +54,6 @@ namespace Aplication.CQRS.Commands
 
             _userManager = userManager;
 
-            RuleFor(e => e.UserName)
-            .NotEmpty()
-            .NotNull()
-            .MinimumLength(3);
-
-            RuleFor(e => e.UserName)
-            .MustAsync(BeUniqueUserName)
-            .WithMessage("Username is allready used");
-
             RuleFor(e => e.FirstName)
             .NotEmpty()
             .NotNull()
@@ -77,6 +68,17 @@ namespace Aplication.CQRS.Commands
             .NotEmpty()
             .NotNull()
             .MinimumLength(3);
+
+            RuleFor(e => e.UserName)
+            .Cascade(CascadeMode.Stop)
+            .NotEmpty()
+            .NotNull()
+            .MinimumLength(3);
+
+            RuleFor(e => e.UserName)
+            .MustAsync(BeUniqueUserName)
+            .WithMessage("Username is allready used");
+
         }
 
         public async Task<bool> BeUniqueUserName(

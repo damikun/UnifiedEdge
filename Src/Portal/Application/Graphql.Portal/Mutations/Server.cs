@@ -6,6 +6,7 @@ using Aplication.DTO;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Interfaces;
+using Aplication.Graphql.Errors;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -118,6 +119,7 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set server Name
         /// </summary>
+        [Error(typeof(ValidationError))]
         public async Task<GQL_IServer> SetServerName(
             [ID] string id,
             string name,

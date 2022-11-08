@@ -11,7 +11,7 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-
+using Aplication.Graphql.Errors;
 
 namespace API
 {
@@ -67,6 +67,8 @@ namespace API
 
                 .AddFiltering()
                 .AddSorting()
+
+                .AddErrorInterfaceType<IResultError>()
 
                 .AddQueryType<QueryType>()
                     .AddTypeExtension<SystemQueries>()

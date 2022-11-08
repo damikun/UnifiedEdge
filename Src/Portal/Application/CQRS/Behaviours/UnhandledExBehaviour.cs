@@ -1,9 +1,9 @@
 using MediatR;
+using Aplication.Core;
 using System.Diagnostics;
 using Aplication.Services;
 using Aplication.CQRS.Errors;
 using Microsoft.Extensions.Logging;
-using Aplication.Core;
 
 namespace Aplication.CQRS.Behaviours
 {
