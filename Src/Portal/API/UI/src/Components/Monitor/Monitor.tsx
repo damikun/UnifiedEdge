@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import EdgeInfo from "./EdgeInfo";
 import EdgeMetrics from "./EdgeMetrics";
 import { useLazyLoadQuery } from "react-relay";
@@ -18,8 +18,8 @@ const MonitorQueryTag = graphql`
     ...EdgeInfoDataFragment
     ...AdapterListDataFragment
     ...ServerListDataFragment
-    ...ResourcesDataFragment
-    ...EdgeMetricsFragment
+    ...ResourcesDataFragment@defer
+    ...EdgeMetricsFragment@defer
   }
 `;
 
@@ -57,10 +57,13 @@ function Monitor() {
         component={<AdapterList dataRef={data} />}
       />
     </AdapterListCtxProvider>
-    
-    <Section 
-      name="Instance"
-      component={<EdgeMetrics dataRef={data} />}
-    />
+
+    <Suspense fallback={null}>
+      <Section 
+        name="Instance"
+        component={<EdgeMetrics dataRef={data} />}
+      />
+    </Suspense>
+
   </>
 }

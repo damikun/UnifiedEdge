@@ -38,7 +38,7 @@ namespace Aplication.Graphql.Types
             descriptor.Field(e => e.MetricHistory)
                 .Argument("name", e => e.Type<RuntimeMetricsSourceType>())
                 .Type<ListType<HistorianRecordType>>()
-                .Resolve(ctx =>
+                .Resolve(async ctx =>
                 {
                     var name = ctx.ArgumentValue<GQL_RuntimeMetricSource>("name");
 
