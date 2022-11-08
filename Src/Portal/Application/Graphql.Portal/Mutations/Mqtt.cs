@@ -2,6 +2,7 @@ using MediatR;
 using AutoMapper;
 using Server.Mqtt.DTO;
 using Aplication.CQRS.Commands;
+using Aplication.Graphql.Errors;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -19,6 +20,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set server endpoint
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_MqttServerEndpoint> SetMqttServerEndpoint(
             [ID] string server_uid,
             string ip,
@@ -41,6 +45,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set mqtt client communication timeout
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_MqttServerClientCfg> SetMqttServerClientCommunicationTimeout(
             [ID] string server_uid,
             int timeout_ms,
@@ -61,6 +68,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set mqtt client MaxPendingMessages
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_MqttServerClientCfg> SetMqttServerClientMaxPendingMessages(
             [ID] string server_uid,
             int maxPendingMessages,
@@ -81,6 +91,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set mqtt client Presist Session
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_MqttServerClientCfg> SetMqttServerClientPresistSession(
             [ID] string server_uid,
             bool presistSession,

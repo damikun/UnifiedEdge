@@ -5,8 +5,8 @@ using Domain.Server;
 using Aplication.DTO;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Commands;
-using Aplication.Graphql.Interfaces;
 using Aplication.Graphql.Errors;
+using Aplication.Graphql.Interfaces;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -43,6 +43,9 @@ namespace Aplication.Graphql.Mutations
         /// Creates new server
         /// </summary>
         /// <returns>GQL_IServer</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_IServer> CreateServer(
             CreateServerInput request,
             [Service] IMediator mediator,
@@ -63,6 +66,9 @@ namespace Aplication.Graphql.Mutations
         /// Process server cmd
         /// </summary>
         /// <returns>bool</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_ServerState> ProcessServerCmd(
             [ID] string uid,
             GQL_ServerCmd cmd,
@@ -93,6 +99,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Remove server
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<RemoveServerPayload> RemoveServer(
             [ID] string id,
             [Service] IMediator mediator,
@@ -120,6 +129,8 @@ namespace Aplication.Graphql.Mutations
         /// Set server Name
         /// </summary>
         [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_IServer> SetServerName(
             [ID] string id,
             string name,
@@ -142,6 +153,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set server Description
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_IServer> SetServerDescription(
             [ID] string id,
             string description,
@@ -164,6 +178,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set server Description
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_IServer> SetServerLocation(
             [ID] string id,
             string location,
@@ -185,6 +202,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Set server enabled/disabled
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_IServer> EnableDisableServer(
             [ID] string id,
             bool enable,

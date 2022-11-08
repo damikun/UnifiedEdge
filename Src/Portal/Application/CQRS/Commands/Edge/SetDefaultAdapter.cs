@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetDefaultAdapter
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetDefaultAdapter : CommandBase<DTO_Adapter>
     {
 #nullable disable
@@ -39,6 +39,8 @@ namespace Aplication.CQRS.Commands
         {
             _provider = provider;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.adapter_id)
             .NotEmpty()
             .NotNull()
@@ -47,7 +49,15 @@ namespace Aplication.CQRS.Commands
 
         public bool Exist(string adapter_id)
         {
-            return _provider.Any(adapter_id);
+            try
+            {
+                return _provider.Any(adapter_id);
+            }
+            catch
+            {
+                return false;
+            }
+
         }
     }
 

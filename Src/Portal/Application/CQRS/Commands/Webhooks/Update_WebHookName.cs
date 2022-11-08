@@ -15,6 +15,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command for updateing WebHook name
     /// </summary>
+    [Authorize]
     public class UpdateWebHookName : CommandBase<DTO_WebHook>
     {
 
@@ -39,6 +40,8 @@ namespace Aplication.CQRS.Commands
         public UpdateWebHookNameValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.Name)
             .NotNull()

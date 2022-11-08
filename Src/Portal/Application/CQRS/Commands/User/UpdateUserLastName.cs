@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateUserLastName
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateUserLastName : CommandBase<DTO_User>
     {
         public string UserId;
@@ -47,7 +47,14 @@ namespace Aplication.CQRS.Commands
 
             _store = store;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.UserId)
+            .MinimumLength(3);
+
+            RuleFor(e => e.LastName)
+            .NotEmpty()
+            .NotNull()
             .MinimumLength(3);
 
             RuleFor(e => e.UserId)
@@ -55,10 +62,6 @@ namespace Aplication.CQRS.Commands
             .MustAsync(Exist)
             .WithMessage("User not found");
 
-            RuleFor(e => e.LastName)
-            .NotEmpty()
-            .NotNull()
-            .MinimumLength(3);
         }
 
         public async Task<bool> Exist(

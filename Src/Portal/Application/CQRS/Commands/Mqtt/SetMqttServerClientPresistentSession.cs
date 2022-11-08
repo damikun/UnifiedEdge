@@ -1,11 +1,11 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetMqttServerClientPresistentSession
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetMqttServerClientPresistentSession
         : CommandBase<DTO_MqttServerClientCfg>
     {
@@ -51,12 +51,13 @@ namespace Aplication.CQRS.Commands
 
             _e_provider = e_provider;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.Server_uid)
                 .NotEmpty()
                 .NotNull()
                 .MustAsync(Exist)
                 .WithMessage("Server not found");
-
         }
 
         public async Task<bool> Exist(

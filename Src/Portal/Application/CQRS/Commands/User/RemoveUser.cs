@@ -52,8 +52,9 @@ namespace Aplication.CQRS.Commands
 
             _store = store;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.UserId)
-            .Cascade(CascadeMode.Stop)
             .MinimumLength(3);
 
             RuleFor(e => e.UserId)
@@ -103,7 +104,8 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Authorization validators - RemoveUser
     /// </summary>
-    public class RemoveUserAuthorizationValidator : AuthorizationValidator<RemoveUser>
+    public class RemoveUserAuthorizationValidator
+        : AuthorizationValidator<RemoveUser>
     {
         public RemoveUserAuthorizationValidator()
         {
@@ -116,7 +118,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>RemoveUserHandler</c> command </summary>
-    public class RemoveUserHandler : IRequestHandler<RemoveUser, DTO_User>
+    public class RemoveUserHandler
+        : IRequestHandler<RemoveUser, DTO_User>
     {
 
         /// <summary>

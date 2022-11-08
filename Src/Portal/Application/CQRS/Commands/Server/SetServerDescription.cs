@@ -1,10 +1,10 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetServerDescription
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetServerDescription
         : CommandBase<(DTO_Server server, string old_description)>
     {
@@ -45,13 +45,17 @@ namespace Aplication.CQRS.Commands
         {
             _factory = factory;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.UID)
             .NotEmpty()
             .NotNull()
-            .MustAsync(Exist).WithMessage("Server not found");
+            .MustAsync(Exist)
+            .WithMessage("Server not found");
 
             RuleFor(e => e.Description)
-            .NotNull();
+            .NotNull()
+            .MaximumLength(100);
         }
 
         public async Task<bool> Exist(

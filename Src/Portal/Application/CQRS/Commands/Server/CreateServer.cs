@@ -1,11 +1,11 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// CreateServer
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class CreateServer : CommandBase<DTO_Server>
     {
 #nullable disable

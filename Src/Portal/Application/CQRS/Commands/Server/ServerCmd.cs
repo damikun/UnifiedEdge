@@ -1,10 +1,10 @@
 using Server;
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// ServerCmd
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class ProcessServerCmd : CommandBase<ServerState>
     {
 #nullable disable
@@ -41,10 +41,13 @@ namespace Aplication.CQRS.Commands
         {
             _factory = factory;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.UID)
             .NotEmpty()
             .NotNull()
-            .MustAsync(Exist).WithMessage("Server not found");
+            .MustAsync(Exist)
+            .WithMessage("Server not found");
         }
 
         public async Task<bool> Exist(

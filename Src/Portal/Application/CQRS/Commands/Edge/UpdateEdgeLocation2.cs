@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateEdgeLocation2
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateEdgeLocation2 : CommandBase<DTO_Edge>
     {
 #nullable enable
@@ -39,7 +39,8 @@ namespace Aplication.CQRS.Commands
         {
             _factory = factory;
 
-            RuleFor(e => e.Location2);
+            RuleFor(e => e.Location2)
+            .MaximumLength(100);
         }
     }
 

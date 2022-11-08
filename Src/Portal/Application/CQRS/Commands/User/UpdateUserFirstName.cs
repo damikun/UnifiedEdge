@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateUserFirstName
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateUserFirstName : CommandBase<DTO_User>
     {
         public string UserId;
@@ -46,6 +46,8 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _store = store;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.UserId)
             .MinimumLength(3);

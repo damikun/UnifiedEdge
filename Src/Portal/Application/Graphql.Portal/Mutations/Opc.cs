@@ -1,4 +1,3 @@
-using MediatR;
 using AutoMapper;
 
 namespace Aplication.Graphql.Mutations

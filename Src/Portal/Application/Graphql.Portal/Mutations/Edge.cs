@@ -2,6 +2,7 @@ using MediatR;
 using AutoMapper;
 using Aplication.DTO;
 using Aplication.CQRS.Commands;
+using Aplication.Graphql.Errors;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -36,6 +37,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge name 
         /// </summary>
         /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_Edge> SetEdgeName(
              SetEdgeNameInput request,
              [Service] IMediator mediator)
@@ -70,6 +74,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge description 
         /// </summary>
         /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_Edge> SetEdgeDescription(
              SetEdgeDescriptionInput request,
              [Service] IMediator mediator)
@@ -103,6 +110,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge location1
         /// </summary>
         /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_Edge> SetEdgeLocation1(
              SetEdgeLocation1Input request,
              [Service] IMediator mediator)
@@ -133,6 +143,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge location2
         /// </summary>
         /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_Edge> SetEdgeLocation2(
              SetEdgeLocation2Input request,
              [Service] IMediator mediator)
@@ -163,6 +176,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge location3
         /// </summary>
         /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_Edge> SetEdgeLocation3(
              SetEdgeLocation3Input request,
              [Service] IMediator mediator)
@@ -179,6 +195,9 @@ namespace Aplication.Graphql.Mutations
         /// Sets Edge default adapter
         /// </summary>
         /// <returns>GQL_DefaultAdapter</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_DefaultAdapter> SetEdgeDefaultNetworkAdapter(
              [ID] string adapter_id,
              [Service] IMediator mediator)

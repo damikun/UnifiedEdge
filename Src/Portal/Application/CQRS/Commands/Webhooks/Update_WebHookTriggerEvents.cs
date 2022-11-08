@@ -14,6 +14,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command for updating webhook Uri
     /// </summary>
+    [Authorize]
     public class UpdateWebHookTriggerGroups : CommandBase<DTO_WebHook>
     {
         public UpdateWebHookTriggerGroups()
@@ -41,6 +42,8 @@ namespace Aplication.CQRS.Commands
         public UpdateWebHookTriggerEventsValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.WebHookId)
             .GreaterThan(0);

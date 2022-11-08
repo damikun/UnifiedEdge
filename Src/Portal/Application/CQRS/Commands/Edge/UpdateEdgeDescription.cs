@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateEdgeDescription
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateEdgeDescription : CommandBase<DTO_Edge>
     {
 #nullable disable
@@ -39,7 +39,8 @@ namespace Aplication.CQRS.Commands
         {
             _factory = factory;
 
-            RuleFor(e => e.Description);
+            RuleFor(e => e.Description)
+            .MaximumLength(100);
         }
     }
 

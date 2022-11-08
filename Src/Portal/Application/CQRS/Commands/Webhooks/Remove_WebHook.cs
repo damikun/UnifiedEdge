@@ -1,11 +1,11 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -15,6 +15,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command for removing hook
     /// </summary>
+    [Authorize]
     public class RemoveWebHook : CommandBase<DTO_WebHook>
     {
 
@@ -35,6 +36,8 @@ namespace Aplication.CQRS.Commands
         public RemoveWebHookValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.WebHookId)
             .GreaterThan(0);

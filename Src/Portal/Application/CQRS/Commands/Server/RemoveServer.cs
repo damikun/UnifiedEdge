@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// RemoveServer
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class RemoveServer : CommandBase<DTO_Server>
     {
 #nullable disable
@@ -38,6 +38,8 @@ namespace Aplication.CQRS.Commands
         public RemoveServerValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.UID)
             .NotEmpty()

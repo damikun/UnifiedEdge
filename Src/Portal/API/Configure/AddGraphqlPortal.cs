@@ -2,6 +2,7 @@ using Aplication;
 using HotChocolate.AspNetCore;
 using Aplication.GraphQL.Types;
 using Aplication.Graphql.Types;
+using Aplication.Graphql.Errors;
 using GraphQL.Server.Ui.Voyager;
 using Aplication.Graphql.Queries;
 using Aplication.Graphql.Mutations;
@@ -11,7 +12,6 @@ using Aplication.Graphql.DataLoaders;
 using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
-using Aplication.Graphql.Errors;
 
 namespace API
 {

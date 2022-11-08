@@ -1,15 +1,14 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
-using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Aplication.CQRS.Commands
@@ -18,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetMqttServerClientMaxPendingMessages
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetMqttServerClientMaxPendingMessages
         : CommandBase<DTO_MqttServerClientCfg>
     {
@@ -45,6 +44,8 @@ namespace Aplication.CQRS.Commands
         )
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.Server_uid)
                 .NotEmpty()

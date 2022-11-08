@@ -19,7 +19,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// RemoveUserAdmin
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class RemoveUserAdmin : CommandBase<DTO_User>
     {
         public string UserId;

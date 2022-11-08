@@ -1,6 +1,5 @@
 using MediatR;
 using AutoMapper;
-using IdentityModel;
 using Domain.Server;
 using Aplication.Core;
 using FluentValidation;
@@ -16,7 +15,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// TestIsAdmin
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class TestIsAdmin : CommandBase<bool>
     {
         public string UserId;
@@ -43,6 +42,8 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _store = store;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.UserId)
             .MinimumLength(3);

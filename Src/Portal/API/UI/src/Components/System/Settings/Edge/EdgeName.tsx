@@ -5,9 +5,9 @@ import { useFragment, useMutation } from "react-relay";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
+import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { EdgeNameDataFragment$key } from "./__generated__/EdgeNameDataFragment.graphql";
 import { EdgeNameUpdateMutation, SetEdgeNameInput } from "./__generated__/EdgeNameUpdateMutation.graphql";
-import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 
 
 export const EdgeNameDataFragment = graphql`
@@ -90,6 +90,7 @@ function EdgeName({dataRef}:EdgeNameProps) {
         name: [
           is.required(),
           is.minLength(2),
+          is.maxLength(20)
         ]
       });
     },

@@ -1,12 +1,12 @@
 using MediatR;
 using System.Net;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Server.Mqtt.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetMqttServerEndpoint
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetMqttServerEndpoint
         : CommandBase<DTO_MqttServerEndpoint>
     {
@@ -53,6 +53,8 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _e_provider = e_provider;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.Ip)
                 .NotEmpty()

@@ -1,9 +1,9 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// EnableDisableServer
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class EnableDisableServer : CommandBase<Domain.Server.ServerBase>
     {
 #nullable disable
@@ -32,7 +32,8 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Field validator - EnableDisableServer
     /// </summary>
-    public class EnableDisableServerValidator : AbstractValidator<EnableDisableServer>
+    public class EnableDisableServerValidator
+        : AbstractValidator<EnableDisableServer>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
@@ -40,11 +41,14 @@ namespace Aplication.CQRS.Commands
         {
             _factory = factory;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.UID)
             .NotEmpty()
             .NotNull()
             .MinimumLength(3)
-            .MustAsync(Exist).WithMessage("Server not found");
+            .MustAsync(Exist)
+            .WithMessage("Server not found");
         }
 
         public async Task<bool> Exist(
@@ -62,7 +66,8 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Authorization validators - EnableDisableServer
     /// </summary>
-    public class EnableDisableServerAuthorizationValidator : AuthorizationValidator<EnableDisableServer>
+    public class EnableDisableServerAuthorizationValidator
+        : AuthorizationValidator<EnableDisableServer>
     {
         public EnableDisableServerAuthorizationValidator()
         {
@@ -75,7 +80,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>EnableDisableServerHandler</c> command </summary>
-    public class EnableDisableServerHandler : IRequestHandler<EnableDisableServer, Domain.Server.ServerBase>
+    public class EnableDisableServerHandler
+        : IRequestHandler<EnableDisableServer, Domain.Server.ServerBase>
     {
 
         /// <summary>

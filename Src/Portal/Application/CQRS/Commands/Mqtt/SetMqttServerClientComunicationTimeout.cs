@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetMqttServerClientComunicationTimeout
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetMqttServerClientComunicationTimeout
         : CommandBase<DTO_MqttServerClientCfg>
     {
@@ -45,6 +45,8 @@ namespace Aplication.CQRS.Commands
         )
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.Timeout_ms)
                 .GreaterThanOrEqualTo(1000)

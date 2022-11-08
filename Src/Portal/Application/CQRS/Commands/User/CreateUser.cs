@@ -6,14 +6,14 @@ using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
-using Persistence.Portal;
+using Persistence.Identity;
 using System.Security.Claims;
 using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Persistence.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aplication.CQRS.Commands
 {
@@ -21,9 +21,11 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// CreateUser
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class CreateUser : CommandBase<DTO_User>
     {
+        [NonSerialized()]
+        [DataType(DataType.Password)]
         public string Password;
 
         public string UserName;

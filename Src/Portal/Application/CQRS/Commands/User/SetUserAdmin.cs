@@ -18,7 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// SetUserAdmin
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetUserAdmin : CommandBase<DTO_User>
     {
         public string UserId;
@@ -44,6 +44,8 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _store = store;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.UserId)
             .MinimumLength(3);

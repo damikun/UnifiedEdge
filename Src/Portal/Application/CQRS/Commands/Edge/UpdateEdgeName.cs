@@ -1,10 +1,10 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.Services;
 using Aplication.Events.EdgeCfg;
 using Aplication.CQRS.Behaviours;
@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// UpdateEdgeName
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class UpdateEdgeName : CommandBase<DTO_Edge>
     {
 #nullable disable
@@ -42,7 +42,8 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.Name)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(20);
         }
     }
 

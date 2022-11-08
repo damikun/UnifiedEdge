@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.CQRS.Commands;
+using Aplication.Graphql.Errors;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -19,6 +20,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Create WebHook
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> CreateWebHook(
             string name,
             string url,
@@ -47,6 +51,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Remove WebHook
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> RemoveWebHook(
             [ID] long hook_id,
             [Service] IMediator mediator,
@@ -66,6 +73,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Update webhook Url
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> UpdateWebHookUrl(
             string url,
             [ID] long hook_id,
@@ -87,6 +97,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Update webhook secret
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> UpdateWebHookSecret(
             string secret,
             [ID] long hook_id,
@@ -108,6 +121,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Update webhook name
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> UpdateWebHookName(
             string name,
             [ID] long hook_id,
@@ -129,6 +145,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Update webhook activ/inactive state
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> UpdateWebHookActiveState(
             bool activ,
             [ID] long hook_id,
@@ -150,6 +169,9 @@ namespace Aplication.Graphql.Mutations
         /// <summary>
         /// Update webhook event Groups
         /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
         public async Task<GQL_WebHook> UpdateWebHookEventGroups(
             List<HookEventGroup> groups,
             [ID] long hook_id,

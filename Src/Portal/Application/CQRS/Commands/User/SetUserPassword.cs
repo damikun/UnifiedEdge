@@ -11,20 +11,24 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Aplication.CQRS.Commands
 {
     /// <summary>
     /// SetUserPassword
     /// </summary>
-    // [Authorize]
+    [Authorize]
     public class SetUserPassword : CommandBase<DTO_User>
     {
         public string UserId;
 
+        [NonSerialized()]
+        [DataType(DataType.Password)]
         public string CurrentPassword;
 
+        [NonSerialized()]
+        [DataType(DataType.Password)]
         public string NewPassword;
     }
 
@@ -52,6 +56,8 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _userManager = userManager;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.UserId)
             .MinimumLength(3);

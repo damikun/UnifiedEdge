@@ -2,13 +2,12 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
-import { generateErrors } from "../../../../Utils/Validation";
+import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
-import { EdgeLocation3DataFragment$key } from "./__generated__/EdgeLocation3DataFragment.graphql";import { EdgeLocation3UpdateMutation, SetEdgeLocation3Input } from "./__generated__/EdgeLocation3UpdateMutation.graphql";
-;
-
+import { EdgeLocation3DataFragment$key } from "./__generated__/EdgeLocation3DataFragment.graphql";
+import { EdgeLocation3UpdateMutation, SetEdgeLocation3Input } from "./__generated__/EdgeLocation3UpdateMutation.graphql";
 
 export const EdgeLocation3DataFragment = graphql`
   fragment EdgeLocation3DataFragment on GQL_Edge 
@@ -88,7 +87,7 @@ function EdgeLocation3({dataRef}:EdgeLocation3Props) {
     validate: (values) => {
       return generateErrors(values, {
         Location3: [
-
+          is.maxLength(100)
         ]
       });
     },

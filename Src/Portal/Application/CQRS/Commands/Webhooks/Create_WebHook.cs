@@ -1,11 +1,11 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +15,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Command for creating webhook
     /// </summary>
+    [Authorize]
     public class CreateWebHook : CommandBase<DTO_WebHook>
     {
 
@@ -59,6 +60,8 @@ namespace Aplication.CQRS.Commands
         public CreateWebHookValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
+
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.WebHookUrl)
             .NotEmpty()
