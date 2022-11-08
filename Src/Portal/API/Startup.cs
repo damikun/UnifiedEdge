@@ -94,7 +94,7 @@ namespace API
 
             serviceProvider.GetRequiredService<ServerMetricsProvider>();
 
-            app.UseOpenTelemetryPrometheusScrapingEndpoint();
+            // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
             app.UseOnStartupProcedures(serviceProvider);
 

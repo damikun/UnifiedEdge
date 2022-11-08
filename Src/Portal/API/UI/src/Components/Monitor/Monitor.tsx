@@ -57,7 +57,7 @@ function Monitor() {
         component={<AdapterList dataRef={data} />}
       />
     </AdapterListCtxProvider>
-
+    
     <Section 
       name="Instance"
       component={<EdgeMetrics dataRef={data} />}

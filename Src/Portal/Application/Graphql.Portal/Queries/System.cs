@@ -36,7 +36,12 @@ namespace Aplication.Graphql.Queries
         /// Return RuntimeMetrics object
         /// </summary>
         /// <returns>GQL_RuntimeMetrics</returns>
-        public GQL_RuntimeMetrics RuntimeMetrics() => new GQL_RuntimeMetrics();
+        public async Task<GQL_RuntimeMetrics> RuntimeMetrics()
+        {
+            await Task.Delay(7000);
+
+            return new GQL_RuntimeMetrics();
+        }
 
         /// <summary>
         /// Return system info

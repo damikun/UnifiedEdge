@@ -70,12 +70,12 @@ namespace API
                     // };                
                 });
 
-                builder.AddPrometheusExporter(options =>
-                {
-                    options.StartHttpListener = true;
-                    options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
-                    options.ScrapeResponseCacheDurationMilliseconds = 0;
-                });
+                // builder.AddPrometheusExporter(options =>
+                // {
+                //     options.StartHttpListener = true;
+                //     options.HttpListenerPrefixes = new string[] { $"http://localhost:7090/" };
+                //     options.ScrapeResponseCacheDurationMilliseconds = 0;
+                // });
 
             });
 

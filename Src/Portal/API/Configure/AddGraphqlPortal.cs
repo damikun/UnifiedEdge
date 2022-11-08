@@ -183,7 +183,7 @@ namespace API
             // !The order of call defines pipeline!
 
             return builder
-                .UseInstrumentations()
+                .UseInstrumentation()
                 .UseExceptions()
                 .UseTimeout()
                 .UseDocumentCache()

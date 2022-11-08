@@ -1,12 +1,12 @@
 using Aplication;
+using HotChocolate.AspNetCore;
 using Aplication.Graphql.Types;
 using Aplication.Graphql.Queries;
 using Aplication.Graphql.Interfaces;
 using HotChocolate.Types.Pagination;
 using Aplication.Graphql.DataLoaders;
-using HotChocolate.Execution.Configuration;
 using HotChocolate.AspNetCore.Extensions;
-using HotChocolate.AspNetCore;
+using HotChocolate.Execution.Configuration;
 
 namespace API
 {
@@ -142,7 +142,7 @@ namespace API
             // !The order of call defines pipeline!
 
             return builder
-                .UseInstrumentations()
+                .UseInstrumentation()
                 .UseExceptions()
                 .UseTimeout()
                 .UseDocumentCache()
