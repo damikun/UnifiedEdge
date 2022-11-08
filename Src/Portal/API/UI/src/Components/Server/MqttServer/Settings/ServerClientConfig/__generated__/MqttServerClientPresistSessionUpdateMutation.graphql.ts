@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c8506c20997ca561b55084c8ae74d9df>>
+ * @generated SignedSource<<b255818ef40df7f3f451bfdaea6fbcf7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,14 @@ export type MqttServerClientPresistSessionUpdateMutation$variables = {
 };
 export type MqttServerClientPresistSessionUpdateMutation$data = {
   readonly setMqttServerClientPresistSession: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_MqttServerClientCfg: {
       readonly " $fragmentSpreads": FragmentRefs<"MqttServerClientPresistSessionDataFragment">;
     } | null;
@@ -43,7 +51,66 @@ v1 = [
     "name": "input",
     "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v2/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v2/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -74,7 +141,8 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
@@ -127,23 +195,24 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "0b853da045b68a39f99d41c3c53fe568",
+    "cacheID": "d31da0453fe9748a0a723591b76a3039",
     "id": null,
     "metadata": {},
     "name": "MqttServerClientPresistSessionUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttServerClientPresistSessionUpdateMutation(\n  $input: SetMqttServerClientPresistSessionInput!\n) {\n  setMqttServerClientPresistSession(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientPresistSessionDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n"
+    "text": "mutation MqttServerClientPresistSessionUpdateMutation(\n  $input: SetMqttServerClientPresistSessionInput!\n) {\n  setMqttServerClientPresistSession(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientPresistSessionDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e0ab913355181c58fd03f2a364189c01";
+(node as any).hash = "3462662dc403d4731a2f7149bf4fd213";
 
 export default node;

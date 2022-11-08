@@ -8,6 +8,7 @@ import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttServerClientComTimeoutDataFragment$key } from "./__generated__/MqttServerClientComTimeoutDataFragment.graphql";
 import { MqttServerClientComTimeoutUpdateMutation, SetMqttServerClientCommunicationTimeoutInput } from "./__generated__/MqttServerClientComTimeoutUpdateMutation.graphql";
+import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 
 
 export const MqttServerClientComTimeoutDataFragment = graphql`
@@ -25,6 +26,20 @@ const MqttServerClientComTimeoutMutationTag = graphql`
       ... on SetMqttServerClientCommunicationTimeoutPayload {          
         gQL_MqttServerClientCfg{
           ...MqttServerClientComTimeoutDataFragment
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -71,9 +86,11 @@ function MqttServerClientComTimeout({dataRef}:MqttServerClientComTimeoutProps) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setMqttServerClientCommunicationTimeout.gQL_MqttServerClientCfg){
+            if(response?.setMqttServerClientCommunicationTimeout?.gQL_MqttServerClientCfg){
               // ...
             }
+
+            HandleErrors(toast, response?.setMqttServerClientCommunicationTimeout?.errors);
           },
 
         });

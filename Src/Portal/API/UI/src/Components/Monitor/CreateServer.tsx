@@ -19,18 +19,26 @@ const CreateServerMutationTag = graphql`
     ) {
       createServer(request: $request) {
       ... on CreateServerPayload {
-        # errors {
-        #   ... on IBaseError {
-        #     message
-        #   }
-        # }
-          
         gQL_IServer    
           @prependNode(
             connections: $connections
             edgeTypeName: "GQL_IServer"
           ){
             ...ServerListItemDataFragment
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -76,15 +84,11 @@ export default function AddNewServer(){
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.createServer.gQL_IServer){
+            if(response?.createServer?.gQL_IServer){
               modalCtx?.close();
             }
-            // HandleErrors(toast, response.createServer?);
-            // if (response.createServer?.errors?.length === 0) {
-            //   startTransition(() => {
-            //     navigate(`/Hooks`);
-            //   });
-            // }
+
+            HandleErrors(toast, response?.createServer?.errors);
           },
 
         });

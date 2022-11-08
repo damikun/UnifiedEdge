@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { URL_REGEX } from "../../../../constants";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
@@ -27,6 +28,20 @@ const WebHookUrlSettingMutationTag = graphql`
           id
           webHookUrl
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -76,6 +91,7 @@ function WebHookUrlSetting({dataRef}:WebHookUrlSettingProps) {
             if(response.updateWebHookUrl.gQL_WebHook){
               // ...
             }
+            HandleErrors(toast, response?.updateWebHookUrl?.errors);
           },
 
         });

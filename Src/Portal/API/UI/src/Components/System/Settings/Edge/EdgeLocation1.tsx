@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
@@ -25,6 +26,20 @@ const EdgeLocation1MutationTag = graphql`
         gQL_Edge{
           id
           location1
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -70,15 +85,11 @@ function EdgeLocation1({dataRef}:EdgeLocation1Props) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setEdgeLocation1.gQL_Edge){
+            if(response?.setEdgeLocation1?.gQL_Edge){
               // ...
             }
-            // HandleErrors(toast, response.createServer?);
-            // if (response.createServer?.errors?.length === 0) {
-            //   startTransition(() => {
-            //     navigate(`/Hooks`);
-            //   });
-            // }
+            HandleErrors(toast, response?.setEdgeLocation1?.errors);
+
           },
 
         });

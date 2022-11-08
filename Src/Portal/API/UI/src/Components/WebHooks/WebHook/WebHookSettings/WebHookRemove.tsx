@@ -9,6 +9,7 @@ import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import Modal, { useModalContext } from "../../../../UIComponents/Modal/Modal";
 import { WebHookRemoveDataFragment$key } from "./__generated__/WebHookRemoveDataFragment.graphql";
 import { WebHookRemoveUpdateMutation } from "./__generated__/WebHookRemoveUpdateMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 export const WebHookRemoveDataFragment = graphql`
   fragment WebHookRemoveDataFragment on GQL_WebHook 
@@ -24,6 +25,20 @@ const WebHookRemoveMutationTag = graphql`
         gQL_WebHook{
           id
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
   }
@@ -125,10 +140,11 @@ function DeleteHookModal({dataRef}:DeleteHookModalProps){
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.removeWebHook.gQL_WebHook){
+          if(response?.removeWebHook?.gQL_WebHook){
             ctx.close()
             handleNavigate()
           }
+          HandleErrors(toast, response?.removeWebHook?.errors);
         },
 
       });

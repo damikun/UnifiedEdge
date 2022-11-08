@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9b4d3cfb2f143d5a9ddcb53e9a19e8c8>>
+ * @generated SignedSource<<62cbe7e63389e08b838af4bbf7d02e38>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,14 @@ export type ServerNameUpdateMutation$variables = {
 };
 export type ServerNameUpdateMutation$data = {
   readonly setServerName: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_IServer: {
       readonly id: string;
       readonly name: string;
@@ -57,6 +65,66 @@ v3 = {
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    (v4/*: any*/),
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v5/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v5/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -85,7 +153,8 @@ return {
               (v3/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
@@ -115,34 +184,29 @@ return {
             "name": "gQL_IServer",
             "plural": false,
             "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "__typename",
-                "storageKey": null
-              },
+              (v4/*: any*/),
               (v2/*: any*/),
               (v3/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b6e647b330c0d950a10ef318bfebc000",
+    "cacheID": "7c84fe6288fef07330d74c1507b0cbbd",
     "id": null,
     "metadata": {},
     "name": "ServerNameUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerNameUpdateMutation(\n  $input: SetServerNameInput!\n) {\n  setServerName(input: $input) {\n    gQL_IServer {\n      __typename\n      id\n      name\n    }\n  }\n}\n"
+    "text": "mutation ServerNameUpdateMutation(\n  $input: SetServerNameInput!\n) {\n  setServerName(input: $input) {\n    gQL_IServer {\n      __typename\n      id\n      name\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d1930c0fc6defcf16eb2422584b3bb5e";
+(node as any).hash = "0b6da676e07c48f6dc5e940d9b8bcd5e";
 
 export default node;

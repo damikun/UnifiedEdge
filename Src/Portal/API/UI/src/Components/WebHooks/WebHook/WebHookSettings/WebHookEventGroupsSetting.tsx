@@ -10,6 +10,7 @@ import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { WebHookEventGroupsSettingDataFragment$key } from "./__generated__/WebHookEventGroupsSettingDataFragment.graphql";
 import { UpdateWebHookEventGroupsInput, WebHookEventGroupsSettingUpdateMutation } from "./__generated__/WebHookEventGroupsSettingUpdateMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const WebHookEventGroupsSettingDataFragment = graphql`
@@ -28,6 +29,20 @@ const WebHookEventGroupsSettingMutationTag = graphql`
           id
           eventGroup
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -74,9 +89,10 @@ function WebHookEventGroupsSetting({dataRef}:WebHookEventGroupsSettingProps) {
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.updateWebHookEventGroups.gQL_WebHook){
+          if(response?.updateWebHookEventGroups?.gQL_WebHook){
             // ...
           }
+          HandleErrors(toast, response?.updateWebHookEventGroups?.errors);
         },
 
       });

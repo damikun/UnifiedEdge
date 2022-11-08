@@ -5,6 +5,7 @@ import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import { WebHookActivSettingDataFragment$key } from "./__generated__/WebHookActivSettingDataFragment.graphql";
 import { WebHookActivSettingUpdateMutation } from "./__generated__/WebHookActivSettingUpdateMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const WebHookActivSettingDataFragment = graphql`
@@ -22,6 +23,20 @@ const WebHookActivSettingMutationTag = graphql`
         gQL_WebHook{
           id
           isActive
+        }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
         }
       }
     }
@@ -68,9 +83,10 @@ function WebHookActivSetting({dataRef}:WebHookActivSettingProps) {
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.updateWebHookActiveState.gQL_WebHook){
+          if(response?.updateWebHookActiveState?.gQL_WebHook){
             // ...
           }
+          HandleErrors(toast, response?.updateWebHookActiveState?.errors);
         },
 
         optimisticUpdater(store){

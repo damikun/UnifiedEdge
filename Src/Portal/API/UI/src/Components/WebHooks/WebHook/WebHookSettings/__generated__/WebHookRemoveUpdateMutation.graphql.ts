@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8bfacbf5f08a0560319fdd101e127916>>
+ * @generated SignedSource<<89a496833a465ab1080031c86b5ea954>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,14 @@ export type WebHookRemoveUpdateMutation$variables = {
 };
 export type WebHookRemoveUpdateMutation$data = {
   readonly removeWebHook: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_WebHook: {
       readonly id: string;
     } | null;
@@ -35,7 +43,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -67,6 +82,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -78,7 +145,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "WebHookRemoveUpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -87,19 +154,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "WebHookRemoveUpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "147ffa3e851a735c6a01fd95ea44fcda",
+    "cacheID": "46a7f8af1912355a9a9deabce200d4bb",
     "id": null,
     "metadata": {},
     "name": "WebHookRemoveUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookRemoveUpdateMutation(\n  $input: RemoveWebHookInput!\n) {\n  removeWebHook(input: $input) {\n    gQL_WebHook {\n      id\n    }\n  }\n}\n"
+    "text": "mutation WebHookRemoveUpdateMutation(\n  $input: RemoveWebHookInput!\n) {\n  removeWebHook(input: $input) {\n    gQL_WebHook {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "099dafdb2d8c84046762d56a829639e6";
+(node as any).hash = "ba8aba813fb06b66db35f0a5e3e6927d";
 
 export default node;

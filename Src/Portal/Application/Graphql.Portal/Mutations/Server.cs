@@ -88,7 +88,7 @@ namespace Aplication.Graphql.Mutations
         }
 
 
-        public class RemoveServerPayload
+        public class RemoveServerData
         {
             public string removed_id { get; set; }
 
@@ -102,7 +102,7 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(ValidationError))]
         [Error(typeof(AuthorizationError))]
         [Error(typeof(InternalError))]
-        public async Task<RemoveServerPayload> RemoveServer(
+        public async Task<RemoveServerData> RemoveServer(
             [ID] string id,
             [Service] IMediator mediator,
             [Service] IMapper mapper,
@@ -117,7 +117,7 @@ namespace Aplication.Graphql.Mutations
 
             var gql_dto = mapper.Map<GQL_ServerBase>(removed_server_dto);
 
-            return new RemoveServerPayload()
+            return new RemoveServerData()
             {
                 removed_id = gql_dto.Id,
                 typeName = gql_dto.GetType().Name

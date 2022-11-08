@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../Utils/Validation";
 import { FormInput } from "../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
@@ -25,6 +26,20 @@ const ServerNameMutationTag = graphql`
         gQL_IServer{
           id
           name
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -71,15 +86,10 @@ function ServerName({dataRef}:ServerNameProps) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setServerName.gQL_IServer){
+            if(response?.setServerName?.gQL_IServer){
               // ...
             }
-            // HandleErrors(toast, response.createServer?);
-            // if (response.createServer?.errors?.length === 0) {
-            //   startTransition(() => {
-            //     navigate(`/Hooks`);
-            //   });
-            // }
+            HandleErrors(toast, response?.setServerName?.errors);
           },
 
         });

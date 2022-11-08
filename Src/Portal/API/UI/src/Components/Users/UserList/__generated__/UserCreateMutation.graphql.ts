@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5cf831ad9fd51e81dd2ead24776e54d1>>
+ * @generated SignedSource<<9dd82f8e20b2de6829de42a9cdab0667>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,14 @@ export type UserCreateMutation$variables = {
 };
 export type UserCreateMutation$data = {
   readonly createUser: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_User: {
       readonly " $fragmentSpreads": FragmentRefs<"UserListItemDataFragment">;
     } | null;
@@ -49,7 +57,66 @@ v2 = [
     "name": "input",
     "variableName": "input"
   }
-];
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v3/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v3/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [
@@ -83,7 +150,8 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
@@ -181,23 +249,24 @@ return {
                 "value": "GQL_User"
               }
             ]
-          }
+          },
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "39949e5285d4a87742b3e9e1a881dc62",
+    "cacheID": "346b7d088c4d786e78af696c36d830df",
     "id": null,
     "metadata": {},
     "name": "UserCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserCreateMutation(\n  $input: CreateUserInput!\n) {\n  createUser(input: $input) {\n    gQL_User {\n      ...UserListItemDataFragment\n      id\n    }\n  }\n}\n\nfragment UserListItemDataFragment on GQL_User {\n  id\n  firstName\n  lastName\n  sessionId\n  userName\n  enabled\n}\n"
+    "text": "mutation UserCreateMutation(\n  $input: CreateUserInput!\n) {\n  createUser(input: $input) {\n    gQL_User {\n      ...UserListItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment UserListItemDataFragment on GQL_User {\n  id\n  firstName\n  lastName\n  sessionId\n  userName\n  enabled\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7a63d89e76508b0dcc899091009450d3";
+(node as any).hash = "d0bc3a8a219d961108fa54195ff30189";
 
 export default node;

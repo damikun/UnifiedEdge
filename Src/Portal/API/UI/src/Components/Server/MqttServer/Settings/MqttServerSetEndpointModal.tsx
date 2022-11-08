@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import { FragmentRefs } from "relay-runtime";
 import { graphql } from "babel-plugin-relay/macro";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import React, { useCallback, useEffect, useState } from "react";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
@@ -14,6 +15,7 @@ import { MqttServerSetEndpointModalQuery } from "./__generated__/MqttServerSetEn
 import { AdapterSelect, AdapterSelectDetailDataFragmentTag } from "../../../../Shared/AdapterSelect/AdapterSelect";
 import { MqttServerSetEndpointModalMutation, SetMqttServerEndpointInput } from "./__generated__/MqttServerSetEndpointModalMutation.graphql";
 import { AdapterSelectDetailDataFragment$key } from "../../../../Shared/AdapterSelect/__generated__/AdapterSelectDetailDataFragment.graphql";
+
 
 
 export const MqttServerSetEndpointModalQueryTag = graphql`
@@ -39,6 +41,20 @@ const MqttServerSetEndpointModalMutationTag = graphql`
           iPAddress
           port
           serverUid
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -99,9 +115,10 @@ function MqttServerSetEndpointModal({server_uid}:MqttServerSetEndpointModalProps
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.setMqttServerEndpoint.gQL_MqttServerEndpoint){
+          if(response?.setMqttServerEndpoint?.gQL_MqttServerEndpoint){
             modalCtx.close()
           }
+          HandleErrors(toast, response?.setMqttServerEndpoint?.errors);
         },
       });
     },

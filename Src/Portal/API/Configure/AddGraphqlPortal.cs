@@ -144,7 +144,7 @@ namespace API
                 .AddType<MqttClientStatsUpdateType>()
 
                 .AddType<AdapterLogType>()
-                .AddType<RemoveServerPayloadType>()
+                .AddType<RemoveServerDataType>()
                 .AddType<UserType>()
                 .AddType<CpuMetricsType>()
                 .AddType<OsType>()

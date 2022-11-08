@@ -105,7 +105,7 @@ namespace API
                 .AddType<AdapterInterfaceEnumType>()
 
                 .AddType<AdapterLogType>()
-                .AddType<RemoveServerPayloadType>()
+                .AddType<RemoveServerDataType>()
                 .AddType<UserType>()
                 .AddType<CpuMetricsType>()
                 .AddType<OsType>()

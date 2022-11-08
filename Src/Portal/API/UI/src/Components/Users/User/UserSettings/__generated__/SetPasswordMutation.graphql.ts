@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bee419113c4b58f7c39aca4cc0442b51>>
+ * @generated SignedSource<<0567df8c8c65e0c7f3312ee7c526a598>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,14 @@ export type SetPasswordMutation$variables = {
 };
 export type SetPasswordMutation$data = {
   readonly setUserPassword: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_User: {
       readonly id: string;
     } | null;
@@ -37,7 +45,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -69,6 +84,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -80,7 +147,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "SetPasswordMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -89,19 +156,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "SetPasswordMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "584c2954aeee3982dcebd4a361487b1b",
+    "cacheID": "62f91a42973da2e1ef68440ec66991e6",
     "id": null,
     "metadata": {},
     "name": "SetPasswordMutation",
     "operationKind": "mutation",
-    "text": "mutation SetPasswordMutation(\n  $input: SetUserPasswordInput!\n) {\n  setUserPassword(input: $input) {\n    gQL_User {\n      id\n    }\n  }\n}\n"
+    "text": "mutation SetPasswordMutation(\n  $input: SetUserPasswordInput!\n) {\n  setUserPassword(input: $input) {\n    gQL_User {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "4a98330f4b22f2ffb91bab1d01415042";
+(node as any).hash = "f281fc58dda3a8bc8de0fe1ca5f844bd";
 
 export default node;

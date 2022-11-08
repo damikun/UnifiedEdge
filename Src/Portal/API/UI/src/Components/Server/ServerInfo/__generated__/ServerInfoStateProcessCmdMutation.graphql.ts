@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cb95635bc7ef5543a8289e11d3abe874>>
+ * @generated SignedSource<<f06c7e2565262a7a589b1e51b3ff9022>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,6 +20,14 @@ export type ServerInfoStateProcessCmdMutation$variables = {
 };
 export type ServerInfoStateProcessCmdMutation$data = {
   readonly processServerCmd: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_ServerState: GQL_ServerState | null;
   };
 };
@@ -36,7 +44,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -57,6 +72,58 @@ v1 = [
         "kind": "ScalarField",
         "name": "gQL_ServerState",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -68,7 +135,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ServerInfoStateProcessCmdMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -77,19 +144,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ServerInfoStateProcessCmdMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "390d4d3c324fbf029ce143f8ce154751",
+    "cacheID": "77482b3d0c2ea904f58e7138c4466cff",
     "id": null,
     "metadata": {},
     "name": "ServerInfoStateProcessCmdMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerInfoStateProcessCmdMutation(\n  $input: ProcessServerCmdInput!\n) {\n  processServerCmd(input: $input) {\n    gQL_ServerState\n  }\n}\n"
+    "text": "mutation ServerInfoStateProcessCmdMutation(\n  $input: ProcessServerCmdInput!\n) {\n  processServerCmd(input: $input) {\n    gQL_ServerState\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1e5a690a1de76e485d69018bb9da2151";
+(node as any).hash = "ca2cbb4f90a69b3879c92241e182d595";
 
 export default node;

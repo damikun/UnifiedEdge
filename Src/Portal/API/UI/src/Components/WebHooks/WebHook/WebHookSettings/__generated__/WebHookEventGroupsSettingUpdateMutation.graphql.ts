@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<36cc6956d5aafca481f0c851bd500992>>
+ * @generated SignedSource<<e4ef67fada284ccfcf970f038ca3c469>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,14 @@ export type WebHookEventGroupsSettingUpdateMutation$variables = {
 };
 export type WebHookEventGroupsSettingUpdateMutation$data = {
   readonly updateWebHookEventGroups: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_WebHook: {
       readonly eventGroup: ReadonlyArray<HookEventGroup>;
       readonly id: string;
@@ -38,7 +46,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -77,6 +92,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -88,7 +155,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "WebHookEventGroupsSettingUpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -97,19 +164,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "WebHookEventGroupsSettingUpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "c57621f043d7607f56f65324092ca926",
+    "cacheID": "ccb72eaa67bcd69bec1e1308b6576863",
     "id": null,
     "metadata": {},
     "name": "WebHookEventGroupsSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookEventGroupsSettingUpdateMutation(\n  $input: UpdateWebHookEventGroupsInput!\n) {\n  updateWebHookEventGroups(input: $input) {\n    gQL_WebHook {\n      id\n      eventGroup\n    }\n  }\n}\n"
+    "text": "mutation WebHookEventGroupsSettingUpdateMutation(\n  $input: UpdateWebHookEventGroupsInput!\n) {\n  updateWebHookEventGroups(input: $input) {\n    gQL_WebHook {\n      id\n      eventGroup\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "bd34231ba05378355acfedad9a7f12da";
+(node as any).hash = "4ea2895f0449cddff12604f8c3c8989a";
 
 export default node;

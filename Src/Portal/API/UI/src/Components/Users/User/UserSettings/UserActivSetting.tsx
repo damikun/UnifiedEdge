@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import { UserActivSettingDataFragment$key } from "./__generated__/UserActivSettingDataFragment.graphql";
@@ -23,6 +24,20 @@ const UserActivSettingMutationTag = graphql`
           id
           enabled
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -68,9 +83,10 @@ function UserActivSetting({dataRef}:UserActivSettingProps) {
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.updateUserEnabled.gQL_User){
+          if(response?.updateUserEnabled?.gQL_User){
             // ...
           }
+          HandleErrors(toast, response?.updateUserEnabled?.errors);
         },
 
         optimisticUpdater(store){

@@ -8,6 +8,7 @@ import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttServerClientMaxPendingMessagesDataFragment$key } from "./__generated__/MqttServerClientMaxPendingMessagesDataFragment.graphql";
 import { MqttServerClientMaxPendingMessagesUpdateMutation, SetMqttServerClientMaxPendingMessagesInput } from "./__generated__/MqttServerClientMaxPendingMessagesUpdateMutation.graphql";
+import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 
 
 export const MqttServerClientMaxPendingMessagesDataFragment = graphql`
@@ -25,6 +26,20 @@ const MqttServerClientMaxPendingMessagesMutationTag = graphql`
       ... on SetMqttServerClientMaxPendingMessagesPayload {          
         gQL_MqttServerClientCfg{
           ...MqttServerClientMaxPendingMessagesDataFragment
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -71,9 +86,10 @@ function MqttServerClientMaxPendingMessages({dataRef}:MqttServerClientMaxPending
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setMqttServerClientMaxPendingMessages.gQL_MqttServerClientCfg){
+            if(response?.setMqttServerClientMaxPendingMessages?.gQL_MqttServerClientCfg){
               // ...
             }
+            HandleErrors(toast, response?.setMqttServerClientMaxPendingMessages?.errors);
           },
 
         });

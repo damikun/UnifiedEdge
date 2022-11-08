@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import Badge from "../../../UIComponents/Badged/Badge";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import { useFragment, useMutation, useSubscription } from "react-relay";
 import { GetMqttServerStateBadgetVariant } from "../../../Shared/Common";
@@ -11,6 +12,7 @@ import { ServerInfoStateSubscription } from "./__generated__/ServerInfoStateSubs
 import StayledButton, { STAYLED_BUTTON_VARIANTS } from "../../../UIComponents/Buttons/StayledButton";
 import { GQL_ServerCmd, ServerInfoStateProcessCmdMutation } from "./__generated__/ServerInfoStateProcessCmdMutation.graphql";
 import { ServerInfoStateDataFragment$data, ServerInfoStateDataFragment$key } from "./__generated__/ServerInfoStateDataFragment.graphql";
+
 
 
 const ServerInfoStateDataFragment = graphql`
@@ -26,6 +28,20 @@ const ServerInfoStateProcessCmdMutationTag = graphql`
         processServerCmd(input: $input) {
         ... on ProcessServerCmdPayload {          
             gQL_ServerState
+            errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
         }
     }
 }
@@ -92,18 +108,13 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
             onCompleted(response) {},
     
             updater(store, response) {
-                if(response.processServerCmd?.gQL_ServerState){
+                if(response?.processServerCmd?.gQL_ServerState){
                     var server = store.get(data.id)
 
                     server?.setValue(response.processServerCmd.gQL_ServerState,"state");
                 }
 
-                // HandleErrors(toast, response.createServer?);
-                // if (response.createServer?.errors?.length === 0) {
-                //   startTransition(() => {
-                //     navigate(`/Hooks`);
-                //   });
-                // }
+                HandleErrors(toast, response?.processServerCmd?.errors);
             },
     
           });

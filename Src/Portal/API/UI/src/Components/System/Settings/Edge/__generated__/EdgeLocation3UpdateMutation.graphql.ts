@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6636cad630c9d307745d2dfdd3599553>>
+ * @generated SignedSource<<028898b8562da0f5abbe047a433ec766>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,14 @@ export type EdgeLocation3UpdateMutation$variables = {
 };
 export type EdgeLocation3UpdateMutation$data = {
   readonly setEdgeLocation3: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_Edge: {
       readonly id: string;
       readonly location3: string | null;
@@ -36,7 +44,14 @@ var v0 = [
     "name": "request"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -75,6 +90,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -86,7 +153,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "EdgeLocation3UpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -95,19 +162,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "EdgeLocation3UpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "9942882558605f2db66fbcddfc003b5f",
+    "cacheID": "899fa94b756c2b3e3a3fb8e964914138",
     "id": null,
     "metadata": {},
     "name": "EdgeLocation3UpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation EdgeLocation3UpdateMutation(\n  $request: SetEdgeLocation3Input!\n) {\n  setEdgeLocation3(request: $request) {\n    gQL_Edge {\n      id\n      location3\n    }\n  }\n}\n"
+    "text": "mutation EdgeLocation3UpdateMutation(\n  $request: SetEdgeLocation3Input!\n) {\n  setEdgeLocation3(request: $request) {\n    gQL_Edge {\n      id\n      location3\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "89f0e3dbc2ac9ea15c002ff0f257cd52";
+(node as any).hash = "d95f0ee0766c00d00be135a12412f90b";
 
 export default node;

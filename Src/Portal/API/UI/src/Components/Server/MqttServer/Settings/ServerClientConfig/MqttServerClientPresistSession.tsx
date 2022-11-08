@@ -8,6 +8,7 @@ import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttServerClientPresistSessionDataFragment$key } from "./__generated__/MqttServerClientPresistSessionDataFragment.graphql";
 import { MqttServerClientPresistSessionUpdateMutation, SetMqttServerClientPresistSessionInput } from "./__generated__/MqttServerClientPresistSessionUpdateMutation.graphql";
+import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 
 
 export const MqttServerClientPresistSessionDataFragment = graphql`
@@ -25,6 +26,20 @@ const MqttServerClientPresistSessionMutationTag = graphql`
       ... on SetMqttServerClientPresistSessionPayload {          
         gQL_MqttServerClientCfg{
           ...MqttServerClientPresistSessionDataFragment
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -71,9 +86,10 @@ function MqttServerClientPresistSession({dataRef}:MqttServerClientPresistSession
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setMqttServerClientPresistSession.gQL_MqttServerClientCfg){
+            if(response?.setMqttServerClientPresistSession?.gQL_MqttServerClientCfg){
               // ...
             }
+            HandleErrors(toast, response?.setMqttServerClientPresistSession?.errors);
           },
 
         });

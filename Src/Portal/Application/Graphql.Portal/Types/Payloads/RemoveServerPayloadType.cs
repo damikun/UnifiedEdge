@@ -6,9 +6,9 @@ namespace Aplication.Graphql.Types
     /// <summary>
     /// Graphql RemoveServerPayloadType 
     /// </summary>
-    public class RemoveServerPayloadType : ObjectType<RemoveServerPayload>
+    public class RemoveServerDataType : ObjectType<RemoveServerData>
     {
-        protected override void Configure(IObjectTypeDescriptor<RemoveServerPayload> descriptor)
+        protected override void Configure(IObjectTypeDescriptor<RemoveServerData> descriptor)
         {
             descriptor
             .Field(e => e.removed_id)
@@ -19,8 +19,8 @@ namespace Aplication.Graphql.Types
 
                 return serializer.Serialize(
                     default!,
-                    ctx.Parent<RemoveServerPayload>().typeName!,
-                    ctx.Parent<RemoveServerPayload>().removed_id!
+                    ctx.Parent<RemoveServerData>().typeName!,
+                    ctx.Parent<RemoveServerData>().removed_id!
                 )!;
             });
 

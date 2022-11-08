@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<247b5bcecc72acfe203c3608ddd6b31c>>
+ * @generated SignedSource<<c1e4e9a0038385af0f677d920b373d03>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,14 @@ export type UserFirstNameSettingUpdateMutation$variables = {
 };
 export type UserFirstNameSettingUpdateMutation$data = {
   readonly updateUserFirstName: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_User: {
       readonly firstName: string | null;
       readonly id: string;
@@ -37,7 +45,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -76,6 +91,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -87,7 +154,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "UserFirstNameSettingUpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -96,19 +163,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserFirstNameSettingUpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "1faa97c9eddff5eb56ccb8a5944b9f7d",
+    "cacheID": "0f77aebca49ae2fe0f21ef216c09e361",
     "id": null,
     "metadata": {},
     "name": "UserFirstNameSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserFirstNameSettingUpdateMutation(\n  $input: UpdateUserFirstNameInput!\n) {\n  updateUserFirstName(input: $input) {\n    gQL_User {\n      id\n      firstName\n    }\n  }\n}\n"
+    "text": "mutation UserFirstNameSettingUpdateMutation(\n  $input: UpdateUserFirstNameInput!\n) {\n  updateUserFirstName(input: $input) {\n    gQL_User {\n      id\n      firstName\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "48a81e2e621111d5f24cd788a37ca637";
+(node as any).hash = "811b0c08d28750b09ca12a34fa9502ec";
 
 export default node;

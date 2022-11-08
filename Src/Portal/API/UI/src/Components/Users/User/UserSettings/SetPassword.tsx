@@ -11,6 +11,7 @@ import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import Modal, { useModalContext } from "../../../../UIComponents/Modal/Modal";
 import { SetPasswordDataFragment$key } from "./__generated__/SetPasswordDataFragment.graphql";
 import { SetPasswordMutation, SetUserPasswordInput } from "./__generated__/SetPasswordMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 
@@ -76,6 +77,20 @@ const SetPasswordMutationTag = graphql`
         gQL_User{
           id
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
   }`
@@ -122,10 +137,11 @@ function SetPasswordModal({user_id}:SetPasswordModalProps){
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setUserPassword.gQL_User){
+            if(response?.setUserPassword?.gQL_User){
               toast?.pushSuccess("Pasword changed")
               ctx?.close();
             }
+            HandleErrors(toast, response?.setUserPassword?.errors);
           },
 
         });

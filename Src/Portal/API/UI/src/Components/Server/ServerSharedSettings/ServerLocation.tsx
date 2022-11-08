@@ -2,12 +2,14 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { generateErrors } from "../../../Utils/Validation";
 import { FormInput } from "../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 import { ServerLocationDataFragment$key } from "./__generated__/ServerLocationDataFragment.graphql";
 import { ServerLocationUpdateMutation, SetServerLocationInput } from "./__generated__/ServerLocationUpdateMutation.graphql";
+
 
 
 export const ServerLocationDataFragment = graphql`
@@ -25,6 +27,20 @@ const ServerLocationMutationTag = graphql`
         gQL_IServer{
           id
           location
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -71,15 +87,10 @@ function ServerLocation({dataRef}:ServerLocationProps) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setServerLocation.gQL_IServer){
+            if(response?.setServerLocation?.gQL_IServer){
               // ...
             }
-            // HandleErrors(toast, response.createServer?);
-            // if (response.createServer?.errors?.length === 0) {
-            //   startTransition(() => {
-            //     navigate(`/Hooks`);
-            //   });
-            // }
+            HandleErrors(toast, response?.setServerLocation?.errors);
           },
 
         });

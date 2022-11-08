@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import React, { useCallback, useState,useTransition } from "react";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
@@ -9,6 +10,7 @@ import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import Modal, { useModalContext } from "../../../../UIComponents/Modal/Modal";
 import { UserRemoveDataFragment$key } from "./__generated__/UserRemoveDataFragment.graphql";
 import { UserRemoveUpdateMutation } from "./__generated__/UserRemoveUpdateMutation.graphql";
+
 
 export const UserRemoveDataFragment = graphql`
   fragment UserRemoveDataFragment on GQL_User 
@@ -23,6 +25,20 @@ const UserRemoveMutationTag = graphql`
       ... on RemoveUserPayload {          
         gQL_User{
           id
+        }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
         }
       }
     }
@@ -125,10 +141,11 @@ function DeleteUserModal({dataRef}:DeleteUserModalProps){
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.removeUser.gQL_User){
+          if(response?.removeUser?.gQL_User){
             ctx.close()
             handleNavigate()
           }
+          HandleErrors(toast, response?.removeUser?.errors);
         },
 
       });

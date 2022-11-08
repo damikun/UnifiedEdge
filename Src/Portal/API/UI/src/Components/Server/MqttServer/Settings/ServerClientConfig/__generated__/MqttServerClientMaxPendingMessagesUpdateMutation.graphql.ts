@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<35f601f4d5b54e8cbb06c98256297e0c>>
+ * @generated SignedSource<<58a087e3147d1e4291ce28c639f4b0fc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,14 @@ export type MqttServerClientMaxPendingMessagesUpdateMutation$variables = {
 };
 export type MqttServerClientMaxPendingMessagesUpdateMutation$data = {
   readonly setMqttServerClientMaxPendingMessages: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_MqttServerClientCfg: {
       readonly " $fragmentSpreads": FragmentRefs<"MqttServerClientMaxPendingMessagesDataFragment">;
     } | null;
@@ -43,7 +51,66 @@ v1 = [
     "name": "input",
     "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v2/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v2/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -74,7 +141,8 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
@@ -127,23 +195,24 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "35839fa3d7c1eeb5618128a31ee4882d",
+    "cacheID": "b47fdbb484c9a7a838bf7d4cf0b207e2",
     "id": null,
     "metadata": {},
     "name": "MqttServerClientMaxPendingMessagesUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttServerClientMaxPendingMessagesUpdateMutation(\n  $input: SetMqttServerClientMaxPendingMessagesInput!\n) {\n  setMqttServerClientMaxPendingMessages(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientMaxPendingMessagesDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n"
+    "text": "mutation MqttServerClientMaxPendingMessagesUpdateMutation(\n  $input: SetMqttServerClientMaxPendingMessagesInput!\n) {\n  setMqttServerClientMaxPendingMessages(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientMaxPendingMessagesDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n"
   }
 };
 })();
 
-(node as any).hash = "387f28bb50119e59578c8fd1f391f5fe";
+(node as any).hash = "feca08f40b8808fd08a03e36ce716a57";
 
 export default node;

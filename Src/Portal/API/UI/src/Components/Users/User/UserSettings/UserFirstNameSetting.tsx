@@ -8,6 +8,7 @@ import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { UserFirstNameSettingDataFragment$key } from "./__generated__/UserFirstNameSettingDataFragment.graphql";
 import { UpdateUserFirstNameInput, UserFirstNameSettingUpdateMutation } from "./__generated__/UserFirstNameSettingUpdateMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const UserFirstNameSettingDataFragment = graphql`
@@ -26,6 +27,20 @@ const UserFirstNameSettingMutationTag = graphql`
           id
           firstName
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -71,9 +86,10 @@ function UserFirstNameSetting({dataRef}:UserFirstNameSettingProps) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.updateUserFirstName.gQL_User){
+            if(response?.updateUserFirstName?.gQL_User){
               // ...
             }
+            HandleErrors(toast, response?.updateUserFirstName?.errors);
           },
 
         });

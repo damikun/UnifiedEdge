@@ -2,12 +2,14 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { WebHookSecretSettingDataFragment$key } from "./__generated__/WebHookSecretSettingDataFragment.graphql";
 import { UpdateWebHookSecretInput, WebHookSecretSettingUpdateMutation } from "./__generated__/WebHookSecretSettingUpdateMutation.graphql";
+
 
 
 export const WebHookSecretSettingDataFragment = graphql`
@@ -26,6 +28,20 @@ const WebHookSecretSettingMutationTag = graphql`
           id
           secret
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -75,6 +91,7 @@ function WebHookSecretSetting({dataRef}:WebHookSecretSettingProps) {
             if(response.updateWebHookSecret.gQL_WebHook){
               // ...
             }
+            HandleErrors(toast, response?.updateWebHookSecret?.errors);
           },
 
         });

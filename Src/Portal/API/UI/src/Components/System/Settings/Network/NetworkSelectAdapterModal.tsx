@@ -7,6 +7,7 @@ import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import { AdapterSelect } from "../../../../Shared/AdapterSelect/AdapterSelect";
 import { NetworkSelectAdapterModalQuery } from "./__generated__/NetworkSelectAdapterModalQuery.graphql";
 import { NetworkSelectAdapterModalMutation } from "./__generated__/NetworkSelectAdapterModalMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const NetworkSelectAdapterModalQueryTag = graphql`
@@ -44,6 +45,20 @@ const NetworkSelectAdapterModalMutationTag = graphql`
             }
           }
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -88,9 +103,11 @@ function NetworkSelectAdapterModal() {
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.setEdgeDefaultNetworkAdapter.gQL_DefaultAdapter){
+          if(response?.setEdgeDefaultNetworkAdapter?.gQL_DefaultAdapter){
               // Any
           }
+          
+          HandleErrors(toast, response?.setEdgeDefaultNetworkAdapter?.errors);
         },
 
       });

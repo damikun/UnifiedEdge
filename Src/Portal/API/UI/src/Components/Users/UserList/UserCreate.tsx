@@ -3,12 +3,14 @@ import { useFormik } from "formik";
 import {useMutation } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import { useUserListCtx } from "./UserListCtxProvider";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../Utils/Validation";
 import { FormInput } from "../../../UIComponents/Form/FormInput";
 import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 import { CreateUserInput, UserCreateMutation } from "./__generated__/UserCreateMutation.graphql";
+
 
 
 const UserCreateMutationTag = graphql`
@@ -24,6 +26,20 @@ const UserCreateMutationTag = graphql`
             edgeTypeName: "GQL_User"
           ){
             ...UserListItemDataFragment
+        }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
         }
       }
     }
@@ -74,9 +90,10 @@ function CreateNewUser(){
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.createUser.gQL_User){
+            if(response?.createUser?.gQL_User){
               modalCtx?.close();
             }
+            HandleErrors(toast, response?.createUser?.errors);
           },
 
         });

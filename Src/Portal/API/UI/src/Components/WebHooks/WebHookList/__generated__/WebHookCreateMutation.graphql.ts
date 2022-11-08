@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<246c56837eb4977d426243c7396c06a7>>
+ * @generated SignedSource<<2d0f4a768a8eb2ca865229eb97c68bf9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -24,6 +24,14 @@ export type WebHookCreateMutation$variables = {
 };
 export type WebHookCreateMutation$data = {
   readonly createWebHook: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_WebHook: {
       readonly " $fragmentSpreads": FragmentRefs<"WebHookListItemDataFragment">;
     } | null;
@@ -51,7 +59,66 @@ v2 = [
     "name": "input",
     "variableName": "input"
   }
-];
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v3/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v3/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [
@@ -85,7 +152,8 @@ return {
               }
             ],
             "storageKey": null
-          }
+          },
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
@@ -204,23 +272,24 @@ return {
                 "value": "GQL_WebHook"
               }
             ]
-          }
+          },
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "134f7cb0972b18939c556331b629f112",
+    "cacheID": "db93b2360b1f757eef4beb3c5bea7024",
     "id": null,
     "metadata": {},
     "name": "WebHookCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookCreateMutation(\n  $input: CreateWebHookInput!\n) {\n  createWebHook(input: $input) {\n    gQL_WebHook {\n      ...WebHookListItemDataFragment\n      id\n    }\n  }\n}\n\nfragment WebHookListItemDataFragment on GQL_WebHook {\n  id\n  name\n  contentType\n  eventGroup\n  isActive\n  lastTrigger\n  secret\n  webHookUrl\n  serverUid\n}\n"
+    "text": "mutation WebHookCreateMutation(\n  $input: CreateWebHookInput!\n) {\n  createWebHook(input: $input) {\n    gQL_WebHook {\n      ...WebHookListItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment WebHookListItemDataFragment on GQL_WebHook {\n  id\n  name\n  contentType\n  eventGroup\n  isActive\n  lastTrigger\n  secret\n  webHookUrl\n  serverUid\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3467e2769e3e82ec1494f9e9ef4266ac";
+(node as any).hash = "1a064419007e7eda1ad985288b729af3";
 
 export default node;

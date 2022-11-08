@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import { UserAdminSettingDataFragment$key } from "./__generated__/UserAdminSettingDataFragment.graphql";
@@ -36,6 +37,20 @@ const UserAdminSettingMutationTag = graphql`
             isAdmin
           }
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -89,12 +104,13 @@ function UserAdminSetting({dataRef}:UserAdminSettingProps) {
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.setUserAdmin.gQL_User){
-
+          if(response?.setUserAdmin?.gQL_User){
             setAdminState(response?.setUserAdmin?.query?.isAdmin?.isAdmin)
           }else{
             setAdminState(!checked)
           }
+
+          HandleErrors(toast, response?.setUserAdmin?.errors);
         },
 
         optimisticUpdater(store, value){

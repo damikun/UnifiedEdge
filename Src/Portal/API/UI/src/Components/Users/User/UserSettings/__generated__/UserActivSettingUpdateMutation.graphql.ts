@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0b36c65d3aa24f1506241489ef1fd55f>>
+ * @generated SignedSource<<6cabb6e0be597a03d5995371e6c80808>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,14 @@ export type UserActivSettingUpdateMutation$variables = {
 };
 export type UserActivSettingUpdateMutation$data = {
   readonly updateUserEnabled: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_User: {
       readonly enabled: boolean;
       readonly id: string;
@@ -37,7 +45,14 @@ var v0 = [
     "name": "input"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -76,6 +91,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -87,7 +154,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "UserActivSettingUpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -96,19 +163,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserActivSettingUpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "b02ee2403916092ba44ac9bd7528faa3",
+    "cacheID": "6c3f2ad6853ab952f2da8014bced36b5",
     "id": null,
     "metadata": {},
     "name": "UserActivSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserActivSettingUpdateMutation(\n  $input: UpdateUserEnabledInput!\n) {\n  updateUserEnabled(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n  }\n}\n"
+    "text": "mutation UserActivSettingUpdateMutation(\n  $input: UpdateUserEnabledInput!\n) {\n  updateUserEnabled(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3adda6e673e71bf9da88ee7cb76bb04d";
+(node as any).hash = "e5f0a2d47806f7df4f6d623e0e1c6efc";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<62439050948f9f993783782c1c14aa4b>>
+ * @generated SignedSource<<c66f7472c85eb56d60b2f7c093f7da9e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,14 @@ export type NetworkSelectAdapterModalMutation$variables = {
 };
 export type NetworkSelectAdapterModalMutation$data = {
   readonly setEdgeDefaultNetworkAdapter: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_DefaultAdapter: {
       readonly adapter: {
         readonly addresses: {
@@ -116,6 +124,65 @@ v3 = {
     }
   ],
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v4/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v4/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -143,7 +210,8 @@ return {
               (v3/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v5/*: any*/)
         ],
         "storageKey": null
       }
@@ -177,23 +245,24 @@ return {
               (v2/*: any*/)
             ],
             "storageKey": null
-          }
+          },
+          (v5/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "d1b93fed89edbe84cc42f68e199c15f0",
+    "cacheID": "a58f345606dbee80180aad23a0330137",
     "id": null,
     "metadata": {},
     "name": "NetworkSelectAdapterModalMutation",
     "operationKind": "mutation",
-    "text": "mutation NetworkSelectAdapterModalMutation(\n  $input: SetEdgeDefaultNetworkAdapterInput!\n) {\n  setEdgeDefaultNetworkAdapter(input: $input) {\n    gQL_DefaultAdapter {\n      adapter {\n        id\n        name\n        interfaceType\n        physicalAddress\n        addresses {\n          gatewayAddresses\n          unicastAddresses\n        }\n      }\n      id\n    }\n  }\n}\n"
+    "text": "mutation NetworkSelectAdapterModalMutation(\n  $input: SetEdgeDefaultNetworkAdapterInput!\n) {\n  setEdgeDefaultNetworkAdapter(input: $input) {\n    gQL_DefaultAdapter {\n      adapter {\n        id\n        name\n        interfaceType\n        physicalAddress\n        addresses {\n          gatewayAddresses\n          unicastAddresses\n        }\n      }\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6cf48e0918f126c00b3443db46818f1e";
+(node as any).hash = "3f2edf73366ae62e28d611e874729c24";
 
 export default node;

@@ -2,12 +2,14 @@ import { useFormik } from "formik";
 import React, { useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { EdgeLocation2DataFragment$key } from "./__generated__/EdgeLocation2DataFragment.graphql";
 import { EdgeLocation2UpdateMutation, SetEdgeLocation2Input } from "./__generated__/EdgeLocation2UpdateMutation.graphql";
+
 
 
 export const EdgeLocation2DataFragment = graphql`
@@ -25,6 +27,20 @@ const EdgeLocation2MutationTag = graphql`
         gQL_Edge{
           id
           location2
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
         }
       }
     }
@@ -70,15 +86,11 @@ function EdgeLocation2({dataRef}:EdgeLocation2Props) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.setEdgeLocation2.gQL_Edge){
+            if(response?.setEdgeLocation2?.gQL_Edge){
               // ...
             }
-            // HandleErrors(toast, response.createServer?);
-            // if (response.createServer?.errors?.length === 0) {
-            //   startTransition(() => {
-            //     navigate(`/Hooks`);
-            //   });
-            // }
+            
+            HandleErrors(toast, response?.setEdgeLocation2?.errors);
           },
 
         });

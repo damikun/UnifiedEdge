@@ -11,6 +11,7 @@ import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 import Modal, { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { ServerRemoveDataFragment$key } from "./__generated__/ServerRemoveDataFragment.graphql";
 import { ServerRemoveUpdateMutation } from "./__generated__/ServerRemoveUpdateMutation.graphql";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 
 export const ServerRemoveDataFragment = graphql`
   fragment ServerRemoveDataFragment on GQL_IServer
@@ -24,8 +25,24 @@ const ServerRemoveMutationTag = graphql`
     $input: RemoveServerInput!,
     $connections: [ID!]!) {
     removeServer(input: $input) {
-      ... on RemoveServerPayload {          
-        removed_id @deleteEdge(connections: $connections)
+      ... on RemoveServerPayload {     
+        removeServerData{   
+          removed_id @deleteEdge(connections: $connections)
+        }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
   }
@@ -138,10 +155,11 @@ function DeleteServerModal({dataRef}:DeleteServerModalProps){
         onCompleted(response) {},
 
         updater(store, response) {
-          if(response.removeServer.removed_id){
+          if(response?.removeServer?.removeServerData){
             ctx.close()
             handleNavigate()
           }
+          HandleErrors(toast, response?.removeServer?.errors);
         },
 
       });

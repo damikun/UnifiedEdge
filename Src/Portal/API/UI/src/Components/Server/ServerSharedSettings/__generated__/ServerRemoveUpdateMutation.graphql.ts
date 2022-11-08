@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f2a4dc386bdf857e1f18c90b8a3793d1>>
+ * @generated SignedSource<<1bfaa64744311c8f60db47bc40472452>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,17 @@ export type ServerRemoveUpdateMutation$variables = {
 };
 export type ServerRemoveUpdateMutation$data = {
   readonly removeServer: {
-    readonly removed_id: string | null;
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
+    readonly removeServerData: {
+      readonly removed_id: string | null;
+    } | null;
   };
 };
 export type ServerRemoveUpdateMutation = {
@@ -50,6 +60,65 @@ v3 = {
   "kind": "ScalarField",
   "name": "removed_id",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "concreteType": null,
+  "kind": "LinkedField",
+  "name": "errors",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__typename",
+      "storageKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "ErrorSource",
+          "kind": "LinkedField",
+          "name": "errors",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "property",
+              "storageKey": null
+            },
+            (v4/*: any*/)
+          ],
+          "storageKey": null
+        }
+      ],
+      "type": "ValidationError",
+      "abstractKey": null
+    },
+    {
+      "kind": "InlineFragment",
+      "selections": [
+        (v4/*: any*/)
+      ],
+      "type": "ResultError",
+      "abstractKey": "__isResultError"
+    }
+  ],
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -69,7 +138,19 @@ return {
         "name": "removeServer",
         "plural": false,
         "selections": [
-          (v3/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "RemoveServerData",
+            "kind": "LinkedField",
+            "name": "removeServerData",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/)
+            ],
+            "storageKey": null
+          },
+          (v5/*: any*/)
         ],
         "storageKey": null
       }
@@ -94,39 +175,51 @@ return {
         "name": "removeServer",
         "plural": false,
         "selections": [
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
-            "filters": null,
-            "handle": "deleteEdge",
-            "key": "",
-            "kind": "ScalarHandle",
-            "name": "removed_id",
-            "handleArgs": [
+            "concreteType": "RemoveServerData",
+            "kind": "LinkedField",
+            "name": "removeServerData",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
               {
-                "kind": "Variable",
-                "name": "connections",
-                "variableName": "connections"
+                "alias": null,
+                "args": null,
+                "filters": null,
+                "handle": "deleteEdge",
+                "key": "",
+                "kind": "ScalarHandle",
+                "name": "removed_id",
+                "handleArgs": [
+                  {
+                    "kind": "Variable",
+                    "name": "connections",
+                    "variableName": "connections"
+                  }
+                ]
               }
-            ]
-          }
+            ],
+            "storageKey": null
+          },
+          (v5/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b6e33fb65b04a0a33e1bea47d6006e0d",
+    "cacheID": "36f0035286ce571babc8df1659d315a2",
     "id": null,
     "metadata": {},
     "name": "ServerRemoveUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerRemoveUpdateMutation(\n  $input: RemoveServerInput!\n) {\n  removeServer(input: $input) {\n    removed_id\n  }\n}\n"
+    "text": "mutation ServerRemoveUpdateMutation(\n  $input: RemoveServerInput!\n) {\n  removeServer(input: $input) {\n    removeServerData {\n      removed_id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "598aab2af79cf4be137e319d6f52be1f";
+(node as any).hash = "557d4d97885ec6b90cdd06e6bb87d45c";
 
 export default node;

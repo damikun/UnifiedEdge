@@ -4,6 +4,7 @@ import React, { useCallback } from "react";
 import { EVENT_GROUPS } from "./WebHookGroups";
 import { URL_REGEX } from "../../../constants";
 import { graphql } from "babel-plugin-relay/macro";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { useWebHookListCtx } from "./WebHookListCtxProvider";
 import { generateErrors, is } from "../../../Utils/Validation";
 import { FormInput } from "../../../UIComponents/Form/FormInput";
@@ -17,7 +18,6 @@ import FormSelect, { FormSelectOption } from "../../../UIComponents/Form/FormSel
 import { CreateWebHookInput, WebHookCreateMutation } from "./__generated__/WebHookCreateMutation.graphql";
 import { WebHookCreateServerListFragment$key } from "./__generated__/WebHookCreateServerListFragment.graphql";
 import { WebHookCreate_ServerListRefetchQuery } from "./__generated__/WebHookCreate_ServerListRefetchQuery.graphql";
-
 
 
 const WebHookCreateQueryTag = graphql`
@@ -68,6 +68,20 @@ const WebHookCreateMutationTag = graphql`
           ){
             ...WebHookListItemDataFragment
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
   }`
@@ -132,9 +146,10 @@ function CreateNewWebHook(){
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.createWebHook.gQL_WebHook){
+            if(response?.createWebHook?.gQL_WebHook){
               modalCtx?.close();
             }
+            HandleErrors(toast, response?.createWebHook?.errors);
           },
 
         });

@@ -8,6 +8,7 @@ import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { WebHookNameSettingDataFragment$key } from "./__generated__/WebHookNameSettingDataFragment.graphql";
 import { UpdateWebHookNameInput, WebHookNameSettingUpdateMutation } from "./__generated__/WebHookNameSettingUpdateMutation.graphql";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const WebHookNameSettingDataFragment = graphql`
@@ -26,6 +27,20 @@ const WebHookNameSettingMutationTag = graphql`
           id
           name
         }
+        errors{
+            __typename
+
+            ... on ValidationError{
+                errors{
+                property
+                message
+                }
+            }
+
+            ... on ResultError{
+                message
+            }
+            }
       }
     }
 }
@@ -71,9 +86,10 @@ function WebHookNameSetting({dataRef}:WebHookNameSettingProps) {
           onCompleted(response) {},
 
           updater(store, response) {
-            if(response.updateWebHookName.gQL_WebHook){
+            if(response?.updateWebHookName?.gQL_WebHook){
               // ...
             }
+            HandleErrors(toast, response?.updateWebHookName?.errors);
           },
 
         });

@@ -31,17 +31,32 @@ interface Node {
   id: ID!
 }
 
+interface ResultError {
+  errorType: String!
+  message: String!
+}
+
+type AuthorizationError implements ResultError {
+  description: String
+  errors: [ErrorSource!]
+  errorType: String!
+  message: String!
+}
+
 type CreateServerPayload {
+  errors: [CreateServerError!]
   gQL_IServer: GQL_IServer
   query: Query!
 }
 
 type CreateUserPayload {
+  errors: [CreateUserError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type CreateWebHookPayload {
+  errors: [CreateWebHookError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
@@ -60,8 +75,15 @@ type DTO_AdapterStatistic {
 }
 
 type EnableDisableServerPayload {
+  errors: [EnableDisableServerError!]
   gQL_IServer: GQL_IServer
   query: Query!
+}
+
+type ErrorSource {
+  message: String
+  property: String
+  propertyNormalised: String
 }
 
 type GQL_Adapter implements Node {
@@ -751,6 +773,12 @@ type HistorianRecord {
   value: Any
 }
 
+type InternalError implements ResultError {
+  error: String
+  errorType: String!
+  message: String!
+}
+
 type IsAdminResult {
   isAdmin: Boolean!
 }
@@ -779,7 +807,6 @@ type Mutation {
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
   setUserPassword(input: SetUserPasswordInput!): SetUserPasswordPayload!
-  test: TestPayload!
   updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
   updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
   updateUserLastName(input: UpdateUserLastNameInput!): UpdateUserLastNamePayload!
@@ -803,6 +830,7 @@ type PageInfo {
 }
 
 type ProcessServerCmdPayload {
+  errors: [ProcessServerCmdError!]
   gQL_ServerState: GQL_ServerState
   query: Query!
 }
@@ -855,92 +883,114 @@ type Query {
   webHooks("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_WebHookConnection
 }
 
-type RemoveServerPayload {
-  query: Query!
+type RemoveServerData {
   removed_id: ID
 }
 
+type RemoveServerPayload {
+  errors: [RemoveServerError!]
+  query: Query!
+  removeServerData: RemoveServerData
+}
+
 type RemoveUserPayload {
+  errors: [RemoveUserError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type RemoveWebHookPayload {
+  errors: [RemoveWebHookError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
 type SetEdgeDefaultNetworkAdapterPayload {
+  errors: [SetEdgeDefaultNetworkAdapterError!]
   gQL_DefaultAdapter: GQL_DefaultAdapter
   query: Query!
 }
 
 type SetEdgeDescriptionPayload {
+  errors: [SetEdgeDescriptionError!]
   gQL_Edge: GQL_Edge
   query: Query!
 }
 
 type SetEdgeLocation1Payload {
+  errors: [SetEdgeLocation1Error!]
   gQL_Edge: GQL_Edge
   query: Query!
 }
 
 type SetEdgeLocation2Payload {
+  errors: [SetEdgeLocation2Error!]
   gQL_Edge: GQL_Edge
   query: Query!
 }
 
 type SetEdgeLocation3Payload {
+  errors: [SetEdgeLocation3Error!]
   gQL_Edge: GQL_Edge
   query: Query!
 }
 
 type SetEdgeNamePayload {
+  errors: [SetEdgeNameError!]
   gQL_Edge: GQL_Edge
   query: Query!
 }
 
 type SetMqttServerClientCommunicationTimeoutPayload {
+  errors: [SetMqttServerClientCommunicationTimeoutError!]
   gQL_MqttServerClientCfg: GQL_MqttServerClientCfg
   query: Query!
 }
 
 type SetMqttServerClientMaxPendingMessagesPayload {
+  errors: [SetMqttServerClientMaxPendingMessagesError!]
   gQL_MqttServerClientCfg: GQL_MqttServerClientCfg
   query: Query!
 }
 
 type SetMqttServerClientPresistSessionPayload {
+  errors: [SetMqttServerClientPresistSessionError!]
   gQL_MqttServerClientCfg: GQL_MqttServerClientCfg
   query: Query!
 }
 
 type SetMqttServerEndpointPayload {
+  errors: [SetMqttServerEndpointError!]
   gQL_MqttServerEndpoint: GQL_MqttServerEndpoint
   query: Query!
 }
 
 type SetServerDescriptionPayload {
+  errors: [SetServerDescriptionError!]
   gQL_IServer: GQL_IServer
   query: Query!
 }
 
 type SetServerLocationPayload {
+  errors: [SetServerLocationError!]
   gQL_IServer: GQL_IServer
   query: Query!
 }
 
 type SetServerNamePayload {
+  errors: [SetServerNameError!]
   gQL_IServer: GQL_IServer
   query: Query!
 }
 
 type SetUserAdminPayload {
+  errors: [SetUserAdminError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type SetUserPasswordPayload {
+  errors: [SetUserPasswordError!]
   gQL_User: GQL_User
   query: Query!
 }
@@ -958,52 +1008,123 @@ type Subscription {
   uptime: GQL_Uptime!
 }
 
-type TestPayload {
-  boolean: Boolean
-  query: Query!
-}
-
 type UpdateUserEnabledPayload {
+  errors: [UpdateUserEnabledError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type UpdateUserFirstNamePayload {
+  errors: [UpdateUserFirstNameError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type UpdateUserLastNamePayload {
+  errors: [UpdateUserLastNameError!]
   gQL_User: GQL_User
   query: Query!
 }
 
 type UpdateWebHookActiveStatePayload {
+  errors: [UpdateWebHookActiveStateError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
 type UpdateWebHookEventGroupsPayload {
+  errors: [UpdateWebHookEventGroupsError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
 type UpdateWebHookNamePayload {
+  errors: [UpdateWebHookNameError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
 type UpdateWebHookSecretPayload {
+  errors: [UpdateWebHookSecretError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
 type UpdateWebHookUrlPayload {
+  errors: [UpdateWebHookUrlError!]
   gQL_WebHook: GQL_WebHook
   query: Query!
 }
 
+type ValidationError implements ResultError {
+  errors: [ErrorSource!]
+  errorType: String!
+  message: String!
+}
+
+union CreateServerError = ValidationError | AuthorizationError | InternalError
+
+union CreateUserError = ValidationError | AuthorizationError | InternalError
+
+union CreateWebHookError = ValidationError | AuthorizationError | InternalError
+
+union EnableDisableServerError = ValidationError | AuthorizationError | InternalError
+
 union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent
+
+union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
+
+union RemoveServerError = ValidationError | AuthorizationError | InternalError
+
+union RemoveUserError = ValidationError | AuthorizationError | InternalError
+
+union RemoveWebHookError = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeDefaultNetworkAdapterError = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeDescriptionError = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeLocation1Error = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeLocation2Error = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeLocation3Error = ValidationError | AuthorizationError | InternalError
+
+union SetEdgeNameError = ValidationError | AuthorizationError | InternalError
+
+union SetMqttServerClientCommunicationTimeoutError = ValidationError | AuthorizationError | InternalError
+
+union SetMqttServerClientMaxPendingMessagesError = ValidationError | AuthorizationError | InternalError
+
+union SetMqttServerClientPresistSessionError = ValidationError | AuthorizationError | InternalError
+
+union SetMqttServerEndpointError = ValidationError | AuthorizationError | InternalError
+
+union SetServerDescriptionError = ValidationError | AuthorizationError | InternalError
+
+union SetServerLocationError = ValidationError | AuthorizationError | InternalError
+
+union SetServerNameError = ValidationError | AuthorizationError | InternalError
+
+union SetUserAdminError = ValidationError | AuthorizationError | InternalError
+
+union SetUserPasswordError = ValidationError | AuthorizationError | InternalError
+
+union UpdateUserEnabledError = ValidationError | AuthorizationError | InternalError
+
+union UpdateUserFirstNameError = ValidationError | AuthorizationError | InternalError
+
+union UpdateUserLastNameError = ValidationError | AuthorizationError | InternalError
+
+union UpdateWebHookActiveStateError = ValidationError | AuthorizationError | InternalError
+
+union UpdateWebHookEventGroupsError = ValidationError | AuthorizationError | InternalError
+
+union UpdateWebHookNameError = ValidationError | AuthorizationError | InternalError
+
+union UpdateWebHookSecretError = ValidationError | AuthorizationError | InternalError
+
+union UpdateWebHookUrlError = ValidationError | AuthorizationError | InternalError
 
 input CreateServerInput {
   description: String

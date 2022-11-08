@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<835aa9dc7ca1a4e492bb8493c94fc303>>
+ * @generated SignedSource<<9ff80fd5c85bebc6b5368d7d51a2a029>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,14 @@ export type UserAdminSettingUpdateMutation$variables = {
 };
 export type UserAdminSettingUpdateMutation$data = {
   readonly setUserAdmin: {
+    readonly errors: ReadonlyArray<{
+      readonly __typename: string;
+      readonly errors?: ReadonlyArray<{
+        readonly message: string | null;
+        readonly property: string | null;
+      }> | null;
+      readonly message?: string;
+    }> | null;
     readonly gQL_User: {
       readonly enabled: boolean;
       readonly id: string;
@@ -48,7 +56,14 @@ var v0 = [
     "name": "user_id"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -122,6 +137,58 @@ v1 = [
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": null,
+        "kind": "LinkedField",
+        "name": "errors",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "__typename",
+            "storageKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ErrorSource",
+                "kind": "LinkedField",
+                "name": "errors",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "property",
+                    "storageKey": null
+                  },
+                  (v1/*: any*/)
+                ],
+                "storageKey": null
+              }
+            ],
+            "type": "ValidationError",
+            "abstractKey": null
+          },
+          {
+            "kind": "InlineFragment",
+            "selections": [
+              (v1/*: any*/)
+            ],
+            "type": "ResultError",
+            "abstractKey": "__isResultError"
+          }
+        ],
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -133,7 +200,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "UserAdminSettingUpdateMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -142,19 +209,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UserAdminSettingUpdateMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "f4e9228342926cea5d8b8341fa83de56",
+    "cacheID": "d6f1c7bdf87c62e6e666f7cff9c36c93",
     "id": null,
     "metadata": {},
     "name": "UserAdminSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserAdminSettingUpdateMutation(\n  $input: SetUserAdminInput!\n  $user_id: ID!\n) {\n  setUserAdmin(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n    query {\n      isAdmin(user_id: $user_id) {\n        isAdmin\n      }\n    }\n  }\n}\n"
+    "text": "mutation UserAdminSettingUpdateMutation(\n  $input: SetUserAdminInput!\n  $user_id: ID!\n) {\n  setUserAdmin(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n    query {\n      isAdmin(user_id: $user_id) {\n        isAdmin\n      }\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "03e53290b14dc0ee3539352146f19beb";
+(node as any).hash = "2f51b827b39ab6ccc819fd49a035e791";
 
 export default node;
