@@ -99,7 +99,7 @@ partial class Build : NukeBuild
             .ForEach(DeleteDirectory);
     });
 
-    [PathExecutable("electronize")] readonly Tool? Electronize;
+    [PathExecutable("electronize")] Tool? Electronize;
     Target Release_Electron => _ => _
         .DependsOn(Compile, Tools_Restore, Clean_Electron_Release_Artifact_Dir)
         .Produces(
