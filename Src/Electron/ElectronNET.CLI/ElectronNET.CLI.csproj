@@ -10,7 +10,7 @@
     <PackageOutputPath>..\artifacts</PackageOutputPath>
     <PackageId>DamiKun.ElectronNET.CLI</PackageId>
     <!-- Version 99 is just set for local development stuff to avoid a conflict with "real" packages on NuGet.org -->
-    <Version>1.5</Version>
+    <Version>1.6</Version>
     <Product>DamiKun.Electron.NET</Product>
     <Company />
     <Description>

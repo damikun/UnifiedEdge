@@ -29,10 +29,7 @@ using static Nuke.Common.IO.PathConstruction;
         nameof(Release_Electron),
         nameof(Print_Net_SDK),
     },
-    OnPushIncludePaths = new[] {
-        "Src/**",
-        ".build/**"
-    },
+    OnWorkflowDispatchOptionalInputs = new[] { "workflow_dispatch" },
     AutoGenerate = false)]
 partial class Build : NukeBuild
 {
