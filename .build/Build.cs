@@ -22,6 +22,18 @@ using static Nuke.Common.IO.PathConstruction;
     },
     OnPushBranches = new[] { "main" },
     AutoGenerate = false)]
+[GitHubActions(
+    "Build-Electron-Artefact",
+    GitHubActionsImage.WindowsLatest,
+    InvokedTargets = new[] {
+        nameof(Release_Electron),
+        nameof(Print_Net_SDK),
+    },
+    OnPushIncludePaths = new[] {
+        "Src/**",
+        ".build/**"
+    },
+    AutoGenerate = false)]
 partial class Build : NukeBuild
 {
     /// Support plugins are available for:
