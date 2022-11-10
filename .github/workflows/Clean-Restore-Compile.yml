@@ -22,7 +22,7 @@ on:
       - main
     paths:
       - "Src/**"
-      - ".build/**"
+      # - ".build/**"
 
 jobs:
   windows-latest:

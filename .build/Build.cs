@@ -19,7 +19,7 @@ using static Nuke.Common.IO.PathConstruction;
     },
     OnPushIncludePaths = new[] {
         "Src/**",
-        ".build/**"
+        // ".build/**"
     },
     OnPushBranches = new[] { "main" },
     AutoGenerate = false)]
@@ -79,6 +79,12 @@ partial class Build : NukeBuild
         DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory);
 
         DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory);
+
+        Serilog.Log.Information("🔨 Printing Tool List");
+
+        DotNetTasks.DotNet("tool list --local", SourceDirectory);
+
+        DotNetTasks.DotNet("tool list --global", SourceDirectory);
     });
 
     Target Clean_Electron_Release_Artifact_Dir => _ => _
@@ -97,12 +103,9 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
 
-            var tool = GetTool("electronize");
+            var ElectronTool = GetTool("electronize");
 
-            if (tool != null)
-                Serilog.Log.Information("🚀 ToolExist");
-
-            Electronize(
+            ElectronTool(
                 @$"build /target win",
                 Portal_Directory,
                 null, // Env variables
