@@ -75,12 +75,19 @@ partial class Build : NukeBuild
 
         DotNetTasks.DotNetLogger = CustomLogger;
 
-        DotNetTasks.DotNet("tool restore");
+        DotNetTasks.DotNet("tool restore", SourceDirectory);
 
         try
         {
             DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory, null, null, false, false);
+        }
+        catch
+        {
 
+        }
+
+        try
+        {
             DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory, null, null, false, false);
         }
         catch
