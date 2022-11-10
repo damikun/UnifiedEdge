@@ -75,6 +75,8 @@ partial class Build : NukeBuild
     .Executes(() =>
     {
         DotNetTasks.DotNetToolRestore();
+
+        DotNetTasks.DotNet("install -g damikun.electronnet.cli");
     });
 
     Target Clean_Electron_Release_Artifact_Dir => _ => _
