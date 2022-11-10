@@ -31,10 +31,13 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+        env:
+          CI: false
       - name: Run './build.cmd Release_Electron Print_Net_SDK'
         run: ./build.cmd Release_Electron Print_Net_SDK
         env:
           workflow_dispatch: ${{ github.event.inputs.workflow_dispatch }}
+          CI: false
       - uses: actions/upload-artifact@v1
         with:
           name: Artifacts
