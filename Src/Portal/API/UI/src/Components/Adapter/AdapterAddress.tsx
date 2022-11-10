@@ -70,7 +70,7 @@ function AdapterAddress({dataRef}:AdapterAddressProps) {
   return <Section 
     name={"Addresses"}
     component={
-      <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+      <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
       "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
         <Value name="Interface type" value={data?.interfaceType}/>
         <Value name="Supported IP protocol" value={supported_ip_prot}/>

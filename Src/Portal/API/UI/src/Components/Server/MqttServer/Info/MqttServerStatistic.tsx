@@ -139,7 +139,7 @@ function MqttServerStatistic({dataRef}:MqttServerStatisticProps) {
   return <Section 
   name="Statistic"
   component={
-  <div className={clsx("flex flex-row bg-gray-100 w-full",
+  <div className={clsx("flex flex-row bg-gray-50 w-full",
     "border border-gray-200 rounded-md shadow-sm p-5 w-full",
     "space-x-2 justify-around h-full align-middle")}>
 

@@ -100,7 +100,7 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
       component={
       <InfinityScrollTable
         header={<Header/>}
-        height="h-72"
+        height="h-80"
         onEnd={handleLoadMore}
         >
           {
@@ -126,10 +126,10 @@ function Header(){
     <tr className="flex-1 hidden lg:flex">
       <th>Trigger</th>
     </tr>
-    <tr className="flex-1 lg:w-44">
+    <tr className="flex lg:flex items-center truncate my-auto">
       <th>Time</th>
     </tr>
-    <tr className="flex w-24 md:w-28 items-center text-center">
+    <tr className="flex w-24 md:w-28 items-center justify-center text-center">
       <th>Status</th>
     </tr>
   </TableHeader>

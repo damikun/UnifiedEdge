@@ -93,7 +93,7 @@ export function AdapterSelect({selected_id,error,dataRef,disable,onSelect}:Adapt
                 key={adapter?.node?.id}
                 value={adapter?.node}
                 className={({ active, checked }) =>clsx(
-                    checked ? 'bg-blue-600 bg-opacity-75 text-white' : 'bg-white hover:bg-gray-100',
+                    checked ? 'bg-blue-600 bg-opacity-75 text-white' : 'bg-white hover:bg-gray-50',
                     "relative flex  rounded-lg px-5 py-4 shadow-sm focus:outline-none border border-gray-100",
                     disable ? "opacity-50 transition-all delay-100 duration-300" : "cursor-pointer",
                 )}

@@ -92,7 +92,7 @@ export const STAYLED_BUTTON_VARIANTS = {
   },
 
   secondarylightgray: {
-    base: "bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold",
+    base: "bg-gray-50 text-gray-700 hover:bg-gray-200 font-bold",
     selected: "bg-gray-400 text-gray-700 font-bold",
     tab: "focus:ring-gray-200 ",
   },

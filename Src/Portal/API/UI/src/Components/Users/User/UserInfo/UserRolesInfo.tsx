@@ -31,7 +31,7 @@ function UserRolesInfo({dataRef}:UserRolesInfoProps) {
   return <Section 
   name="Roles"
   component={
-  <div className={clsx("flex bg-gray-100 flex-col w-full",
+  <div className={clsx("flex bg-gray-50 flex-col w-full",
     "border border-gray-200 rounded-md shadow-sm p-5 space-y-2")}>
     <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
     "justify-between 2xl:justify-start")}>

@@ -121,7 +121,7 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
     "space-x-2 items-center cursor-pointer")}>
 
     <div className={clsx("p-2 h-10 w-10 lg:w-12 lg:h-12 rounded-full",
-        "bg-gray-100 m-2 justify-cente flex")}>
+        "bg-gray-50 m-2 justify-cente flex")}>
         <FontAwesomeIcon 
             className={clsx("mx-auto my-auto text-xl lg:text-2xl",
             data.isConfigMatch ?"text-blue-500":"text-orange-500")}

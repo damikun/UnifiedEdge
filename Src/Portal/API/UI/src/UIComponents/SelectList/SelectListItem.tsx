@@ -11,6 +11,6 @@ export default function SelectListItem({value,key}:SelectListItemProps){
     key={key}
     value={value}
     disabled={false}>
-      <div className="font-semibold text-sm hover:bg-gray-100">{value}</div>
+      <div className="font-semibold text-sm hover:bg-gray-50">{value}</div>
   </Listbox.Option>
 }

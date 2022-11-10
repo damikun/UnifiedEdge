@@ -48,7 +48,7 @@ function WebHookSettings() {
       data && <>
        <Section 
         component={
-          <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
           "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
             <div className="max-w-2xl w-full">
               <WebHookActivSetting dataRef={data.webHookById}/>
@@ -64,7 +64,7 @@ function WebHookSettings() {
       <Section 
         name="Remove WebHook"
         component={
-          <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
           "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
             <div className="max-w-2xl w-full">
               <WebHookRemove dataRef={data.webHookById}/>

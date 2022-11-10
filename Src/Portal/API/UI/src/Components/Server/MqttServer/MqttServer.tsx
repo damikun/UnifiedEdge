@@ -73,7 +73,7 @@ function MqttServer() {
 }
 
 function TabSection() {
-  return <div className="flex sticky top-16 bg-gray-100 shadow-sm w-full">
+  return <div className="flex sticky top-16 bg-gray-50 shadow-sm w-full">
     <RouterTabList
       hoverEffect
       tabStyle={"h-11 hover:bg-transparent"}

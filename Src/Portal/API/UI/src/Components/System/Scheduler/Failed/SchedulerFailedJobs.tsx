@@ -66,6 +66,7 @@ function SchedulerFailedJobs({dataRef}:SchedulerFailedJobsProps) {
   );
   
   return <InfinityScrollTable
+    className="pt-2 bg-red-300"
     header={<Header/>}
     onEnd={handleLoadMore}
     >

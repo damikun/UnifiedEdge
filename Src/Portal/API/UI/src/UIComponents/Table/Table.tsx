@@ -6,8 +6,8 @@ type TableProps = {
 } & React.DetailedHTMLProps<React.HTMLAttributes<HTMLTableElement>, HTMLTableElement>
 
 export default function Table({children,className,...rest}:TableProps){
-    return <table className={clsx("flex bg-gray-100 flex-col w-full relative",
-    "border border-gray-200 rounded-md shadow-sm pt-2 table-auto table",
+    return <table className={clsx("flex flex-col w-full relative",
+    "border border-gray-200 rounded-md shadow-sm table-auto table",
     className)}
     {...rest}
     >

@@ -182,7 +182,7 @@ export default function ServerInfoState({dataRef}:ServerInfoStateProps){
             </div>
         </div>
         
-        <div className={clsx("p-2 bg-gray-100 flex-col",
+        <div className={clsx("p-2 bg-gray-50 flex-col",
             "m-2 justify-cente flex items-center")}>
             <div className="flex-row flex space-x-2 px-2 py-1 bg-gray-200 shadow-sm rounded-lg">
                 <StayledButton

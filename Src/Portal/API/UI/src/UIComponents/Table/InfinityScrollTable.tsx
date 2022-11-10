@@ -14,7 +14,7 @@ type InfinityScrollTableProps = {
     isLoading?: boolean;
     header?: React.ReactNode;
     isLoadingMore?: boolean;
-    height?: "h-96" | "h-72" |"h-60",
+    height?: "h-96" | "h-72" |"h-60" | "h-80",
     onEnd?: () => void;
 }
 
@@ -27,6 +27,7 @@ export default function InfinityScrollTable({
     height = "h-96",
     isLoadingMore = undefined,
     isLoading = undefined,
+    className
     }:InfinityScrollTableProps){
 
     const reference = createRef<HTMLTableSectionElement>();
@@ -39,8 +40,9 @@ export default function InfinityScrollTable({
         fromEnd_px: offset,
     });
 
-    return <table className={clsx("flex bg-gray-100 flex-col w-full relative",
-        "border border-gray-200 rounded-md shadow-sm pt-2 table-auto ")}>
+    return <table className={clsx("flex flex-col w-full relative",
+        "border border-gray-200 rounded-md shadow-sm table-auto",
+        className)}>
 
         {header}
         

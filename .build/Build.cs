@@ -52,7 +52,7 @@ partial class Build : NukeBuild
     string Copyright = $"Copyright © Dalibor-Kundrat {DateTime.Now.Year}";
 
 #nullable enable
-    [PathExecutable("electronize")] readonly Tool? Electron;
+    [PathExecutable("electronize")] readonly Tool? Electronize;
 #nullable disable
 
 
@@ -96,7 +96,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
 
-            Electron(
+            Electronize(
                 @$"build /target win",
                 Portal_Directory,
                 null, // Env variables

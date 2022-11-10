@@ -27,15 +27,15 @@ export default function WebHookInfoBar({dataRef}:WebHookInfoBarProps){
     return <div className={clsx("grid gap-2 grid-flow-row w-full",
         "grid-cols-1 2xl:grid-cols-4 lg:grid-cols-2 flex-wrap")}>
         
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <WebHookUid dataRef={data}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <WebHookActiv dataRef={data}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <WebHookLastRun dataRef={data}/>
         </Card>
     </div>

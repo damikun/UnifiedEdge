@@ -47,7 +47,7 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
     return GetLocalDate(data?.timestamp);
   },[data]) 
 
-  return <TableItem onClick={handleClick} key={key_}>
+  return <TableItem height="h-14" onClick={handleClick} key={key_}>
     <td className="w-20 flex items-center justify-center">
       <StateSection state={data?.result} />
     </td>
@@ -66,10 +66,10 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
         {data?.guid}
       </div>
     </td>
-    <td className="flex-1 lg:w-44 items-center truncate my-auto">
+    <td className="flex lg:flex items-center truncate my-auto">
       {dt}
     </td>
-    <td className="flex w-24 md:w-28 items-center text-center">
+    <td className="flex w-24 md:w-28 items-center text-center justify-center ">
       <StatusCodeSection status={data?.statusCode} />
     </td>
 

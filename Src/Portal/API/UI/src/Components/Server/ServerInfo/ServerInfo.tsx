@@ -68,19 +68,19 @@ export default function ServerInfo({dataRef}:ServerInfoProps){
     return <div className={clsx("grid gap-2 grid-flow-row w-full",
         "grid-cols-1 2xl:grid-cols-4 lg:grid-cols-2 flex-wrap")}>
         
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <ServerInfoName dataRef={data}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <ServerInfoUptime dataRef={data}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <ServerInfoConfig dataRef={data}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <ServerInfoState dataRef={data}/>
         </Card>
     </div>

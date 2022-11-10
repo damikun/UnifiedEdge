@@ -77,7 +77,7 @@ function UserSettings() {
       data && !data.isAdmin?.isAdmin && data.me?.id !== data.userById.id && <>
         <Section 
           component={
-            <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+            <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
             "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
               <span className="text-lg font-semibold text-yellow-600">
                 Only Admin users can see this view!
@@ -95,7 +95,7 @@ function UserSettings() {
       (data.isAdmin?.isAdmin || data.me?.id === data.userById.id) &&<>
        <Section 
         component={
-          <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
           "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
             <div className="max-w-2xl w-full">
               {
@@ -119,7 +119,7 @@ function UserSettings() {
       isNotCurrentUser && data && data.isAdmin?.isAdmin && <Section 
       name="Remove User"
       component={
-        <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+        <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
         "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
           <div className="max-w-2xl w-full">
             <UserRemove dataRef={data.userById}/>
@@ -133,7 +133,7 @@ function UserSettings() {
       data && data.me?.id === data.userById.id && <Section 
       name="Password"
       component={
-        <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+        <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
         "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
           <div className="max-w-2xl w-full">
             <SetPassword dataRef={data.userById}/>

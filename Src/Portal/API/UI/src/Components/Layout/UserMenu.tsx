@@ -49,11 +49,11 @@ export default function UserMenu() {
             userStore.user?.me?.id && <Menu.Item>
               {({ active }) => (
                 <Link
-                  className={clsx(active &&"bg-gray-100","py-2 rounded-md p-2")}
+                  className={clsx(active &&"bg-gray-50","py-2 rounded-md p-2")}
                   to={`/Users/User/${userStore.user?.me?.id}`}
                 >
                   <div className="flex justify-start w-full items-center space-x-3">
-                  <div className={clsx("rounded-full bg-gray-100 items-center",
+                  <div className={clsx("rounded-full bg-gray-50 items-center",
                   "justify-center p-2 w-8 h-8 leading-none")}>
                     <FontAwesomeIcon
                         className="text-gray-700 text-base mx-auto my-auto"
@@ -72,11 +72,11 @@ export default function UserMenu() {
             {({ active }) => (
               
               <Link
-                className={clsx(active &&"bg-gray-100","py-2 rounded-md p-2")}
+                className={clsx(active &&"bg-gray-50","py-2 rounded-md p-2")}
                 to="/Logout"
               >
                 <div className="flex justify-start w-full items-center space-x-3">
-                <div className={clsx("rounded-full bg-gray-100 items-center",
+                <div className={clsx("rounded-full bg-gray-50 items-center",
                 "justify-center p-2 w-8 h-8 leading-none")}>
                   <FontAwesomeIcon
                       className="text-gray-700 text-base mx-auto my-auto"

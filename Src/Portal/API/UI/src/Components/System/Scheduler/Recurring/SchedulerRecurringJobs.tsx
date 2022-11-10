@@ -64,6 +64,7 @@ function SchedulerRecurringJobs({dataRef}:SchedulerRecurringJobsProps) {
   );
   
   return <InfinityScrollTable
+    className="pt-2 bg-gray-300"
     header={<Header/>}
     onEnd={handleLoadMore}
     >

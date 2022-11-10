@@ -64,7 +64,7 @@ export default function SchedulerStatistics({
   }, [data]);
 
   return (<AnimatePresence>
-    <motion.div className={clsx("flex w-full h-72 bg-gray-100 p-2 lg:p-5 border",
+    <motion.div className={clsx("flex w-full h-72 bg-gray-50 p-2 lg:p-5 border",
     "border-gray-200 rounded-md shadow-sm")}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}

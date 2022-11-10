@@ -100,19 +100,19 @@ export default function EdgeInfo({dataRef}:EdgeInfoProps){
 
     return <div className={clsx("grid gap-2 grid-flow-row w-full",
         "grid-cols-1 2xl:grid-cols-4 lg:grid-cols-2 flex-wrap")}>
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <CardContent icon={faSignsPost} title="Name" value={data?.edgeInfo?.name}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <CardContent icon={faServer} title="Enviroment" value={server_platform}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <CardContent icon={faStopwatch} title="Uptime" value={server_uptime}/>
         </Card>
 
-        <Card className="bg-gray-100">
+        <Card className="bg-gray-50">
             <CardContent icon={faClock} title="System Time" value={server_dt}/>
         </Card>
     </div>
