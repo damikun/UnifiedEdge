@@ -72,6 +72,9 @@ partial class Build : NukeBuild
     Target Tools_Restore => _ => _
     .Executes(() =>
     {
+
+        DotNetTasks.DotNetLogger = CustomLogger;
+
         DotNetTasks.DotNet("tool restore");
 
         try
@@ -108,16 +111,19 @@ partial class Build : NukeBuild
         )
         .Executes(() =>
         {
-
             NpmTasks.NpmLogger = CustomLogger;
 
-            Electronize(
-                @$"build /target win",
-                Portal_Directory,
-                null, // Env variables
-                null, // timeout
-                false  // Log output
-            );
+            DotNetTasks.DotNetLogger = CustomLogger;
+
+            DotNetTasks.DotNet(@$"electronize build /target win", SourceDirectory);
+
+            // Electronize(
+            //     @$"build /target win",
+            //     Portal_Directory,
+            //     null, // Env variables
+            //     null, // timeout
+            //     false  // Log output
+            // );
 
         });
 
@@ -125,7 +131,6 @@ partial class Build : NukeBuild
         .Before(Clean)
         .Executes(() =>
         {
-
             DotNetTasks.DotNet("--list-sdks");
         });
 
