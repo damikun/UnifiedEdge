@@ -8,6 +8,7 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
+using Nuke.Common.Tools.Npm;
 
 [GitHubActions(
     "Clean-Restore-Compile",
@@ -74,11 +75,18 @@ partial class Build : NukeBuild
     Target Tools_Restore => _ => _
     .Executes(() =>
     {
-        DotNetTasks.DotNetToolRestore();
+        DotNetTasks.DotNet("tool restore");
 
-        DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory);
+        try
+        {
+            DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory, null, null, false, false);
 
-        DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory);
+            DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory, null, null, false, false);
+        }
+        catch
+        {
+
+        }
 
         Serilog.Log.Information("🔨 Printing Tool List");
 
@@ -102,6 +110,8 @@ partial class Build : NukeBuild
         )
         .Executes(() =>
         {
+
+            NpmTasks.NpmLogger = CustomLogger;
 
             var ElectronTool = GetTool("electronize");
 

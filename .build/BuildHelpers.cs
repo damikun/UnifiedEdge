@@ -25,4 +25,36 @@ partial class Build : NukeBuild
     ToolResolver.TryGetEnvironmentTool(name) ??
     ToolResolver.GetPathTool(name);
 
+
+
+    public static void CustomLogger(OutputType type, string output)
+    {
+        switch (type)
+        {
+            case OutputType.Std:
+                Serilog.Log.Information(output);
+                break;
+            case OutputType.Err:
+                {
+                    if (
+                        output.Contains(
+                            "npmWARN",
+                            StringComparison.OrdinalIgnoreCase
+                        ) ||
+
+                        output.Contains(
+                            "npm WARN",
+                            StringComparison.OrdinalIgnoreCase
+                        ))
+
+                        Serilog.Log.Warning(output);
+
+                    else
+
+                        Serilog.Log.Error(output);
+                    break;
+                }
+        }
+    }
+
 }
