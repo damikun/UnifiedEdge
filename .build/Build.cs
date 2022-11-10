@@ -122,7 +122,7 @@ partial class Build : NukeBuild
 
             DotNetTasks.DotNetLogger = CustomLogger;
 
-            DotNetTasks.DotNet(@$"electronize build /target win", SourceDirectory);
+            DotNetTasks.DotNet(@$"electronize build /target win", Portal_Directory);
 
             // Electronize(
             //     @$"build /target win",
