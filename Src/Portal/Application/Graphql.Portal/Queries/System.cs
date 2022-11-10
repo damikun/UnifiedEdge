@@ -5,9 +5,11 @@ using Aplication.Services;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using HotChocolate.Types.Pagination;
+using Aplication.Graphql.Types;
 
 namespace Aplication.Graphql.Queries
 {
+
 
     /// <summary>
     /// System Queries
@@ -44,6 +46,7 @@ namespace Aplication.Graphql.Queries
         /// </summary>
         /// <returns>SystemInfo</returns>
         public GQL_SystemInfo SystemInfo() => new GQL_SystemInfo();
+
 
         /// <summary>
         /// Returns edge informations

@@ -146,7 +146,7 @@ function MqttServerSetEndpointModal({server_uid}:MqttServerSetEndpointModalProps
   });
 
   useEffect(() => {
-    formik.setFieldValue("ip",selected_data?.addresses.unicastAddresses.at(0))
+    formik.setFieldValue("ip",selected_data?.addresses.unicastAddresses && selected_data?.addresses.unicastAddresses[0])
   }, [selected_data])
 
   const handleSelect = useCallback(

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Persistence.Identity</AssemblyName>
     <AssemblyTitle>Persistence.Identity</AssemblyTitle>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net7</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0"  /> -->
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0"  />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0"  />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0"  />

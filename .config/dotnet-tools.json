@@ -19,6 +19,12 @@
       "commands": [
         "dotnet-format"
       ]
+    },
+    "damikun.electronnet.cli": {
+      "version": "1.5.0",
+      "commands": [
+        "electronize"
+      ]
     }
   }
 }

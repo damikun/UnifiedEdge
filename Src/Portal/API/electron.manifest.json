@@ -3,20 +3,20 @@
   "splashscreen": {
     "imageFile": ""
   },
-  "name": "API",
-  "author": "",
+  "name": "UnifiedEdge",
+  "author": "Dalibor Kundrat",
   "ignoreAllCertificateErrors":true,
   "singleInstance": false,
-  "environment": "Development",
+  "environment": "Production",
   "aspCoreBackendPort": 5001,
   "build": {
-    "appId": "com.API.app",
-    "productName": "API",
-    "copyright": "Copyright © 2020",
-    "buildVersion": "1.0.0",
+    "appId": "github.com/damikun/UnifiedEdge",
+    "productName": "UnifiedEdge",
+    "copyright": "Copyright © 2022",
+    "buildVersion": "1.0.1",
     "compression": "maximum",
     "directories": {
-      "output": "../../../bin/Desktop"
+      "output": "../../../Artifacts"
     },
     "extraResources": [
       {

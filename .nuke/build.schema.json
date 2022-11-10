@@ -73,11 +73,16 @@
             "type": "string",
             "enum": [
               "Clean",
+              "Clean_Electron_Release_Artifact_Dir",
               "Compile",
+              "Electron_Clean",
+              "Electron_Compile",
+              "Electron_Restore",
               "Portal_Clean",
               "Portal_Compile",
               "Portal_Restore",
               "Print_Net_SDK",
+              "Release_Electron",
               "Server_Clean",
               "Server_Compile",
               "ServerCore_Clean",
@@ -85,7 +90,8 @@
               "ServerCore_Restore",
               "ServerMqtt_Clean",
               "ServerMqtt_Compile",
-              "ServerMqtt_Restore"
+              "ServerMqtt_Restore",
+              "Tools_Restore"
             ]
           }
         },
@@ -96,11 +102,16 @@
             "type": "string",
             "enum": [
               "Clean",
+              "Clean_Electron_Release_Artifact_Dir",
               "Compile",
+              "Electron_Clean",
+              "Electron_Compile",
+              "Electron_Restore",
               "Portal_Clean",
               "Portal_Compile",
               "Portal_Restore",
               "Print_Net_SDK",
+              "Release_Electron",
               "Server_Clean",
               "Server_Compile",
               "ServerCore_Clean",
@@ -108,7 +119,8 @@
               "ServerCore_Restore",
               "ServerMqtt_Clean",
               "ServerMqtt_Compile",
-              "ServerMqtt_Restore"
+              "ServerMqtt_Restore",
+              "Tools_Restore"
             ]
           }
         },

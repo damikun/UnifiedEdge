@@ -1,15 +1,10 @@
 using System;
 using System.Linq;
 using Nuke.Common;
-using Nuke.Common.CI;
-using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
 using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 
@@ -42,7 +37,10 @@ partial class Build : NukeBuild
 
     AbsolutePath SourceDirectory => RootDirectory / "Src";
 
+    AbsolutePath Electron_Release_Artifacts_Directory => Portal_Directory / "Artifacts";
+
     string Copyright = $"Copyright © Dalibor-Kundrat {DateTime.Now.Year}";
+
 
     //---------------
     // Build process
@@ -59,10 +57,37 @@ partial class Build : NukeBuild
     //----------------------------
     //----------------------------
 
+    Target Tools_Restore => _ => _
+    .Executes(() =>
+    {
+        DotNetTasks.DotNetToolRestore();
+    });
+
+    Target Clean_Electron_Release_Artifact_Dir => _ => _
+    .Executes(() =>
+    {
+        Portal_Directory.GlobDirectories("**/Artifacts")
+            .ForEach(DeleteDirectory);
+    });
+
+
+    Target Release_Electron => _ => _
+        .DependsOn(Compile, Tools_Restore, Clean_Electron_Release_Artifact_Dir)
+        .Produces(
+            Electron_Release_Artifacts_Directory / "*.exe",
+            Electron_Release_Artifacts_Directory / "latest.yaml"
+        )
+        .Executes(() =>
+        {
+
+            DotNetTasks.DotNet("electronize build /target win", Portal_Directory);
+        });
+
     Target Print_Net_SDK => _ => _
         .Before(Clean)
         .Executes(() =>
         {
+
             DotNetTasks.DotNet("--list-sdks");
         });
 

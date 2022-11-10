@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Persistence.Portal</AssemblyName>
     <AssemblyTitle>Persistence.Portal</AssemblyTitle>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnablePreviewFeatures>true</EnablePreviewFeatures>

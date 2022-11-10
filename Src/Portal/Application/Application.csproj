@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Application</AssemblyName>
     <AssemblyTitle>ManagmentUI - Application</AssemblyTitle>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>

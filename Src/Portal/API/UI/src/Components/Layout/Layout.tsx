@@ -5,7 +5,7 @@ import MenuItem from "./MenuItem";
 import MenuButton from "./MenuButton";
 import BodyContainer from "./BodyContainer";
 import { useCallback, useState } from "react";
-import { faChartLine, faDesktop, faGear, faInfo, faLink, faServer, faTriangleExclamation, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faDesktop, faGear, faInfo, faServer, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export default function Layout(){
 
@@ -30,9 +30,9 @@ export default function Layout(){
             <MenuList state={isOpen}>
                 <MenuItem to="/Monitor" pattern="/Monitor/*" icon={faDesktop} name="Monitor" />
                 <MenuItem to="/WebHooks" pattern="/WebHooks/*" icon={faServer} name="WebHooks" />
-                <MenuItem to="/Connections" icon={faLink} name="Connections" />
+                {/* <MenuItem to="/Connections" icon={faLink} name="Connections" />
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
-                <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" />
+                <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" /> */}
                 <MenuItem to="/Users" icon={faUsers} name="Users" />
                 <MenuItem to="/System" pattern="/System/*"  icon={faGear} name="System" />
                 <MenuItem to="/Help" icon={faInfo} name="Help" />

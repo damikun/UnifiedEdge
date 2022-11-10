@@ -2,7 +2,7 @@
   <PropertyGroup>
     <AssemblyName>API</AssemblyName>
     <AssemblyTitle>ManagmentUIAPI</AssemblyTitle>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net7</TargetFramework>
     <Nullable>enable</Nullable>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
