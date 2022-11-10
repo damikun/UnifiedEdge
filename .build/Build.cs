@@ -113,7 +113,7 @@ partial class Build : NukeBuild
     Target Release_Electron => _ => _
         .DependsOn(Compile, Tools_Restore, Clean_Electron_Release_Artifact_Dir)
         .Produces(
-            Electron_Release_Artifacts_Directory / "*.exe"
+            Electron_Release_Artifacts_Directory / "UnifiedEdge Setup 1.0.1.exe"
         )
         .Executes(() =>
         {
