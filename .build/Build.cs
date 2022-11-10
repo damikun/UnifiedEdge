@@ -76,7 +76,9 @@ partial class Build : NukeBuild
     {
         DotNetTasks.DotNetToolRestore();
 
-        DotNetTasks.DotNet("tool install -g damikun.electronnet.cli");
+        DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory);
+
+        DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory);
     });
 
     Target Clean_Electron_Release_Artifact_Dir => _ => _
@@ -86,7 +88,6 @@ partial class Build : NukeBuild
             .ForEach(DeleteDirectory);
     });
 
-
     Target Release_Electron => _ => _
         .DependsOn(Compile, Tools_Restore, Clean_Electron_Release_Artifact_Dir)
         .Produces(
@@ -95,6 +96,11 @@ partial class Build : NukeBuild
         )
         .Executes(() =>
         {
+
+            var tool = GetTool("electronize");
+
+            if (tool != null)
+                Serilog.Log.Information("🚀 ToolExist");
 
             Electronize(
                 @$"build /target win",
