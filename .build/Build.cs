@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.IO;
+using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Utilities.Collections;
@@ -50,6 +51,10 @@ partial class Build : NukeBuild
 
     string Copyright = $"Copyright © Dalibor-Kundrat {DateTime.Now.Year}";
 
+#nullable enable
+    [PathExecutable("electronize")] readonly Tool? Electron;
+#nullable disable
+
 
     //---------------
     // Build process
@@ -89,7 +94,14 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
 
-            DotNetTasks.DotNet("electronize build /target win", Portal_Directory);
+            Electron(
+                @$"build /target win",
+                Portal_Directory,
+                null, // Env variables
+                null, // timeout
+                true  // Log output
+            );
+
         });
 
     Target Print_Net_SDK => _ => _
