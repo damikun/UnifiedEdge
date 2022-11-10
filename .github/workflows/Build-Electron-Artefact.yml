@@ -44,4 +44,4 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: Artifacts
-          path: Src/Portal/API/Artifacts
+          path: Src/Portal/API/Artifacts/*.exe
