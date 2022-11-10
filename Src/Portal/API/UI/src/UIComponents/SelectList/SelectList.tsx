@@ -39,7 +39,7 @@ export default function SelectList<T>({label,value,onChange, disabled = false,op
           <Listbox.Button className={clsx("flex flex-col",
             "font-semibold border transition border-s rounded-md",
             "px-1 py-1.5 bg-gray-100 focus:outline-none relative w-full",
-            "rounded-sm shadow-sm outline-1 outline-gray-100 border-2",
+            "rounded-md shadow-sm outline-1 outline-gray-100 border-2",
             "border-gray-200",
             disabled && "cursor-not-allowed")}>
 

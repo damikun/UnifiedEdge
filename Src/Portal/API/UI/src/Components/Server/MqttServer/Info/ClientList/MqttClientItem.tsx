@@ -50,7 +50,7 @@ export function MqttClientItem({dataRef, onItemClick,key_}:MqttClientItemProps){
     key={data?.id}
     className={clsx("flex space-y-1 space-x-2 hover:bg-gray-200",
     "text-center cursor-pointer justify-between py-1",
-    "rounded-sm hover:shadow-sm px-2 md:px-5",
+    "rounded-md hover:shadow-sm px-2 md:px-5",
     "h-12 items-center")}>
     <div className="w-6/12 2xl:w-8/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">

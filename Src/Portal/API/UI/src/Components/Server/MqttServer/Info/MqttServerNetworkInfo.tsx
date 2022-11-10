@@ -110,7 +110,7 @@ function MqttServerNetworkInfo({dataRef}:MqttServerNetworkInfoProps) {
   name="Network"
   component={
   <div className={clsx("flex bg-gray-100 flex-col w-full",
-    "border border-gray-200 rounded-sm shadow-sm p-5 space-y-2")}>
+    "border border-gray-200 rounded-md shadow-sm p-5 space-y-2")}>
 
       <div className="flex flex-col lg:flex-row lg:space-x-10 justify-between 2xl:justify-start">
       <FieldGroup>

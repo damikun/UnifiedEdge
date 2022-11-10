@@ -40,7 +40,7 @@ export default function InfinityScrollTable({
     });
 
     return <table className={clsx("flex bg-gray-100 flex-col w-full relative",
-        "border border-gray-200 rounded-sm shadow-sm pt-2 table-auto ")}>
+        "border border-gray-200 rounded-md shadow-sm pt-2 table-auto ")}>
 
         {header}
         
