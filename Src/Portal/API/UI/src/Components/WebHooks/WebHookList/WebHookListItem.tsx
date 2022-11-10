@@ -55,7 +55,7 @@ export function WebHookListItem({dataRef, key_}:WebHookListItemProps){
     "N/A"
   }, [data?.lastTrigger])
 
-  return <TableItem onClick={handleClick} key={key_}>
+  return <TableItem height="h-12" onClick={handleClick} key={key_}>
     <td className="flex w-3/12 items-center">
       <div className={clsx("truncate break-all font-sans text-gray-700",
       "font-semibold text-sm capitalize")}>

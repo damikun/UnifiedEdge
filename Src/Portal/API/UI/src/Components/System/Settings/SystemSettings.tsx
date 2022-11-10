@@ -41,9 +41,9 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
     data?.edgeInfo && <Section
       name="System"
       component={
-        <div className={clsx("flex bg-gray-100 flex-col w-full pt-4",
+        <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
         "border border-gray-200 rounded-sm shadow-sm pt-2 p-5 space-y-2")}>
-          <div className="max-w-lg w-full">
+          <div className="max-w-lg w-full py-3">
 
             <EdgeName dataRef={data?.edgeInfo}/>
             <EdgeDescription dataRef={data?.edgeInfo}/>
