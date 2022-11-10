@@ -52,9 +52,6 @@ partial class Build : NukeBuild
 
     string Copyright = $"Copyright © Dalibor-Kundrat {DateTime.Now.Year}";
 
-#nullable enable
-    [PathExecutable("electronize")] readonly Tool? Electronize;
-#nullable disable
 
 
     //---------------
@@ -102,6 +99,7 @@ partial class Build : NukeBuild
             .ForEach(DeleteDirectory);
     });
 
+    [PathExecutable("electronize")] readonly Tool? Electronize;
     Target Release_Electron => _ => _
         .DependsOn(Compile, Tools_Restore, Clean_Electron_Release_Artifact_Dir)
         .Produces(
@@ -113,14 +111,12 @@ partial class Build : NukeBuild
 
             NpmTasks.NpmLogger = CustomLogger;
 
-            var ElectronTool = GetTool("electronize");
-
-            ElectronTool(
+            Electronize(
                 @$"build /target win",
                 Portal_Directory,
                 null, // Env variables
                 null, // timeout
-                true  // Log output
+                false  // Log output
             );
 
         });
