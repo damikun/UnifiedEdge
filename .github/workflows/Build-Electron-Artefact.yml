@@ -45,7 +45,3 @@ jobs:
         with:
           name: Artifacts
           path: Src/Portal/API/Artifacts
-      - uses: actions/upload-artifact@v1
-        with:
-          name: latest.yaml
-          path: Src/Portal/API/Artifacts/latest.yaml
