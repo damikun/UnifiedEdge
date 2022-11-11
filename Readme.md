@@ -8,9 +8,20 @@
 - Many parts will get optimized and changed in time...
 - Online to validate build process and pipeline
 
-## Installers
+# Local run
 
-[Win64 Installer](https://github.com/damikun/UnifiedEdge/suites/9251526592/artifacts/432883856)
+- `cd` /src/Portal/API
+- dotnet watch run
+## Installers
+Code is not currently signed!
+
+[Win64 Installer](https://www.dropbox.com/s/73r18os0vu5tsyv/UnifiedEdge%20Setup%201.0.1.exe?dl=0)
+[Mirror Win64 Installer](https://ulozto.cz/file/dtetZ3cpNWr5/unifiededge-setup-1-0-1-exe#!ZGVlZmR2ATWvAwVmATVmZGtmMJV3BQIlI05YqTkMAR5dBQx0AD==)
+
+## Credentials
+
+Login: Admin
+Password: Admin
 ## Description
 
 Edge Brooker allows you to communicate using different protocols with field devices and bridge between them...
