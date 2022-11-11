@@ -41,7 +41,7 @@ jobs:
         env:
           workflow_dispatch: ${{ github.event.inputs.workflow_dispatch }}
           CI: false
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: Artifacts
           path: Src/Portal/API/Artifacts/*.exe
