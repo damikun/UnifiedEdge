@@ -24,7 +24,7 @@ Edge Brooker allows you to communicate using different protocols with field devi
 - Electron multiplatform app
 - Self-hosted webApp
 
-[Electron Win64 Exe](https://github.com/damikun/UnifiedEdge/tree/main/Src/Portal/API/Artifacts/UnifiedEdgeSetup1.0.1.exe)
+[Win64 Installer](https://github.com/damikun/UnifiedEdge/suites/9251526592/artifacts/432883856)
 
 
 **Screens:**
