@@ -8,10 +8,11 @@
 - Many parts will get optimized and changed in time...
 - Online to validate build process and pipeline
 
-# Local run
+## Local run
 
-- `cd` /src/Portal/API
-- dotnet watch run
+- Go to folder `/src/Portal/API`
+- Run `dotnet watch run` from cmd
+
 ## Installers
 Code is not currently signed!
 
