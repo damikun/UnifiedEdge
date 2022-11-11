@@ -79,7 +79,7 @@ partial class Build : NukeBuild
 
         try
         {
-            DotNetTasks.DotNet("tool install -g damikun.electronnet.cli", SourceDirectory, null, null, false, false);
+            DotNetTasks.DotNet("tool install -g damikun.electronnet.cli --version 3.0.0.", SourceDirectory, null, null, false, false);
         }
         catch
         {
@@ -88,7 +88,7 @@ partial class Build : NukeBuild
 
         try
         {
-            DotNetTasks.DotNet("tool install damikun.electronnet.cli", SourceDirectory, null, null, false, false);
+            DotNetTasks.DotNet("tool install damikun.electronnet.cli --version 3.0.0.", SourceDirectory, null, null, false, false);
         }
         catch
         {

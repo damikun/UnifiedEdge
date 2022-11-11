@@ -73,6 +73,8 @@ namespace API
 
             services.AddServerEventHandler();
 
+            services.AddElectron();
+
             services.AddSystemEventHandler();
 
             if (HybridSupport.IsElectronActive)

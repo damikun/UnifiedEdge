@@ -25,8 +25,13 @@
         "filter": [ "**/*" ]
       },
       {
+        "from": "./bin/Certificates",
+        "to": "bin/Certificates",
+        "filter": [ "**/*" ]
+      },
+      {
         "from": "./Certificates",
-        "to": "bin",
+        "to": "Certificates",
         "filter": [ "**/*" ]
       }
     ],
