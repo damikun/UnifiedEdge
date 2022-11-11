@@ -8,6 +8,9 @@
 - Many parts will get optimized and changed in time...
 - Online to validate build process and pipeline
 
+## Installers
+
+[Win64 Installer](https://github.com/damikun/UnifiedEdge/suites/9251526592/artifacts/432883856)
 ## Description
 
 Edge Brooker allows you to communicate using different protocols with field devices and bridge between them...
@@ -24,8 +27,6 @@ Edge Brooker allows you to communicate using different protocols with field devi
 **Environment:**
 - Electron multiplatform app
 - Self-hosted webApp
-
-[Win64 Installer](https://github.com/damikun/UnifiedEdge/suites/9251526592/artifacts/432883856)
 
 
 **Screens:**
