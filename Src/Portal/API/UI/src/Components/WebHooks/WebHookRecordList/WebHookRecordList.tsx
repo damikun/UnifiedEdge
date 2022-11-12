@@ -50,6 +50,7 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
   WebHookRecordListPaginationFragment$key
   >(WebHookRecordListPaginationFragment, dataRef);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.webHookRecords?.__id);
 
   useEffect(() => {
@@ -102,9 +103,8 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
       <InfinityScrollTable
         header={<Header/>}
         height="h-80"
-        onEnd={handleLoadMore}
         >
-          <InfinityScrollBody>
+          <InfinityScrollBody height="h-80" onEnd={handleLoadMore}>
             {
               pagination?.data?.webHookRecords?.edges?.map((edge,index)=>{
                   return <WebHookRecordItem 

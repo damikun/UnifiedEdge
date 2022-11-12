@@ -69,9 +69,8 @@ function SchedulerFailedJobs({dataRef}:SchedulerFailedJobsProps) {
   return <InfinityScrollTable
     className="pt-2 bg-red-300"
     header={<Header/>}
-    onEnd={handleLoadMore}
     >
-    <InfinityScrollBody>
+    <InfinityScrollBody onEnd={handleLoadMore}>
       {
         pagination?.data?.failedJobs?.edges?.map((edge,index)=>{
             return <SchedulerFailedJobItem 

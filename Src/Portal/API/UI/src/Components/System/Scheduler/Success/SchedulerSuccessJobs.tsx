@@ -68,9 +68,8 @@ function SchedulerSuccessJobs({dataRef}:SchedulerSuccessJobsProps) {
   return  <InfinityScrollTable
     className="pt-2 bg-green-300"
     header={<Header/>}
-    onEnd={handleLoadMore}
     >
-    <InfinityScrollBody>
+    <InfinityScrollBody onEnd={handleLoadMore}>
       {
         pagination?.data?.successJobs?.edges?.map((edge,index)=>{
             return <SchedulerSuccessJobItem 

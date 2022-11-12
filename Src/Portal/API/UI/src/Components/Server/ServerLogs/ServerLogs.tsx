@@ -109,9 +109,8 @@ function ServerLogs() {
       component={
         <InfinityScrollTable
           header={<Header/>}
-          onEnd={handleLoadMore}
         >
-          <InfinityScrollBody>
+          <InfinityScrollBody onEnd={handleLoadMore}>
             {
               pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
                   return <ServerLogsItem 

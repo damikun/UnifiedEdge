@@ -104,9 +104,9 @@ function SystemLogs() {
       component={
         <InfinityScrollTable
         header={<Header/>}
-        onEnd={handleLoadMore}
+
         >
-          <InfinityScrollBody>
+          <InfinityScrollBody onEnd={handleLoadMore}>
             {
               pagination?.data?.systemLogs?.edges?.map((edge,index)=>{
                   return <SystemLogItem 

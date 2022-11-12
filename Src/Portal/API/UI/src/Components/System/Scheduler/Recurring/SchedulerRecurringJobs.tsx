@@ -67,9 +67,8 @@ function SchedulerRecurringJobs({dataRef}:SchedulerRecurringJobsProps) {
   return <InfinityScrollTable
     className="pt-2 bg-gray-300"
     header={<Header/>}
-    onEnd={handleLoadMore}
     >
-    <InfinityScrollBody>
+    <InfinityScrollBody onEnd={handleLoadMore}>
       {
         pagination?.data?.recurringJobs?.edges?.map((edge,index)=>{
             return <SchedulerRecurringJobItem 
