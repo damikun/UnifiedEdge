@@ -4,6 +4,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import Section from "../../UIComponents/Section/Section";
 import TableHeader from "../../UIComponents/Table/TableHeader";
+import InfinityScrollBody from "../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../UIComponents/Table/InfinityScrollTable";
 import { AdapterLogsPaginationFragment_logs$key } from "./__generated__/AdapterLogsPaginationFragment_logs.graphql";
 import { AdapterLogsPaginationFragmentRefetchQuery } from "./__generated__/AdapterLogsPaginationFragmentRefetchQuery.graphql";
@@ -37,6 +38,25 @@ type AdapterLogsProps = {
 }
 
 function AdapterLogs({dataRef}:AdapterLogsProps) {
+  
+  return <Section 
+    name={"Logs"}
+    component={
+      <InfinityScrollTable
+        header={<Header/>}
+      >
+        <AdapterLogsListBody dataRef={dataRef}/>
+      </InfinityScrollTable>
+    }
+    />
+}
+
+type AdapterLogsListBodyProps = {
+
+}&AdapterLogsProps
+
+function AdapterLogsListBody({dataRef}:AdapterLogsListBodyProps){
+
   const pagination = usePaginationFragment<
   AdapterLogsPaginationFragmentRefetchQuery,
   AdapterLogsPaginationFragment_logs$key
@@ -49,24 +69,20 @@ function AdapterLogs({dataRef}:AdapterLogsProps) {
     [pagination],
   )
   
-  return <Section 
-    name={"Logs"}
-    component={
-      <InfinityScrollTable
-        header={<Header/>}
-        onEnd={handleLoadMore}
-      >
-        {
-          pagination?.data?.logs?.edges?.map((edge,index)=>{
-              return <AdapterLogsItem 
-              key={edge.node?.id??index}
-              dataRef={edge.node}
-            />
-          })
-        }
-      </InfinityScrollTable>
+
+  return <InfinityScrollBody
+  height="h-72"
+  onEnd={handleLoadMore}
+  >
+    {
+      pagination?.data?.logs?.edges?.map((edge,index)=>{
+          return <AdapterLogsItem 
+          key={edge.node?.id??index}
+          dataRef={edge.node}
+        />
+      })
     }
-    />
+</InfinityScrollBody>
 }
 
 function Header(){

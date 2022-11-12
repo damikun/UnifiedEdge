@@ -1,9 +1,8 @@
 import clsx from "clsx"
-import IsLoading from "./IsLoading";
-import LoadingBar from "../LoadingBar/LoadingBar"
 //@ts-ignore
-import React, { createRef, SuspenseList } from "react";
+import React, { createRef, Suspense} from "react";
 import useDivInfinityScroll from "../../Hooks/useDivInfinityScroll";
+import InfinityScrollBodyPlaceholder from "./InfinityScrollBodyPlaceholder";
 
 
 type InfinityScrollTableProps = {
@@ -14,6 +13,7 @@ type InfinityScrollTableProps = {
     isLoading?: boolean;
     header?: React.ReactNode;
     isLoadingMore?: boolean;
+    fallback?:React.ReactNode;
     height?: "h-96" | "h-72" |"h-60" | "h-80",
     onEnd?: () => void;
 }
@@ -22,12 +22,10 @@ export default function InfinityScrollTable({
     children,
     onEnd,
     offset = 20,
-    isEmpty,
     header,
-    height = "h-96",
-    isLoadingMore = undefined,
-    isLoading = undefined,
-    className
+    height = "h-72",
+    className,
+    fallback
     }:InfinityScrollTableProps){
 
     const reference = createRef<HTMLTableSectionElement>();
@@ -45,41 +43,10 @@ export default function InfinityScrollTable({
         className)}>
 
         {header}
-        
-        <tbody ref={reference} className={clsx("relative min-h-9rem max-w-full",
-        "overflow-y-scroll divide-y divide-gray-200",
-        "divide-opacity-50 bg-gray-50",
-        "scrollbarwidth scrollbarhide2 scrollbarhide",
-        height)}>
-           
-            {
-                isLoading && <tr className="flex w-full">
-                    <td>
-                        <LoadingBar isloading={isLoading} />
-                    </td>
-                </tr>
-            }
 
-            {
-                isEmpty && <tr className={clsx("flex w-full h-full justify-center",
-                "items-center")}>
-                    <td></td>
-                </tr>
-            }
+        <Suspense fallback={fallback??<InfinityScrollBodyPlaceholder height={height}/>}>
+            {children}
+        </Suspense>
 
-            {
-                !isEmpty && <SuspenseList revealOrder="together">
-                    {children}
-                </SuspenseList>
-            }
-
-            {
-                isLoadingMore &&<tr className="flex w-full">
-                    <td>
-                        <IsLoading isloading={isLoadingMore} />
-                    </td>
-                </tr>
-            }
-        </tbody>
     </table>
 }

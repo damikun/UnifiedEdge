@@ -7,6 +7,7 @@ import WebHookRecordDetail from "./WebHookRecordDetail";
 import Section from "../../../UIComponents/Section/Section";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { WebHookRecordListPaginationFragment$key } from "./__generated__/WebHookRecordListPaginationFragment.graphql";
 import { WebHookRecordListPaginationFragmentRefetchQuery } from "./__generated__/WebHookRecordListPaginationFragmentRefetchQuery.graphql";
@@ -103,15 +104,17 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
         height="h-80"
         onEnd={handleLoadMore}
         >
-          {
-            pagination?.data?.webHookRecords?.edges?.map((edge,index)=>{
-                return <WebHookRecordItem 
-                key={edge.node?.id??index}
-                dataRef={edge.node}
-                onItemClick={handleItemDetail}
-              />
-            })
-          }
+          <InfinityScrollBody>
+            {
+              pagination?.data?.webHookRecords?.edges?.map((edge,index)=>{
+                  return <WebHookRecordItem 
+                  key={edge.node?.id??index}
+                  dataRef={edge.node}
+                  onItemClick={handleItemDetail}
+                />
+              })
+            }
+          </InfinityScrollBody>
         </InfinityScrollTable>
       }
     />

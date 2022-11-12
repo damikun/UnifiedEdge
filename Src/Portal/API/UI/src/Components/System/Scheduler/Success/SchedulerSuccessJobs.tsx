@@ -5,6 +5,7 @@ import { usePaginationFragment } from "react-relay";
 import { DETAIL_ID_PARAM_NAME } from "../SchedulerView";
 import { SchedulerSuccessJobItem } from "./SchedulerSuccessJobItem";
 import TableHeader from "../../../../UIComponents/Table/TableHeader";
+import InfinityScrollBody from "../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../UIComponents/Table/InfinityScrollTable";
 import { SchedulerSuccessJobsDataFragment$key } from "./__generated__/SchedulerSuccessJobsDataFragment.graphql";
 import { SchedulerSuccessJobsPaginationFragmentRefetchQuery } from "./__generated__/SchedulerSuccessJobsPaginationFragmentRefetchQuery.graphql";
@@ -69,15 +70,17 @@ function SchedulerSuccessJobs({dataRef}:SchedulerSuccessJobsProps) {
     header={<Header/>}
     onEnd={handleLoadMore}
     >
-    {
-      pagination?.data?.successJobs?.edges?.map((edge,index)=>{
-          return <SchedulerSuccessJobItem 
-          key={edge.node?.id??index}
-          dataRef={edge.node}
-          onItemClick={handleItemDetail}
-        />
-      })
-    }
+    <InfinityScrollBody>
+      {
+        pagination?.data?.successJobs?.edges?.map((edge,index)=>{
+            return <SchedulerSuccessJobItem 
+            key={edge.node?.id??index}
+            dataRef={edge.node}
+            onItemClick={handleItemDetail}
+          />
+        })
+      }
+    </InfinityScrollBody>
   </InfinityScrollTable>
 }
 

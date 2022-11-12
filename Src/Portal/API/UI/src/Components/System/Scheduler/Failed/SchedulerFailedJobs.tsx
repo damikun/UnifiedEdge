@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React, { useCallback } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useSearchParams } from "react-router-dom";
@@ -6,9 +5,11 @@ import { usePaginationFragment } from "react-relay";
 import { DETAIL_ID_PARAM_NAME } from "../SchedulerView";
 import { SchedulerFailedJobItem } from "./SchedulerFailedJobItem";
 import TableHeader from "../../../../UIComponents/Table/TableHeader";
+import InfinityScrollBody from "../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../UIComponents/Table/InfinityScrollTable";
 import { SchedulerFailedJobsDataFragment$key } from "./__generated__/SchedulerFailedJobsDataFragment.graphql";
 import { SchedulerFailedJobsPaginationFragmentRefetchQuery } from "./__generated__/SchedulerFailedJobsPaginationFragmentRefetchQuery.graphql";
+
 
 
 const SchedulerFailedJobsDataFragment = graphql`
@@ -70,15 +71,17 @@ function SchedulerFailedJobs({dataRef}:SchedulerFailedJobsProps) {
     header={<Header/>}
     onEnd={handleLoadMore}
     >
-    {
-      pagination?.data?.failedJobs?.edges?.map((edge,index)=>{
-          return <SchedulerFailedJobItem 
-          key={edge.node?.id??index}
-          dataRef={edge.node}
-          onItemClick={handleItemDetail}
-        />
-      })
-    }
+    <InfinityScrollBody>
+      {
+        pagination?.data?.failedJobs?.edges?.map((edge,index)=>{
+            return <SchedulerFailedJobItem 
+            key={edge.node?.id??index}
+            dataRef={edge.node}
+            onItemClick={handleItemDetail}
+          />
+        })
+      }
+    </InfinityScrollBody>
   </InfinityScrollTable>
 }
 

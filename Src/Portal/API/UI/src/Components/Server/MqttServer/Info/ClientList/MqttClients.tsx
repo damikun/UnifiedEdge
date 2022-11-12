@@ -8,6 +8,7 @@ import Section from "../../../../../UIComponents/Section/Section";
 import { usePaginationFragment, useSubscription } from "react-relay";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttClientsPaginationFragment$key } from "./__generated__/MqttClientsPaginationFragment.graphql";
 import { MqttClientsClientConnectedSubscription } from "./__generated__/MqttClientsClientConnectedSubscription.graphql";
@@ -77,6 +78,46 @@ type MqttClientsProps = {
 }
 
 function MqttClients({dataRef}:MqttClientsProps) {
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const isOpen = useMemo(() => 
+    searchParams.get(CLIENT_PARAM_NAME)!== null, [searchParams]
+  );
+  
+  const handleModalClose = useCallback(() => {
+    searchParams.delete(CLIENT_PARAM_NAME);
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
+
+  
+  return <>
+  <Modal
+    position="top"
+    isOpen={isOpen}
+    onClose={handleModalClose}
+    component={
+      <MqttClientDetail />
+    }
+  />
+  <Section 
+      name={"Connected clients"}
+      component={
+        <InfinityScrollTable
+          header={<Header/>}
+        >
+          <ClientListBody dataRef={dataRef}/>
+        </InfinityScrollTable>
+      }
+    />
+  </>
+}
+
+type ClientListBodyProps = {
+
+}&MqttClientsProps
+
+function ClientListBody({dataRef}:ClientListBodyProps){
 
   const { id }: any = useParams<string>();
 
@@ -125,15 +166,6 @@ function MqttClients({dataRef}:MqttClientsProps) {
   )
   
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(CLIENT_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(CLIENT_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
 
   const handleItemDetail = useCallback(
     (log_id: string | null | undefined) => {
@@ -145,37 +177,22 @@ function MqttClients({dataRef}:MqttClientsProps) {
     },
     [searchParams, setSearchParams]
   );
-  
-  return <>
-  <Modal
-    position="top"
-    isOpen={isOpen}
-    onClose={handleModalClose}
-    component={
-      <MqttClientDetail />
+
+  return <InfinityScrollBody
+    height="h-72"
+    onEnd={handleLoadMore}
+    >
+      {
+      pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
+          return <MqttClientItem 
+          key={edge.node?.id??index}
+          dataRef={edge.node}
+          onItemClick={handleItemDetail}
+        />
+      })
     }
-  />
-  <Section 
-      name={"Connected clients"}
-      component={
-        <InfinityScrollTable
-          header={<Header/>}
-          height="h-72"
-          onEnd={handleLoadMore}
-        >
-          {
-            pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
-                return <MqttClientItem 
-                key={edge.node?.id??index}
-                dataRef={edge.node}
-                onItemClick={handleItemDetail}
-              />
-            })
-          }
-        </InfinityScrollTable>
-      }
-    />
-  </>
+  </InfinityScrollBody>
+
 }
 
 function Header(){

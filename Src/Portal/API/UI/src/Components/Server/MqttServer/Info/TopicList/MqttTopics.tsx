@@ -6,6 +6,7 @@ import Section from "../../../../../UIComponents/Section/Section";
 import { usePaginationFragment, useSubscription } from "react-relay";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttTopicsPaginationFragment$key } from "./__generated__/MqttTopicsPaginationFragment.graphql";
 import { MqttTopicsNewInboundSubscription } from "./__generated__/MqttTopicsNewInboundSubscription.graphql";
@@ -59,6 +60,25 @@ type MqttTopicsProps = {
 
 function MqttTopics({dataRef}:MqttTopicsProps) {
 
+  return <Section 
+    name={"Topics"}
+    component={
+      <InfinityScrollTable
+        header={<Header/>}
+      >
+        <TopicListBody dataRef={dataRef}/>
+      </InfinityScrollTable>
+    }
+  />
+}
+
+
+type TopicListBodyProps = {
+
+}&MqttTopicsProps
+
+function TopicListBody({dataRef}:TopicListBodyProps){
+
   const { id }: any = useParams<string>();
 
   const pagination = usePaginationFragment<
@@ -98,27 +118,22 @@ function MqttTopics({dataRef}:MqttTopicsProps) {
     },
     []
   );
-  
-  return <Section 
-    name={"Topics"}
-    component={
-    <InfinityScrollTable
-      header={<Header/>}
-      height="h-72"
-      onEnd={handleLoadMore}
-    >
-      {
-        pagination?.data?.mqttServerTopicStats?.edges?.map((edge,index)=>{
-            return <MqttTopicItem 
-            key={edge.node?.id??index}
-            dataRef={edge.node}
-            onItemClick={handleItemDetail}
-          />
-        })
-      }
-    </InfinityScrollTable>
+
+  return <InfinityScrollBody
+  height="h-72"
+  onEnd={handleLoadMore}
+  >
+    {
+      pagination?.data?.mqttServerTopicStats?.edges?.map((edge,index)=>{
+          return <MqttTopicItem 
+          key={edge.node?.id??index}
+          dataRef={edge.node}
+          onItemClick={handleItemDetail}
+        />
+      })
     }
-  />
+</InfinityScrollBody>
+
 }
 
 function Header(){

@@ -8,6 +8,7 @@ import Section from "../../../UIComponents/Section/Section";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { SystemLogsQuery } from "./__generated__/SystemLogsQuery.graphql";
+import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { SystemLogsPaginationFragment$key } from "./__generated__/SystemLogsPaginationFragment.graphql";
 import { SystemLogsPaginationFragmentRefetchQuery } from "./__generated__/SystemLogsPaginationFragmentRefetchQuery.graphql";
@@ -105,15 +106,17 @@ function SystemLogs() {
         header={<Header/>}
         onEnd={handleLoadMore}
         >
-          {
-            pagination?.data?.systemLogs?.edges?.map((edge,index)=>{
-                return <SystemLogItem 
-                key={edge.node?.iD??index}
-                dataRef={edge.node}
-                onItemClick={handleItemDetail}
-              />
-            })
-          }
+          <InfinityScrollBody>
+            {
+              pagination?.data?.systemLogs?.edges?.map((edge,index)=>{
+                  return <SystemLogItem 
+                  key={edge.node?.iD??index}
+                  dataRef={edge.node}
+                  onItemClick={handleItemDetail}
+                />
+              })
+            }
+          </InfinityScrollBody>
         </InfinityScrollTable>
       }
     />

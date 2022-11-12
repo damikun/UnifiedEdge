@@ -35,8 +35,8 @@ function LoadingBar({
         <div
           style={style}
           className={clsx(
-            "shadow-none flex justify-center delay-100 duration-2000",
-            color ? color : "bg-gray-400",
+            "shadow-none flex justify-center delay-300 duration-1000",
+            color ? color : "bg-gray-300",
             state !== 0
               ? " transition-all opacity-100  "
               : " invisible transition-none opacity-0"

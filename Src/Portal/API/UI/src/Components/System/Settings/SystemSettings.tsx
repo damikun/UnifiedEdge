@@ -36,7 +36,7 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
 
   const data = useFragment(SystemSettingsDataFragmentTag, dataRef);
   
-  return <>
+  return <div className="flex flex-col xl:flex-row xl:space-x-5">
   {
     data?.edgeInfo && <Section
       name="System"
@@ -60,5 +60,5 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
       />
   }
     <NetworkSettings dataRef={data}/>
-  </>
+  </div>
 }

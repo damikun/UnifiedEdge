@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import MqttTopics from "./TopicList/MqttTopics";
@@ -17,13 +17,13 @@ export const MqttServerInfoQueryTag = graphql`
       id
       ...ServerSharedInfoFragment
     }
-    ...MqttClientsPaginationFragment @arguments(server_uid: $id)
+    ...MqttClientsPaginationFragment @arguments(server_uid: $id)@defer
 
     ...MqttServerNetworkInfoFragment @arguments(server_uid: $id)
 
     ...MqttServerStatisticFragment @arguments(server_uid: $id)
 
-    ...MqttTopicsPaginationFragment @arguments(server_uid: $id)
+    ...MqttTopicsPaginationFragment @arguments(server_uid: $id)@defer
   }
 `;
 
@@ -48,7 +48,9 @@ function MqttServerInfo() {
       <MqttServerStatistic dataRef={data}/>
     </div>
 
-    <MqttClients dataRef={data}/>
+    {/* <Suspense fallback={null}> */}
+      <MqttClients dataRef={data}/>
+    {/* </Suspense> */}
     <MqttTopics dataRef={data}/>
   </>
 }

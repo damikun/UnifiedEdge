@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a8cc0eb321644d0c404800ba625f6986>>
+ * @generated SignedSource<<f29415724eebb74b426e23158a387b56>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -55,7 +55,14 @@ v3 = {
 v4 = [
   (v3/*: any*/)
 ],
-v5 = [
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "serverUid",
+  "storageKey": null
+},
+v6 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -63,13 +70,6 @@ v5 = [
   },
   (v3/*: any*/)
 ],
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "serverUid",
-  "storageKey": null
-},
 v7 = {
   "alias": null,
   "args": null,
@@ -149,9 +149,14 @@ return {
         "storageKey": null
       },
       {
-        "args": (v4/*: any*/),
-        "kind": "FragmentSpread",
-        "name": "MqttClientsPaginationFragment"
+        "kind": "Defer",
+        "selections": [
+          {
+            "args": (v4/*: any*/),
+            "kind": "FragmentSpread",
+            "name": "MqttClientsPaginationFragment"
+          }
+        ]
       },
       {
         "args": (v4/*: any*/),
@@ -164,9 +169,14 @@ return {
         "name": "MqttServerStatisticFragment"
       },
       {
-        "args": (v4/*: any*/),
-        "kind": "FragmentSpread",
-        "name": "MqttTopicsPaginationFragment"
+        "kind": "Defer",
+        "selections": [
+          {
+            "args": (v4/*: any*/),
+            "kind": "FragmentSpread",
+            "name": "MqttTopicsPaginationFragment"
+          }
+        ]
       }
     ],
     "type": "Query",
@@ -196,75 +206,6 @@ return {
       },
       {
         "alias": null,
-        "args": (v5/*: any*/),
-        "concreteType": "GQL_MqttClientConnection",
-        "kind": "LinkedField",
-        "name": "mqttServerClients",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "GQL_MqttClientEdge",
-            "kind": "LinkedField",
-            "name": "edges",
-            "plural": true,
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "GQL_MqttClient",
-                "kind": "LinkedField",
-                "name": "node",
-                "plural": false,
-                "selections": [
-                  (v2/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "rawId",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "protocol",
-                    "storageKey": null
-                  },
-                  (v6/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "connectedAt",
-                    "storageKey": null
-                  },
-                  (v7/*: any*/)
-                ],
-                "storageKey": null
-              },
-              (v8/*: any*/)
-            ],
-            "storageKey": null
-          },
-          (v9/*: any*/),
-          (v10/*: any*/)
-        ],
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": (v5/*: any*/),
-        "filters": (v11/*: any*/),
-        "handle": "connection",
-        "key": "MqttClientsPaginationFragmentConnection_mqttServerClients",
-        "kind": "LinkedHandle",
-        "name": "mqttServerClients"
-      },
-      {
-        "alias": null,
         "args": (v4/*: any*/),
         "concreteType": "GQL_MqttServerEndpoint",
         "kind": "LinkedField",
@@ -286,7 +227,7 @@ return {
             "name": "port",
             "storageKey": null
           },
-          (v6/*: any*/)
+          (v5/*: any*/)
         ],
         "storageKey": null
       },
@@ -352,80 +293,164 @@ return {
         "storageKey": null
       },
       {
-        "alias": null,
-        "args": (v5/*: any*/),
-        "concreteType": "GQL_MqttServerTopicStatConnection",
-        "kind": "LinkedField",
-        "name": "mqttServerTopicStats",
-        "plural": false,
+        "if": null,
+        "kind": "Defer",
+        "label": "MqttServerInfoQuery$defer$MqttClientsPaginationFragment_2YLYDF",
         "selections": [
           {
             "alias": null,
-            "args": null,
-            "concreteType": "GQL_MqttServerTopicStatEdge",
+            "args": (v6/*: any*/),
+            "concreteType": "GQL_MqttClientConnection",
             "kind": "LinkedField",
-            "name": "edges",
-            "plural": true,
+            "name": "mqttServerClients",
+            "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "GQL_MqttServerTopicStat",
+                "concreteType": "GQL_MqttClientEdge",
                 "kind": "LinkedField",
-                "name": "node",
-                "plural": false,
+                "name": "edges",
+                "plural": true,
                 "selections": [
-                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
-                    "kind": "ScalarField",
-                    "name": "topic",
+                    "concreteType": "GQL_MqttClient",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "rawId",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "protocol",
+                        "storageKey": null
+                      },
+                      (v5/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "connectedAt",
+                        "storageKey": null
+                      },
+                      (v7/*: any*/)
+                    ],
                     "storageKey": null
                   },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "count",
-                    "storageKey": null
-                  },
-                  (v7/*: any*/)
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v8/*: any*/)
+              (v9/*: any*/),
+              (v10/*: any*/)
             ],
             "storageKey": null
           },
-          (v9/*: any*/),
+          {
+            "alias": null,
+            "args": (v6/*: any*/),
+            "filters": (v11/*: any*/),
+            "handle": "connection",
+            "key": "MqttClientsPaginationFragmentConnection_mqttServerClients",
+            "kind": "LinkedHandle",
+            "name": "mqttServerClients"
+          },
           (v10/*: any*/)
-        ],
-        "storageKey": null
+        ]
       },
       {
-        "alias": null,
-        "args": (v5/*: any*/),
-        "filters": (v11/*: any*/),
-        "handle": "connection",
-        "key": "MqttTopicsPaginationFragmentConnection_mqttServerTopicStats",
-        "kind": "LinkedHandle",
-        "name": "mqttServerTopicStats"
-      },
-      (v10/*: any*/)
+        "if": null,
+        "kind": "Defer",
+        "label": "MqttServerInfoQuery$defer$MqttTopicsPaginationFragment_2YLYDF",
+        "selections": [
+          {
+            "alias": null,
+            "args": (v6/*: any*/),
+            "concreteType": "GQL_MqttServerTopicStatConnection",
+            "kind": "LinkedField",
+            "name": "mqttServerTopicStats",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "GQL_MqttServerTopicStatEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "GQL_MqttServerTopicStat",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "topic",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "count",
+                        "storageKey": null
+                      },
+                      (v7/*: any*/)
+                    ],
+                    "storageKey": null
+                  },
+                  (v8/*: any*/)
+                ],
+                "storageKey": null
+              },
+              (v9/*: any*/),
+              (v10/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": (v6/*: any*/),
+            "filters": (v11/*: any*/),
+            "handle": "connection",
+            "key": "MqttTopicsPaginationFragmentConnection_mqttServerTopicStats",
+            "kind": "LinkedHandle",
+            "name": "mqttServerTopicStats"
+          },
+          (v10/*: any*/)
+        ]
+      }
     ]
   },
   "params": {
-    "cacheID": "c8a637746a96de94700f0d541fc97189",
+    "cacheID": "4e7497948a6f376b7bd07f41e9289561",
     "id": null,
     "metadata": {},
     "name": "MqttServerInfoQuery",
     "operationKind": "query",
-    "text": "query MqttServerInfoQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n    ...ServerSharedInfoFragment\n  }\n  ...MqttClientsPaginationFragment_2YLYDF\n  ...MqttServerNetworkInfoFragment_2YLYDF\n  ...MqttServerStatisticFragment_2YLYDF\n  ...MqttTopicsPaginationFragment_2YLYDF\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  rawId\n  protocol\n  serverUid\n  connectedAt\n}\n\nfragment MqttClientsPaginationFragment_2YLYDF on Query {\n  mqttServerClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttServerNetworkInfoFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    iPAddress\n    port\n    serverUid\n  }\n  mqttServerStats(server_uid: $id) {\n    id\n    packetRcvCount\n    packetSndCount\n  }\n}\n\nfragment MqttServerStatisticFragment_2YLYDF on Query {\n  mqttServerStats(server_uid: $id) {\n    id\n    connectionsCount\n    notConsumedCount\n    publishedTopicCount\n    subscribedTopicCount\n    subscriptionsCount\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttServerTopicStat {\n  id\n  topic\n  count\n}\n\nfragment MqttTopicsPaginationFragment_2YLYDF on Query {\n  mqttServerTopicStats(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ServerSharedInfoFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n"
+    "text": "query MqttServerInfoQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n    ...ServerSharedInfoFragment\n  }\n  ...MqttClientsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttClientsPaginationFragment_2YLYDF\")\n  ...MqttServerNetworkInfoFragment_2YLYDF\n  ...MqttServerStatisticFragment_2YLYDF\n  ...MqttTopicsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttTopicsPaginationFragment_2YLYDF\")\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  rawId\n  protocol\n  serverUid\n  connectedAt\n}\n\nfragment MqttClientsPaginationFragment_2YLYDF on Query {\n  mqttServerClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttServerNetworkInfoFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    iPAddress\n    port\n    serverUid\n  }\n  mqttServerStats(server_uid: $id) {\n    id\n    packetRcvCount\n    packetSndCount\n  }\n}\n\nfragment MqttServerStatisticFragment_2YLYDF on Query {\n  mqttServerStats(server_uid: $id) {\n    id\n    connectionsCount\n    notConsumedCount\n    publishedTopicCount\n    subscribedTopicCount\n    subscriptionsCount\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttServerTopicStat {\n  id\n  topic\n  count\n}\n\nfragment MqttTopicsPaginationFragment_2YLYDF on Query {\n  mqttServerTopicStats(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ServerSharedInfoFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "136c7f11f0d4800b6919ab30da17942e";
+(node as any).hash = "390679cf4d247d35c8fb1d9f3f343b94";
 
 export default node;

@@ -8,6 +8,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { ServerLogsQuery } from "./__generated__/ServerLogsQuery.graphql";
+import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { ServerLogsPaginationFragment_logs$key } from "./__generated__/ServerLogsPaginationFragment_logs.graphql";
 import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
@@ -110,15 +111,17 @@ function ServerLogs() {
           header={<Header/>}
           onEnd={handleLoadMore}
         >
-          {
-            pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
-                return <ServerLogsItem 
-                key={edge.node?.iD??index}
-                dataRef={edge.node}
-                onItemClick={handleItemDetail}
-              />
-            })
-          }
+          <InfinityScrollBody>
+            {
+              pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
+                  return <ServerLogsItem 
+                  key={edge.node?.iD??index}
+                  dataRef={edge.node}
+                  onItemClick={handleItemDetail}
+                />
+              })
+            }
+          </InfinityScrollBody>
         </InfinityScrollTable>
       }
       />
