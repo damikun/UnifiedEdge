@@ -5,6 +5,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../../UIComponents/Section/Section";
 import { FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
 import { UserClaimsInfoFragment$key } from "./__generated__/UserClaimsInfoFragment.graphql";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const UserClaimsInfoFragmentTag = graphql`
@@ -33,25 +34,24 @@ function UserClaimsInfo({dataRef}:UserClaimsInfoProps) {
   return <Section 
   name="Claims"
   component={
-  <div className={clsx("flex bg-gray-50 flex-col w-full",
-    "border border-gray-200 rounded-md shadow-sm p-5 space-y-2")}>
-    <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
-    "justify-between 2xl:justify-start")}>
-      <FieldGroup>
-        {
-          data?.userClaims.map((enity,index)=>{
-            return enity && enity.type? <FieldSection
-            key={index}
-            variant="flex-row"
-            name={enity?.type}>
-            <div className="font-mono truncate break-all">
-              {enity?.value}
-            </div>
-          </FieldSection>:<></>
-          })
-        }
-      </FieldGroup>
-    </div>
-  </div>
+    <SectionBody>
+      <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
+      "justify-between 2xl:justify-start")}>
+        <FieldGroup>
+          {
+            data?.userClaims.map((enity,index)=>{
+              return enity && enity.type? <FieldSection
+              key={index}
+              variant="flex-row"
+              name={enity?.type}>
+              <div className="font-mono truncate break-all">
+                {enity?.value}
+              </div>
+            </FieldSection>:<></>
+            })
+          }
+        </FieldGroup>
+      </div>
+    </SectionBody>
   }/>
 }

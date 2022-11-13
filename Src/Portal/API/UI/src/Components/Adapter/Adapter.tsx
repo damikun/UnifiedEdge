@@ -7,6 +7,7 @@ import Section from "../../UIComponents/Section/Section";
 import { AdapterQuery } from "./__generated__/AdapterQuery.graphql";
 import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+import StyledTabSection from "../../Shared/StyledTabSection";
 
 export const SettingsTabs = [
   {
@@ -57,7 +58,7 @@ function Adapter() {
       component={<div></div>}
     />
 
-    <TabSection/>
+    <StyledTabSection tabs={SettingsTabs}/>
 
     <Routes>
       <Route path="/Logs/" element={<AdapterLogs dataRef={data.adapterById}/>} />
@@ -65,15 +66,4 @@ function Adapter() {
     </Routes>
 
   </>
-}
-
-function TabSection() {
-  return <div className="flex sticky top-16 bg-gray-50 shadow-sm w-full">
-    <RouterTabList
-      hoverEffect
-      tabStyle={"h-11 hover:bg-transparent"}
-      flexVariant="row"
-      defaultIndex={0}
-      Tabs={SettingsTabs} />
-  </div>;
 }

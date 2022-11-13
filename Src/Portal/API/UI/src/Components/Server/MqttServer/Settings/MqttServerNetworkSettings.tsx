@@ -5,6 +5,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import MqttServerEndpoint from "./MqttServerEndpoint";
 import Section from "../../../../UIComponents/Section/Section";
 import { MqttServerNetworkSettingsFragment$key } from "./__generated__/MqttServerNetworkSettingsFragment.graphql";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const MqttServerNetworkSettingsFragmentTag = graphql`
@@ -30,12 +31,11 @@ function MqttServerNetworkSettings({dataRef}:MqttServerNetworkSettingsProps) {
   return <Section 
     name="Network"
     component={
-    <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-    "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
-      <div className="max-w-lg w-full">
-        <MqttServerEndpoint dataRef={data}/>
-      </div>
-    </div>
+      <SectionBody className="flex flex-col">
+        <div className="max-w-lg w-full">
+          <MqttServerEndpoint dataRef={data}/>
+        </div>
+      </SectionBody>
   }
   />
 }

@@ -5,6 +5,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
 import Section from "../../../../UIComponents/Section/Section";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 import { MqttServerStatisticFragment$key } from "./__generated__/MqttServerStatisticFragment.graphql";
 import { MqttServerStatisticSubSubscription } from "./__generated__/MqttServerStatisticSubSubscription.graphql";
 import { MqttServerStatisticTopicSubscription } from "./__generated__/MqttServerStatisticTopicSubscription.graphql";
@@ -139,10 +140,8 @@ function MqttServerStatistic({dataRef}:MqttServerStatisticProps) {
   return <Section 
   name="Statistic"
   component={
-  <div className={clsx("flex flex-row bg-gray-50 w-full",
-    "border border-gray-200 rounded-md shadow-sm p-5 w-full",
-    "space-x-2 justify-around h-full align-middle")}>
-
+    <SectionBody className={clsx("flex flex-row justify-around",
+    "items-center space-x-2 h-full align-middle")}>
       <div className="flex-flex-col items-center text-center">
         <div className="text-xl font-semibold">
           {data?.mqttServerStats.connectionsCount}
@@ -163,6 +162,6 @@ function MqttServerStatistic({dataRef}:MqttServerStatisticProps) {
         </div>
         <div className="font-semibold">Subscriptions</div>
       </div>
-  </div>
+    </SectionBody>
   }/>
 }

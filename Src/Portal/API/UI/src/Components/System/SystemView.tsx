@@ -9,6 +9,7 @@ import Section from "../../UIComponents/Section/Section";
 import { SystemViewQuery } from "./__generated__/SystemViewQuery.graphql";
 import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
 import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+import StyledTabSection from "../../Shared/StyledTabSection";
 
 
 export const SettingsTabs = [
@@ -62,7 +63,7 @@ function SystemView() {
       component={<EdgeInfo dataRef={data} />}
     />
 
-    <TabSection/>
+    <StyledTabSection tabs={SettingsTabs}/>
 
     <Routes>
       <Route path="/Logs/" element={<SystemLogs />} />
@@ -71,16 +72,4 @@ function SystemView() {
     </Routes>
 
   </>
-}
-
-function TabSection() {
-  return <div className="flex z-10 sticky top-16 border-t border-r border-l bg-gray-50 shadow-sm w-full">
-    <RouterTabList
-      hoverEffect
-      tabStyle={"h-11 hover:bg-transparent"}
-      flexVariant="row"
-      defaultIndex={0}
-      Tabs={SettingsTabs}
-    />
-  </div>;
 }

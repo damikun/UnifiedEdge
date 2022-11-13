@@ -101,7 +101,7 @@ function WebHookActivSetting({dataRef}:WebHookActivSettingProps) {
   );
 
   return <div
-    className="px-3 pb-2 w-full flex flex-row space-x-2 max-w-2xl">
+    className="pb-2 w-full flex flex-row space-x-2 max-w-2xl">
       <FormSwitch
         id={"active"}
         checked={data.isActive}

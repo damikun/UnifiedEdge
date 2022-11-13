@@ -4,6 +4,7 @@ import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../UIComponents/Section/Section";
 import { AdapterAddressDataFragment$key } from "./__generated__/AdapterAddressDataFragment.graphql";
+import SectionBody from "../../UIComponents/Section/SectionBody";
 
 
 export const AdapterAddressDataFragment = graphql`
@@ -70,8 +71,7 @@ function AdapterAddress({dataRef}:AdapterAddressProps) {
   return <Section 
     name={"Addresses"}
     component={
-      <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-      "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+      <SectionBody className="flex flex-col">
         <Value name="Interface type" value={data?.interfaceType}/>
         <Value name="Supported IP protocol" value={supported_ip_prot}/>
         <Value name="Physical address" value={data?.physicalAddress}/>
@@ -80,7 +80,7 @@ function AdapterAddress({dataRef}:AdapterAddressProps) {
         <ValueArr name="Gateway addresses" value={data?.addresses.gatewayAddresses}/>
         <ValueArr name="Multicast addresses" value={data?.addresses.multicastAddresses}/>
         <ValueArr name="Unicast addresses" value={data?.addresses.unicastAddresses}/>
-      </div>
+      </SectionBody>
     }
     />
 }

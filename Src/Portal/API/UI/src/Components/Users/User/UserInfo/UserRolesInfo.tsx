@@ -6,6 +6,7 @@ import Badge from "../../../../UIComponents/Badged/Badge";
 import Section from "../../../../UIComponents/Section/Section";
 import { FieldGroup } from "../../../../Shared/Field/FieldHelpers";
 import { UserRolesInfoFragment$key } from "./__generated__/UserRolesInfoFragment.graphql";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const UserRolesInfoFragmentTag = graphql`
@@ -31,26 +32,25 @@ function UserRolesInfo({dataRef}:UserRolesInfoProps) {
   return <Section 
   name="Roles"
   component={
-  <div className={clsx("flex bg-gray-50 flex-col w-full",
-    "border border-gray-200 rounded-md shadow-sm p-5 space-y-2")}>
-    <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
-    "justify-between 2xl:justify-start")}>
-      <FieldGroup>
-        <div className="flex flex-row flex-wrap">
-          {
-            data?.userRoles.map((role,index)=>{
-              return role ? 
-              <div className="mr-2 py-2" key={index}>
-                <Badge
-                variant="secondarygray">
-                  {role}
-                </Badge>
-              </div> : <></>
-            })
-          }
-        </div>
-      </FieldGroup>
-    </div>
-  </div>
+    <SectionBody>
+      <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
+      "justify-between 2xl:justify-start")}>
+        <FieldGroup>
+          <div className="flex flex-row flex-wrap">
+            {
+              data?.userRoles.map((role,index)=>{
+                return role ? 
+                <div className="mr-2 py-2" key={index}>
+                  <Badge
+                  variant="secondarygray">
+                    {role}
+                  </Badge>
+                </div> : <></>
+              })
+            }
+          </div>
+        </FieldGroup>
+      </div>
+    </SectionBody>
   }/>
 }

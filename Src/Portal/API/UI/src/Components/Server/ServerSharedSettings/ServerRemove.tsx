@@ -12,6 +12,7 @@ import Modal, { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { ServerRemoveDataFragment$key } from "./__generated__/ServerRemoveDataFragment.graphql";
 import { ServerRemoveUpdateMutation } from "./__generated__/ServerRemoveUpdateMutation.graphql";
 import { HandleErrors } from "../../../Utils/ErrorHelper";
+import SectionBody from "../../../UIComponents/Section/SectionBody";
 
 export const ServerRemoveDataFragment = graphql`
   fragment ServerRemoveDataFragment on GQL_IServer
@@ -81,8 +82,7 @@ function ServerRemove({dataRef}:ServerRemoveProps) {
       dataRef && <Section 
       name="Remove"
       component={
-        <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-        "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+        <SectionBody>
           <div className="max-w-lg w-full">
             <StayledButton
               variant="error"
@@ -92,7 +92,8 @@ function ServerRemove({dataRef}:ServerRemoveProps) {
               Delete
             </StayledButton>
           </div>
-        </div>
+        </SectionBody>
+
       }></Section>
     }
   </>

@@ -157,7 +157,7 @@ function WebHookEventGroupsSetting({dataRef}:WebHookEventGroupsSettingProps) {
   
   return <form
     onSubmit={formik.handleSubmit}
-    className="px-3 pb-2 w-full flex flex-row space-x-2 max-w-2xl">
+    className="pb-2 w-full flex flex-row space-x-2 max-w-2xl">
 
     <div className="flex flex-col w-full relative space-y-2 pb-10">
       <label className="font-semibold text-base">Trigger Group</label>

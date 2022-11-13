@@ -1,8 +1,8 @@
-import clsx from "clsx";
 import React from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../../UIComponents/Section/Section";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 import MqttServerClientComTimeout from "./ServerClientConfig/MqttServerClientComTimeout";
 import MqttServerClientPresistSession from "./ServerClientConfig/MqttServerClientPresistSession";
 import MqttServerClientMaxPendingMessages from "./ServerClientConfig/MqttServerClientMaxPendingMessages";
@@ -36,14 +36,13 @@ function MqttServerMqttClientSettings({dataRef}:MqttServerMqttClientSettingsProp
   return <Section 
     name="Clients"
     component={
-    <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-    "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
-      <div className="max-w-lg w-full">
-        <MqttServerClientComTimeout dataRef={data?.mqttServerClientConfig}/>
-        <MqttServerClientMaxPendingMessages dataRef={data?.mqttServerClientConfig}/>
-        <MqttServerClientPresistSession dataRef={data?.mqttServerClientConfig}/>
-      </div>
-    </div>
+      <SectionBody className="flex flex-col">
+        <div className="max-w-lg w-full">
+          <MqttServerClientComTimeout dataRef={data?.mqttServerClientConfig}/>
+          <MqttServerClientMaxPendingMessages dataRef={data?.mqttServerClientConfig}/>
+          <MqttServerClientPresistSession dataRef={data?.mqttServerClientConfig}/>
+        </div>
+      </SectionBody>
   }
   />
 }

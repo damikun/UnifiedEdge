@@ -5,6 +5,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
 import Section from "../../../../UIComponents/Section/Section";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 import { FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
 import { MqttServerNetworkInfoFragment$key } from "./__generated__/MqttServerNetworkInfoFragment.graphql";
 import { MqttServerNetworkInfoSendPacketsSubscription } from "./__generated__/MqttServerNetworkInfoSendPacketsSubscription.graphql";
@@ -109,44 +110,44 @@ function MqttServerNetworkInfo({dataRef}:MqttServerNetworkInfoProps) {
   return <Section 
   name="Network"
   component={
-  <div className={clsx("flex bg-gray-50 flex-col w-full",
-    "border border-gray-200 rounded-md shadow-sm p-5 space-y-2")}>
 
+    <SectionBody className="flex">
       <div className="flex flex-col lg:flex-row lg:space-x-10 justify-between 2xl:justify-start">
-      <FieldGroup>
-        <FieldSection
-        variant="flex-row"
-        name="Port">
-          <div className="font-mono">
-            {data?.mqttServerEndpoint.port}
-          </div>
-        </FieldSection>
-        <FieldSection
-        variant="flex-row"
-        name="IP Address">
-          <div className="font-mono">
-            {data?.mqttServerEndpoint.iPAddress}
-          </div>
-        </FieldSection>
-      </FieldGroup>
+        <FieldGroup>
+          <FieldSection
+          variant="flex-row"
+          name="Port">
+            <div className="font-mono">
+              {data?.mqttServerEndpoint.port}
+            </div>
+          </FieldSection>
+          <FieldSection
+          variant="flex-row"
+          name="IP Address">
+            <div className="font-mono">
+              {data?.mqttServerEndpoint.iPAddress}
+            </div>
+          </FieldSection>
+        </FieldGroup>
 
-      <FieldGroup>
-        <FieldSection
-        variant="flex-row"
-        name="Inbound">
-          <div className="font-mono truncate">
-            {data?.mqttServerStats.packetSndCount}
-          </div>
-        </FieldSection>
-        <FieldSection
-        variant="flex-row"
-        name="Outbound  ">
-          <div className="font-mono truncate">
-            {data?.mqttServerStats.packetRcvCount}
-          </div>
-        </FieldSection>
-      </FieldGroup>
-    </div>
-  </div>
+        <FieldGroup>
+          <FieldSection
+          variant="flex-row"
+          name="Inbound">
+            <div className="font-mono truncate">
+              {data?.mqttServerStats.packetSndCount}
+            </div>
+          </FieldSection>
+          <FieldSection
+          variant="flex-row"
+          name="Outbound  ">
+            <div className="font-mono truncate">
+              {data?.mqttServerStats.packetRcvCount}
+            </div>
+          </FieldSection>
+        </FieldGroup>
+      </div>
+    </SectionBody>
+
   }/>
 }

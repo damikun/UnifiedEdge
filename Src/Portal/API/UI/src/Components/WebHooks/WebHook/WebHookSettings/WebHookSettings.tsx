@@ -11,6 +11,7 @@ import WebHookSecretSetting from "./WebHookSecretSetting";
 import Section from "../../../../UIComponents/Section/Section";
 import WebHookEventGroupsSetting from "./WebHookEventGroupsSetting";
 import { WebHookSettingsQuery } from "./__generated__/WebHookSettingsQuery.graphql";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const WebHookSettingsQueryTag = graphql`
@@ -48,8 +49,7 @@ function WebHookSettings() {
       data && <>
        <Section 
         component={
-          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-          "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+          <SectionBody>
             <div className="max-w-2xl w-full">
               <WebHookActivSetting dataRef={data.webHookById}/>
               <WebHookNameSetting dataRef={data.webHookById}/>
@@ -57,19 +57,18 @@ function WebHookSettings() {
               <WebHookSecretSetting dataRef={data.webHookById}/>
               <WebHookEventGroupsSetting dataRef={data.webHookById}/>
             </div>
-          </div>
+          </SectionBody>
         }
       />
 
       <Section 
         name="Remove WebHook"
         component={
-          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-          "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+          <SectionBody>
             <div className="max-w-2xl w-full">
               <WebHookRemove dataRef={data.webHookById}/>
             </div>
-          </div>
+          </SectionBody>
         }
       />
       </>

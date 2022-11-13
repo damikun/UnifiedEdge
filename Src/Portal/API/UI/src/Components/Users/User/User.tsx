@@ -8,6 +8,7 @@ import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import { UserQuery } from "./__generated__/UserQuery.graphql";
 import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
+import StyledTabSection from "../../../Shared/StyledTabSection";
 
 
 export const SettingsTabs = [
@@ -50,7 +51,7 @@ function User() {
       component={<UserInfoBar dataRef={data.userById}/>}
     />
 
-    <TabSection/>
+    <StyledTabSection tabs={SettingsTabs}/>
 
     <Routes>
       <Route path="/Settings/" element={<UserSettings/>} />
@@ -58,15 +59,4 @@ function User() {
     </Routes>
 
   </>
-}
-
-function TabSection() {
-  return <div className="flex sticky top-16 bg-gray-50 shadow-sm w-full">
-    <RouterTabList
-      hoverEffect
-      tabStyle={"h-11 hover:bg-transparent"}
-      flexVariant="row"
-      defaultIndex={0}
-      Tabs={SettingsTabs} />
-  </div>;
 }

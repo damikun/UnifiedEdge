@@ -12,6 +12,7 @@ import UserFirstNameSetting from "./UserFirstNameSetting";
 import { useUserStore } from "../../../../Utils/UserProvider";
 import Section from "../../../../UIComponents/Section/Section";
 import { UserSettingsQuery } from "./__generated__/UserSettingsQuery.graphql";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const UserSettingsQueryTag = graphql`
@@ -95,8 +96,7 @@ function UserSettings() {
       (data.isAdmin?.isAdmin || data.me?.id === data.userById.id) &&<>
        <Section 
         component={
-          <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-          "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+          <SectionBody className="flex flex-col">
             <div className="max-w-2xl w-full">
               {
                  isNotCurrentUser && <UserActivSetting dataRef={data.userById}/>
@@ -109,7 +109,7 @@ function UserSettings() {
               <UserFirstNameSetting dataRef={data.userById}/>
               <UserLastNameSetting dataRef={data.userById}/>
             </div>
-          </div>
+          </SectionBody>
         }
       />
       </>

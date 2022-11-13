@@ -23,7 +23,7 @@ export default function InfinityScrollTable({
 
     return <table className={clsx("flex flex-col w-full relative",
         "border border-gray-200 rounded-md shadow-sm table-auto",
-        className)}>
+        "overflow-hidden",className)}>
 
         {header}
 
