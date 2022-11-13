@@ -32,14 +32,14 @@ function WebHookGeneralInfo({dataRef}:WebHookGeneralInfoProps) {
   return <Section 
   name="General"
   component={
-    <SectionBody>
+    <SectionBody className="flex flex-col w-full">
       <div className={clsx("flex flex-col lg:flex-row lg:space-x-10",
       "justify-between 2xl:justify-start")}>
         <FieldGroup>
           <FieldSection
             variant="flex-row"
             name="Uid">
-            <div className="font-mono">
+            <div className="font-mono truncate">
               {data?.uid}
             </div>
           </FieldSection>

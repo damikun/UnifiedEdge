@@ -1,8 +1,7 @@
 import clsx from "clsx";
-// import { AnimateSharedLayout } from "framer-motion";
-import React, { useContext, useState } from "react";
-// import ScrollContainer from "react-indiana-drag-scroll";
 import RouterTab from "./RouterTab";
+import React, { useContext, useState } from "react";
+
 
 export type RouterTabItemType = {
   label: string;
@@ -56,26 +55,24 @@ function RouterTabList({
         setNavigating: (value: any) => setNavigationState(value),
       }}
     >
-      {/* <AnimateSharedLayout> */}
-        <div
-          className={clsx("flex w-full", "border-none", flex_Var)}
-        >
-          {Tabs.map((enity, index) => {
-            return (
-              <RouterTab
-                tabStyle={tabStyle}
-                flexVariant={flexVariant}
-                key={index}
-                hoverEffect={hoverEffect}
-                to={enity.path}
-                width={tabWidth}
-                pattern={enity.pattern}
-                name={enity.label}
-              />
-            );
-          })}
-        </div>
-      {/* </AnimateSharedLayout> */}
+      <div
+        className={clsx("flex w-full", "border-none", flex_Var)}
+      >
+        {Tabs.map((enity, index) => {
+          return (
+            <RouterTab
+              tabStyle={tabStyle}
+              flexVariant={flexVariant}
+              key={index}
+              hoverEffect={hoverEffect}
+              to={enity.path}
+              width={tabWidth}
+              pattern={enity.pattern}
+              name={enity.label}
+            />
+          );
+        })}
+      </div>
     </RouterTabContext.Provider>
   );
 }

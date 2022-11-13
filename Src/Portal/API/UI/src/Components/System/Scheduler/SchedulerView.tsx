@@ -3,13 +3,13 @@ import { graphql } from "babel-plugin-relay/macro";
 import { useSearchParams } from "react-router-dom";
 import React, { useCallback, useMemo } from "react";
 import Modal from "../../../UIComponents/Modal/Modal";
+import SchedulerStatistics from "./SchedulerStatistics";
 import Section from "../../../UIComponents/Section/Section";
 import SchedulerFailedJobs from "./Failed/SchedulerFailedJobs";
 import { SchedulerJobDetail } from "./Detail/SchedulerJobDetail";
 import SchedulerSuccessJobs from "./Success/SchedulerSuccessJobs";
 import SchedulerRecurringJobs from "./Recurring/SchedulerRecurringJobs"
 import { SchedulerViewQuery } from "./__generated__/SchedulerViewQuery.graphql";
-import SchedulerStatistics from "./SchedulerStatistics";
 
 
 const SchedulerViewQueryTag = graphql`
