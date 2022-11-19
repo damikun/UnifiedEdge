@@ -9,15 +9,37 @@ namespace Server.Mqtt.DTO
 
         }
 
+        internal static string GetUid(string clinet_uid, string server_uid, string session_id)
+        {
+            return $"MqttClientSession.{server_uid}.{clinet_uid}.{session_id}";
+        }
+
         // <summary>
         /// Uid
         /// </summary>
-        public string Uid { get; set; }
+        public string Uid
+        {
+            get
+            {
+                return GetUid(this.ServerUid, this.ClientUid, this.SessionId);
+            }
+        }
+
+
+        // <summary>
+        /// SessionId
+        /// </summary>
+        public string SessionId { get; set; }
 
         // <summary>
         /// ClientUid
         /// </summary>
         public string ClientUid { get; set; }
+
+        // <summary>
+        /// ServerUid
+        /// </summary>
+        public string ServerUid { get; set; }
 
         // <summary>
         /// PendingMessages

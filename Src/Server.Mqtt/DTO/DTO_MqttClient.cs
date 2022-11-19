@@ -13,6 +13,10 @@ namespace Server.Mqtt.DTO
         /// </summary>
         public string Uid { get; set; }
 
+        // <summary>
+        /// ClientId
+        /// </summary>
+        public string ClientId { get; set; }
 
         // <summary>
         /// ServerUid
@@ -25,24 +29,25 @@ namespace Server.Mqtt.DTO
         public DTO_MqttProtocol Protocol { get; set; }
 
         // <summary>
-        /// ConnectedAt
+        /// ConnectedTimeStamp
         /// </summary>
-        public DateTime? ConnectedAt { get; set; }
+        public DateTime? ConnectedTimeStamp { get; set; }
+
+        // <summary>
+        /// DisconnectedTimeStamp
+        /// </summary>
+        public DateTime? DisconnectedTimeStamp { get; set; }
 
         // <summary>
         /// LastMessage
         /// </summary>
-        public DateTime? LastMessage { get; set; }
+        public DateTime? LastMessageTimestamp { get; set; }
 
-        // // <summary>
-        // /// Session
-        // /// </summary>
-        // public DTO_MqttClientSession Session { get; set; }
+        // <summary>
+        /// Endpoint
+        /// </summary>
+        public string? Endpoint { get; set; }
 
-        // // <summary>
-        // /// Statistics
-        // /// </summary>
-        // public DTO_MqttClientStatistics Statistics { get; set; }
 
     }
 }

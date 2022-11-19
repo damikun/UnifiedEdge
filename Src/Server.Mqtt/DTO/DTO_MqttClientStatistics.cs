@@ -13,7 +13,7 @@ namespace Server.Mqtt.DTO
         {
             get
             {
-                return $"ClientStat.{this.ServerUid}.{this.ClientUid}";
+                return $"MqttClinetStat.{this.ServerUid}.{this.ClientUid}";
             }
         }
 

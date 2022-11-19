@@ -48,7 +48,7 @@ namespace Server
             _ = SyncServerState();
         }
 
-        protected bool isTransition()
+        public bool isTransition()
         {
             var state = State;
 

@@ -28,149 +28,21 @@ namespace Server.Mqtt
 
         public readonly MqttServerStats ServerStats = new MqttServerStats();
 
-        private readonly IClientStore ClientStore;
+        private readonly IClientStore Clients;
 
         public EdgeMqttServer(
             IServerCfg cfg,
             IServerEventPublisher? publisher = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
-            ClientStore = new ClientStore(this);
+            Clients = new ClientStore(this);
 
             Meter = new EdgeMqttServerMeter(this);
-        }
-
-        public async Task<int> GetClientsCount()
-        {
-            try
-            {
-                return (await this.GetClients()).Count;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        public async Task<List<DTO_MqttClientStatistics>> GetClientsStatistics()
-        {
-
-            if (!isTransition() && Server != null)
-            {
-                try
-                {
-                    var client_list = await Server.GetClientsAsync();
-
-                    return client_list
-                    .Where(e => e != null && e.Session != null)
-                    .Select(e => MapStatusToStatusDto(e))
-                    .ToList();
-
-                }
-                catch { }
-            }
-
-            return new List<DTO_MqttClientStatistics>();
-        }
-
-        public async Task<DTO_MqttClientStatistics?> GetClientStatistics(string client_uid)
-        {
-            if (!isTransition() && Server != null)
-            {
-                try
-                {
-                    var client_list = await Server.GetClientsAsync();
-
-                    return client_list
-                    .Where(e => e != null && e.Session != null && e.Id == client_uid)
-                    .Select(e => MapStatusToStatusDto(e))
-                    .FirstOrDefault();
-
-                }
-                catch { }
-            }
-            return null;
-        }
-
-        public async Task<DTO_MqttClientSession?> GetClientSession(string client_uid)
-        {
-            if (!isTransition() && Server != null)
-            {
-                try
-                {
-                    var client_list = await Server.GetClientsAsync();
-
-                    return client_list
-                    .Where(e => e != null && e.Session != null && e.Id == client_uid)
-                    .Select(e => new DTO_MqttClientSession()
-                    {
-                        ClientUid = e.Id,
-                        Uid = e.Session.Id,
-                        Created = e.Session?.CreatedTimestamp,
-                        PendingMessages = e.Session?.PendingApplicationMessagesCount ?? 0
-                    }).FirstOrDefault();
-
-                }
-                catch { }
-            }
-            return null;
         }
 
         public ICollection<string> GetPublishedTopics()
         {
             return ServerStats.PublishedTopics.Select(e => e.Key).ToList();
-        }
-
-        public async Task<IList<DTO_MqttClientSession>> GetServerSessions()
-        {
-
-            if (!isTransition() && Server != null)
-            {
-                try
-                {
-                    var client_list = await Server.GetClientsAsync();
-
-                    return client_list
-                    .Where(e => e != null && e.Session != null)
-                    .Select(e => new DTO_MqttClientSession()
-                    {
-                        ClientUid = e.Id,
-                        Uid = e.Session.Id,
-                        Created = e.Session?.CreatedTimestamp,
-                        PendingMessages = e.Session?.PendingApplicationMessagesCount ?? 0
-                    }).ToList();
-                }
-                catch { }
-
-            }
-
-            return new List<DTO_MqttClientSession>() as IList<DTO_MqttClientSession>;
-        }
-
-        public async Task<IList<DTO_MqttClient>> GetClients()
-        {
-            if (!isTransition() && Server != null)
-            {
-                try
-                {
-                    var client_list = await Server.GetClientsAsync();
-
-                    return client_list
-                    .Where(e => e != null)
-                    .Select(e => new DTO_MqttClient()
-                    {
-                        Uid = e.Id,
-                        ServerUid = this.UID,
-                        Protocol = (DTO_MqttProtocol)e.ProtocolVersion,
-                        ConnectedAt = e.ConnectedTimestamp
-                    })
-                    .ToList();
-                }
-                catch { }
-
-            }
-
-            return new List<DTO_MqttClient>() as IList<DTO_MqttClient>;
         }
 
         protected override MqttServerOptions MapConfiguration(IServerCfg cfg)
@@ -383,11 +255,11 @@ namespace Server.Mqtt
                 return Task.CompletedTask;
             };
 
-            var uid = ClientStore.GetClientUid(args.ClientId);
+            var uid = Clients.GetClientUid(args.ClientId);
 
-            if (!ClientStore.Contains(uid))
+            if (!Clients.Contains(uid))
             {
-                ClientStore.AddClient(args.ClientId, DTO_MqttProtocol.Unknown);
+                Clients.AddClient(args.ClientId, DTO_MqttProtocol.Unknown, args.Endpoint);
             }
 
             return Task.CompletedTask;
@@ -508,12 +380,12 @@ namespace Server.Mqtt
                 return Task.CompletedTask;
             };
 
-            var uid = ClientStore.GetClientUid(args.ClientId);
+            var uid = Clients.GetClientUid(args.ClientId);
 
-            if (ClientStore.Contains(uid))
+            if (Clients.Contains(uid))
             {
 
-                var client = ClientStore.GetClientByUid(uid);
+                var client = Clients.GetClientByUid(uid);
 
                 if (client is not null)
                 {
@@ -522,7 +394,7 @@ namespace Server.Mqtt
             }
             else
             {
-                ClientStore.AddClient(args.ClientId, DTO_MqttProtocol.Unknown);
+                Clients.AddClient(args.ClientId, DTO_MqttProtocol.Unknown, args.Endpoint);
             }
 
             return Task.CompletedTask;
@@ -561,15 +433,15 @@ namespace Server.Mqtt
                 return Task.CompletedTask;
             };
 
-            var uid = ClientStore.GetClientUid(args.ClientId);
+            var uid = Clients.GetClientUid(args.ClientId);
 
-            if (ClientStore.Contains(uid))
+            if (Clients.Contains(uid))
             {
-                ClientStore.UpdateClientProtocol(uid, (DTO_MqttProtocol)args.ProtocolVersion);
+                Clients.UpdateClientProtocol(uid, (DTO_MqttProtocol)args.ProtocolVersion);
             }
             else
             {
-                ClientStore.AddClient(args.ClientId, (DTO_MqttProtocol)args.ProtocolVersion);
+                Clients.AddClient(args.ClientId, (DTO_MqttProtocol)args.ProtocolVersion, args.Endpoint);
             }
 
             return Task.CompletedTask;
@@ -601,25 +473,5 @@ namespace Server.Mqtt
 
             return Task.CompletedTask;
         }
-
-        private DTO_MqttClientStatistics MapStatusToStatusDto(MqttClientStatus e)
-        {
-            return new DTO_MqttClientStatistics()
-            {
-                ClientUid = e.Id,
-                ServerUid = this.UID,
-                BytesSent = e.BytesSent,
-                BytesReceived = e.BytesReceived,
-                SentPacketsCount = e.SentPacketsCount,
-                ConnectedTimestamp = e.ConnectedTimestamp,
-                ReceivedPacketsCount = e.ReceivedPacketsCount,
-                LastPacketSentTimestamp = e.LastPacketSentTimestamp,
-                LastPacketReceivedTimestamp = e.LastPacketReceivedTimestamp,
-                SentApplicationMessagesCount = e.SentApplicationMessagesCount,
-                ReceivedApplicationMessagesCount = e.ReceivedApplicationMessagesCount,
-                LastNonKeepAlivePacketReceivedTimestamp = e.LastNonKeepAlivePacketReceivedTimestamp,
-            };
-        }
-
     }
 }

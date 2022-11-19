@@ -8,9 +8,9 @@ namespace Server.Mqtt.DTO
 
         }
 
-        internal static string GetUid(string clinet_id, string serverUid)
+        internal static string GetUid(string clinet_id, string server_uid)
         {
-            return $"MqttClient.{serverUid}.{clinet_id}";
+            return $"MqttClient.{server_uid}.{clinet_id}";
         }
 
         // <summary>
@@ -54,6 +54,11 @@ namespace Server.Mqtt.DTO
         /// LastMessage
         /// </summary>
         public DateTime? LastMessageTimestamp { get; set; }
+
+        // <summary>
+        /// Endpoint
+        /// </summary>
+        public string? Endpoint { get; set; }
 
     }
 }
