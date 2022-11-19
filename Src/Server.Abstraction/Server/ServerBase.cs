@@ -48,6 +48,21 @@ namespace Server
             _ = SyncServerState();
         }
 
+        protected bool isTransition()
+        {
+            var state = State;
+
+            if (state == ServerState.starting ||
+                state == ServerState.stopping ||
+                state == ServerState.restarting
+            )
+            {
+                return true;
+            }
+            return false;
+        }
+
+
         private void ValidateUid(string uid)
         {
             if (string.IsNullOrWhiteSpace(uid))
@@ -65,7 +80,7 @@ namespace Server
 
         private Task? _current;
 
-        private ServerState _state = ServerState.undefined;
+        private volatile ServerState _state = ServerState.undefined;
 
         public ServerState State
         {

@@ -122,6 +122,7 @@ namespace Server.Mqtt
         protected internal void IncrementNotConsumedCount() => Interlocked.Increment(ref _NotConsumed);
 
         protected internal void IncrementSubscriptionsCount() => Interlocked.Increment(ref _Subscriptions);
+
         protected internal void DecremenSubscriptionsCount()
         {
             var value = Interlocked.Read(ref _Subscriptions);

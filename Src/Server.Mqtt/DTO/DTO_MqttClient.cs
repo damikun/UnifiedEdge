@@ -13,6 +13,7 @@ namespace Server.Mqtt.DTO
         /// </summary>
         public string Uid { get; set; }
 
+
         // <summary>
         /// ServerUid
         /// </summary>
@@ -27,6 +28,11 @@ namespace Server.Mqtt.DTO
         /// ConnectedAt
         /// </summary>
         public DateTime? ConnectedAt { get; set; }
+
+        // <summary>
+        /// LastMessage
+        /// </summary>
+        public DateTime? LastMessage { get; set; }
 
         // // <summary>
         // /// Session

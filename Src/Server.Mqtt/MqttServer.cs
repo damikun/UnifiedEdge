@@ -8,7 +8,7 @@ namespace Server.Mqtt
     public sealed class EdgeMqttServer
         : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
     {
-        private MQTTnet.Server.MqttServer? Server;
+        internal MQTTnet.Server.MqttServer? Server;
 
         const int MONITOR_PERIOD = 30000;
 
@@ -28,24 +28,16 @@ namespace Server.Mqtt
 
         public readonly MqttServerStats ServerStats = new MqttServerStats();
 
+        private readonly IClientStore ClientStore;
+
         public EdgeMqttServer(
             IServerCfg cfg,
             IServerEventPublisher? publisher = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
-            Meter = new EdgeMqttServerMeter(this);
-        }
+            ClientStore = new ClientStore(this);
 
-        private bool isTransition()
-        {
-            if (State == ServerState.starting ||
-                State == ServerState.stopping ||
-                State == ServerState.restarting
-            )
-            {
-                return true;
-            }
-            return false;
+            Meter = new EdgeMqttServerMeter(this);
         }
 
         public async Task<int> GetClientsCount()
@@ -240,126 +232,31 @@ namespace Server.Mqtt
 
         private void RegisterServerEvents(MqttServer server)
         {
-            server.ClientConnectedAsync += (d) =>
-            {
-                ServerStats.IncrementConnectionsCount();
+            server.ClientConnectedAsync += OnClientConnected_HandleMetrics;
+            server.ClientConnectedAsync += OnClientConnected_AddClientToStore;
+            server.ClientConnectedAsync += OnClientConnected_PublishDomainEvent;
 
-                this._publisher.PublishEvent(
-                    new MqttServerClientConnected()
-                    {
-                        ClientId = d.ClientId,
-                        ConnectedAt = DateTime.Now,
-                        Protocol = d.ProtocolVersion,
-                        UID = this.UID,
-                    }
-                );
+            server.ClientDisconnectedAsync += OnClientDisconnected_HandleMetrics;
+            server.ClientDisconnectedAsync += OnClientDisconnected_UpdateClientStore;
+            server.ClientDisconnectedAsync += OnClientDisconnected_PublishDomainEvent;
 
-                return Task.CompletedTask;
-            };
+            server.ApplicationMessageNotConsumedAsync += OnApplicationMessageNotConsumedAsync_HandleMetrics;
 
-            server.ClientDisconnectedAsync += (d) =>
-            {
-                ServerStats.DecrementConnectionsCount();
+            server.InterceptingPublishAsync += OnInterceptingPublishAsync;
 
-                this._publisher.PublishEvent(
-                    new MqttServerClientDisconnected()
-                    {
-                        ClientId = d.ClientId,
-                        UID = this.UID
-                    }
-                );
+            server.ClientSubscribedTopicAsync += OnClientSubscribedTopicAsync;
 
-                return Task.CompletedTask;
-            };
+            server.ClientUnsubscribedTopicAsync += OnClientUnsubscribedTopicAsync;
 
+            server.StartedAsync += OnStartedAsync_PublishDomainEvent;
 
-            server.ApplicationMessageNotConsumedAsync += (d) =>
-            {
-                ServerStats.IncrementNotConsumedCount();
-                return Task.CompletedTask;
-            };
+            server.StoppedAsync += OnStoppedAsync_ResetStatistic;
+            server.StoppedAsync += OnStoppedAsync_PublishDomainEvent;
 
-            server.InterceptingPublishAsync += (d) =>
-            {
-                if (d.ApplicationMessage != null)
-                {
-                    try
-                    {
-                        if (!ServerStats.InbountTopicExist(d.ApplicationMessage.Topic))
-                        {
-                            this._publisher.PublishEvent(
-                                new MqttServerNewInboundTopic()
-                                {
-                                    UID = this.UID,
-                                    Topic = d.ApplicationMessage.Topic
-                                }
-                            );
-                        }
-                    }
-                    catch { }
+            server.InterceptingInboundPacketAsync += OnInterceptingInboundPacketAsync;
+            server.InterceptingInboundPacketAsync += OnInterceptingInboundPacketAsync_CheckClientWithStore;
 
-                    ServerStats.RecordInboundTopic(d.ApplicationMessage.Topic);
-                }
-
-
-                return Task.CompletedTask;
-            };
-
-            server.ClientSubscribedTopicAsync += (d) =>
-            {
-                ServerStats.IncrementSubscriptionsCount();
-
-                ServerStats.RecordTopicSubscribed(d.TopicFilter.Topic);
-
-                return Task.CompletedTask;
-            };
-
-            server.ClientUnsubscribedTopicAsync += (d) =>
-            {
-                ServerStats.DecremenSubscriptionsCount();
-
-                ServerStats.RecordTopicUnsubscibed(d.TopicFilter);
-
-                return Task.CompletedTask;
-            };
-
-            server.StartedAsync += (d) =>
-            {
-                this._publisher.PublishEvent(
-                    new ServerStarted()
-                    {
-                        UID = this.UID
-                    }
-                );
-
-                return Task.CompletedTask;
-            };
-
-            server.StoppedAsync += (d) =>
-            {
-                ServerStats.ResetStats();
-
-                this._publisher.PublishEvent(
-                    new ServerStopped()
-                    {
-                        UID = this.UID
-                    }
-                );
-
-                return Task.CompletedTask;
-            };
-
-            server.InterceptingInboundPacketAsync += (d) =>
-            {
-                ServerStats.IncrementRcvCount();
-                return Task.CompletedTask;
-            };
-
-            server.InterceptingOutboundPacketAsync += (d) =>
-            {
-                ServerStats.IncrementSndCount();
-                return Task.CompletedTask;
-            };
+            server.InterceptingOutboundPacketAsync += OnInterceptingOutboundPacketAsync;
         }
 
         protected override async Task UnsafeStartAsync()
@@ -477,6 +374,232 @@ namespace Server.Mqtt
                     GC.SuppressFinalize(this);
                 }
             }
+        }
+
+        Task OnInterceptingInboundPacketAsync_CheckClientWithStore(InterceptingPacketEventArgs args)
+        {
+            if (args is null || args.ClientId is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            var uid = ClientStore.GetClientUid(args.ClientId);
+
+            if (!ClientStore.Contains(uid))
+            {
+                ClientStore.AddClient(args.ClientId, DTO_MqttProtocol.Unknown);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        Task OnInterceptingInboundPacketAsync(InterceptingPacketEventArgs args)
+        {
+            ServerStats.IncrementRcvCount();
+            return Task.CompletedTask;
+        }
+        Task OnInterceptingOutboundPacketAsync(InterceptingPacketEventArgs args)
+        {
+            ServerStats.IncrementSndCount();
+            return Task.CompletedTask;
+        }
+
+        Task OnStoppedAsync_ResetStatistic(EventArgs args)
+        {
+            ServerStats.ResetStats();
+
+            return Task.CompletedTask;
+        }
+
+        Task OnStoppedAsync_PublishDomainEvent(EventArgs args)
+        {
+            this._publisher.PublishEvent(
+                new ServerStopped()
+                {
+                    UID = this.UID
+                }
+            );
+
+            return Task.CompletedTask;
+        }
+
+        Task OnStartedAsync_PublishDomainEvent(EventArgs args)
+        {
+            this._publisher.PublishEvent(
+                new ServerStarted()
+                {
+                    UID = this.UID
+                }
+            );
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientUnsubscribedTopicAsync(ClientUnsubscribedTopicEventArgs args)
+        {
+            if (args is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            ServerStats.DecremenSubscriptionsCount();
+
+            ServerStats.RecordTopicUnsubscibed(args.TopicFilter);
+
+            return Task.CompletedTask;
+        }
+
+
+        Task OnClientSubscribedTopicAsync(ClientSubscribedTopicEventArgs args)
+        {
+            if (args is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            ServerStats.IncrementSubscriptionsCount();
+
+            ServerStats.RecordTopicSubscribed(args.TopicFilter.Topic);
+
+            return Task.CompletedTask;
+        }
+
+        Task OnInterceptingPublishAsync(InterceptingPublishEventArgs args)
+        {
+            if (args is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            if (args.ApplicationMessage != null)
+            {
+                try
+                {
+                    if (!ServerStats.InbountTopicExist(args.ApplicationMessage.Topic))
+                    {
+                        this._publisher.PublishEvent(
+                            new MqttServerNewInboundTopic()
+                            {
+                                UID = this.UID,
+                                Topic = args.ApplicationMessage.Topic
+                            }
+                        );
+                    }
+                }
+                catch { }
+
+                ServerStats.RecordInboundTopic(args.ApplicationMessage.Topic);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        Task OnApplicationMessageNotConsumedAsync_HandleMetrics(ApplicationMessageNotConsumedEventArgs args)
+        {
+            ServerStats.IncrementNotConsumedCount();
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientDisconnected_UpdateClientStore(ClientDisconnectedEventArgs args)
+        {
+            if (args is null || args.ClientId is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            var uid = ClientStore.GetClientUid(args.ClientId);
+
+            if (ClientStore.Contains(uid))
+            {
+
+                var client = ClientStore.GetClientByUid(uid);
+
+                if (client is not null)
+                {
+                    client.DisconnectedTimeStamp = DateTime.Now;
+                }
+            }
+            else
+            {
+                ClientStore.AddClient(args.ClientId, DTO_MqttProtocol.Unknown);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientDisconnected_HandleMetrics(ClientDisconnectedEventArgs args)
+        {
+            ServerStats.DecrementConnectionsCount();
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientDisconnected_PublishDomainEvent(ClientDisconnectedEventArgs args)
+        {
+            if (args is null || args.ClientId is null)
+            {
+                return Task.CompletedTask;
+            };
+
+
+            this._publisher.PublishEvent(
+                new MqttServerClientDisconnected()
+                {
+                    ClientId = args.ClientId,
+                    UID = this.UID
+                }
+            );
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientConnected_AddClientToStore(ClientConnectedEventArgs args)
+        {
+            if (args == null || args.ClientId is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            var uid = ClientStore.GetClientUid(args.ClientId);
+
+            if (ClientStore.Contains(uid))
+            {
+                ClientStore.UpdateClientProtocol(uid, (DTO_MqttProtocol)args.ProtocolVersion);
+            }
+            else
+            {
+                ClientStore.AddClient(args.ClientId, (DTO_MqttProtocol)args.ProtocolVersion);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientConnected_HandleMetrics(ClientConnectedEventArgs args)
+        {
+            ServerStats.IncrementConnectionsCount();
+
+            return Task.CompletedTask;
+        }
+
+        Task OnClientConnected_PublishDomainEvent(ClientConnectedEventArgs args)
+        {
+            if (args == null || args.ClientId is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            this._publisher.PublishEvent(
+                new MqttServerClientConnected()
+                {
+                    ClientId = args.ClientId,
+                    ConnectedAt = DateTime.Now,
+                    Protocol = args.ProtocolVersion,
+                    UID = this.UID,
+                }
+            );
+
+            return Task.CompletedTask;
         }
 
         private DTO_MqttClientStatistics MapStatusToStatusDto(MqttClientStatus e)
