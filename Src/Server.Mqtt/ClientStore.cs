@@ -101,7 +101,7 @@ namespace Server.Mqtt
 
                 var client_list = await _server.Server.GetClientsAsync();
 
-                return client_list
+                var response_stat = client_list
                 .Where(e => e != null && e.Session != null && e.Id == clinet.ClientId)
                 .Select(e => new DTO_MqttClientStatistics()
                 {
@@ -120,6 +120,15 @@ namespace Server.Mqtt
                 })
                 .FirstOrDefault();
 
+                if (response_stat is null)
+                {
+                    return new DTO_MqttClientStatistics()
+                    {
+                        ClientUid = clinet.Uid,
+                        ServerUid = _server.UID,
+                    };
+                }
+
             }
             catch { }
 
@@ -129,7 +138,6 @@ namespace Server.Mqtt
 
         public async Task<DTO_MqttClientSession?> GetClientSession(string client_uid)
         {
-
             if (_server is null ||
                 _server.Server is null ||
                 _server.isTransition())
