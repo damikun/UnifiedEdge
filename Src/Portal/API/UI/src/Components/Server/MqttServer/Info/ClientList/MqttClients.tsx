@@ -184,11 +184,16 @@ function ClientListBody({dataRef}:ClientListBodyProps){
     >
       {
       pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
+
+          if(edge === null || edge === undefined){
+            return <></>
+          }
+
           return <MqttClientItem 
-          key={edge.node?.id??index}
-          dataRef={edge.node}
-          onItemClick={handleItemDetail}
-        />
+            key={edge.node?.id??index}
+            dataRef={edge.node}
+            onItemClick={handleItemDetail}
+          />
       })
     }
   </InfinityScrollBody>

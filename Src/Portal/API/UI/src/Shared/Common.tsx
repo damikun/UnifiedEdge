@@ -49,6 +49,11 @@ export function GetServerDateTimeStr(gql_date:any){
 } 
 
 export function GetLocalDate(gql_date:any){
+
+    if(gql_date === null || gql_date === undefined){
+        return "N/A"
+    }
+    
     var date = new Date(gql_date);
     return date.toLocaleString()
 } 

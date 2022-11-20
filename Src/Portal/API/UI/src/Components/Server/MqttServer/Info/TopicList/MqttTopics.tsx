@@ -125,6 +125,11 @@ function TopicListBody({dataRef}:TopicListBodyProps){
   >
     {
       pagination?.data?.mqttServerTopicStats?.edges?.map((edge,index)=>{
+
+          if(edge === null || edge === undefined){
+            return <></>
+          }
+
           return <MqttTopicItem 
           key={edge.node?.id??index}
           dataRef={edge.node}
