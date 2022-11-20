@@ -435,7 +435,7 @@ namespace Server.Mqtt
 
             if (client is not null)
             {
-                Clients.UpdateClientProtocol(uid, (DTO_MqttProtocol)args.ProtocolVersion);
+                Clients.UpdateClient(uid, (DTO_MqttProtocol)args.ProtocolVersion, args.Endpoint);
             }
             else
             {
