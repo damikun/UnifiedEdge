@@ -24,6 +24,44 @@ namespace Server.Manager.Mqtt
             return new EdgeMqttServer(cfg, _event_publisher);
         }
 
+        public async Task<bool?> GetClientState(string server_uid, string client_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                if (string.IsNullOrWhiteSpace(client_uid))
+                {
+                    return null;
+                }
+
+                return await mqtt_server.Clients.IsConnected(client_uid);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<Dictionary<string, bool>> GetClientsState(string server_uid, string[] clients_uids)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                if (clients_uids is null || clients_uids.Length == 0)
+                {
+                    return new Dictionary<string, bool>();
+                }
+
+                return await mqtt_server.Clients.IsConnected(clients_uids);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
         public async Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid)
         {
             var server = await this.GetServer(server_uid);

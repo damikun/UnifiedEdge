@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5cb83f55c476da35a307ee400d6ea25c>>
+ * @generated SignedSource<<6f3c83d51f955c1f49d290230e4ba979>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -142,6 +142,13 @@ return {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
+                "name": "isConnected",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
                 "name": "connectedTimeStamp",
                 "storageKey": null
               },
@@ -189,12 +196,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "77140112a03402ec6fdf670889e603e6",
+    "cacheID": "5072635c5cb0ebbb7d4e6a543134ee0f",
     "id": null,
     "metadata": {},
     "name": "MqttClientsClientConnectedSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttClientConnected(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
+    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttClientConnected(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
   }
 };
 })();

@@ -33,7 +33,7 @@ namespace Server.Mqtt
     {
         private readonly ConcurrentDictionary<string, DTO_StoredMqttClient> _store;
 
-        private readonly EdgeMqttServer _server;
+        private volatile EdgeMqttServer _server;
 
         public ClientStore(EdgeMqttServer server)
         {
@@ -230,7 +230,7 @@ namespace Server.Mqtt
 
             foreach (var item in clients)
             {
-                var isOnline = online_clinets.Any(e => e.Id == item.ClientId);
+                var isOnline = online_clinets.Any(e => e.Id.Equals(item.ClientId, StringComparison.OrdinalIgnoreCase));
 
                 result.Add(item.Uid, isOnline);
             }

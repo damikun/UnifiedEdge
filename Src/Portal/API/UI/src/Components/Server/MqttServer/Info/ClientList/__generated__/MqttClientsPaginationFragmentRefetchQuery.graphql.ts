@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2e3139087be56ae9a6a2a538d6ff892a>>
+ * @generated SignedSource<<7b81b1e17ad89e5f2e33f73c769a853c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -148,6 +148,13 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "isConnected",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "connectedTimeStamp",
                     "storageKey": null
                   },
@@ -229,12 +236,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4c0cf07ba5c7c14a7c0c2afeb8b13891",
+    "cacheID": "387273c80fe8ad8ce04919eeba59896a",
     "id": null,
     "metadata": {},
     "name": "MqttClientsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

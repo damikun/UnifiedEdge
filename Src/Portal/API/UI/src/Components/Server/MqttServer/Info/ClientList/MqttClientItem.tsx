@@ -5,6 +5,7 @@ import { useCallback, useMemo, useTransition } from "react";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import Badge from "../../../../../UIComponents/Badged/Badge";
 import TableItem from "../../../../../UIComponents/Table/TableItem";
+import { MqttClientStateBadget } from "../../../../../Shared/MqttClientState";
 import { MqttClientItemDataFragment$key } from "./__generated__/MqttClientItemDataFragment.graphql";
 
 
@@ -14,6 +15,7 @@ const MqttClientItemDataFragment = graphql`
     clientId
     protocol
     serverUid
+    isConnected
     connectedTimeStamp
     disconnectedTimeStamp
     lastMessageTimestamp
@@ -44,9 +46,9 @@ export function MqttClientItem({dataRef, onItemClick,key_}:MqttClientItemProps){
     [onItemClick,data],
   )
 
-  const dt_connected = useMemo(()=>{
-    return GetLocalDate(data?.connectedTimeStamp);
-  },[data]) 
+  // const dt_connected = useMemo(()=>{
+  //   return GetLocalDate(data?.connectedTimeStamp);
+  // },[data]) 
 
   return <TableItem
     onClick={handleClick}
@@ -70,9 +72,7 @@ export function MqttClientItem({dataRef, onItemClick,key_}:MqttClientItemProps){
     </td>
     <td className={clsx("w-5/12 2xl:w-2/12 flex truncate",
       "justify-center text-center text-sm")}>
-      <div className="truncate">
-        {dt_connected}
-      </div>
+        <MqttClientStateBadget state={data?.isConnected}/>
     </td>
   </TableItem>
 }

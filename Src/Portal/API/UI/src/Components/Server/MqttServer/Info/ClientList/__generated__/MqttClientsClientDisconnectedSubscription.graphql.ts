@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d7395adb7b2b8e40ae49699de05e0e6b>>
+ * @generated SignedSource<<b71934967e3f9d46d34880f41e607c5c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type MqttClientsClientDisconnectedSubscription$variables = {
-  connections: ReadonlyArray<string>;
   id: string;
 };
 export type MqttClientsClientDisconnectedSubscription$data = {
   readonly mqttClientDisconnected: {
     readonly client: {
       readonly id: string;
+      readonly " $fragmentSpreads": FragmentRefs<"MqttClientItemDataFragment">;
     };
   };
 };
@@ -26,24 +27,21 @@ export type MqttClientsClientDisconnectedSubscription = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "connections"
-},
-v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "id"
-},
-v2 = [
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "id"
+  }
+],
+v1 = [
   {
     "kind": "Variable",
     "name": "server_id",
     "variableName": "id"
   }
 ],
-v3 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -52,17 +50,14 @@ v3 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "MqttClientsClientDisconnectedSubscription",
     "selections": [
       {
         "alias": null,
-        "args": (v2/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "GQL_MqttClientDisconnected",
         "kind": "LinkedField",
         "name": "mqttClientDisconnected",
@@ -76,7 +71,12 @@ return {
             "name": "client",
             "plural": false,
             "selections": [
-              (v3/*: any*/)
+              (v2/*: any*/),
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "MqttClientItemDataFragment"
+              }
             ],
             "storageKey": null
           }
@@ -89,16 +89,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v1/*: any*/),
-      (v0/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "MqttClientsClientDisconnectedSubscription",
     "selections": [
       {
         "alias": null,
-        "args": (v2/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "GQL_MqttClientDisconnected",
         "kind": "LinkedField",
         "name": "mqttClientDisconnected",
@@ -112,22 +109,55 @@ return {
             "name": "client",
             "plural": false,
             "selections": [
-              (v3/*: any*/),
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "filters": null,
-                "handle": "deleteEdge",
-                "key": "",
-                "kind": "ScalarHandle",
-                "name": "id",
-                "handleArgs": [
-                  {
-                    "kind": "Variable",
-                    "name": "connections",
-                    "variableName": "connections"
-                  }
-                ]
+                "kind": "ScalarField",
+                "name": "clientId",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "protocol",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "serverUid",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isConnected",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "connectedTimeStamp",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "disconnectedTimeStamp",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "lastMessageTimestamp",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -138,16 +168,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9bc69581ce8d85e38ada64e588a5ae5c",
+    "cacheID": "5ca537ccae0a0062aba9ea0780d4bc44",
     "id": null,
     "metadata": {},
     "name": "MqttClientsClientDisconnectedSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientsClientDisconnectedSubscription(\n  $id: ID!\n) {\n  mqttClientDisconnected(server_id: $id) {\n    client {\n      id\n    }\n  }\n}\n"
+    "text": "subscription MqttClientsClientDisconnectedSubscription(\n  $id: ID!\n) {\n  mqttClientDisconnected(server_id: $id) {\n    client {\n      id\n      ...MqttClientItemDataFragment\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b6afd6cfeeb8f25a6796e2583ee39f78";
+(node as any).hash = "4aa022f897a00421b31ba37a9b263186";
 
 export default node;

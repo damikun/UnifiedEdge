@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d8dd5d574e735564a78f3f95d273abc2>>
+ * @generated SignedSource<<b06b5bf1d22388a2150329817362e5d0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type MqttClientItemDataFragment$data = {
   readonly connectedTimeStamp: any | null;
   readonly disconnectedTimeStamp: any | null;
   readonly id: string;
+  readonly isConnected: boolean;
   readonly lastMessageTimestamp: any | null;
   readonly protocol: DTO_MqttProtocol;
   readonly serverUid: string;
@@ -64,6 +65,13 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
+      "name": "isConnected",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "connectedTimeStamp",
       "storageKey": null
     },
@@ -86,6 +94,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "f37897a990476a198361dcc4c05fcbbd";
+(node as any).hash = "0c594ed6a02b1303cdffc1c51d2833c7";
 
 export default node;

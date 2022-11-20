@@ -37,11 +37,12 @@ const MqttClientsClientConnectedTag = graphql`
 const MqttClientsClientDisconnectedTag = graphql`
     subscription MqttClientsClientDisconnectedSubscription(
       $id:ID!,
-      $connections: [ID!]!
+      # $connections: [ID!]!
     ) {
         mqttClientDisconnected(server_id: $id){
           client{
-            id  @deleteEdge(connections: $connections)
+            id  # @deleteEdge(connections: $connections)
+            ...MqttClientItemDataFragment
           }
         }
     }
@@ -101,7 +102,7 @@ function MqttClients({dataRef}:MqttClientsProps) {
     }
   />
   <Section 
-      name={"Connected clients"}
+      name={"Clients"}
       component={
         <InfinityScrollTable
           header={<Header/>}
@@ -209,7 +210,7 @@ function Header(){
       <th>Version</th>
     </tr>
     <tr className="flex w-5/12 2xl:w-2/12 text-center justify-center">
-      <th>Connected</th>
+      <th>State</th>
     </tr>
   </TableHeader>
 }

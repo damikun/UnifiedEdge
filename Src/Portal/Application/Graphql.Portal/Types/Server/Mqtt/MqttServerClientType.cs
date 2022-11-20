@@ -1,6 +1,7 @@
 using AutoMapper;
 using Server.Manager;
 using Server.Mqtt.DTO;
+using Aplication.Graphql.DataLoaders;
 
 namespace Aplication.Graphql.Types
 {
@@ -29,6 +30,19 @@ namespace Aplication.Graphql.Types
             descriptor
             .Field(e => e.Id)
             .ID();
+
+            descriptor
+            .Field(e => e.IsConnected)
+            .ResolveWith<MqttClientResolvers>(e => e.GetClientState(default!, default!, default));
+        }
+
+        public class MqttClientResolvers
+        {
+            public async Task<bool> GetClientState(
+            ClientStateByServerAndClientUids loader,
+            [Parent] GQL_MqttClient client,
+            CancellationToken cancellationToken)
+            => await loader.LoadAsync((client.ServerUid, client.Id), cancellationToken);
         }
     }
 }

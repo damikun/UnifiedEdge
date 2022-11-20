@@ -46,6 +46,11 @@ namespace Server.Mqtt.DTO
         public DateTime? LastMessageTimestamp { get; set; }
 
         // <summary>
+        /// IsConnected
+        /// </summary>
+        public bool IsConnected { get; set; }
+
+        // <summary>
         /// Endpoint
         /// </summary>
         public string? Endpoint { get; set; }

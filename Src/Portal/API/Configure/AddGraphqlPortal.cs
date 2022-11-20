@@ -159,6 +159,7 @@ namespace API
                 // .AddInterfaceType<IServerType>()
 
                 .AddDataLoader<UserByIdDataLoader>()
+                .AddDataLoader<ClientStateByServerAndClientUids>()
                 .AddDataLoader<ServerClientSessionByServerIdAndClientId>()
 
                 .AddInMemorySubscriptions()
