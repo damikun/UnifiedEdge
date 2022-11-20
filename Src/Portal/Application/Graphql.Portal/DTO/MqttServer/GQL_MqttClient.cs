@@ -56,6 +56,7 @@ namespace Server.Mqtt.DTO
         {
             profile.CreateMap<DTO_MqttClient, GQL_MqttClient>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Uid))
+            .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId))
             .ForMember(dest => dest.Protocol, opt => opt.MapFrom(src => src.Protocol))
             .ForMember(dest => dest.ServerUid, opt => opt.MapFrom(src => src.ServerUid))
             .ForMember(dest => dest.Endpoint, opt => opt.MapFrom(src => src.Endpoint))

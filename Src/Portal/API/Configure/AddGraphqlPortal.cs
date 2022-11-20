@@ -123,6 +123,7 @@ namespace API
 
                 .AddType<ServerEventsUnionType>()
                 .AddType<ClientConnectedType>()
+                .AddType<ClientDisconnectedType>()
                 .AddType<ServerConfigDiffEventType>()
                 .AddType<ServerErrorEventType>()
                 .AddType<ServerEventTypeType>()
