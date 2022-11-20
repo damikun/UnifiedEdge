@@ -65,16 +65,17 @@ namespace Server.Mqtt
 
                             try
                             {
+                                continue;
+
                                 var client_stat = await _manager.GetClientStatistics(server_id, client.Uid);
 
                                 if (client_stat != null)
                                 {
                                     _publisher.PublishEvent(new MqttServerClientStatsPropagation()
                                     {
-                                        ClientId = client.Uid,
-                                        ServerId = server_id,
+                                        ClientUid = client.Uid,
+                                        ServerUid = server_id,
                                         Stats = client_stat
-
                                     });
                                 }
                             }

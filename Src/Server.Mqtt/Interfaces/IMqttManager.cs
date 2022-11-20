@@ -8,6 +8,10 @@ namespace Server.Manager.Mqtt
 
         Task<IList<DTO_MqttClientSession>> GetServerSessions(string server_uid);
 
+        Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid);
+
+        string BuildClinetUid(string serverUid, string clinetId);
+
         Task<DTO_MqttClientStatistics?> GetClientStatistics(
            string server_uid,
            string server_client_uid

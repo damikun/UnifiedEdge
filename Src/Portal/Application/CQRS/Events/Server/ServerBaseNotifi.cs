@@ -11,14 +11,14 @@ namespace Aplication.Events.Server
     /// </summary>
     public abstract class ServerBaseNotifi : BaseNotifi, INotification
     {
-        public ServerBaseNotifi(string server_guid)
+        public ServerBaseNotifi(string? server_guid)
         {
             ActivityId = Activity.Current?.Id;
 
             ServerGuid = server_guid;
         }
 
-        public string ServerGuid { get; set; }
+        public string? ServerGuid { get; set; }
 
     }
 

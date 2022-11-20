@@ -61,7 +61,7 @@ namespace Aplication.Events.Server
         {
 
             await _sender.SendAsync(
-                $"ServerStateChanged.{notification.ServerEvent.UID}",
+                $"ServerStateChanged.{notification.ServerEvent.ServerUid}",
                 _mapper.Map<GQL_ServerStateChangedNotification>(
                     notification.ServerEvent
                 )

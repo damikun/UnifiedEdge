@@ -20,7 +20,7 @@ const MqttClientDetailTag = graphql`
         server_client_uid: $server_client_uid) {
           id
           protocol
-          rawId
+          clientId
           serverUid
     }
 
@@ -140,7 +140,7 @@ export default function MqttClientDetail(){
             </FieldSection>
             <FieldSection name="Client Id">
                 <div className="truncate font-sans text-gray-700 font-semibold text-sm">
-                    {data?.mqttServerClient.rawId}
+                    {data?.mqttServerClient.clientId}
                 </div>
             </FieldSection>
         </FieldGroup>

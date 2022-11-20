@@ -10,10 +10,12 @@ import { MqttClientItemDataFragment$key } from "./__generated__/MqttClientItemDa
 const MqttClientItemDataFragment = graphql`
   fragment MqttClientItemDataFragment on GQL_MqttClient {
     id
-    rawId
+    clientId
     protocol
     serverUid
-    connectedAt
+    connectedTimeStamp
+    disconnectedTimeStamp
+    lastMessageTimestamp
   }
 `;
 
@@ -42,7 +44,7 @@ export function MqttClientItem({dataRef, onItemClick,key_}:MqttClientItemProps){
   )
 
   const dt_connected = useMemo(()=>{
-    return GetLocalDate(data?.connectedAt);
+    return GetLocalDate(data?.connectedTimeStamp);
   },[data]) 
 
   return <div
@@ -54,7 +56,7 @@ export function MqttClientItem({dataRef, onItemClick,key_}:MqttClientItemProps){
     "h-12 items-center")}>
     <div className="w-6/12 2xl:w-8/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">
-        {data?.rawId}
+        {data?.clientId}
       </div>
     </div>
     <div className={clsx("w-1/12 2xl:w-2/12 flex truncate text-gray-500",

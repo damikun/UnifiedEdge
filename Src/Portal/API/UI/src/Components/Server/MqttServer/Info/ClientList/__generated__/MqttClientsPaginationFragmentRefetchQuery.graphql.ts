@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<576b800e7e0f7f0ae329b09b1855759f>>
+ * @generated SignedSource<<2e3139087be56ae9a6a2a538d6ff892a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -127,7 +127,7 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "rawId",
+                    "name": "clientId",
                     "storageKey": null
                   },
                   {
@@ -148,7 +148,21 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "connectedAt",
+                    "name": "connectedTimeStamp",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "disconnectedTimeStamp",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "lastMessageTimestamp",
                     "storageKey": null
                   },
                   {
@@ -215,12 +229,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "039e14f1bc26fbfc5482e078b309f8fd",
+    "cacheID": "4c0cf07ba5c7c14a7c0c2afeb8b13891",
     "id": null,
     "metadata": {},
     "name": "MqttClientsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  rawId\n  protocol\n  serverUid\n  connectedAt\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

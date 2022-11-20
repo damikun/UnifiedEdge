@@ -150,7 +150,7 @@ namespace Server
 
                 _publisher.PublishEvent(new ServerStateChangedEvent()
                 {
-                    UID = this.UID,
+                    ServerUid = this.UID,
                     State = after
                 });
             }
@@ -395,7 +395,7 @@ namespace Server
             {
                 _publisher.PublishEvent(new ServerConfigMatch()
                 {
-                    UID = this.UID,
+                    ServerUid = this.UID,
                     isMatch = true,
                     Offline_Config = Offline_Config,
                     Online_Config = Online_Config
@@ -411,7 +411,7 @@ namespace Server
             {
                 _publisher.PublishEvent(new ServerConfigMatch()
                 {
-                    UID = this.UID,
+                    ServerUid = this.UID,
                     isMatch = false,
                     Offline_Config = Offline_Config,
                     Online_Config = Online_Config

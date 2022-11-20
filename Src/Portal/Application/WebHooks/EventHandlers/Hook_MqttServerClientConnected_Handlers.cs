@@ -1,8 +1,8 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Server.Mqtt;
 using Domain.Server;
+using Persistence.Portal;
 using Aplication.CQRS.Commands;
 using Aplication.Webhooks.Events;
 using Microsoft.EntityFrameworkCore;
@@ -51,12 +51,17 @@ namespace Aplication.Events.Server
             CancellationToken cancellationToken
         )
         {
-            var DomianEvent = notification.ServerEvent;
+            var client = notification?.ServerEvent?.Client ?? null;
+
+            if (client is null)
+            {
+                return;
+            }
 
             var Payload = new Hook_Mqtt_ClientConnectedPayload()
             {
-                ClientId = DomianEvent.ClientId,
-                ServerId = DomianEvent.UID
+                ClientUid = client.Uid,
+                ServerUId = client.ServerUid
             };
 
             var HookEvent = new Hook_Mqtt_ClientConnected(Payload);

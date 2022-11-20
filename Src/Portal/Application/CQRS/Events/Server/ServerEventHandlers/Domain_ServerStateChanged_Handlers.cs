@@ -1,7 +1,7 @@
 using Server;
 using MediatR;
-using Persistence.Portal;
 using Domain.Event;
+using Persistence.Portal;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,12 +44,17 @@ namespace Aplication.Events.Server
 
             var e = notification.ServerEvent;
 
+            if (e is null || e.ServerUid is null)
+            {
+                return;
+            }
+
             dbContext.ServerEvents.Add(
                 new Domain.Server.Events.ServerStateChangedEvent()
                 {
                     State = e.State.ToString(),
                     TimeStamp = e.TimeStamp,
-                    ServerUid = e.UID,
+                    ServerUid = e.ServerUid,
                     Name = nameof(ServerStateChangedEvent),
                     Type = EventType.info
                 }

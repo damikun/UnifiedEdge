@@ -82,7 +82,7 @@ namespace Aplication.Events.Server
             };
 
             await _sender.SendAsync(
-                $"Server.{e.UID}.ConfigState",
+                $"Server.{e.ServerUid}.ConfigState",
                 sub_event
             );
         }

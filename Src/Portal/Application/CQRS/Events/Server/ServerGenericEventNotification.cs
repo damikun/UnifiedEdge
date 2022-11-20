@@ -9,7 +9,7 @@ namespace Aplication.Events.Server
     {
         public T ServerEvent { get; set; }
 
-        public ServerGenericEventNotification(T server_event) : base(server_event.UID)
+        public ServerGenericEventNotification(T server_event) : base(server_event.ServerUid)
         {
             ServerEvent = server_event;
         }

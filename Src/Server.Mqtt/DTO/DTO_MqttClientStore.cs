@@ -8,7 +8,7 @@ namespace Server.Mqtt.DTO
 
         }
 
-        internal static string GetUid(string clinet_id, string server_uid)
+        internal static string GetUid(string server_uid, string clinet_id)
         {
             return $"MqttClient.{server_uid}.{clinet_id}";
         }

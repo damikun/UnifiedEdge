@@ -6,14 +6,9 @@ namespace Server.Mqtt
     public class MqttServerClientStatsPropagation : ServerEventBase
     {
         // <summary>
-        /// ClientId
+        /// ClientUid
         /// </summary>
-        public string ClientId { get; set; }
-
-        // <summary>
-        /// ServerId
-        /// </summary>
-        public string ServerId { get; set; }
+        public string ClientUid { get; set; }
 
         // <summary>
         /// Stats

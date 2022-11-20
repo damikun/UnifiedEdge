@@ -15,11 +15,10 @@ namespace Server.Mqtt.DTO
         /// Id
         /// </summary>
         public string Id { get; set; }
-
         // <summary>
-        /// RawId
+        /// ClientId
         /// </summary>
-        public string RawId { get; set; }
+        public string ClientId { get; set; }
 
         // <summary>
         /// ServerUid
@@ -29,22 +28,27 @@ namespace Server.Mqtt.DTO
         // <summary>
         /// Protocol
         /// </summary>
-        public GQL_MqttProtocol Protocol { get; set; }
+        public DTO_MqttProtocol Protocol { get; set; }
 
         // <summary>
-        /// ConnectedAt
+        /// ConnectedTimeStamp
         /// </summary>
-        public DateTime? ConnectedAt { get; set; }
+        public DateTime? ConnectedTimeStamp { get; set; }
 
-        // // <summary>
-        // /// Session
-        // /// </summary>
-        // public GQL_MqttClientSession? Session { get; set; }
+        // <summary>
+        /// DisconnectedTimeStamp
+        /// </summary>
+        public DateTime? DisconnectedTimeStamp { get; set; }
 
-        // // <summary>
-        // /// Statistics
-        // /// </summary>
-        // public GQL_MqttClientStatistics? Statistics { get; set; }
+        // <summary>
+        /// LastMessage
+        /// </summary>
+        public DateTime? LastMessageTimestamp { get; set; }
+
+        // <summary>
+        /// Endpoint
+        /// </summary>
+        public string? Endpoint { get; set; }
 
 
         [GraphQLIgnore]
@@ -53,9 +57,11 @@ namespace Server.Mqtt.DTO
             profile.CreateMap<DTO_MqttClient, GQL_MqttClient>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Uid))
             .ForMember(dest => dest.Protocol, opt => opt.MapFrom(src => src.Protocol))
-            .ForMember(dest => dest.RawId, opt => opt.MapFrom(src => src.Uid))
             .ForMember(dest => dest.ServerUid, opt => opt.MapFrom(src => src.ServerUid))
-            .ForMember(dest => dest.ConnectedAt, opt => opt.MapFrom(src => src.ConnectedAt));
+            .ForMember(dest => dest.Endpoint, opt => opt.MapFrom(src => src.Endpoint))
+            .ForMember(dest => dest.ConnectedTimeStamp, opt => opt.MapFrom(src => src.ConnectedTimeStamp))
+            .ForMember(dest => dest.DisconnectedTimeStamp, opt => opt.MapFrom(src => src.DisconnectedTimeStamp))
+            .ForMember(dest => dest.LastMessageTimestamp, opt => opt.MapFrom(src => src.LastMessageTimestamp));
 
             profile.CreateMap<DTO_MqttProtocol, GQL_MqttProtocol>()
                 .ConvertUsing(typeof(MqttProtocolVersionEnumMap));

@@ -57,6 +57,13 @@ namespace Persistence.Portal
             // modelBuilder.Entity<WebHookBase>(e => e.EventType)
             // .HasConversion(e => e.ToString(), e => Type.GetType(e, false)!);
 
+
+            modelBuilder.Entity<ServerClientConnectedEvent>().ToTable("ServerEvents");
+            modelBuilder.Entity<ServerClientDisconnectedEvent>().ToTable("ServerEvents");
+            modelBuilder.Entity<ServerStateChangedEvent>().ToTable("ServerEvents");
+            modelBuilder.Entity<ServerConfigDiffEvent>().ToTable("ServerEvents");
+
+
             modelBuilder.Entity<MqttServer>().ToTable("MqttServer");
             modelBuilder.Entity<OpcServer>().ToTable("OpcServer");
 

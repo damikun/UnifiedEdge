@@ -1,8 +1,8 @@
 using Server;
 using MediatR;
-using Persistence.Portal;
 using Domain.Event;
 using Newtonsoft.Json;
+using Persistence.Portal;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,9 +45,14 @@ namespace Aplication.Events.Server
 
             var e = notification.ServerEvent;
 
-            var serialized_online = SerializeCfg(e.Online_Config);
+            if (e is null || e.ServerUid is null)
+            {
+                return;
+            }
 
-            var serialized_offline = SerializeCfg(e.Offline_Config);
+            var serialized_online = SerializeCfg(e?.Online_Config ?? null);
+
+            var serialized_offline = SerializeCfg(e?.Offline_Config ?? null);
 
             if (notification.ServerEvent.isMatch)
             {
@@ -58,7 +63,7 @@ namespace Aplication.Events.Server
                         OnlineJson = serialized_online,
                         OfflineJson = serialized_offline,
                         TimeStamp = e.TimeStamp,
-                        ServerUid = e.UID,
+                        ServerUid = e.ServerUid,
                         Name = nameof(ServerConfigMatch),
                         Description = "",
                         Type = EventType.info
@@ -74,7 +79,7 @@ namespace Aplication.Events.Server
                         OnlineJson = serialized_online,
                         OfflineJson = serialized_offline,
                         TimeStamp = e.TimeStamp,
-                        ServerUid = e.UID,
+                        ServerUid = e.ServerUid,
                         Name = nameof(ServerConfigMatch),
                         Description = "",
                         Type = EventType.warning
@@ -85,7 +90,7 @@ namespace Aplication.Events.Server
             await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private string SerializeCfg(IServerCfg cfg)
+        private string SerializeCfg(IServerCfg? cfg)
         {
             return JsonConvert.SerializeObject(
                 cfg,

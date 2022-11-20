@@ -18,7 +18,7 @@ namespace Aplication.Services.ServerEventHandler
                 {
                     Message = name,
                     Exception = ex,
-                    UID = server_uid,
+                    ServerUid = server_uid,
                     Description = ex != null ? ex.Message : ""
                 })
             );
@@ -35,7 +35,7 @@ namespace Aplication.Services.ServerEventHandler
                 new ServerInfoEvent()
                 {
                     Message = name,
-                    UID = server_uid,
+                    ServerUid = server_uid,
                     Description = description,
                     Json = json
                 })

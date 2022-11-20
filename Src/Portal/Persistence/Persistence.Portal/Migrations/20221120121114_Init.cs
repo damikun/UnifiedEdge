@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Portal.Migrations
 {
+    /// <inheritdoc />
     public partial class Init : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -64,8 +66,8 @@ namespace Persistence.Portal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerUid = table.Column<string>(type: "TEXT", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    ServerClientConnectedEvent_ClientId = table.Column<string>(type: "TEXT", nullable: true),
-                    ClientId = table.Column<string>(type: "TEXT", nullable: true),
+                    ServerClientConnectedEventClientUid = table.Column<string>(name: "ServerClientConnectedEvent_ClientUid", type: "TEXT", nullable: true),
+                    ClientUid = table.Column<string>(type: "TEXT", nullable: true),
                     IsMatch = table.Column<bool>(type: "INTEGER", nullable: true),
                     OfflineJson = table.Column<string>(type: "TEXT", nullable: true),
                     OnlineJson = table.Column<string>(type: "TEXT", nullable: true),
@@ -292,7 +294,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "90e045b7-eb8f-4f8e-bcea-6eb2b640a5e3", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "1ea45e14-7990-4175-b78f-2208b7d2d406", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -341,6 +343,7 @@ namespace Persistence.Portal.Migrations
                 column: "WebHookID");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

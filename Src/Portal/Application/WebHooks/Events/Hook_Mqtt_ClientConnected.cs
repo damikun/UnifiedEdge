@@ -27,7 +27,7 @@ namespace Aplication.Webhooks.Events
     [Serializable]
     public class Hook_Mqtt_ClientConnectedPayload
     {
-        public string ClientId { get; set; }
-        public string ServerId { get; set; }
+        public string ClientUid { get; set; }
+        public string ServerUId { get; set; }
     }
 }

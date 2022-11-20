@@ -49,5 +49,7 @@ namespace Server.Mqtt.DTO
         public string? Endpoint { get; set; }
 
 
+        public static string BuildClientUid(string serverUid, string clinetId) => DTO_StoredMqttClient.GetUid(serverUid, clinetId);
+
     }
 }

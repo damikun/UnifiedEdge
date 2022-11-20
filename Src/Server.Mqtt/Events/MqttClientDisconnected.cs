@@ -1,7 +1,9 @@
+using Server.Mqtt.DTO;
+
 namespace Server.Mqtt
 {
     public class MqttServerClientDisconnected : ServerEventBase
     {
-        public string ClientId { get; set; }
+        public DTO_MqttClient Client { get; set; }
     }
 }

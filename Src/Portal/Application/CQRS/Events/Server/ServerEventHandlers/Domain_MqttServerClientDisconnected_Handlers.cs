@@ -1,7 +1,7 @@
 using MediatR;
-using Persistence.Portal;
 using Server.Mqtt;
 using Domain.Event;
+using Persistence.Portal;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,16 +43,22 @@ namespace Aplication.Events.Server
             await using ManagmentDbCtx dbContext =
             _factory.CreateDbContext();
 
-            var e = notification.ServerEvent;
+            var server_event = notification?.ServerEvent ?? null;
+
+            var client = server_event?.Client ?? null;
+
+            if (server_event is null || client is null)
+            {
+                return;
+            }
 
             dbContext.ServerEvents.Add(
                 new Domain.Server.Events.ServerClientDisconnectedEvent()
                 {
-                    ClientId = e.ClientId,
-                    TimeStamp = e.TimeStamp,
-                    ServerUid = e.UID,
+                    ClientUid = client.Uid,
+                    TimeStamp = server_event.TimeStamp,
+                    ServerUid = client.ServerUid,
                     Name = nameof(MqttServerClientDisconnected),
-                    Description = "",
                     Type = EventType.info
                 }
             );

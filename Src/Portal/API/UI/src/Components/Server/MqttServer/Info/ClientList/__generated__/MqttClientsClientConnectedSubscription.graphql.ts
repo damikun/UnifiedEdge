@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<40f0a8aa31675fe24e9f298db8c96046>>
+ * @generated SignedSource<<5cb83f55c476da35a307ee400d6ea25c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -121,7 +121,7 @@ return {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "rawId",
+                "name": "clientId",
                 "storageKey": null
               },
               {
@@ -142,7 +142,21 @@ return {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "connectedAt",
+                "name": "connectedTimeStamp",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "disconnectedTimeStamp",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "lastMessageTimestamp",
                 "storageKey": null
               }
             ],
@@ -175,12 +189,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c6de9ce0d1920d6eb9268e02162a6e4f",
+    "cacheID": "77140112a03402ec6fdf670889e603e6",
     "id": null,
     "metadata": {},
     "name": "MqttClientsClientConnectedSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttClientConnected(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  rawId\n  protocol\n  serverUid\n  connectedAt\n}\n"
+    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttClientConnected(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
   }
 };
 })();

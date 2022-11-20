@@ -8,7 +8,7 @@ namespace Server.Mqtt
     public sealed class EdgeMqttServer
         : ServerBase<MqttServerCfg, MqttServerOptions>, IServer, IDisposable
     {
-        internal MQTTnet.Server.MqttServer? Server;
+        internal volatile MQTTnet.Server.MqttServer? Server;
 
         const int MONITOR_PERIOD = 30000;
 
@@ -28,7 +28,7 @@ namespace Server.Mqtt
 
         public readonly MqttServerStats ServerStats = new MqttServerStats();
 
-        private readonly IClientStore Clients;
+        public readonly IClientStore Clients;
 
         public EdgeMqttServer(
             IServerCfg cfg,
@@ -106,11 +106,9 @@ namespace Server.Mqtt
         {
             server.ClientConnectedAsync += OnClientConnected_HandleMetrics;
             server.ClientConnectedAsync += OnClientConnected_AddClientToStore;
-            server.ClientConnectedAsync += OnClientConnected_PublishDomainEvent;
 
             server.ClientDisconnectedAsync += OnClientDisconnected_HandleMetrics;
             server.ClientDisconnectedAsync += OnClientDisconnected_UpdateClientStore;
-            server.ClientDisconnectedAsync += OnClientDisconnected_PublishDomainEvent;
 
             server.ApplicationMessageNotConsumedAsync += OnApplicationMessageNotConsumedAsync_HandleMetrics;
 
@@ -288,7 +286,7 @@ namespace Server.Mqtt
             this._publisher.PublishEvent(
                 new ServerStopped()
                 {
-                    UID = this.UID
+                    ServerUid = this.UID
                 }
             );
 
@@ -300,7 +298,7 @@ namespace Server.Mqtt
             this._publisher.PublishEvent(
                 new ServerStarted()
                 {
-                    UID = this.UID
+                    ServerUid = this.UID
                 }
             );
 
@@ -352,7 +350,7 @@ namespace Server.Mqtt
                         this._publisher.PublishEvent(
                             new MqttServerNewInboundTopic()
                             {
-                                UID = this.UID,
+                                ServerUid = this.UID,
                                 Topic = args.ApplicationMessage.Topic
                             }
                         );
@@ -382,19 +380,36 @@ namespace Server.Mqtt
 
             var uid = Clients.GetClientUid(args.ClientId);
 
-            if (Clients.Contains(uid))
+            var client = Clients.GetClientByUid(uid);
+
+            if (client is not null)
             {
-
-                var client = Clients.GetClientByUid(uid);
-
-                if (client is not null)
-                {
-                    client.DisconnectedTimeStamp = DateTime.Now;
-                }
+                client.DisconnectedTimeStamp = DateTime.Now;
             }
             else
             {
-                Clients.AddClient(args.ClientId, DTO_MqttProtocol.Unknown, args.Endpoint);
+                client = Clients.AddClient(args.ClientId, DTO_MqttProtocol.Unknown, args.Endpoint);
+
+                if (client is not null)
+                    Clients.UpdateClientDisconnected(client.Uid, DateTime.Now);
+            }
+
+            if (client is not null)
+            {
+                try
+                {
+                    this._publisher.PublishEvent(
+                        new MqttServerClientDisconnected()
+                        {
+                            Client = client,
+                            ServerUid = this.UID
+                        }
+                    );
+                }
+                catch
+                {
+
+                }
             }
 
             return Task.CompletedTask;
@@ -403,25 +418,6 @@ namespace Server.Mqtt
         Task OnClientDisconnected_HandleMetrics(ClientDisconnectedEventArgs args)
         {
             ServerStats.DecrementConnectionsCount();
-
-            return Task.CompletedTask;
-        }
-
-        Task OnClientDisconnected_PublishDomainEvent(ClientDisconnectedEventArgs args)
-        {
-            if (args is null || args.ClientId is null)
-            {
-                return Task.CompletedTask;
-            };
-
-
-            this._publisher.PublishEvent(
-                new MqttServerClientDisconnected()
-                {
-                    ClientId = args.ClientId,
-                    UID = this.UID
-                }
-            );
 
             return Task.CompletedTask;
         }
@@ -435,14 +431,39 @@ namespace Server.Mqtt
 
             var uid = Clients.GetClientUid(args.ClientId);
 
-            if (Clients.Contains(uid))
+            var client = Clients.GetClientByUid(uid);
+
+            if (client is not null)
             {
                 Clients.UpdateClientProtocol(uid, (DTO_MqttProtocol)args.ProtocolVersion);
             }
             else
             {
-                Clients.AddClient(args.ClientId, (DTO_MqttProtocol)args.ProtocolVersion, args.Endpoint);
+                client = Clients.AddClient(args.ClientId, (DTO_MqttProtocol)args.ProtocolVersion, args.Endpoint);
+
+                if (client is not null)
+                    Clients.UpdateClientConnected(client.Uid, DateTime.Now);
             }
+
+            if (client is not null)
+            {
+                try
+                {
+                    this._publisher.PublishEvent(
+                        new MqttServerClientConnected()
+                        {
+                            Client = client,
+                            ConnectedAt = DateTime.Now,
+                            ServerUid = this.UID,
+                        }
+                    );
+                }
+                catch
+                {
+
+                }
+            }
+
 
             return Task.CompletedTask;
         }
@@ -454,24 +475,5 @@ namespace Server.Mqtt
             return Task.CompletedTask;
         }
 
-        Task OnClientConnected_PublishDomainEvent(ClientConnectedEventArgs args)
-        {
-            if (args == null || args.ClientId is null)
-            {
-                return Task.CompletedTask;
-            };
-
-            this._publisher.PublishEvent(
-                new MqttServerClientConnected()
-                {
-                    ClientId = args.ClientId,
-                    ConnectedAt = DateTime.Now,
-                    Protocol = args.ProtocolVersion,
-                    UID = this.UID,
-                }
-            );
-
-            return Task.CompletedTask;
-        }
     }
 }

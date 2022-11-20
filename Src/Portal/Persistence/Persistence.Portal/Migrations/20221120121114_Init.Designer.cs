@@ -11,9 +11,10 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221104112003_Init")]
+    [Migration("20221120121114_Init")]
     partial class Init
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -55,7 +56,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "90e045b7-eb8f-4f8e-bcea-6eb2b640a5e3",
+                            Guid = "1ea45e14-7990-4175-b78f-2208b7d2d406",
                             Name = "Undefined"
                         });
                 });
@@ -117,6 +118,8 @@ namespace Persistence.Portal.Migrations
                     b.ToTable("ServerEvents");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ServerEventBase");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>
@@ -156,6 +159,8 @@ namespace Persistence.Portal.Migrations
                         .IsUnique();
 
                     b.ToTable("Servers");
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Server.ServerCfgBase", b =>
@@ -172,6 +177,8 @@ namespace Persistence.Portal.Migrations
                     b.HasKey("ServerUID");
 
                     b.ToTable("ServerCfg");
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Server.ServerIPv4Endpoint", b =>
@@ -360,10 +367,15 @@ namespace Persistence.Portal.Migrations
                 {
                     b.HasBaseType("Domain.Server.Events.ServerEventBase");
 
-                    b.Property<string>("ClientId")
+                    b.Property<string>("ClientUid")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ServerClientConnectedEvent_ClientId");
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("ServerEvents", null, t =>
+                        {
+                            t.Property("ClientUid")
+                                .HasColumnName("ServerClientConnectedEvent_ClientUid");
+                        });
 
                     b.HasDiscriminator().HasValue("ServerClientConnectedEvent");
                 });
@@ -372,9 +384,11 @@ namespace Persistence.Portal.Migrations
                 {
                     b.HasBaseType("Domain.Server.Events.ServerEventBase");
 
-                    b.Property<string>("ClientId")
+                    b.Property<string>("ClientUid")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.ToTable("ServerEvents", (string)null);
 
                     b.HasDiscriminator().HasValue("ServerClientDisconnectedEvent");
                 });
@@ -392,6 +406,8 @@ namespace Persistence.Portal.Migrations
                     b.Property<string>("OnlineJson")
                         .HasColumnType("TEXT");
 
+                    b.ToTable("ServerEvents", (string)null);
+
                     b.HasDiscriminator().HasValue("ServerConfigDiffEvent");
                 });
 
@@ -403,6 +419,8 @@ namespace Persistence.Portal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.ToTable("ServerEvents", (string)null);
+
                     b.HasDiscriminator().HasValue("ServerStateChangedEvent");
                 });
 
@@ -411,6 +429,13 @@ namespace Persistence.Portal.Migrations
                     b.HasBaseType("Domain.Server.ServerBase");
 
                     b.ToTable("MqttServer", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Server.OpcServer", b =>
+                {
+                    b.HasBaseType("Domain.Server.ServerBase");
+
+                    b.ToTable("OpcServer", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
@@ -427,13 +452,6 @@ namespace Persistence.Portal.Migrations
                         .HasColumnType("INTEGER");
 
                     b.ToTable("MqttServerCfg", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Server.OpcServer", b =>
-                {
-                    b.HasBaseType("Domain.Server.ServerBase");
-
-                    b.ToTable("OpcServer", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Server.OpcServerCfg", b =>
@@ -493,20 +511,20 @@ namespace Persistence.Portal.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
-                {
-                    b.HasOne("Domain.Server.ServerCfgBase", null)
-                        .WithOne()
-                        .HasForeignKey("Domain.Server.MqttServerCfg", "ServerUID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Server.OpcServer", b =>
                 {
                     b.HasOne("Domain.Server.ServerBase", null)
                         .WithOne()
                         .HasForeignKey("Domain.Server.OpcServer", "ID", "UID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Server.MqttServerCfg", b =>
+                {
+                    b.HasOne("Domain.Server.ServerCfgBase", null)
+                        .WithOne()
+                        .HasForeignKey("Domain.Server.MqttServerCfg", "ServerUID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

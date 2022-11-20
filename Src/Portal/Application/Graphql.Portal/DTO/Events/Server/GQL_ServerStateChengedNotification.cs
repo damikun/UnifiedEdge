@@ -13,7 +13,7 @@ namespace Aplication.DTO
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ServerStateChangedEvent, GQL_ServerStateChangedNotification>()
-            .ForMember(dest => dest.Server_Uid, opt => opt.MapFrom(src => src.UID))
+            .ForMember(dest => dest.Server_Uid, opt => opt.MapFrom(src => src.ServerUid))
             .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.State));
         }
     }

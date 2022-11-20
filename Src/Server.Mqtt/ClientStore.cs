@@ -16,11 +16,14 @@ namespace Server.Mqtt
         Task<bool?> IsConnected(string client_uid);
         List<DTO_MqttClient> GetClients();
         bool Contains(string clientUid);
-        void ClearClients();
+        // void ClearClients();
+        DTO_MqttClient? UpdateClientConnected(string clientUid, DateTime dt);
+        DTO_MqttClient? UpdateClientDisconnected(string clientUid, DateTime dt);
+        DTO_MqttClient? UpdateClientLastMessage(string clientUid, DateTime dt);
         DTO_MqttClient? UpdateClientProtocol(string clientUid, DTO_MqttProtocol protocol);
         DTO_MqttClient? UpdateClientEndpoint(string clientUid, string endpoint);
         DTO_MqttClient? UpdateClient(string clientUid, DTO_MqttProtocol protocol, string endpoint);
-        DTO_MqttClient? AddClient(string? clientId, DTO_MqttProtocol protocol, string endpoint);
+        DTO_MqttClient? AddClient(string? clientId, DTO_MqttProtocol protocol, string endpoint, bool? connected = true);
         List<DTO_MqttClient> GetClientsByUid(string[] clientsUid);
         DTO_MqttClient? GetClientByUid(string clientUid);
     }
@@ -102,7 +105,7 @@ namespace Server.Mqtt
                 var client_list = await _server.Server.GetClientsAsync();
 
                 var response_stat = client_list
-                .Where(e => e != null && e.Session != null && e.Id == clinet.ClientId)
+                .Where(e => e != null && e.Session != null && e.Id.Equals(clinet.ClientId, StringComparison.OrdinalIgnoreCase))
                 .Select(e => new DTO_MqttClientStatistics()
                 {
                     ClientUid = clinet.Uid,
@@ -120,7 +123,7 @@ namespace Server.Mqtt
                 })
                 .FirstOrDefault();
 
-                if (response_stat is null)
+                if (response_stat is not null)
                 {
                     return new DTO_MqttClientStatistics()
                     {
@@ -277,7 +280,7 @@ namespace Server.Mqtt
             .ToList();
         }
 
-        public void ClearClients() => _store.Clear();
+        protected void ClearClients() => _store.Clear();
 
         public bool Contains(string clientUid)
         {
@@ -286,50 +289,144 @@ namespace Server.Mqtt
 
         public DTO_MqttClient? UpdateClientProtocol(string clientUid, DTO_MqttProtocol protocol)
         {
-            var client = _store[clientUid];
-
-            if (client is not null)
+            try
             {
-                client.Protocol = protocol;
+                var client = _store[clientUid];
 
-                return MapStoreDtoToDomainDto(client);
+                if (client is not null)
+                {
+                    client.Protocol = protocol;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
             }
 
-            return null;
+        }
+
+        public DTO_MqttClient? UpdateClientLastMessage(string clientUid, DateTime dt)
+        {
+            try
+            {
+                var client = _store[clientUid];
+
+                if (client is not null)
+                {
+                    client.LastMessageTimestamp = dt;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
+            }
+
+        }
+
+        public DTO_MqttClient? UpdateClientDisconnected(string clientUid, DateTime dt)
+        {
+            try
+            {
+                var client = _store[clientUid];
+
+                if (client is not null)
+                {
+                    client.DisconnectedTimeStamp = dt;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
+            }
+
+        }
+
+        public DTO_MqttClient? UpdateClientConnected(string clientUid, DateTime dt)
+        {
+            try
+            {
+                var client = _store[clientUid];
+
+                if (client is not null)
+                {
+                    client.ConnectedTimeStamp = dt;
+
+                    client.DisconnectedTimeStamp = null;
+
+                    client.LastMessageTimestamp = null;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
+            }
+
         }
 
         public DTO_MqttClient? UpdateClientEndpoint(string clientUid, string endpoint)
         {
-            var client = _store[clientUid];
-
-            if (client is not null)
+            try
             {
-                client.Endpoint = endpoint;
+                var client = _store[clientUid];
 
-                return MapStoreDtoToDomainDto(client);
+                if (client is not null)
+                {
+                    client.Endpoint = endpoint;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
             }
 
-            return null;
         }
 
         public DTO_MqttClient? UpdateClient(string clientUid, DTO_MqttProtocol protocol, string endpoint)
         {
-            var client = _store[clientUid];
-
-            if (client is not null)
+            try
             {
-                client.Endpoint = endpoint;
-                client.Protocol = protocol;
+                var client = _store[clientUid];
 
-                return MapStoreDtoToDomainDto(client);
+                if (client is not null)
+                {
+                    client.Endpoint = endpoint;
+                    client.Protocol = protocol;
+
+                    return MapStoreDtoToDomainDto(client);
+                }
+
+                return null;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return null;
             }
 
-            return null;
         }
 
-        public DTO_MqttClient? AddClient(string? clientId, DTO_MqttProtocol protocol, string endpoint)
+        public DTO_MqttClient? AddClient(string? clientId, DTO_MqttProtocol protocol, string endpoint, bool? connected = true)
         {
-            if (clientId is null)
+            if (clientId is null || _server?.UID is null)
             {
                 return null;
             }
@@ -337,11 +434,12 @@ namespace Server.Mqtt
             var client = new DTO_StoredMqttClient()
             {
                 ClientId = clientId,
+                ServerUid = this._server.UID,
                 Protocol = protocol,
-                ConnectedTimeStamp = DateTime.Now,
+                ConnectedTimeStamp = connected == true ? DateTime.Now : null,
                 DisconnectedTimeStamp = null,
-                LastMessageTimestamp = DateTime.Now,
-                Endpoint = endpoint
+                LastMessageTimestamp = connected == true ? DateTime.Now : null,
+                Endpoint = endpoint,
             };
 
             var stored = _store.GetOrAdd(client.Uid, e => client);
@@ -376,14 +474,22 @@ namespace Server.Mqtt
                 return null;
             }
 
-            var client = _store[clientUid];
+            try
+            {
+                var client = _store[clientUid];
 
-            if (client is null)
+                if (client is null)
+                {
+                    return null;
+                }
+
+                return MapStoreDtoToDomainDto(client);
+            }
+            catch (KeyNotFoundException ex)
             {
                 return null;
             }
 
-            return MapStoreDtoToDomainDto(client);
         }
 
         private static DTO_MqttClient MapStoreDtoToDomainDto(DTO_StoredMqttClient clinet)

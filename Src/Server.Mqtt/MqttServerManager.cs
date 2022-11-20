@@ -24,13 +24,34 @@ namespace Server.Manager.Mqtt
             return new EdgeMqttServer(cfg, _event_publisher);
         }
 
+        public async Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                if (string.IsNullOrWhiteSpace(clinet_uid))
+                {
+                    return null;
+                }
+
+                return mqtt_server.Clients.GetClientByUid(clinet_uid);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public string BuildClinetUid(string serverUid, string clinetId) => DTO_MqttClient.BuildClientUid(serverUid, clinetId);
+
         public async Task<IList<DTO_MqttClient>> GetClients(string server_uid)
         {
             var server = await this.GetServer(server_uid);
 
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
-                return await mqtt_server.GetClients();
+                return mqtt_server.Clients.GetClients();
             }
             else
             {
@@ -44,7 +65,7 @@ namespace Server.Manager.Mqtt
 
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
-                return await mqtt_server.GetServerSessions();
+                return await mqtt_server.Clients.GetSessions();
             }
             else
             {
@@ -68,7 +89,7 @@ namespace Server.Manager.Mqtt
                         return null;
                     }
 
-                    return await mqtt_server.GetClientStatistics(server_client_uid);
+                    return await mqtt_server.Clients.GetClientStatistics(server_client_uid);
                 }
                 catch
                 {
@@ -131,7 +152,7 @@ namespace Server.Manager.Mqtt
                         return null;
                     }
 
-                    return await mqtt_server.GetClientSession(server_client_uid);
+                    return await mqtt_server.Clients.GetClientSession(server_client_uid);
                 }
                 catch
                 {

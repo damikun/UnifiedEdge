@@ -168,10 +168,10 @@ function ClientListBody({dataRef}:ClientListBodyProps){
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleItemDetail = useCallback(
-    (log_id: string | null | undefined) => {
+    (client_id: string | null | undefined) => {
       searchParams.delete(CLIENT_PARAM_NAME);
-      if (log_id) {
-        searchParams.append(CLIENT_PARAM_NAME, log_id);
+      if (client_id) {
+        searchParams.append(CLIENT_PARAM_NAME, client_id);
       }
       setSearchParams(searchParams);
     },

@@ -1,23 +1,14 @@
-using MQTTnet.Formatter;
+using Server.Mqtt.DTO;
 
 namespace Server.Mqtt
 {
     public class MqttServerClientConnected : ServerEventBase
     {
-        // <summary>
-        /// Id
-        /// </summary>
-        public string ClientId { get; set; }
-
-        // <summary>
-        /// Protocol
-        /// </summary>
-        public MqttProtocolVersion Protocol { get; set; }
+        public DTO_MqttClient? Client { get; set; }
 
         // <summary>
         /// ConnectedAt
         /// </summary>
         public DateTime? ConnectedAt { get; set; }
-
     }
 }

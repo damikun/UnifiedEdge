@@ -1,8 +1,9 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Server.Mqtt;
 using Server.Mqtt.DTO;
+using Persistence.Portal;
+using Server.Manager.Mqtt;
 using HotChocolate.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,14 +29,22 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        /// <summary>
+        /// Injected <c>IMqttServerManager</c>
+        /// </summary>
+        private readonly IMqttServerManager _manager;
+
         public GQL_MqttServerClientDisconnected_PropagateSub_Handler(
             ITopicEventSender sender,
             IMapper mapper,
-            IDbContextFactory<ManagmentDbCtx> factory)
+            IDbContextFactory<ManagmentDbCtx> factory,
+            IMqttServerManager manager)
         {
             _sender = sender;
 
             _factory = factory;
+
+            _manager = manager;
 
             _mapper = mapper;
         }
@@ -50,20 +59,18 @@ namespace Aplication.Events.Server
 
             var e = notification.ServerEvent;
 
-            var dto = new DTO_MqttClient()
+            if (e == null || e.Client == null || e.ServerUid == null)
             {
-                Uid = e.ClientId,
-                ServerUid = e.UID
-            };
+                return;
+            }
 
-            var gql_client_dto = _mapper.Map<GQL_MqttClient>(dto);
+            var gql_client_dto = _mapper.Map<GQL_MqttClient>(e.Client);
 
             var gql_event = new GQL_MqttClientDisconnected()
             {
                 TimeStamp = DateTime.Now,
                 Client = gql_client_dto
             };
-
 
             await _sender.SendAsync(
                 $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientDisconnected",

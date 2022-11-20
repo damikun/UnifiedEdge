@@ -2,6 +2,11 @@ namespace Domain.Server.Events
 {
     public class ServerClientConnectedEvent : ServerEventBase
     {
-        public string ClientId { get; set; }
+        // public ServerClientConnectedEvent()
+        // {
+        //     this.Description = "Client connected";
+        // }
+
+        public string ClientUid { get; set; }
     }
 }

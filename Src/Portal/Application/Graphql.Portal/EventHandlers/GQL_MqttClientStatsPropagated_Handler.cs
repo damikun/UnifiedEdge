@@ -6,7 +6,6 @@ using HotChocolate.Subscriptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Aplication.Events.Server
 {
 
@@ -59,14 +58,14 @@ namespace Aplication.Events.Server
         {
             var e = notification.ServerEvent;
 
-            if (e == null)
+            if (e == null || e.ClientUid == null || e.ServerUid == null)
             {
                 return;
             }
 
             var gql_updated_stat = _mapper.Map<GQL_MqttClientStatsUpdate>(e);
 
-            var topic = $"EdgeMqttServer.{e.ServerId}.Client.{e.ClientId}.Statistics";
+            var topic = $"EdgeMqttServer.{e.ServerUid}.Client.{e.ClientUid}.Statistics";
 
             await _sender.SendAsync(topic, gql_updated_stat);
         }
