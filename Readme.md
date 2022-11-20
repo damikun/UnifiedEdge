@@ -49,3 +49,6 @@ Edge Brooker allows you to communicate using different protocols with field devi
 ![WebHook Screen](./Doc/Readme/Hook_Screen.png)
 ![Users Screen](./Doc/Readme/User_Screen.png)
 ![User Profile Screen](./Doc/Readme/Profile_Screen.png)
+
+## Author
+- Dalibor Kundrat
