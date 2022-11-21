@@ -294,6 +294,11 @@ namespace Server.Mqtt
         {
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -316,6 +321,11 @@ namespace Server.Mqtt
         {
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -338,6 +348,11 @@ namespace Server.Mqtt
         {
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -360,6 +375,12 @@ namespace Server.Mqtt
         {
             try
             {
+
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -386,6 +407,11 @@ namespace Server.Mqtt
         {
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -408,6 +434,11 @@ namespace Server.Mqtt
         {
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is not null)
@@ -479,6 +510,11 @@ namespace Server.Mqtt
 
             try
             {
+                if (!_store.ContainsKey(clientUid))
+                {
+                    return null;
+                }
+
                 var client = _store[clientUid];
 
                 if (client is null)
