@@ -123,13 +123,17 @@ namespace Server.Mqtt
                 })
                 .FirstOrDefault();
 
-                if (response_stat is not null)
+                if (response_stat is null)
                 {
                     return new DTO_MqttClientStatistics()
                     {
                         ClientUid = clinet.Uid,
                         ServerUid = _server.UID,
                     };
+                }
+                else
+                {
+                    return response_stat;
                 }
 
             }
