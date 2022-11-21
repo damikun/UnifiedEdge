@@ -16,7 +16,6 @@ namespace Server.Mqtt
         Task<bool?> IsConnected(string client_uid);
         List<DTO_MqttClient> GetClients();
         bool Contains(string clientUid);
-        // void ClearClients();
         DTO_MqttClient? UpdateClientConnected(string clientUid, DateTime dt);
         DTO_MqttClient? UpdateClientDisconnected(string clientUid, DateTime dt);
         DTO_MqttClient? UpdateClientLastMessage(string clientUid, DateTime dt);
