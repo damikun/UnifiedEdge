@@ -7,10 +7,14 @@ import { MqttTopicItemDataFragment$key } from "./__generated__/MqttTopicItemData
 
 
 const MqttTopicItemDataFragment = graphql`
-  fragment MqttTopicItemDataFragment on GQL_MqttServerTopicStat {
+  fragment MqttTopicItemDataFragment on GQL_MqttTopic {
     id
+    serverUid
     topic
-    count
+    stats {
+      id
+      messagesCount
+    }
   }
 `;
 
@@ -49,7 +53,7 @@ export function MqttTopicItem({dataRef, onItemClick,key_}:MqttTopicItemProps){
     <td className={clsx("w-4/12 2xl:w-3/12 flex truncate",
       "justify-center text-center text-sm")}>
       <div className="truncate break-all">
-        {data?.count}
+        {data?.stats.messagesCount}
       </div>
     </td>
   </TableItem>

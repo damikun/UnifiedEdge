@@ -9,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Events.Server
 {
-
-    public class GQL_MqttServerClientDisconnected_PropagateSub_Handler
-        : INotificationHandler<ServerGenericEventNotification<MqttServerClientDisconnected>>
+    public class GQL_MqttServerClientUpdated_PropagateSub_Handler
+        : INotificationHandler<ServerGenericEventNotification<MqttClientUpdated>>
     {
 
         /// <summary>
@@ -34,7 +33,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IMqttServerManager _manager;
 
-        public GQL_MqttServerClientDisconnected_PropagateSub_Handler(
+        public GQL_MqttServerClientUpdated_PropagateSub_Handler(
             ITopicEventSender sender,
             IMapper mapper,
             IDbContextFactory<ManagmentDbCtx> factory,
@@ -50,13 +49,10 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<MqttServerClientDisconnected> notification,
+            ServerGenericEventNotification<MqttClientUpdated> notification,
             CancellationToken cancellationToken
         )
         {
-            await using ManagmentDbCtx dbContext =
-            _factory.CreateDbContext();
-
             var e = notification.ServerEvent;
 
             if (e == null || e.Client == null || e.ServerUid == null)
@@ -66,16 +62,9 @@ namespace Aplication.Events.Server
 
             var gql_client_dto = _mapper.Map<GQL_MqttClient>(e.Client);
 
-            var gql_event = new GQL_MqttClientDisconnected()
-            {
-                TimeStamp = DateTime.Now,
-                Client = gql_client_dto
-            };
+            var topic = $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientUpdated";
 
-            await _sender.SendAsync(
-                $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientDisconnected",
-                gql_event
-            );
+            await _sender.SendAsync(topic, gql_client_dto);
         }
     }
 }

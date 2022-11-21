@@ -1,10 +1,10 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
 using Aplication.Core;
 using FluentValidation;
+using Persistence.Portal;
 using Server.Manager.Mqtt;
 using Aplication.Interfaces;
 using Aplication.Core.Pagination;
@@ -16,9 +16,9 @@ namespace Aplication.CQRS.Queries
 {
 
     /// <summary>
-    /// Query Mqtt Server topics stats
+    /// Query Mqtt Server topics
     /// </summary>
-    public class GetMqttServerTopicStats : CommandBase<DTO_Connection<DTO_MqttServerTopicStat>>
+    public class GetMqttServerTopics : CommandBase<DTO_Connection<DTO_MqttTopic>>
     {
 
 #nullable disable
@@ -26,7 +26,7 @@ namespace Aplication.CQRS.Queries
 
 #nullable enable
 
-        public GetMqttServerTopicStats(CursorArguments arguments, string uid)
+        public GetMqttServerTopics(CursorArguments arguments, string uid)
         {
             Arguments = arguments;
             server_uid = uid;
@@ -41,7 +41,7 @@ namespace Aplication.CQRS.Queries
     /// <summary>
     /// GetMqttServerTopics Field Validator
     /// </summary>
-    public class GetMqttServerTopicsValidator : AbstractValidator<GetMqttServerTopicStats>
+    public class GetMqttServerTopicsValidator : AbstractValidator<GetMqttServerTopics>
     {
         /// <summary>
         /// Injected <c>IServerFascade</c>
@@ -69,7 +69,8 @@ namespace Aplication.CQRS.Queries
     /// <summary>
     /// GetMqttServerTopics Field Authorization validator
     /// </summary>
-    public class GetMqttServerTopicsAuthorizationValidator : AuthorizationValidator<GetMqttServerTopicStats>
+    public class GetMqttServerTopicsAuthorizationValidator
+        : AuthorizationValidator<GetMqttServerTopics>
     {
         public GetMqttServerTopicsAuthorizationValidator()
         {
@@ -81,7 +82,8 @@ namespace Aplication.CQRS.Queries
     //---------------------------------------
 
     /// <summary>Handler for <c>GetMqttServerTopics</c> command </summary>
-    public class GetMqttServerTopicsStatsHandler : IRequestHandler<GetMqttServerTopicStats, DTO_Connection<DTO_MqttServerTopicStat>>
+    public class GetMqttServerTopicsStatsHandler
+        : IRequestHandler<GetMqttServerTopics, DTO_Connection<DTO_MqttTopic>>
     {
         /// <summary>
         /// Injected <c>IServerFascade</c>
@@ -101,7 +103,7 @@ namespace Aplication.CQRS.Queries
         /// <summary>
         /// Injected <c>ICursorPagination</c>
         /// </summary>
-        private readonly ICursorPagination<DTO_MqttServerTopicStat> _cursor_provider;
+        private readonly ICursorPagination<DTO_MqttTopic> _cursor_provider;
 
         /// <summary>
         /// Main constructor
@@ -110,7 +112,7 @@ namespace Aplication.CQRS.Queries
             IDbContextFactory<ManagmentDbCtx> factory,
             IServerFascade fascade,
             IMapper mapper,
-            ICursorPagination<DTO_MqttServerTopicStat> cursor_provider)
+            ICursorPagination<DTO_MqttTopic> cursor_provider)
         {
             _mapper = mapper;
 
@@ -124,13 +126,13 @@ namespace Aplication.CQRS.Queries
         /// <summary>
         /// Command handler for <c>DTO_MqttServerTopicStat</c>
         /// </summary>
-        public async Task<DTO_Connection<DTO_MqttServerTopicStat>> Handle(
-            GetMqttServerTopicStats request, CancellationToken cancellationToken
+        public async Task<DTO_Connection<DTO_MqttTopic>> Handle(
+            GetMqttServerTopics request, CancellationToken cancellationToken
         )
         {
             IMqttServerManager manager = (IMqttServerManager)await _fascade.GetManager(request.server_uid);
 
-            var topic_stat = await manager.GetServerTopicStatistics(request.server_uid);
+            var topic_stat = await manager.GetPublishedTopics(request.server_uid);
 
             Func<CancellationToken, Task<int>> total_count = (ct) => Task.FromResult(topic_stat.Count());
 
@@ -141,7 +143,7 @@ namespace Aplication.CQRS.Queries
                 cancellationToken
             );
 
-            return new DTO_Connection<DTO_MqttServerTopicStat>()
+            return new DTO_Connection<DTO_MqttTopic>()
             {
                 edges = cursor_data.edges,
                 pageInfo = cursor_data.pageInfo

@@ -30,19 +30,44 @@ namespace Server.Mqtt
 
         public readonly IClientStore Clients;
 
+        public readonly ITopicStore Topics;
+
         public EdgeMqttServer(
             IServerCfg cfg,
             IServerEventPublisher? publisher = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
-            Clients = new ClientStore(this);
+            Clients = CreateClientStore();
+
+            Topics = CreateTopicStore();
 
             Meter = new EdgeMqttServerMeter(this);
         }
 
+        private TopicStore CreateTopicStore()
+        {
+            var store = new TopicStore(this);
+
+            store.OnNewTopic += OnNewTopic;
+            store.OnTopicIncrement += OnTopicUpdate;
+            store.OnClear += OnTopicsClear;
+
+            return store;
+        }
+
+        private ClientStore CreateClientStore()
+        {
+            var store = new ClientStore(this);
+
+            store.OnClientUpdate += OnClientUpdated;
+            store.OnNewClient += OnNewClient;
+
+            return store;
+        }
+
         public ICollection<string> GetPublishedTopics()
         {
-            return ServerStats.PublishedTopics.Select(e => e.Key).ToList();
+            return Topics.GetTopics().Select(e => e.Topic).ToList();
         }
 
         protected override MqttServerOptions MapConfiguration(IServerCfg cfg)
@@ -113,6 +138,7 @@ namespace Server.Mqtt
             server.ApplicationMessageNotConsumedAsync += OnApplicationMessageNotConsumedAsync_HandleMetrics;
 
             server.InterceptingPublishAsync += OnInterceptingPublishAsync;
+            server.InterceptingPublishAsync += OnInterceptingPublishAsync_RecordTopic;
 
             server.ClientSubscribedTopicAsync += OnClientSubscribedTopicAsync;
 
@@ -123,10 +149,10 @@ namespace Server.Mqtt
             server.StoppedAsync += OnStoppedAsync_ResetStatistic;
             server.StoppedAsync += OnStoppedAsync_PublishDomainEvent;
 
-            server.InterceptingInboundPacketAsync += OnInterceptingInboundPacketAsync;
+            server.InterceptingInboundPacketAsync += OnInterceptingInboundPacketAsync_IncrementMetrics;
             server.InterceptingInboundPacketAsync += OnInterceptingInboundPacketAsync_CheckClientWithStore;
 
-            server.InterceptingOutboundPacketAsync += OnInterceptingOutboundPacketAsync;
+            server.InterceptingOutboundPacketAsync += OnInterceptingOutboundPacketAsync_IncrementMetrics;
         }
 
         protected override async Task UnsafeStartAsync()
@@ -246,6 +272,10 @@ namespace Server.Mqtt
             }
         }
 
+        // -------------------------------------
+        // ----------- Server events -----------
+        // -------------------------------------
+
         Task OnInterceptingInboundPacketAsync_CheckClientWithStore(InterceptingPacketEventArgs args)
         {
             if (args is null || args.ClientId is null)
@@ -263,12 +293,13 @@ namespace Server.Mqtt
             return Task.CompletedTask;
         }
 
-        Task OnInterceptingInboundPacketAsync(InterceptingPacketEventArgs args)
+        Task OnInterceptingInboundPacketAsync_IncrementMetrics(InterceptingPacketEventArgs args)
         {
             ServerStats.IncrementRcvCount();
             return Task.CompletedTask;
         }
-        Task OnInterceptingOutboundPacketAsync(InterceptingPacketEventArgs args)
+
+        Task OnInterceptingOutboundPacketAsync_IncrementMetrics(InterceptingPacketEventArgs args)
         {
             ServerStats.IncrementSndCount();
             return Task.CompletedTask;
@@ -327,9 +358,34 @@ namespace Server.Mqtt
                 return Task.CompletedTask;
             };
 
+            Topics.AddTopic(args.TopicFilter.Topic);
+
             ServerStats.IncrementSubscriptionsCount();
 
             ServerStats.RecordTopicSubscribed(args.TopicFilter.Topic);
+
+            return Task.CompletedTask;
+        }
+
+        Task OnInterceptingPublishAsync_RecordTopic(InterceptingPublishEventArgs args)
+        {
+            if (args is null || args.ApplicationMessage is null || args.ApplicationMessage.Topic is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            var topic = args.ApplicationMessage.Topic;
+
+            if (!Topics.ContainsTopic(topic))
+            {
+                try
+                {
+                    Topics.AddTopic(topic);
+                }
+                catch { }
+            }
+
+            Topics.IncrementTopicStatCount(topic);
 
             return Task.CompletedTask;
         }
@@ -343,21 +399,6 @@ namespace Server.Mqtt
 
             if (args.ApplicationMessage != null)
             {
-                try
-                {
-                    if (!ServerStats.InbountTopicExist(args.ApplicationMessage.Topic))
-                    {
-                        this._publisher.PublishEvent(
-                            new MqttServerNewInboundTopic()
-                            {
-                                ServerUid = this.UID,
-                                Topic = args.ApplicationMessage.Topic
-                            }
-                        );
-                    }
-                }
-                catch { }
-
                 ServerStats.RecordInboundTopic(args.ApplicationMessage.Topic);
             }
 
@@ -384,7 +425,7 @@ namespace Server.Mqtt
 
             if (client is not null)
             {
-                client.DisconnectedTimeStamp = DateTime.Now;
+                Clients.UpdateClientDisconnected(client.Uid, DateTime.Now);
             }
             else
             {
@@ -445,26 +486,6 @@ namespace Server.Mqtt
                     Clients.UpdateClientConnected(client.Uid, DateTime.Now);
             }
 
-            if (client is not null)
-            {
-                try
-                {
-                    this._publisher.PublishEvent(
-                        new MqttServerClientConnected()
-                        {
-                            Client = client,
-                            ConnectedAt = DateTime.Now,
-                            ServerUid = this.UID,
-                        }
-                    );
-                }
-                catch
-                {
-
-                }
-            }
-
-
             return Task.CompletedTask;
         }
 
@@ -475,5 +496,92 @@ namespace Server.Mqtt
             return Task.CompletedTask;
         }
 
+        // -------------------------------------
+        // -------- Topic store events ---------
+        // -------------------------------------
+
+        void OnNewTopic(object? sender, TopicEventArgs args)
+        {
+            if (args is null)
+            {
+                return;
+            }
+
+            this._publisher.PublishEvent(
+                new MqttServerNewInboundTopic()
+                {
+                    ServerUid = this.UID,
+                    Topic = args.Topic
+                }
+            );
+        }
+
+        void OnTopicUpdate(object? sender, TopicEventArgs args)
+        {
+
+            if (args is null)
+            {
+                return;
+            }
+
+            this._publisher.PublishEvent(
+                new MqttServerTopicUpdated()
+                {
+                    ServerUid = this.UID,
+                    Topic = args.Topic
+                }
+            );
+        }
+
+        void OnTopicsClear(object? sender, TopicClearEventArgs args)
+        {
+
+        }
+
+        // -------------------------------------
+        // -------- Client store events --------
+        // -------------------------------------
+
+        void OnClientUpdated(object? sender, ClientEventArgs args)
+        {
+            if (args is null)
+            {
+                return;
+            }
+
+            this._publisher.PublishEvent(
+                new MqttClientUpdated()
+                {
+                    Client = args.Client,
+                    TimeStamp = DateTime.Now,
+                    ServerUid = this.UID,
+                }
+            );
+        }
+
+        void OnNewClient(object? sender, ClientEventArgs args)
+        {
+            if (args is not null)
+            {
+                this._publisher.PublishEvent(
+                    new MqttServerNewClient()
+                    {
+                        Client = args.Client,
+                        TimeStamp = DateTime.Now,
+                        ServerUid = this.UID,
+                    }
+                );
+
+                this._publisher.PublishEvent(
+                    new MqttServerClientConnected()
+                    {
+                        Client = args.Client,
+                        ConnectedAt = DateTime.Now,
+                        ServerUid = this.UID,
+                    }
+                );
+
+            }
+        }
     }
 }

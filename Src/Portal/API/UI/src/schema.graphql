@@ -337,11 +337,6 @@ type GQL_MqttClient {
   serverUid: String!
 }
 
-type GQL_MqttClientConnected {
-  client: GQL_MqttClient!
-  timeStamp: DateTime!
-}
-
 "A connection to a list of items."
 type GQL_MqttClientConnection {
   "A list of edges."
@@ -352,11 +347,6 @@ type GQL_MqttClientConnection {
   pageInfo: PageInfo!
   "Identifies the total count of items in the connection."
   totalCount: Int!
-}
-
-type GQL_MqttClientDisconnected {
-  client: GQL_MqttClient!
-  timeStamp: DateTime!
 }
 
 "An edge in a connection."
@@ -417,9 +407,14 @@ type GQL_MqttClientStatsUpdate {
   timestamp: DateTime!
 }
 
-type GQL_MqttNewInboundTopic {
+type GQL_MqttNewClient {
+  client: GQL_MqttClient!
   timeStamp: DateTime!
-  topic: GQL_MqttServerTopicStat!
+}
+
+type GQL_MqttNewTopic {
+  timeStamp: DateTime!
+  topic: GQL_MqttTopic!
 }
 
 type GQL_MqttServer implements GQL_IServer & Node {
@@ -463,18 +458,19 @@ type GQL_MqttServerStats {
   subscriptionsCount: Long!
 }
 
-type GQL_MqttServerTopicStat {
-  count: Long!
-  id: String!
+type GQL_MqttTopic {
+  id: ID!
+  serverUid: ID!
+  stats: GQL_MqttTopicStats!
   topic: String!
 }
 
 "A connection to a list of items."
-type GQL_MqttServerTopicStatConnection {
+type GQL_MqttTopicConnection {
   "A list of edges."
-  edges: [GQL_MqttServerTopicStatEdge!]
+  edges: [GQL_MqttTopicEdge!]
   "A flattened list of the nodes."
-  nodes: [GQL_MqttServerTopicStat]
+  nodes: [GQL_MqttTopic]
   "Information to aid in pagination."
   pageInfo: PageInfo!
   "Identifies the total count of items in the connection."
@@ -482,11 +478,16 @@ type GQL_MqttServerTopicStatConnection {
 }
 
 "An edge in a connection."
-type GQL_MqttServerTopicStatEdge {
+type GQL_MqttTopicEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: GQL_MqttServerTopicStat
+  node: GQL_MqttTopic
+}
+
+type GQL_MqttTopicStats {
+  id: ID!
+  messagesCount: Long!
 }
 
 type GQL_OS {
@@ -869,7 +870,7 @@ type Query {
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
   mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
   mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
-  mqttServerTopicStats("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttServerTopicStatConnection
+  mqttServerTopics("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttTopicConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
@@ -1010,12 +1011,13 @@ type SetUserPasswordPayload {
 }
 
 type Subscription {
-  mqttClientConnected(server_id: ID!): GQL_MqttClientConnected!
-  mqttClientDisconnected(server_id: ID!): GQL_MqttClientDisconnected!
-  mqttNewInboundTopic(server_id: ID!): GQL_MqttNewInboundTopic!
+  mqttClientUpdated(server_id: ID!): GQL_MqttClient!
+  mqttNewClient(server_id: ID!): GQL_MqttNewClient!
+  mqttNewTopic(server_id: ID!): GQL_MqttNewTopic!
   mqttServerClientStatistics(client_id: ID! server_id: ID!): GQL_MqttClientStatsUpdate!
   mqttServerConfigState(server_id: ID!): GQL_ConfigMatch!
   mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
+  mqttTopicUpdated(server_id: ID!): GQL_MqttTopic!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!
   systemTime: DateTime!

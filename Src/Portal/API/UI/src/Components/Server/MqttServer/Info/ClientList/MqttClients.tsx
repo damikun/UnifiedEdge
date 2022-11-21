@@ -11,9 +11,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttClientsPaginationFragment$key } from "./__generated__/MqttClientsPaginationFragment.graphql";
+import { MqttClientsClientUpdatedSubscription } from "./__generated__/MqttClientsClientUpdatedSubscription.graphql";
 import { MqttClientsClientConnectedSubscription } from "./__generated__/MqttClientsClientConnectedSubscription.graphql";
 import { MqttClientsPaginationFragmentRefetchQuery } from "./__generated__/MqttClientsPaginationFragmentRefetchQuery.graphql";
-import { MqttClientsClientDisconnectedSubscription } from "./__generated__/MqttClientsClientDisconnectedSubscription.graphql";
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -22,10 +22,10 @@ const MqttClientsClientConnectedTag = graphql`
       $id:ID!,
       $connections: [ID!]!
     ) {
-        mqttClientConnected(server_id: $id){
+        mqttNewClient(server_id: $id){
           client@prependNode(
             connections: $connections
-            edgeTypeName: "GQL_MqttClientEdge"
+            edgeTypeName: "GQL_MqttNewClientEdge"
           ){
             ...MqttClientItemDataFragment 
           }   
@@ -34,16 +34,12 @@ const MqttClientsClientConnectedTag = graphql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-const MqttClientsClientDisconnectedTag = graphql`
-    subscription MqttClientsClientDisconnectedSubscription(
+const MqttClientsClientUpdatedTag = graphql`
+    subscription MqttClientsClientUpdatedSubscription(
       $id:ID!,
-      # $connections: [ID!]!
     ) {
-        mqttClientDisconnected(server_id: $id){
-          client{
-            id  # @deleteEdge(connections: $connections)
-            ...MqttClientItemDataFragment
-          }
+        mqttClientUpdated(server_id: $id){
+          ...MqttClientItemDataFragment
         }
     }
 `;
@@ -148,16 +144,16 @@ function ClientListBody({dataRef}:ClientListBodyProps){
 
   const client_disconnected_sub = useMemo(() => ({
     variables: {id:id,connections:connectionId?[connectionId]:[]},
-    subscription:MqttClientsClientDisconnectedTag,
+    subscription:MqttClientsClientUpdatedTag,
     updater: (store,element) => { 
       // update using DeleteEdge
     },
     onCompleted: () => {} /* Subscription established */,
     onError: error => {} /* Subscription errored */,
     onNext: response => {} /* Subscription payload received */,
-  }as GraphQLSubscriptionConfig<MqttClientsClientDisconnectedSubscription>), [id,connectionId]);
+  }as GraphQLSubscriptionConfig<MqttClientsClientUpdatedSubscription>), [id,connectionId]);
 
-  useSubscription<MqttClientsClientDisconnectedSubscription>(client_disconnected_sub);
+  useSubscription<MqttClientsClientUpdatedSubscription>(client_disconnected_sub);
 
   const handleLoadMore = useCallback(
     () => {

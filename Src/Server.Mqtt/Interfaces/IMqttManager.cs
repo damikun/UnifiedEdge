@@ -21,13 +21,9 @@ namespace Server.Manager.Mqtt
            string server_client_uid
         );
 
-        Task<List<string>> GetPublishedTopics(string server_uid);
+        Task<List<DTO_MqttTopic>> GetPublishedTopics(string server_uid);
 
         Task<DTO_MqttServerStats?> GetServerStatistics(
-            string server_uid
-        );
-
-        Task<List<DTO_MqttServerTopicStat>> GetServerTopicStatistics(
             string server_uid
         );
 

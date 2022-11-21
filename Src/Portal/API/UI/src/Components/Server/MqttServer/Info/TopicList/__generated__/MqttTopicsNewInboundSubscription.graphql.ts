@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<df75f347e99d4dbb20571415d837c193>>
+ * @generated SignedSource<<17430aaa466328e22875c68a83e533b4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type MqttTopicsNewInboundSubscription$variables = {
   id: string;
 };
 export type MqttTopicsNewInboundSubscription$data = {
-  readonly mqttNewInboundTopic: {
+  readonly mqttNewTopic: {
     readonly topic: {
       readonly " $fragmentSpreads": FragmentRefs<"MqttTopicItemDataFragment">;
     };
@@ -43,7 +43,14 @@ v2 = [
     "name": "server_id",
     "variableName": "id"
   }
-];
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [
@@ -57,15 +64,15 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "GQL_MqttNewInboundTopic",
+        "concreteType": "GQL_MqttNewTopic",
         "kind": "LinkedField",
-        "name": "mqttNewInboundTopic",
+        "name": "mqttNewTopic",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_MqttServerTopicStat",
+            "concreteType": "GQL_MqttTopic",
             "kind": "LinkedField",
             "name": "topic",
             "plural": false,
@@ -97,24 +104,25 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "GQL_MqttNewInboundTopic",
+        "concreteType": "GQL_MqttNewTopic",
         "kind": "LinkedField",
-        "name": "mqttNewInboundTopic",
+        "name": "mqttNewTopic",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_MqttServerTopicStat",
+            "concreteType": "GQL_MqttTopic",
             "kind": "LinkedField",
             "name": "topic",
             "plural": false,
             "selections": [
+              (v3/*: any*/),
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "id",
+                "name": "serverUid",
                 "storageKey": null
               },
               {
@@ -127,8 +135,20 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "count",
+                "concreteType": "GQL_MqttTopicStats",
+                "kind": "LinkedField",
+                "name": "stats",
+                "plural": false,
+                "selections": [
+                  (v3/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "messagesCount",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               }
             ],
@@ -151,7 +171,7 @@ return {
               {
                 "kind": "Literal",
                 "name": "edgeTypeName",
-                "value": "GQL_MqttServerTopicStat"
+                "value": "GQL_MqttTopic"
               }
             ]
           }
@@ -161,16 +181,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "45fda478a728329d8b8f3db5dc1357d2",
+    "cacheID": "bce35704b45feada5c46c33aa47e2685",
     "id": null,
     "metadata": {},
     "name": "MqttTopicsNewInboundSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttTopicsNewInboundSubscription(\n  $id: ID!\n) {\n  mqttNewInboundTopic(server_id: $id) {\n    topic {\n      ...MqttTopicItemDataFragment\n    }\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttServerTopicStat {\n  id\n  topic\n  count\n}\n"
+    "text": "subscription MqttTopicsNewInboundSubscription(\n  $id: ID!\n) {\n  mqttNewTopic(server_id: $id) {\n    topic {\n      ...MqttTopicItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "51b8fc472c5fd80bdb33c7e6a5a646ff";
+(node as any).hash = "e52183563f7240a4bb63f1c763815dfc";
 
 export default node;

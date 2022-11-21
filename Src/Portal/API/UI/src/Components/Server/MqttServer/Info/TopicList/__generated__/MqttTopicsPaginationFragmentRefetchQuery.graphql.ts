@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e633568eab303f363a1ebf5b26cc3f99>>
+ * @generated SignedSource<<3bef8909b18d81211070eb1d825dff39>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -59,6 +59,13 @@ v1 = [
   }
 ],
 v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -95,15 +102,15 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "GQL_MqttServerTopicStatConnection",
+        "concreteType": "GQL_MqttTopicConnection",
         "kind": "LinkedField",
-        "name": "mqttServerTopicStats",
+        "name": "mqttServerTopics",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_MqttServerTopicStatEdge",
+            "concreteType": "GQL_MqttTopicEdge",
             "kind": "LinkedField",
             "name": "edges",
             "plural": true,
@@ -111,16 +118,17 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "GQL_MqttServerTopicStat",
+                "concreteType": "GQL_MqttTopic",
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "id",
+                    "name": "serverUid",
                     "storageKey": null
                   },
                   {
@@ -133,8 +141,20 @@ return {
                   {
                     "alias": null,
                     "args": null,
-                    "kind": "ScalarField",
-                    "name": "count",
+                    "concreteType": "GQL_MqttTopicStats",
+                    "kind": "LinkedField",
+                    "name": "stats",
+                    "plural": false,
+                    "selections": [
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "messagesCount",
+                        "storageKey": null
+                      }
+                    ],
                     "storageKey": null
                   },
                   {
@@ -182,7 +202,7 @@ return {
             ],
             "storageKey": null
           },
-          (v2/*: any*/)
+          (v3/*: any*/)
         ],
         "storageKey": null
       },
@@ -193,24 +213,24 @@ return {
           "server_uid"
         ],
         "handle": "connection",
-        "key": "MqttTopicsPaginationFragmentConnection_mqttServerTopicStats",
+        "key": "MqttTopicsPaginationFragmentConnection_mqttServerTopics",
         "kind": "LinkedHandle",
-        "name": "mqttServerTopicStats"
+        "name": "mqttServerTopics"
       },
-      (v2/*: any*/)
+      (v3/*: any*/)
     ]
   },
   "params": {
-    "cacheID": "549d38067d39f6d7f8ee2ab3a9a11ae2",
+    "cacheID": "058789c50d554319561d0940bbc28e6f",
     "id": null,
     "metadata": {},
     "name": "MqttTopicsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttTopicsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttTopicsPaginationFragment_3VI1TY\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttServerTopicStat {\n  id\n  topic\n  count\n}\n\nfragment MqttTopicsPaginationFragment_3VI1TY on Query {\n  mqttServerTopicStats(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttTopicsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttTopicsPaginationFragment_3VI1TY\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_3VI1TY on Query {\n  mqttServerTopics(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "0b45dd77a70d83c7828bb03446162b7d";
+(node as any).hash = "c9b387902897c4dba964d0568cf83562";
 
 export default node;

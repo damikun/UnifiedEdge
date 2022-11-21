@@ -146,8 +146,8 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<GQL_MqttServerStats>(result);
         }
 
-        [UseConnection(typeof(GQL_MqttServerTopicStat))]
-        public async Task<Connection<GQL_MqttServerTopicStat>> GetMqttServerTopicStats(
+        [UseConnection(typeof(GQL_MqttTopic))]
+        public async Task<Connection<GQL_MqttTopic>> GetMqttServerTopics(
             [ID] string server_uid,
             IResolverContext ctx,
             [Service] IMediator mediator,
@@ -156,11 +156,11 @@ namespace Aplication.Graphql.Queries
             var arguments = ctx.GetPaggingArguments();
 
             var result = await mediator.Send(
-                new GetMqttServerTopicStats(arguments, server_uid),
+                new GetMqttServerTopics(arguments, server_uid),
                 cancellationToken
             );
 
-            return _mapper.Map<Connection<GQL_MqttServerTopicStat>>(result);
+            return _mapper.Map<Connection<GQL_MqttTopic>>(result);
         }
 
         public async Task<GQL_MqttServerClientCfg> GetMqttServerClientConfig(

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Aplication.Events.Server
 {
 
-    public class GQL_MqttServerClientConnected_PropagateSub_Handler
-        : INotificationHandler<ServerGenericEventNotification<MqttServerClientConnected>>
+    public class GQL_MqttServerNewClient_PropagateSub_Handler
+        : INotificationHandler<ServerGenericEventNotification<MqttServerNewClient>>
     {
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IMqttServerManager _manager;
 
-        public GQL_MqttServerClientConnected_PropagateSub_Handler(
+        public GQL_MqttServerNewClient_PropagateSub_Handler(
             ITopicEventSender sender,
             IMapper mapper,
             IDbContextFactory<ManagmentDbCtx> factory,
@@ -50,10 +50,13 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<MqttServerClientConnected> notification,
+            ServerGenericEventNotification<MqttServerNewClient> notification,
             CancellationToken cancellationToken
         )
         {
+            await using ManagmentDbCtx dbContext =
+            _factory.CreateDbContext();
+
             var e = notification.ServerEvent;
 
             if (e == null || e.Client == null || e.ServerUid == null)
@@ -63,15 +66,16 @@ namespace Aplication.Events.Server
 
             var gql_client_dto = _mapper.Map<GQL_MqttClient>(e.Client);
 
-            var gql_event = new GQL_MqttClientConnected()
+            var event_dto = new GQL_MqttNewClient()
             {
                 TimeStamp = DateTime.Now,
                 Client = gql_client_dto
             };
 
-            var topic = $"EdgeMqttServer.{gql_client_dto.ServerUid}.ClientConnected";
-
-            await _sender.SendAsync(topic, gql_event);
+            await _sender.SendAsync(
+                $"EdgeMqttServer.{gql_client_dto.ServerUid}.NewClient",
+                event_dto
+            );
         }
     }
 }

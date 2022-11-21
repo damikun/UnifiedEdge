@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6f3c83d51f955c1f49d290230e4ba979>>
+ * @generated SignedSource<<3024e2b0fedfbb43709e3ac64b92e0a5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type MqttClientsClientConnectedSubscription$variables = {
   id: string;
 };
 export type MqttClientsClientConnectedSubscription$data = {
-  readonly mqttClientConnected: {
+  readonly mqttNewClient: {
     readonly client: {
       readonly " $fragmentSpreads": FragmentRefs<"MqttClientItemDataFragment">;
     };
@@ -57,9 +57,9 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "GQL_MqttClientConnected",
+        "concreteType": "GQL_MqttNewClient",
         "kind": "LinkedField",
-        "name": "mqttClientConnected",
+        "name": "mqttNewClient",
         "plural": false,
         "selections": [
           {
@@ -97,9 +97,9 @@ return {
       {
         "alias": null,
         "args": (v2/*: any*/),
-        "concreteType": "GQL_MqttClientConnected",
+        "concreteType": "GQL_MqttNewClient",
         "kind": "LinkedField",
-        "name": "mqttClientConnected",
+        "name": "mqttNewClient",
         "plural": false,
         "selections": [
           {
@@ -186,7 +186,7 @@ return {
               {
                 "kind": "Literal",
                 "name": "edgeTypeName",
-                "value": "GQL_MqttClientEdge"
+                "value": "GQL_MqttNewClientEdge"
               }
             ]
           }
@@ -196,16 +196,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5072635c5cb0ebbb7d4e6a543134ee0f",
+    "cacheID": "47053745d32c672d79abbd308d75ac17",
     "id": null,
     "metadata": {},
     "name": "MqttClientsClientConnectedSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttClientConnected(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
+    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttNewClient(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
   }
 };
 })();
 
-(node as any).hash = "922fccf42474b87768075d3aaec68b29";
+(node as any).hash = "5e9d67f52c15eeb0c5f9274975ea00d9";
 
 export default node;

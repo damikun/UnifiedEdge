@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<daa185a8fe39fc84ed36dfe3764a9295>>
+ * @generated SignedSource<<49df895a583d43d5b2b622d174b2643a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MqttTopicsPaginationFragment$data = {
   readonly __id: string;
-  readonly mqttServerTopicStats: {
+  readonly mqttServerTopics: {
     readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -30,7 +30,7 @@ export type MqttTopicsPaginationFragment$key = {
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "mqttServerTopicStats"
+  "mqttServerTopics"
 ],
 v1 = {
   "kind": "ClientExtension",
@@ -88,7 +88,7 @@ return {
   "name": "MqttTopicsPaginationFragment",
   "selections": [
     {
-      "alias": "mqttServerTopicStats",
+      "alias": "mqttServerTopics",
       "args": [
         {
           "kind": "Variable",
@@ -96,15 +96,15 @@ return {
           "variableName": "server_uid"
         }
       ],
-      "concreteType": "GQL_MqttServerTopicStatConnection",
+      "concreteType": "GQL_MqttTopicConnection",
       "kind": "LinkedField",
-      "name": "__MqttTopicsPaginationFragmentConnection_mqttServerTopicStats_connection",
+      "name": "__MqttTopicsPaginationFragmentConnection_mqttServerTopics_connection",
       "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "concreteType": "GQL_MqttServerTopicStatEdge",
+          "concreteType": "GQL_MqttTopicEdge",
           "kind": "LinkedField",
           "name": "edges",
           "plural": true,
@@ -112,7 +112,7 @@ return {
             {
               "alias": null,
               "args": null,
-              "concreteType": "GQL_MqttServerTopicStat",
+              "concreteType": "GQL_MqttTopic",
               "kind": "LinkedField",
               "name": "node",
               "plural": false,
@@ -185,6 +185,6 @@ return {
 };
 })();
 
-(node as any).hash = "0b45dd77a70d83c7828bb03446162b7d";
+(node as any).hash = "c9b387902897c4dba964d0568cf83562";
 
 export default node;

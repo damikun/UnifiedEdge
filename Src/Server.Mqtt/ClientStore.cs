@@ -1,11 +1,14 @@
 using Server.Mqtt.DTO;
 using System.Collections.Concurrent;
 
-
 namespace Server.Mqtt
 {
     public interface IClientStore
     {
+        event EventHandler<ClientEventArgs> OnNewClient;
+
+        event EventHandler<ClientEventArgs> OnClientUpdate;
+
         string GetClientUid(string client_id);
         int GetClientsCount();
         Task<int> GetConnectedClientsCount();
@@ -30,6 +33,10 @@ namespace Server.Mqtt
 
     public class ClientStore : IClientStore
     {
+        public event EventHandler<ClientEventArgs> OnNewClient;
+
+        public event EventHandler<ClientEventArgs> OnClientUpdate;
+
         private readonly ConcurrentDictionary<string, DTO_StoredMqttClient> _store;
 
         private volatile EdgeMqttServer _server;
@@ -229,14 +236,22 @@ namespace Server.Mqtt
 
             var result = new Dictionary<string, bool>();
 
-            var online_clinets = await _server.Server.GetClientsAsync();
-
-            foreach (var item in clients)
+            try
             {
-                var isOnline = online_clinets.Any(e => e.Id.Equals(item.ClientId, StringComparison.OrdinalIgnoreCase));
+                var online_clinets = await _server.Server.GetClientsAsync();
 
-                result.Add(item.Uid, isOnline);
+                foreach (var item in clients)
+                {
+                    var isOnline = online_clinets.Any(e => e.Id.Equals(item.ClientId, StringComparison.OrdinalIgnoreCase));
+
+                    result.Add(item.Uid, isOnline);
+                }
             }
+            catch
+            {
+
+            }
+
 
             return result;
         }
@@ -287,7 +302,7 @@ namespace Server.Mqtt
 
         public bool Contains(string clientUid)
         {
-            return _store.Keys.Any(e => e == clientUid);
+            return _store.ContainsKey(clientUid);
         }
 
         public DTO_MqttClient? UpdateClientProtocol(string clientUid, DTO_MqttProtocol protocol)
@@ -305,12 +320,14 @@ namespace Server.Mqtt
                 {
                     client.Protocol = protocol;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -332,12 +349,14 @@ namespace Server.Mqtt
                 {
                     client.LastMessageTimestamp = dt;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -359,12 +378,14 @@ namespace Server.Mqtt
                 {
                     client.DisconnectedTimeStamp = dt;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -391,12 +412,14 @@ namespace Server.Mqtt
 
                     client.LastMessageTimestamp = null;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -418,12 +441,14 @@ namespace Server.Mqtt
                 {
                     client.Endpoint = endpoint;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -446,12 +471,14 @@ namespace Server.Mqtt
                     client.Endpoint = endpoint;
                     client.Protocol = protocol;
 
+                    ReisOnUpdateClient(client);
+
                     return MapStoreDtoToDomainDto(client);
                 }
 
                 return null;
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -477,6 +504,8 @@ namespace Server.Mqtt
             };
 
             var stored = _store.GetOrAdd(client.Uid, e => client);
+
+            ReisOnNewClient(stored);
 
             return MapStoreDtoToDomainDto(stored);
         }
@@ -524,7 +553,7 @@ namespace Server.Mqtt
 
                 return MapStoreDtoToDomainDto(client);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
                 return null;
             }
@@ -551,5 +580,52 @@ namespace Server.Mqtt
                 Endpoint = clinet.Endpoint
             };
         }
+
+        private void ReisOnNewClient(DTO_StoredMqttClient client)
+        {
+            EventHandler<ClientEventArgs> raiseEvent = OnNewClient;
+
+            if (raiseEvent != null)
+            {
+                var dto = MapStoreDtoToDomainDto(client);
+
+                var args = new ClientEventArgs(dto);
+
+                try
+                {
+                    raiseEvent.Invoke(this, args);
+                }
+                catch { }
+            }
+        }
+
+        private void ReisOnUpdateClient(DTO_StoredMqttClient client)
+        {
+            EventHandler<ClientEventArgs> raiseEvent = OnClientUpdate;
+
+            if (raiseEvent != null)
+            {
+                var dto = MapStoreDtoToDomainDto(client);
+
+                var args = new ClientEventArgs(dto);
+
+                try
+                {
+                    raiseEvent.Invoke(this, args);
+                }
+                catch { }
+            }
+        }
+
+    }
+
+    public class ClientEventArgs : EventArgs
+    {
+        public ClientEventArgs(DTO_MqttClient client)
+        {
+            Client = client;
+        }
+
+        public DTO_MqttClient Client { get; set; }
     }
 }

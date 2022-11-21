@@ -27,9 +27,6 @@ namespace Aplication.GraphQL.Types
                 )
             );
 
-            // descriptor.Field(e => e.ID).ID();
-
-            // descriptor.Field(e => e.LastJobId).ID("SchedulerUid");
 
             descriptor
             .Field(t => t.LastJobState)

@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Events.Server
 {
-    public class GQL_MqttServerNewTopic_PropagateSub_Handler
-        : INotificationHandler<ServerGenericEventNotification<MqttServerNewInboundTopic>>
+    public class GQL_MqttServerTopicUpdetd_PropagateSub_Handler
+        : INotificationHandler<ServerGenericEventNotification<MqttServerTopicUpdated>>
     {
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Aplication.Events.Server
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public GQL_MqttServerNewTopic_PropagateSub_Handler(
+        public GQL_MqttServerTopicUpdetd_PropagateSub_Handler(
             ITopicEventSender sender,
             IMapper mapper,
             IDbContextFactory<ManagmentDbCtx> factory)
@@ -40,7 +40,7 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<MqttServerNewInboundTopic> notification,
+            ServerGenericEventNotification<MqttServerTopicUpdated> notification,
             CancellationToken cancellationToken
         )
         {
@@ -53,15 +53,9 @@ namespace Aplication.Events.Server
 
             var gql_topic_dto = _mapper.Map<GQL_MqttTopic>(e.Topic);
 
-            var event_dto = new GQL_MqttNewTopic()
-            {
-                TimeStamp = DateTime.Now,
-                Topic = gql_topic_dto
-            };
-
             await _sender.SendAsync(
-                $"EdgeMqttServer.{gql_topic_dto.ServerUid}.NewTopic",
-                event_dto
+                $"EdgeMqttServer.{gql_topic_dto.ServerUid}.TopicUpdated",
+                gql_topic_dto
             );
         }
     }

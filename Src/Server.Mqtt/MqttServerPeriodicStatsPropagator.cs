@@ -65,8 +65,6 @@ namespace Server.Mqtt
 
                             try
                             {
-                                continue;
-
                                 var client_stat = await _manager.GetClientStatistics(server_id, client.Uid);
 
                                 if (client_stat != null)

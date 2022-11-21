@@ -141,22 +141,22 @@ function MqttServerStatistic({dataRef}:MqttServerStatisticProps) {
   name="Statistic"
   component={
     <SectionBody className={clsx("flex flex-row justify-around",
-    "items-center space-x-2 h-full align-middle")}>
-      <div className="flex-flex-col items-center text-center">
+    "h-full space-x-2 space-y-0 items-center align-middle")}>
+      <div className="flex flex-col items-center text-center">
         <div className="text-xl font-semibold">
           {data?.mqttServerStats.connectionsCount}
         </div>
         <div className="font-semibold">Connections</div>
       </div>
 
-      <div className="flex-flex-col items-center text-center">
+      <div className="flex flex-col items-center text-center">
         <div className="text-xl font-semibold">
           {data?.mqttServerStats.publishedTopicCount}
         </div>
         <div className="font-semibold">Topics</div>
       </div>
 
-      <div className="flex-flex-col items-center text-center">
+      <div className="flex flex-col items-center text-center">
         <div className="text-xl font-semibold">
           {data?.mqttServerStats.subscriptionsCount}
         </div>

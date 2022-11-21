@@ -15,8 +15,6 @@ namespace Aplication.GraphQL.Types
             descriptor.Field(e => e.LastState)
             .ResolveWith<Resolvers>(e => e.GetJobLastState(default!, default!, default));
 
-            // descriptor.Field(e => e.JobId).ID("SchedulerUid");
-
             descriptor.Field(e => e.MethodCall)
             .ResolveWith<Resolvers>(e => e.GetJobMethodCall(default!, default!, default));
         }

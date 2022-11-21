@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1b87cbfaadcc937f572db2872746da24>>
+ * @generated SignedSource<<4459a79a6199158189af5f543c1324b6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,8 +11,12 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MqttTopicItemDataFragment$data = {
-  readonly count: any;
   readonly id: string;
+  readonly serverUid: string;
+  readonly stats: {
+    readonly id: string;
+    readonly messagesCount: any;
+  };
   readonly topic: string;
   readonly " $fragmentType": "MqttTopicItemDataFragment";
 };
@@ -21,17 +25,26 @@ export type MqttTopicItemDataFragment$key = {
   readonly " $fragmentSpreads": FragmentRefs<"MqttTopicItemDataFragment">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "MqttTopicItemDataFragment",
   "selections": [
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "id",
+      "name": "serverUid",
       "storageKey": null
     },
     {
@@ -44,15 +57,28 @@ const node: ReaderFragment = {
     {
       "alias": null,
       "args": null,
-      "kind": "ScalarField",
-      "name": "count",
+      "concreteType": "GQL_MqttTopicStats",
+      "kind": "LinkedField",
+      "name": "stats",
+      "plural": false,
+      "selections": [
+        (v0/*: any*/),
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "messagesCount",
+          "storageKey": null
+        }
+      ],
       "storageKey": null
     }
   ],
-  "type": "GQL_MqttServerTopicStat",
+  "type": "GQL_MqttTopic",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "993dd631acebb54e62aa782893f6b348";
+(node as any).hash = "3946e38d28f1e7434c38596d727165e4";
 
 export default node;

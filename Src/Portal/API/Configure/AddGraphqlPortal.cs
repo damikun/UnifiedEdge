@@ -119,6 +119,9 @@ namespace API
 
                 .AddType<EdgeType>()
 
+                .AddType<MqttTopicType>()
+                .AddType<MqttTopicStatsType>()
+
                 .AddType<ServerStateChangedNotificationType>()
 
                 .AddType<ServerEventsUnionType>()
