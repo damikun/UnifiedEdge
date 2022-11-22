@@ -11,7 +11,7 @@ namespace Aplication.Events.Server
 {
 
     public class GQL_MqttServerNewClient_PropagateSub_Handler
-        : INotificationHandler<ServerGenericEventNotification<MqttServerNewClient>>
+        : INotificationHandler<ServerGenericEventNotification<MqttNewClient>>
     {
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Aplication.Events.Server
         }
 
         public async Task Handle(
-            ServerGenericEventNotification<MqttServerNewClient> notification,
+            ServerGenericEventNotification<MqttNewClient> notification,
             CancellationToken cancellationToken
         )
         {

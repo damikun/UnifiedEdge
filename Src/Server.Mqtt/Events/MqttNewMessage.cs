@@ -2,10 +2,10 @@ using Server.Mqtt.DTO;
 
 namespace Server.Mqtt
 {
-    public class MqttNewClient : ServerEventBase
+    public class MqttNewMessage : ServerEventBase
     {
 
-        public DTO_MqttClient? Client { get; set; }
+        public DTO_MqttMessage? Message { get; set; }
 
         // <summary>
         /// TimeStamp

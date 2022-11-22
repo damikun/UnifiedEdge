@@ -32,6 +32,8 @@ namespace Server.Mqtt
 
         public readonly ITopicStore Topics;
 
+        public readonly IMessageStore Messages;
+
         public EdgeMqttServer(
             IServerCfg cfg,
             IServerEventPublisher? publisher = null
@@ -41,7 +43,18 @@ namespace Server.Mqtt
 
             Topics = CreateTopicStore();
 
+            Messages = CreateMessageStore();
+
             Meter = new EdgeMqttServerMeter(this);
+        }
+
+        private MessageStore CreateMessageStore()
+        {
+            var store = new MessageStore(this);
+
+            store.OnNewMessage += OnNewMessage;
+
+            return store;
         }
 
         private TopicStore CreateTopicStore()
@@ -139,6 +152,7 @@ namespace Server.Mqtt
 
             server.InterceptingPublishAsync += OnInterceptingPublishAsync;
             server.InterceptingPublishAsync += OnInterceptingPublishAsync_RecordTopic;
+            server.InterceptingPublishAsync += OnInterceptingPublishAsync_RecordMessage;
 
             server.ClientSubscribedTopicAsync += OnClientSubscribedTopicAsync;
 
@@ -237,6 +251,11 @@ namespace Server.Mqtt
             {
                 isDisposing = true;
 
+                try
+                {
+                    Messages.Dispose();
+                }
+                catch { }
                 try
                 {
                     Meter.Dispose();
@@ -388,6 +407,41 @@ namespace Server.Mqtt
             Topics.IncrementTopicStatCount(topic);
 
             return Task.CompletedTask;
+        }
+
+        Task OnInterceptingPublishAsync_RecordMessage(InterceptingPublishEventArgs args)
+        {
+            if (args is null ||
+                args.ApplicationMessage is null ||
+                args.ApplicationMessage.Topic is null ||
+                args.ClientId is null
+            )
+            {
+                return Task.CompletedTask;
+            };
+
+            var m = args.ApplicationMessage;
+
+            Messages.AddMessage(
+                new MqttStoredMessage()
+                {
+                    ClientUid = DTO_StoredMqttClient.GetUid(this.UID, args.ClientId),
+                    ServerUid = this.UID,
+                    Payload = m.Payload,
+                    ContentType = m.ContentType,
+                    Topic = m.Topic,
+                    TopicUid = MqttStoredTopic.GetUid(this.UID, m.Topic),
+                    ResponseTopic = m.ResponseTopic,
+                    Dup = m.Dup,
+                    Retain = m.Retain,
+                    Qos = (byte)m.QualityOfServiceLevel,
+                    ExpireInterval = (int)m.MessageExpiryInterval,
+                    TimeStamp = DateTime.Now
+                }
+            );
+
+            return Task.CompletedTask;
+
         }
 
         Task OnInterceptingPublishAsync(InterceptingPublishEventArgs args)
@@ -564,7 +618,7 @@ namespace Server.Mqtt
             if (args is not null)
             {
                 this._publisher.PublishEvent(
-                    new MqttServerNewClient()
+                    new MqttNewClient()
                     {
                         Client = args.Client,
                         TimeStamp = DateTime.Now,
@@ -581,6 +635,25 @@ namespace Server.Mqtt
                     }
                 );
 
+            }
+        }
+
+        // -------------------------------------
+        // -------- Message store events --------
+        // -------------------------------------
+
+        void OnNewMessage(object? sender, MessageEventArgs args)
+        {
+            if (args is not null)
+            {
+                // this._publisher.PublishEvent(
+                //     new MqttNewMessage()
+                //     {
+                //         Message = args.Message,
+                //         TimeStamp = args.Message.TimeStamp
+                //         ServerUid = this.UID,
+                //     }
+                // );
             }
         }
     }
