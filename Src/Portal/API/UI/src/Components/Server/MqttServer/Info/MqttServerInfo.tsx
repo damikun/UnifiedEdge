@@ -8,6 +8,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import MqttServerStatistic from "./MqttServerStatistic";
 import MqttServerNetworkInfo from "./MqttServerNetworkInfo";
 import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
+import MqttRecentMessages from "./RecentMessagesList/MqttRecentMessages";
 
 
 export const MqttServerInfoQueryTag = graphql`
@@ -24,6 +25,8 @@ export const MqttServerInfoQueryTag = graphql`
     ...MqttServerStatisticFragment @arguments(server_uid: $id)
 
     ...MqttTopicsPaginationFragment @arguments(server_uid: $id)@defer
+
+    ...MqttRecentMessagesPaginationFragment @arguments(server_uid: $id)@defer
   }
 `;
 
@@ -52,5 +55,7 @@ function MqttServerInfo() {
       <MqttClients dataRef={data}/>
     {/* </Suspense> */}
     <MqttTopics dataRef={data}/>
+
+    <MqttRecentMessages dataRef={data}/>
   </>
 }

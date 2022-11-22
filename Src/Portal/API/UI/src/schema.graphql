@@ -407,6 +407,42 @@ type GQL_MqttClientStatsUpdate {
   timestamp: DateTime!
 }
 
+type GQL_MqttMessage {
+  clientUid: ID
+  contentType: String
+  dup: Boolean!
+  expireInterval: Int!
+  id: ID!
+  payload: [Byte!]
+  qos: Byte!
+  responseTopic: String
+  retain: Boolean!
+  serverUid: ID!
+  timeStamp: DateTime!
+  topic: String!
+  topicUid: ID
+}
+
+"A connection to a list of items."
+type GQL_MqttMessageConnection {
+  "A list of edges."
+  edges: [GQL_MqttMessageEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttMessage]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttMessageEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttMessage
+}
+
 type GQL_MqttNewClient {
   client: GQL_MqttClient!
   timeStamp: DateTime!
@@ -864,12 +900,15 @@ type Query {
   mqttServerById(id: ID!): GQL_MqttServer!
   mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
   mqttServerClientConfig(server_uid: ID!): GQL_MqttServerClientCfg!
+  mqttServerClientRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
   mqttServerClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientConnection
   mqttServerClientSession(server_client_uid: ID! server_uid: ID!): GQL_MqttClientSession!
   mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
+  mqttServerRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
   mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
   mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
+  mqttServerTopicRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
   mqttServerTopics("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttTopicConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
@@ -1461,6 +1500,9 @@ directive @specifiedBy("The specifiedBy URL points to a human-readable specifica
 directive @stream("Streamed when true." if: Boolean "The initial elements that shall be send down to the consumer." initialCount: Int! = 0 "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String) on FIELD
 
 scalar Any
+
+"The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
+scalar Byte
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
