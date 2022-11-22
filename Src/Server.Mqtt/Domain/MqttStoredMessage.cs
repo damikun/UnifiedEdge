@@ -17,7 +17,7 @@ namespace Server.Mqtt.DTO
         {
             get
             {
-                return $"MqttMessage.{ServerUid},{_uid}";
+                return $"MqttMessage.{ServerUid}.{_uid}";
             }
         }
 
@@ -25,6 +25,11 @@ namespace Server.Mqtt.DTO
         /// ClientUid
         /// </summary>
         public string? ClientUid { get; set; }
+
+        // <summary>
+        /// ClientId
+        /// </summary>
+        public string? ClientId { get; set; }
 
         // <summary>
         /// ServerUid

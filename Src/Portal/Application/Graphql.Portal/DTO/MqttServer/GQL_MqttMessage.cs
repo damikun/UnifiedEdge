@@ -22,6 +22,11 @@ namespace Server.Mqtt.DTO
         public string? ClientUid { get; set; }
 
         // <summary>
+        /// ClientId
+        /// </summary>
+        public string? ClientId { get; set; }
+
+        // <summary>
         /// ServerUid
         /// </summary>
         public string ServerUid { get; set; }
@@ -89,6 +94,7 @@ namespace Server.Mqtt.DTO
             .ForMember(dest => dest.Qos, opt => opt.MapFrom(src => src.Qos))
             .ForMember(dest => dest.ResponseTopic, opt => opt.MapFrom(src => src.ResponseTopic))
             .ForMember(dest => dest.Retain, opt => opt.MapFrom(src => src.Retain))
+            .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId))
             .ForMember(dest => dest.ServerUid, opt => opt.MapFrom(src => src.ServerUid))
             .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.TimeStamp))
             .ForMember(dest => dest.Topic, opt => opt.MapFrom(src => src.Topic))

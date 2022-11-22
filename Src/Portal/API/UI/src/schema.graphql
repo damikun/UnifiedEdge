@@ -408,6 +408,7 @@ type GQL_MqttClientStatsUpdate {
 }
 
 type GQL_MqttMessage {
+  clientId: String
   clientUid: ID
   contentType: String
   dup: Boolean!

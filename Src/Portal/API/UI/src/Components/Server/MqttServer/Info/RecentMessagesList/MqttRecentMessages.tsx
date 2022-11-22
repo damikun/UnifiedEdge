@@ -111,11 +111,14 @@ function TopicListBody({dataRef}:TopicListBodyProps){
 
 function Header(){
   return <TableHeader>
-    <tr className="flex w-5/12 2xl:w-4/12">
+    <tr className="flex w-6/12 2xl:w-3/12">
       <th>Client</th>
     </tr>
-    <tr className="flex w-7/12 2xl:w-8/12">
+    <tr className="w-6/12 2xl:w-6/12 hidden 2xl:flex">
       <th>Topic</th>
+    </tr>
+    <tr className="flex justify-center items-center text-center w-5/12 2xl:w-3/12">
+      <th>TimeStamp</th>
     </tr>
   </TableHeader>
 }

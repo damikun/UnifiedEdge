@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c21acc0d9feb51aa27ac148a59f5bfee>>
+ * @generated SignedSource<<84eef8e6cddf9747173a9fdcd944886d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -141,6 +141,20 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "clientId",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "timeStamp",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -201,12 +215,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e86d0f91b4443fe0f953ae8543b8962c",
+    "cacheID": "d98b0814e4d50989cc823a731a89980c",
     "id": null,
     "metadata": {},
     "name": "MqttRecentMessagesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttRecentMessagesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttRecentMessagesPaginationFragment_3VI1TY\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n}\n\nfragment MqttRecentMessagesPaginationFragment_3VI1TY on Query {\n  mqttServerRecentMessages(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttRecentMessagesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttRecentMessagesPaginationFragment_3VI1TY\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_3VI1TY on Query {\n  mqttServerRecentMessages(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

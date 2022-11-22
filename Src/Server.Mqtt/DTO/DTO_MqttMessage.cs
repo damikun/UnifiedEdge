@@ -23,6 +23,7 @@ namespace Server.Mqtt.DTO
             Qos = message.Qos;
             ExpireInterval = message.ExpireInterval;
             TimeStamp = message.TimeStamp;
+            ClientId = message.ClientId;
         }
 
         // <summary>
@@ -34,6 +35,11 @@ namespace Server.Mqtt.DTO
         /// ClientUid
         /// </summary>
         public string? ClientUid { get; set; }
+
+        // <summary>
+        /// ClientId
+        /// </summary>
+        public string? ClientId { get; set; }
 
         // <summary>
         /// ServerUid
@@ -107,7 +113,8 @@ namespace Server.Mqtt.DTO
                 Retain = m.Retain,
                 Qos = m.Qos,
                 ExpireInterval = m.ExpireInterval,
-                TimeStamp = m.TimeStamp
+                TimeStamp = m.TimeStamp,
+                ClientId = m.ClientId
             };
         }
     }

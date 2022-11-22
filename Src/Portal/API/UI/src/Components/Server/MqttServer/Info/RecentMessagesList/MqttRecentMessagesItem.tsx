@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
-import { useCallback, useTransition } from "react";
+import { useCallback, useMemo, useTransition } from "react";
 import TableItem from "../../../../../UIComponents/Table/TableItem";
 import { MqttRecentMessagesItemDataFragment$key } from "./__generated__/MqttRecentMessagesItemDataFragment.graphql";
+import { GetLocalDate } from "../../../../../Shared/Common";
 
 
 const MqttRecentMessagesItemDataFragment = graphql`
@@ -11,6 +12,8 @@ const MqttRecentMessagesItemDataFragment = graphql`
     id
     clientUid
     topic
+    clientId
+    timeStamp
   }
 `;
 
@@ -38,18 +41,29 @@ export function MqttRecentMessagesItem({dataRef, onItemClick,key_}:MqttRecentMes
     [onItemClick,data],
   )
 
+  const dt = useMemo(()=>{
+    return data?.timeStamp ? GetLocalDate(data?.timeStamp): "N/A";
+  },[data]) 
+
   return <TableItem
     onClick={handleClick}
     key={data?.id}>
-    <td className="w-5/12 2xl:w-4/12 flex truncate capitalize">
+    <td className="w-6/12 2xl:w-3/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">
-        {data?.clientUid}
+        {data?.clientId}
       </div>
     </td>
-    <td className={clsx("w-7/12 2xl:w-8/12 flex truncate",
-      "justify-center text-sm")}>
-      <div className="truncate break-all">
+    <td className={clsx("w-6/12 2xl:w-6/12 hidden 2xl:flex truncate",
+      "text-sm")}>
+      <div className="truncate break-all font-mono">
         {data?.topic}
+      </div>
+    </td>
+
+    <td className={clsx("w-5/12 2xl:w-3/12 flex truncate",
+      "justify-center items-center text-sm")}>
+      <div className="truncate break-all">
+        {dt}
       </div>
     </td>
   </TableItem>

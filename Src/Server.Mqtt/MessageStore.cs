@@ -70,7 +70,7 @@ namespace Server.Mqtt
 
         private Task CreateWorker(CancellationToken ct)
         {
-            return new Task(async () => await MessageWorkerTask(ct));
+            return Task.Run(async () => await MessageWorkerTask(ct));
         }
 
         private async Task MessageWorkerTask(CancellationToken token)
@@ -79,27 +79,22 @@ namespace Server.Mqtt
             {
                 await _queue.Reader.WaitToReadAsync(token);
 
-                var data = _queue.Reader.ReadAllAsync(token);
+                var i = await _queue.Reader.ReadAsync(token);
 
-                await foreach (var i in data)
+                if (token.IsCancellationRequested)
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        if (i is not null && i.Uid is not null)
-                        {
-                            try
-                            {
-                                _store.Add(i);
+                    break;
+                }
 
-                                ReisOnNewMessage(i);
-                            }
-                            catch { }
-                        }
+                if (i is not null && i.Uid is not null)
+                {
+                    try
+                    {
+                        _store.Add(i);
+
+                        ReisOnNewMessage(i);
                     }
+                    catch { }
                 }
             }
         }
@@ -117,6 +112,7 @@ namespace Server.Mqtt
 
         public void AddMessage(MqttStoredMessage Message)
         {
+
             if (Message is null || string.IsNullOrWhiteSpace(Message.Uid))
             {
                 return;
@@ -127,7 +123,11 @@ namespace Server.Mqtt
                 return;
             }
 
-            _queue.Writer.TryWrite(Message);
+
+            if (!_queue.Writer.TryWrite(Message))
+            {
+                // Is full 
+            }
 
         }
 
