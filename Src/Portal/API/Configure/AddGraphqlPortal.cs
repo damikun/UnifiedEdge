@@ -117,6 +117,8 @@ namespace API
                 .AddType<SystemEventType>()
                 .AddType<MqttServerStatsType>()
 
+                .AddType<MqttMessageType>()
+
                 .AddType<EdgeType>()
 
                 .AddType<MqttTopicType>()

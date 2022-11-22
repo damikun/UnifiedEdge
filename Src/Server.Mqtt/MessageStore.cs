@@ -15,7 +15,9 @@ namespace Server.Mqtt
 
         void AddMessage(MqttStoredMessage Message);
 
-        ICollection<DTO_MqttMessage> GetRecentMessages(string topicUid);
+        ICollection<DTO_MqttMessage> GetTopicRecentMessages(string topicUid);
+
+        ICollection<DTO_MqttMessage> GetClientRecentMessages(string topicUid);
 
         ICollection<DTO_MqttMessage> GetRecentMessages();
 
@@ -147,7 +149,7 @@ namespace Server.Mqtt
             .ToList();
         }
 
-        public ICollection<DTO_MqttMessage> GetRecentMessages(string topicUid)
+        public ICollection<DTO_MqttMessage> GetTopicRecentMessages(string topicUid)
         {
             if (string.IsNullOrWhiteSpace(topicUid) || cts.IsCancellationRequested)
             {
@@ -156,6 +158,22 @@ namespace Server.Mqtt
 
             return _store
             .Where(e => e.TopicUid != null && e.TopicUid.Equals(topicUid, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(e => e.TimeStamp)
+            .Take(Recent_SIZE)
+            .AsQueryable()
+            .ProjectTo<DTO_MqttMessage>(configuration)
+            .ToList();
+        }
+
+        public ICollection<DTO_MqttMessage> GetClientRecentMessages(string clientUid)
+        {
+            if (string.IsNullOrWhiteSpace(clientUid) || cts.IsCancellationRequested)
+            {
+                return new List<DTO_MqttMessage>();
+            }
+
+            return _store
+            .Where(e => e.ClientUid != null && e.ClientUid.Equals(clientUid, StringComparison.OrdinalIgnoreCase))
             .OrderBy(e => e.TimeStamp)
             .Take(Recent_SIZE)
             .AsQueryable()

@@ -53,6 +53,57 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<Connection<GQL_MqttClient>>(result);
         }
 
+        [UseConnection(typeof(GQL_MqttMessage))]
+        public async Task<Connection<GQL_MqttMessage>> GetMqttServerRecentMessages(
+        [ID] string server_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerRecentMessages(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttMessage>>(result);
+        }
+
+        [UseConnection(typeof(GQL_MqttMessage))]
+        public async Task<Connection<GQL_MqttMessage>> GetMqttServerTopicRecentMessages(
+            [ID] string server_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerTopicRecentMessages(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttMessage>>(result);
+        }
+
+        [UseConnection(typeof(GQL_MqttMessage))]
+        public async Task<Connection<GQL_MqttMessage>> GetMqttServerClientRecentMessages(
+            [ID] string server_uid,
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerClientRecentMessages(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttMessage>>(result);
+        }
+
         [UseConnection(typeof(GQL_MqttClientSession))]
         public async Task<Connection<GQL_MqttClientSession>> GetMqttServerSessions(
             [ID] string server_uid,

@@ -35,7 +35,8 @@ namespace Server.Manager.Mqtt
                     return null;
                 }
 
-                return await mqtt_server.Clients.IsConnected(client_uid);
+                return await mqtt_server.Clients
+                    .IsConnected(client_uid);
             }
             else
             {
@@ -54,7 +55,8 @@ namespace Server.Manager.Mqtt
                     return new Dictionary<string, bool>();
                 }
 
-                return await mqtt_server.Clients.IsConnected(clients_uids);
+                return await mqtt_server.Clients
+                    .IsConnected(clients_uids);
             }
             else
             {
@@ -73,7 +75,8 @@ namespace Server.Manager.Mqtt
                     return null;
                 }
 
-                return mqtt_server.Clients.GetClientByUid(clinet_uid);
+                return mqtt_server.Clients
+                    .GetClientByUid(clinet_uid);
             }
             else
             {
@@ -89,7 +92,109 @@ namespace Server.Manager.Mqtt
 
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
-                return mqtt_server.Clients.GetClients();
+                return mqtt_server.Clients
+                    .GetClients();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<IList<DTO_MqttMessage>> GetRecentMessages(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Messages
+                    .GetRecentMessages()
+                    .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<IList<DTO_MqttMessage>> GetTopicRecentMessages(string server_uid, string topic_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                if (string.IsNullOrWhiteSpace(topic_uid))
+                {
+                    return new List<DTO_MqttMessage>();
+                }
+
+                return mqtt_server.Messages
+                    .GetTopicRecentMessages(topic_uid)
+                    .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<IList<DTO_MqttMessage>> GetClientRecentMessages(string server_uid, string client_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                if (string.IsNullOrWhiteSpace(client_uid))
+                {
+                    return new List<DTO_MqttMessage>();
+                }
+
+                return mqtt_server.Messages
+                    .GetTopicRecentMessages(client_uid)
+                    .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<DTO_MqttMessage?> GetMessageByUid(string server_uid, string message_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                if (string.IsNullOrWhiteSpace(message_uid))
+                {
+                    return null;
+                }
+
+                return mqtt_server.Messages
+                    .GetMessageByUid(message_uid);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+        public async Task<DTO_MqttTopic?> GetTopicByUid(string server_uid, string topic_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                if (string.IsNullOrWhiteSpace(topic_uid))
+                {
+                    return null;
+                }
+
+                return mqtt_server.Topics
+                    .GetTopicByUid(topic_uid);
             }
             else
             {
@@ -103,7 +208,8 @@ namespace Server.Manager.Mqtt
 
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
-                return await mqtt_server.Clients.GetSessions();
+                return await mqtt_server.Clients
+                    .GetSessions();
             }
             else
             {
@@ -127,7 +233,8 @@ namespace Server.Manager.Mqtt
                         return null;
                     }
 
-                    return await mqtt_server.Clients.GetClientStatistics(server_client_uid);
+                    return await mqtt_server.Clients
+                        .GetClientStatistics(server_client_uid);
                 }
                 catch
                 {

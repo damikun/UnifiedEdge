@@ -17,6 +17,8 @@ namespace Server.Mqtt
 
         List<DTO_MqttTopic> GetTopics();
 
+        DTO_MqttTopic? GetTopicByUid(string topic_uid);
+
         int GetTopicsCount();
 
         bool Contains(string topicUid);
@@ -48,6 +50,23 @@ namespace Server.Mqtt
             _server = server;
 
             _store = new ConcurrentDictionary<string, MqttStoredTopic>();
+        }
+
+        public DTO_MqttTopic? GetTopicByUid(string topic_uid)
+        {
+            if (string.IsNullOrWhiteSpace(topic_uid))
+            {
+                return null;
+            }
+
+            _store.TryGetValue(topic_uid, out MqttStoredTopic? topic);
+
+            if (topic is null)
+            {
+                return null;
+            }
+
+            return DTO_MqttTopic.MapFrom(topic);
         }
 
         public DTO_MqttTopic? AddTopic(string topic)

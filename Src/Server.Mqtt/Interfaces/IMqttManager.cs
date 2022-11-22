@@ -14,6 +14,16 @@ namespace Server.Manager.Mqtt
 
         Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid);
 
+        Task<IList<DTO_MqttMessage>> GetRecentMessages(string server_uid);
+
+        Task<IList<DTO_MqttMessage>> GetTopicRecentMessages(string server_uid, string topic_uid);
+
+        Task<IList<DTO_MqttMessage>> GetClientRecentMessages(string server_uid, string client_uid);
+
+        Task<DTO_MqttTopic?> GetTopicByUid(string server_uid, string topic_uid);
+
+        Task<DTO_MqttMessage?> GetMessageByUid(string server_uid, string message_uid);
+
         string BuildClinetUid(string serverUid, string clinetId);
 
         Task<DTO_MqttClientStatistics?> GetClientStatistics(
