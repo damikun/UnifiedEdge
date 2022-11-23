@@ -28,5 +28,10 @@ namespace Server
         {
 
         }
+
+        public void PublishMessage(MessageEventBase message_event)
+        {
+
+        }
     }
 }

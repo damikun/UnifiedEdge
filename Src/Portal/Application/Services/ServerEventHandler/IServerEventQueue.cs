@@ -5,6 +5,7 @@ namespace Aplication.Services.ServerEventHandler
 {
     public interface IServerEventQueue
     {
-        public Channel<ServerEventBase> Queue { get; }
+        public Channel<ServerEventBase> EventQueue { get; }
+        public Channel<MessageEventBase> MessageQueue { get; }
     }
 }

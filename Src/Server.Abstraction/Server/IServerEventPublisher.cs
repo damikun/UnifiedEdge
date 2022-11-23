@@ -10,5 +10,7 @@ namespace Server
         public void PublishError(string server_uid, string Name, Exception? ex = null);
 
         public void PublishEvent(ServerEventBase server_event);
+
+        public void PublishMessage(MessageEventBase message_event);
     }
 }

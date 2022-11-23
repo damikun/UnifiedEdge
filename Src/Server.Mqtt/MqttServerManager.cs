@@ -101,6 +101,26 @@ namespace Server.Manager.Mqtt
             }
         }
 
+        public async Task<IList<DTO_MqttMessage>> GetRecentMessages(
+            string server_uid,
+            string? topic_uid = null,
+            string? client_uid = null
+        )
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Messages
+                    .GetRecentMessages(client_uid, server_uid)
+                    .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
         public async Task<IList<DTO_MqttMessage>> GetRecentMessages(string server_uid)
         {
             var server = await this.GetServer(server_uid);

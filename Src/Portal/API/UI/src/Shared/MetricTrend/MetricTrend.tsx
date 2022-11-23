@@ -106,7 +106,7 @@ export default function MetricTrend({
                 value:data.runtimeMetric.value
             }
         })
-    }
+      }
     },
   } as GraphQLSubscriptionConfig<MetricTrendSubscription>), [dispatch, subSource]);
 

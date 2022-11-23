@@ -128,18 +128,18 @@ export default function MqttClientDetail(){
 
         <FieldGroup>
             <FieldSection className="items-center" name="Mqtt">
-                <Badge
-                turncate
-                border={false}
-                className="text-xxs border border-gray-200"
-                size="thin"
-                variant="ternarygray"
-            >
-                {data?.mqttServerClient.protocol}    
-            </Badge>
+              <Badge
+                  turncate
+                  border={false}
+                  className="text-xxs border border-gray-200"
+                  size="thin"
+                  variant="ternarygray"
+              >
+                  {data?.mqttServerClient.protocol}    
+              </Badge>
             </FieldSection>
-            <FieldSection name="Client Id">
-                <div className="truncate font-sans text-gray-700 font-semibold text-sm">
+            <FieldSection multiline name="Client Id">
+                <div className="font-sans text-gray-700 font-semibold text-sm max-w-full break-all select-all">
                     {data?.mqttServerClient.clientId}
                 </div>
             </FieldSection>

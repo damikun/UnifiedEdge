@@ -1,9 +1,9 @@
 using MediatR;
+using System.Reflection;
 using Persistence.Portal;
 using Aplication.Events.Server;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Aplication.Services.ServerEventHandler
 {
@@ -36,15 +36,22 @@ namespace Aplication.Services.ServerEventHandler
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
+            bool loaded = false;
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                await _queueProvider.Queue.Reader.WaitToReadAsync(stoppingToken);
+                await _queueProvider.EventQueue.Reader.WaitToReadAsync(stoppingToken);
 
                 try
                 {
-                    var server_event = await _queueProvider.Queue.Reader.ReadAsync();
+                    var server_event = await _queueProvider.EventQueue.Reader.ReadAsync();
 
-                    Assembly.Load(server_event.GetType().Assembly.FullName);
+                    if (!loaded)
+                    {
+                        Assembly.Load(server_event.GetType().Assembly.FullName);
+
+                        loaded = true;
+                    }
 
                     var even_type = server_event.GetType();
 

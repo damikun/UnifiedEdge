@@ -647,14 +647,14 @@ namespace Server.Mqtt
         {
             if (args is not null)
             {
-                // this._publisher.PublishEvent(
-                //     new MqttNewMessage()
-                //     {
-                //         Message = args.Message,
-                //         TimeStamp = args.Message.TimeStamp
-                //         ServerUid = this.UID,
-                //     }
-                // );
+                this._publisher.PublishMessage(
+                    new MqttNewMessage()
+                    {
+                        Message = args.Message,
+                        TimeStamp = args.Message.TimeStamp,
+                        ServerUid = this.UID,
+                    }
+                );
             }
         }
     }

@@ -1,15 +1,32 @@
 import { useParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import { usePaginationFragment } from "react-relay";
-import React, { useCallback, useEffect, useState } from "react";
+import { LinkedList } from "../../../../../Shared/LinkedList";
+import React, { useCallback, useMemo, useReducer } from "react";
 import Section from "../../../../../UIComponents/Section/Section";
 import { MqttRecentMessagesItem } from "./MqttRecentMessagesItem";
+import { usePaginationFragment, useSubscription } from "react-relay";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
+import { FragmentRefs, GraphQLSubscriptionConfig } from "relay-runtime";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttRecentMessagesPaginationFragment$key } from "./__generated__/MqttRecentMessagesPaginationFragment.graphql";
+import { MqttRecentMessagesNewMessageSubscription } from "./__generated__/MqttRecentMessagesNewMessageSubscription.graphql";
 import { MqttRecentMessagesPaginationFragmentRefetchQuery } from "./__generated__/MqttRecentMessagesPaginationFragmentRefetchQuery.graphql";
 
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const MqttRecentMessagesNewMessageTag = graphql`
+    subscription MqttRecentMessagesNewMessageSubscription(
+      $id:ID!
+      $client_id:ID
+      $topic_id:ID
+    ) {
+        mqttServerNewMessage(server_id:$id,client_id:$client_id,topic_id:$topic_id){
+          id
+          ...MqttRecentMessagesItemDataFragment
+        }
+    }
+`;
 
 const MqttRecentMessagesPaginationFragment = graphql`
   fragment MqttRecentMessagesPaginationFragment on Query
@@ -67,19 +84,34 @@ function TopicListBody({dataRef}:TopicListBodyProps){
   MqttRecentMessagesPaginationFragment$key
   >(MqttRecentMessagesPaginationFragment, dataRef);
 
-  const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttServerRecentMessages?.__id);
+  const [data_list, dispatch] = useReducer(
+    messagesReducer,InitMetricsBuffer(pagination.data?.mqttServerRecentMessages?.edges)
+  );
 
-  useEffect(() => {
-    setConnectionId(pagination.data?.mqttServerRecentMessages?.__id)
-  }, [pagination.data?.mqttServerRecentMessages?.__id])
+  const normalised_data = useMemo(() =>  data_list.data.traverse(), [data_list])
   
-  const handleLoadMore = useCallback(
-    () => {
-      pagination.loadNext(10);
+  const message_sub = useMemo(() => ({
+    variables: {id:id,},
+    subscription:MqttRecentMessagesNewMessageTag,
+    updater: (store,data) => { 
+      if(data && data.mqttServerNewMessage){
+        dispatch({
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            type:LinkedListActionKind.Add,
+            payload:{
+              node: data.mqttServerNewMessage
+            }
+        })
+      }
     },
-    [pagination],
-  )
-  
+    onCompleted: () => {} /* Subscription established */,
+    onError: error => {} /* Subscription errored */,
+    onNext: response => {} /* Subscription payload received */,
+  }as GraphQLSubscriptionConfig<MqttRecentMessagesNewMessageSubscription>), [id]);
+
+  useSubscription<MqttRecentMessagesNewMessageSubscription>(message_sub);
+
+
   const handleItemDetail = useCallback(
     (log_id: string | null | undefined) => {
 
@@ -88,11 +120,10 @@ function TopicListBody({dataRef}:TopicListBodyProps){
   );
 
   return <InfinityScrollBody
-  height="h-72"
-  onEnd={handleLoadMore}
+  height="h-80"
   >
     {
-      pagination?.data?.mqttServerRecentMessages?.edges?.map((edge,index)=>{
+      normalised_data?.map((edge,index)=>{
 
           if(edge === null || edge === undefined){
             return <></>
@@ -121,4 +152,73 @@ function Header(){
       <th>TimeStamp</th>
     </tr>
   </TableHeader>
+}
+
+// ----------------------------------
+
+type MessagesData = readonly MessageNode[] | null | undefined
+
+type MessageNode = {
+    readonly node: {
+      readonly id: string;
+      readonly " $fragmentSpreads": FragmentRefs<"MqttRecentMessagesItemDataFragment">;
+  } | null;
+}
+
+function InitMetricsBuffer(data: MessagesData){
+  const linked_list = new LinkedList<MessageNode>();
+
+  data?.forEach(e=>{
+    if(e !== null && e !== undefined){
+      linked_list.insertAtEnd(e);
+    }
+  });
+  
+  return {data:linked_list};
+}
+
+// ----------------------------------
+
+enum LinkedListActionKind {
+  Add = 'ADD',
+  Clear = `Clear`,
+  Init = `Init`
+}
+
+interface LinkedListAction {
+  type: LinkedListActionKind;
+  payload: any
+}
+
+const TREND_MAX = 50;
+
+function messagesReducer(state:{data:LinkedList<MessageNode>}, action:LinkedListAction) {
+  switch (action.type) {
+    case LinkedListActionKind.Add:
+
+    if(state.data.size() > TREND_MAX){
+      state.data.deleteFirst();
+      state.data.insertInBegin(action.payload)
+    }else{
+      state.data.insertInBegin(action.payload)
+    }
+      return {
+        data:state.data
+      }
+      
+    case LinkedListActionKind.Clear:
+
+      return {
+        data: new LinkedList<MessageNode>()
+      }
+
+    case LinkedListActionKind.Init:
+
+      return {
+        data: InitMetricsBuffer(action.payload).data
+      }
+  
+    default:
+      throw new Error();
+  }
 }

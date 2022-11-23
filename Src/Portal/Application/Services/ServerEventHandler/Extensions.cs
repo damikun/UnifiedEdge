@@ -15,6 +15,8 @@ namespace Aplication.Services.ServerEventHandler
 
             services.AddHostedService<ServerEventWorker>();
 
+            services.AddHostedService<MessageEventWorker>();
+
             return services;
         }
     }

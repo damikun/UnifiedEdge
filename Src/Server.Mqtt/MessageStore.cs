@@ -4,7 +4,6 @@ using System.Threading.Channels;
 using System.Collections.Concurrent;
 using AutoMapper.QueryableExtensions;
 
-
 namespace Server.Mqtt
 {
     public interface IMessageStore
@@ -17,7 +16,9 @@ namespace Server.Mqtt
 
         ICollection<DTO_MqttMessage> GetTopicRecentMessages(string topicUid);
 
-        ICollection<DTO_MqttMessage> GetClientRecentMessages(string topicUid);
+        ICollection<DTO_MqttMessage> GetClientRecentMessages(string clientUid);
+
+        ICollection<DTO_MqttMessage> GetRecentMessages(string? clientUid, string? topicUid);
 
         ICollection<DTO_MqttMessage> GetRecentMessages();
 
@@ -163,6 +164,58 @@ namespace Server.Mqtt
             .AsQueryable()
             .ProjectTo<DTO_MqttMessage>(configuration)
             .ToList();
+        }
+
+        public ICollection<DTO_MqttMessage> GetRecentMessages(string? clientUid, string? topicUid)
+        {
+            if (cts.IsCancellationRequested)
+            {
+                return new List<DTO_MqttMessage>();
+            }
+
+            bool client = !string.IsNullOrWhiteSpace(clientUid);
+            bool topic = !string.IsNullOrWhiteSpace(topicUid);
+
+            if (client && topic)
+            {
+                return _store
+                .AsQueryable()
+                .Where(e =>
+                    e.ClientUid != null && e.ClientUid.Equals(clientUid, StringComparison.OrdinalIgnoreCase) &&
+                    e.TopicUid != null && e.TopicUid.Equals(topicUid, StringComparison.OrdinalIgnoreCase)
+                )
+                .OrderByDescending(e => e.TimeStamp)
+                .Take(Recent_SIZE)
+                .ProjectTo<DTO_MqttMessage>(configuration)
+                .ToList();
+            }
+            else if (client && !topic)
+            {
+                return _store
+                .AsQueryable()
+                .Where(e =>
+                    e.ClientUid != null && e.ClientUid.Equals(clientUid, StringComparison.OrdinalIgnoreCase)
+                )
+                .OrderByDescending(e => e.TimeStamp)
+                .Take(Recent_SIZE)
+                .ProjectTo<DTO_MqttMessage>(configuration)
+                .ToList();
+            }
+            else if (!client && topic)
+            {
+                return _store
+                .AsQueryable()
+                .Where(e =>
+                    e.TopicUid != null && e.TopicUid.Equals(topicUid, StringComparison.OrdinalIgnoreCase)
+                )
+                .OrderByDescending(e => e.TimeStamp)
+                .Take(Recent_SIZE)
+                .ProjectTo<DTO_MqttMessage>(configuration)
+                .ToList();
+            }
+
+            return new List<DTO_MqttMessage>();
+
         }
 
         public ICollection<DTO_MqttMessage> GetClientRecentMessages(string clientUid)

@@ -6,25 +6,55 @@ namespace Server.Manager.Mqtt
     {
         Task<IList<DTO_MqttClient>> GetClients(string server_uid);
 
-        Task<bool?> GetClientState(string server_uid, string client_uid);
+        Task<bool?> GetClientState(
+            string server_uid,
+            string client_uid
+        );
 
-        Task<Dictionary<string, bool>> GetClientsState(string server_uid, string[] clients_uids);
+        Task<Dictionary<string, bool>> GetClientsState(
+            string server_uid,
+            string[] clients_uids
+        );
 
         Task<IList<DTO_MqttClientSession>> GetServerSessions(string server_uid);
 
-        Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid);
+        Task<DTO_MqttClient?> GetClient(
+            string server_uid,
+            string clinet_uid
+        );
 
         Task<IList<DTO_MqttMessage>> GetRecentMessages(string server_uid);
 
-        Task<IList<DTO_MqttMessage>> GetTopicRecentMessages(string server_uid, string topic_uid);
+        Task<IList<DTO_MqttMessage>> GetTopicRecentMessages(
+            string server_uid,
+            string topic_uid
+        );
 
-        Task<IList<DTO_MqttMessage>> GetClientRecentMessages(string server_uid, string client_uid);
+        Task<IList<DTO_MqttMessage>> GetRecentMessages(
+            string server_uid,
+            string? topic_uid = null,
+            string? client_uid = null
+        );
 
-        Task<DTO_MqttTopic?> GetTopicByUid(string server_uid, string topic_uid);
+        Task<IList<DTO_MqttMessage>> GetClientRecentMessages(
+            string server_uid,
+            string client_uid
+        );
 
-        Task<DTO_MqttMessage?> GetMessageByUid(string server_uid, string message_uid);
+        Task<DTO_MqttTopic?> GetTopicByUid(
+            string server_uid,
+            string topic_uid
+        );
 
-        string BuildClinetUid(string serverUid, string clinetId);
+        Task<DTO_MqttMessage?> GetMessageByUid(
+            string server_uid,
+            string message_uid
+        );
+
+        string BuildClinetUid(
+            string serverUid,
+            string clinetId
+        );
 
         Task<DTO_MqttClientStatistics?> GetClientStatistics(
            string server_uid,

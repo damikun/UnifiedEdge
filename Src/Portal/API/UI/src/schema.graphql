@@ -1057,6 +1057,7 @@ type Subscription {
   mqttServerClientStatistics(client_id: ID! server_id: ID!): GQL_MqttClientStatsUpdate!
   mqttServerConfigState(server_id: ID!): GQL_ConfigMatch!
   mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
+  mqttServerNewMessage(client_id: ID server_id: ID! topic_id: ID): GQL_MqttMessage!
   mqttTopicUpdated(server_id: ID!): GQL_MqttTopic!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!

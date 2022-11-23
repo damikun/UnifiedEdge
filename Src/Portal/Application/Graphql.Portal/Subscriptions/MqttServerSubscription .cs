@@ -68,7 +68,7 @@ namespace Aplication.Graphql.Queries
             [Service] ITopicEventReceiver receiver
         )
         {
-            //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.NewTopic"
+            //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.TopicUpdated"
             var topic = $"EdgeMqttServer.{server_id}.TopicUpdated";
 
             return receiver.SubscribeAsync<string, GQL_MqttTopic>(topic);
@@ -85,6 +85,28 @@ namespace Aplication.Graphql.Queries
             var topic = $"EdgeMqttServer.{server_id}.Client.{client_id}.Statistics";
 
             return receiver.SubscribeAsync<string, GQL_MqttClientStatsUpdate>(topic);
+        }
+
+        [SubscribeAndResolve]
+        public async ValueTask<ISourceStream<GQL_MqttMessage>> MqttServerNewMessage(
+            [ID] string server_id,
+            [ID] string? client_id,
+            [ID] string? topic_id,
+            [Service] ITopicEventReceiver receiver
+        )
+        {
+            //EdgeMqttServer.e3680052bcdb4ccf8034ee6856d88448.NewMessage
+            var topic = $"EdgeMqttServer.{server_id}.NewMessage";
+
+            var stream = await receiver.SubscribeAsync<string, GQL_MqttMessage>(topic);
+
+            var filtred_stream = new MessageSourceStreamFilter<GQL_MqttMessage>(
+                stream,
+                client_id,
+                topic_id
+            );
+
+            return filtred_stream as ISourceStream<GQL_MqttMessage>;
         }
     }
 }
