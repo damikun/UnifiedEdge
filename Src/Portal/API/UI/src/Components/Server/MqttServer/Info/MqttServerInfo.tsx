@@ -51,10 +51,12 @@ function MqttServerInfo() {
       <MqttServerStatistic dataRef={data}/>
     </div>
 
-    {/* <Suspense fallback={null}> */}
+    <div className="flex flex-col 2xl:flex-row 2xl:space-x-5">
       <MqttClients dataRef={data}/>
-    {/* </Suspense> */}
-    <MqttTopics dataRef={data}/>
+
+      <MqttTopics dataRef={data}/>
+    </div>
+
 
     <MqttRecentMessages dataRef={data}/>
   </>
