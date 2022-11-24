@@ -54,8 +54,17 @@ export function GetLocalDate(gql_date:any){
         return "N/A"
     }
     
-    var date = new Date(gql_date);
-    return date.toLocaleString()
+    try{
+        var date = new Date(gql_date);
+
+        if(!date){
+            return "N/A" 
+        }
+    
+        return date.toLocaleString()
+    }catch{
+        return "N/A"
+    }
 } 
 
 function FNum(num:number){

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import ServerLogs from "../ServerLogs/ServerLogs";
 import ServerInfo from "../ServerInfo/ServerInfo";
@@ -46,9 +46,11 @@ function MqttServer() {
 
   const { id }: any = useParams<string>();
 
+  const [server_id] = useState(id)
+
   const data = useLazyLoadQuery<MqttServerQuery>(
     MqttServerQueryTag,
-    {id:id},
+    {id:server_id},
     {
       fetchPolicy: "store-and-network",
       UNSTABLE_renderPolicy: "partial"

@@ -112,7 +112,7 @@ function MqttServerNetworkInfo({dataRef}:MqttServerNetworkInfoProps) {
   component={
 
     <SectionBody className="flex">
-      <div className="flex flex-col lg:flex-row lg:space-x-10 justify-between 2xl:justify-start">
+      <div className="flex flex-col lg:flex-row lg:space-x-10 justify-between">
         <FieldGroup>
           <FieldSection
           variant="flex-row"

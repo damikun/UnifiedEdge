@@ -70,6 +70,21 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<Connection<GQL_MqttMessage>>(result);
         }
 
+        public async Task<GQL_MqttMessage?> GetMqttServerMessageById(
+        [ID] string server_uid,
+        [ID] string message_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerMessageById(server_uid, message_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttMessage>(result);
+        }
+
         [UseConnection(typeof(GQL_MqttMessage))]
         public async Task<Connection<GQL_MqttMessage>> GetMqttServerTopicRecentMessages(
             [ID] string server_uid,

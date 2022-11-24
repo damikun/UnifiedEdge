@@ -1,7 +1,7 @@
 import ServerLogDetail from "./ServerlogDetail";
 import { ServerLogsItem } from "./ServerLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Modal from "../../../UIComponents/Modal/Modal";
 import Section from "../../../UIComponents/Section/Section";
 import { useParams, useSearchParams } from "react-router-dom";
@@ -52,9 +52,11 @@ function ServerLogs() {
 
   const { id }: any = useParams<string>();
   
+  const [server_id] = useState<string>(id)
+
   const data = useLazyLoadQuery<ServerLogsQuery>(
     ServerLogsTag,
-    {id},
+    {id:server_id},
     {
       fetchPolicy: "store-and-network",
       UNSTABLE_renderPolicy: "partial"

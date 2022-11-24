@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
@@ -28,9 +28,11 @@ function MqttServerSettings() {
 
   const { id }: any = useParams<string>();
 
+  const [server_id] = useState(id)
+  
   const data = useLazyLoadQuery<MqttServerSettingsQuery>(
     MqttServerSettingsQueryTag,
-    {id:id},
+    {id:server_id},
     {
       fetchPolicy: "store-and-network",
       UNSTABLE_renderPolicy: "partial"

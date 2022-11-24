@@ -143,7 +143,7 @@ namespace Server.Mqtt
             }
 
             return _store
-            .OrderBy(e => e.TimeStamp)
+            .OrderByDescending(e => e.TimeStamp)
             .Take(Recent_SIZE)
             .AsQueryable()
             .ProjectTo<DTO_MqttMessage>(configuration)
@@ -159,7 +159,7 @@ namespace Server.Mqtt
 
             return _store
             .Where(e => e.TopicUid != null && e.TopicUid.Equals(topicUid, StringComparison.OrdinalIgnoreCase))
-            .OrderBy(e => e.TimeStamp)
+            .OrderByDescending(e => e.TimeStamp)
             .Take(Recent_SIZE)
             .AsQueryable()
             .ProjectTo<DTO_MqttMessage>(configuration)

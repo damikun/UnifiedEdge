@@ -414,7 +414,11 @@ type GQL_MqttMessage {
   dup: Boolean!
   expireInterval: Int!
   id: ID!
-  payload: [Byte!]
+  isJsonPayload: Boolean!
+  isTextPayload: Boolean!
+  isXmlPayload: Boolean!
+  payload: [ByteArray!]
+  payloadUtf8Str: String
   qos: Byte!
   responseTopic: String
   retain: Boolean!
@@ -906,6 +910,7 @@ type Query {
   mqttServerClientSession(server_client_uid: ID! server_uid: ID!): GQL_MqttClientSession!
   mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
+  mqttServerMessageById(message_uid: ID! server_uid: ID!): GQL_MqttMessage
   mqttServerRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
   mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
   mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
@@ -1505,6 +1510,8 @@ scalar Any
 
 "The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
 scalar Byte
+
+scalar ByteArray
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")

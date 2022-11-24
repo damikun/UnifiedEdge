@@ -46,7 +46,7 @@ export function MqttTopicItem({dataRef, onItemClick,key_}:MqttTopicItemProps){
     onClick={handleClick}
     key={data?.id}>
     <td className="w-8/12 2xl:w-9/12 flex truncate capitalize">
-      <div className="truncate font-sans text-gray-700 font-semibold text-sm">
+      <div className="truncate font-mono text-gray-700 text-sm">
         {data?.topic}
       </div>
     </td>

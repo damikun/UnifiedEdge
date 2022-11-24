@@ -94,6 +94,7 @@ namespace API
                 .BindRuntimeType<TimeSpan, TimeSpanType>()
                 .BindRuntimeType<int, IntType>()
                 .BindRuntimeType<long, LongType>()
+                // .BindRuntimeType<byte[], ByteArrayType>()
                 // .BindRuntimeType<IPAddress, IPAddressType>()
 
                 .AddType<MqttServerEndpointType>()

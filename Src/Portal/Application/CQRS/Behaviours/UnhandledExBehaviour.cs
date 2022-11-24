@@ -47,6 +47,14 @@ namespace Aplication.CQRS.Behaviours
                 return await next();
 
             }
+            catch (ValidationException ex)
+            {
+                throw ex;
+            }
+            catch (AuthorizationException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
                 _telemetry.SetOtelError(ex);
@@ -55,7 +63,6 @@ namespace Aplication.CQRS.Behaviours
                     ex.Data.Add("command_failed", true);
 
                 throw new InternalServerException(ex);
-
             }
             finally
             {

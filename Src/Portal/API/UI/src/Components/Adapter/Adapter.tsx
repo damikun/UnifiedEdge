@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AdapterLogs from "./AdapterLogs";
 import AdapterAddress from "./AdapterAddress";
 import { useLazyLoadQuery } from "react-relay";
@@ -43,9 +43,11 @@ function Adapter() {
 
   const match = useMatch("/Logs/");
 
+  const [adapter_id] = useState(id)
+
   const data = useLazyLoadQuery<AdapterQuery>(
     AdapterQueryTag,
-    {id:id},
+    {id:adapter_id},
     {
       fetchPolicy: "store-and-network",
       UNSTABLE_renderPolicy: "partial"

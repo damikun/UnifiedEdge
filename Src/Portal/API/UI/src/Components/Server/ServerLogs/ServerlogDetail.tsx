@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { LOG_PARAM_NAME } from "./ServerLogs";
 import { JsonViewer } from "@textea/json-viewer";
@@ -28,7 +28,9 @@ export default function ServerLogDetail(){
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
-  var log_id = searchParams.get(LOG_PARAM_NAME);
+  var id = searchParams.get(LOG_PARAM_NAME);
+
+  const [log_id] = useState(id)
 
   const data = useLazyLoadQuery<ServerlogDetailQuery>(
     ServerLogDetailTag,

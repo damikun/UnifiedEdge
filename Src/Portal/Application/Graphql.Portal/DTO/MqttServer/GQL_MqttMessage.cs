@@ -37,6 +37,11 @@ namespace Server.Mqtt.DTO
         public byte[]? Payload { get; set; }
 
         // <summary>
+        /// Payload
+        /// </summary>
+        public string? PayloadUtf8Str { get; set; }
+
+        // <summary>
         /// ContentType
         /// </summary>
         public string? ContentType { get; set; }
@@ -80,6 +85,21 @@ namespace Server.Mqtt.DTO
         /// TimeStamp
         /// </summary>
         public DateTime TimeStamp { get; set; }
+
+        /// <summary>
+        /// isJsonPayload
+        /// </summary>
+        public bool? isJsonPayload { get; set; }
+
+        /// <summary>
+        /// isTextHtmlPayload
+        /// </summary>
+        public bool? isTextPayload { get; set; }
+
+        /// <summary>
+        /// isXmlPayload
+        /// </summary>
+        public bool? isXmlPayload { get; set; }
 
 
         [GraphQLIgnore]

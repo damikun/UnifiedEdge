@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import MqttTopics from "./TopicList/MqttTopics";
@@ -36,9 +36,11 @@ function MqttServerInfo() {
 
   const { id }: any = useParams<string>();
 
+  const [server_id] = useState(id);
+  
   const data = useLazyLoadQuery<MqttServerInfoQuery>(
     MqttServerInfoQueryTag,
-    {id:id},
+    {id:server_id},
     {
       fetchPolicy: "store-and-network",
       UNSTABLE_renderPolicy: "partial"
@@ -46,15 +48,24 @@ function MqttServerInfo() {
   );
 
   return <>
-    <div className={clsx("grid grid-flow-row-dense xl:grid-flow-col gap-5")}>
-      <MqttServerNetworkInfo dataRef={data}/>
-      <MqttServerStatistic dataRef={data}/>
+    <div className="flex flex-col space-y-5 2xl:space-y-0 2xl:flex-row">
+      <div className="flex w-full 2xl:w-1/2 2xl:pr-5">
+        <MqttServerNetworkInfo dataRef={data}/>
+      </div>
+      <div className="flex w-full 2xl:w-1/2">
+        <MqttServerStatistic dataRef={data}/>
+      </div>
     </div>
 
-    <div className="flex flex-col 2xl:flex-row 2xl:space-x-5">
-      <MqttClients dataRef={data}/>
+    <div className="flex flex-col space-y-5 2xl:space-y-0 2xl:flex-row">
+      <div className="flex w-full 2xl:w-1/2 2xl:pr-5">
+        <MqttClients dataRef={data}/>
+      </div>
 
-      <MqttTopics dataRef={data}/>
+      <div className="flex w-full 2xl:w-1/2">
+        <MqttTopics dataRef={data}/>
+      </div>
+
     </div>
 
 

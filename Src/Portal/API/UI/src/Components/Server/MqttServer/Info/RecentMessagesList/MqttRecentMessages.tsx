@@ -1,6 +1,8 @@
-import { useParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
+import Modal from "../../../../../UIComponents/Modal/Modal";
+import { useParams, useSearchParams } from "react-router-dom";
 import { LinkedList } from "../../../../../Shared/LinkedList";
+import MqttRecentMessageDetail from "./MqttRecentMessageDetail"
 import React, { useCallback, useMemo, useReducer } from "react";
 import Section from "../../../../../UIComponents/Section/Section";
 import { MqttRecentMessagesItem } from "./MqttRecentMessagesItem";
@@ -50,6 +52,8 @@ const MqttRecentMessagesPaginationFragment = graphql`
   }
 `;
 
+export const MESSAGE_PARAM_NAME = "message_id"
+
 export default React.memo(MqttRecentMessages)
 
 type MqttRecentMessagesProps = {
@@ -58,7 +62,27 @@ type MqttRecentMessagesProps = {
 
 function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
 
-  return <Section 
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const isOpen = useMemo(() => 
+    searchParams.get(MESSAGE_PARAM_NAME)!== null, [searchParams]
+  );
+  
+  const handleModalClose = useCallback(() => {
+    searchParams.delete(MESSAGE_PARAM_NAME);
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
+
+  return  <>
+    <Modal
+      position="top"
+      isOpen={isOpen}
+      onClose={handleModalClose}
+      component={
+        <MqttRecentMessageDetail />
+      }
+    />
+    <Section 
     name={"Recent Messages"}
     component={
       <InfinityScrollTable
@@ -68,6 +92,7 @@ function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
       </InfinityScrollTable>
     }
   />
+  </>
 }
 
 
@@ -78,6 +103,8 @@ type TopicListBodyProps = {
 function TopicListBody({dataRef}:TopicListBodyProps){
 
   const { id }: any = useParams<string>();
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pagination = usePaginationFragment<
   MqttRecentMessagesPaginationFragmentRefetchQuery,
@@ -111,12 +138,15 @@ function TopicListBody({dataRef}:TopicListBodyProps){
 
   useSubscription<MqttRecentMessagesNewMessageSubscription>(message_sub);
 
-
   const handleItemDetail = useCallback(
-    (log_id: string | null | undefined) => {
-
+    (message_id: string | null | undefined) => {
+      searchParams.delete(MESSAGE_PARAM_NAME);
+      if (message_id) {
+        searchParams.append(MESSAGE_PARAM_NAME, message_id);
+      }
+      setSearchParams(searchParams);
     },
-    []
+    [searchParams, setSearchParams]
   );
 
   return <InfinityScrollBody
