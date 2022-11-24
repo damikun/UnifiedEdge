@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<83f1a49d78131a203bd54762d235128d>>
+ * @generated SignedSource<<0ad32ff514df12292a6ece5961d4b7f5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type MqttRecentMessageDetailQuery$variables = {
   message_uid: string;
   server_uid: string;
@@ -16,20 +17,15 @@ export type MqttRecentMessageDetailQuery$variables = {
 export type MqttRecentMessageDetailQuery$data = {
   readonly mqttServerMessageById: {
     readonly clientId: string | null;
-    readonly contentType: string | null;
     readonly dup: boolean;
     readonly expireInterval: number;
     readonly id: string;
-    readonly isJsonPayload: boolean;
-    readonly isTextPayload: boolean;
-    readonly isXmlPayload: boolean;
-    readonly payload: ReadonlyArray<any> | null;
-    readonly payloadUtf8Str: string | null;
     readonly qos: any;
     readonly responseTopic: string | null;
     readonly retain: boolean;
     readonly timeStamp: any;
     readonly topic: string;
+    readonly " $fragmentSpreads": FragmentRefs<"MqttRecentMessageDetailmessagePayloadFragment">;
   } | null;
 };
 export type MqttRecentMessageDetailQuery = {
@@ -50,133 +46,79 @@ v1 = {
 },
 v2 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "message_uid",
-        "variableName": "message_uid"
-      },
-      {
-        "kind": "Variable",
-        "name": "server_uid",
-        "variableName": "server_uid"
-      }
-    ],
-    "concreteType": "GQL_MqttMessage",
-    "kind": "LinkedField",
-    "name": "mqttServerMessageById",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "dup",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "qos",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "topic",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "retain",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "payload",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "clientId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "timeStamp",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "contentType",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "isXmlPayload",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "isJsonPayload",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "isTextPayload",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "responseTopic",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "expireInterval",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "payloadUtf8Str",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "message_uid",
+    "variableName": "message_uid"
+  },
+  {
+    "kind": "Variable",
+    "name": "server_uid",
+    "variableName": "server_uid"
   }
-];
+],
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "dup",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "qos",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "topic",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "retain",
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "clientId",
+  "storageKey": null
+},
+v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "timeStamp",
+  "storageKey": null
+},
+v10 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "responseTopic",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "expireInterval",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [
@@ -186,7 +128,38 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "MqttRecentMessageDetailQuery",
-    "selections": (v2/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "GQL_MqttMessage",
+        "kind": "LinkedField",
+        "name": "mqttServerMessageById",
+        "plural": false,
+        "selections": [
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/),
+          (v7/*: any*/),
+          (v8/*: any*/),
+          (v9/*: any*/),
+          (v10/*: any*/),
+          (v11/*: any*/),
+          {
+            "kind": "Defer",
+            "selections": [
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "MqttRecentMessageDetailmessagePayloadFragment"
+              }
+            ]
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Query",
     "abstractKey": null
   },
@@ -198,19 +171,90 @@ return {
     ],
     "kind": "Operation",
     "name": "MqttRecentMessageDetailQuery",
-    "selections": (v2/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "GQL_MqttMessage",
+        "kind": "LinkedField",
+        "name": "mqttServerMessageById",
+        "plural": false,
+        "selections": [
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/),
+          (v7/*: any*/),
+          (v8/*: any*/),
+          (v9/*: any*/),
+          (v10/*: any*/),
+          (v11/*: any*/),
+          {
+            "if": null,
+            "kind": "Defer",
+            "label": "MqttRecentMessageDetailQuery$defer$MqttRecentMessageDetailmessagePayloadFragment",
+            "selections": [
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "payload",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "contentType",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isXmlPayload",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isJsonPayload",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "isTextPayload",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "payloadUtf8Str",
+                "storageKey": null
+              }
+            ]
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "50becd6a25dadc40da3a6a7673fd60aa",
+    "cacheID": "41fe301b012245230342b380325ea931",
     "id": null,
     "metadata": {},
     "name": "MqttRecentMessageDetailQuery",
     "operationKind": "query",
-    "text": "query MqttRecentMessageDetailQuery(\n  $server_uid: ID!\n  $message_uid: ID!\n) {\n  mqttServerMessageById(server_uid: $server_uid, message_uid: $message_uid) {\n    id\n    dup\n    qos\n    topic\n    retain\n    payload\n    clientId\n    timeStamp\n    contentType\n    isXmlPayload\n    isJsonPayload\n    isTextPayload\n    responseTopic\n    expireInterval\n    payloadUtf8Str\n  }\n}\n"
+    "text": "query MqttRecentMessageDetailQuery(\n  $server_uid: ID!\n  $message_uid: ID!\n) {\n  mqttServerMessageById(server_uid: $server_uid, message_uid: $message_uid) {\n    id\n    dup\n    qos\n    topic\n    retain\n    clientId\n    timeStamp\n    responseTopic\n    expireInterval\n    ...MqttRecentMessageDetailmessagePayloadFragment @defer(label: \"MqttRecentMessageDetailQuery$defer$MqttRecentMessageDetailmessagePayloadFragment\")\n  }\n}\n\nfragment MqttRecentMessageDetailmessagePayloadFragment on GQL_MqttMessage {\n  id\n  payload\n  contentType\n  isXmlPayload\n  isJsonPayload\n  isTextPayload\n  payloadUtf8Str\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fd038729bfbfe6118022d0e645adcb87";
+(node as any).hash = "5b809ac2b1735b2c5b33ba0b96bd1267";
 
 export default node;

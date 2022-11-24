@@ -13,6 +13,12 @@ module.exports = {
       },
       animation: {
         wiggle: "wiggle 200ms ease-in-out"
+      },
+      width: {
+        '102': '28rem',
+        '128': '32rem',
+        '160': '40rem',
+        '192': '48rem',
       }
     },
   },

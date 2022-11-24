@@ -180,7 +180,7 @@ function ClientListBody({dataRef}:ClientListBodyProps){
     onEnd={handleLoadMore}
     >
       {
-      pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
+        pagination?.data?.mqttServerClients?.edges?.map((edge,index)=>{
 
           if(edge === null || edge === undefined){
             return <></>
@@ -191,7 +191,7 @@ function ClientListBody({dataRef}:ClientListBodyProps){
             dataRef={edge.node}
             onItemClick={handleItemDetail}
           />
-      })
+       })
     }
   </InfinityScrollBody>
 
