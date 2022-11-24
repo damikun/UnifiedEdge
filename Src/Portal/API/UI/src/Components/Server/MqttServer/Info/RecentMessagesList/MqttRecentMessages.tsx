@@ -1,4 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
+import useDebounce from "../../../../../Hooks/useDebounce";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import { LinkedList } from "../../../../../Shared/LinkedList";
@@ -14,6 +15,7 @@ import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrol
 import { MqttRecentMessagesPaginationFragment$key } from "./__generated__/MqttRecentMessagesPaginationFragment.graphql";
 import { MqttRecentMessagesNewMessageSubscription } from "./__generated__/MqttRecentMessagesNewMessageSubscription.graphql";
 import { MqttRecentMessagesPaginationFragmentRefetchQuery } from "./__generated__/MqttRecentMessagesPaginationFragmentRefetchQuery.graphql";
+import useRenderDebounce from "../../../../../Hooks/useRenderDebounce";
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -115,7 +117,11 @@ function TopicListBody({dataRef}:TopicListBodyProps){
     messagesReducer,InitMetricsBuffer(pagination.data?.mqttServerRecentMessages?.edges)
   );
 
-  const normalised_data = useMemo(() =>  data_list.data.traverse(), [data_list])
+  const debounced: {
+    data: LinkedList<MessageNode>;
+  } = useRenderDebounce(data_list,500)
+
+  const normalised_data = useMemo(() =>  debounced.data.traverse(), [debounced])
   
   const message_sub = useMemo(() => ({
     variables: {id:id,},

@@ -32,6 +32,7 @@
     "graphql": "experimental-stream-defer.6",
     "graphql-ws": "^5.10.0",
     "history": "^5.3.0",
+    "lodash": "^4.17.21",
     "meros": "1.2.1",
     "react": "0.0.0-experimental-3d443cad7-20220823",
     "react-dom": "0.0.0-experimental-3d443cad7-20220823",
