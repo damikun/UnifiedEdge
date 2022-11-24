@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React, { useMemo } from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";

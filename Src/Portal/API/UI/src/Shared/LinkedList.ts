@@ -75,6 +75,21 @@ export class LinkedList<T> implements ILinkedList<T> {
 
         this.head = this.head.next;
     }
+
+    public deleteLast(): void {
+
+      if(!this.head){
+          return;
+      }
+
+      const getLast = (node: Node<T>): Node<T> => {
+        return node.next ? getLast(node.next) : node;
+      };
+
+      const lastNode = getLast(this.head);
+
+      this.deleteNode(lastNode)
+    }
     
     public search(comparator: (data: T) => boolean): Node<T> | null {
       const checkNext = (node: Node<T>): Node<T> | null => {

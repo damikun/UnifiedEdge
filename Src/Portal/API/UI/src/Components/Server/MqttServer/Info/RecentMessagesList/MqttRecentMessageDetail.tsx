@@ -26,7 +26,7 @@ const MqttRecentMessageDetailTag = graphql`
           timeStamp
           responseTopic
           expireInterval
-          ...MqttRecentMessageDetailmessagePayloadFragment@defer 
+          ...MqttRecentMessageDetailmessagePayloadFragment @defer 
       }
    }
 
@@ -56,7 +56,7 @@ export default function MqttRecentMessageDetail(){
   );
 
   const timestamp = useMemo(()=>{
-    return data?.mqttServerMessageById?.timeStamp ?GetLocalDate(data?.mqttServerMessageById?.timeStamp) :"N/A";
+    return data?.mqttServerMessageById?.timeStamp?GetLocalDate(data?.mqttServerMessageById?.timeStamp) :"N/A";
   },[data]) 
 
   return <ModalContainer label="Message detail">

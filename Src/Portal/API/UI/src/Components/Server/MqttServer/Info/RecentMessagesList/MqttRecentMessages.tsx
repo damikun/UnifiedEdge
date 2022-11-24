@@ -227,7 +227,7 @@ function messagesReducer(state:{data:LinkedList<MessageNode>}, action:LinkedList
     case LinkedListActionKind.Add:
 
     if(state.data.size() > TREND_MAX){
-      state.data.deleteFirst();
+      state.data.deleteLast();
       state.data.insertInBegin(action.payload)
     }else{
       state.data.insertInBegin(action.payload)
