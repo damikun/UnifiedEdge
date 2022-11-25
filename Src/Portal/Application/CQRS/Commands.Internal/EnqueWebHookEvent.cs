@@ -1,7 +1,7 @@
 using MediatR;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.Core;
+using Persistence.Portal;
 using Aplication.Services.Scheduler;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +13,6 @@ namespace Aplication.CQRS.Commands
     /// </summary>
     public class EnqueWebHookEvent : CommandBase
     {
-        // public EnqueWebHookEvent(HookEventGroup g, object e)
-        // {
-        //     // this.Flags.scheduled = true;
-
-        //     EventGroup = g;
-        //     Event = e;
-        // }
 
         public HookEventGroup EventGroup { get; set; }
         public object Event { get; set; }
@@ -42,21 +35,14 @@ namespace Aplication.CQRS.Commands
         private readonly IScheduler _scheduler;
 
         /// <summary>
-        /// Injected <c>IHttpClientFactory</c>
-        /// </summary>
-        private readonly IHttpClientFactory _clientFactory;
-
-        /// <summary>
         /// Main Constructor
         /// </summary>
         public EnqueWebHooksHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
-            IScheduler scheduler,
-            IHttpClientFactory httpClient)
+            IScheduler scheduler)
         {
             _factory = factory;
             _scheduler = scheduler;
-            _clientFactory = httpClient;
         }
 
         /// <summary>

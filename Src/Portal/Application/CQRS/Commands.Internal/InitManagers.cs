@@ -1,9 +1,9 @@
 using Server;
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.Core;
 using MediatR.Pipeline;
+using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;

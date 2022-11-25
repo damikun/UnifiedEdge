@@ -1,8 +1,8 @@
 using Server;
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.Core;
+using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 
@@ -43,19 +43,9 @@ namespace Aplication.CQRS.Commands
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         /// <summary>
-        /// Injected <c>IEndpointProvider</c>
-        /// </summary>
-        private readonly IEndpointProvider _endpoint_provider;
-
-        /// <summary>
         /// Injected <c>IServerEventPublisher</c>
         /// </summary>
         private readonly IServerEventPublisher _server_e_publisher;
-
-        /// <summary>
-        /// Injected <c>IServerFascade</c>
-        /// </summary>
-        private readonly IServerFascade _fascade;
 
         public const int MAX_NUMBER_OF_EVENTS = 100;
 
@@ -66,8 +56,6 @@ namespace Aplication.CQRS.Commands
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             IMediator mediator,
-            IEndpointProvider endpoint_provider,
-            IServerFascade fascade,
             IServerEventPublisher server_e_publisher
         )
         {
@@ -77,11 +65,7 @@ namespace Aplication.CQRS.Commands
 
             _mediator = mediator;
 
-            _endpoint_provider = endpoint_provider;
-
             _server_e_publisher = server_e_publisher;
-
-            _fascade = fascade;
         }
 
         /// <summary>

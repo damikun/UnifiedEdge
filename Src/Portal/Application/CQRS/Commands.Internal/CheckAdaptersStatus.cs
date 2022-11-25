@@ -1,14 +1,12 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Aplication.Core;
-using MediatR.Pipeline;
+using Persistence.Portal;
 using System.Collections.Concurrent;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using Aplication.Services.ServerFascade;
-using Microsoft.Extensions.Caching.Memory;
 
 
 namespace Aplication.CQRS.Commands

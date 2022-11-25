@@ -1,9 +1,9 @@
 using MediatR;
-using Persistence.Portal;
 using System.Text;
 using Domain.Server;
 using Aplication.Core;
 using System.Text.Json;
+using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.CQRS.Commands
