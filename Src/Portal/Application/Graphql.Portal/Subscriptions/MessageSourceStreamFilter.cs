@@ -90,6 +90,9 @@ namespace Aplication.Graphql
                     yield return message;
                 }
 
+                // Prevent too many messages sended to client! Not nice but working :)
+                await Task.Delay(10);
+
                 continue;
             }
         }
