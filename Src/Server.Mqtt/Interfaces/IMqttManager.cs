@@ -13,6 +13,8 @@ namespace Server.Manager.Mqtt
 
         Task<bool> ContainsClient(string server_uid, string client_uid);
 
+        Task CleanOldMessages(string server_uid, CancellationToken ct = default);
+
         Task<Dictionary<string, bool>> GetClientsState(
             string server_uid,
             string[] clients_uids

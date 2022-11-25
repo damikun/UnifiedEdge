@@ -64,6 +64,19 @@ namespace Server.Manager.Mqtt
             }
         }
 
+        public async Task CleanOldMessages(string server_uid, CancellationToken ct = default)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                await mqtt_server.Messages.CleanOldMessages(ct);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
 
         public async Task<DTO_MqttClientStatistics?> ResetMqttClientStats(
             string server_uid,

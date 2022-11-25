@@ -24,6 +24,8 @@ namespace Server.Mqtt
 
         DTO_MqttMessage? GetMessageByUid(string messageUid);
 
+        Task CleanOldMessages(CancellationToken ct);
+
         long GetMessagesCount();
 
         bool Contains(string messageUid);
@@ -42,6 +44,8 @@ namespace Server.Mqtt
         private readonly ConcurrentBag<MqttStoredMessage> _store;
 
         public readonly Channel<MqttStoredMessage> _queue;
+
+        private readonly SemaphoreSlim SyncClear = new SemaphoreSlim(1);
 
         private volatile EdgeMqttServer _server;
 
@@ -76,8 +80,20 @@ namespace Server.Mqtt
 
         private async Task MessageWorkerTask(CancellationToken token)
         {
+            DateTime nextclean = DateTime.Now.AddMinutes(2);
+
             while (!token.IsCancellationRequested)
             {
+                if (nextclean < DateTime.Now)
+                {
+                    try
+                    {
+                        nextclean = DateTime.Now.AddMinutes(2);
+                        await CleanOldMessages(token);
+                    }
+                    catch { }
+                }
+
                 await _queue.Reader.WaitToReadAsync(token);
 
                 var i = await _queue.Reader.ReadAsync(token);
@@ -87,16 +103,33 @@ namespace Server.Mqtt
                     break;
                 }
 
-                if (i is not null && i.Uid is not null)
+                try
                 {
-                    try
-                    {
-                        _store.Add(i);
+                    await SyncClear
+                    .WaitAsync(token)
+                    .ConfigureAwait(false);
 
-                        ReisOnNewMessage(i);
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
                     }
-                    catch { }
+
+                    if (i is not null && i.Uid is not null)
+                    {
+                        try
+                        {
+                            _store.Add(i);
+
+                            ReisOnNewMessage(i);
+                        }
+                        catch { }
+                    }
                 }
+                finally
+                {
+                    SyncClear.Release();
+                }
+
             }
         }
 
@@ -164,6 +197,68 @@ namespace Server.Mqtt
             .AsQueryable()
             .ProjectTo<DTO_MqttMessage>(configuration)
             .ToList();
+        }
+
+        public async Task CleanOldMessages(CancellationToken ct)
+        {
+            try
+            {
+                await SyncClear
+                .WaitAsync()
+                .ConfigureAwait(false);
+
+                var ordered = _store
+                .Where(e => e is not null && e.Uid is not null)
+                .OrderByDescending(e => e.TimeStamp)
+                .ToList();
+
+                if (ordered is null)
+                    return;
+
+                if (ordered.Count < Recent_SIZE)
+                {
+                    return;
+                }
+
+                var by_id = ordered
+                .Take(Recent_SIZE)
+                .Select(e => e.Uid);
+
+                var by_topic_id = ordered
+                .Where(e => e.TopicUid is not null)
+                .GroupBy(e => e.TopicUid)
+                .SelectMany(e => e.Take(Recent_SIZE).Select(e => e.Uid));
+
+                var by_client_id = ordered
+                .Where(e => e.ClientUid is not null)
+                .GroupBy(e => e.ClientUid)
+                .SelectMany(e => e.Take(Recent_SIZE).Select(e => e.Uid));
+
+                var set = by_id
+                .Concat(by_topic_id)
+                .Concat(by_client_id)
+                .ToHashSet();
+
+                var memorised = ordered.Where(e => set.Contains(e.Uid));
+
+                if (set.Count < Recent_SIZE)
+                {
+                    return;
+                }
+
+                _store.Clear();
+
+                foreach (var message in memorised)
+                {
+                    _store.Add(message);
+                }
+            }
+            finally
+            {
+                SyncClear.Release();
+            }
+
+            return;
         }
 
         public ICollection<DTO_MqttMessage> GetRecentMessages(string? clientUid, string? topicUid)
