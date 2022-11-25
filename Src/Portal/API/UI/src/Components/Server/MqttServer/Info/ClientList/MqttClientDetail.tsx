@@ -1,16 +1,20 @@
 import clsx from "clsx";
-import { useMemo, useState } from "react";
 import { CLIENT_PARAM_NAME } from "./MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
+import { useCallback, useMemo, useState } from "react";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import Badge from "../../../../../UIComponents/Badged/Badge";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useLazyLoadQuery, useSubscription } from "react-relay";
+import { HandleErrors } from "../../../../../Utils/ErrorHelper";
+import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
+import { useLazyLoadQuery, useMutation, useSubscription } from "react-relay";
 import ModalContainer from "../../../../../UIComponents/Modal/ModalContainer";
+import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttClientDetailQuery } from "./__generated__/MqttClientDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
 import { MqttClientDetailSubscription } from "./__generated__/MqttClientDetailSubscription.graphql";
+import { MqttClientDetailResetStatsMutation } from "./__generated__/MqttClientDetailResetStatsMutation.graphql";
 
 
 const MqttClientDetailTag = graphql`
@@ -73,6 +77,47 @@ const MqttClientDetailSubscriptionTag = graphql`
     }
 `;
 
+
+const MqttClientDetailResetStatsMutationTag = graphql`
+  mutation MqttClientDetailResetStatsMutation(
+    $input: ResetMqttClientStatisticInput!
+    ) {
+      resetMqttClientStatistic(input: $input) {
+      ... on ResetMqttClientStatisticPayload {
+        gQL_MqttClientStatistics{
+          id
+          bytesReceived
+          bytesSent
+
+          sentPacketsCount
+          receivedPacketsCount
+
+          sentApplicationMessagesCount
+          receivedApplicationMessagesCount
+
+          lastNonKeepAlivePacketReceivedTimestamp
+          lastPacketReceivedTimestamp
+          lastPacketSentTimestamp
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
+        }
+      }
+    }
+}
+`
+
 export default function MqttClientDetail(){
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -94,6 +139,13 @@ export default function MqttClientDetail(){
     },
   );
 
+  const [
+    commit,
+    isInFlight,
+  ] = useMutation<MqttClientDetailResetStatsMutation>(
+    MqttClientDetailResetStatsMutationTag
+  );
+
   const data_sub = useMemo(() => ({
     variables: {
       client_id:client_id,
@@ -110,6 +162,37 @@ export default function MqttClientDetail(){
 
   useSubscription<MqttClientDetailSubscription>(data_sub);
 
+  const toast = useToast();
+  
+  const handleReset = useCallback(
+    () => {
+      server_id && client_id  &&! isInFlight && commit({
+        variables: {
+          input: {
+            server_uid: server_id,
+            client_uid: client_id,
+          }
+        },
+
+        onError(error) {
+          toast?.pushError("Failed to process mutation");
+          console.log(error);
+        },
+
+        onCompleted(response) {},
+
+        updater(store, response) {
+          if(response?.resetMqttClientStatistic?.gQL_MqttClientStatistics){
+              //success
+          }
+
+          HandleErrors(toast, response?.resetMqttClientStatistic?.errors);
+        },
+
+      });
+    },
+    [isInFlight,server_id,client_id,toast,commit],
+  )
 
   const dt_lastPacketSentTimestamp = useMemo(()=>{
     return GetLocalDate(data?.mqttServerClientStatistic?.lastPacketSentTimestamp);
@@ -124,7 +207,7 @@ export default function MqttClientDetail(){
   },[data]) 
 
   return <ModalContainer label="Client detail">
-    <div className="flex flex-col space-y-2 max-w-xl md:w-96">
+    <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
 
         <FieldGroup>
             <FieldSection className="items-center" name="Mqtt">
@@ -190,6 +273,16 @@ export default function MqttClientDetail(){
                         {data.mqttServerClientStatistic.bytesReceived}
                     </FieldSection>
                 </FieldGroup>
+
+                <StayledButton
+                isloading={isInFlight}
+                onClick={handleReset}
+                className="h-12 w-full"
+                variant="secondaryblue"
+                >
+                  Reset Stats
+                </StayledButton>
+
             </>
         }
     </div>

@@ -44,6 +44,7 @@ const CreateServerMutationTag = graphql`
     }
 }
 `
+
 export default function AddNewServer(){
 
   const [

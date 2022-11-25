@@ -7,8 +7,8 @@ module.exports = {
     extend: {
       keyframes: {
         wiggle: {
-          "0%, 100%": { transform: "rotate(-2deg)" },
-          "50%": { transform: "rotate(2deg)" }
+          "0%, 100%": { transform: "rotate(-1deg)" },
+          "50%": { transform: "rotate(1deg)" }
         }
       },
       animation: {

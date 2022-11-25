@@ -64,6 +64,31 @@ namespace Server.Manager.Mqtt
             }
         }
 
+
+        public async Task<DTO_MqttClientStatistics?> ResetMqttClientStats(
+            string server_uid,
+            string server_client_uid
+        )
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                if (string.IsNullOrWhiteSpace(server_client_uid))
+                {
+                    return null;
+                }
+
+                return await mqtt_server.Clients.ResetClientStatistics(server_client_uid);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+
         public async Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid)
         {
             var server = await this.GetServer(server_uid);
@@ -114,6 +139,25 @@ namespace Server.Manager.Mqtt
                 return mqtt_server.Messages
                     .GetRecentMessages(client_uid, server_uid)
                     .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<bool> ContainsClient(string server_uid, string client_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (string.IsNullOrWhiteSpace(client_uid))
+            {
+                return false;
+            }
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Clients.Contains(client_uid);
             }
             else
             {

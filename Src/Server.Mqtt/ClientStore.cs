@@ -19,6 +19,7 @@ namespace Server.Mqtt
         Task<bool?> IsConnected(string client_uid);
         List<DTO_MqttClient> GetClients();
         bool Contains(string clientUid);
+        Task<DTO_MqttClientStatistics?> ResetClientStatistics(string client_uid);
         DTO_MqttClient? UpdateClientConnected(string clientUid, DateTime dt);
         DTO_MqttClient? UpdateClientDisconnected(string clientUid, DateTime dt);
         DTO_MqttClient? UpdateClientLastMessage(string clientUid, DateTime dt);
@@ -77,6 +78,74 @@ namespace Server.Mqtt
                 {
                     return 0;
                 }
+            }
+        }
+
+        private readonly SemaphoreSlim _client_stats_lock = new SemaphoreSlim(1);
+
+        public async Task<DTO_MqttClientStatistics?> ResetClientStatistics(string client_uid)
+        {
+            if (_server is null)
+            {
+                return null;
+            }
+
+            var clinet = GetClientByUid(client_uid);
+
+            if (clinet is null)
+            {
+                return null;
+            }
+
+            try
+            {
+                if (_server.Server is null ||
+                    _server.isTransition())
+                {
+                    return new DTO_MqttClientStatistics()
+                    {
+                        ClientUid = clinet.Uid,
+                        ServerUid = _server.UID,
+                    };
+                }
+
+                var client_list = await _server.Server.GetClientsAsync();
+
+                var response_stat = client_list
+                .Where(e => e != null && e.Session != null && e.Id.Equals(clinet.ClientId, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault();
+
+                if (response_stat is null)
+                {
+                    return null;
+                }
+                else
+                {
+                    try
+                    {
+                        await _client_stats_lock
+                        .WaitAsync()
+                        .ConfigureAwait(false);
+
+                        response_stat.ResetStatistics();
+
+                    }
+                    finally
+                    {
+                        _client_stats_lock.Release();
+                    }
+
+                    return new DTO_MqttClientStatistics(
+                        this._server.UID,
+                        clinet.Uid,
+                        response_stat
+                    );
+                }
+
+            }
+            catch
+            {
+                throw new Exception("Failed to reset client statistic");
             }
         }
 

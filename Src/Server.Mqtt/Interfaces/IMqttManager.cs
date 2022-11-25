@@ -11,6 +11,8 @@ namespace Server.Manager.Mqtt
             string client_uid
         );
 
+        Task<bool> ContainsClient(string server_uid, string client_uid);
+
         Task<Dictionary<string, bool>> GetClientsState(
             string server_uid,
             string[] clients_uids
@@ -21,6 +23,11 @@ namespace Server.Manager.Mqtt
         Task<DTO_MqttClient?> GetClient(
             string server_uid,
             string clinet_uid
+        );
+
+        public Task<DTO_MqttClientStatistics?> ResetMqttClientStats(
+            string server_uid,
+            string server_client_uid
         );
 
         Task<IList<DTO_MqttMessage>> GetRecentMessages(string server_uid);

@@ -110,5 +110,28 @@ namespace Aplication.Graphql.Mutations
 
             return mapper.Map<GQL_MqttServerClientCfg>(response);
         }
+
+        /// <summary>
+        /// Reset mqtt client sttaistic
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttClientStatistics> ResetMqttClientStatistic(
+            [ID] string server_uid,
+            [ID] string client_uid,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new ResetMqttClientStats()
+                {
+                    Server_uid = server_uid,
+                    Client_uid = client_uid
+                }
+            );
+
+            return mapper.Map<GQL_MqttClientStatistics>(response);
+        }
     }
 }

@@ -417,7 +417,7 @@ type GQL_MqttMessage {
   isJsonPayload: Boolean!
   isTextPayload: Boolean!
   isXmlPayload: Boolean!
-  payload: [ByteArray!]
+  payload: [Byte!]
   payloadUtf8Str: String
   qos: Byte!
   responseTopic: String
@@ -848,6 +848,7 @@ type Mutation {
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
+  resetMqttClientStatistic(input: ResetMqttClientStatisticInput!): ResetMqttClientStatisticPayload!
   setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
@@ -962,6 +963,12 @@ type RemoveUserPayload {
 type RemoveWebHookPayload {
   errors: [RemoveWebHookError!]
   gQL_WebHook: GQL_WebHook
+  query: Query!
+}
+
+type ResetMqttClientStatisticPayload {
+  errors: [ResetMqttClientStatisticError!]
+  gQL_MqttClientStatistics: GQL_MqttClientStatistics
   query: Query!
 }
 
@@ -1142,6 +1149,8 @@ union RemoveUserError = ValidationError | AuthorizationError | InternalError
 
 union RemoveWebHookError = ValidationError | AuthorizationError | InternalError
 
+union ResetMqttClientStatisticError = ValidationError | AuthorizationError | InternalError
+
 union SetEdgeDefaultNetworkAdapterError = ValidationError | AuthorizationError | InternalError
 
 union SetEdgeDescriptionError = ValidationError | AuthorizationError | InternalError
@@ -1229,6 +1238,11 @@ input RemoveUserInput {
 
 input RemoveWebHookInput {
   hook_id: ID!
+}
+
+input ResetMqttClientStatisticInput {
+  client_uid: ID!
+  server_uid: ID!
 }
 
 input SetEdgeDefaultNetworkAdapterInput {
@@ -1510,8 +1524,6 @@ scalar Any
 
 "The `Byte` scalar type represents non-fractional whole numeric values. Byte can represent values between 0 and 255."
 scalar Byte
-
-scalar ByteArray
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")

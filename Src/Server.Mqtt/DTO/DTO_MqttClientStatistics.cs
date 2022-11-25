@@ -1,4 +1,6 @@
 
+using MQTTnet.Server;
+
 namespace Server.Mqtt.DTO
 {
 
@@ -7,6 +9,22 @@ namespace Server.Mqtt.DTO
         public DTO_MqttClientStatistics()
         {
 
+        }
+
+        public DTO_MqttClientStatistics(string serverUid, string clientUid, MqttClientStatus stats)
+        {
+            ClientUid = clientUid;
+            ServerUid = serverUid;
+            BytesSent = stats.BytesSent;
+            BytesReceived = stats.BytesReceived;
+            SentPacketsCount = stats.SentPacketsCount;
+            ConnectedTimestamp = stats.ConnectedTimestamp;
+            ReceivedPacketsCount = stats.ReceivedPacketsCount;
+            LastPacketSentTimestamp = stats.LastPacketSentTimestamp;
+            LastPacketReceivedTimestamp = stats.LastPacketReceivedTimestamp;
+            SentApplicationMessagesCount = stats.SentApplicationMessagesCount;
+            ReceivedApplicationMessagesCount = stats.ReceivedApplicationMessagesCount;
+            LastNonKeepAlivePacketReceivedTimestamp = stats.LastNonKeepAlivePacketReceivedTimestamp;
         }
 
         public string Id
