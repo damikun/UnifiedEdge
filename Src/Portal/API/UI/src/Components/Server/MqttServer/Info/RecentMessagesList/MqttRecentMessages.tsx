@@ -1,21 +1,26 @@
 import { graphql } from "babel-plugin-relay/macro";
+import MqttRecentMessagesBar from "./MqttRecentMessagesBar";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import { LinkedList } from "../../../../../Shared/LinkedList";
 import MqttRecentMessageDetail from "./MqttRecentMessageDetail"
-import React, { useCallback, useMemo, useReducer } from "react";
 import Section from "../../../../../UIComponents/Section/Section";
 import { MqttRecentMessagesItem } from "./MqttRecentMessagesItem";
 import { usePaginationFragment, useSubscription } from "react-relay";
+import useDidMountEffect from "../../../../../Hooks/useDidMountEffect";
 import useRenderDebounce from "../../../../../Hooks/useRenderDebounce";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import { FragmentRefs, GraphQLSubscriptionConfig } from "relay-runtime";
+import { MqttRecentMessagesCtxProvider } from "./MqttRecentMessagesCtxProvider";
+import { SelectItemType } from "../../../../../UIComponents/SelectList/SelectList";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
+import React, { useCallback, useMemo, useReducer,useState,useTransition } from "react";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
+import { MqttTopicsPaginationFragment$key } from "../TopicList/__generated__/MqttTopicsPaginationFragment.graphql";
+import { MqttClientsPaginationFragment$key } from "../ClientList/__generated__/MqttClientsPaginationFragment.graphql";
 import { MqttRecentMessagesPaginationFragment$key } from "./__generated__/MqttRecentMessagesPaginationFragment.graphql";
 import { MqttRecentMessagesNewMessageSubscription } from "./__generated__/MqttRecentMessagesNewMessageSubscription.graphql";
 import { MqttRecentMessagesPaginationFragmentRefetchQuery } from "./__generated__/MqttRecentMessagesPaginationFragmentRefetchQuery.graphql";
-
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -25,7 +30,11 @@ const MqttRecentMessagesNewMessageTag = graphql`
       $client_id:ID
       $topic_id:ID
     ) {
-        mqttServerNewMessage(server_id:$id,client_id:$client_id,topic_id:$topic_id){
+        mqttServerNewMessage(
+          server_id:$id,
+          client_id:$client_id,
+          topic_id:$topic_id
+        ){
           id
           ...MqttRecentMessagesItemDataFragment
         }
@@ -38,10 +47,18 @@ const MqttRecentMessagesPaginationFragment = graphql`
     first: { type: Int, defaultValue: 20 }
     after: { type: String }
     server_uid: { type: "ID!" }
+    topic_uid: { type: "ID", defaultValue: null  }
+    client_uid: { type: "ID", defaultValue: null }
   )
   @refetchable(queryName: "MqttRecentMessagesPaginationFragmentRefetchQuery") {
     __id
-    mqttServerRecentMessages(server_uid:$server_uid, first: $first, after: $after)
+    mqttServerRecentMessages(
+        server_uid:$server_uid,
+        first: $first,
+        after: $after,
+        client_uid:$client_uid,
+        topic_uid:$topic_uid
+      )
       @connection(key: "MqttRecentMessagesPaginationFragmentConnection_mqttServerRecentMessages") {
       __id
       edges {
@@ -59,23 +76,56 @@ export const MESSAGE_PARAM_NAME = "message_id"
 export default React.memo(MqttRecentMessages)
 
 type MqttRecentMessagesProps = {
-  dataRef: MqttRecentMessagesPaginationFragment$key | null;
+  dataRef: (MqttRecentMessagesPaginationFragment$key | null) & 
+  (MqttClientsPaginationFragment$key | null ) &
+  MqttTopicsPaginationFragment$key | null ;
 }
+
+export const defaultClinet = {
+  id: undefined,
+  data: "All Clients",
+  displayName: "All Clients",
+} as SelectItemType<string>
+
+export const defaultTopic = {
+  id: undefined,
+  data: "All Topics",
+  displayName: "All Topics",
+} as SelectItemType<string>
+
 
 function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
 
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const isOpen = useMemo(() => 
     searchParams.get(MESSAGE_PARAM_NAME)!== null, [searchParams]
   );
   
+  const [topic_filter, setTopicFilter] = useState(defaultTopic);
+
+  const [client_filetr, setClientFilter] = useState(defaultClinet);
+
+  const handleTopicFilterChange = useCallback(
+    (data:SelectItemType<string>) => {
+      setTopicFilter(data)
+    },
+    [setTopicFilter],
+  )
+ 
+  const handleClientFilterChange = useCallback(
+    (data:SelectItemType<string>) => {
+      setClientFilter(data)
+    },
+    [setClientFilter],
+  )
+
   const handleModalClose = useCallback(() => {
     searchParams.delete(MESSAGE_PARAM_NAME);
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
-  return  <>
+  return <MqttRecentMessagesCtxProvider>
     <Modal
       position="top"
       isOpen={isOpen}
@@ -85,33 +135,78 @@ function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
       }
     />
     <Section 
-    name={"Recent Messages"}
-    component={
+      bar={<MqttRecentMessagesBar
+      dataRef={dataRef}
+      topic_filter={topic_filter}
+      client_filter={client_filetr}
+      onClinetFilterChange={handleClientFilterChange}
+      onTopicFilterChange={handleTopicFilterChange}
+    />}
+      name={"Recent Messages"}
+      component={
       <InfinityScrollTable
         header={<Header/>}
       >
-        <TopicListBody dataRef={dataRef}/>
+        <MessagesListBody
+         dataRef={dataRef}
+         topic_filter={topic_filter}
+         client_filter={client_filetr}
+         />
       </InfinityScrollTable>
     }
   />
-  </>
+  </MqttRecentMessagesCtxProvider>
 }
 
 
-type TopicListBodyProps = {
+type MessagesListBodyProps = {
+  topic_filter:SelectItemType<string>
+  client_filter:SelectItemType<string>
+} & MqttRecentMessagesProps
 
-}&MqttRecentMessagesProps
-
-function TopicListBody({dataRef}:TopicListBodyProps){
+function MessagesListBody({
+  dataRef,
+  topic_filter,
+  client_filter
+}:MessagesListBodyProps){
 
   const { id }: any = useParams<string>();
 
+  const [server_id] = useState(id)
+
   const [searchParams, setSearchParams] = useSearchParams();
+
+  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, startTransition] = useTransition({
+    busyDelayMs: 2000,
+  });
 
   const pagination = usePaginationFragment<
   MqttRecentMessagesPaginationFragmentRefetchQuery,
   MqttRecentMessagesPaginationFragment$key
   >(MqttRecentMessagesPaginationFragment, dataRef);
+
+  useDidMountEffect(() => {
+    startTransition(() => {
+      pagination.refetch({
+        server_uid:server_id,
+        client_uid:client_filter.id ?? null,
+        topic_uid:topic_filter.id ?? null,
+        first:100
+      })
+    
+    },);
+  }, [topic_filter,client_filter])
+  
+  useDidMountEffect(() => {
+    dispatch({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      type:LinkedListActionKind.Init,
+      payload:pagination.data?.mqttServerRecentMessages?.edges
+  })
+  }, [pagination.data])
+  
 
   const [data_list, dispatch] = useReducer(
     messagesReducer,InitMetricsBuffer(pagination.data?.mqttServerRecentMessages?.edges)
@@ -124,7 +219,11 @@ function TopicListBody({dataRef}:TopicListBodyProps){
   const normalised_data = useMemo(() =>  debounced.data.traverse(), [debounced])
   
   const message_sub = useMemo(() => ({
-    variables: {id:id,},
+    variables: {
+      id:server_id,
+      client_id:client_filter.id ?? null,
+      topic_id:topic_filter.id ?? null
+    },
     subscription:MqttRecentMessagesNewMessageTag,
     updater: (store,data) => { 
       if(data && data.mqttServerNewMessage){
@@ -140,7 +239,7 @@ function TopicListBody({dataRef}:TopicListBodyProps){
     onCompleted: () => {} /* Subscription established */,
     onError: error => {} /* Subscription errored */,
     onNext: response => {} /* Subscription payload received */,
-  }as GraphQLSubscriptionConfig<MqttRecentMessagesNewMessageSubscription>), [id]);
+  }as GraphQLSubscriptionConfig<MqttRecentMessagesNewMessageSubscription>), [server_id,client_filter,topic_filter]);
 
   useSubscription<MqttRecentMessagesNewMessageSubscription>(message_sub);
 

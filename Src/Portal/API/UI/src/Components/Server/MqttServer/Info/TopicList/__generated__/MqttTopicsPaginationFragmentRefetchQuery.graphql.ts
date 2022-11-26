@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3bef8909b18d81211070eb1d825dff39>>
+ * @generated SignedSource<<03c217cbcc9ab3c2bf5a675b44d8defb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -128,14 +128,14 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "serverUid",
+                    "name": "topic",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "topic",
+                    "name": "serverUid",
                     "storageKey": null
                   },
                   {
@@ -221,16 +221,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "058789c50d554319561d0940bbc28e6f",
+    "cacheID": "31d90a14dcdcec1a0ba291529d5f7ee2",
     "id": null,
     "metadata": {},
     "name": "MqttTopicsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttTopicsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttTopicsPaginationFragment_3VI1TY\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_3VI1TY on Query {\n  mqttServerTopics(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttTopicsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttTopicsPaginationFragment_3VI1TY\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_3VI1TY on Query {\n  mqttServerTopics(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        topic\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c9b387902897c4dba964d0568cf83562";
+(node as any).hash = "21ebace55e8cacb6de65fa183bfd7c41";
 
 export default node;

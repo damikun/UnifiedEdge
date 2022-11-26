@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7b81b1e17ad89e5f2e33f73c769a853c>>
+ * @generated SignedSource<<73c0e0cf12786682c5ba2f4a66484202>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -236,16 +236,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "387273c80fe8ad8ce04919eeba59896a",
+    "cacheID": "e83c7fb5bcc6eda38cb86481023411ec",
     "id": null,
     "metadata": {},
     "name": "MqttClientsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_3VI1TY on Query {\n  mqttServerClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "655926059b531d9375ba72f99ae833e4";
+(node as any).hash = "2674dc22104bfa3ce25dd65b59f4d488";
 
 export default node;

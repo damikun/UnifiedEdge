@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3ae3a109b5c6801d718ecc6c0ee97d62>>
+ * @generated SignedSource<<eda96be5b25f068e5385d35015336bbc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -438,8 +438,8 @@ return {
                     "plural": false,
                     "selections": [
                       (v2/*: any*/),
-                      (v5/*: any*/),
                       (v13/*: any*/),
+                      (v5/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -546,7 +546,11 @@ return {
           {
             "alias": null,
             "args": (v6/*: any*/),
-            "filters": (v12/*: any*/),
+            "filters": [
+              "server_uid",
+              "client_uid",
+              "topic_uid"
+            ],
             "handle": "connection",
             "key": "MqttRecentMessagesPaginationFragmentConnection_mqttServerRecentMessages",
             "kind": "LinkedHandle",
@@ -558,12 +562,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5dea3099a22d923e7ae816aae6664cdc",
+    "cacheID": "4d1bd22428012284d4e15b3dc056c00e",
     "id": null,
     "metadata": {},
     "name": "MqttServerInfoQuery",
     "operationKind": "query",
-    "text": "query MqttServerInfoQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n    ...ServerSharedInfoFragment\n  }\n  ...MqttClientsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttClientsPaginationFragment_2YLYDF\")\n  ...MqttServerNetworkInfoFragment_2YLYDF\n  ...MqttServerStatisticFragment_2YLYDF\n  ...MqttTopicsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttTopicsPaginationFragment_2YLYDF\")\n  ...MqttRecentMessagesPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttRecentMessagesPaginationFragment_2YLYDF\")\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_2YLYDF on Query {\n  mqttServerClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_2YLYDF on Query {\n  mqttServerRecentMessages(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttServerNetworkInfoFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    iPAddress\n    port\n    serverUid\n  }\n  mqttServerStats(server_uid: $id) {\n    id\n    packetRcvCount\n    packetSndCount\n  }\n}\n\nfragment MqttServerStatisticFragment_2YLYDF on Query {\n  mqttServerStats(server_uid: $id) {\n    id\n    connectionsCount\n    notConsumedCount\n    publishedTopicCount\n    subscribedTopicCount\n    subscriptionsCount\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_2YLYDF on Query {\n  mqttServerTopics(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ServerSharedInfoFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n"
+    "text": "query MqttServerInfoQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n    ...ServerSharedInfoFragment\n  }\n  ...MqttClientsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttClientsPaginationFragment_2YLYDF\")\n  ...MqttServerNetworkInfoFragment_2YLYDF\n  ...MqttServerStatisticFragment_2YLYDF\n  ...MqttTopicsPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttTopicsPaginationFragment_2YLYDF\")\n  ...MqttRecentMessagesPaginationFragment_2YLYDF @defer(label: \"MqttServerInfoQuery$defer$MqttRecentMessagesPaginationFragment_2YLYDF\")\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n\nfragment MqttClientsPaginationFragment_2YLYDF on Query {\n  mqttServerClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_2YLYDF on Query {\n  mqttServerRecentMessages(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttServerNetworkInfoFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    iPAddress\n    port\n    serverUid\n  }\n  mqttServerStats(server_uid: $id) {\n    id\n    packetRcvCount\n    packetSndCount\n  }\n}\n\nfragment MqttServerStatisticFragment_2YLYDF on Query {\n  mqttServerStats(server_uid: $id) {\n    id\n    connectionsCount\n    notConsumedCount\n    publishedTopicCount\n    subscribedTopicCount\n    subscriptionsCount\n  }\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_2YLYDF on Query {\n  mqttServerTopics(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        topic\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ServerSharedInfoFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n"
   }
 };
 })();

@@ -39,16 +39,16 @@ namespace Server.Mqtt
             IServerEventPublisher? publisher = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
-            Clients = CreateClientStore();
+            Clients = InitClientStore();
 
-            Topics = CreateTopicStore();
+            Topics = InitTopicStore();
 
-            Messages = CreateMessageStore();
+            Messages = InitMessageStore();
 
             Meter = new EdgeMqttServerMeter(this);
         }
 
-        private MessageStore CreateMessageStore()
+        private MessageStore InitMessageStore()
         {
             var store = new MessageStore(this);
 
@@ -57,7 +57,7 @@ namespace Server.Mqtt
             return store;
         }
 
-        private TopicStore CreateTopicStore()
+        private TopicStore InitTopicStore()
         {
             var store = new TopicStore(this);
 
@@ -68,7 +68,7 @@ namespace Server.Mqtt
             return store;
         }
 
-        private ClientStore CreateClientStore()
+        private ClientStore InitClientStore()
         {
             var store = new ClientStore(this);
 
@@ -80,7 +80,10 @@ namespace Server.Mqtt
 
         public ICollection<string> GetPublishedTopics()
         {
-            return Topics.GetTopics().Select(e => e.Topic).ToList();
+            return Topics
+            .GetTopics()
+            .Select(e => e.Topic)
+            .ToList();
         }
 
         protected override MqttServerOptions MapConfiguration(IServerCfg cfg)
@@ -270,14 +273,14 @@ namespace Server.Mqtt
 
                 try
                 {
-                    try
+                    if (Server != null && Server.IsStarted)
                     {
-                        if (Server != null && Server.IsStarted)
+                        try
                         {
                             await Server.StopAsync();
                         }
+                        catch { }
                     }
-                    catch { }
 
                     Server?.Dispose();
                 }

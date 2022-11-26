@@ -1,5 +1,4 @@
-import clsx from "clsx";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import MqttTopics from "./TopicList/MqttTopics";
@@ -7,8 +6,8 @@ import MqttClients from "./ClientList/MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
 import MqttServerStatistic from "./MqttServerStatistic";
 import MqttServerNetworkInfo from "./MqttServerNetworkInfo";
-import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
 import MqttRecentMessages from "./RecentMessagesList/MqttRecentMessages";
+import { MqttServerInfoQuery } from "./__generated__/MqttServerInfoQuery.graphql";
 
 
 export const MqttServerInfoQueryTag = graphql`
@@ -61,13 +60,10 @@ function MqttServerInfo() {
       <div className="flex w-full 2xl:w-1/2 2xl:pr-5">
         <MqttClients dataRef={data}/>
       </div>
-
       <div className="flex w-full 2xl:w-1/2">
         <MqttTopics dataRef={data}/>
       </div>
-
     </div>
-
 
     <MqttRecentMessages dataRef={data}/>
   </>

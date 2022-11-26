@@ -180,7 +180,13 @@ namespace Server.Mqtt
                 var client_list = await _server.Server.GetClientsAsync();
 
                 var response_stat = client_list
-                .Where(e => e != null && e.Session != null && e.Id.Equals(clinet.ClientId, StringComparison.OrdinalIgnoreCase))
+                .Where(e => e != null &&
+                    e.Session != null &&
+                    e.Id.Equals(
+                        clinet.ClientId,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                )
                 .Select(e => new DTO_MqttClientStatistics()
                 {
                     ClientUid = clinet.Uid,
@@ -239,7 +245,10 @@ namespace Server.Mqtt
                 var client_list = await _server.Server.GetClientsAsync();
 
                 return client_list
-                .Where(e => e != null && e.Session != null && e.Id == client.ClientId)
+                .Where(e => e != null &&
+                    e.Session != null &&
+                    e.Id == client.ClientId
+                )
                 .Select(e => new DTO_MqttClientSession()
                 {
                     ClientUid = DTO_StoredMqttClient.GetUid(_server.UID, e.Id),
@@ -307,20 +316,23 @@ namespace Server.Mqtt
 
             try
             {
-                var online_clinets = await _server.Server.GetClientsAsync();
+                var online_clinets = await _server.Server
+                    .GetClientsAsync();
 
                 foreach (var item in clients)
                 {
-                    var isOnline = online_clinets.Any(e => e.Id.Equals(item.ClientId, StringComparison.OrdinalIgnoreCase));
+                    var isOnline = online_clinets
+                    .Any(e =>
+                        e.Id.Equals(
+                            item.ClientId,
+                            StringComparison.OrdinalIgnoreCase
+                        )
+                    );
 
                     result.Add(item.Uid, isOnline);
                 }
             }
-            catch
-            {
-
-            }
-
+            catch { }
 
             return result;
         }
@@ -371,10 +383,18 @@ namespace Server.Mqtt
 
         public bool Contains(string clientUid)
         {
+            if (string.IsNullOrWhiteSpace(clientUid))
+            {
+                return false;
+            }
+
             return _store.ContainsKey(clientUid);
         }
 
-        public DTO_MqttClient? UpdateClientProtocol(string clientUid, DTO_MqttProtocol protocol)
+        public DTO_MqttClient? UpdateClientProtocol(
+            string clientUid,
+            DTO_MqttProtocol protocol
+        )
         {
             try
             {
@@ -554,7 +574,12 @@ namespace Server.Mqtt
 
         }
 
-        public DTO_MqttClient? AddClient(string? clientId, DTO_MqttProtocol protocol, string endpoint, bool? connected = true)
+        public DTO_MqttClient? AddClient(
+            string? clientId,
+            DTO_MqttProtocol protocol,
+            string endpoint,
+            bool? connected = true
+        )
         {
             if (clientId is null || _server?.UID is null)
             {

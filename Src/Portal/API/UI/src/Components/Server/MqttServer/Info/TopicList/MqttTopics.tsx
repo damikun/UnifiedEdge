@@ -43,7 +43,7 @@ const MqttTopicsUpdatedTag = graphql`
     }
 `;
 
-const MqttTopicsPaginationFragment = graphql`
+export const MqttTopicsPaginationFragment = graphql`
   fragment MqttTopicsPaginationFragment on Query
   @argumentDefinitions(
     first: { type: Int, defaultValue: 20 }
@@ -58,6 +58,7 @@ const MqttTopicsPaginationFragment = graphql`
       edges {
         node {
           id
+          topic
           ...MqttTopicItemDataFragment
         }
       }

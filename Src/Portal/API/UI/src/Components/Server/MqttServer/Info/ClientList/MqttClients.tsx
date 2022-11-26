@@ -44,7 +44,7 @@ const MqttClientsClientUpdatedTag = graphql`
     }
 `;
 
-const MqttClientsPaginationFragment = graphql`
+export const MqttClientsPaginationFragment = graphql`
   fragment MqttClientsPaginationFragment on Query
   @argumentDefinitions(
     first: { type: Int, defaultValue: 20 }
@@ -59,6 +59,7 @@ const MqttClientsPaginationFragment = graphql`
       edges {
         node {
           id
+          clientId
           ...MqttClientItemDataFragment
         }
       }

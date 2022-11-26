@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<49df895a583d43d5b2b622d174b2643a>>
+ * @generated SignedSource<<614506ce65821c815c5b9548c27fe7d9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type MqttTopicsPaginationFragment$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly id: string;
+        readonly topic: string;
         readonly " $fragmentSpreads": FragmentRefs<"MqttTopicItemDataFragment">;
       } | null;
     }> | null;
@@ -125,6 +126,13 @@ return {
                   "storageKey": null
                 },
                 {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "topic",
+                  "storageKey": null
+                },
+                {
                   "args": null,
                   "kind": "FragmentSpread",
                   "name": "MqttTopicItemDataFragment"
@@ -185,6 +193,6 @@ return {
 };
 })();
 
-(node as any).hash = "c9b387902897c4dba964d0568cf83562";
+(node as any).hash = "21ebace55e8cacb6de65fa183bfd7c41";
 
 export default node;

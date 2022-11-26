@@ -23,14 +23,27 @@ namespace Aplication.CQRS.Queries
     {
 
 #nullable disable
-        public string server_uid { get; set; }
-
+        public string Server_uid { get; set; }
 #nullable enable
 
-        public GetMqttServerRecentMessages(CursorArguments arguments, string uid)
+#nullable enable
+        public string? Client_uid { get; set; }
+
+        public string? Topic_uid { get; set; }
+#nullable disable
+
+
+        public GetMqttServerRecentMessages(
+            CursorArguments arguments,
+            string server_uid,
+            string client_uid,
+            string topic_uid
+        )
         {
             Arguments = arguments;
-            server_uid = uid;
+            Server_uid = server_uid;
+            Client_uid = client_uid;
+            Topic_uid = topic_uid;
         }
 
         public CursorArguments Arguments { get; init; }
@@ -50,21 +63,70 @@ namespace Aplication.CQRS.Queries
         /// </summary>
         private readonly IServerFascade _fascade;
 
-        public GetMqttServerRecentMessagesValidator(IServerFascade fascade)
+        /// <summary>
+        /// Injected <c>IMqttServerManager</c>
+        /// </summary>
+
+        private readonly IMqttServerManager _manager;
+
+        public GetMqttServerRecentMessagesValidator(
+            IServerFascade fascade,
+            IMqttServerManager manager
+        )
         {
             _fascade = fascade;
 
-            RuleFor(e => e.server_uid)
+            _manager = manager;
+
+            RuleFor(e => e.Server_uid)
             .NotNull()
             .NotEmpty()
-            .MustAsync(Exist).WithMessage("Server not found");
+            .MustAsync(ServereExist).WithMessage("Server not found");
+
+            RuleFor(e => e)
+            .MustAsync(ClientExist).WithMessage("Client not found");
+
+            RuleFor(e => e)
+            .MustAsync(TopicExist).WithMessage("Topic not found");
         }
 
-        public async Task<bool> Exist(
+        public async Task<bool> ServereExist(
             string server_uid,
             CancellationToken cancellationToken)
         {
             return await _fascade.Contains(server_uid);
+        }
+
+        public async Task<bool> ClientExist(
+            GetMqttServerRecentMessages command,
+            CancellationToken cancellationToken)
+        {
+
+            if (command.Client_uid is null)
+            {
+                return true;
+            }
+
+            return await _manager.ContainsClient(
+                command.Server_uid,
+                command.Client_uid
+            );
+        }
+
+        public async Task<bool> TopicExist(
+            GetMqttServerRecentMessages command,
+            CancellationToken cancellationToken)
+        {
+
+            if (command.Topic_uid is null)
+            {
+                return true;
+            }
+
+            return await _manager.ContainsTopic(
+                command.Server_uid,
+                command.Topic_uid
+            );
         }
     }
 
@@ -132,9 +194,15 @@ namespace Aplication.CQRS.Queries
             GetMqttServerRecentMessages request, CancellationToken cancellationToken
         )
         {
-            IMqttServerManager manager = (IMqttServerManager)await _fascade.GetManager(request.server_uid);
+            IMqttServerManager manager = (IMqttServerManager)await _fascade.GetManager(request.Server_uid);
 
-            var messages = await manager.GetRecentMessages(request.server_uid);
+            // var messages = await manager.GetRecentMessages(request.Server_uid);
+
+            var messages = await manager.GetRecentMessages(
+                request.Server_uid,
+                request.Topic_uid,
+                request.Client_uid
+            );
 
             Func<CancellationToken, Task<int>> total_count = (ct) => Task.FromResult(messages.Count());
 

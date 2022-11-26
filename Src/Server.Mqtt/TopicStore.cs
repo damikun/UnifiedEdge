@@ -159,6 +159,11 @@ namespace Server.Mqtt
 
         public bool Contains(string topicUid)
         {
+            if (string.IsNullOrWhiteSpace(topicUid))
+            {
+                return false;
+            }
+
             return _store.ContainsKey(topicUid);
         }
 

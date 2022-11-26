@@ -56,6 +56,8 @@ namespace Aplication.Graphql.Queries
         [UseConnection(typeof(GQL_MqttMessage))]
         public async Task<Connection<GQL_MqttMessage>> GetMqttServerRecentMessages(
         [ID] string server_uid,
+        [ID] string? topic_uid,
+        [ID] string? client_uid,
         IResolverContext ctx,
         [Service] IMediator mediator,
         CancellationToken cancellationToken)
@@ -63,7 +65,11 @@ namespace Aplication.Graphql.Queries
             var arguments = ctx.GetPaggingArguments();
 
             var result = await mediator.Send(
-                new GetMqttServerRecentMessages(arguments, server_uid),
+                new GetMqttServerRecentMessages(
+                    arguments,
+                    server_uid,
+                    client_uid,
+                    topic_uid),
                 cancellationToken
             );
 

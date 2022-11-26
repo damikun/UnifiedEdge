@@ -150,7 +150,7 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
                 return mqtt_server.Messages
-                    .GetRecentMessages(client_uid, server_uid)
+                    .GetRecentMessages(client_uid, topic_uid)
                     .ToList();
             }
             else
@@ -171,6 +171,25 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
                 return mqtt_server.Clients.Contains(client_uid);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<bool> ContainsTopic(string server_uid, string topic_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (string.IsNullOrWhiteSpace(topic_uid))
+            {
+                return false;
+            }
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Topics.Contains(topic_uid);
             }
             else
             {

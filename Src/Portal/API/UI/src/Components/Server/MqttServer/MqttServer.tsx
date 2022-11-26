@@ -7,9 +7,9 @@ import { graphql } from "babel-plugin-relay/macro";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import MqttServerSettings from "./Settings/MqttServerSettings";
-import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
-import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 import StyledTabSection from "../../../Shared/StyledTabSection";
+import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
+import { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 
 
 export const SettingsTabs = [

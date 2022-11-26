@@ -53,6 +53,7 @@ export function MqttRecentMessagesItem({dataRef, onItemClick,key_}:MqttRecentMes
         {data?.clientId}
       </div>
     </td>
+    
     <td className={clsx("w-6/12 2xl:w-6/12 hidden 2xl:flex truncate",
       "text-sm")}>
       <div className="truncate break-all font-mono">

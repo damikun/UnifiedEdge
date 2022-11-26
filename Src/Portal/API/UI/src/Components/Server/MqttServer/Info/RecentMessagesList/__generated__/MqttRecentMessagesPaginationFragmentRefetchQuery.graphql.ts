@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<84eef8e6cddf9747173a9fdcd944886d>>
+ * @generated SignedSource<<99b459b8a0d7882a637e477e1044b5ba>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,8 +12,10 @@ import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MqttRecentMessagesPaginationFragmentRefetchQuery$variables = {
   after?: string | null;
+  client_uid?: string | null;
   first?: number | null;
   server_uid: string;
+  topic_uid?: string | null;
 };
 export type MqttRecentMessagesPaginationFragmentRefetchQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"MqttRecentMessagesPaginationFragment">;
@@ -31,6 +33,11 @@ var v0 = [
     "name": "after"
   },
   {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "client_uid"
+  },
+  {
     "defaultValue": 20,
     "kind": "LocalArgument",
     "name": "first"
@@ -39,6 +46,11 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "server_uid"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "topic_uid"
   }
 ],
 v1 = [
@@ -49,6 +61,11 @@ v1 = [
   },
   {
     "kind": "Variable",
+    "name": "client_uid",
+    "variableName": "client_uid"
+  },
+  {
+    "kind": "Variable",
     "name": "first",
     "variableName": "first"
   },
@@ -56,6 +73,11 @@ v1 = [
     "kind": "Variable",
     "name": "server_uid",
     "variableName": "server_uid"
+  },
+  {
+    "kind": "Variable",
+    "name": "topic_uid",
+    "variableName": "topic_uid"
   }
 ],
 v2 = {
@@ -204,7 +226,9 @@ return {
         "alias": null,
         "args": (v1/*: any*/),
         "filters": [
-          "server_uid"
+          "server_uid",
+          "client_uid",
+          "topic_uid"
         ],
         "handle": "connection",
         "key": "MqttRecentMessagesPaginationFragmentConnection_mqttServerRecentMessages",
@@ -215,16 +239,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d98b0814e4d50989cc823a731a89980c",
+    "cacheID": "845a9622fb6e97f511455e819d494a11",
     "id": null,
     "metadata": {},
     "name": "MqttRecentMessagesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttRecentMessagesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttRecentMessagesPaginationFragment_3VI1TY\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_3VI1TY on Query {\n  mqttServerRecentMessages(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttRecentMessagesPaginationFragmentRefetchQuery(\n  $after: String\n  $client_uid: ID = null\n  $first: Int = 20\n  $server_uid: ID!\n  $topic_uid: ID = null\n) {\n  ...MqttRecentMessagesPaginationFragment_karSk\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_karSk on Query {\n  mqttServerRecentMessages(server_uid: $server_uid, first: $first, after: $after, client_uid: $client_uid, topic_uid: $topic_uid) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "cc72349a7476545830c1de933a9f16fe";
+(node as any).hash = "39b5a4be39db39e6215c22114d6347ce";
 
 export default node;

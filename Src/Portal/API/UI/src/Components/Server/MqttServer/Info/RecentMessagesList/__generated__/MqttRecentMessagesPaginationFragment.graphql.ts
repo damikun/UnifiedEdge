@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3a578dc721d47e70c7113c0757e7a52c>>
+ * @generated SignedSource<<54d14e1e3f28ce917d0b56e68fa67a0c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -52,6 +52,11 @@ return {
       "name": "after"
     },
     {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "client_uid"
+    },
+    {
       "defaultValue": 20,
       "kind": "LocalArgument",
       "name": "first"
@@ -60,6 +65,11 @@ return {
       "defaultValue": null,
       "kind": "LocalArgument",
       "name": "server_uid"
+    },
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "topic_uid"
     }
   ],
   "kind": "Fragment",
@@ -92,8 +102,18 @@ return {
       "args": [
         {
           "kind": "Variable",
+          "name": "client_uid",
+          "variableName": "client_uid"
+        },
+        {
+          "kind": "Variable",
           "name": "server_uid",
           "variableName": "server_uid"
+        },
+        {
+          "kind": "Variable",
+          "name": "topic_uid",
+          "variableName": "topic_uid"
         }
       ],
       "concreteType": "GQL_MqttMessageConnection",
@@ -185,6 +205,6 @@ return {
 };
 })();
 
-(node as any).hash = "cc72349a7476545830c1de933a9f16fe";
+(node as any).hash = "39b5a4be39db39e6215c22114d6347ce";
 
 export default node;
