@@ -5,6 +5,9 @@ namespace Domain.Server
     {
         public override ServerType Type => ServerType.mqtt;
 
+        public virtual ICollection<MqttAuthClient> AuthClients { get; set; }
+
+        public virtual ICollection<MqttAuthUser> AuthUsers { get; set; }
     }
 
 }

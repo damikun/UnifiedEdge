@@ -8,7 +8,9 @@ namespace Persistence.Portal.Configuration
     {
         public void Configure(EntityTypeBuilder<ServerBase> builder)
         {
-            builder.HasKey(e => new { e.ID, e.UID });
+            builder.HasKey(e => e.ID);
+
+            builder.HasIndex(e => e.UID);
 
             builder.Property(e => e.UID)
             .IsRequired();

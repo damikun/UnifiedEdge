@@ -46,6 +46,20 @@ namespace Persistence.Portal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MqttAuthConfig",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RestrictedClientsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAuthEnabled = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttAuthConfig", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServerCfg",
                 columns: table => new
                 {
@@ -161,7 +175,8 @@ namespace Persistence.Portal.Migrations
                 name: "Servers",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "INTEGER", nullable: false),
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UID = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
@@ -173,7 +188,7 @@ namespace Persistence.Portal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Servers", x => new { x.ID, x.UID });
+                    table.PrimaryKey("PK_Servers", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Servers_ServerCfg_CfgServerUID",
                         column: x => x.CfgServerUID,
@@ -241,17 +256,16 @@ namespace Persistence.Portal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Port = table.Column<int>(type: "INTEGER", nullable: false),
                     IpAddress = table.Column<string>(type: "TEXT", nullable: false),
-                    ServerBaseID = table.Column<long>(type: "INTEGER", nullable: true),
-                    ServerBaseUID = table.Column<string>(type: "TEXT", nullable: true)
+                    ServerBaseID = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Endpoints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Endpoints_Servers_ServerBaseID_ServerBaseUID",
-                        columns: x => new { x.ServerBaseID, x.ServerBaseUID },
+                        name: "FK_Endpoints_Servers_ServerBaseID",
+                        column: x => x.ServerBaseID,
                         principalTable: "Servers",
-                        principalColumns: new[] { "ID", "UID" },
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -259,17 +273,17 @@ namespace Persistence.Portal.Migrations
                 name: "MqttServer",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "INTEGER", nullable: false),
-                    UID = table.Column<string>(type: "TEXT", nullable: false)
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MqttServer", x => new { x.ID, x.UID });
+                    table.PrimaryKey("PK_MqttServer", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_MqttServer_Servers_ID_UID",
-                        columns: x => new { x.ID, x.UID },
+                        name: "FK_MqttServer_Servers_ID",
+                        column: x => x.ID,
                         principalTable: "Servers",
-                        principalColumns: new[] { "ID", "UID" },
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -277,24 +291,67 @@ namespace Persistence.Portal.Migrations
                 name: "OpcServer",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "INTEGER", nullable: false),
-                    UID = table.Column<string>(type: "TEXT", nullable: false)
+                    ID = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OpcServer", x => new { x.ID, x.UID });
+                    table.PrimaryKey("PK_OpcServer", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_OpcServer_Servers_ID_UID",
-                        columns: x => new { x.ID, x.UID },
+                        name: "FK_OpcServer_Servers_ID",
+                        column: x => x.ID,
                         principalTable: "Servers",
-                        principalColumns: new[] { "ID", "UID" },
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MqttClients",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ServerId = table.Column<long>(type: "INTEGER", nullable: true),
+                    Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ClientId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttClients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MqttClients_MqttServer_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "MqttServer",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MqttUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ServerId = table.Column<long>(type: "INTEGER", nullable: true),
+                    Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MqttUsers_MqttServer_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "MqttServer",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "1ea45e14-7990-4175-b78f-2208b7d2d406", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "c27a89ed-7efa-4b31-8583-f12829c9730b", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -312,9 +369,19 @@ namespace Persistence.Portal.Migrations
                 column: "Port");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Endpoints_ServerBaseID_ServerBaseUID",
+                name: "IX_Endpoints_ServerBaseID",
                 table: "Endpoints",
-                columns: new[] { "ServerBaseID", "ServerBaseUID" });
+                column: "ServerBaseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MqttClients_ServerId",
+                table: "MqttClients",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MqttUsers_ServerId",
+                table: "MqttUsers",
+                column: "ServerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerEvents_ServerUid",
@@ -326,6 +393,11 @@ namespace Persistence.Portal.Migrations
                 table: "Servers",
                 column: "CfgServerUID",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Servers_UID",
+                table: "Servers",
+                column: "UID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WebHookHeader_WebHookID",
@@ -356,10 +428,16 @@ namespace Persistence.Portal.Migrations
                 name: "Endpoints");
 
             migrationBuilder.DropTable(
-                name: "MqttServer");
+                name: "MqttAuthConfig");
+
+            migrationBuilder.DropTable(
+                name: "MqttClients");
 
             migrationBuilder.DropTable(
                 name: "MqttServerCfg");
+
+            migrationBuilder.DropTable(
+                name: "MqttUsers");
 
             migrationBuilder.DropTable(
                 name: "OpcServer");
@@ -380,10 +458,13 @@ namespace Persistence.Portal.Migrations
                 name: "WebHooksHistory");
 
             migrationBuilder.DropTable(
-                name: "Servers");
+                name: "MqttServer");
 
             migrationBuilder.DropTable(
                 name: "WebHooks");
+
+            migrationBuilder.DropTable(
+                name: "Servers");
 
             migrationBuilder.DropTable(
                 name: "ServerCfg");

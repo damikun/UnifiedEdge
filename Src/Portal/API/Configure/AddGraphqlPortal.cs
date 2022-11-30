@@ -1,4 +1,5 @@
 using Aplication;
+using Persistence.Portal;
 using HotChocolate.AspNetCore;
 using Aplication.GraphQL.Types;
 using Aplication.Graphql.Types;
@@ -98,6 +99,8 @@ namespace API
                 // .BindRuntimeType<IPAddress, IPAddressType>()
 
                 .AddType<MqttServerEndpointType>()
+
+                .RegisterDbContext<ManagmentDbCtx>(DbContextKind.Pooled)
 
                 .AddType<MetricType>()
                 .AddType<RuntimeMetricsType>()

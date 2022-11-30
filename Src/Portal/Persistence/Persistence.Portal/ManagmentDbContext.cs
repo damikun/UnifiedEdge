@@ -25,6 +25,12 @@ namespace Persistence.Portal
 
         public DbSet<WebHookRecord> WebHooksHistory { get; set; }
 
+        public DbSet<MqttAuthUser> MqttUsers { get; set; }
+
+        public DbSet<MqttAuthClient> MqttClients { get; set; }
+
+        public DbSet<MqttAuthConfig> MqttAuthConfig { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(
