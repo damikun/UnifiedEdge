@@ -16,6 +16,8 @@ namespace API
 
             serviceCollection.AddScoped<ICurrentUser, CurrentUser>();
 
+            serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
+
             serviceCollection.AddTransient(provider =>
             {
                 var loggerFactory = provider.GetRequiredService<ILoggerFactory>();

@@ -1,9 +1,9 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
+using Persistence.Portal;
 using Aplication.Interfaces;
 using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;
@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Queries
     /// Query Server logs (from db)
     /// </summary>
     public class GetServerLogs
-     : CommandBase<DTO_Connection<DTO_IServerEventLog>>
+        : CommandBase<DTO_Connection<DTO_IServerEventLog>>
     {
         public string Uid { get; init; }
 
