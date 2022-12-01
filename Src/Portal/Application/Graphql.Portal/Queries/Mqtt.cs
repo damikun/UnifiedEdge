@@ -247,5 +247,39 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<GQL_MqttServerClientCfg>(result);
         }
+
+        [UseConnection(typeof(GQL_MqttAuthUser))]
+        public async Task<Connection<GQL_MqttAuthUser>> GetMqttAuthUsers(
+        [ID] string server_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerAuthClients(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttAuthUser>>(result);
+        }
+
+        [UseConnection(typeof(GQL_MqttAuthClient))]
+        public async Task<Connection<GQL_MqttAuthClient>> GetMqttAuthClients(
+        [ID] string server_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerAuthClients(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttAuthClient>>(result);
+        }
     }
 }

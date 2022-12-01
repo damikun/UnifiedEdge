@@ -43,6 +43,18 @@ type AuthorizationError implements ResultError {
   message: String!
 }
 
+type CreateMqttAuthClientPayload {
+  errors: [CreateMqttAuthClientError!]
+  gQL_MqttAuthClient: GQL_MqttAuthClient
+  query: Query!
+}
+
+type CreateMqttAuthUserPayload {
+  errors: [CreateMqttAuthUserError!]
+  gQL_MqttAuthUser: GQL_MqttAuthUser
+  query: Query!
+}
+
 type CreateServerPayload {
   errors: [CreateServerError!]
   gQL_IServer: GQL_IServer
@@ -323,6 +335,66 @@ type GQL_Metric {
   type: String
   unit: String
   value: Any
+}
+
+type GQL_MqttAuthClient {
+  clientId: String
+  enabled: Boolean!
+  id: ID!
+  rules: [GQL_MqttAuthRule!]!
+}
+
+"A connection to a list of items."
+type GQL_MqttAuthClientConnection {
+  "A list of edges."
+  edges: [GQL_MqttAuthClientEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttAuthClient]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttAuthClientEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttAuthClient
+}
+
+type GQL_MqttAuthRule {
+  authAction: AuthAction!
+  id: ID!
+  mqttAction: MqttAction!
+  topic: String
+}
+
+type GQL_MqttAuthUser {
+  enabled: Boolean!
+  id: ID!
+  userName: String
+}
+
+"A connection to a list of items."
+type GQL_MqttAuthUserConnection {
+  "A list of edges."
+  edges: [GQL_MqttAuthUserEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttAuthUser]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttAuthUserEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttAuthUser
 }
 
 type GQL_MqttClient {
@@ -840,6 +912,8 @@ type IsAdminResult {
 }
 
 type Mutation {
+  createMqttAuthClient(input: CreateMqttAuthClientInput!): CreateMqttAuthClientPayload!
+  createMqttAuthUser(input: CreateMqttAuthUserInput!): CreateMqttAuthUserPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
   createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
@@ -903,6 +977,8 @@ type Query {
   isAdmin(user_id: ID!): IsAdminResult!
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
+  mqttAuthClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthClientConnection
+  mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
   mqttServerById(id: ID!): GQL_MqttServer!
   mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
   mqttServerClientConfig(server_uid: ID!): GQL_MqttServerClientCfg!
@@ -1131,6 +1207,10 @@ type ValidationError implements ResultError {
   message: String!
 }
 
+union CreateMqttAuthClientError = ValidationError | AuthorizationError | InternalError
+
+union CreateMqttAuthUserError = ValidationError | AuthorizationError | InternalError
+
 union CreateServerError = ValidationError | AuthorizationError | InternalError
 
 union CreateUserError = ValidationError | AuthorizationError | InternalError
@@ -1196,6 +1276,17 @@ union UpdateWebHookNameError = ValidationError | AuthorizationError | InternalEr
 union UpdateWebHookSecretError = ValidationError | AuthorizationError | InternalError
 
 union UpdateWebHookUrlError = ValidationError | AuthorizationError | InternalError
+
+input CreateMqttAuthClientInput {
+  clientId: String!
+  server_uid: ID!
+}
+
+input CreateMqttAuthUserInput {
+  password: String!
+  server_uid: ID!
+  userName: String!
+}
 
 input CreateServerInput {
   description: String
@@ -1362,6 +1453,11 @@ enum AdapterState {
   UP
 }
 
+enum AuthAction {
+  ALLOW
+  DISALLOW
+}
+
 enum DTO_MqttProtocol {
   UNKNOWN
   V310
@@ -1441,6 +1537,12 @@ enum HookEventGroup {
   MQTT
   OPC
   S7
+}
+
+enum MqttAction {
+  PUBLISH
+  SUBSCRIBE
+  PUBLISH_AND_SUBSCRIBE
 }
 
 enum NetworkInterfaceType {

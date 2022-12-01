@@ -155,6 +155,7 @@ namespace Aplication.CQRS.Queries
                 e.Server != null &&
                 e.Server.UID == request.server_uid
             )
+            .Include(e => e.Rules)
             .ProjectTo<DTO_MqttAuthClient>(_mapper.ConfigurationProvider)
             .AsQueryable();
 

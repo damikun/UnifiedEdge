@@ -141,6 +141,10 @@ namespace API
                 .AddType<IServerEventType>()
                 .AddType<ServerMetricsSourceType>()
 
+                .AddType<MqttAuthRuleType>()
+                .AddType<MqttAuthClientType>()
+                .AddType<MqttAuthUserType>()
+
                 .AddType<MqttServerClientSessionType>()
                 .AddType<MqttServerClientStatisticsType>()
                 .AddType<MqttServerClientType>()

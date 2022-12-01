@@ -133,5 +133,53 @@ namespace Aplication.Graphql.Mutations
 
             return mapper.Map<GQL_MqttClientStatistics>(response);
         }
+
+        /// <summary>
+        /// Create mqtt Auth User
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthUser> CreateMqttAuthUser(
+            [ID] string server_uid,
+            string UserName,
+            string Password,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new CreateMqttAuthUser()
+                {
+                    Server_uid = server_uid,
+                    UserName = UserName,
+                    Password = Password
+                }
+            );
+
+            return mapper.Map<GQL_MqttAuthUser>(response);
+        }
+
+        /// <summary>
+        /// Create mqtt Auth Client
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthClient> CreateMqttAuthClient(
+            [ID] string server_uid,
+            string ClientId,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new CreateMqttAuthClient()
+                {
+                    Server_uid = server_uid,
+                    ClientId = ClientId
+                }
+            );
+
+            return mapper.Map<GQL_MqttAuthClient>(response);
+        }
     }
 }
