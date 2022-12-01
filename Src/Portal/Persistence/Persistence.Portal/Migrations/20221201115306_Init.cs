@@ -348,10 +348,31 @@ namespace Persistence.Portal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MqttAuthRule",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Topic = table.Column<string>(type: "TEXT", nullable: true),
+                    AuthAction = table.Column<int>(type: "INTEGER", nullable: false),
+                    MqttAction = table.Column<int>(type: "INTEGER", nullable: false),
+                    MqttAuthClientId = table.Column<long>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttAuthRule", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MqttAuthRule_MqttClients_MqttAuthClientId",
+                        column: x => x.MqttAuthClientId,
+                        principalTable: "MqttClients",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "c27a89ed-7efa-4b31-8583-f12829c9730b", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "05f4c0cb-0389-41a6-99c3-76453017e3a4", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -372,6 +393,11 @@ namespace Persistence.Portal.Migrations
                 name: "IX_Endpoints_ServerBaseID",
                 table: "Endpoints",
                 column: "ServerBaseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MqttAuthRule_MqttAuthClientId",
+                table: "MqttAuthRule",
+                column: "MqttAuthClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MqttClients_ServerId",
@@ -431,7 +457,7 @@ namespace Persistence.Portal.Migrations
                 name: "MqttAuthConfig");
 
             migrationBuilder.DropTable(
-                name: "MqttClients");
+                name: "MqttAuthRule");
 
             migrationBuilder.DropTable(
                 name: "MqttServerCfg");
@@ -458,10 +484,13 @@ namespace Persistence.Portal.Migrations
                 name: "WebHooksHistory");
 
             migrationBuilder.DropTable(
-                name: "MqttServer");
+                name: "MqttClients");
 
             migrationBuilder.DropTable(
                 name: "WebHooks");
+
+            migrationBuilder.DropTable(
+                name: "MqttServer");
 
             migrationBuilder.DropTable(
                 name: "Servers");

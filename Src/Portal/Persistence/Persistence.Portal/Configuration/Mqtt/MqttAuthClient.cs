@@ -14,7 +14,7 @@ namespace Persistence.Portal.Configuration
             builder.Property(e => e.ClientId)
             .IsRequired();
 
-            // builder.HasIndex(e => e.ClientId);
+            builder.HasMany(e => e.Rules);
         }
     }
 }
