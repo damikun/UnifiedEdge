@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221201115306_Init")]
+    [Migration("20221201120726_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "05f4c0cb-0389-41a6-99c3-76453017e3a4",
+                            Guid = "e85831d1-eb37-4f74-a2be-3d1efd69734f",
                             Name = "Undefined"
                         });
                 });
@@ -142,7 +142,7 @@ namespace Persistence.Portal.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("MqttClients");
+                    b.ToTable("MqttAuthClients");
                 });
 
             modelBuilder.Entity("Domain.Server.MqttAuthConfig", b =>
@@ -184,7 +184,7 @@ namespace Persistence.Portal.Migrations
 
                     b.HasIndex("MqttAuthClientId");
 
-                    b.ToTable("MqttAuthRule");
+                    b.ToTable("MqttAuthRules");
                 });
 
             modelBuilder.Entity("Domain.Server.MqttAuthUser", b =>
@@ -211,7 +211,7 @@ namespace Persistence.Portal.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("MqttUsers");
+                    b.ToTable("MqttAuthUsers");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>
