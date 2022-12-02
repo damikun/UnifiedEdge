@@ -67,7 +67,7 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
     }
   />
   <Section 
-      name={"Users"}
+      name={"AuthUsers"}
       component={
         <InfinityScrollTable
           header={<Header/>}

@@ -17,6 +17,6 @@ namespace Server.Mqtt.DTO
         public string ClientId { get; set; }
 #nullable enable
 
-        public ICollection<GQL_MqttAuthRule> Rules { get; set; } = new List<GQL_MqttAuthRule>();
+        public List<GQL_MqttAuthRule> Rules { get; set; } = new List<GQL_MqttAuthRule>();
     }
 }

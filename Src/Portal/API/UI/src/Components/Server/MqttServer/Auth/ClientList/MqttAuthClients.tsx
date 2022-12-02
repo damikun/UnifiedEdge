@@ -1,17 +1,19 @@
-
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
+import MqttAuthClientsBar from "./MqttAuthClientsBar";
 import MqttClientDetail from "./MqttAuthClientDetail";
 import { MqttAuthClientItem } from "./MqttAuthClientItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
+import { MqttAuthClientsCtxProvider, useMqttAuthClientsCtx } from "./MqttAuthClientsCtxProvider";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttAuthClientsPaginationFragment$key } from "./__generated__/MqttAuthClientsPaginationFragment.graphql";
 import { MqttAuthClientsPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthClientsPaginationFragmentRefetchQuery.graphql";
+
 
 export const MqttAuthClientsPaginationFragment = graphql`
   fragment MqttAuthClientsPaginationFragment on Query
@@ -55,7 +57,6 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
     searchParams.delete(CLIENT_PARAM_NAME);
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
-
   
   return <>
   <Modal
@@ -66,22 +67,25 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
       <MqttClientDetail />
     }
   />
-  <Section 
-      name={"Clients"}
-      component={
-        <InfinityScrollTable
-          header={<Header/>}
-        >
-          <ClientListBody dataRef={dataRef}/>
-        </InfinityScrollTable>
-      }
-    />
+  <MqttAuthClientsCtxProvider>
+    <Section 
+        name={"AuthClients"}
+        bar={<MqttAuthClientsBar/>}
+        component={
+          <InfinityScrollTable
+            header={<Header/>}
+          >
+            <ClientListBody dataRef={dataRef}/>
+          </InfinityScrollTable>
+        }
+      />
+    </MqttAuthClientsCtxProvider>
   </>
 }
 
 type ClientListBodyProps = {
 
-}&MqttAuthClientsProps
+} & MqttAuthClientsProps
 
 function ClientListBody({dataRef}:ClientListBodyProps){
 
@@ -95,11 +99,11 @@ function ClientListBody({dataRef}:ClientListBodyProps){
   MqttAuthClientsPaginationFragment$key
   >(MqttAuthClientsPaginationFragment, dataRef);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttAuthClients?.__id);
-
+  const conCtx = useMqttAuthClientsCtx();
+  
   useEffect(() => {
-    setConnectionId(pagination.data?.mqttAuthClients?.__id)
+    pagination.data?.mqttAuthClients?.__id &&
+      conCtx.setId(pagination.data?.mqttAuthClients?.__id)
   }, [pagination.data?.mqttAuthClients?.__id])
   
   const handleLoadMore = useCallback(

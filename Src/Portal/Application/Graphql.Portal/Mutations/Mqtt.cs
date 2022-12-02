@@ -142,8 +142,8 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(InternalError))]
         public async Task<GQL_MqttAuthUser> CreateMqttAuthUser(
             [ID] string server_uid,
-            string UserName,
-            string Password,
+            string userName,
+            string password,
             [Service] IMediator mediator,
             [Service] IMapper mapper)
         {
@@ -151,8 +151,8 @@ namespace Aplication.Graphql.Mutations
                 new CreateMqttAuthUser()
                 {
                     Server_uid = server_uid,
-                    UserName = UserName,
-                    Password = Password
+                    UserName = userName,
+                    Password = password
                 }
             );
 
@@ -215,7 +215,7 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(InternalError))]
         public async Task<GQL_MqttAuthClient> CreateMqttAuthClient(
             [ID] string server_uid,
-            string ClientId,
+            string clientId,
             [Service] IMediator mediator,
             [Service] IMapper mapper)
         {
@@ -223,7 +223,7 @@ namespace Aplication.Graphql.Mutations
                 new CreateMqttAuthClient()
                 {
                     Server_uid = server_uid,
-                    ClientId = ClientId
+                    ClientId = clientId
                 }
             );
 

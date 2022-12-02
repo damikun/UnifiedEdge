@@ -130,7 +130,7 @@ namespace Aplication.CQRS.Commands
             .Where(e => e.Id == request.AuthClientId)
             .FirstAsync(cancellationToken);
 
-            authClient.Enabled = true;
+            authClient.Enabled = request.Enable;
 
             await dbContext.SaveChangesAsync(cancellationToken);
 

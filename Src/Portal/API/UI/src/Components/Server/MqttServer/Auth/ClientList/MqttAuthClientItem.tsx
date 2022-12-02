@@ -140,7 +140,6 @@ export function MqttAuthClientItem({dataRef, onItemClick,key_}:MqttAuthClientIte
         <FormSwitch
           id={"active"}
           checked={data?.enabled ?? false}
-          label={"Enable"}
           onChange={handleCheckedEvent}
         />
     </td>

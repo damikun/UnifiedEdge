@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { Switch } from "@headlessui/react";
 
 type FormInput = {
-  label:string
+  label?:string
   checked:boolean
   id?:string
   value?:string
@@ -13,7 +13,15 @@ type FormInput = {
   flexOrientation?: "flex-row" | "flex-col"
 }
 
-export function FormSwitch({label, onChange,value,id,name,checked,error,flexOrientation = "flex-col"} : FormInput){
+export function FormSwitch({
+  label,
+  onChange,
+  value,
+  id,
+  name,
+  checked,
+  error,
+  flexOrientation = "flex-col"} : FormInput){
 
   const handleOnChange = useCallback(
     (checked:boolean) => {
@@ -21,10 +29,22 @@ export function FormSwitch({label, onChange,value,id,name,checked,error,flexOrie
     },
     [value,name,id,onChange],
   )
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.preventDefault();
+      e.stopPropagation()
+    },
+    [],
+  )
   
-  return <div className={clsx("flex",
+  return <div onClick={handleClick} className={clsx("flex",
     flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col space-y-2")}>
-    <label className="font-semibold text-base">{label}</label>
+    {
+      label && <label className="font-semibold text-base">
+        {label}
+      </label>
+    }
     <Switch
       id={id}
       value={value}
@@ -36,7 +56,9 @@ export function FormSwitch({label, onChange,value,id,name,checked,error,flexOrie
       "shadow-sm",
       checked ? "bg-blue-500":"bg-gray-200")}
     >
-      <span className="sr-only">Select group</span>
+      <span className="sr-only">
+        Select group
+      </span>
       <span className={clsx("inline-block h-4 w-4 transform",
         "rounded-full bg-white transition-all",
         checked ? "translate-x-6" : "translate-x-1"

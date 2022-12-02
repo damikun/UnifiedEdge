@@ -17,7 +17,7 @@ namespace Aplication.DTO
         public string ClientId { get; set; }
 #nullable enable
 
-        public ICollection<DTO_MqttAuthRule> Rules { get; set; } = new List<DTO_MqttAuthRule>();
+        public List<DTO_MqttAuthRule> Rules { get; set; } = new List<DTO_MqttAuthRule>();
 
     }
 }

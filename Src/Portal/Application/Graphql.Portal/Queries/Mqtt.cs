@@ -285,7 +285,7 @@ namespace Aplication.Graphql.Queries
             var arguments = ctx.GetPaggingArguments();
 
             var result = await mediator.Send(
-                new GetMqttServerAuthClients(arguments, server_uid),
+                new GetMqttServerAuthUsers(arguments, server_uid),
                 cancellationToken
             );
 
