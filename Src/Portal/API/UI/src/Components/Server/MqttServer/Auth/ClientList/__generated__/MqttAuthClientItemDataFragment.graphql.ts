@@ -1,0 +1,58 @@
+/**
+ * @generated SignedSource<<fb1e798781cf88559e134ef9d4ba9540>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
+/* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
+
+import { Fragment, ReaderFragment } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
+export type MqttAuthClientItemDataFragment$data = {
+  readonly clientId: string | null;
+  readonly enabled: boolean;
+  readonly id: string;
+  readonly " $fragmentType": "MqttAuthClientItemDataFragment";
+};
+export type MqttAuthClientItemDataFragment$key = {
+  readonly " $data"?: MqttAuthClientItemDataFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"MqttAuthClientItemDataFragment">;
+};
+
+const node: ReaderFragment = {
+  "argumentDefinitions": [],
+  "kind": "Fragment",
+  "metadata": null,
+  "name": "MqttAuthClientItemDataFragment",
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "clientId",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "enabled",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    }
+  ],
+  "type": "GQL_MqttAuthClient",
+  "abstractKey": null
+};
+
+(node as any).hash = "dd53090bfecb93f50bfa01a42e486101";
+
+export default node;

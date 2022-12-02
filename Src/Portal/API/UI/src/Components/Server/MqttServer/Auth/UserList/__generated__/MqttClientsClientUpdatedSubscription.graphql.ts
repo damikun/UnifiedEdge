@@ -1,0 +1,156 @@
+/**
+ * @generated SignedSource<<d9f35bc4ab09bd372cb4fb7d77053aa5>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
+/* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
+
+import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
+export type MqttClientsClientUpdatedSubscription$variables = {
+  id: string;
+};
+export type MqttClientsClientUpdatedSubscription$data = {
+  readonly mqttClientUpdated: {
+    readonly " $fragmentSpreads": FragmentRefs<"MqttClientItemDataFragment">;
+  };
+};
+export type MqttClientsClientUpdatedSubscription = {
+  response: MqttClientsClientUpdatedSubscription$data;
+  variables: MqttClientsClientUpdatedSubscription$variables;
+};
+
+const node: ConcreteRequest = (function(){
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "id"
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "server_id",
+    "variableName": "id"
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "MqttClientsClientUpdatedSubscription",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "GQL_MqttClient",
+        "kind": "LinkedField",
+        "name": "mqttClientUpdated",
+        "plural": false,
+        "selections": [
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "MqttClientItemDataFragment"
+          }
+        ],
+        "storageKey": null
+      }
+    ],
+    "type": "Subscription",
+    "abstractKey": null
+  },
+  "kind": "Request",
+  "operation": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Operation",
+    "name": "MqttClientsClientUpdatedSubscription",
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "GQL_MqttClient",
+        "kind": "LinkedField",
+        "name": "mqttClientUpdated",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "clientId",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "protocol",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "serverUid",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isConnected",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "connectedTimeStamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "disconnectedTimeStamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastMessageTimestamp",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
+  },
+  "params": {
+    "cacheID": "90a45554ccaf8ad6367caa2ff6219dd3",
+    "id": null,
+    "metadata": {},
+    "name": "MqttClientsClientUpdatedSubscription",
+    "operationKind": "subscription",
+    "text": "subscription MqttClientsClientUpdatedSubscription(\n  $id: ID!\n) {\n  mqttClientUpdated(server_id: $id) {\n    ...MqttClientItemDataFragment\n    id\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
+  }
+};
+})();
+
+(node as any).hash = "1e3fd092a5adbb6f1fff146acd23ee05";
+
+export default node;

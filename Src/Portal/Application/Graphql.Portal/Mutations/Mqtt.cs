@@ -160,6 +160,54 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
+        /// Enable/Disable Auth Client
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthClient> EnableMqttAuthClinet(
+            [ID] long authClient_id,
+            bool enable,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new EnableMqttAuthClient()
+                {
+                    AuthClientId = authClient_id,
+                    Enable = enable
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttAuthClient>(result);
+        }
+
+        /// <summary>
+        /// Enable/Disable Auth User
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthUser> EnableMqttAuthUser(
+            [ID] long authUser_id,
+            bool enable,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new EnableMqttAuthUser()
+                {
+                    AuthUserId = authUser_id,
+                    Enable = enable
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttAuthUser>(result);
+        }
+
+        /// <summary>
         /// Create mqtt Auth Client
         /// </summary>
         [Error(typeof(ValidationError))]

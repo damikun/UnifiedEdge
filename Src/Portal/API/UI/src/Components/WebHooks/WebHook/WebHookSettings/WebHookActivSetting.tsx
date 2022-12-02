@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment, useMutation } from "react-relay";
+import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import { WebHookActivSettingDataFragment$key } from "./__generated__/WebHookActivSettingDataFragment.graphql";
 import { WebHookActivSettingUpdateMutation } from "./__generated__/WebHookActivSettingUpdateMutation.graphql";
-import { HandleErrors } from "../../../../Utils/ErrorHelper";
 
 
 export const WebHookActivSettingDataFragment = graphql`

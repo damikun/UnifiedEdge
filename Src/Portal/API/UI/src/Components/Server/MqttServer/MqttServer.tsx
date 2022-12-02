@@ -4,6 +4,7 @@ import ServerLogs from "../ServerLogs/ServerLogs";
 import ServerInfo from "../ServerInfo/ServerInfo";
 import MqttServerInfo from "./Info/MqttServerInfo";
 import { graphql } from "babel-plugin-relay/macro";
+import MqttServerAuth from "./Auth/MqttServerAuth";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import MqttServerSettings from "./Settings/MqttServerSettings";
@@ -24,6 +25,10 @@ export const SettingsTabs = [
   {
     label: "Logs",
     path: `Logs`,
+  },
+  {
+    label: "Auth",
+    path: `Auth`,
   },
   {
     label: "Explorer",
@@ -68,6 +73,7 @@ function MqttServer() {
     <Routes>
       <Route path="/Settings/" element={<MqttServerSettings/>} />
       <Route path="/Logs/" element={<ServerLogs/>} />
+      <Route path="/Auth/" element={<MqttServerAuth/>} />
       <Route path="/Explore/" element={<Dummy/>} />
       <Route path="/*" element={<MqttServerInfo/>} />
     </Routes>

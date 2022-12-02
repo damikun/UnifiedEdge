@@ -16,7 +16,7 @@ namespace Aplication.CQRS.Queries
 {
 
     /// <summary>
-    /// Query Mqtt Server autentication users
+    /// Query Mqtt Server autentication clients
     /// </summary>
     public class GetMqttServerAuthClients
         : CommandBase<DTO_Connection<DTO_MqttAuthClient>>

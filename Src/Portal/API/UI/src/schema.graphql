@@ -92,6 +92,18 @@ type EnableDisableServerPayload {
   query: Query!
 }
 
+type EnableMqttAuthClinetPayload {
+  errors: [EnableMqttAuthClinetError!]
+  gQL_MqttAuthClient: GQL_MqttAuthClient
+  query: Query!
+}
+
+type EnableMqttAuthUserPayload {
+  errors: [EnableMqttAuthUserError!]
+  gQL_MqttAuthUser: GQL_MqttAuthUser
+  query: Query!
+}
+
 type ErrorSource {
   message: String
   property: String
@@ -918,6 +930,8 @@ type Mutation {
   createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
   enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
+  enableMqttAuthClinet(input: EnableMqttAuthClinetInput!): EnableMqttAuthClinetPayload!
+  enableMqttAuthUser(input: EnableMqttAuthUserInput!): EnableMqttAuthUserPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
@@ -977,7 +991,9 @@ type Query {
   isAdmin(user_id: ID!): IsAdminResult!
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
+  mqttAuthClientById(authClient_id: ID!): GQL_MqttAuthClient!
   mqttAuthClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthClientConnection
+  mqttAuthUserById(authUser_id: ID!): GQL_MqttAuthUser!
   mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
   mqttServerById(id: ID!): GQL_MqttServer!
   mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
@@ -1219,6 +1235,10 @@ union CreateWebHookError = ValidationError | AuthorizationError | InternalError
 
 union EnableDisableServerError = ValidationError | AuthorizationError | InternalError
 
+union EnableMqttAuthClinetError = ValidationError | AuthorizationError | InternalError
+
+union EnableMqttAuthUserError = ValidationError | AuthorizationError | InternalError
+
 union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent | GQL_ClientDisconnected
 
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
@@ -1312,6 +1332,16 @@ input CreateWebHookInput {
 input EnableDisableServerInput {
   enable: Boolean!
   id: ID!
+}
+
+input EnableMqttAuthClinetInput {
+  authClient_id: ID!
+  enable: Boolean!
+}
+
+input EnableMqttAuthUserInput {
+  authUser_id: ID!
+  enable: Boolean!
 }
 
 input ProcessServerCmdInput {
