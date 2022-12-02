@@ -1,17 +1,19 @@
-
+import MqttUserDetail from "./MqttAuthUserDetail";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
-import MqttUserDetail from "./MqttAuthUserDetail";
 import { MqttAuthUserItem } from "./MqttAuthUserItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
+import { MqttAuthUsersCtxProvider, useMqttAuthUsersCtx } from "./MqttAuthCUsersCtxProvider";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttAuthUsersPaginationFragment$key } from "./__generated__/MqttAuthUsersPaginationFragment.graphql";
 import { MqttAuthUsersPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthUsersPaginationFragmentRefetchQuery.graphql";
+import MqttAuthUsersBar from "./MqttAuthUsersBar";
+
 
 export const MqttAuthUsersPaginationFragment = graphql`
   fragment MqttAuthUsersPaginationFragment on Query
@@ -35,7 +37,7 @@ export const MqttAuthUsersPaginationFragment = graphql`
   }
 `;
 
-export const CLIENT_PARAM_NAME = "user_id"
+export const USER_PARAM_NAME = "user_id"
 
 export default React.memo(MqttAuthUsers)
 
@@ -48,11 +50,11 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   
   const isOpen = useMemo(() => 
-    searchParams.get(CLIENT_PARAM_NAME)!== null, [searchParams]
+    searchParams.get(USER_PARAM_NAME)!== null, [searchParams]
   );
   
   const handleModalClose = useCallback(() => {
-    searchParams.delete(CLIENT_PARAM_NAME);
+    searchParams.delete(USER_PARAM_NAME);
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
@@ -66,16 +68,19 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
       <MqttUserDetail />
     }
   />
-  <Section 
-      name={"AuthUsers"}
-      component={
-        <InfinityScrollTable
-          header={<Header/>}
-        >
-          <UserListBody dataRef={dataRef}/>
-        </InfinityScrollTable>
-      }
-    />
+    <MqttAuthUsersCtxProvider>
+      <Section 
+          name={"AuthUsers"}
+          bar={<MqttAuthUsersBar/>}
+          component={
+            <InfinityScrollTable
+              header={<Header/>}
+            >
+              <UserListBody dataRef={dataRef}/>
+            </InfinityScrollTable>
+          }
+      />
+    </MqttAuthUsersCtxProvider>
   </>
 }
 
@@ -95,11 +100,11 @@ function UserListBody({dataRef}:UserListBodyProps){
   MqttAuthUsersPaginationFragment$key
   >(MqttAuthUsersPaginationFragment, dataRef);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [connectionId, setConnectionId] = useState<string | undefined>(pagination.data?.mqttAuthUsers?.__id);
-
+  const conCtx = useMqttAuthUsersCtx();
+  
   useEffect(() => {
-    setConnectionId(pagination.data?.mqttAuthUsers?.__id)
+    pagination.data?.mqttAuthUsers?.__id &&
+      conCtx.setId(pagination.data?.mqttAuthUsers?.__id)
   }, [pagination.data?.mqttAuthUsers?.__id])
   
   const handleLoadMore = useCallback(
@@ -112,10 +117,10 @@ function UserListBody({dataRef}:UserListBodyProps){
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleItemDetail = useCallback(
-    (client_id: string | null | undefined) => {
-      searchParams.delete(CLIENT_PARAM_NAME);
-      if (client_id) {
-        searchParams.append(CLIENT_PARAM_NAME, client_id);
+    (User_id: string | null | undefined) => {
+      searchParams.delete(USER_PARAM_NAME);
+      if (User_id) {
+        searchParams.append(USER_PARAM_NAME, User_id);
       }
       setSearchParams(searchParams);
     },
@@ -147,7 +152,7 @@ function UserListBody({dataRef}:UserListBodyProps){
 function Header(){
   return <TableHeader>
     <tr className="flex w-6/12 2xl:w-8/12">
-      <th>UserId</th>
+      <th>UserName</th>
     </tr>
     <tr className="flex w-5/12 2xl:w-2/12 text-center justify-center">
       <th>Enabled</th>

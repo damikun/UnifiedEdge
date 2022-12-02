@@ -191,6 +191,7 @@ namespace Aplication.CQRS.Commands
 
             var user = new MqttAuthUser()
             {
+                ServerId = server_id,
                 UserName = request.UserName.ToLowerInvariant(),
                 Password = hashed_password,
                 Enabled = true,

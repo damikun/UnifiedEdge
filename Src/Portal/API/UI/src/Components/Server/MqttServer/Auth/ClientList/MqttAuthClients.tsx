@@ -74,7 +74,7 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
         component={
           <InfinityScrollTable
             header={<Header/>}
-          >
+          > 
             <ClientListBody dataRef={dataRef}/>
           </InfinityScrollTable>
         }

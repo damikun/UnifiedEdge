@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useCallback, useState } from "react";
+import { USER_PARAM_NAME } from "./MqttAuthUsers";
 import { graphql } from "babel-plugin-relay/macro";
-import { CLIENT_PARAM_NAME } from "./MqttAuthUsers";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
@@ -62,7 +62,7 @@ export default function MqttAuthUserDetail(){
   const { id }: any = useParams<string>();
 
   const [server_id] = useState(id)
-  const [client_id] = useState(searchParams.get(CLIENT_PARAM_NAME) as string)
+  const [client_id] = useState(searchParams.get(USER_PARAM_NAME) as string)
 
   const data = useLazyLoadQuery<MqttAuthUserDetailQuery>(
     MqttAuthUserDetailTag,
