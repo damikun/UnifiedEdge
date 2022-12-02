@@ -17,7 +17,7 @@ namespace Aplication.CQRS.Commands
     /// </summary>
     [Authorize]
     public class EnableMqttAuthUser
-        : CommandBase<DTO_MqttAuthClient>
+        : CommandBase<DTO_MqttAuthUser>
     {
 
         public long AuthUserId;
@@ -81,7 +81,7 @@ namespace Aplication.CQRS.Commands
 
     /// <summary>Handler for <c>EnableMqttAuthUserHandler</c> command </summary>
     public class EnableMqttAuthUserHandler
-        : IRequestHandler<EnableMqttAuthUser, DTO_MqttAuthClient>
+        : IRequestHandler<EnableMqttAuthUser, DTO_MqttAuthUser>
     {
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Command handler for <c>EnableMqttAuthUser</c>
         /// </summary>
-        public async Task<DTO_MqttAuthClient> Handle(
+        public async Task<DTO_MqttAuthUser> Handle(
             EnableMqttAuthUser request,
             CancellationToken cancellationToken
         )
@@ -134,7 +134,7 @@ namespace Aplication.CQRS.Commands
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<DTO_MqttAuthClient>(authUser);
+            return _mapper.Map<DTO_MqttAuthUser>(authUser);
 
         }
     }
@@ -144,7 +144,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class EnableMqttAuthUser_PostProcessor
-        : IRequestPostProcessor<EnableMqttAuthUser, DTO_MqttAuthClient>
+        : IRequestPostProcessor<EnableMqttAuthUser, DTO_MqttAuthUser>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -161,7 +161,7 @@ namespace Aplication.CQRS.Commands
 
         public async Task Process(
             EnableMqttAuthUser request,
-            DTO_MqttAuthClient response,
+            DTO_MqttAuthUser response,
             CancellationToken cancellationToken
         )
         {
