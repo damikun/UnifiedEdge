@@ -1,15 +1,21 @@
 import clsx from "clsx";
 import { useCallback, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { CLIENT_PARAM_NAME } from "./MqttAuthClients";
 import { useLazyLoadQuery, useMutation } from "react-relay";
-import { useParams, useSearchParams } from "react-router-dom";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
+import { useMqttAuthClientsCtx } from "./MqttAuthClientsCtxProvider";
+import { FormSwitch } from "../../../../../UIComponents/Form/FormSwitch";
+import { useModalContext } from "../../../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import ModalContainer from "../../../../../UIComponents/Modal/ModalContainer";
-import { FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
+import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttAuthClientDetailQuery } from "./__generated__/MqttAuthClientDetailQuery.graphql";
+import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
 import { MqttAuthClientDetailEnableMutation } from "./__generated__/MqttAuthClientDetailEnableMutation.graphql";
+import { MqttAuthClientDetailRemoveMutation } from "./__generated__/MqttAuthClientDetailRemoveMutation.graphql";
 
 
 const MqttAuthClientDetailTag = graphql`
@@ -59,15 +65,40 @@ const MqttAuthClientDetailEnableMutationTag = graphql`
 }
 `
 
+const MqttAuthClientDetailRemoveMutationTag = graphql`
+  mutation MqttAuthClientDetailRemoveMutation(
+    $input: RemoveMqttAuthClientInput!,
+    $connections: [ID!]!
+    ) {
+      removeMqttAuthClient(input: $input) {
+      ... on RemoveMqttAuthClientPayload {
+        gQL_MqttAuthClient{
+          id @deleteEdge(connections: $connections)
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
+        }
+      }
+    }
+}
+`
 
 export default function MqttAuthClientDetail(){
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { id }: any = useParams<string>();
-
-  const [server_id] = useState(id)
   const [client_id] = useState(searchParams.get(CLIENT_PARAM_NAME) as string)
 
   const data = useLazyLoadQuery<MqttAuthClientDetailQuery>(
@@ -82,21 +113,34 @@ export default function MqttAuthClientDetail(){
   );
 
   const [
-    commit,
-    isInFlight,
+    commit_checked,
+    isInFlight_checked,
   ] = useMutation<MqttAuthClientDetailEnableMutation>(
     MqttAuthClientDetailEnableMutationTag
   );
 
-  const toast = useToast();
+  const [
+    commit_remove,
+    isInFlight_remove,
+  ] = useMutation<MqttAuthClientDetailRemoveMutation>(
+    MqttAuthClientDetailRemoveMutationTag
+  );
+
+  const modalCtx = useModalContext();
   
-  const handleEnable = useCallback(
-    () => {
-      server_id && client_id  &&! isInFlight && commit({
+  const toast = useToast();
+
+  const handleCheckedEvent = useCallback(
+    (id: string | undefined,
+    checked: boolean,
+    value: string | undefined,
+    name: string | undefined) => {
+
+      return !isInFlight_checked  && commit_checked({
         variables: {
           input: {
-            authClient_id: client_id,
-            enable:false
+            authClient_id: client_id as string,
+            enable: checked,
           }
         },
 
@@ -109,28 +153,103 @@ export default function MqttAuthClientDetail(){
 
         updater(store, response) {
           if(response?.enableMqttAuthClinet?.gQL_MqttAuthClient){
-              //success
+            // ...
           }
-
           HandleErrors(toast, response?.enableMqttAuthClinet?.errors);
         },
 
+        optimisticUpdater(store){
+
+          if(client_id){
+            var hook = store.get(client_id);
+
+            hook?.setValue(checked,"enabled")
+          }
+        }
+
       });
     },
-    [isInFlight,server_id,client_id,toast,commit],
-  )
+    [
+      isInFlight_checked,
+      client_id,
+      commit_checked,
+      toast
+    ]
+  );
+
+  const ctx = useMqttAuthClientsCtx();
+  
+  const handleRemove = useCallback(
+    () => {
+
+      return !isInFlight_remove  && commit_remove({
+        variables: {
+          input: {
+            authClientId: client_id as string
+          },
+          connections: ctx?.connection_id ? [ctx?.connection_id]:[]
+        },
+
+        onError(error) {
+          toast?.pushError("Failed to process mutation");
+          console.log(error);
+        },
+
+        onCompleted(response) {},
+
+        updater(store, response) {
+          if(response?.removeMqttAuthClient?.gQL_MqttAuthClient){
+            modalCtx.close()
+          }
+          HandleErrors(toast, response?.removeMqttAuthClient?.errors);
+        },
+      });
+    },
+    [isInFlight_remove,
+      client_id,
+      commit_remove,
+      toast,
+      ctx.connection_id,
+      modalCtx
+    ]
+  );
+
 
 
   return <ModalContainer label="Client detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
-        <FieldGroup>
-            <FieldSection multiline name="Client Id">
-                <div className={clsx("font-sans text-gray-700 font-semibold",
-                "text-sm max-w-full break-all select-all")}>
-                    {data?.mqttAuthClientById.clientId}
-                </div>
-            </FieldSection>
-        </FieldGroup>
+      <FieldGroup>
+        <FieldSection multiline name="ClientId">
+            <div className={clsx("font-sans text-gray-700 font-semibold",
+            "text-sm max-w-full break-all select-all capitalize")}>
+                {data?.mqttAuthClientById.clientId}
+            </div>
+        </FieldSection>
+        <FieldSection multiline name="Enable">
+            <div className={clsx("font-sans text-gray-700 font-semibold",
+            "text-sm max-w-full break-all select-all")}>
+                <FormSwitch
+                  id={"active"}
+                  checked={data?.mqttAuthClientById.enabled}
+                  onChange={handleCheckedEvent}
+                />
+            </div>
+        </FieldSection>
+      </FieldGroup>
+
+      <FieldDivider/>
+
+      <FieldSection multiline name="Delete">
+        <div className="max-w-lg">
+          <StayledButton
+            variant="error"
+            iconLeft={faTrash}
+            size="small"
+            onClick={handleRemove}>
+            Remove
+          </StayledButton>
+        </div>
+      </FieldSection>
     </div>
   </ModalContainer>
 }

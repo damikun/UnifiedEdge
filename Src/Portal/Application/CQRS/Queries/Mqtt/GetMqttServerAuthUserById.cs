@@ -65,7 +65,7 @@ namespace Aplication.CQRS.Queries
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttAuthClients
+            return await dbContext.MqttAuthUsers
                 .AnyAsync(
                     e => e.Id == user_id,
                     cancellationToken

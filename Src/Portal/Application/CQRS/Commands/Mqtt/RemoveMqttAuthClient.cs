@@ -9,34 +9,34 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
+
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// EnableMqttAuthUser
+    /// RemoveMqttAuthClient
     /// </summary>
     [Authorize]
-    public class EnableMqttAuthUser
-        : CommandBase<DTO_MqttAuthUser>
+    public class RemoveMqttAuthClient
+        : CommandBase<DTO_MqttAuthClient>
     {
-
-        public long AuthUserId;
-
-        public bool Enable { get; set; }
+#nullable disable
+        public long AuthClientId;
+#nullable enable
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - EnableMqttAuthUser
+    /// Field validator - RemoveMqttAuthClient
     /// </summary>
-    public class EnableMqttAuthUserValidator
-        : AbstractValidator<EnableMqttAuthUser>
+    public class RemoveMqttAuthClientValidator
+        : AbstractValidator<RemoveMqttAuthClient>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public EnableMqttAuthUserValidator(
+        public RemoveMqttAuthClientValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
@@ -44,32 +44,33 @@ namespace Aplication.CQRS.Commands
 
             ClassLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(e => e.AuthUserId)
-                .GreaterThan(0)
-                .MustAsync(Exist)
-                .WithMessage("Auth user not found");
+            RuleFor(e => e.AuthClientId)
+            .GreaterThan(0);
+
+            RuleFor(e => e.AuthClientId)
+                .MustAsync(Exist);
         }
 
         public async Task<bool> Exist(
-            long id,
+            long Id,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttAuthUsers
-                .AnyAsync(e => e.Id == id);
+            return await dbContext.MqttAuthClients
+                .AnyAsync(e => e.Id == Id);
         }
     }
 
     /// <summary>
-    /// Authorization validators - EnableMqttAuthUser
+    /// Authorization validators - RemoveMqttAuthClient
     /// </summary>
-    public class EnableMqttAuthUserAuthorizationValidator
-        : AuthorizationValidator<EnableMqttAuthUser>
+    public class RemoveMqttAuthClientAuthorizationValidator
+        : AuthorizationValidator<RemoveMqttAuthClient>
     {
-        public EnableMqttAuthUserAuthorizationValidator()
+        public RemoveMqttAuthClientAuthorizationValidator()
         {
 
         }
@@ -79,9 +80,9 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>EnableMqttAuthUserHandler</c> command </summary>
-    public class EnableMqttAuthUserHandler
-        : IRequestHandler<EnableMqttAuthUser, DTO_MqttAuthUser>
+    /// <summary>Handler for <c>RemoveMqttAuthClientHandler</c> command </summary>
+    public class RemoveMqttAuthClientHandler
+        : IRequestHandler<RemoveMqttAuthClient, DTO_MqttAuthClient>
     {
 
         /// <summary>
@@ -102,7 +103,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public EnableMqttAuthUserHandler(
+        public RemoveMqttAuthClientHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             IMediator mediator
@@ -116,26 +117,25 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>EnableMqttAuthUser</c>
+        /// Command handler for <c>RemoveMqttAuthClient</c>
         /// </summary>
-        public async Task<DTO_MqttAuthUser> Handle(
-            EnableMqttAuthUser request,
+        public async Task<DTO_MqttAuthClient> Handle(
+            RemoveMqttAuthClient request,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var authUser = await dbContext.MqttAuthUsers
-            .Where(e => e.Id == request.AuthUserId)
+            var client = await dbContext.MqttAuthClients
+            .Where(e => e.Id == request.AuthClientId)
             .FirstAsync(cancellationToken);
 
-            authUser.Enabled = request.Enable;
+            var server = dbContext.Remove(client);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<DTO_MqttAuthUser>(authUser);
-
+            return _mapper.Map<DTO_MqttAuthClient>(client);
         }
     }
 
@@ -143,15 +143,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class EnableMqttAuthUser_PostProcessor
-        : IRequestPostProcessor<EnableMqttAuthUser, DTO_MqttAuthUser>
+    public class RemoveMqttAuthClient_PostProcessor
+        : IRequestPostProcessor<RemoveMqttAuthClient, DTO_MqttAuthClient>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public EnableMqttAuthUser_PostProcessor(
+        public RemoveMqttAuthClient_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher
         )
@@ -160,14 +160,12 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            EnableMqttAuthUser request,
-            DTO_MqttAuthUser response,
+            RemoveMqttAuthClient request,
+            DTO_MqttAuthClient response,
             CancellationToken cancellationToken
         )
         {
 
-            // publish event?
         }
     }
-
 }

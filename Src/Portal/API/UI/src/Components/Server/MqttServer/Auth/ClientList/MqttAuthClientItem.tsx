@@ -18,7 +18,7 @@ const MqttAuthClientItemDataFragment = graphql`
   }
 `;
 
-const MqttAuthClientItemEnableMutationTag = graphql`
+export const MqttAuthClientItemEnableMutationTag = graphql`
   mutation MqttAuthClientItemEnableMutation(
     $input: EnableMqttAuthClinetInput!
     ) {

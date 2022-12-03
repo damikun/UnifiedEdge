@@ -933,6 +933,8 @@ type Mutation {
   enableMqttAuthClinet(input: EnableMqttAuthClinetInput!): EnableMqttAuthClinetPayload!
   enableMqttAuthUser(input: EnableMqttAuthUserInput!): EnableMqttAuthUserPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
+  removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
+  removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
@@ -1034,6 +1036,18 @@ type Query {
   webHookRecordById(record_id: ID!): GQL_WebHookRecord!
   webHookRecords("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int hook_id: ID! "Returns the last _n_ elements from the list." last: Int): GQL_WebHookRecordConnection
   webHooks("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_WebHookConnection
+}
+
+type RemoveMqttAuthClientPayload {
+  errors: [RemoveMqttAuthClientError!]
+  gQL_MqttAuthClient: GQL_MqttAuthClient
+  query: Query!
+}
+
+type RemoveMqttAuthUserPayload {
+  errors: [RemoveMqttAuthUserError!]
+  gQL_MqttAuthUser: GQL_MqttAuthUser
+  query: Query!
 }
 
 type RemoveServerData {
@@ -1243,6 +1257,10 @@ union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | 
 
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
+union RemoveMqttAuthClientError = ValidationError | AuthorizationError | InternalError
+
+union RemoveMqttAuthUserError = ValidationError | AuthorizationError | InternalError
+
 union RemoveServerError = ValidationError | AuthorizationError | InternalError
 
 union RemoveUserError = ValidationError | AuthorizationError | InternalError
@@ -1347,6 +1365,14 @@ input EnableMqttAuthUserInput {
 input ProcessServerCmdInput {
   cmd: GQL_ServerCmd!
   uid: ID!
+}
+
+input RemoveMqttAuthClientInput {
+  authClientId: ID!
+}
+
+input RemoveMqttAuthUserInput {
+  authUserId: ID!
 }
 
 input RemoveServerInput {

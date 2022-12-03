@@ -59,7 +59,7 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
   }, [searchParams, setSearchParams]);
 
   
-  return <>
+  return <MqttAuthUsersCtxProvider>
   <Modal
     position="top"
     isOpen={isOpen}
@@ -68,7 +68,6 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
       <MqttUserDetail />
     }
   />
-    <MqttAuthUsersCtxProvider>
       <Section 
           name={"AuthUsers"}
           bar={<MqttAuthUsersBar/>}
@@ -80,8 +79,7 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
             </InfinityScrollTable>
           }
       />
-    </MqttAuthUsersCtxProvider>
-  </>
+  </MqttAuthUsersCtxProvider>
 }
 
 type UserListBodyProps = {

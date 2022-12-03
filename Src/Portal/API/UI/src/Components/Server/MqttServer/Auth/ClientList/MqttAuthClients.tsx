@@ -58,7 +58,7 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
   
-  return <>
+  return <MqttAuthClientsCtxProvider>
   <Modal
     position="top"
     isOpen={isOpen}
@@ -67,7 +67,6 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
       <MqttClientDetail />
     }
   />
-  <MqttAuthClientsCtxProvider>
     <Section 
         name={"AuthClients"}
         bar={<MqttAuthClientsBar/>}
@@ -79,8 +78,7 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
           </InfinityScrollTable>
         }
       />
-    </MqttAuthClientsCtxProvider>
-  </>
+  </MqttAuthClientsCtxProvider>
 }
 
 type ClientListBodyProps = {
