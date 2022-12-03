@@ -34,7 +34,6 @@ const MqttAuthClientDetailTag = graphql`
   }
 `;
 
-
 const MqttAuthClientDetailEnableMutationTag = graphql`
   mutation MqttAuthClientDetailEnableMutation(
     $input: EnableMqttAuthClinetInput!
@@ -215,7 +214,6 @@ export default function MqttAuthClientDetail(){
   );
 
 
-
   return <ModalContainer label="Client detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
       <FieldGroup>
@@ -244,9 +242,9 @@ export default function MqttAuthClientDetail(){
           <StayledButton
             variant="error"
             iconLeft={faTrash}
-            size="small"
+            size="normal"
             onClick={handleRemove}>
-            Remove
+              Remove
           </StayledButton>
         </div>
       </FieldSection>

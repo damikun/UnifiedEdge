@@ -1,12 +1,15 @@
 import clsx from "clsx";
-import { useCallback, useState } from "react";
+import { useFormik } from "formik";
 import { USER_PARAM_NAME } from "./MqttAuthUsers";
 import { graphql } from "babel-plugin-relay/macro";
 import { useSearchParams } from "react-router-dom";
+import { useCallback, useMemo, useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 import { useMqttAuthUsersCtx } from "./MqttAuthCUsersCtxProvider";
+import { generateErrors, is } from "../../../../../Utils/Validation";
+import { FormInput } from "../../../../../UIComponents/Form/FormInput";
 import { FormSwitch } from "../../../../../UIComponents/Form/FormSwitch";
 import { useModalContext } from "../../../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
@@ -16,6 +19,7 @@ import { MqttAuthUserDetailQuery } from "./__generated__/MqttAuthUserDetailQuery
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
 import { MqttAuthUserDetailRemoveMutation } from "./__generated__/MqttAuthUserDetailRemoveMutation.graphql";
 import { MqttAuthUserDetailEnableMutation } from "./__generated__/MqttAuthUserDetailEnableMutation.graphql";
+import { MqttAuthUserDetailUpdatePasswordMutation, SetMqttAuthUserPasswordInput } from "./__generated__/MqttAuthUserDetailUpdatePasswordMutation.graphql";
 
 
 const MqttAuthUserDetailTag = graphql`
@@ -87,6 +91,35 @@ const MqttAuthUserDetailRemoveMutationTag = graphql`
 }
 `
 
+
+const MqttAuthUserDetailUpdatePasswordMutationTag = graphql`
+  mutation MqttAuthUserDetailUpdatePasswordMutation(
+    $input: SetMqttAuthUserPasswordInput!,
+    ) {
+      setMqttAuthUserPassword(input: $input) {
+      ... on SetMqttAuthUserPasswordPayload {
+        gQL_MqttAuthUser{
+          id
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
+        }
+      }
+    }
+}
+`
+
 export default function MqttAuthUserDetail(){
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -119,6 +152,13 @@ export default function MqttAuthUserDetail(){
     MqttAuthUserDetailRemoveMutationTag
   );
   
+  const [
+    commit_passwordUpdate,
+    isInFlight_passwordUpdate,
+  ] = useMutation<MqttAuthUserDetailUpdatePasswordMutation>(
+    MqttAuthUserDetailUpdatePasswordMutationTag
+  );
+
   const modalCtx = useModalContext();
 
   const toast = useToast();
@@ -207,18 +247,69 @@ export default function MqttAuthUserDetail(){
     ]
   );
 
+  const formik = useFormik<SetMqttAuthUserPasswordInput>({
+    initialValues: {
+      authUserId:data.mqttAuthUserById.id,
+      password: "",
+    },
 
+    onSubmit: async (values) => {
+        !isInFlight_passwordUpdate &&
+        values.password !== "" &&
+        commit_passwordUpdate({
+          variables: {
+            input: {
+              authUserId: values.authUserId,
+              password: values.password,
+            }
+          },
+
+          onError(error) {
+            toast?.pushError("Failed to process mutation");
+            console.log(error);
+          },
+
+          onCompleted(response) {},
+
+          updater(store, response) {
+            if(response?.setMqttAuthUserPassword?.gQL_MqttAuthUser){
+              toast?.pushSuccess("Password updated")
+              formik?.setFieldValue("password","");
+            }
+            HandleErrors(toast, response?.setMqttAuthUserPassword?.errors);
+          },
+
+        });
+
+    },
+
+    validate: (values) => {
+      return generateErrors(values, {
+        password: [
+          is.required(),
+          is.minLength(3),
+        ]
+      });
+    },
+
+    validateOnChange: false
+
+  });
+
+  const hasChanged = useMemo(() => formik.values.password !== "" ,
+  [formik.values.password]
+ )
+ 
   return <ModalContainer label="User detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
-        <FieldGroup>
-          <FieldSection multiline name="UserName">
-            <div className={clsx("font-sans text-gray-700 font-semibold",
-            "text-sm max-w-full break-all select-all capitalize")}>
-              {data?.mqttAuthUserById.userName}
-            </div>
-          </FieldSection>
-        </FieldGroup>
-        <FieldSection multiline name="Enable">
+      <FieldGroup>
+        <FieldSection name="UserName">
+          <div className={clsx("font-sans text-gray-700 font-semibold",
+          "text-sm max-w-full break-all select-all capitalize")}>
+            {data?.mqttAuthUserById.userName}
+          </div>
+        </FieldSection>
+        <FieldSection name="Enable">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all")}>
             <FormSwitch
@@ -228,20 +319,37 @@ export default function MqttAuthUserDetail(){
             />
           </div>
         </FieldSection>
-
-        <FieldDivider/>
-
-        <FieldSection multiline name="Delete">
-          <div className="max-w-lg">
-            <StayledButton
-              variant="error"
-              iconLeft={faTrash}
-              size="small"
-              onClick={handleRemove}>
-              Remove
-            </StayledButton>
-          </div>
+        <FieldSection name="Password">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="pb-2 w-full flex flex-row space-x-2 max-w-sm">
+              <FormInput
+              id="password"
+              flexOrientation="flex-row"
+              disabled={isInFlight_passwordUpdate}
+              error={formik.errors.password}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              afterFieldComponent={
+                hasChanged && <StayledButton isloading={isInFlight_passwordUpdate} className="mt-auto" type="submit">Save</StayledButton>
+              }
+            />
+          </form>
         </FieldSection>
+      </FieldGroup>
+      <FieldDivider/>
+
+      <FieldSection multiline name="Delete">
+        <div className="max-w-lg">
+          <StayledButton
+            variant="error"
+            iconLeft={faTrash}
+            size="normal"
+            onClick={handleRemove}>
+              Remove
+          </StayledButton>
+        </div>
+      </FieldSection>
 
     </div>
   </ModalContainer>

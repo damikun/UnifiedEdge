@@ -271,5 +271,29 @@ namespace Aplication.Graphql.Mutations
 
             return mapper.Map<GQL_MqttAuthUser>(response);
         }
+
+
+        /// <summary>
+        /// Update mqtt Auth client password
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthUser> SetMqttAuthUserPassword(
+            [ID] long authUserId,
+            string password,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new SetMqttAuthUserPassword()
+                {
+                    AuthUserid = authUserId,
+                    NewPassword = password
+                }
+            );
+
+            return mapper.Map<GQL_MqttAuthUser>(response);
+        }
     }
 }

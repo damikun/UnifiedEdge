@@ -13,7 +13,7 @@ export function FieldGroup({name,className,children}:FieldGroupProps) {
             name && <div className="font-bold capitalize mb-2 underline">{name}:</div>
         }
        
-        <div className={clsx(name && "", "space-y-1")}>{children}</div>
+        <div className={clsx(name && "", "space-y-2")}>{children}</div>
     </div>
 }
 

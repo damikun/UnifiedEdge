@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 type FormInput = {
  icon?: IconProp
- label:string
+ label?:string
  error?:string
  focusOnMount?: Boolean
  afterFieldComponent?: React.ReactNode;
@@ -32,7 +32,11 @@ export function FormInput({icon,label,error,afterFieldComponent,flexOrientation 
 
   return <div className={clsx("flex w-full",
     flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col")}>
-    <label className="font-semibold text-base">{label}</label>
+    {
+      label && <label className="font-semibold text-base">
+        {label}
+      </label>
+    }
     <div
       className={clsx(
         "flex flex-row my-auto justify-start align-middle",
