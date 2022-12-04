@@ -115,16 +115,7 @@ type GQL_Adapter implements Node {
   description: String!
   id: ID!
   interfaceType: NetworkInterfaceType!
-  logs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_AdapterLogConnection
+  logs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
   name: String!
   physicalAddress: String!
   state: AdapterState!
@@ -362,6 +353,7 @@ type GQL_MqttAuthClient {
   clientId: String
   enabled: Boolean!
   id: ID!
+  lastAuthenticate: DateTime
   rules: [GQL_MqttAuthRule!]!
 }
 
@@ -395,6 +387,7 @@ type GQL_MqttAuthRule {
 type GQL_MqttAuthUser {
   enabled: Boolean!
   id: ID!
+  lastAuthenticate: DateTime
   userName: String
 }
 
@@ -933,86 +926,44 @@ type IsAdminResult {
 }
 
 type Mutation {
-  createMqttAuthClient(
-    input: CreateMqttAuthClientInput!
-  ): CreateMqttAuthClientPayload!
-  createMqttAuthUser(
-    input: CreateMqttAuthUserInput!
-  ): CreateMqttAuthUserPayload!
+  createMqttAuthClient(input: CreateMqttAuthClientInput!): CreateMqttAuthClientPayload!
+  createMqttAuthUser(input: CreateMqttAuthUserInput!): CreateMqttAuthUserPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
   createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
-  enableDisableServer(
-    input: EnableDisableServerInput!
-  ): EnableDisableServerPayload!
-  enableMqttAuthClinet(
-    input: EnableMqttAuthClinetInput!
-  ): EnableMqttAuthClinetPayload!
-  enableMqttAuthUser(
-    input: EnableMqttAuthUserInput!
-  ): EnableMqttAuthUserPayload!
+  enableDisableServer(input: EnableDisableServerInput!): EnableDisableServerPayload!
+  enableMqttAuthClinet(input: EnableMqttAuthClinetInput!): EnableMqttAuthClinetPayload!
+  enableMqttAuthUser(input: EnableMqttAuthUserInput!): EnableMqttAuthUserPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
-  removeMqttAuthClient(
-    input: RemoveMqttAuthClientInput!
-  ): RemoveMqttAuthClientPayload!
-  removeMqttAuthUser(
-    input: RemoveMqttAuthUserInput!
-  ): RemoveMqttAuthUserPayload!
+  removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
+  removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
-  resetMqttClientStatistic(
-    input: ResetMqttClientStatisticInput!
-  ): ResetMqttClientStatisticPayload!
-  setEdgeDefaultNetworkAdapter(
-    input: SetEdgeDefaultNetworkAdapterInput!
-  ): SetEdgeDefaultNetworkAdapterPayload!
-  setEdgeDescription(
-    request: SetEdgeDescriptionInput!
-  ): SetEdgeDescriptionPayload!
+  resetMqttClientStatistic(input: ResetMqttClientStatisticInput!): ResetMqttClientStatisticPayload!
+  setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
+  setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
   setEdgeLocation2(request: SetEdgeLocation2Input!): SetEdgeLocation2Payload!
   setEdgeLocation3(request: SetEdgeLocation3Input!): SetEdgeLocation3Payload!
   setEdgeName(request: SetEdgeNameInput!): SetEdgeNamePayload!
-  setMqttAuthUserPassword(
-    input: SetMqttAuthUserPasswordInput!
-  ): SetMqttAuthUserPasswordPayload!
-  setMqttServerClientCommunicationTimeout(
-    input: SetMqttServerClientCommunicationTimeoutInput!
-  ): SetMqttServerClientCommunicationTimeoutPayload!
-  setMqttServerClientMaxPendingMessages(
-    input: SetMqttServerClientMaxPendingMessagesInput!
-  ): SetMqttServerClientMaxPendingMessagesPayload!
-  setMqttServerClientPresistSession(
-    input: SetMqttServerClientPresistSessionInput!
-  ): SetMqttServerClientPresistSessionPayload!
-  setMqttServerEndpoint(
-    input: SetMqttServerEndpointInput!
-  ): SetMqttServerEndpointPayload!
-  setServerDescription(
-    input: SetServerDescriptionInput!
-  ): SetServerDescriptionPayload!
+  setMqttAuthUserPassword(input: SetMqttAuthUserPasswordInput!): SetMqttAuthUserPasswordPayload!
+  setMqttServerClientCommunicationTimeout(input: SetMqttServerClientCommunicationTimeoutInput!): SetMqttServerClientCommunicationTimeoutPayload!
+  setMqttServerClientMaxPendingMessages(input: SetMqttServerClientMaxPendingMessagesInput!): SetMqttServerClientMaxPendingMessagesPayload!
+  setMqttServerClientPresistSession(input: SetMqttServerClientPresistSessionInput!): SetMqttServerClientPresistSessionPayload!
+  setMqttServerEndpoint(input: SetMqttServerEndpointInput!): SetMqttServerEndpointPayload!
+  setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
   setUserPassword(input: SetUserPasswordInput!): SetUserPasswordPayload!
   updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
-  updateUserFirstName(
-    input: UpdateUserFirstNameInput!
-  ): UpdateUserFirstNamePayload!
-  updateUserLastName(
-    input: UpdateUserLastNameInput!
-  ): UpdateUserLastNamePayload!
-  updateWebHookActiveState(
-    input: UpdateWebHookActiveStateInput!
-  ): UpdateWebHookActiveStatePayload!
-  updateWebHookEventGroups(
-    input: UpdateWebHookEventGroupsInput!
-  ): UpdateWebHookEventGroupsPayload!
+  updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
+  updateUserLastName(input: UpdateUserLastNameInput!): UpdateUserLastNamePayload!
+  updateWebHookActiveState(input: UpdateWebHookActiveStateInput!): UpdateWebHookActiveStatePayload!
+  updateWebHookEventGroups(input: UpdateWebHookEventGroupsInput!): UpdateWebHookEventGroupsPayload!
   updateWebHookName(input: UpdateWebHookNameInput!): UpdateWebHookNamePayload!
-  updateWebHookSecret(
-    input: UpdateWebHookSecretInput!
-  ): UpdateWebHookSecretPayload!
+  updateWebHookSecret(input: UpdateWebHookSecretInput!): UpdateWebHookSecretPayload!
   updateWebHookUrl(input: UpdateWebHookUrlInput!): UpdateWebHookUrlPayload!
 }
 
@@ -1036,248 +987,58 @@ type ProcessServerCmdPayload {
 
 type Query {
   adapterById(id: ID!): GQL_Adapter!
-  adapterLogs(
-    adapter_id: ID!
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_AdapterLogConnection
-  adapters(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_AdapterConnection
+  adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
+  adapters("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterConnection
   defaultAdapter: GQL_DefaultAdapter!
   edgeInfo: GQL_Edge!
   failedJob(jobid: ID!): GQL_FailedJob!
-  failedJobs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_FailedJobConnection
+  failedJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_FailedJobConnection
   isAdmin(user_id: ID!): IsAdminResult!
   jobsStatistic: GQL_JobsStatistic!
   me: GQL_User
   mqttAuthClientById(authClient_id: ID!): GQL_MqttAuthClient!
-  mqttAuthClients(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttAuthClientConnection
+  mqttAuthClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthClientConnection
   mqttAuthUserById(authUser_id: ID!): GQL_MqttAuthUser!
-  mqttAuthUsers(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttAuthUserConnection
+  mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
   mqttServerById(id: ID!): GQL_MqttServer!
-  mqttServerClient(server_client_uid: ID!, server_uid: ID!): GQL_MqttClient!
+  mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
   mqttServerClientConfig(server_uid: ID!): GQL_MqttServerClientCfg!
-  mqttServerClientRecentMessages(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttMessageConnection
-  mqttServerClients(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttClientConnection
-  mqttServerClientSession(
-    server_client_uid: ID!
-    server_uid: ID!
-  ): GQL_MqttClientSession!
-  mqttServerClientStatistic(
-    server_client_uid: ID!
-    server_uid: ID!
-  ): GQL_MqttClientStatistics
+  mqttServerClientRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
+  mqttServerClients("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientConnection
+  mqttServerClientSession(server_client_uid: ID! server_uid: ID!): GQL_MqttClientSession!
+  mqttServerClientStatistic(server_client_uid: ID! server_uid: ID!): GQL_MqttClientStatistics
   mqttServerEndpoint(server_uid: ID!): GQL_MqttServerEndpoint!
-  mqttServerMessageById(message_uid: ID!, server_uid: ID!): GQL_MqttMessage
-  mqttServerRecentMessages(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    client_uid: ID
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-    topic_uid: ID
-  ): GQL_MqttMessageConnection
-  mqttServerSessions(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttClientSessionConnection
+  mqttServerMessageById(message_uid: ID! server_uid: ID!): GQL_MqttMessage
+  mqttServerRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String client_uid: ID "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID! topic_uid: ID): GQL_MqttMessageConnection
+  mqttServerSessions("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttClientSessionConnection
   mqttServerStats(server_uid: ID!): GQL_MqttServerStats!
-  mqttServerTopicRecentMessages(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttMessageConnection
-  mqttServerTopics(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_uid: ID!
-  ): GQL_MqttTopicConnection
+  mqttServerTopicRecentMessages("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageConnection
+  mqttServerTopics("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttTopicConnection
   "Fetches an object given its ID."
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
   recurringJob(jobid: ID!): GQL_RecurringJob!
-  recurringJobs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_RecurringJobConnection
+  recurringJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_RecurringJobConnection
   runtimeMetrics: GQL_RuntimeMetrics!
   serverLogById(log_id: ID!): GQL_IServerEventUnion!
-  serverLogs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-    server_id: ID!
-  ): GQL_IServerEventUnionConnection
-  servers(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_IServerConnection
+  serverLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_id: ID!): GQL_IServerEventUnionConnection
+  servers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_IServerConnection
   successJob(jobid: ID!): GQL_SuccessJob!
-  successJobs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_SuccessJobConnection
+  successJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SuccessJobConnection
   systemInfo: GQL_SystemInfo!
   systemLogById(log_id: ID!): GQL_SystemEvent!
-  systemLogs(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_SystemEventConnection
+  systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
   testik(id: ID!): GQL_Adapter
   userById(user_id: ID!): GQL_User!
   userClaims(user_id: ID!): [GQL_Claim!]!
   userRoles(user_id: ID!): [String!]!
-  users(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_UserConnection
+  users("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_UserConnection
   webHookById(hook_id: ID!): GQL_WebHook!
   webHookByUid(hook_uid: String!): GQL_WebHook!
   webHookRecordById(record_id: ID!): GQL_WebHookRecord!
-  webHookRecords(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    hook_id: ID!
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_WebHookRecordConnection
-  webHooks(
-    "Returns the elements in the list that come after the specified cursor."
-    after: String
-    "Returns the elements in the list that come before the specified cursor."
-    before: String
-    "Returns the first _n_ elements from the list."
-    first: Int
-    "Returns the last _n_ elements from the list."
-    last: Int
-  ): GQL_WebHookConnection
+  webHookRecords("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int hook_id: ID! "Returns the last _n_ elements from the list." last: Int): GQL_WebHookRecordConnection
+  webHooks("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_WebHookConnection
 }
 
 type RemoveMqttAuthClientPayload {
@@ -1420,20 +1181,10 @@ type Subscription {
   mqttClientUpdated(server_id: ID!): GQL_MqttClient!
   mqttNewClient(server_id: ID!): GQL_MqttNewClient!
   mqttNewTopic(server_id: ID!): GQL_MqttNewTopic!
-  mqttServerClientStatistics(
-    client_id: ID!
-    server_id: ID!
-  ): GQL_MqttClientStatsUpdate!
+  mqttServerClientStatistics(client_id: ID! server_id: ID!): GQL_MqttClientStatsUpdate!
   mqttServerConfigState(server_id: ID!): GQL_ConfigMatch!
-  mqttServerMetrics(
-    metric: GQL_MqttServerMetricSource!
-    server_id: ID!
-  ): GQL_ServerMetric!
-  mqttServerNewMessage(
-    client_id: ID
-    server_id: ID!
-    topic_id: ID
-  ): GQL_MqttMessage!
+  mqttServerMetrics(metric: GQL_MqttServerMetricSource! server_id: ID!): GQL_ServerMetric!
+  mqttServerNewMessage(client_id: ID server_id: ID! topic_id: ID): GQL_MqttMessage!
   mqttTopicUpdated(server_id: ID!): GQL_MqttTopic!
   runtimeMetric(source: GQL_RuntimeMetricSource!): GQL_Metric!
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!
@@ -1495,15 +1246,9 @@ type ValidationError implements ResultError {
   message: String!
 }
 
-union CreateMqttAuthClientError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union CreateMqttAuthClientError = ValidationError | AuthorizationError | InternalError
 
-union CreateMqttAuthUserError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union CreateMqttAuthUserError = ValidationError | AuthorizationError | InternalError
 
 union CreateServerError = ValidationError | AuthorizationError | InternalError
 
@@ -1511,43 +1256,19 @@ union CreateUserError = ValidationError | AuthorizationError | InternalError
 
 union CreateWebHookError = ValidationError | AuthorizationError | InternalError
 
-union EnableDisableServerError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union EnableDisableServerError = ValidationError | AuthorizationError | InternalError
 
-union EnableMqttAuthClinetError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union EnableMqttAuthClinetError = ValidationError | AuthorizationError | InternalError
 
-union EnableMqttAuthUserError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union EnableMqttAuthUserError = ValidationError | AuthorizationError | InternalError
 
-union GQL_IServerEventUnion =
-    GQL_ClientConnected
-  | GQL_ServerConfigDiffEvent
-  | GQL_ServerErrorEvent
-  | GQL_ServerInfoEvent
-  | GQL_ServerStateChangedEvent
-  | GQL_ClientDisconnected
+union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent | GQL_ClientDisconnected
 
-union ProcessServerCmdError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
-union RemoveMqttAuthClientError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union RemoveMqttAuthClientError = ValidationError | AuthorizationError | InternalError
 
-union RemoveMqttAuthUserError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union RemoveMqttAuthUserError = ValidationError | AuthorizationError | InternalError
 
 union RemoveServerError = ValidationError | AuthorizationError | InternalError
 
@@ -1555,121 +1276,55 @@ union RemoveUserError = ValidationError | AuthorizationError | InternalError
 
 union RemoveWebHookError = ValidationError | AuthorizationError | InternalError
 
-union ResetMqttClientStatisticError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union ResetMqttClientStatisticError = ValidationError | AuthorizationError | InternalError
 
-union SetEdgeDefaultNetworkAdapterError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetEdgeDefaultNetworkAdapterError = ValidationError | AuthorizationError | InternalError
 
-union SetEdgeDescriptionError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetEdgeDescriptionError = ValidationError | AuthorizationError | InternalError
 
-union SetEdgeLocation1Error =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetEdgeLocation1Error = ValidationError | AuthorizationError | InternalError
 
-union SetEdgeLocation2Error =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetEdgeLocation2Error = ValidationError | AuthorizationError | InternalError
 
-union SetEdgeLocation3Error =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetEdgeLocation3Error = ValidationError | AuthorizationError | InternalError
 
 union SetEdgeNameError = ValidationError | AuthorizationError | InternalError
 
-union SetMqttAuthUserPasswordError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetMqttAuthUserPasswordError = ValidationError | AuthorizationError | InternalError
 
-union SetMqttServerClientCommunicationTimeoutError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetMqttServerClientCommunicationTimeoutError = ValidationError | AuthorizationError | InternalError
 
-union SetMqttServerClientMaxPendingMessagesError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetMqttServerClientMaxPendingMessagesError = ValidationError | AuthorizationError | InternalError
 
-union SetMqttServerClientPresistSessionError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetMqttServerClientPresistSessionError = ValidationError | AuthorizationError | InternalError
 
-union SetMqttServerEndpointError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetMqttServerEndpointError = ValidationError | AuthorizationError | InternalError
 
-union SetServerDescriptionError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetServerDescriptionError = ValidationError | AuthorizationError | InternalError
 
-union SetServerLocationError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetServerLocationError = ValidationError | AuthorizationError | InternalError
 
 union SetServerNameError = ValidationError | AuthorizationError | InternalError
 
 union SetUserAdminError = ValidationError | AuthorizationError | InternalError
 
-union SetUserPasswordError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union SetUserPasswordError = ValidationError | AuthorizationError | InternalError
 
-union UpdateUserEnabledError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateUserEnabledError = ValidationError | AuthorizationError | InternalError
 
-union UpdateUserFirstNameError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateUserFirstNameError = ValidationError | AuthorizationError | InternalError
 
-union UpdateUserLastNameError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateUserLastNameError = ValidationError | AuthorizationError | InternalError
 
-union UpdateWebHookActiveStateError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateWebHookActiveStateError = ValidationError | AuthorizationError | InternalError
 
-union UpdateWebHookEventGroupsError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateWebHookEventGroupsError = ValidationError | AuthorizationError | InternalError
 
-union UpdateWebHookNameError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateWebHookNameError = ValidationError | AuthorizationError | InternalError
 
-union UpdateWebHookSecretError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateWebHookSecretError = ValidationError | AuthorizationError | InternalError
 
-union UpdateWebHookUrlError =
-    ValidationError
-  | AuthorizationError
-  | InternalError
+union UpdateWebHookUrlError = ValidationError | AuthorizationError | InternalError
 
 input CreateMqttAuthClientInput {
   clientId: String!
@@ -2029,30 +1684,15 @@ enum ServerState {
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
-directive @defer(
-  "Deferred when true."
-  if: Boolean
-  "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to."
-  label: String
-) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+directive @defer("Deferred when true." if: Boolean "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
 directive @export(as: String) on FIELD
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
-directive @specifiedBy(
-  "The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types."
-  url: String!
-) on SCALAR
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
 
 "The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
-directive @stream(
-  "Streamed when true."
-  if: Boolean
-  "The initial elements that shall be send down to the consumer."
-  initialCount: Int! = 0
-  "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to."
-  label: String
-) on FIELD
+directive @stream("Streamed when true." if: Boolean "The initial elements that shall be send down to the consumer." initialCount: Int! = 0 "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String) on FIELD
 
 scalar Any
 
@@ -2060,7 +1700,7 @@ scalar Any
 scalar Byte
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

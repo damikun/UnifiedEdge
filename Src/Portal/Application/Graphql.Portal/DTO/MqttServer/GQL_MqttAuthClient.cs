@@ -3,7 +3,8 @@ using Aplication.Mapping;
 
 namespace Server.Mqtt.DTO
 {
-    public class GQL_MqttAuthClient : IMapFrom<DTO_MqttAuthClient>
+    public class GQL_MqttAuthClient
+        : IMapFrom<DTO_MqttAuthClient>
     {
         public GQL_MqttAuthClient()
         {
@@ -18,5 +19,7 @@ namespace Server.Mqtt.DTO
 #nullable enable
 
         public List<GQL_MqttAuthRule> Rules { get; set; } = new List<GQL_MqttAuthRule>();
+
+        public DateTime? LastAuthenticate { get; set; }
     }
 }

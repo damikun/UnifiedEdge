@@ -20,7 +20,9 @@ namespace Server.Mqtt.DTO
                 throw new ArgumentNullException(nameof(topic));
             }
 
-            return $"MqttTopic.{server_uid},{topic}";
+            var normalised_topic_name = topic.ToLowerInvariant();
+
+            return $"MqttTopic.{server_uid},{normalised_topic_name}";
         }
 
         // <summary>

@@ -17,5 +17,6 @@ namespace Server.Mqtt.DTO
         public string UserName { get; set; }
 #nullable enable
 
+        public DateTime? LastAuthenticate { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<510e5352f70c12ed0b6d83557dff0f80>>
+ * @generated SignedSource<<21987947f41abff0d098ae30a00af05a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type MqttAuthUserItemDataFragment$data = {
   readonly enabled: boolean;
   readonly id: string;
+  readonly lastAuthenticate: any | null;
   readonly userName: string | null;
   readonly " $fragmentType": "MqttAuthUserItemDataFragment";
 };
@@ -45,6 +46,13 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
+      "name": "lastAuthenticate",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "id",
       "storageKey": null
     }
@@ -53,6 +61,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "788dd84a95ff83dc1730eba7b759cabc";
+(node as any).hash = "400bbe6a8d3c0fde2937d60ad6630a67";
 
 export default node;

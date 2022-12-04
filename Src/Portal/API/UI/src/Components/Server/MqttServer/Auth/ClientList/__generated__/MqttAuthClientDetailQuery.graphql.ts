@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fe20df295a8a1f89600cfce7886d1501>>
+ * @generated SignedSource<<0134106a6d2ec4a1e2f0a336e37cd7ca>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,6 +19,7 @@ export type MqttAuthClientDetailQuery$data = {
     readonly clientId: string | null;
     readonly enabled: boolean;
     readonly id: string;
+    readonly lastAuthenticate: any | null;
     readonly rules: ReadonlyArray<{
       readonly authAction: AuthAction;
       readonly id: string;
@@ -80,6 +81,13 @@ v2 = [
       {
         "alias": null,
         "args": null,
+        "kind": "ScalarField",
+        "name": "lastAuthenticate",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
         "concreteType": "GQL_MqttAuthRule",
         "kind": "LinkedField",
         "name": "rules",
@@ -132,16 +140,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "afb17dd3b61c2316c7501532ac7d60fe",
+    "cacheID": "0f406ec8ba3131fddbf8bef84596fa4f",
     "id": null,
     "metadata": {},
     "name": "MqttAuthClientDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthClientDetailQuery(\n  $authClient_id: ID!\n) {\n  mqttAuthClientById(authClient_id: $authClient_id) {\n    clientId\n    enabled\n    id\n    rules {\n      authAction\n      mqttAction\n      topic\n      id\n    }\n  }\n}\n"
+    "text": "query MqttAuthClientDetailQuery(\n  $authClient_id: ID!\n) {\n  mqttAuthClientById(authClient_id: $authClient_id) {\n    clientId\n    enabled\n    id\n    lastAuthenticate\n    rules {\n      authAction\n      mqttAction\n      topic\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b4854a129edc89373184cf1caf7ef081";
+(node as any).hash = "0cbfd838288ec466f9f23c1ed7c6ad5b";
 
 export default node;

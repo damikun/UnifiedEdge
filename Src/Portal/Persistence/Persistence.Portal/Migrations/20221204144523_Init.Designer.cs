@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221201120726_Init")]
+    [Migration("20221204144523_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "e85831d1-eb37-4f74-a2be-3d1efd69734f",
+                            Guid = "129c9d87-1c9b-48aa-abd0-e70b24cc1a02",
                             Name = "Undefined"
                         });
                 });
@@ -135,6 +135,9 @@ namespace Persistence.Portal.Migrations
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime?>("LastAuthenticate")
+                        .HasColumnType("TEXT");
+
                     b.Property<long?>("ServerId")
                         .HasColumnType("INTEGER");
 
@@ -195,6 +198,9 @@ namespace Persistence.Portal.Migrations
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastAuthenticate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()

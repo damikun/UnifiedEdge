@@ -14,5 +14,7 @@ namespace Domain.Server
 
         public string Password { get; set; }
 #nullable enable
+
+        public DateTime? LastAuthenticate { get; set; }
     }
 }

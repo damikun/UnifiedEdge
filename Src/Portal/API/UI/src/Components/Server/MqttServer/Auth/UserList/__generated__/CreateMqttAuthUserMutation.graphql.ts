@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e18dd032089c3610509ce944eeccdc77>>
+ * @generated SignedSource<<10b5700a2c011d1c440211b392759472>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -201,6 +201,13 @@ return {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
+                "name": "lastAuthenticate",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
                 "name": "id",
                 "storageKey": null
               }
@@ -235,12 +242,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a1c37c64304065f78780fa52ebe36035",
+    "cacheID": "ad2c9426e26a60382386655206350e19",
     "id": null,
     "metadata": {},
     "name": "CreateMqttAuthUserMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateMqttAuthUserMutation(\n  $input: CreateMqttAuthUserInput!\n) {\n  createMqttAuthUser(input: $input) {\n    gQL_MqttAuthUser {\n      ...MqttAuthUserItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  id\n}\n"
+    "text": "mutation CreateMqttAuthUserMutation(\n  $input: CreateMqttAuthUserInput!\n) {\n  createMqttAuthUser(input: $input) {\n    gQL_MqttAuthUser {\n      ...MqttAuthUserItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  lastAuthenticate\n  id\n}\n"
   }
 };
 })();

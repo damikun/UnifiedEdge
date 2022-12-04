@@ -14,5 +14,7 @@ namespace Domain.Server
 #nullable enable
 
         public ICollection<MqttAuthRule> Rules { get; set; } = new List<MqttAuthRule>();
+
+        public DateTime? LastAuthenticate { get; set; }
     }
 }

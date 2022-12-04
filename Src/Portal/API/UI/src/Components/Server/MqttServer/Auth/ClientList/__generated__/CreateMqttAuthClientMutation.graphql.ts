@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<77eb544705d954069068f6cf3728a2fb>>
+ * @generated SignedSource<<ff4a009d91b885f7740d6b1e2d328b18>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -200,6 +200,13 @@ return {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
+                "name": "lastAuthenticate",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
                 "name": "id",
                 "storageKey": null
               }
@@ -234,12 +241,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3bb87b2552cc0aa7cbdc507adf3c84a6",
+    "cacheID": "b936ba74d6b939be0b9a70449efdde0b",
     "id": null,
     "metadata": {},
     "name": "CreateMqttAuthClientMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateMqttAuthClientMutation(\n  $input: CreateMqttAuthClientInput!\n) {\n  createMqttAuthClient(input: $input) {\n    gQL_MqttAuthClient {\n      ...MqttAuthClientItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  id\n}\n"
+    "text": "mutation CreateMqttAuthClientMutation(\n  $input: CreateMqttAuthClientInput!\n) {\n  createMqttAuthClient(input: $input) {\n    gQL_MqttAuthClient {\n      ...MqttAuthClientItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n"
   }
 };
 })();

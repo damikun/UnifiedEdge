@@ -76,10 +76,12 @@ namespace Server.Mqtt
                 return null;
             }
 
+            var normalised_topic_name = topic.ToLowerInvariant();
+
             var topic_obj = new MqttStoredTopic()
             {
                 ServerUid = this._server.UID,
-                Topic = topic,
+                Topic = normalised_topic_name,
             };
 
             try

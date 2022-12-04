@@ -313,7 +313,8 @@ namespace Persistence.Portal.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerId = table.Column<long>(type: "INTEGER", nullable: true),
                     Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ClientId = table.Column<string>(type: "TEXT", nullable: false)
+                    ClientId = table.Column<string>(type: "TEXT", nullable: false),
+                    LastAuthenticate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -335,7 +336,8 @@ namespace Persistence.Portal.Migrations
                     ServerId = table.Column<long>(type: "INTEGER", nullable: true),
                     Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    LastAuthenticate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -372,7 +374,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "e85831d1-eb37-4f74-a2be-3d1efd69734f", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "129c9d87-1c9b-48aa-abd0-e70b24cc1a02", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

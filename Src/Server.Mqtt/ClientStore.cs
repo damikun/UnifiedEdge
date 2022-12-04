@@ -586,9 +586,11 @@ namespace Server.Mqtt
                 return null;
             }
 
+            var normalised_name = clientId.ToLowerInvariant();
+
             var client = new DTO_StoredMqttClient()
             {
-                ClientId = clientId,
+                ClientId = normalised_name,
                 ServerUid = this._server.UID,
                 Protocol = protocol,
                 ConnectedTimeStamp = connected == true ? DateTime.Now : null,

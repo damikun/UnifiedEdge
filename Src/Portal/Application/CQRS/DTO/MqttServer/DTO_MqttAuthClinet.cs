@@ -17,6 +17,8 @@ namespace Aplication.DTO
         public string ClientId { get; set; }
 #nullable enable
 
+        public DateTime? LastAuthenticate { get; set; }
+
         public List<DTO_MqttAuthRule> Rules { get; set; } = new List<DTO_MqttAuthRule>();
 
     }

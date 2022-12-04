@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b52c84f993c261a6ac495e6fc9d71084>>
+ * @generated SignedSource<<fe4b334f08f9453eb77916b92bcbb23e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -141,6 +141,13 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "lastAuthenticate",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -201,12 +208,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "db352964aa882d00945529107e9abedd",
+    "cacheID": "ba72da8a9330f4521b76e748f756fc03",
     "id": null,
     "metadata": {},
     "name": "MqttAuthClientsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_3VI1TY on Query {\n  mqttAuthClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttAuthClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_3VI1TY on Query {\n  mqttAuthClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

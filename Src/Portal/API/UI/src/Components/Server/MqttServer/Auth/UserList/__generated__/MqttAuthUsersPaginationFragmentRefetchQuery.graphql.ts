@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<158e89ebfceda5f43bd777735e866715>>
+ * @generated SignedSource<<19e05392614274de00de4f74f8387305>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -141,6 +141,13 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "lastAuthenticate",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -201,12 +208,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f17111d926c4a5b91407520d4c08364a",
+    "cacheID": "a4f14db86ad7865b87806849e1a10c61",
     "id": null,
     "metadata": {},
     "name": "MqttAuthUsersPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthUsersPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthUsersPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  id\n}\n\nfragment MqttAuthUsersPaginationFragment_3VI1TY on Query {\n  mqttAuthUsers(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttAuthUsersPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthUsersPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthUsersPaginationFragment_3VI1TY on Query {\n  mqttAuthUsers(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

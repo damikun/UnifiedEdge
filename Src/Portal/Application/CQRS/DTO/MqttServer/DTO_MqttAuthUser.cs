@@ -16,5 +16,7 @@ namespace Aplication.DTO
 #nullable disable
         public string UserName { get; set; }
 #nullable enable
+
+        public DateTime? LastAuthenticate { get; set; }
     }
 }

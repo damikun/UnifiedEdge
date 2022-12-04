@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fb1e798781cf88559e134ef9d4ba9540>>
+ * @generated SignedSource<<d595092f26c9b3ee1c05dbc1c91407b2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type MqttAuthClientItemDataFragment$data = {
   readonly clientId: string | null;
   readonly enabled: boolean;
   readonly id: string;
+  readonly lastAuthenticate: any | null;
   readonly " $fragmentType": "MqttAuthClientItemDataFragment";
 };
 export type MqttAuthClientItemDataFragment$key = {
@@ -45,6 +46,13 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
+      "name": "lastAuthenticate",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "id",
       "storageKey": null
     }
@@ -53,6 +61,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "dd53090bfecb93f50bfa01a42e486101";
+(node as any).hash = "c318647000f472becfb8cffc8bae5903";
 
 export default node;

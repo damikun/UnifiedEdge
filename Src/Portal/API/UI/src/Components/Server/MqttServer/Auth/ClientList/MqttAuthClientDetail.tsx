@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { CLIENT_PARAM_NAME } from "./MqttAuthClients";
+import { useCallback, useMemo, useState } from "react";
+import { GetLocalDate } from "../../../../../Shared/Common";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
@@ -24,6 +25,7 @@ const MqttAuthClientDetailTag = graphql`
       clientId
       enabled
       id
+      lastAuthenticate
       rules{
         authAction
         mqttAction
@@ -212,8 +214,11 @@ export default function MqttAuthClientDetail(){
       modalCtx
     ]
   );
-
-
+  
+  const dt = useMemo(()=>{
+    return GetLocalDate(data?.mqttAuthClientById.lastAuthenticate);
+  },[data]) 
+  
   return <ModalContainer label="Client detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
       <FieldGroup>
@@ -232,6 +237,12 @@ export default function MqttAuthClientDetail(){
                   onChange={handleCheckedEvent}
                 />
             </div>
+        </FieldSection>
+        <FieldSection name="Last trigger">
+          <div className={clsx("font-sans text-gray-700 font-semibold",
+          "text-sm max-w-full break-all select-all capitalize")}>
+            {dt}
+          </div>
         </FieldSection>
       </FieldGroup>
 

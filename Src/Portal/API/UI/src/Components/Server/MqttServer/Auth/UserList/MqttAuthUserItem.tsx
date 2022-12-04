@@ -14,6 +14,7 @@ const MqttAuthUserItemDataFragment = graphql`
   fragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {
       userName
       enabled
+      lastAuthenticate
       id
   }
 `;

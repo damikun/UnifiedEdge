@@ -20,6 +20,7 @@ import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Fi
 import { MqttAuthUserDetailRemoveMutation } from "./__generated__/MqttAuthUserDetailRemoveMutation.graphql";
 import { MqttAuthUserDetailEnableMutation } from "./__generated__/MqttAuthUserDetailEnableMutation.graphql";
 import { MqttAuthUserDetailUpdatePasswordMutation, SetMqttAuthUserPasswordInput } from "./__generated__/MqttAuthUserDetailUpdatePasswordMutation.graphql";
+import { GetLocalDate } from "../../../../../Shared/Common";
 
 
 const MqttAuthUserDetailTag = graphql`
@@ -28,6 +29,7 @@ const MqttAuthUserDetailTag = graphql`
       userName
       enabled
       id
+      lastAuthenticate
     }
   }
 `;
@@ -300,6 +302,10 @@ export default function MqttAuthUserDetail(){
   [formik.values.password]
  )
  
+ const dt = useMemo(()=>{
+  return GetLocalDate(data?.mqttAuthUserById.lastAuthenticate);
+},[data]) 
+
   return <ModalContainer label="User detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
       <FieldGroup>
@@ -335,6 +341,12 @@ export default function MqttAuthUserDetail(){
               }
             />
           </form>
+        </FieldSection>
+        <FieldSection name="Last trigger">
+          <div className={clsx("font-sans text-gray-700 font-semibold",
+          "text-sm max-w-full break-all select-all capitalize")}>
+            {dt}
+          </div>
         </FieldSection>
       </FieldGroup>
       <FieldDivider/>

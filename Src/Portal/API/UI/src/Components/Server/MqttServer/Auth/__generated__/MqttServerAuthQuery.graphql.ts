@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<80d25c75eb4ae1109bdf838705b7dfe8>>
+ * @generated SignedSource<<7f0ced6c456fcc7ead1c2a9e43f31778>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -84,17 +84,24 @@ v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "__typename",
+  "name": "lastAuthenticate",
   "storageKey": null
 },
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "cursor",
+  "name": "__typename",
   "storageKey": null
 },
 v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v10 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -119,7 +126,7 @@ v9 = {
   ],
   "storageKey": null
 },
-v10 = {
+v11 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -131,7 +138,7 @@ v10 = {
     }
   ]
 },
-v11 = [
+v12 = [
   "server_uid"
 ];
 return {
@@ -196,29 +203,30 @@ return {
                     "storageKey": null
                   },
                   (v6/*: any*/),
-                  (v7/*: any*/)
+                  (v7/*: any*/),
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v8/*: any*/)
+              (v9/*: any*/)
             ],
             "storageKey": null
           },
-          (v9/*: any*/),
-          (v10/*: any*/)
+          (v10/*: any*/),
+          (v11/*: any*/)
         ],
         "storageKey": null
       },
       {
         "alias": null,
         "args": (v5/*: any*/),
-        "filters": (v11/*: any*/),
+        "filters": (v12/*: any*/),
         "handle": "connection",
         "key": "MqttAuthClientsPaginationFragmentConnection_mqttAuthClients",
         "kind": "LinkedHandle",
         "name": "mqttAuthClients"
       },
-      (v10/*: any*/),
+      (v11/*: any*/),
       {
         "alias": null,
         "args": (v5/*: any*/),
@@ -252,23 +260,24 @@ return {
                     "storageKey": null
                   },
                   (v6/*: any*/),
-                  (v7/*: any*/)
+                  (v7/*: any*/),
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v8/*: any*/)
+              (v9/*: any*/)
             ],
             "storageKey": null
           },
-          (v9/*: any*/),
-          (v10/*: any*/)
+          (v10/*: any*/),
+          (v11/*: any*/)
         ],
         "storageKey": null
       },
       {
         "alias": null,
         "args": (v5/*: any*/),
-        "filters": (v11/*: any*/),
+        "filters": (v12/*: any*/),
         "handle": "connection",
         "key": "MqttAuthUsersPaginationFragmentConnection_mqttAuthUsers",
         "kind": "LinkedHandle",
@@ -277,12 +286,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e79267a39146b5ca4152d7d6d1728dc2",
+    "cacheID": "32d3a79cc0912ed52f690437f982ae1a",
     "id": null,
     "metadata": {},
     "name": "MqttServerAuthQuery",
     "operationKind": "query",
-    "text": "query MqttServerAuthQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n  }\n  ...MqttAuthClientsPaginationFragment_2YLYDF\n  ...MqttAuthUsersPaginationFragment_2YLYDF\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_2YLYDF on Query {\n  mqttAuthClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  id\n}\n\nfragment MqttAuthUsersPaginationFragment_2YLYDF on Query {\n  mqttAuthUsers(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttServerAuthQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n  }\n  ...MqttAuthClientsPaginationFragment_2YLYDF\n  ...MqttAuthUsersPaginationFragment_2YLYDF\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_2YLYDF on Query {\n  mqttAuthClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthUsersPaginationFragment_2YLYDF on Query {\n  mqttAuthUsers(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
