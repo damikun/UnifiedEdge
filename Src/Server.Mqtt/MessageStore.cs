@@ -35,7 +35,7 @@ namespace Server.Mqtt
         void Dispose();
     }
 
-    public class MessageStore : IMessageStore, IDisposable
+    public class InMemoryMessageStore : IMessageStore, IDisposable
     {
         public event EventHandler<MessageEventArgs> OnNewMessage;
 
@@ -57,7 +57,7 @@ namespace Server.Mqtt
 
         CancellationTokenSource cts = new CancellationTokenSource();
 
-        public MessageStore(EdgeMqttServer server)
+        public InMemoryMessageStore(EdgeMqttServer server)
         {
             if (server is null)
             {

@@ -32,7 +32,7 @@ namespace Server.Mqtt
     }
 
 
-    public class ClientStore : IClientStore
+    public class InMemoryClientStore : IClientStore
     {
         public event EventHandler<ClientEventArgs> OnNewClient;
 
@@ -42,7 +42,7 @@ namespace Server.Mqtt
 
         private volatile EdgeMqttServer _server;
 
-        public ClientStore(EdgeMqttServer server)
+        public InMemoryClientStore(EdgeMqttServer server)
         {
             _server = server;
 

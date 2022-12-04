@@ -28,7 +28,7 @@ namespace Server.Mqtt
         void IncrementTopicStatCount(string topic);
     }
 
-    public class TopicStore : ITopicStore
+    public class InMemoryTopicStore : ITopicStore
     {
         public event EventHandler<TopicEventArgs> OnNewTopic;
 
@@ -40,7 +40,7 @@ namespace Server.Mqtt
 
         private volatile EdgeMqttServer _server;
 
-        public TopicStore(EdgeMqttServer server)
+        public InMemoryTopicStore(EdgeMqttServer server)
         {
             if (server is null)
             {

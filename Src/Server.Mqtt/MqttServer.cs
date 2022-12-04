@@ -48,18 +48,18 @@ namespace Server.Mqtt
             Meter = new EdgeMqttServerMeter(this);
         }
 
-        private MessageStore InitMessageStore()
+        private IMessageStore InitMessageStore()
         {
-            var store = new MessageStore(this);
+            var store = new InMemoryMessageStore(this);
 
             store.OnNewMessage += OnNewMessage;
 
             return store;
         }
 
-        private TopicStore InitTopicStore()
+        private ITopicStore InitTopicStore()
         {
-            var store = new TopicStore(this);
+            var store = new InMemoryTopicStore(this);
 
             store.OnNewTopic += OnNewTopic;
             store.OnTopicIncrement += OnTopicUpdate;
@@ -68,9 +68,9 @@ namespace Server.Mqtt
             return store;
         }
 
-        private ClientStore InitClientStore()
+        private IClientStore InitClientStore()
         {
-            var store = new ClientStore(this);
+            var store = new InMemoryClientStore(this);
 
             store.OnClientUpdate += OnClientUpdated;
             store.OnNewClient += OnNewClient;
