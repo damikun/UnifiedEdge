@@ -1,5 +1,5 @@
-
 using Server.Mqtt;
+using Aplication.Services;
 
 namespace API
 {
@@ -7,6 +7,7 @@ namespace API
     {
         public static IServiceCollection AddMqtt(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddSingleton<IMqttAuthHandler, MqttAuthHandler>();
 
             serviceCollection.AddMqttServer();
 

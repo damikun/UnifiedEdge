@@ -34,9 +34,12 @@ namespace Server.Mqtt
 
         public readonly IMessageStore Messages;
 
+        private readonly IMqttAuthHandler AuthHandler;
+
         public EdgeMqttServer(
             IServerCfg cfg,
-            IServerEventPublisher? publisher = null
+            IServerEventPublisher? publisher = null,
+            IMqttAuthHandler? authHandler = null
         ) : base(MONITOR_PERIOD, cfg, publisher)
         {
             Clients = InitClientStore();
@@ -46,6 +49,8 @@ namespace Server.Mqtt
             Messages = InitMessageStore();
 
             Meter = new EdgeMqttServerMeter(this);
+
+            AuthHandler = authHandler ?? new DummyMqttAuthHandler();
         }
 
         private IMessageStore InitMessageStore()
