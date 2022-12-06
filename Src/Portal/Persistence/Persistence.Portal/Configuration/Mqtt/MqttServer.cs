@@ -11,6 +11,10 @@ namespace Persistence.Portal.Configuration
         {
             builder.Ignore(e => e.Type);
 
+            builder.HasOne(e => e.AuthConfig)
+            .WithOne(e => e.Server)
+            .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(e => e.AuthClients)
             .WithOne(e => e.Server)
             .HasForeignKey(e => e.ServerId)

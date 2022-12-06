@@ -3,6 +3,7 @@ using AutoMapper;
 using Server.Mqtt.DTO;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Errors;
+using Aplication.DTO;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -294,6 +295,52 @@ namespace Aplication.Graphql.Mutations
             );
 
             return mapper.Map<GQL_MqttAuthUser>(response);
+        }
+
+        /// <summary>
+        /// Enable Mqtt server client Auth
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthCfg> EnableMqttClientAuth(
+            [ID] string server_uid,
+            bool enable,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new EnableMqttClientAuth()
+                {
+                    ServerUid = server_uid,
+                    Enable = enable
+                }
+            );
+
+            return mapper.Map<GQL_MqttAuthCfg>(response);
+        }
+
+        /// <summary>
+        /// Enable Mqtt server user Auth
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttAuthCfg> EnableMqttUserAuth(
+            [ID] string server_uid,
+            bool enable,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            var response = await mediator.Send(
+                new EnableMqttUserAuth()
+                {
+                    ServerUid = server_uid,
+                    Enable = enable
+                }
+            );
+
+            return mapper.Map<GQL_MqttAuthCfg>(response);
         }
     }
 }

@@ -167,7 +167,7 @@ namespace Aplication.Services
                 throw new Exception("Unable to load auth config");
             }
 
-            return auth_cfg.RestrictedClientsEnabled;
+            return auth_cfg.ClientAuthEnabled;
         }
 
         public async Task<bool> IsUserAuthActive(CancellationToken ct = default)

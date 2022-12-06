@@ -8,6 +8,8 @@ namespace Domain.Server
         public virtual ICollection<MqttAuthClient> AuthClients { get; set; }
 
         public virtual ICollection<MqttAuthUser> AuthUsers { get; set; }
+
+        public virtual MqttAuthConfig AuthConfig { get; set; } = new MqttAuthConfig();
     }
 
 }

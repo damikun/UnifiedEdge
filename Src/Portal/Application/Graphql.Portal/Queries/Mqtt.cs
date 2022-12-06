@@ -308,5 +308,21 @@ namespace Aplication.Graphql.Queries
 
             return _mapper.Map<Connection<GQL_MqttAuthClient>>(result);
         }
+
+        public async Task<GQL_MqttAuthCfg> GetMqttServerAuthCfg(
+        [ID] string server_uid,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerAuthCfg()
+                {
+                    ServerUid = server_uid
+                },
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttAuthCfg>(result);
+        }
     }
 }
