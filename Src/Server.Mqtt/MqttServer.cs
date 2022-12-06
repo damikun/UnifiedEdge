@@ -156,9 +156,10 @@ namespace Server.Mqtt
                 args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
             }
 
-            var normalised_client_id = args.ClientId.ToLowerInvariant();
-
-            var result = await _authHandler.AuthenticateClient(this.UID, args.ClientId);
+            var result = await _authHandler.AuthenticateClient(
+                this.UID,
+                args.ClientId
+            );
 
             if (!result.isSuccess)
             {
@@ -177,7 +178,14 @@ namespace Server.Mqtt
             else
             {
                 args.ReasonCode = MqttConnectReasonCode.Success;
-                args.SessionItems.Add("AuthClientId", result.AuthId);
+
+                if (result.AuthId is not null)
+                {
+                    args.SessionItems.Add("AuthClientDbId", result.AuthId);
+                }
+
+                args.SessionItems.Add("ServerUid", this.UID);
+                args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
             }
         }
 
@@ -188,9 +196,11 @@ namespace Server.Mqtt
                 args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
             }
 
-            var normalised_user_id = args.UserName.ToLowerInvariant() ?? "";
-
-            var result = await _authHandler.AuthenticateUser(this.UID, args.UserName, args.Password);
+            var result = await _authHandler.AuthenticateUser(
+                this.UID,
+                args.UserName,
+                args.Password
+            );
 
             if (!result.isSuccess)
             {
@@ -200,7 +210,7 @@ namespace Server.Mqtt
                 {
                     _publisher.PublishWarning(
                         this.UID,
-                        "ClientAuth Error",
+                        "UserAuth Error",
                         $"Failed to autenitcate user: `{args.UserName}` with reason: {result.reason.ToString()}"
                     );
                 }
@@ -209,7 +219,14 @@ namespace Server.Mqtt
             else
             {
                 args.ReasonCode = MqttConnectReasonCode.Success;
-                args.SessionItems.Add("AuthUserId", result.AuthId);
+
+                if (result.AuthId is not null)
+                {
+                    args.SessionItems.Add("AuthUserDbId", result.AuthId);
+                }
+
+                args.SessionItems.Add("ServerUid", this.UID);
+                args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
             }
         }
 
