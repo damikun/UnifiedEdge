@@ -1,6 +1,7 @@
 
 using Server.Mqtt;
 using Aplication.DTO;
+using MQTTnet.Protocol;
 using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,7 @@ namespace Aplication.Services
             _publisher = publisher;
         }
 
-        public async Task<(bool result, string? message)> AuthenticateClient(
+        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
             string server_uid,
             string client_id,
             CancellationToken ct = default
@@ -44,7 +45,7 @@ namespace Aplication.Services
             {
                 if (!await IsClientAuthActive(ct))
                 {
-                    return (true, "Authentication disabled");
+                    return (true, MqttConnectReasonCode.Success, null);
                 }
 
 
@@ -55,41 +56,45 @@ namespace Aplication.Services
 
                 if (!validation_result.isSuccess)
                 {
-                    return (false, validation_result.message);
+                    return (false, MqttConnectReasonCode.ClientIdentifierNotValid, null);
                 }
 
                 var context = await _factory.CreateDbContextAsync(ct);
 
                 var normalised_id = client_id.ToLowerInvariant();
 
-                var exist = await context.MqttAuthClients
+                var client = await context.MqttAuthClients
                 .AsNoTracking()
-                .AnyAsync(
+                .FirstOrDefaultAsync(
                     e => e.Server != null &&
                     e.Server.UID == server_uid &&
-                    e.ClientId == normalised_id &&
-                    e.Enabled == true
+                    e.ClientId == normalised_id
                 );
 
-                if (!exist)
+                if (client is null)
                 {
-                    return (false, "Client not found");
+                    return (false, MqttConnectReasonCode.ClientIdentifierNotValid, null);
+                }
+
+                if (!client.Enabled)
+                {
+                    return (true, MqttConnectReasonCode.Banned, null);
                 }
                 else
                 {
                     await _publisher.Publish(new DTO_MqttClientAuthenticated());
 
-                    return (true, "Authentication success");
+                    return (true, MqttConnectReasonCode.Success, client.Id);
                 }
             }
             catch
             {
-                return (true, "Internall Auth error");
+                return (true, MqttConnectReasonCode.UnspecifiedError, null);
             }
 
         }
 
-        public async Task<(bool result, string? message)> AuthenticateUser(
+        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
             string server_uid,
             string user_name,
             string password,
@@ -100,7 +105,7 @@ namespace Aplication.Services
             {
                 if (!await IsUserAuthActive(ct))
                 {
-                    return (true, "Authentication disabled");
+                    return (true, MqttConnectReasonCode.Success, null);
                 }
 
                 var validation_result = ValidateAuthUserInput(
@@ -111,7 +116,7 @@ namespace Aplication.Services
 
                 if (!validation_result.isSuccess)
                 {
-                    return (false, validation_result.message);
+                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
                 }
 
                 var context = await _factory.CreateDbContextAsync(ct);
@@ -129,25 +134,25 @@ namespace Aplication.Services
 
                 if (user is null)
                 {
-                    return (false, "AuthUser not found");
+                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
                 }
 
                 var result = _hasher.Check(user.Password, password);
 
                 if (!result.Verified)
                 {
-                    return (false, "Invalid AuthUser password");
+                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
                 }
                 else
                 {
                     await _publisher.Publish(new DTO_MqttUserAuthenticated());
 
-                    return (true, "Authentication success");
+                    return (true, MqttConnectReasonCode.Success, user.Id);
                 }
             }
             catch
             {
-                return (true, "Internall Auth error");
+                return (true, MqttConnectReasonCode.UnspecifiedError, null);
             }
         }
 
@@ -179,7 +184,7 @@ namespace Aplication.Services
             return auth_cfg.UserAuthEnabled;
         }
 
-        private (bool isSuccess, string? message) ValidateAuthClientInput(
+        private (bool isSuccess, string reason) ValidateAuthClientInput(
             string server_uid,
             string client_id
         )
@@ -197,7 +202,7 @@ namespace Aplication.Services
             return (true, String.Empty);
         }
 
-        private (bool isSuccess, string? message) ValidateAuthUserInput(
+        private (bool isSuccess, string reason) ValidateAuthUserInput(
             string server_uid,
             string user_name,
             string password

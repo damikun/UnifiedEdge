@@ -2,6 +2,7 @@ using MQTTnet;
 using System.Net;
 using MQTTnet.Server;
 using Server.Mqtt.DTO;
+using MQTTnet.Protocol;
 
 namespace Server.Mqtt
 {
@@ -34,7 +35,7 @@ namespace Server.Mqtt
 
         public readonly IMessageStore Messages;
 
-        private readonly IMqttAuthHandler AuthHandler;
+        private readonly IMqttAuthHandler _authHandler;
 
         public EdgeMqttServer(
             IServerCfg cfg,
@@ -50,7 +51,7 @@ namespace Server.Mqtt
 
             Meter = new EdgeMqttServerMeter(this);
 
-            AuthHandler = authHandler ?? new DummyMqttAuthHandler();
+            _authHandler = authHandler ?? new DummyMqttAuthHandler();
         }
 
         private IMessageStore InitMessageStore()
@@ -148,10 +149,77 @@ namespace Server.Mqtt
 
         }
 
+        private async Task ValidatingConnectionAsync_ClientAuthentication(ValidatingConnectionEventArgs args)
+        {
+            if (string.IsNullOrWhiteSpace(args.ClientId))
+            {
+                args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
+            }
+
+            var normalised_client_id = args.ClientId.ToLowerInvariant();
+
+            var result = await _authHandler.AuthenticateClient(this.UID, args.ClientId);
+
+            if (!result.isSuccess)
+            {
+                args.ReasonCode = result.reason;
+
+                try
+                {
+                    _publisher.PublishWarning(
+                        this.UID,
+                        "ClientAuth Error",
+                        $"Failed to autenitcate clientId: `{args.ClientId}` with reason: {result.reason.ToString()}"
+                    );
+                }
+                catch { }
+            }
+            else
+            {
+                args.ReasonCode = MqttConnectReasonCode.Success;
+                args.SessionItems.Add("AuthClientId", result.AuthId);
+            }
+        }
+
+        private async Task ValidatingConnectionAsync_UserAuthentication(ValidatingConnectionEventArgs args)
+        {
+            if (string.IsNullOrWhiteSpace(args.ClientId))
+            {
+                args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
+            }
+
+            var normalised_user_id = args.UserName.ToLowerInvariant() ?? "";
+
+            var result = await _authHandler.AuthenticateUser(this.UID, args.UserName, args.Password);
+
+            if (!result.isSuccess)
+            {
+                args.ReasonCode = result.reason;
+
+                try
+                {
+                    _publisher.PublishWarning(
+                        this.UID,
+                        "ClientAuth Error",
+                        $"Failed to autenitcate user: `{args.UserName}` with reason: {result.reason.ToString()}"
+                    );
+                }
+                catch { }
+            }
+            else
+            {
+                args.ReasonCode = MqttConnectReasonCode.Success;
+                args.SessionItems.Add("AuthUserId", result.AuthId);
+            }
+        }
+
         private void RegisterServerEvents(MqttServer server)
         {
             server.ClientConnectedAsync += OnClientConnected_HandleMetrics;
             server.ClientConnectedAsync += OnClientConnected_AddClientToStore;
+
+            server.ValidatingConnectionAsync += ValidatingConnectionAsync_ClientAuthentication;
+            server.ValidatingConnectionAsync += ValidatingConnectionAsync_UserAuthentication;
 
             server.ClientDisconnectedAsync += OnClientDisconnected_HandleMetrics;
             server.ClientDisconnectedAsync += OnClientDisconnected_UpdateClientStore;

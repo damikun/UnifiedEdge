@@ -1,15 +1,17 @@
 
+using MQTTnet.Protocol;
+
 namespace Server.Mqtt
 {
     public interface IMqttAuthHandler
     {
-        Task<(bool result, string? message)> AuthenticateClient(
+        Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
            string server_uid,
            string client_id,
            CancellationToken ct = default
        );
 
-        Task<(bool result, string? message)> AuthenticateUser(
+        Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
             string server_uid,
             string user_name,
             string password,
@@ -21,7 +23,7 @@ namespace Server.Mqtt
     // It always return TRUE as auth result for valid input arguments
     internal class DummyMqttAuthHandler : IMqttAuthHandler
     {
-        public Task<(bool result, string? message)> AuthenticateClient(
+        public Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
             string server_uid,
             string client_id,
             CancellationToken ct = default
@@ -31,13 +33,17 @@ namespace Server.Mqtt
                 string.IsNullOrWhiteSpace(client_id)
             )
             {
-                return Task.FromResult((false, "Invalid server or client id"))!;
+                return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
+                    (false, MqttConnectReasonCode.ClientIdentifierNotValid, null)
+                )!;
             }
 
-            return Task.FromResult((false, ""))!;
+            return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
+                (true, MqttConnectReasonCode.Success, null)
+            )!;
         }
 
-        public Task<(bool result, string? message)> AuthenticateUser(
+        public Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
             string server_uid,
             string user_name,
             string password,
@@ -50,10 +56,14 @@ namespace Server.Mqtt
                 string.IsNullOrWhiteSpace(password)
             )
             {
-                return Task.FromResult((false, "Invalid username or password format"))!;
+                return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
+                    (false, MqttConnectReasonCode.BadUserNameOrPassword, null)
+                )!;
             }
 
-            return Task.FromResult((false, ""))!;
+            return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
+                (true, MqttConnectReasonCode.Success, null)
+            )!;
         }
     }
 }
