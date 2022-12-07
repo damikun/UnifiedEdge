@@ -138,7 +138,7 @@ namespace Aplication.CQRS.Commands
             .Where(e => e.Id == cfg_id)
             .FirstAsync(cancellationToken);
 
-            cfg.ClientAuthEnabled = request.Enable;
+            cfg.UserAuthEnabled = request.Enable;
 
             dbContext.MqttAuthConfig.Update(cfg);
 

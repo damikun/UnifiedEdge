@@ -9,19 +9,23 @@ namespace Server.Manager.Mqtt
 
         public readonly IServerEventPublisher _event_publisher;
 
+        public readonly IMqttAuthHandler? _auth_handler;
+
 
         public MqttServerManager(
             IEndpointService endpoint,
             IServerEventPublisher event_publisher,
-            IServerStore? store = null
+            IServerStore? store = null,
+            IMqttAuthHandler? auth_handler = null
         ) : base(endpoint, EdgeMqttServer.Info, store!)
         {
             _event_publisher = event_publisher;
+            _auth_handler = auth_handler;
         }
 
         protected override EdgeMqttServer CreateServerInstance(IServerCfg cfg)
         {
-            return new EdgeMqttServer(cfg, _event_publisher);
+            return new EdgeMqttServer(cfg, _event_publisher, _auth_handler);
         }
 
         public async Task<bool?> GetClientState(string server_uid, string client_uid)

@@ -9,6 +9,8 @@ type FormInput = {
   value?:string
   name?:string
   error?:string
+  checkedColor?:"bg-blue-500" | "bg-yellow-500" | "bg-green-500"
+  uncheckedColor?:"bg-gray-500" | "bg-red-500"
   onChange: (id:string|undefined, checked:boolean, value:string|undefined, name:string|undefined)=>void
   flexOrientation?: "flex-row" | "flex-col"
 }
@@ -21,6 +23,8 @@ export function FormSwitch({
   name,
   checked,
   error,
+  checkedColor,
+  uncheckedColor,
   flexOrientation = "flex-col"} : FormInput){
 
   const handleOnChange = useCallback(
@@ -54,7 +58,9 @@ export function FormSwitch({
       className={clsx("relative inline-flex h-6 w-11",
       "rounded-full items-center border border-gray-200",
       "shadow-sm",
-      checked ? "bg-blue-500":"bg-gray-200")}
+      checked ? 
+        checkedColor??"bg-blue-500":
+        uncheckedColor ??"bg-gray-200")}
     >
       <span className="sr-only">
         Select group

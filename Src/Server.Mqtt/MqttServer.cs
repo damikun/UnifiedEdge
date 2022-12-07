@@ -149,11 +149,31 @@ namespace Server.Mqtt
 
         }
 
-        private async Task ValidatingConnectionAsync_ClientAuthentication(ValidatingConnectionEventArgs args)
+        private async Task ValidatingConnectionAsync_Auth(ValidatingConnectionEventArgs args)
+        {
+            var client_auth_result = await ValidatingConnectionAsync_ClientAuthentication(args);
+
+            if (client_auth_result != MqttConnectReasonCode.Success)
+            {
+                args.ReasonCode = client_auth_result;
+                return;
+            }
+
+            var user_auth_result = await ValidatingConnectionAsync_UserAuthentication(args);
+
+            args.ReasonCode = user_auth_result;
+
+            args.SessionItems.Add("ServerUid", this.UID);
+            args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
+
+            return;
+        }
+
+        private async Task<MqttConnectReasonCode> ValidatingConnectionAsync_ClientAuthentication(ValidatingConnectionEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.ClientId))
             {
-                args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
+                return MqttConnectReasonCode.ClientIdentifierNotValid;
             }
 
             var result = await _authHandler.AuthenticateClient(
@@ -163,8 +183,6 @@ namespace Server.Mqtt
 
             if (!result.isSuccess)
             {
-                args.ReasonCode = result.reason;
-
                 try
                 {
                     _publisher.PublishWarning(
@@ -174,26 +192,25 @@ namespace Server.Mqtt
                     );
                 }
                 catch { }
+
+                return result.reason; ;
             }
             else
             {
-                args.ReasonCode = MqttConnectReasonCode.Success;
-
                 if (result.AuthId is not null)
                 {
                     args.SessionItems.Add("AuthClientDbId", result.AuthId);
                 }
 
-                args.SessionItems.Add("ServerUid", this.UID);
-                args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
+                return MqttConnectReasonCode.Success;
             }
         }
 
-        private async Task ValidatingConnectionAsync_UserAuthentication(ValidatingConnectionEventArgs args)
+        private async Task<MqttConnectReasonCode> ValidatingConnectionAsync_UserAuthentication(ValidatingConnectionEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(args.ClientId))
             {
-                args.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
+                return MqttConnectReasonCode.ClientIdentifierNotValid;
             }
 
             var result = await _authHandler.AuthenticateUser(
@@ -204,8 +221,6 @@ namespace Server.Mqtt
 
             if (!result.isSuccess)
             {
-                args.ReasonCode = result.reason;
-
                 try
                 {
                     _publisher.PublishWarning(
@@ -215,18 +230,17 @@ namespace Server.Mqtt
                     );
                 }
                 catch { }
+
+                return result.reason;
             }
             else
             {
-                args.ReasonCode = MqttConnectReasonCode.Success;
-
                 if (result.AuthId is not null)
                 {
                     args.SessionItems.Add("AuthUserDbId", result.AuthId);
                 }
 
-                args.SessionItems.Add("ServerUid", this.UID);
-                args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
+                return MqttConnectReasonCode.Success;
             }
         }
 
@@ -235,8 +249,7 @@ namespace Server.Mqtt
             server.ClientConnectedAsync += OnClientConnected_HandleMetrics;
             server.ClientConnectedAsync += OnClientConnected_AddClientToStore;
 
-            server.ValidatingConnectionAsync += ValidatingConnectionAsync_ClientAuthentication;
-            server.ValidatingConnectionAsync += ValidatingConnectionAsync_UserAuthentication;
+            server.ValidatingConnectionAsync += ValidatingConnectionAsync_Auth;
 
             server.ClientDisconnectedAsync += OnClientDisconnected_HandleMetrics;
             server.ClientDisconnectedAsync += OnClientDisconnected_UpdateClientStore;

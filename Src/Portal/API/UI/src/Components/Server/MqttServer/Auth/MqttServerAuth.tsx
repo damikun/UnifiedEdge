@@ -16,6 +16,8 @@ export const MqttServerAuthQueryTag = graphql`
 
     ...MqttAuthClientsPaginationFragment@arguments(server_uid: $id)
     ...MqttAuthUsersPaginationFragment@arguments(server_uid: $id)
+    ...MqttAuthClientsBarEnableFragment@arguments(server_uid: $id)
+    ...MqttAuthUsersBarEnableFragment@arguments(server_uid: $id)
   }
 `;
 

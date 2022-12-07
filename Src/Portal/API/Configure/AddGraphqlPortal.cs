@@ -177,6 +177,7 @@ namespace API
                 .AddDataLoader<ServerClientSessionByServerIdAndClientId>()
 
                 .AddInMemorySubscriptions()
+                .AddMaxExecutionDepthRule(8, skipIntrospectionFields: true)
                 .UseCustomPipeline();
 
 

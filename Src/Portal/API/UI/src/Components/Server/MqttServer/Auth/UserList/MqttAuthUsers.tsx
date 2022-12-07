@@ -1,18 +1,19 @@
 import MqttUserDetail from "./MqttAuthUserDetail";
+import MqttAuthUsersBar from "./MqttAuthUsersBar";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import { MqttAuthUserItem } from "./MqttAuthUserItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
-import { MqttAuthUsersCtxProvider, useMqttAuthUsersCtx } from "./MqttAuthCUsersCtxProvider";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
+import { MqttAuthUsersCtxProvider, useMqttAuthUsersCtx } from "./MqttAuthCUsersCtxProvider";
+import { MqttAuthUsersBarEnableFragment$key } from "./__generated__/MqttAuthUsersBarEnableFragment.graphql";
 import { MqttAuthUsersPaginationFragment$key } from "./__generated__/MqttAuthUsersPaginationFragment.graphql";
 import { MqttAuthUsersPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthUsersPaginationFragmentRefetchQuery.graphql";
-import MqttAuthUsersBar from "./MqttAuthUsersBar";
 
 
 export const MqttAuthUsersPaginationFragment = graphql`
@@ -42,7 +43,8 @@ export const USER_PARAM_NAME = "user_id"
 export default React.memo(MqttAuthUsers)
 
 type MqttAuthUsersProps = {
-  dataRef: MqttAuthUsersPaginationFragment$key | null;
+  dataRef: (MqttAuthUsersPaginationFragment$key | null) &
+  (MqttAuthUsersBarEnableFragment$key | null);
 }
 
 function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
@@ -70,9 +72,10 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
   />
       <Section 
           name={"AuthUsers"}
-          bar={<MqttAuthUsersBar/>}
+          bar={<MqttAuthUsersBar dataRef={dataRef}/>}
           component={
             <InfinityScrollTable
+              height="h-96"
               header={<Header/>}
             >
               <UserListBody dataRef={dataRef}/>

@@ -43,11 +43,10 @@ namespace Aplication.Services
         {
             try
             {
-                if (!await IsClientAuthActive(ct))
+                if (!await IsClientAuthActive(server_uid, ct))
                 {
                     return (true, MqttConnectReasonCode.Success, null);
                 }
-
 
                 var validation_result = ValidateAuthClientInput(
                     server_uid,
@@ -103,7 +102,7 @@ namespace Aplication.Services
         {
             try
             {
-                if (!await IsUserAuthActive(ct))
+                if (!await IsUserAuthActive(server_uid, ct))
                 {
                     return (true, MqttConnectReasonCode.Success, null);
                 }
@@ -116,7 +115,7 @@ namespace Aplication.Services
 
                 if (!validation_result.isSuccess)
                 {
-                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
+                    return (false, MqttConnectReasonCode.UnspecifiedError, null);
                 }
 
                 var context = await _factory.CreateDbContextAsync(ct);
@@ -156,32 +155,24 @@ namespace Aplication.Services
             }
         }
 
-        public async Task<bool> IsClientAuthActive(CancellationToken ct = default)
+        public async Task<bool> IsClientAuthActive(string server_uid, CancellationToken ct = default)
         {
             var ctx = await _factory.CreateDbContextAsync(ct);
 
-            var auth_cfg = await ctx.MqttAuthConfig.FirstOrDefaultAsync(ct);
-
-            if (auth_cfg is null)
-            {
-                throw new Exception("Unable to load auth config");
-            }
-
-            return auth_cfg.ClientAuthEnabled;
+            return await ctx.MqttAuthConfig
+            .Where(e => e.Server != null && e.Server.UID == server_uid)
+            .Select(e => e.ClientAuthEnabled)
+            .FirstAsync(ct);
         }
 
-        public async Task<bool> IsUserAuthActive(CancellationToken ct = default)
+        public async Task<bool> IsUserAuthActive(string server_uid, CancellationToken ct = default)
         {
             var ctx = await _factory.CreateDbContextAsync(ct);
 
-            var auth_cfg = await ctx.MqttAuthConfig.FirstOrDefaultAsync(ct);
-
-            if (auth_cfg is null)
-            {
-                throw new Exception("Unable to load auth config");
-            }
-
-            return auth_cfg.UserAuthEnabled;
+            return await ctx.MqttAuthConfig
+            .Where(e => e.Server != null && e.Server.UID == server_uid)
+            .Select(e => e.UserAuthEnabled)
+            .FirstAsync(ct);
         }
 
         private (bool isSuccess, string reason) ValidateAuthClientInput(

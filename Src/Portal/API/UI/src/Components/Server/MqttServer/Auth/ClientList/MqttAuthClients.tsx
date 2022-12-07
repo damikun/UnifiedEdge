@@ -6,11 +6,12 @@ import { MqttAuthClientItem } from "./MqttAuthClientItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
-import { MqttAuthClientsCtxProvider, useMqttAuthClientsCtx } from "./MqttAuthClientsCtxProvider";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
+import { MqttAuthClientsCtxProvider, useMqttAuthClientsCtx } from "./MqttAuthClientsCtxProvider";
+import { MqttAuthClientsBarEnableFragment$key } from "./__generated__/MqttAuthClientsBarEnableFragment.graphql";
 import { MqttAuthClientsPaginationFragment$key } from "./__generated__/MqttAuthClientsPaginationFragment.graphql";
 import { MqttAuthClientsPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthClientsPaginationFragmentRefetchQuery.graphql";
 
@@ -42,7 +43,8 @@ export const CLIENT_PARAM_NAME = "client_id"
 export default React.memo(MqttAuthClients)
 
 type MqttAuthClientsProps = {
-  dataRef: MqttAuthClientsPaginationFragment$key | null;
+  dataRef: (MqttAuthClientsPaginationFragment$key | null) & 
+  (MqttAuthClientsBarEnableFragment$key | null);
 }
 
 function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
@@ -68,16 +70,17 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
     }
   />
     <Section 
-        name={"AuthClients"}
-        bar={<MqttAuthClientsBar/>}
-        component={
-          <InfinityScrollTable
-            header={<Header/>}
-          > 
-            <ClientListBody dataRef={dataRef}/>
-          </InfinityScrollTable>
-        }
-      />
+      name={"AuthClients"}
+      bar={<MqttAuthClientsBar dataRef={dataRef}/>}
+      component={
+        <InfinityScrollTable
+          height="h-96"
+          header={<Header/>}
+        > 
+          <ClientListBody dataRef={dataRef}/>
+        </InfinityScrollTable>
+      }
+    />
   </MqttAuthClientsCtxProvider>
 }
 
