@@ -24,6 +24,11 @@ namespace Persistence.Portal.Configuration
             .WithOne(e => e.Server)
             .HasForeignKey(e => e.ServerId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.AuthLogs)
+            .WithOne()
+            .HasForeignKey(e => e.ServerId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

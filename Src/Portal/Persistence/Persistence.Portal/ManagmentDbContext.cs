@@ -33,6 +33,8 @@ namespace Persistence.Portal
 
         public DbSet<MqttAuthRule> MqttAuthRules { get; set; }
 
+        public DbSet<MqttAuthLog> MqttAuthLogs { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(

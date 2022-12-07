@@ -90,6 +90,17 @@ namespace Aplication.Services
             {
                 return (true, MqttConnectReasonCode.UnspecifiedError, null);
             }
+            finally
+            {
+                try
+                {
+                    await _publisher.Publish(new DTO_MqttClientAuthenticated());
+                }
+                catch
+                {
+
+                }
+            }
 
         }
 

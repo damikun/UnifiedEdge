@@ -129,8 +129,7 @@ namespace Server.Mqtt
             }
             else
             {
-                if (
-                    this.Server != null &&
+                if (this.Server != null &&
                     this.Server.IsStarted &&
                    (this.State != ServerState.starting ||
                     this.State != ServerState.stopping ||

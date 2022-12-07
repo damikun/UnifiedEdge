@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<70e053ca6d9c332b31c94e94b83cdaca>>
+ * @generated SignedSource<<00b31c4443e3d0a05c810d15a66bbe32>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,17 +10,17 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type MqttAuthClientsPaginationFragmentRefetchQuery$variables = {
+export type MqttAuthLogsPaginationFragmentRefetchQuery$variables = {
   after?: string | null;
   first?: number | null;
   server_uid: string;
 };
-export type MqttAuthClientsPaginationFragmentRefetchQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"MqttAuthClientsPaginationFragment">;
+export type MqttAuthLogsPaginationFragmentRefetchQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"MqttAuthLogsPaginationFragment">;
 };
-export type MqttAuthClientsPaginationFragmentRefetchQuery = {
-  response: MqttAuthClientsPaginationFragmentRefetchQuery$data;
-  variables: MqttAuthClientsPaginationFragmentRefetchQuery$variables;
+export type MqttAuthLogsPaginationFragmentRefetchQuery = {
+  response: MqttAuthLogsPaginationFragmentRefetchQuery$data;
+  variables: MqttAuthLogsPaginationFragmentRefetchQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -75,12 +75,12 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "MqttAuthClientsPaginationFragmentRefetchQuery",
+    "name": "MqttAuthLogsPaginationFragmentRefetchQuery",
     "selections": [
       {
         "args": (v1/*: any*/),
         "kind": "FragmentSpread",
-        "name": "MqttAuthClientsPaginationFragment"
+        "name": "MqttAuthLogsPaginationFragment"
       }
     ],
     "type": "Query",
@@ -90,20 +90,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "MqttAuthClientsPaginationFragmentRefetchQuery",
+    "name": "MqttAuthLogsPaginationFragmentRefetchQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "GQL_MqttAuthClientConnection",
+        "concreteType": "GQL_MqttAuthLogConnection",
         "kind": "LinkedField",
-        "name": "mqttAuthClients",
+        "name": "mqttAuthLogs",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_MqttAuthClientEdge",
+            "concreteType": "GQL_MqttAuthLogEdge",
             "kind": "LinkedField",
             "name": "edges",
             "plural": true,
@@ -111,7 +111,7 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "GQL_MqttAuthClient",
+                "concreteType": "GQL_MqttAuthLog",
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
@@ -127,21 +127,21 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "clientId",
+                    "name": "code",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "enabled",
+                    "name": "errorMessage",
                     "storageKey": null
                   },
                   {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "lastAuthenticate",
+                    "name": "timeStamp",
                     "storageKey": null
                   },
                   {
@@ -200,24 +200,24 @@ return {
           "server_uid"
         ],
         "handle": "connection",
-        "key": "MqttAuthClientsPaginationFragmentConnection_mqttAuthClients",
+        "key": "MqttAuthLogsPaginationFragmentConnection_mqttAuthLogs",
         "kind": "LinkedHandle",
-        "name": "mqttAuthClients"
+        "name": "mqttAuthLogs"
       },
       (v2/*: any*/)
     ]
   },
   "params": {
-    "cacheID": "3b2dd5245dd8c156cba02a30c72f68ad",
+    "cacheID": "2acb0b0ad665487c6b16e26fff51e5de",
     "id": null,
     "metadata": {},
-    "name": "MqttAuthClientsPaginationFragmentRefetchQuery",
+    "name": "MqttAuthLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_3VI1TY on Query {\n  mqttAuthClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttAuthLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthLogsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n}\n\nfragment MqttAuthLogsPaginationFragment_3VI1TY on Query {\n  mqttAuthLogs(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d19e93181d29695aee2cce35110c9566";
+(node as any).hash = "df2d1d85323c54861a629d702afba92e";
 
 export default node;

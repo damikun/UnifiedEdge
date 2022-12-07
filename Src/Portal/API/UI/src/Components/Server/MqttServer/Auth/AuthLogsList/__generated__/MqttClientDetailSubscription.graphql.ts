@@ -1,0 +1,205 @@
+/**
+ * @generated SignedSource<<e8c5f9b8ebc988355037f4ce4f1328e7>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
+/* tslint:disable */
+/* eslint-disable */
+// @ts-nocheck
+
+import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
+export type MqttClientDetailSubscription$variables = {
+  client_id: string;
+  server_id: string;
+};
+export type MqttClientDetailSubscription$data = {
+  readonly mqttServerClientStatistics: {
+    readonly clientId: string;
+    readonly serverId: string;
+    readonly stats: {
+      readonly bytesReceived: any;
+      readonly bytesSent: any;
+      readonly id: string;
+      readonly lastNonKeepAlivePacketReceivedTimestamp: any | null;
+      readonly lastPacketReceivedTimestamp: any | null;
+      readonly lastPacketSentTimestamp: any | null;
+      readonly receivedApplicationMessagesCount: any;
+      readonly receivedPacketsCount: any;
+      readonly sentApplicationMessagesCount: any;
+      readonly sentPacketsCount: any;
+    };
+  };
+};
+export type MqttClientDetailSubscription = {
+  response: MqttClientDetailSubscription$data;
+  variables: MqttClientDetailSubscription$variables;
+};
+
+const node: ConcreteRequest = (function(){
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "client_id"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "server_id"
+},
+v2 = [
+  {
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "client_id",
+        "variableName": "client_id"
+      },
+      {
+        "kind": "Variable",
+        "name": "server_id",
+        "variableName": "server_id"
+      }
+    ],
+    "concreteType": "GQL_MqttClientStatsUpdate",
+    "kind": "LinkedField",
+    "name": "mqttServerClientStatistics",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "clientId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "serverId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "GQL_MqttClientStatistics",
+        "kind": "LinkedField",
+        "name": "stats",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "bytesReceived",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "bytesSent",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "sentPacketsCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "receivedPacketsCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "sentApplicationMessagesCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "receivedApplicationMessagesCount",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastNonKeepAlivePacketReceivedTimestamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastPacketReceivedTimestamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "lastPacketSentTimestamp",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "MqttClientDetailSubscription",
+    "selections": (v2/*: any*/),
+    "type": "Subscription",
+    "abstractKey": null
+  },
+  "kind": "Request",
+  "operation": {
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
+    "kind": "Operation",
+    "name": "MqttClientDetailSubscription",
+    "selections": (v2/*: any*/)
+  },
+  "params": {
+    "cacheID": "58578159cd31931f674ac01fe31e6507",
+    "id": null,
+    "metadata": {},
+    "name": "MqttClientDetailSubscription",
+    "operationKind": "subscription",
+    "text": "subscription MqttClientDetailSubscription(\n  $server_id: ID!\n  $client_id: ID!\n) {\n  mqttServerClientStatistics(server_id: $server_id, client_id: $client_id) {\n    clientId\n    serverId\n    stats {\n      id\n      bytesReceived\n      bytesSent\n      sentPacketsCount\n      receivedPacketsCount\n      sentApplicationMessagesCount\n      receivedApplicationMessagesCount\n      lastNonKeepAlivePacketReceivedTimestamp\n      lastPacketReceivedTimestamp\n      lastPacketSentTimestamp\n    }\n  }\n}\n"
+  }
+};
+})();
+
+(node as any).hash = "eb65d7bd5cf9031d54a37ecfdd95757d";
+
+export default node;

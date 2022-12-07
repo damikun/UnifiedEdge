@@ -335,6 +335,31 @@ namespace Persistence.Portal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MqttAuthLogs",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ServerId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ErrorMessage = table.Column<string>(type: "TEXT", nullable: true),
+                    Endpoint = table.Column<string>(type: "TEXT", nullable: true),
+                    Code = table.Column<int>(type: "INTEGER", nullable: false),
+                    AuthClientId = table.Column<long>(type: "INTEGER", nullable: true),
+                    AuthUserId = table.Column<long>(type: "INTEGER", nullable: true),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttAuthLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MqttAuthLogs_MqttServer_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "MqttServer",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MqttAuthUsers",
                 columns: table => new
                 {
@@ -381,7 +406,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "c85c60c4-d8d6-476a-9db9-5346583e568d", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "51dce72b-c395-45b3-8908-40b62e347fbf", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -413,6 +438,11 @@ namespace Persistence.Portal.Migrations
                 table: "MqttAuthConfig",
                 column: "ServerId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MqttAuthLogs_ServerId",
+                table: "MqttAuthLogs",
+                column: "ServerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MqttAuthRules_MqttAuthClientId",
@@ -470,6 +500,9 @@ namespace Persistence.Portal.Migrations
 
             migrationBuilder.DropTable(
                 name: "MqttAuthConfig");
+
+            migrationBuilder.DropTable(
+                name: "MqttAuthLogs");
 
             migrationBuilder.DropTable(
                 name: "MqttAuthRules");

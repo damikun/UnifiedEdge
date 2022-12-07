@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cdf1ffe4dd8315ea991718746d28e881>>
+ * @generated SignedSource<<869e55cc0150960bb7ec130f9ac26a5f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,28 +10,27 @@
 
 import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type MqttAuthUsersPaginationFragment$data = {
+export type MqttAuthLogsPaginationFragment$data = {
   readonly __id: string;
-  readonly mqttAuthUsers: {
+  readonly mqttAuthLogs: {
     readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly id: string;
-        readonly userName: string | null;
-        readonly " $fragmentSpreads": FragmentRefs<"MqttAuthUserItemDataFragment">;
+        readonly " $fragmentSpreads": FragmentRefs<"MqttAuthLogItemDataFragment">;
       } | null;
     }> | null;
   } | null;
-  readonly " $fragmentType": "MqttAuthUsersPaginationFragment";
+  readonly " $fragmentType": "MqttAuthLogsPaginationFragment";
 };
-export type MqttAuthUsersPaginationFragment$key = {
-  readonly " $data"?: MqttAuthUsersPaginationFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"MqttAuthUsersPaginationFragment">;
+export type MqttAuthLogsPaginationFragment$key = {
+  readonly " $data"?: MqttAuthLogsPaginationFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"MqttAuthLogsPaginationFragment">;
 };
 
 const node: ReaderFragment = (function(){
 var v0 = [
-  "mqttAuthUsers"
+  "mqttAuthLogs"
 ],
 v1 = {
   "kind": "ClientExtension",
@@ -83,13 +82,13 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./MqttAuthUsersPaginationFragmentRefetchQuery.graphql')
+      "operation": require('./MqttAuthLogsPaginationFragmentRefetchQuery.graphql')
     }
   },
-  "name": "MqttAuthUsersPaginationFragment",
+  "name": "MqttAuthLogsPaginationFragment",
   "selections": [
     {
-      "alias": "mqttAuthUsers",
+      "alias": "mqttAuthLogs",
       "args": [
         {
           "kind": "Variable",
@@ -97,15 +96,15 @@ return {
           "variableName": "server_uid"
         }
       ],
-      "concreteType": "GQL_MqttAuthUserConnection",
+      "concreteType": "GQL_MqttAuthLogConnection",
       "kind": "LinkedField",
-      "name": "__MqttAuthUsersPaginationFragmentConnection_mqttAuthUsers_connection",
+      "name": "__MqttAuthLogsPaginationFragmentConnection_mqttAuthLogs_connection",
       "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "concreteType": "GQL_MqttAuthUserEdge",
+          "concreteType": "GQL_MqttAuthLogEdge",
           "kind": "LinkedField",
           "name": "edges",
           "plural": true,
@@ -113,7 +112,7 @@ return {
             {
               "alias": null,
               "args": null,
-              "concreteType": "GQL_MqttAuthUser",
+              "concreteType": "GQL_MqttAuthLog",
               "kind": "LinkedField",
               "name": "node",
               "plural": false,
@@ -126,16 +125,9 @@ return {
                   "storageKey": null
                 },
                 {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "userName",
-                  "storageKey": null
-                },
-                {
                   "args": null,
                   "kind": "FragmentSpread",
-                  "name": "MqttAuthUserItemDataFragment"
+                  "name": "MqttAuthLogItemDataFragment"
                 },
                 {
                   "alias": null,
@@ -193,6 +185,6 @@ return {
 };
 })();
 
-(node as any).hash = "6f0a628a8e3a815e15274878d968c278";
+(node as any).hash = "df2d1d85323c54861a629d702afba92e";
 
 export default node;

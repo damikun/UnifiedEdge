@@ -31,6 +31,7 @@ export const MqttAuthClientsPaginationFragment = graphql`
       edges {
         node {
           id
+          clientId
           ...MqttAuthClientItemDataFragment
         }
       }

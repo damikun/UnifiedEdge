@@ -53,7 +53,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "c85c60c4-d8d6-476a-9db9-5346583e568d",
+                            Guid = "51dce72b-c395-45b3-8908-40b62e347fbf",
                             Name = "Undefined"
                         });
                 });
@@ -166,6 +166,40 @@ namespace Persistence.Portal.Migrations
                         .IsUnique();
 
                     b.ToTable("MqttAuthConfig");
+                });
+
+            modelBuilder.Entity("Domain.Server.MqttAuthLog", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("AuthClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("AuthUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Code")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Endpoint")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("ServerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("MqttAuthLogs");
                 });
 
             modelBuilder.Entity("Domain.Server.MqttAuthRule", b =>
@@ -584,6 +618,15 @@ namespace Persistence.Portal.Migrations
                     b.Navigation("Server");
                 });
 
+            modelBuilder.Entity("Domain.Server.MqttAuthLog", b =>
+                {
+                    b.HasOne("Domain.Server.MqttServer", null)
+                        .WithMany("AuthLogs")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Server.MqttAuthRule", b =>
                 {
                     b.HasOne("Domain.Server.MqttAuthClient", null)
@@ -707,6 +750,8 @@ namespace Persistence.Portal.Migrations
 
                     b.Navigation("AuthConfig")
                         .IsRequired();
+
+                    b.Navigation("AuthLogs");
 
                     b.Navigation("AuthUsers");
                 });

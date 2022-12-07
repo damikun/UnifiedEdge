@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<70e053ca6d9c332b31c94e94b83cdaca>>
+ * @generated SignedSource<<b52c84f993c261a6ac495e6fc9d71084>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -141,13 +141,6 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "lastAuthenticate",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -208,16 +201,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3b2dd5245dd8c156cba02a30c72f68ad",
+    "cacheID": "db352964aa882d00945529107e9abedd",
     "id": null,
     "metadata": {},
     "name": "MqttAuthClientsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_3VI1TY on Query {\n  mqttAuthClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttAuthClientsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthClientsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  id\n}\n\nfragment MqttAuthClientsPaginationFragment_3VI1TY on Query {\n  mqttAuthClients(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d19e93181d29695aee2cce35110c9566";
+(node as any).hash = "dcc7d6cfaa2efae96eb3f7509c751d87";
 
 export default node;

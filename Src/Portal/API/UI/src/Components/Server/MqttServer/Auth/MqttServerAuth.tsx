@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
+import MqttAuthUsers from "./UserList/MqttAuthUsers";
+import MqttAuthLogs from "./AuthLogsList/MqttAuthLogs";
 import MqttAuthClients from "./ClientList/MqttAuthClients";
 import { MqttServerAuthQuery } from "./__generated__/MqttServerAuthQuery.graphql";
-import MqttAuthUsers from "./UserList/MqttAuthUsers";
 
 
 export const MqttServerAuthQueryTag = graphql`
@@ -18,6 +19,7 @@ export const MqttServerAuthQueryTag = graphql`
     ...MqttAuthUsersPaginationFragment@arguments(server_uid: $id)
     ...MqttAuthClientsBarEnableFragment@arguments(server_uid: $id)
     ...MqttAuthUsersBarEnableFragment@arguments(server_uid: $id)
+    ...MqttAuthLogsPaginationFragment@arguments(server_uid: $id)
   }
 `;
 
@@ -47,5 +49,7 @@ function MqttServerAuth() {
         <MqttAuthUsers dataRef={data}/>
       </div>
     </div>
+
+    <MqttAuthLogs dataRef={data}/>
   </>
 }

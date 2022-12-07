@@ -146,6 +146,8 @@ namespace API
                 .AddType<MqttAuthClientType>()
                 .AddType<MqttAuthUserType>()
 
+                .AddType<MqttAuthLogType>()
+
                 .AddType<MqttServerClientSessionType>()
                 .AddType<MqttServerClientStatisticsType>()
                 .AddType<MqttServerClientType>()
