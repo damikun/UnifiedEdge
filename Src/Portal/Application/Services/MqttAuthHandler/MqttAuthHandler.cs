@@ -1,8 +1,10 @@
 
 using Server.Mqtt;
+using Domain.Server;
 using Aplication.DTO;
 using MQTTnet.Protocol;
 using Persistence.Portal;
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.Services
@@ -35,9 +37,10 @@ namespace Aplication.Services
             _publisher = publisher;
         }
 
-        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
+        private async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClientInternal(
             string server_uid,
             string client_id,
+            IDictionary ctx,
             CancellationToken ct = default
         )
         {
@@ -90,24 +93,39 @@ namespace Aplication.Services
             {
                 return (true, MqttConnectReasonCode.UnspecifiedError, null);
             }
-            finally
-            {
-                try
-                {
-                    await _publisher.Publish(new DTO_MqttClientAuthenticated());
-                }
-                catch
-                {
+        }
 
-                }
+        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
+            string server_uid,
+            string client_id,
+            IDictionary ctx,
+            CancellationToken ct = default
+        )
+        {
+            var result = await AuthenticateClientInternal(server_uid, client_id, ctx, ct);
+
+            try
+            {
+                await _publisher.Publish(new MqttAuthEvent()
+                {
+                    AuthClientId = result.AuthId,
+                    AuthUserid = null,
+                    Ctx = ctx,
+                    Result = (MqttResultCode)result.reason,
+                    ServerUid = server_uid,
+                });
             }
+            catch { }
+
+            return result;
 
         }
 
-        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
+        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUserInternal(
             string server_uid,
             string user_name,
             string password,
+            IDictionary ctx,
             CancellationToken ct = default
         )
         {
@@ -164,6 +182,31 @@ namespace Aplication.Services
             {
                 return (true, MqttConnectReasonCode.UnspecifiedError, null);
             }
+        }
+        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
+            string server_uid,
+            string user_name,
+            string password,
+            IDictionary ctx,
+            CancellationToken ct = default
+        )
+        {
+            var result = await AuthenticateUserInternal(server_uid, user_name, password, ctx, ct);
+
+            try
+            {
+                await _publisher.Publish(new MqttAuthEvent()
+                {
+                    AuthClientId = null,
+                    AuthUserid = result.AuthId,
+                    Ctx = ctx,
+                    Result = (MqttResultCode)result.reason,
+                    ServerUid = server_uid,
+                });
+            }
+            catch { }
+
+            return result;
         }
 
         public async Task<bool> IsClientAuthActive(string server_uid, CancellationToken ct = default)

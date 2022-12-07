@@ -177,7 +177,8 @@ namespace Server.Mqtt
 
             var result = await _authHandler.AuthenticateClient(
                 this.UID,
-                args.ClientId
+                args.ClientId,
+                args.SessionItems
             );
 
             if (!result.isSuccess)
@@ -215,7 +216,8 @@ namespace Server.Mqtt
             var result = await _authHandler.AuthenticateUser(
                 this.UID,
                 args.UserName,
-                args.Password
+                args.Password,
+                args.SessionItems
             );
 
             if (!result.isSuccess)

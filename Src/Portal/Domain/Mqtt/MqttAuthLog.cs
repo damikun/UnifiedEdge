@@ -23,7 +23,7 @@ namespace Domain.Server
         public DateTime TimeStamp { get; set; }
     }
 
-    public enum MqttResultCode : int
+    public enum MqttResultCode
     {
         Success = 0,
         UnspecifiedError = 128,

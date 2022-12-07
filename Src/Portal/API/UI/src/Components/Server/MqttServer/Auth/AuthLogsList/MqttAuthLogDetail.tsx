@@ -50,19 +50,19 @@ export default function MqttAuthLogDetail(){
   return <ModalContainer label="Log detail">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
       <FieldGroup>
-        <FieldSection name="LogName">
+        <FieldSection name="Result">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all capitalize")}>
             {data?.mqttAuthLogById.code}
           </div>
         </FieldSection>
-        <FieldSection name="LogName">
+        <FieldSection name="Endpoint">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all capitalize")}>
             {data?.mqttAuthLogById.endpoint}
           </div>
         </FieldSection>
-        <FieldSection multiline name="LogName">
+        <FieldSection multiline name="Message">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all capitalize")}>
             {data?.mqttAuthLogById.errorMessage}
@@ -70,7 +70,7 @@ export default function MqttAuthLogDetail(){
         </FieldSection>
         <FieldSection name="Last trigger">
           <div className={clsx("font-sans text-gray-700 font-semibold",
-          "text-sm max-w-full break-all select-all capitalize")}>
+          "text-sm max-w-full break-all select-all capitalize items-center")}>
             {dt}
           </div>
         </FieldSection>
