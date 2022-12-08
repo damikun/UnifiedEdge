@@ -158,6 +158,7 @@ namespace Aplication.CQRS.Queries
             .AsNoTracking()
             .Where(e => e.UID == request.server_uid)
             .SelectMany(e => e.AuthLogs)
+            .OrderByDescending(e => e.TimeStamp)
             .ProjectTo<DTO_MqttAuthLog>(_mapper.ConfigurationProvider);
 
             if (request.auth_client_id is not null)
