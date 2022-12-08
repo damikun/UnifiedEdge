@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<eb9ffc525daeca480d23cbb0dd4d2502>>
+ * @generated SignedSource<<4b158de1d9d573cf56d3de672b29b3f5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,8 +13,10 @@ export type MqttResultCode = "BAD_AUTHENTICATION_METHOD" | "BAD_USER_NAME_OR_PAS
 import { FragmentRefs } from "relay-runtime";
 export type MqttAuthLogItemDataFragment$data = {
   readonly code: MqttResultCode;
+  readonly description: string | null;
   readonly errorMessage: string | null;
   readonly id: string;
+  readonly jsonMetadata: string | null;
   readonly timeStamp: any;
   readonly " $fragmentType": "MqttAuthLogItemDataFragment";
 };
@@ -56,12 +58,26 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "timeStamp",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "jsonMetadata",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "description",
+      "storageKey": null
     }
   ],
   "type": "GQL_MqttAuthLog",
   "abstractKey": null
 };
 
-(node as any).hash = "92d438b47dd04b4b0df65b6f8f69c535";
+(node as any).hash = "d397e7eec83eab156e545a5e6b65fcb5";
 
 export default node;

@@ -12,9 +12,11 @@ namespace Server.Mqtt.DTO
 
         }
 
-        public DTO_MqttAuthArgs(ValidatingConnectionEventArgs args)
+        public DTO_MqttAuthArgs(ValidatingConnectionEventArgs args, string server_uid)
         {
-            this.UserName = args.Endpoint;
+            this.ServerUid = server_uid;
+
+            this.UserName = args.UserName;
             this.Ctx = args.SessionItems;
             this.SessionExpiryInterval = args.SessionExpiryInterval;
             this.ServerReference = args.ServerReference;

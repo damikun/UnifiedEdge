@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<29801f5fa23638703469a8fc16b8f8f5>>
+ * @generated SignedSource<<31fdfe8d70a5c33b363224424bb03147>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,6 +21,8 @@ export type MqttAuthLogDetailQuery$data = {
     readonly description: string | null;
     readonly errorMessage: string | null;
     readonly id: string;
+    readonly isSuccess: boolean;
+    readonly jsonMetadata: string | null;
     readonly timeStamp: any;
   };
 };
@@ -77,6 +79,13 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "jsonMetadata",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "description",
         "storageKey": null
       },
@@ -85,6 +94,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "errorMessage",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "isSuccess",
         "storageKey": null
       },
       {
@@ -123,16 +139,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "8870581e6acdbc8281882b27fd215f4a",
+    "cacheID": "de2940fc41f1581dbc3bd5a012b2bd80",
     "id": null,
     "metadata": {},
     "name": "MqttAuthLogDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthLogDetailQuery(\n  $log_id: ID!\n) {\n  mqttAuthLogById(log_id: $log_id) {\n    authClientId\n    authUserId\n    code\n    description\n    errorMessage\n    id\n    timeStamp\n  }\n}\n"
+    "text": "query MqttAuthLogDetailQuery(\n  $log_id: ID!\n) {\n  mqttAuthLogById(log_id: $log_id) {\n    authClientId\n    authUserId\n    code\n    jsonMetadata\n    description\n    errorMessage\n    isSuccess\n    id\n    timeStamp\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "715caca672d2730049ebbffd5091c248";
+(node as any).hash = "3f8c14362682ffb07f52bbf36491df0b";
 
 export default node;

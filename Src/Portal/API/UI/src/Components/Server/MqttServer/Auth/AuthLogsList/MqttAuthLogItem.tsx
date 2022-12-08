@@ -13,6 +13,8 @@ const MqttAuthLogItemDataFragment = graphql`
     errorMessage
     id
     timeStamp
+    jsonMetadata
+    description
   }
 `;
 
@@ -52,6 +54,14 @@ export function MqttAuthLogItem({dataRef, onItemClick}:MqttAuthLogItemProps){
         {data?.code}
       </div>
     </td>
+    
+    <td className={clsx("w-6/12 2xl:w-6/12 hidden 2xl:flex truncate",
+      "text-sm")}>
+      <div className="truncate break-all font-mono">
+        {data?.description}
+      </div>
+    </td>
+
     <td className={clsx("w-5/12 2xl:w-3/12 flex truncate",
       "justify-center items-center text-sm")}>
       <div className="truncate break-all">

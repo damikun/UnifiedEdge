@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<062333b86c3841b7e299fca2714e4e47>>
+ * @generated SignedSource<<9a3b36dc03055ca243cb9b13a9c3346d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -370,6 +370,20 @@ return {
                     "name": "timeStamp",
                     "storageKey": null
                   },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "jsonMetadata",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
                   (v8/*: any*/)
                 ],
                 "storageKey": null
@@ -395,12 +409,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "088cfd396609d0c145feb48b0444192e",
+    "cacheID": "8e5614ac4d8bd42f3a34ef5eebc27cec",
     "id": null,
     "metadata": {},
     "name": "MqttServerAuthQuery",
     "operationKind": "query",
-    "text": "query MqttServerAuthQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n  }\n  ...MqttAuthClientsPaginationFragment_2YLYDF\n  ...MqttAuthUsersPaginationFragment_2YLYDF\n  ...MqttAuthClientsBarEnableFragment_2YLYDF\n  ...MqttAuthUsersBarEnableFragment_2YLYDF\n  ...MqttAuthLogsPaginationFragment_2YLYDF\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsBarEnableFragment_2YLYDF on Query {\n  mqttServerAuthCfg(server_uid: $id) {\n    id\n    clientAuthEnabled\n    userAuthEnabled\n  }\n}\n\nfragment MqttAuthClientsPaginationFragment_2YLYDF on Query {\n  mqttAuthClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n}\n\nfragment MqttAuthLogsPaginationFragment_2YLYDF on Query {\n  mqttAuthLogs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthUsersBarEnableFragment_2YLYDF on Query {\n  mqttServerAuthCfg(server_uid: $id) {\n    id\n    clientAuthEnabled\n    userAuthEnabled\n  }\n}\n\nfragment MqttAuthUsersPaginationFragment_2YLYDF on Query {\n  mqttAuthUsers(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        userName\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttServerAuthQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    id\n  }\n  ...MqttAuthClientsPaginationFragment_2YLYDF\n  ...MqttAuthUsersPaginationFragment_2YLYDF\n  ...MqttAuthClientsBarEnableFragment_2YLYDF\n  ...MqttAuthUsersBarEnableFragment_2YLYDF\n  ...MqttAuthLogsPaginationFragment_2YLYDF\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthClientsBarEnableFragment_2YLYDF on Query {\n  mqttServerAuthCfg(server_uid: $id) {\n    id\n    clientAuthEnabled\n    userAuthEnabled\n  }\n}\n\nfragment MqttAuthClientsPaginationFragment_2YLYDF on Query {\n  mqttAuthClients(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        clientId\n        ...MqttAuthClientItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n  jsonMetadata\n  description\n}\n\nfragment MqttAuthLogsPaginationFragment_2YLYDF on Query {\n  mqttAuthLogs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment MqttAuthUserItemDataFragment on GQL_MqttAuthUser {\n  userName\n  enabled\n  lastAuthenticate\n  id\n}\n\nfragment MqttAuthUsersBarEnableFragment_2YLYDF on Query {\n  mqttServerAuthCfg(server_uid: $id) {\n    id\n    clientAuthEnabled\n    userAuthEnabled\n  }\n}\n\nfragment MqttAuthUsersPaginationFragment_2YLYDF on Query {\n  mqttAuthUsers(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        userName\n        ...MqttAuthUserItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

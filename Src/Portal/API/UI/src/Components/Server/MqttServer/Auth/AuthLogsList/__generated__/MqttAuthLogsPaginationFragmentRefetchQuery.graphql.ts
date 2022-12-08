@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<00b31c4443e3d0a05c810d15a66bbe32>>
+ * @generated SignedSource<<7b2b859b323607d835e928c37029043d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -148,6 +148,20 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "jsonMetadata",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -208,12 +222,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2acb0b0ad665487c6b16e26fff51e5de",
+    "cacheID": "9fe3918fe25bbcd26a98cf10868fd291",
     "id": null,
     "metadata": {},
     "name": "MqttAuthLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthLogsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n}\n\nfragment MqttAuthLogsPaginationFragment_3VI1TY on Query {\n  mqttAuthLogs(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttAuthLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthLogsPaginationFragment_3VI1TY\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n  jsonMetadata\n  description\n}\n\nfragment MqttAuthLogsPaginationFragment_3VI1TY on Query {\n  mqttAuthLogs(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

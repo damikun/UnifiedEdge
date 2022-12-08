@@ -178,7 +178,7 @@ namespace Server.Mqtt
             var result = await _authHandler.AuthenticateClient(
                 this.UID,
                 args.ClientId,
-                new DTO_MqttAuthArgs(args)
+                new DTO_MqttAuthArgs(args, this.UID)
             );
 
             if (!result.isSuccess)
@@ -217,7 +217,7 @@ namespace Server.Mqtt
                 this.UID,
                 args.UserName,
                 args.Password,
-                new DTO_MqttAuthArgs(args)
+                new DTO_MqttAuthArgs(args, this.UID)
             );
 
             if (!result.isSuccess)

@@ -64,7 +64,8 @@ namespace Aplication.Services
                 .FirstOrDefaultAsync(
                     e => e.Server != null &&
                     e.Server.UID == server_uid &&
-                    e.ClientId == normalised_id
+                    e.ClientId == normalised_id &&
+                    e.Enabled == true
                 );
 
                 if (client is null)
