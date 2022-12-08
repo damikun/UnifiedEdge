@@ -2,6 +2,7 @@ using MediatR;
 using AutoMapper;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
+using MQTTnet.Diagnostics;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
 using HotChocolate.Types.Pagination;
@@ -357,6 +358,38 @@ namespace Aplication.Graphql.Queries
             );
 
             return _mapper.Map<GQL_MqttAuthLog>(result);
+        }
+
+        [UseConnection(typeof(GQL_MqttServerLog))]
+        public async Task<Connection<GQL_MqttServerLog>> GetMqttLogs(
+        [ID] string server_uid,
+        MqttNetLogLevel? level,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerLogs(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttServerLog>>(result);
+        }
+
+        public async Task<GQL_MqttServerLog> GetMqttLogById(
+            [ID] string log_uid,
+            [ID] string server_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(
+                new GetMqttServerLogById(server_id, log_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<GQL_MqttServerLog>(result);
         }
     }
 }

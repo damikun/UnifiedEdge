@@ -110,6 +110,12 @@ type EnableMqttClientAuthPayload {
   query: Query!
 }
 
+type EnableMqttLoggingPayload {
+  errors: [EnableMqttLoggingError!]
+  query: Query!
+  result: Boolean
+}
+
 type EnableMqttUserAuthPayload {
   errors: [EnableMqttUserAuthError!]
   gQL_MqttAuthCfg: GQL_MqttAuthCfg
@@ -624,6 +630,35 @@ type GQL_MqttServerEndpoint {
   serverUid: ID!
 }
 
+type GQL_MqttServerLog {
+  exception: String
+  logLevel: MqttNetLogLevel!
+  message: String
+  source: String
+  timeStamp: DateTime!
+  uid: ID!
+}
+
+"A connection to a list of items."
+type GQL_MqttServerLogConnection {
+  "A list of edges."
+  edges: [GQL_MqttServerLogEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttServerLog]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttServerLogEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttServerLog
+}
+
 type GQL_MqttServerStats {
   connectionsCount: Long!
   id: ID!
@@ -985,6 +1020,7 @@ type Mutation {
   enableMqttAuthClinet(input: EnableMqttAuthClinetInput!): EnableMqttAuthClinetPayload!
   enableMqttAuthUser(input: EnableMqttAuthUserInput!): EnableMqttAuthUserPayload!
   enableMqttClientAuth(input: EnableMqttClientAuthInput!): EnableMqttClientAuthPayload!
+  enableMqttLogging(input: EnableMqttLoggingInput!): EnableMqttLoggingPayload!
   enableMqttUserAuth(input: EnableMqttUserAuthInput!): EnableMqttUserAuthPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
@@ -1054,6 +1090,8 @@ type Query {
   mqttAuthLogs("Returns the elements in the list that come after the specified cursor." after: String auth_client_id: ID auth_user_id: ID "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthLogConnection
   mqttAuthUserById(authUser_id: ID!): GQL_MqttAuthUser!
   mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
+  mqttLogById(log_uid: ID! server_id: ID!): GQL_MqttServerLog!
+  mqttLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int level: MqttNetLogLevel server_uid: ID!): GQL_MqttServerLogConnection
   mqttServerAuthCfg(server_uid: ID!): GQL_MqttAuthCfg!
   mqttServerById(id: ID!): GQL_MqttServer!
   mqttServerClient(server_client_uid: ID! server_uid: ID!): GQL_MqttClient!
@@ -1319,6 +1357,8 @@ union EnableMqttAuthUserError = ValidationError | AuthorizationError | InternalE
 
 union EnableMqttClientAuthError = ValidationError | AuthorizationError | InternalError
 
+union EnableMqttLoggingError = ValidationError | AuthorizationError | InternalError
+
 union EnableMqttUserAuthError = ValidationError | AuthorizationError | InternalError
 
 union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent | GQL_ClientDisconnected
@@ -1433,6 +1473,11 @@ input EnableMqttAuthUserInput {
 }
 
 input EnableMqttClientAuthInput {
+  enable: Boolean!
+  server_uid: ID!
+}
+
+input EnableMqttLoggingInput {
   enable: Boolean!
   server_uid: ID!
 }
@@ -1684,6 +1729,13 @@ enum MqttAction {
   PUBLISH
   SUBSCRIBE
   PUBLISH_AND_SUBSCRIBE
+}
+
+enum MqttNetLogLevel {
+  VERBOSE
+  INFO
+  WARNING
+  ERROR
 }
 
 enum MqttResultCode {

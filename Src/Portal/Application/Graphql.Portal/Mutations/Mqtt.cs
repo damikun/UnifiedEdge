@@ -342,5 +342,27 @@ namespace Aplication.Graphql.Mutations
 
             return mapper.Map<GQL_MqttAuthCfg>(response);
         }
+
+        /// <summary>
+        /// Enable Mqtt server logging
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        [UseMutationConvention(PayloadFieldName = "result")]
+        public async Task<bool> EnableMqttLogging(
+            [ID] string server_uid,
+            bool enable,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper)
+        {
+            return await mediator.Send(
+                new EnableMqttLogs()
+                {
+                    ServerUid = server_uid,
+                    Enable = enable
+                }
+            );
+        }
     }
 }

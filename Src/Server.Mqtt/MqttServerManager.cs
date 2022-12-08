@@ -48,6 +48,37 @@ namespace Server.Manager.Mqtt
             }
         }
 
+        public async Task<IEnumerable<MqttServerLog>> GetServerLogs(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Logger.GetLogs();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task<MqttServerLog?> GetServerLog(string server_uid, string log_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                return mqtt_server.Logger
+                .GetLogs()
+                .Where(e => e.Uid == log_uid)
+                .FirstOrDefault();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
         public async Task<Dictionary<string, bool>> GetClientsState(string server_uid, string[] clients_uids)
         {
             var server = await this.GetServer(server_uid);
@@ -232,6 +263,22 @@ namespace Server.Manager.Mqtt
                 return mqtt_server.Messages
                     .GetTopicRecentMessages(topic_uid)
                     .ToList();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task EnableLogging(string server_uid, bool enable)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                mqtt_server.Logger.EnableLogger(enable);
+
+                return;
             }
             else
             {

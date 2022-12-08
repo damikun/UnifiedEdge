@@ -1,3 +1,4 @@
+using Server.Mqtt;
 using Server.Mqtt.DTO;
 
 namespace Server.Manager.Mqtt
@@ -15,7 +16,13 @@ namespace Server.Manager.Mqtt
 
         Task<bool> ContainsTopic(string server_uid, string topic_uid);
 
+        Task EnableLogging(string server_uid, bool enable);
+
         Task CleanOldMessages(string server_uid, CancellationToken ct = default);
+
+        Task<IEnumerable<MqttServerLog>> GetServerLogs(string server_uid);
+
+        Task<MqttServerLog?> GetServerLog(string server_uid, string log_uid);
 
         Task<Dictionary<string, bool>> GetClientsState(
             string server_uid,
