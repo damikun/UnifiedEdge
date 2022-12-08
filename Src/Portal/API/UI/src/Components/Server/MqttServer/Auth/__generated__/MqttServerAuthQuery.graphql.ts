@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9a3b36dc03055ca243cb9b13a9c3346d>>
+ * @generated SignedSource<<5d08110926ba06d55edfbcb813452086>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -400,7 +400,11 @@ return {
       {
         "alias": null,
         "args": (v5/*: any*/),
-        "filters": (v12/*: any*/),
+        "filters": [
+          "server_uid",
+          "auth_user_id",
+          "auth_client_id"
+        ],
         "handle": "connection",
         "key": "MqttAuthLogsPaginationFragmentConnection_mqttAuthLogs",
         "kind": "LinkedHandle",

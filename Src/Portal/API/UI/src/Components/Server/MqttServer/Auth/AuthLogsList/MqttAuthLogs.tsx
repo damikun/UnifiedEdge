@@ -6,8 +6,9 @@ import { MqttAuthLogItem } from "./MqttAuthLogItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
+import useDidMountEffect from "../../../../../Hooks/useDidMountEffect";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { startTransition, useCallback, useEffect, useMemo, useState } from "react";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttAuthLogsCtxProvider, useMqttAuthLogsCtx } from "./MqttAuthLogsCtxProvider";
@@ -17,16 +18,24 @@ import { MqttAuthUsersPaginationFragment$key } from "../UserList/__generated__/M
 import { MqttAuthLogsPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthLogsPaginationFragmentRefetchQuery.graphql";
 
 
+
 export const MqttAuthLogsPaginationFragment = graphql`
   fragment MqttAuthLogsPaginationFragment on Query
   @argumentDefinitions(
     first: { type: Int, defaultValue: 20 }
     after: { type: String }
+    auth_user_id: { type: "ID", defaultValue: null }
+    auth_client_id: { type: "ID", defaultValue: null }
     server_uid: { type: "ID!" }
   )
   @refetchable(queryName: "MqttAuthLogsPaginationFragmentRefetchQuery") {
     __id
-    mqttAuthLogs(server_uid:$server_uid, first: $first, after: $after)
+    mqttAuthLogs(
+      server_uid:$server_uid,
+      first: $first,
+      after: $after,
+      auth_user_id:$auth_user_id,
+      auth_client_id:$auth_client_id)
       @connection(key: "MqttAuthLogsPaginationFragmentConnection_mqttAuthLogs") {
       __id
       edges {
@@ -98,11 +107,25 @@ function LogListBody({dataRef}:LogListBodyProps){
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [server_id] = useState(id)
 
+  const ctx = useMqttAuthLogsCtx()
+
   const pagination = usePaginationFragment<
   MqttAuthLogsPaginationFragmentRefetchQuery,
   MqttAuthLogsPaginationFragment$key
   >(MqttAuthLogsPaginationFragment, dataRef);
 
+  useDidMountEffect(() => {
+    startTransition(() => {
+      pagination.refetch({
+        server_uid:server_id,
+        auth_client_id:ctx.client_filter.id ?? null,
+        auth_user_id:ctx.user_filter.id ?? null,
+        first:100
+      })
+    
+    },);
+  }, [ctx.client_filter,ctx.user_filter])
+  
   const conCtx = useMqttAuthLogsCtx();
   
   useEffect(() => {

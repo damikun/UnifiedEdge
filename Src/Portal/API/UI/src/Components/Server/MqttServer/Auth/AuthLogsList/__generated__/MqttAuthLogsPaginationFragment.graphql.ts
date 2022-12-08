@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<869e55cc0150960bb7ec130f9ac26a5f>>
+ * @generated SignedSource<<3b28e5215414ebd264151e2eba4aa282>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -52,6 +52,16 @@ return {
       "name": "after"
     },
     {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "auth_client_id"
+    },
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
+      "name": "auth_user_id"
+    },
+    {
       "defaultValue": 20,
       "kind": "LocalArgument",
       "name": "first"
@@ -90,6 +100,16 @@ return {
     {
       "alias": "mqttAuthLogs",
       "args": [
+        {
+          "kind": "Variable",
+          "name": "auth_client_id",
+          "variableName": "auth_client_id"
+        },
+        {
+          "kind": "Variable",
+          "name": "auth_user_id",
+          "variableName": "auth_user_id"
+        },
         {
           "kind": "Variable",
           "name": "server_uid",
@@ -185,6 +205,6 @@ return {
 };
 })();
 
-(node as any).hash = "df2d1d85323c54861a629d702afba92e";
+(node as any).hash = "661cb1835a87dbe1184e654deb0c6115";
 
 export default node;
