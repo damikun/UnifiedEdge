@@ -150,6 +150,9 @@ namespace Server.Mqtt
 
         private async Task ValidatingConnectionAsync_Auth(ValidatingConnectionEventArgs args)
         {
+            args.SessionItems.Add("ServerUid", this.UID);
+            args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
+
             var client_auth_result = await ValidatingConnectionAsync_ClientAuthentication(args);
 
             if (client_auth_result != MqttConnectReasonCode.Success)
@@ -161,9 +164,6 @@ namespace Server.Mqtt
             var user_auth_result = await ValidatingConnectionAsync_UserAuthentication(args);
 
             args.ReasonCode = user_auth_result;
-
-            args.SessionItems.Add("ServerUid", this.UID);
-            args.SessionItems.Add("ClientUid", DTO_MqttClient.BuildClientUid(this.UID, args.ClientId));
 
             return;
         }
@@ -178,7 +178,7 @@ namespace Server.Mqtt
             var result = await _authHandler.AuthenticateClient(
                 this.UID,
                 args.ClientId,
-                args.SessionItems
+                new DTO_MqttAuthArgs(args)
             );
 
             if (!result.isSuccess)
@@ -199,7 +199,7 @@ namespace Server.Mqtt
             {
                 if (result.AuthId is not null)
                 {
-                    args.SessionItems.Add("AuthClientDbId", result.AuthId);
+                    args.SessionItems.Add("AuthClientId", result.AuthId);
                 }
 
                 return MqttConnectReasonCode.Success;
@@ -217,7 +217,7 @@ namespace Server.Mqtt
                 this.UID,
                 args.UserName,
                 args.Password,
-                args.SessionItems
+                new DTO_MqttAuthArgs(args)
             );
 
             if (!result.isSuccess)
@@ -238,7 +238,7 @@ namespace Server.Mqtt
             {
                 if (result.AuthId is not null)
                 {
-                    args.SessionItems.Add("AuthUserDbId", result.AuthId);
+                    args.SessionItems.Add("AuthUserId", result.AuthId);
                 }
 
                 return MqttConnectReasonCode.Success;

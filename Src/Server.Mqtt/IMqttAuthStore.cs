@@ -1,6 +1,7 @@
-
-using System.Collections;
+using Server.Mqtt.DTO;
 using MQTTnet.Protocol;
+using System.Collections;
+
 
 namespace Server.Mqtt
 {
@@ -9,7 +10,7 @@ namespace Server.Mqtt
         Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
             string server_uid,
             string client_id,
-            IDictionary ctx,
+            DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
        );
 
@@ -17,7 +18,7 @@ namespace Server.Mqtt
             string server_uid,
             string user_name,
             string password,
-            IDictionary ctx,
+            DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         );
     }
@@ -29,7 +30,7 @@ namespace Server.Mqtt
         public Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
             string server_uid,
             string client_id,
-            IDictionary ctx,
+            DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         )
         {
@@ -51,7 +52,7 @@ namespace Server.Mqtt
             string server_uid,
             string user_name,
             string password,
-            IDictionary ctx,
+            DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         )
         {

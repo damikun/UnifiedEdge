@@ -399,9 +399,11 @@ type GQL_MqttAuthLog {
   authClientId: Long
   authUserId: ID
   code: MqttResultCode!
-  endpoint: String
+  description: String
   errorMessage: String
   id: ID!
+  isSuccess: Boolean!
+  jsonMetadata: String
   timeStamp: DateTime!
 }
 

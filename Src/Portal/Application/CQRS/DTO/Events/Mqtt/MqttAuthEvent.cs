@@ -1,10 +1,11 @@
-using MediatR;
 using Domain.Server;
 using System.Collections;
+using Aplication.Core;
+using Server.Mqtt.DTO;
 
 namespace Aplication.DTO
 {
-    public class MqttAuthEvent : INotification
+    public class MqttAuthEvent : BaseNotifi
     {
         public string ServerUid { get; set; }
 
@@ -12,11 +13,11 @@ namespace Aplication.DTO
 
         public long? AuthClientId { get; set; }
 
+        public string? Description { get; set; }
+
         public MqttResultCode Result { get; set; }
 
-        public DateTime TimeStamp { get; set; } = DateTime.Now;
-
-        public IDictionary Ctx { get; set; }
+        public DTO_MqttAuthArgs Ctx { get; set; }
 
     }
 }

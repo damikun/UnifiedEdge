@@ -8,13 +8,15 @@ namespace Domain.Server
         public long ServerId { get; set; }
 #nullable enable
 
-        public string? ErrorMessage { get; set; }
+        public string? Description { get; set; }
 
-        public string? Endpoint { get; set; }
+        public string? ErrorMessage { get; set; }
 
         public MqttResultCode Code { get; set; }
 
         private bool isSuccess => Code == MqttResultCode.Success;
+
+        public string? JsonMetadata { get; set; }
 
         public long? AuthClientId { get; set; }
 

@@ -10,15 +10,15 @@ namespace Aplication.DTO
 
         public string? ErrorMessage { get; set; }
 
-        public string? Endpoint { get; set; }
+        public string? Description { get; set; }
 
         public MqttResultCode Code { get; set; }
-
-        private bool isSuccess { get; set; }
 
         public long? AuthClientId { get; set; }
 
         public long? AuthUserId { get; set; }
+
+        public string? JsonMetadata { get; set; }
 
         public DateTime TimeStamp { get; set; }
     }

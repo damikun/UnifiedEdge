@@ -341,9 +341,10 @@ namespace Persistence.Portal.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ServerId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
                     ErrorMessage = table.Column<string>(type: "TEXT", nullable: true),
-                    Endpoint = table.Column<string>(type: "TEXT", nullable: true),
                     Code = table.Column<int>(type: "INTEGER", nullable: false),
+                    JsonMetadata = table.Column<string>(type: "TEXT", nullable: true),
                     AuthClientId = table.Column<long>(type: "INTEGER", nullable: true),
                     AuthUserId = table.Column<long>(type: "INTEGER", nullable: true),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -406,7 +407,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "51dce72b-c395-45b3-8908-40b62e347fbf", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "79178645-6e11-48bd-873b-7ffb39a5c975", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

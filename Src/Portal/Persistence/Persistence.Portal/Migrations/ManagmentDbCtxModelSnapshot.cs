@@ -53,7 +53,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "51dce72b-c395-45b3-8908-40b62e347fbf",
+                            Guid = "79178645-6e11-48bd-873b-7ffb39a5c975",
                             Name = "Undefined"
                         });
                 });
@@ -183,10 +183,13 @@ namespace Persistence.Portal.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Endpoint")
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ErrorMessage")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("JsonMetadata")
                         .HasColumnType("TEXT");
 
                     b.Property<long>("ServerId")

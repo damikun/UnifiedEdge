@@ -16,7 +16,7 @@ const MqttAuthLogDetailQueryTag = graphql`
       authClientId
       authUserId
       code
-      endpoint
+      description
       errorMessage
       id
       timeStamp
@@ -59,15 +59,17 @@ export default function MqttAuthLogDetail(){
         <FieldSection name="Endpoint">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all capitalize")}>
-            {data?.mqttAuthLogById.endpoint}
+            {data?.mqttAuthLogById.description}
           </div>
         </FieldSection>
-        <FieldSection multiline name="Message">
-          <div className={clsx("font-sans text-gray-700 font-semibold",
-          "text-sm max-w-full break-all select-all capitalize")}>
-            {data?.mqttAuthLogById.errorMessage}
-          </div>
-        </FieldSection>
+        {data?.mqttAuthLogById.errorMessage && <> 
+          <FieldSection multiline name="Error Message">
+            <div className={clsx("font-sans text-gray-700 font-semibold",
+            "text-sm max-w-full break-all select-all capitalize")}>
+              {data?.mqttAuthLogById.errorMessage}
+            </div>
+          </FieldSection>
+        </>}
         <FieldSection name="Last trigger">
           <div className={clsx("font-sans text-gray-700 font-semibold",
           "text-sm max-w-full break-all select-all capitalize items-center")}>

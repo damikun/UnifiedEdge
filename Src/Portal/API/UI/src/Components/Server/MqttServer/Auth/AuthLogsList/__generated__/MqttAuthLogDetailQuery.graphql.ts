@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<109c8669a6c6f9c103d26c36c83bef1d>>
+ * @generated SignedSource<<29801f5fa23638703469a8fc16b8f8f5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,7 @@ export type MqttAuthLogDetailQuery$data = {
     readonly authClientId: any | null;
     readonly authUserId: string | null;
     readonly code: MqttResultCode;
-    readonly endpoint: string | null;
+    readonly description: string | null;
     readonly errorMessage: string | null;
     readonly id: string;
     readonly timeStamp: any;
@@ -77,7 +77,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "endpoint",
+        "name": "description",
         "storageKey": null
       },
       {
@@ -123,16 +123,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "b3200c13967a41ca0de917701590c8f7",
+    "cacheID": "8870581e6acdbc8281882b27fd215f4a",
     "id": null,
     "metadata": {},
     "name": "MqttAuthLogDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthLogDetailQuery(\n  $log_id: ID!\n) {\n  mqttAuthLogById(log_id: $log_id) {\n    authClientId\n    authUserId\n    code\n    endpoint\n    errorMessage\n    id\n    timeStamp\n  }\n}\n"
+    "text": "query MqttAuthLogDetailQuery(\n  $log_id: ID!\n) {\n  mqttAuthLogById(log_id: $log_id) {\n    authClientId\n    authUserId\n    code\n    description\n    errorMessage\n    id\n    timeStamp\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "622bcf2761c4166c1a03883b3f5ff3b6";
+(node as any).hash = "715caca672d2730049ebbffd5091c248";
 
 export default node;

@@ -155,7 +155,7 @@ function LogListBody({dataRef}:LogListBodyProps){
 function Header(){
   return <TableHeader>
     <tr className="flex w-6/12 2xl:w-3/12 ">
-      <th>ErrorCode</th>
+      <th>Result</th>
     </tr>
     <tr className="flex w-5/12 2xl:w-3/12 text-center justify-center">
       <th>TimeStamp</th>

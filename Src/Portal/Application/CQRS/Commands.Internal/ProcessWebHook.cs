@@ -121,7 +121,6 @@ namespace Aplication.CQRS.Commands
                         "application/json"
                     );
 
-
                     var httpClient = _clientFactory.CreateClient();
 
                     /* Set Headers */

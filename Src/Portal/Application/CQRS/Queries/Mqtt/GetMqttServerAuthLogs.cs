@@ -165,9 +165,9 @@ namespace Aplication.CQRS.Queries
                 query = query.Where(e => e.AuthClientId == request.auth_client_id);
             }
 
-            if (request.auth_client_id is not null)
+            if (request.auth_user_id is not null)
             {
-                query = query.Where(e => e.AuthClientId == request.auth_client_id);
+                query = query.Where(e => e.AuthUserId == request.auth_user_id);
             }
 
             Func<CancellationToken, Task<int>> total_count = (ct) =>
