@@ -72,7 +72,7 @@ function MqttAuthUsers({dataRef}:MqttAuthUsersProps) {
     }
   />
       <Section 
-          name={"AuthUsers"}
+          name={"Auth Users"}
           bar={<MqttAuthUsersBar dataRef={dataRef}/>}
           component={
             <InfinityScrollTable

@@ -5,6 +5,7 @@ namespace Server
     {
         string UID { get; }
         Task<bool> IsRunning();
+        Task EnableLogging(bool enable);
         TimeSpan? Uptime { get; }
         bool isConfigMatch { get; }
         ServerConfigState ConfigState();

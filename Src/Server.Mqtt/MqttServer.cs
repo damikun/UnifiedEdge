@@ -351,7 +351,7 @@ namespace Server.Mqtt
         {
             var options = MapConfiguration(Online_Config);
 
-            var mqttFactory = new MqttFactory();
+            var mqttFactory = new MqttFactory(Logger);
             options.DefaultEndpointOptions.IsEnabled = true;
             return mqttFactory.CreateMqttServer(options);
         }
@@ -767,6 +767,13 @@ namespace Server.Mqtt
                     }
                 );
             }
+        }
+
+        public override Task EnableLogging(bool enable)
+        {
+            this.Logger.EnableLogger(enable);
+
+            return Task.CompletedTask;
         }
     }
 }

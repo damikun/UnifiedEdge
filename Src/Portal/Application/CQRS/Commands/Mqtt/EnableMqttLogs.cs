@@ -1,5 +1,7 @@
 using MediatR;
 using AutoMapper;
+using Domain.Server;
+using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
@@ -10,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
 
-
 namespace Aplication.CQRS.Commands
 {
 
@@ -19,7 +20,7 @@ namespace Aplication.CQRS.Commands
     /// </summary>
     [Authorize]
     public class EnableMqttLogs
-        : CommandBase<bool>
+        : CommandBase<DTO_MqttServer>
     {
         public string ServerUid { get; set; }
 
@@ -54,10 +55,10 @@ namespace Aplication.CQRS.Commands
             ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.ServerUid)
-               .NotNull()
-               .NotEmpty()
-               .MustAsync(ExistInDatabase)
-               .WithMessage("Server not found");
+            .NotNull()
+            .NotEmpty()
+            .MustAsync(ExistInDatabase)
+            .WithMessage("Server not found");
 
             RuleFor(e => e.ServerUid)
             .NotNull()
@@ -106,7 +107,7 @@ namespace Aplication.CQRS.Commands
 
     /// <summary>Handler for <c>EnableMqttLogsHandler</c> command </summary>
     public class EnableMqttLogsHandler
-        : IRequestHandler<EnableMqttLogs, bool>
+        : IRequestHandler<EnableMqttLogs, DTO_MqttServer>
     {
 
         /// <summary>
@@ -125,18 +126,12 @@ namespace Aplication.CQRS.Commands
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         /// <summary>
-        /// Injected <c>IServerFascade</c>
-        /// </summary>
-        private readonly IServerFascade _fascade;
-
-        /// <summary>
         /// Main constructor
         /// </summary>
         public EnableMqttLogsHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
-            IMediator mediator,
-            IServerFascade fascade
+            IMediator mediator
         )
         {
             _factory = factory;
@@ -144,14 +139,12 @@ namespace Aplication.CQRS.Commands
             _mapper = mapper;
 
             _mediator = mediator;
-
-            _fascade = fascade;
         }
 
         /// <summary>
         /// Command handler for <c>EnableMqttLogs</c>
         /// </summary>
-        public async Task<bool> Handle(
+        public async Task<DTO_MqttServer> Handle(
             EnableMqttLogs request,
             CancellationToken cancellationToken
         )
@@ -159,13 +152,18 @@ namespace Aplication.CQRS.Commands
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            // Todo Extend DB to have log enable flag to presist...
+            var server = await dbContext.Servers
+            .Where(e => e.UID == request.ServerUid)
+            .OfType<MqttServer>()
+            .FirstAsync(cancellationToken);
 
-            var m = _fascade.GetManager<IMqttServerManager>();
+            server.EnableLogging = request.Enable;
 
-            await m.EnableLogging(request.ServerUid, request.Enable);
+            dbContext.Servers.Update(server);
 
-            return request.Enable;
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return _mapper.Map<DTO_MqttServer>(server);
         }
     }
 
@@ -174,29 +172,39 @@ namespace Aplication.CQRS.Commands
 
 
     public class EnableMqttLogs_PostProcessor
-        : IRequestPostProcessor<EnableMqttLogs, bool>
+        : IRequestPostProcessor<EnableMqttLogs, DTO_MqttServer>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
+        /// <summary>
+        /// Injected <c>IServerFascade</c>
+        /// </summary>
+        private readonly IServerFascade _fascade;
+
+
         public EnableMqttLogs_PostProcessor(
             IMemoryCache cache,
+            IServerFascade fascade,
             Aplication.Services.IPublisher publisher
         )
         {
+            _fascade = fascade;
+
             _publisher = publisher;
         }
 
         public async Task Process(
             EnableMqttLogs request,
-            bool response,
+            DTO_MqttServer response,
             CancellationToken cancellationToken
         )
         {
+            var m = _fascade.GetManager<IMqttServerManager>();
 
-            // publish event?
+            await m.EnableLogging(request.ServerUid, request.Enable);
         }
     }
 

@@ -71,7 +71,7 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
     }
   />
     <Section 
-      name={"AuthClients"}
+      name={"Auth Clients"}
       bar={<MqttAuthClientsBar dataRef={dataRef}/>}
       component={
         <InfinityScrollTable

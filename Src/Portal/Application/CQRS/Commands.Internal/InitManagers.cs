@@ -1,6 +1,7 @@
 using Server;
 using MediatR;
 using AutoMapper;
+using Server.Manager;
 using Aplication.Core;
 using MediatR.Pipeline;
 using Persistence.Portal;
@@ -8,13 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
 using Microsoft.Extensions.Caching.Memory;
 
+
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
     /// InitServerManagers
     /// </summary>
-    public class InitServerManagers : CommandBase<Unit>
+    public class InitServerManagers
+        : CommandBase<Unit>
     {
         public InitServerManagers()
         {
@@ -26,7 +29,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
     /// <summary>Handler for <c>InitServerManagersHandler</c> command </summary>
-    public class InitServerManagersHandler : IRequestHandler<InitServerManagers, Unit>
+    public class InitServerManagersHandler
+        : IRequestHandler<InitServerManagers, Unit>
     {
 
         /// <summary>
@@ -114,21 +118,29 @@ namespace Aplication.CQRS.Commands
             .Include(e => e.Cfg)
             .ToListAsync(cancellationToken);
 
-            foreach (var item in servers)
+            foreach (var server_base in servers)
             {
                 try
                 {
-                    var manager = _fascade.GetManager(item.Type);
+                    var manager = _fascade.GetManager(server_base.Type);
 
                     IServerCfg cfg;
 
                     try
                     {
-                        cfg = await _cfg_maper.Map(item.Cfg, cancellationToken);
+                        cfg = await _cfg_maper.Map(
+                            server_base.Cfg,
+                            cancellationToken
+                        );
                     }
                     catch (Exception ex)
                     {
-                        _server_e_publisher.PublishError(item.UID, "Invalid server config", ex);
+                        _server_e_publisher.PublishError(
+                            server_base.UID,
+                            "Invalid server config",
+                            ex
+                        );
+
                         continue;
                     }
 
@@ -136,23 +148,25 @@ namespace Aplication.CQRS.Commands
 
                     await manager.AddServer(server);
 
+                    await TryEnableLogging(
+                        manager,
+                        server.UID,
+                        server_base.EnableLogging
+                    );
+
                     try
                     {
-                        // await manager.ProcesCommand(
-                        //     cfg.Server_UID,
-                        //     ServerCmd.start,
-                        //     cancellationToken
-                        // );
+                        // Todo ? Autostrat?
                     }
                     catch (Exception ex)
                     {
-                        _server_e_publisher.PublishError(item.UID, "Failed to start server", ex);
+                        _server_e_publisher.PublishError(server_base.UID, "Failed to start server", ex);
                         continue;
                     }
                 }
                 catch (Exception ex)
                 {
-                    _server_e_publisher.PublishError(item.UID, "Dailed to add server to manager", ex);
+                    _server_e_publisher.PublishError(server_base.UID, "Dailed to add server to manager", ex);
                     continue;
                 }
             }
@@ -161,7 +175,22 @@ namespace Aplication.CQRS.Commands
 
             return Unit.Value;
         }
+
+        public Task TryEnableLogging(IServerManager manager, string server_uid, bool enable_logging)
+        {
+            try
+            {
+                return manager.EnableLogging(server_uid, enable_logging);
+            }
+            catch
+            {
+
+            }
+
+            return Task.CompletedTask;
+        }
     }
+
 
     //---------------------------------------
     //---------------------------------------

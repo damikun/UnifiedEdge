@@ -40,6 +40,11 @@ namespace Aplication.DTO
         public bool IsEnabled { get; set; }
 
         // <summary>
+        /// LoggingEnabled
+        /// </summary>
+        public bool LoggingEnabled { get; set; }
+
+        // <summary>
         /// Updated
         /// </summary>
         public DateTime Updated { get; set; }
@@ -60,6 +65,7 @@ namespace Aplication.DTO
                 .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
                 .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
                 .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.Created))
+                .ForMember(dest => dest.LoggingEnabled, opt => opt.MapFrom(src => src.EnableLogging))
                 .ForMember(dest => dest.IsEnabled, opt => opt.MapFrom(src => src.IsEnabled))
                 .ReverseMap();
 

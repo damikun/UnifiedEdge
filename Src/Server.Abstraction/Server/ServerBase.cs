@@ -594,6 +594,7 @@ namespace Server
 
         protected abstract void ValidateConfiguration(IServerCfg cfg);
 
+        public abstract Task EnableLogging(bool enable);
     }
 
 }

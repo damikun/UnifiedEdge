@@ -11,6 +11,8 @@ namespace Domain.Server
 
         public string? Description { get; set; }
 
+        public bool EnableLogging { get; set; }
+
         public bool IsEnabled { get; set; }
 
         public string? Location { get; set; }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
-import ServerLogs from "../ServerLogs/ServerLogs";
+import MqttLogsView from "./Logs/MqttLogsView";
 import ServerInfo from "../ServerInfo/ServerInfo";
 import MqttServerInfo from "./Info/MqttServerInfo";
 import { graphql } from "babel-plugin-relay/macro";
@@ -72,7 +72,7 @@ function MqttServer() {
 
     <Routes>
       <Route path="/Settings/" element={<MqttServerSettings/>} />
-      <Route path="/Logs/" element={<ServerLogs/>} />
+      <Route path="/Logs/" element={<MqttLogsView/>} />
       <Route path="/Auth/" element={<MqttServerAuth/>} />
       <Route path="/Explore/" element={<Dummy/>} />
       <Route path="/*" element={<MqttServerInfo/>} />

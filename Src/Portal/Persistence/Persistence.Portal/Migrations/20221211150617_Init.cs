@@ -166,6 +166,7 @@ namespace Persistence.Portal.Migrations
                     UID = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
+                    EnableLogging = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     Location = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -407,7 +408,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, null, null, "79178645-6e11-48bd-873b-7ffb39a5c975", null, null, null, "Undefined" });
+                values: new object[] { 1, null, null, "b1b6bea7-0555-424e-adbc-6f82dafab676", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

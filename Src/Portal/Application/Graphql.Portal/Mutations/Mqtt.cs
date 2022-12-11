@@ -1,9 +1,9 @@
 using MediatR;
 using AutoMapper;
+using Aplication.DTO;
 using Server.Mqtt.DTO;
 using Aplication.CQRS.Commands;
 using Aplication.Graphql.Errors;
-using Aplication.DTO;
 
 namespace Aplication.Graphql.Mutations
 {
@@ -349,20 +349,21 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(ValidationError))]
         [Error(typeof(AuthorizationError))]
         [Error(typeof(InternalError))]
-        [UseMutationConvention(PayloadFieldName = "result")]
-        public async Task<bool> EnableMqttLogging(
+        public async Task<GQL_MqttServer> EnableMqttLogging(
             [ID] string server_uid,
             bool enable,
             [Service] IMediator mediator,
             [Service] IMapper mapper)
         {
-            return await mediator.Send(
+            var response = await mediator.Send(
                 new EnableMqttLogs()
                 {
                     ServerUid = server_uid,
                     Enable = enable
                 }
             );
+
+            return mapper.Map<GQL_MqttServer>(response);
         }
     }
 }

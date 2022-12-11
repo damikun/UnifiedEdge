@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fb214b6edddba4c917225a01621668f4>>
+ * @generated SignedSource<<9744b9a271e6a6d5bf06732c08f8f828>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,15 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ServerLogsQuery$variables = {
+export type InstanceLogsQuery$variables = {
   id: string;
 };
-export type ServerLogsQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"ServerLogsPaginationFragment_logs">;
+export type InstanceLogsQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"InstanceLogsPaginationFragment_logs">;
 };
-export type ServerLogsQuery = {
-  response: ServerLogsQuery$data;
-  variables: ServerLogsQuery$variables;
+export type InstanceLogsQuery = {
+  response: InstanceLogsQuery$data;
+  variables: InstanceLogsQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -37,7 +37,7 @@ v1 = [
   },
   {
     "kind": "Variable",
-    "name": "server_id",
+    "name": "server_uid",
     "variableName": "id"
   }
 ],
@@ -58,7 +58,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ServerLogsQuery",
+    "name": "InstanceLogsQuery",
     "selections": [
       {
         "args": [
@@ -69,7 +69,7 @@ return {
           }
         ],
         "kind": "FragmentSpread",
-        "name": "ServerLogsPaginationFragment_logs"
+        "name": "InstanceLogsPaginationFragment_logs"
       }
     ],
     "type": "Query",
@@ -79,20 +79,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ServerLogsQuery",
+    "name": "InstanceLogsQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "GQL_IServerEventUnionConnection",
+        "concreteType": "GQL_MqttServerLogConnection",
         "kind": "LinkedField",
-        "name": "serverLogs",
+        "name": "mqttLogs",
         "plural": false,
         "selections": [
           {
             "alias": null,
             "args": null,
-            "concreteType": "GQL_IServerEventUnionEdge",
+            "concreteType": "GQL_MqttServerLogEdge",
             "kind": "LinkedField",
             "name": "edges",
             "plural": true,
@@ -100,7 +100,7 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "concreteType": null,
+                "concreteType": "GQL_MqttServerLog",
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
@@ -109,43 +109,43 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "__typename",
+                    "name": "uid",
                     "storageKey": null
                   },
                   {
-                    "kind": "InlineFragment",
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "iD",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "timeStamp",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "type",
-                        "storageKey": null
-                      }
-                    ],
-                    "type": "GQL_IServerEvent",
-                    "abstractKey": "__isGQL_IServerEvent"
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "source",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "message",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "logLevel",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "timeStamp",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "__typename",
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -193,27 +193,27 @@ return {
         "alias": null,
         "args": (v1/*: any*/),
         "filters": [
-          "server_id"
+          "server_uid"
         ],
         "handle": "connection",
-        "key": "ServerLogsPaginationFragmentConnection_serverLogs",
+        "key": "InstanceLogsPaginationFragmentConnection_mqttLogs",
         "kind": "LinkedHandle",
-        "name": "serverLogs"
+        "name": "mqttLogs"
       },
       (v2/*: any*/)
     ]
   },
   "params": {
-    "cacheID": "f8687522216cc78a40a4cb36a0fb77b9",
+    "cacheID": "b747b7fefff3c8853dab14138c338a53",
     "id": null,
     "metadata": {},
-    "name": "ServerLogsQuery",
+    "name": "InstanceLogsQuery",
     "operationKind": "query",
-    "text": "query ServerLogsQuery(\n  $id: ID!\n) {\n  ...ServerLogsPaginationFragment_logs_1Bmzm5\n}\n\nfragment ServerLogsItemDataFragment on GQL_IServerEvent {\n  __isGQL_IServerEvent: __typename\n  iD\n  name\n  timeStamp\n  type\n}\n\nfragment ServerLogsPaginationFragment_logs_1Bmzm5 on Query {\n  serverLogs(server_id: $id, first: 20) {\n    edges {\n      node {\n        __typename\n        ... on GQL_IServerEvent {\n          __isGQL_IServerEvent: __typename\n          iD\n          ...ServerLogsItemDataFragment\n        }\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query InstanceLogsQuery(\n  $id: ID!\n) {\n  ...InstanceLogsPaginationFragment_logs_1Bmzm5\n}\n\nfragment InstanceLogsItemDataFragment on GQL_MqttServerLog {\n  uid\n  source\n  message\n  logLevel\n  timeStamp\n}\n\nfragment InstanceLogsPaginationFragment_logs_1Bmzm5 on Query {\n  mqttLogs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        uid\n        ...InstanceLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "4c5e718f26734f2e514fe46ac6732765";
+(node as any).hash = "4e67af6cf34aef4f05a7b223f93a4a4c";
 
 export default node;

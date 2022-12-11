@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221208093021_Init")]
+    [Migration("20221211150617_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "79178645-6e11-48bd-873b-7ffb39a5c975",
+                            Guid = "b1b6bea7-0555-424e-adbc-6f82dafab676",
                             Name = "Undefined"
                         });
                 });
@@ -278,6 +278,9 @@ namespace Persistence.Portal.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("EnableLogging")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("INTEGER");

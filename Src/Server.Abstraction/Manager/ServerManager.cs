@@ -199,5 +199,21 @@ namespace Server.Manager
                 return server.ConfigState();
             }
         }
+
+        public async Task EnableLogging(string server_uid, bool enable)
+        {
+            var server = await GetServer(server_uid);
+
+            if (server is not null)
+            {
+                await server.EnableLogging(enable);
+
+                return;
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
     }
 }

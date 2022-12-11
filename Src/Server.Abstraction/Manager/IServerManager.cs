@@ -19,6 +19,8 @@ namespace Server.Manager
 
         public Task<string?> AddServer(IServer server);
 
+        public Task EnableLogging(string server_uid, bool enable);
+
         public Task<IServer> UpdateServer(IServerCfg cfg, CancellationToken ct = default);
 
         public Task<bool> Any();

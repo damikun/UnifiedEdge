@@ -82,7 +82,7 @@ function MqttAuthLogs({dataRef}:MqttAuthLogsProps) {
     }
   />
     <Section 
-      name={"AuthLogs"}
+      name={"Auth Events"}
       bar={<MqttAuthLogsBar dataRef={dataRef}/>}
       component={
         <InfinityScrollTable

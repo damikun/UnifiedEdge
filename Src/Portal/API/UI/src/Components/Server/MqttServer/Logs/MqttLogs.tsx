@@ -1,51 +1,51 @@
-import ServerLogDetail from "./ServerlogDetail";
-import { ServerLogsItem } from "./ServerLogsItem";
+import MqttLogsBar from "./MqttLogsBar";
+import MqttLogDetail from "./MqttlogDetail";
+import { MqttLogsItem } from "./MqttLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
-import Modal from "../../../UIComponents/Modal/Modal";
-import Section from "../../../UIComponents/Section/Section";
+import Modal from "../../../../UIComponents/Modal/Modal";
 import { useParams, useSearchParams } from "react-router-dom";
 import React, { useCallback, useMemo, useState } from "react";
-import TableHeader from "../../../UIComponents/Table/TableHeader";
-import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
-import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
-import { ServerLogsPaginationFragment_logs$key } from "./__generated__/ServerLogsPaginationFragment_logs.graphql";
-import { ServerLogsPaginationFragmentRefetchQuery } from "./__generated__/ServerLogsPaginationFragmentRefetchQuery.graphql";
+import Section from "../../../../UIComponents/Section/Section";
+import TableHeader from "../../../../UIComponents/Table/TableHeader";
+import InfinityScrollBody from "../../../../UIComponents/Table/InfinityScrollBody";
+import InfinityScrollTable from "../../../../UIComponents/Table/InfinityScrollTable";
+import { MqttLogsPaginationFragment_logs$key } from "./__generated__/MqttLogsPaginationFragment_logs.graphql";
+import { MqttLogsPaginationFragmentRefetchQuery } from "./__generated__/MqttLogsPaginationFragmentRefetchQuery.graphql";
 
 
-const ServerLogsPaginationFragment = graphql`
-  fragment ServerLogsPaginationFragment_logs on Query
+const MqttLogsPaginationFragment = graphql`
+  fragment MqttLogsPaginationFragment_logs on Query
   @argumentDefinitions(
     first: { type: Int, defaultValue: 20 }
     after: { type: String }
     id: { type: "ID!" }
   )
-  @refetchable(queryName: "ServerLogsPaginationFragmentRefetchQuery") {
+  @refetchable(queryName: "MqttLogsPaginationFragmentRefetchQuery") {
     __id
-    serverLogs(server_id:$id, first: $first, after: $after)
-      @connection(key: "ServerLogsPaginationFragmentConnection_serverLogs") {
+    mqttLogs(server_uid:$id, first: $first, after: $after)
+      @connection(key: "MqttLogsPaginationFragmentConnection_mqttLogs") {
       __id
       edges {
         node {
-          ... on GQL_IServerEvent{
-            iD
-            ...ServerLogsItemDataFragment
-          }
+          uid
+          ...MqttLogsItemDataFragment
         }
       }
     }
+    ...MqttLogsBarEnableFragment@arguments(server_id:$id)
   }
 `;
 
-export const LOG_PARAM_NAME = "log_id"
+export const I_LOG_PARAM_NAME = "i_log_id"
 
-export default React.memo(ServerLogs)
+export default React.memo(MqttLogs)
 
-type ServerLogsProps = {
-  dataRef:ServerLogsPaginationFragment_logs$key | null;
+type MqttLogsProps = {
+  dataRef:MqttLogsPaginationFragment_logs$key | null;
 }
 
-function ServerLogs({dataRef}:ServerLogsProps) {
+function MqttLogs({dataRef}:MqttLogsProps) {
 
   const { id }: any = useParams<string>();
   
@@ -53,9 +53,9 @@ function ServerLogs({dataRef}:ServerLogsProps) {
   const [server_id] = useState<string>(id)
 
   const pagination = usePaginationFragment<
-  ServerLogsPaginationFragmentRefetchQuery,
-  ServerLogsPaginationFragment_logs$key
-  >(ServerLogsPaginationFragment, dataRef);
+  MqttLogsPaginationFragmentRefetchQuery,
+  MqttLogsPaginationFragment_logs$key
+  >(MqttLogsPaginationFragment, dataRef);
 
   const handleLoadMore = useCallback(
     () => {
@@ -67,19 +67,19 @@ function ServerLogs({dataRef}:ServerLogsProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   
   const isOpen = useMemo(() => 
-    searchParams.get(LOG_PARAM_NAME)!== null, [searchParams]
+    searchParams.get(I_LOG_PARAM_NAME)!== null, [searchParams]
   );
   
   const handleModalClose = useCallback(() => {
-    searchParams.delete(LOG_PARAM_NAME);
+    searchParams.delete(I_LOG_PARAM_NAME);
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
   const handleItemDetail = useCallback(
     (log_id: string | null | undefined) => {
-      searchParams.delete(LOG_PARAM_NAME);
+      searchParams.delete(I_LOG_PARAM_NAME);
       if (log_id) {
-        searchParams.append(LOG_PARAM_NAME, log_id);
+        searchParams.append(I_LOG_PARAM_NAME, log_id);
       }
       setSearchParams(searchParams);
     },
@@ -92,20 +92,21 @@ function ServerLogs({dataRef}:ServerLogsProps) {
       isOpen={isOpen}
       onClose={handleModalClose}
       component={
-        <ServerLogDetail />
+        <MqttLogDetail />
       }
     />
     <Section 
-      name={"Application logs"}
+      name={"Instance logs"}
+      bar={<MqttLogsBar dataRef={pagination.data}/>}
       component={
         <InfinityScrollTable
           header={<Header/>}
         >
           <InfinityScrollBody onEnd={handleLoadMore}>
             {
-              pagination?.data?.serverLogs?.edges?.map((edge,index)=>{
-                  return <ServerLogsItem 
-                  key={edge.node?.iD??index}
+              pagination?.data?.mqttLogs?.edges?.map((edge,index)=>{
+                  return <MqttLogsItem 
+                  key={edge.node?.uid??index}
                   dataRef={edge.node}
                   onItemClick={handleItemDetail}
                 />
@@ -121,7 +122,7 @@ function ServerLogs({dataRef}:ServerLogsProps) {
 function Header(){
   return <TableHeader>
   <tr className="flex w-6/12 2xl:w-8/12">
-    <th>Name</th>
+    <th>Message</th>
   </tr>
   <tr className="w-1/12 2xl:w-2/12 text-center justify-center hidden lg:flex">
     <th>Type</th>

@@ -3,8 +3,11 @@ using Aplication.Mapping;
 
 namespace Aplication.DTO
 {
-    public class GQL_MqttServer : GQL_ServerBase, IMapFrom<DTO_MqttServer>
+    public class GQL_MqttServer
+        : GQL_ServerBase, IMapFrom<DTO_MqttServer>
     {
+        public bool LoggingEnabled { get; set; }
+
         public GQL_MqttServer()
         {
 
@@ -27,6 +30,7 @@ namespace Aplication.DTO
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Location, opt => opt.MapFrom(src => src.Location))
             .ForMember(dest => dest.Updated, opt => opt.MapFrom(src => src.Updated))
+            .ForMember(dest => dest.LoggingEnabled, opt => opt.MapFrom(src => src.LoggingEnabled))
             .ReverseMap();
         }
     }

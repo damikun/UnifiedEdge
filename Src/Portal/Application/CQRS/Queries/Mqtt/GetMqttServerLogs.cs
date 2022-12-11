@@ -175,6 +175,8 @@ namespace Aplication.CQRS.Queries
 
             var logs = await m.GetServerLogs(request.server_uid);
 
+            logs = logs.OrderByDescending(e => e.TimeStamp);
+
             if (request.Level is not null)
             {
                 logs = logs.Where(e => e.LogLevel == request.Level);
