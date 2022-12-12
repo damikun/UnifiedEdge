@@ -45,11 +45,13 @@ namespace Aplication.Graphql.Types
             .ResolveWith<MqttServerTypeResolvers>(e => e.GetConfigState(default!, default!, default!));
 
             descriptor.Field(e => e.State)
-            .Resolve((ctx) =>
+            .Resolve(async (ctx) =>
             {
                 var id = ctx.Parent<GQL_MqttServer>().Id;
 
-                return _manager.State(id);
+                var state = await _manager.State(id);
+
+                return (GQL_ServerState)state;
             });
 
             descriptor.Field(e => e.Uptime)

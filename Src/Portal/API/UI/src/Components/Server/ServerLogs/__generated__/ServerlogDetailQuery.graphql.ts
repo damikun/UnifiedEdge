@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1ff653dd1fc15f9fb836e52479e19d83>>
+ * @generated SignedSource<<695efde1890b6061a1eec656a0622454>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type ServerlogDetailQuery$variables = {
 };
 export type ServerlogDetailQuery$data = {
   readonly serverLogById: {
-    readonly asJson?: string;
+    readonly asJson?: string | null;
     readonly iD?: string;
     readonly name?: string;
     readonly timeStamp?: any;

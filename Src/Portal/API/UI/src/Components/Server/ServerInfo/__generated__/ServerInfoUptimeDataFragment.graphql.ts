@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ff02ab8e7841c51b723d9a56902bcdc5>>
+ * @generated SignedSource<<89c7234d616d9cd7e566c8e23b035eff>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type ServerInfoUptimeDataFragment$data = {
     readonly isValid: boolean;
     readonly minutes: number;
     readonly uptime: any | null;
-  };
+  } | null;
   readonly " $fragmentType": "ServerInfoUptimeDataFragment";
 };
 export type ServerInfoUptimeDataFragment$key = {

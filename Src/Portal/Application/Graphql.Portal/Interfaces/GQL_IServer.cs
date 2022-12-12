@@ -51,7 +51,7 @@ namespace Aplication.Graphql.Interfaces
         // <summary>
         /// Uptime
         /// </summary>
-        public GQL_Uptime Uptime { get; set; }
+        public GQL_Uptime? Uptime { get; set; }
 
         // <summary>
         /// Updated
