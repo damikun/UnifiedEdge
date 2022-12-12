@@ -55,7 +55,7 @@ namespace Server.Mqtt
 
         internal void EnableLogger(bool enable)
         {
-            if (!IsEnabled)
+            if (enable)
             {
                 Interlocked.Exchange(ref _enabled, 1);
             }
