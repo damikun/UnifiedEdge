@@ -1,13 +1,19 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router";
 
+const API = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "API" */ "../API/API"
+    )
+);
+
 const User = lazy(
   () =>
     import(
       /* webpackChunkName: "User" */ "../Users/User/User"
     )
 );
-
 
 const WebHook = lazy(
   () =>
@@ -96,6 +102,7 @@ export default function Body(){
           <Route path="/Monitor/Adapter/:id/*" element={<Adapter/>} />
           <Route path="/WebHooks/" element={<WebHooks/>} />
           <Route path="/WebHooks/Hook/:id/*" element={<WebHook/>} />
+          <Route path="/API/*" element={<API/>} />
           <Route path="/Users/" element={<Users/>} />
           <Route path="/Users/User/:id/*" element={<User/>} />
           <Route path="/Analytics/*" element={<Analytics/>} />  

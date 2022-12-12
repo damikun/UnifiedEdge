@@ -212,5 +212,45 @@ namespace Aplication.Graphql.Mutations
                 Adapter = _mapper.Map<GQL_Adapter>(dto)
             };
         }
+
+        /// <summary>
+        /// Enable Graphql Api
+        /// </summary>
+        /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_Edge> EnableGraphqlApi(
+            bool enable,
+            [Service] IMediator mediator
+        )
+        {
+            var dto = await mediator.Send(new EnableGraphqlApi()
+            {
+                Enable = enable,
+            });
+
+            return _mapper.Map<GQL_Edge>(dto);
+        }
+
+        /// <summary>
+        /// Enable Rest Api
+        /// </summary>
+        /// <returns>GQL_Edge</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_Edge> EnableRestApi(
+            bool enable,
+            [Service] IMediator mediator
+        )
+        {
+            var dto = await mediator.Send(new EnableRestApi()
+            {
+                Enable = enable,
+            });
+
+            return _mapper.Map<GQL_Edge>(dto);
+        }
     }
 }

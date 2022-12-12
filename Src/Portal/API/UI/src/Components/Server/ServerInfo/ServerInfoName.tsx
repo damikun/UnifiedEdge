@@ -12,12 +12,12 @@ const ServerInfoNameDataFragment = graphql`
 `;
 
 type ServerInfoNameProps = {
-    dataRef:ServerInfoNameDataFragment$key;
+    dataRef:ServerInfoNameDataFragment$key | null;
 };
 
 export default function ServerInfoName({dataRef}:ServerInfoNameProps){
 
     const data = useFragment(ServerInfoNameDataFragment, dataRef);
 
-    return <CardContent icon={faSignsPost} title="Name" value={data.name}/>
+    return <CardContent icon={faSignsPost} title="Name" value={data?.name}/>
 }

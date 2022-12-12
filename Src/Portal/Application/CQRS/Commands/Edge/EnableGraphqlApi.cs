@@ -5,51 +5,47 @@ using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
-using Aplication.Services;
-using Aplication.Events.EdgeCfg;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+
 
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// UpdateEdgeDescription
+    /// EnableGraphqlApi
     /// </summary>
     [Authorize]
-    public class UpdateEdgeDescription : CommandBase<DTO_Edge>
+    public class EnableGraphqlApi : CommandBase<DTO_Edge>
     {
-#nullable disable
-        public string Description;
-#nullable enable
+        public bool Enable { get; set; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - UpdateEdgeDescription
+    /// Field validator - EnableGraphqlApi
     /// </summary>
-    public class UpdateEdgeDescriptionValidator : AbstractValidator<UpdateEdgeDescription>
+    public class EnableGraphqlApiValidator
+        : AbstractValidator<EnableGraphqlApi>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public UpdateEdgeDescriptionValidator(IDbContextFactory<ManagmentDbCtx> factory)
+        public EnableGraphqlApiValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
-
-            RuleFor(e => e.Description)
-            .MaximumLength(100);
         }
     }
 
     /// <summary>
-    /// Authorization validators - UpdateEdgeDescription
+    /// Authorization validators - EnableGraphqlApi
     /// </summary>
-    public class UpdateEdgeDescriptionAuthorizationValidator : AuthorizationValidator<UpdateEdgeDescription>
+    public class EnableGraphqlApiAuthorizationValidator
+        : AuthorizationValidator<EnableGraphqlApi>
     {
-        public UpdateEdgeDescriptionAuthorizationValidator()
+        public EnableGraphqlApiAuthorizationValidator()
         {
 
         }
@@ -59,8 +55,9 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>UpdateEdgeDescriptionHandler</c> command </summary>
-    public class UpdateEdgeDescriptionHandler : IRequestHandler<UpdateEdgeDescription, DTO_Edge>
+    /// <summary>Handler for <c>EnableGraphqlApiHandler</c> command </summary>
+    public class EnableGraphqlApiHandler
+        : IRequestHandler<EnableGraphqlApi, DTO_Edge>
     {
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public UpdateEdgeDescriptionHandler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
+        public EnableGraphqlApiHandler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
         {
             _factory = factory;
 
@@ -89,9 +86,9 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>UpdateEdgeDescription</c>
+        /// Command handler for <c>EnableGraphqlApi</c>
         /// </summary>
-        public async Task<DTO_Edge> Handle(UpdateEdgeDescription request, CancellationToken cancellationToken)
+        public async Task<DTO_Edge> Handle(EnableGraphqlApi request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
@@ -100,14 +97,15 @@ namespace Aplication.CQRS.Commands
 
             try
             {
-                var edge = await dbContext.Edge.FirstOrDefaultAsync(cancellationToken);
+                var edge = await dbContext.Edge
+                    .FirstOrDefaultAsync(cancellationToken);
 
                 if (edge == null)
                 {
                     throw new Exception("Please make sure DB migrations was applied. Edges record not found");
                 }
 
-                edge.Description = request.Description;
+                edge.ApiGraphql = request.Enable;
 
                 dbContext.Update(edge);
 
@@ -128,15 +126,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class UpdateEdgeDescription_PostProcessor
-        : IRequestPostProcessor<UpdateEdgeDescription, DTO_Edge>
+    public class EnableGraphqlApi_PostProcessor
+        : IRequestPostProcessor<EnableGraphqlApi, DTO_Edge>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public UpdateEdgeDescription_PostProcessor(
+        public EnableGraphqlApi_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher)
         {
@@ -144,16 +142,13 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            UpdateEdgeDescription request,
+            EnableGraphqlApi request,
             DTO_Edge response,
             CancellationToken cancellationToken)
         {
             if (response != null)
             {
-                await _publisher.Publish(
-                    new EdgeDescriptionUpdatedNotifi(response),
-                    PublishStrategy.ParallelNoWait, default(CancellationToken)
-                );
+                // Notify
             }
         }
     }

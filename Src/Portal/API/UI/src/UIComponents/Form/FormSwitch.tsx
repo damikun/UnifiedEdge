@@ -56,7 +56,7 @@ export function FormSwitch({
       checked={checked}
       onChange={handleOnChange}
       className={clsx("relative inline-flex h-6 w-11",
-      "rounded-full items-center border border-gray-200",
+      "rounded-full items-center border border-gray-100",
       "shadow-sm",
       checked ? 
         checkedColor??"bg-blue-500":

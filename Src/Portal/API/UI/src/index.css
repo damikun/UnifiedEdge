@@ -103,6 +103,7 @@ img {
 svg:not(:root) {
   overflow: hidden;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

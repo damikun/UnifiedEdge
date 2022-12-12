@@ -5,51 +5,47 @@ using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
-using Aplication.Services;
-using Aplication.Events.EdgeCfg;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+
 
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// UpdateEdgeDescription
+    /// EnableRestApi
     /// </summary>
     [Authorize]
-    public class UpdateEdgeDescription : CommandBase<DTO_Edge>
+    public class EnableRestApi : CommandBase<DTO_Edge>
     {
-#nullable disable
-        public string Description;
-#nullable enable
+        public bool Enable { get; set; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - UpdateEdgeDescription
+    /// Field validator - EnableRestApi
     /// </summary>
-    public class UpdateEdgeDescriptionValidator : AbstractValidator<UpdateEdgeDescription>
+    public class EnableRestApiValidator
+        : AbstractValidator<EnableRestApi>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public UpdateEdgeDescriptionValidator(IDbContextFactory<ManagmentDbCtx> factory)
+        public EnableRestApiValidator(IDbContextFactory<ManagmentDbCtx> factory)
         {
             _factory = factory;
-
-            RuleFor(e => e.Description)
-            .MaximumLength(100);
         }
     }
 
     /// <summary>
-    /// Authorization validators - UpdateEdgeDescription
+    /// Authorization validators - EnableRestApi
     /// </summary>
-    public class UpdateEdgeDescriptionAuthorizationValidator : AuthorizationValidator<UpdateEdgeDescription>
+    public class EnableRestApiAuthorizationValidator
+        : AuthorizationValidator<EnableRestApi>
     {
-        public UpdateEdgeDescriptionAuthorizationValidator()
+        public EnableRestApiAuthorizationValidator()
         {
 
         }
@@ -59,8 +55,9 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>UpdateEdgeDescriptionHandler</c> command </summary>
-    public class UpdateEdgeDescriptionHandler : IRequestHandler<UpdateEdgeDescription, DTO_Edge>
+    /// <summary>Handler for <c>EnableRestApiHandler</c> command </summary>
+    public class EnableRestApiHandler
+        : IRequestHandler<EnableRestApi, DTO_Edge>
     {
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public UpdateEdgeDescriptionHandler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
+        public EnableRestApiHandler(IDbContextFactory<ManagmentDbCtx> factory, IMapper mapper)
         {
             _factory = factory;
 
@@ -89,9 +86,9 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>UpdateEdgeDescription</c>
+        /// Command handler for <c>EnableRestApi</c>
         /// </summary>
-        public async Task<DTO_Edge> Handle(UpdateEdgeDescription request, CancellationToken cancellationToken)
+        public async Task<DTO_Edge> Handle(EnableRestApi request, CancellationToken cancellationToken)
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
@@ -100,14 +97,15 @@ namespace Aplication.CQRS.Commands
 
             try
             {
-                var edge = await dbContext.Edge.FirstOrDefaultAsync(cancellationToken);
+                var edge = await dbContext.Edge
+                    .FirstOrDefaultAsync(cancellationToken);
 
                 if (edge == null)
                 {
                     throw new Exception("Please make sure DB migrations was applied. Edges record not found");
                 }
 
-                edge.Description = request.Description;
+                edge.ApiRest = request.Enable;
 
                 dbContext.Update(edge);
 
@@ -128,15 +126,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class UpdateEdgeDescription_PostProcessor
-        : IRequestPostProcessor<UpdateEdgeDescription, DTO_Edge>
+    public class EnableRestApi_PostProcessor
+        : IRequestPostProcessor<EnableRestApi, DTO_Edge>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public UpdateEdgeDescription_PostProcessor(
+        public EnableRestApi_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher)
         {
@@ -144,16 +142,13 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            UpdateEdgeDescription request,
+            EnableRestApi request,
             DTO_Edge response,
             CancellationToken cancellationToken)
         {
             if (response != null)
             {
-                await _publisher.Publish(
-                    new EdgeDescriptionUpdatedNotifi(response),
-                    PublishStrategy.ParallelNoWait, default(CancellationToken)
-                );
+                // Notify
             }
         }
     }

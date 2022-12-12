@@ -5,7 +5,7 @@ import MenuItem from "./MenuItem";
 import MenuButton from "./MenuButton";
 import BodyContainer from "./BodyContainer";
 import { useCallback, useState } from "react";
-import { faDesktop, faGear, faInfo, faServer, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faDesktop, faEthernet, faGear, faInfo, faPlug, faServer, faSignal, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export default function Layout(){
 
@@ -34,7 +34,8 @@ export default function Layout(){
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
                 <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" /> */}
                 <MenuItem to="/Users" icon={faUsers} name="Users" />
-                <MenuItem to="/System" pattern="/System/*"  icon={faGear} name="System" />
+                <MenuItem to="/System" pattern="/System/*" icon={faGear} name="System" />
+                <MenuItem to="/Api" pattern="/Api/*" icon={faPlug} name="API" />
                 <MenuItem to="/Help" icon={faInfo} name="Help" />
             </MenuList>
 

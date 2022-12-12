@@ -92,6 +92,12 @@ type EnableDisableServerPayload {
   query: Query!
 }
 
+type EnableGraphqlApiPayload {
+  errors: [EnableGraphqlApiError!]
+  gQL_Edge: GQL_Edge
+  query: Query!
+}
+
 type EnableMqttAuthClinetPayload {
   errors: [EnableMqttAuthClinetError!]
   gQL_MqttAuthClient: GQL_MqttAuthClient
@@ -119,6 +125,12 @@ type EnableMqttLoggingPayload {
 type EnableMqttUserAuthPayload {
   errors: [EnableMqttUserAuthError!]
   gQL_MqttAuthCfg: GQL_MqttAuthCfg
+  query: Query!
+}
+
+type EnableRestApiPayload {
+  errors: [EnableRestApiError!]
+  gQL_Edge: GQL_Edge
   query: Query!
 }
 
@@ -247,6 +259,8 @@ type GQL_DefaultAdapter {
 }
 
 type GQL_Edge {
+  apiGraphql: Boolean!
+  apiRest: Boolean!
   description: String
   guid: String!
   id: ID!
@@ -1033,6 +1047,7 @@ type Mutation {
   enableDisableServer(
     input: EnableDisableServerInput!
   ): EnableDisableServerPayload!
+  enableGraphqlApi(input: EnableGraphqlApiInput!): EnableGraphqlApiPayload!
   enableMqttAuthClinet(
     input: EnableMqttAuthClinetInput!
   ): EnableMqttAuthClinetPayload!
@@ -1046,6 +1061,7 @@ type Mutation {
   enableMqttUserAuth(
     input: EnableMqttUserAuthInput!
   ): EnableMqttUserAuthPayload!
+  enableRestApi(input: EnableRestApiInput!): EnableRestApiPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeMqttAuthClient(
     input: RemoveMqttAuthClientInput!
@@ -1639,6 +1655,11 @@ union EnableDisableServerError =
   | AuthorizationError
   | InternalError
 
+union EnableGraphqlApiError =
+    ValidationError
+  | AuthorizationError
+  | InternalError
+
 union EnableMqttAuthClinetError =
     ValidationError
   | AuthorizationError
@@ -1663,6 +1684,8 @@ union EnableMqttUserAuthError =
     ValidationError
   | AuthorizationError
   | InternalError
+
+union EnableRestApiError = ValidationError | AuthorizationError | InternalError
 
 union GQL_IServerEventUnion =
     GQL_ClientConnected
@@ -1846,6 +1869,10 @@ input EnableDisableServerInput {
   id: ID!
 }
 
+input EnableGraphqlApiInput {
+  enable: Boolean!
+}
+
 input EnableMqttAuthClinetInput {
   authClient_id: ID!
   enable: Boolean!
@@ -1869,6 +1896,10 @@ input EnableMqttLoggingInput {
 input EnableMqttUserAuthInput {
   enable: Boolean!
   server_uid: ID!
+}
+
+input EnableRestApiInput {
+  enable: Boolean!
 }
 
 input ProcessServerCmdInput {

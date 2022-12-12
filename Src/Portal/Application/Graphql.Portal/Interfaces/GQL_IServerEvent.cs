@@ -36,6 +36,6 @@ namespace Aplication.Graphql.Interfaces
         // <summary>
         /// AsJson
         /// </summary>
-        public string AsJson { get; set; }
+        public string? AsJson { get; set; }
     }
 }

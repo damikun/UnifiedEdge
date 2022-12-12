@@ -21,7 +21,7 @@ namespace Aplication.DTO
 
         public DateTime TimeStamp { get; set; } = DateTime.Now;
 
-        public string AsJson { get; set; }
+        public string? AsJson { get; set; }
 
     }
 }

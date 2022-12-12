@@ -23,6 +23,8 @@ namespace Aplication.DTO
 
         public string? Location3 { get; set; }
 
-    }
+        public bool ApiGraphql { get; set; }
 
+        public bool ApiRest { get; set; }
+    }
 }

@@ -23,6 +23,12 @@ namespace Persistence.Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("ApiGraphql")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ApiRest")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("DefaultAdapterId")
                         .HasColumnType("TEXT");
 
@@ -53,7 +59,9 @@ namespace Persistence.Portal.Migrations
                         new
                         {
                             Id = 1,
-                            Guid = "b1b6bea7-0555-424e-adbc-6f82dafab676",
+                            ApiGraphql = false,
+                            ApiRest = false,
+                            Guid = "e047f7ce-5c0f-4382-b4fd-d2f6cf077769",
                             Name = "Undefined"
                         });
                 });

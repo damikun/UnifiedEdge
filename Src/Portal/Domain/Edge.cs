@@ -1,6 +1,5 @@
 namespace Domain
 {
-
     public class Edge
     {
         public Edge()
@@ -23,6 +22,10 @@ namespace Domain
         public string? Location3 { get; set; }
 
         public string? DefaultAdapterId { get; set; }
+
+        public bool ApiGraphql { get; set; }
+
+        public bool ApiRest { get; set; }
 
     }
 }
