@@ -6,10 +6,10 @@ import { graphql } from "babel-plugin-relay/macro";
 import SchedulerView from "./Scheduler/SchedulerView";
 import SystemSettings from "./Settings/SystemSettings";
 import Section from "../../UIComponents/Section/Section";
-import { SystemViewQuery } from "./__generated__/SystemViewQuery.graphql";
-import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
-import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
 import StyledTabSection from "../../Shared/StyledTabSection";
+import { SystemViewQuery } from "./__generated__/SystemViewQuery.graphql";
+import { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+import { Route, Routes, useParams } from "react-router";
 
 
 export const SettingsTabs = [
@@ -43,10 +43,6 @@ export default React.memo(SystemView)
 function SystemView() {
 
   const { id }: any = useParams<string>();
-
-  const resolved_path = useResolvedPath("/Logs/");
-
-  const match = useMatch("/Logs/");
 
   const data = useLazyLoadQuery<SystemViewQuery>(
     SystemViewQueryTag,
