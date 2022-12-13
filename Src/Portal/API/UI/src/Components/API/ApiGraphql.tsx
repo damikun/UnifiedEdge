@@ -1,18 +1,45 @@
-import React, { useEffect } from "react";
+import clsx from "clsx";
+import React from "react";
+import GraphiQL from "graphiql";
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { PlusIcon, ToolbarMenu, useEditorContext } from "@graphiql/react";
-import { BASE_SERVER_URL, GQL_ENDPOINT } from "../../constants";
-import GraphiQL, { GraphiQLInterface, GraphiQLProvider } from "graphiql";
+import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_ENDPOINT } from "../../constants";
 
 import "@graphiql/react/font/roboto.css";
 import "@graphiql/react/font/fira-code.css";
 import "graphiql/graphiql.css";
 
+
 export default React.memo(ApiGraphql)
 
 const fetcher = createGraphiQLFetcher({
   url: `${BASE_SERVER_URL}/${GQL_ENDPOINT}`,
+  subscriptionUrl: `${BASE_SERVER_WS_URL_DEV}/${GQL_ENDPOINT}`
 });
+
+const defaultQuery =
+`# This is GraphQl Playground
+#
+# An example GraphQL:
+#
+
+query{
+  servers{
+    edges{
+      node{
+        name
+        location
+        state
+      }
+    }
+  }
+}
+
+#
+# Keyboard shortcuts:
+#
+#   Auto Complete:  Ctrl-Space (or just start typing)
+#
+`;
 
 type ApiGraphqlProps = {
 
@@ -20,57 +47,12 @@ type ApiGraphqlProps = {
 
 function ApiGraphql({}:ApiGraphqlProps) {
 
-  
-const API_LIST = [
-  {
-    name: "swapi",
-    url: "https://swapi-graphql.netlify.app/.netlify/functions/index"
-  },
-  {
-    name: "spacex",
-    url: "https://api.spacex.land/graphql"
-  }
-];
-
-function GraphiQLWithContext() {
-  const editorContext = useEditorContext();
-  const responseEditor = editorContext?.responseEditor;
-  useEffect(() => {
-    if (!responseEditor) return;
-
-    function onChange(editor: any) {
-      const value = editor.getValue();
-
-      editor.setValue(value);
-    }
-    responseEditor.on("change", onChange);
-    return () => responseEditor.off("change", onChange);
-  }, [responseEditor]);
-  return <GraphiQLInterface />;
-}
-
-  return <div className="flex w-full h-screen rounded-md overflow-hidden border-gray-100 shadow-sm">
-
+  return <div className={clsx("flex w-full h-128 2xl:h-160 rounded-md",
+    "overflow-hidden border-gray-100 shadow-sm")}>
     <GraphiQL
+      defaultQuery={defaultQuery}
+      defaultEditorToolsVisibility={false}
       fetcher={fetcher}
-      toolbar={{
-        additionalContent: (
-          <ToolbarMenu
-            button={<PlusIcon className="graphiql-toolbar-icon" />}
-            label={"SomeName"}
-          >
-            {API_LIST.map(({ name, url }) => (
-              <ToolbarMenu.Item
-                onSelect={() =>
-                 null
-                }
-              >
-                {name}
-              </ToolbarMenu.Item>
-            ))}
-          </ToolbarMenu>
-        )
-      }}
     />
     </div>
 }

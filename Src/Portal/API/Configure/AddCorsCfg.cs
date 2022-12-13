@@ -3,12 +3,12 @@ namespace API
 {
     public static partial class ServiceExtension
     {
+
         public static IServiceCollection AddCorsConfiguration(
         this IServiceCollection serviceCollection,
         IWebHostEnvironment env,
         IConfiguration cfg)
         {
-
             List<string> allowed_origins = new List<string>();
 
             allowed_origins.AddRange(new string[]{
@@ -63,7 +63,17 @@ namespace API
                     policy.AllowCredentials();
                     policy.SetPreflightMaxAge(TimeSpan.FromSeconds(10000));
                 });
+
+                options.AddPolicy("allow_swagger", policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                    //------------------------------------
+                    policy.SetPreflightMaxAge(TimeSpan.FromSeconds(10000));
+                });
             });
+
 
             return serviceCollection;
 

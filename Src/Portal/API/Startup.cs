@@ -92,8 +92,6 @@ namespace API
             IServiceProvider serviceProvider,
             IServiceScopeFactory scopeFactory)
         {
-            var _sender = serviceProvider.GetRequiredService<ITopicEventSender>();
-
             serviceProvider.GetRequiredService<ServerMetricsProvider>();
 
             // app.UseOpenTelemetryPrometheusScrapingEndpoint();
@@ -115,14 +113,16 @@ namespace API
 
             // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
+            app.UseCors("cors_policy");
+
+            app.UseSwagger();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
+
                 app.UseSwaggerUI();
             }
-
-            app.UseCors("cors_policy");
 
             app.UseStaticFiles();
 
@@ -150,6 +150,9 @@ namespace API
                 endpoints.MapPublicGraphQLEndpoint();
 
                 endpoints.MapBCPEndpoint();
+
+                endpoints.MapSwagger();
+                // .RequireCors("allow_swagger");
 
                 endpoints.MapFallbackToFile("index.html");
 

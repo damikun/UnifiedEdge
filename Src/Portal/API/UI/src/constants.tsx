@@ -23,6 +23,8 @@ export const LOGOUT_ENDPOINT = `${BASE_SERVER_URL}/Account/Logout`;
 
 export const TRACES_ENDPOINT = `${BASE_SERVER_URL}/traces`;
 
+export const SWAGGER_PATH = "swagger/v1/swagger.json" 
+
 /*-----------------------------------------------------------------------*/
 
 export const MEDIA_Q = {

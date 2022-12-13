@@ -1,4 +1,11 @@
 
+.graphiql-container{
+  background-color: rgb(249 250 251) !important;
+} 
+.graphiql-sessions{
+  background-color: rgb(249 250 251) !important;
+}
+
 .scrollbarwidth {
     scrollbar-width: none;
   }
