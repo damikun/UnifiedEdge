@@ -1,9 +1,9 @@
 using MediatR;
 using AutoMapper;
-using Persistence.Portal;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
+using Persistence.Portal;
 using Aplication.Interfaces;
 using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;

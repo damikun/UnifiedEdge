@@ -94,9 +94,6 @@ namespace API
                 .BindRuntimeType<DateTime, DateTimeType>()
                 .BindRuntimeType<TimeSpan, TimeSpanType>()
                 .BindRuntimeType<int, IntType>()
-                .BindRuntimeType<long, LongType>()
-                // .BindRuntimeType<byte[], ByteArrayType>()
-                // .BindRuntimeType<IPAddress, IPAddressType>()
 
                 .AddType<MqttServerEndpointType>()
 
@@ -173,7 +170,6 @@ namespace API
                 .AddType<SystemInfoType>()
                 .AddType<HistorianRecordType>()
                 .AddType<IServerType>()
-                // .AddInterfaceType<IServerType>()
 
                 .AddDataLoader<UserByIdDataLoader>()
                 .AddDataLoader<ClientStateByServerAndClientUids>()

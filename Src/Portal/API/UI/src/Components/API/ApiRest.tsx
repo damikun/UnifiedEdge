@@ -14,9 +14,12 @@ type ApiRestProps = {
 
 function ApiRest({}:ApiRestProps) {
 
-  return <div className={clsx("flex relative w-full h-auto",
-  "overflow-hidden border-gray-100 max-w-full")}>
-    <SwaggerUI requestInterceptor={(request) =>{
+  return <div className={clsx("block relative w-full h-auto",
+  "")}>
+    <SwaggerUI 
+    requestInterceptor={(request) =>{
+
+      if(request.url === SWAGGER_ENDPOINT){
         var req = new Request(SWAGGER_ENDPOINT, {
           credentials: "include",
           method: "GET",
@@ -27,7 +30,11 @@ function ApiRest({}:ApiRestProps) {
           },
           })
 
-          return new Promise((resolve, reject) => resolve(req));
+          return req;
+      }
+
+      return request;
+
   }}
     url={SWAGGER_ENDPOINT} />
   </div>

@@ -17,6 +17,8 @@
     <EnablePreviewFeatures>true</EnablePreviewFeatures>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Duende.IdentityServer" Version="6.1.5" />
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.5" />
     <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.1.5" />
@@ -26,20 +28,14 @@
     <PackageReference Include="Hangfire.Core" Version="1.8.0-rc1" />
     <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.2" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0"  />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0" />
     <PackageReference Include="MQTTnet" Version="4.1.1.318" />
-    <PackageReference Include="Quartz" Version="3.5.0" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.5.0" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.5.0" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.5.0" />
-    <PackageReference Include="Quartz.Serialization.Json" Version="3.5.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.1" />
     <PackageReference Include="HotChocolate" Version="13.0.0-preview.78" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.78" />
@@ -63,8 +59,8 @@
     <PackageReference Include="OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta2" />
     <PackageReference Include="FluentValidation" Version="11.0.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0"  />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0"  />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.1-dev-00241" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0-dev-00784" />
     <PackageReference Include="Serilog.Enrichers.Span" Version="1.4.0-beta.3" />
@@ -97,16 +93,16 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
   </Target>
   <ItemGroup>
-    <None Update="identity.db"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="identity.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
     <ItemGroup>
-    <None Update="schedulery.db"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="schedulery.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
     <ItemGroup>
-    <None Update="managment.db"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="managment.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="$(Certificates)**"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="$(Certificates)**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

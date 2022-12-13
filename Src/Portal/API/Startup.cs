@@ -3,16 +3,23 @@
 using Hangfire;
 using ElectronNET.API;
 using Aplication.Services;
-using HotChocolate.Subscriptions;
+using Swashbuckle.Swagger;
 using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
 using Aplication.Services.ServerEventHandler;
+using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Aplication.DTO;
+using Aplication.Interfaces;
+using Microsoft.OpenApi.Models;
 
 namespace API
 {
+
     public class Startup
     {
+
         public Startup(
             IConfiguration configuration,
             IWebHostEnvironment enviroment)
@@ -29,11 +36,32 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.IncludeFields = true;
+            });
 
             services.AddCorsConfiguration(Environment, Configuration);
 
-            services.AddSwaggerGen();
+            services.AddEndpointsApiExplorer();
+
+            services.AddSwaggerGen(e =>
+            {
+                e.CustomSchemaIds(
+                      type => type.FriendlyId()
+                      .Replace("[", "< ")
+                      .Replace("]", ">")
+                );
+
+                var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml" ?? "ApiGen.xml";
+                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                e.IncludeXmlComments(xmlPath, true);
+            }
+
+            );
 
             services.AddHttpClient();
 
@@ -139,6 +167,7 @@ namespace API
 
             app.UseHangfireDashboard();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
@@ -152,13 +181,13 @@ namespace API
                 endpoints.MapBCPEndpoint();
 
                 endpoints.MapSwagger();
-                // .RequireCors("allow_swagger");
-
-                endpoints.MapFallbackToFile("index.html");
 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
+                endpoints.MapFallbackToFile("index.html");
+
             });
 
             if (HybridSupport.IsElectronActive)
