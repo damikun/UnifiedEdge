@@ -37,14 +37,14 @@
     <PackageReference Include="MQTTnet" Version="4.1.1.318" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.1" />
-    <PackageReference Include="HotChocolate" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.Data" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.Diagnostics" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.PersistedQueries.InMemory" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.Subscriptions" Version="13.0.0-preview.78" />
-    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="13.0.0-preview.78" />
+    <PackageReference Include="HotChocolate" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.Data" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.Diagnostics" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.PersistedQueries.InMemory" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.Subscriptions" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="13.0.0-preview.90" />
     <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="6.1.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />

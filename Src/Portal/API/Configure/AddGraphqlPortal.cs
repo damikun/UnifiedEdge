@@ -57,7 +57,7 @@ namespace API
 
                     options.SortFieldsByName = true;
 
-                    // options.RemoveUnreachableTypes = true;
+                    options.RemoveUnreachableTypes = true;
 
                     options.StrictValidation = false;
                 })

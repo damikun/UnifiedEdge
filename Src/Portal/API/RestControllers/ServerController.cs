@@ -1,11 +1,11 @@
+using Server;
 using MediatR;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
-using Aplication.Interfaces;
 using Aplication.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
+using Aplication.CQRS.Commands;
 using Aplication.Core.Pagination;
-
 
 namespace API
 {
@@ -21,8 +21,8 @@ namespace API
 
         /// Returns connection of Servers as union IServer
         [HttpGet()]
-        [ProducesResponseType(typeof(DTO_Connection<IServer>), 200)]
-        public async Task<ActionResult<DTO_Connection<IServer>>> GetServers(
+        [ProducesResponseType(typeof(DTO_Connection<Aplication.Interfaces.IServer>), 200)]
+        public async Task<ActionResult<DTO_Connection<Aplication.Interfaces.IServer>>> GetServers(
             [FromQuery] int? first = null,
             [FromQuery] int? last = null,
             [FromQuery] string? after = null,
@@ -62,7 +62,7 @@ namespace API
         /// Returns mqtt server clinets connection
         [HttpGet()]
         [ProducesResponseType(typeof(DTO_Connection<DTO_MqttClient>), 200)]
-        public async Task<ActionResult<DTO_MqttClient>> GetMqttServerClients(
+        public async Task<ActionResult<DTO_Connection<DTO_MqttClient>?>> GetMqttServerClients(
             [FromQuery] string server_uid,
             [FromQuery] int? first = null,
             [FromQuery] int? last = null,
@@ -80,6 +80,72 @@ namespace API
                     ),
                     server_uid
                 )
+            );
+
+            return Ok(response);
+        }
+
+        /// Returns mqtt server endpoint
+        [HttpGet()]
+        [ProducesResponseType(typeof(DTO_MqttServerEndpoint), 200)]
+        public async Task<ActionResult<DTO_MqttServerEndpoint>> GetMqttServerEndpoint(
+            [FromQuery] string server_uid
+        )
+        {
+            var response = await _mediator.Send(
+                new GetMqttServerEndpoint(
+                    server_uid
+                )
+            );
+
+            return Ok(response);
+        }
+
+        /// Returns mqtt server recent messages
+        [HttpGet()]
+        [ProducesResponseType(typeof(DTO_Connection<DTO_MqttMessage>), 200)]
+        public async Task<ActionResult<DTO_Connection<DTO_MqttMessage>>> GetMqttServerRecentMessages(
+            [FromQuery] string server_uid,
+            [FromQuery] int? first = null,
+            [FromQuery] int? last = null,
+            [FromQuery] string? after = null,
+            [FromQuery] string? before = null,
+            [FromQuery] string? filter_client_uid = null,
+            [FromQuery] string? filter_topic_uid = null
+        )
+        {
+            var response = await _mediator.Send(
+                new GetMqttServerRecentMessages(
+                     new CursorArguments(
+                        first: first,
+                        last: last,
+                        after: after,
+                        before: before
+                    ),
+                    server_uid,
+                    filter_client_uid,
+                    filter_topic_uid
+                )
+            );
+
+            return Ok(response);
+        }
+
+
+        // Process Start/Stop/Restart to any sserver by UID
+        [HttpPost()]
+        [ProducesResponseType(typeof(ServerState), 200)]
+        public async Task<ActionResult<ServerState>> ProcessServerCmd(
+            string server_uid,
+            ServerCmd command
+        )
+        {
+            var response = await _mediator.Send(
+                new ProcessServerCmd()
+                {
+                    UID = server_uid,
+                    Command = command
+                }
             );
 
             return Ok(response);

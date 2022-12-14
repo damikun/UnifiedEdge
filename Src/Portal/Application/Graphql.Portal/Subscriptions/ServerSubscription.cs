@@ -33,7 +33,7 @@ namespace Aplication.Graphql.Queries
         {
             var topic = $"Server.EdgeMqttServer.{server_id}.{metric.ToString()}";
 
-            return receiver.SubscribeAsync<string, GQL_ServerMetric>(topic);
+            return receiver.SubscribeAsync<GQL_ServerMetric>(topic);
         }
 
         [SubscribeAndResolve]
@@ -43,7 +43,7 @@ namespace Aplication.Graphql.Queries
         {
             var topic = $"Server.{server_id}.ConfigState";
 
-            return receiver.SubscribeAsync<string, GQL_ConfigMatch>(topic);
+            return receiver.SubscribeAsync<GQL_ConfigMatch>(topic);
         }
     }
 }

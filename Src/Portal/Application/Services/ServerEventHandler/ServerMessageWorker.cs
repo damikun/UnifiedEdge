@@ -64,7 +64,7 @@ namespace Aplication.Services.ServerEventHandler
                         {
                             var gql_dto = _mapper.Map<GQL_MqttMessage>(new_message.Message);
 
-                            await _sender.SendAsync<string, GQL_MqttMessage>(
+                            await _sender.SendAsync<GQL_MqttMessage>(
                                 $"EdgeMqttServer.{new_message.ServerUid}.NewMessage",
                                 gql_dto
                             );

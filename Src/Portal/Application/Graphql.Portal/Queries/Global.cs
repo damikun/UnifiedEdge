@@ -1,7 +1,6 @@
 using MediatR;
 using AutoMapper;
 using Aplication.DTO;
-using Server.Manager.Mqtt;
 using Aplication.Interfaces;
 using HotChocolate.Resolvers;
 using Aplication.CQRS.Queries;
@@ -23,14 +22,6 @@ namespace Aplication.Graphql.Queries
         public GlobalQueries(IMapper mapper)
         {
             _mapper = mapper;
-        }
-
-        public async Task<GQL_Adapter?> Testik(
-        [ID] string id,
-        [Service] IMqttServerManager manager
-        )
-        {
-            return null;
         }
 
         public async Task<GQL_Adapter> GetAdapterById(

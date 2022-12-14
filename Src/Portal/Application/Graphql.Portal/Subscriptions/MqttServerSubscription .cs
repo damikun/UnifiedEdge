@@ -35,7 +35,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.ClientUpdated"
             var topic = $"EdgeMqttServer.{server_id}.ClientUpdated";
 
-            return receiver.SubscribeAsync<string, GQL_MqttClient>(topic);
+            return receiver.SubscribeAsync<GQL_MqttClient>(topic);
         }
 
         [SubscribeAndResolve]
@@ -47,7 +47,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.NewClient"
             var topic = $"EdgeMqttServer.{server_id}.NewClient";
 
-            return receiver.SubscribeAsync<string, GQL_MqttNewClient>(topic);
+            return receiver.SubscribeAsync<GQL_MqttNewClient>(topic);
         }
 
         [SubscribeAndResolve]
@@ -59,7 +59,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.NewTopic"
             var topic = $"EdgeMqttServer.{server_id}.NewTopic";
 
-            return receiver.SubscribeAsync<string, GQL_MqttNewTopic>(topic);
+            return receiver.SubscribeAsync<GQL_MqttNewTopic>(topic);
         }
 
         [SubscribeAndResolve]
@@ -71,7 +71,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.c8f8bfb99a184a2b81f7845e23c3b0ad.TopicUpdated"
             var topic = $"EdgeMqttServer.{server_id}.TopicUpdated";
 
-            return receiver.SubscribeAsync<string, GQL_MqttTopic>(topic);
+            return receiver.SubscribeAsync<GQL_MqttTopic>(topic);
         }
 
         [SubscribeAndResolve]
@@ -84,7 +84,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.e3680052bcdb4ccf8034ee6856d88448.Client.someName.Statistics
             var topic = $"EdgeMqttServer.{server_id}.Client.{client_id}.Statistics";
 
-            return receiver.SubscribeAsync<string, GQL_MqttClientStatsUpdate>(topic);
+            return receiver.SubscribeAsync<GQL_MqttClientStatsUpdate>(topic);
         }
 
         [SubscribeAndResolve]
@@ -98,7 +98,7 @@ namespace Aplication.Graphql.Queries
             //EdgeMqttServer.e3680052bcdb4ccf8034ee6856d88448.NewMessage
             var topic = $"EdgeMqttServer.{server_id}.NewMessage";
 
-            var stream = await receiver.SubscribeAsync<string, GQL_MqttMessage>(topic);
+            var stream = await receiver.SubscribeAsync<GQL_MqttMessage>(topic);
 
             var filtred_stream = new MessageSourceStreamFilter<GQL_MqttMessage>(
                 stream,

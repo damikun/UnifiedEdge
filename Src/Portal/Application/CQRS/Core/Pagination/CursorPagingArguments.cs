@@ -3,6 +3,14 @@ namespace Aplication.Core.Pagination
 {
     public readonly struct CursorArguments
     {
+        public CursorArguments()
+        {
+            First = null;
+            Last = null;
+            After = null;
+            Before = null;
+        }
+
         public CursorArguments(
             int? first = null,
             int? last = null,

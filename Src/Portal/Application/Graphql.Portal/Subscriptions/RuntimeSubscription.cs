@@ -30,14 +30,14 @@ namespace Aplication.Graphql.Queries
         public ValueTask<ISourceStream<GQL_Uptime>> Uptime(
             [Service] ITopicEventReceiver receiver)
         {
-            return receiver.SubscribeAsync<string, GQL_Uptime>("Uptime");
+            return receiver.SubscribeAsync<GQL_Uptime>("Uptime");
         }
 
         [SubscribeAndResolve]
         public ValueTask<ISourceStream<DateTime>> SystemTime(
             [Service] ITopicEventReceiver receiver)
         {
-            return receiver.SubscribeAsync<string, DateTime>("SystemTime");
+            return receiver.SubscribeAsync<DateTime>("SystemTime");
         }
 
         [SubscribeAndResolve]
@@ -47,7 +47,7 @@ namespace Aplication.Graphql.Queries
         {
             var topic = $"{RuntimeCollector.Prefix}.{_mapper.Map<string>(source)}";
 
-            return receiver.SubscribeAsync<string, GQL_Metric>(topic);
+            return receiver.SubscribeAsync<GQL_Metric>(topic);
         }
 
         [SubscribeAndResolve]
@@ -57,7 +57,7 @@ namespace Aplication.Graphql.Queries
         {
             var topic = $"ServerStateChanged.{server_id}";
 
-            return receiver.SubscribeAsync<string, GQL_ServerStateChangedNotification>(topic);
+            return receiver.SubscribeAsync<GQL_ServerStateChangedNotification>(topic);
         }
     }
 }
