@@ -2,17 +2,14 @@
 // See LICENSE in root.
 using Hangfire;
 using ElectronNET.API;
+using Aplication.Core;
+using System.Reflection;
 using Aplication.Services;
 using Swashbuckle.Swagger;
 using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
 using Aplication.Services.ServerEventHandler;
-using System.Reflection;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Aplication.DTO;
-using Aplication.Interfaces;
-using Microsoft.OpenApi.Models;
 
 namespace API
 {
@@ -167,27 +164,34 @@ namespace API
 
             app.UseHangfireDashboard();
 
-
             app.UseEndpoints(endpoints =>
             {
+                if (env.IsDevelopment())
+                {
+                    endpoints.MapBCPEndpoint();
+
+                    endpoints.MapSwagger();
+                }
+
                 endpoints.MapRazorPages();
 
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                .AddEndpointFilter(
+                    new RestGate()
+                );
 
                 endpoints.MapInternalGraphQLEndpoint();
 
-                endpoints.MapPublicGraphQLEndpoint();
-
-                endpoints.MapBCPEndpoint();
-
-                endpoints.MapSwagger();
+                endpoints.MapPublicGraphQLEndpoint()
+                .AddEndpointFilter(
+                    new GraphqlGate()
+                );
 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
 
                 endpoints.MapFallbackToFile("index.html");
-
             });
 
             if (HybridSupport.IsElectronActive)

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import GraphiQL from "graphiql";
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_ENDPOINT } from "../../constants";
+import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_PUBLIC_ENDPOINT } from "../../constants";
 
 import "@graphiql/react/font/roboto.css";
 import "@graphiql/react/font/fira-code.css";
@@ -12,8 +12,8 @@ import "graphiql/graphiql.css";
 export default React.memo(ApiGraphql)
 
 const fetcher = createGraphiQLFetcher({
-  url: `${BASE_SERVER_URL}/${GQL_ENDPOINT}`,
-  subscriptionUrl: `${BASE_SERVER_WS_URL_DEV}/${GQL_ENDPOINT}`
+  url: `${BASE_SERVER_URL}/${GQL_PUBLIC_ENDPOINT}`,
+  subscriptionUrl: `${BASE_SERVER_WS_URL_DEV}/${GQL_PUBLIC_ENDPOINT}`
 });
 
 const defaultQuery =

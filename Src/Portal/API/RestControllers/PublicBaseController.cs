@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API
 {
-    // [RestApiGate]
     [ApiController]
     [Route("api/[controller]/[action]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -12,6 +11,5 @@ namespace API
     {
         private IMediator? _mediator;
         protected IMediator? Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
-
     }
 }

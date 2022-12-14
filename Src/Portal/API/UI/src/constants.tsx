@@ -15,7 +15,9 @@ export const BASE_SERVER_URL =
 
 /*-----------------------------------------------------------------------*/
 
-export const GQL_ENDPOINT = "internal";
+export const GQL_INTERNAL_ENDPOINT = "internal";
+
+export const GQL_PUBLIC_ENDPOINT = "public";
 
 export const LOGIN_ENDPOINT = `${BASE_SERVER_URL}/Account/Login?ReturnUrl=~/`;
 

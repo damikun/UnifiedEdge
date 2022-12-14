@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.Core
 {
-    public class RestGate : IEndpointFilter
+    public class GraphqlGate : IEndpointFilter
     {
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext efiContext,
             EndpointFilterDelegate next)
@@ -19,7 +19,7 @@ namespace Aplication.Core
                     _factory.CreateDbContext();
 
                 if (!await dbContext.Edge.AnyAsync(
-                    e => e.ApiRest == true,
+                    e => e.ApiGraphql == true,
                     efiContext.HttpContext.RequestAborted
                 ))
                 {

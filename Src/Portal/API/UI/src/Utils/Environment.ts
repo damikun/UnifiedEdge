@@ -13,7 +13,7 @@ import {
   Variables,
 } from "relay-runtime";
 
-import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_ENDPOINT } from "../constants";
+import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_INTERNAL_ENDPOINT } from "../constants";
 
 const ErrorMessages = {
 	FAILED_FETCH: 'Failed to fetch',
@@ -42,7 +42,7 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 		(async () => {
 
 
-		const request = new Request(`${BASE_SERVER_URL}/${GQL_ENDPOINT}`, {
+		const request = new Request(`${BASE_SERVER_URL}/${GQL_INTERNAL_ENDPOINT}`, {
 			credentials: "include",
 			method: "POST",
 			mode: "cors",
@@ -188,7 +188,7 @@ export interface ObjMap<T> {
 }
 
 const wsClient = createClient({
-	url: `${BASE_SERVER_WS_URL_DEV}/${GQL_ENDPOINT}`,
+	url: `${BASE_SERVER_WS_URL_DEV}/${GQL_INTERNAL_ENDPOINT}`,
 	connectionParams: () => {
 		return {
 			'X-CSRF': '1'
