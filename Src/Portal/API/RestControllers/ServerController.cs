@@ -2,10 +2,12 @@ using Server;
 using MediatR;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
+using Duende.IdentityServer;
 using Aplication.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Aplication.CQRS.Commands;
 using Aplication.Core.Pagination;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API
 {
@@ -17,6 +19,20 @@ namespace API
         public ServerController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+
+        [HttpGet()]
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<ActionResult<string>> GetToken(
+            [FromServices] IdentityServerTools tool)
+        {
+            var result = await tool.IssueClientJwtAsync(
+                "api_client",
+                3600,
+            new string[] { "read", "write" });
+
+            return Ok(result);
         }
 
         /// Returns connection of Servers as union IServer
@@ -134,12 +150,15 @@ namespace API
 
         // Process Start/Stop/Restart to any sserver by UID
         [HttpPost()]
+        [Authorize(Policy = "write_access")]
         [ProducesResponseType(typeof(ServerState), 200)]
         public async Task<ActionResult<ServerState>> ProcessServerCmd(
             string server_uid,
-            ServerCmd command
+            ServerCmd command,
+            [FromServices] IHttpContextAccessor context
         )
         {
+
             var response = await _mediator.Send(
                 new ProcessServerCmd()
                 {

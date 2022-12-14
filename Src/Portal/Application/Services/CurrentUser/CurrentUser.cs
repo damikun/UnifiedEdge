@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aplication.Services
 {
@@ -22,6 +23,9 @@ namespace Aplication.Services
         /// <summary>DI object of IHttpContextAccessor</summary>
         private readonly IHttpContextAccessor _contextAccessor;
 
+        /// <summary>DI object of IAuthorizationService</summary>
+        private readonly IAuthorizationService _authService;
+
         /// <summary>DI object of IDbContextFactory</summary>
         private readonly IDbContextFactory<PortalIdentityDbContextPooled> _factory;
 
@@ -33,6 +37,7 @@ namespace Aplication.Services
             IMapper mapper,
             ILogger<CurrentUser> logger,
             IHttpContextAccessor contextAccessor,
+            IAuthorizationService authService,
             IDbContextFactory<PortalIdentityDbContextPooled> factory
         )
         {
@@ -41,6 +46,8 @@ namespace Aplication.Services
             _logger = logger;
 
             _factory = factory;
+
+            _authService = authService;
 
             _contextAccessor = contextAccessor;
         }
@@ -129,6 +136,29 @@ namespace Aplication.Services
             return TestRole(_contextAccessor, role_name);
         }
 
+        /// <summary>
+        /// Check user to specific policy
+        /// </summary>
+        /// <param name="role_name"></param>
+        /// <returns></returns>
+        public async Task<bool> ValidatePolicy(string policy_name)
+        {
+
+            if (string.IsNullOrWhiteSpace(policy_name))
+            {
+                return false;
+            }
+
+            var result = await TestPolicy(_contextAccessor, _authService, policy_name);
+
+            if (result is null || !result.Succeeded)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 #nullable enable
         public async Task<DTO_User?> GetUser(CancellationToken ct = default)
         {
@@ -187,6 +217,22 @@ namespace Aplication.Services
 
             return false;
         }
+
+#nullable enable
+        public static Task<AuthorizationResult?> TestPolicy(IHttpContextAccessor context, IAuthorizationService auth, string policy)
+        {
+
+            if (context?.HttpContext?.User == null)
+            {
+                return Task.FromResult<AuthorizationResult?>(null);
+            }
+            else
+            {
+                return auth.AuthorizeAsync(context.HttpContext.User, "dsdpolicysd")!;
+            }
+        }
+
+#nullable disable
 
         public bool IsAuthenticated
         {

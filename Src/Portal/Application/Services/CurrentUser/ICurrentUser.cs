@@ -49,6 +49,8 @@ namespace Aplication.Services
         /// <returns>True if user is has specific role</returns>
         bool HasRole(string role_name);
 
+        Task<bool> ValidatePolicy(string policy_name);
+
 #nullable enable
         /// <summary>
         /// Return User object DTO for current user

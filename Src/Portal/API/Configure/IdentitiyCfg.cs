@@ -10,27 +10,37 @@ public static class IdentitiyCfg
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
-            new IdentityResource("color", new [] { "favorite_color" })
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-            new ApiScope("api1", "My API"),
+            new ApiScope(name: "view",   displayName: "View"),
+            new ApiScope(name: "write",   displayName: "Write"),
         };
 
     public static IEnumerable<Client> Clients =>
         new Client[]
         {
             // machine to machine client
+
+            new Client
+            {
+                ClientId = "api_client",
+
+                AllowedGrantTypes = new List<string>(),
+
+                AllowedScopes = { "view" }
+            },
+
             new Client
             {
                 ClientId = "client",
                 ClientSecrets = { new Secret("secret".Sha256()) },
 
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-                // scopes that client has access to
-                AllowedScopes = { "api1" }
+
+                AllowedScopes = { "view" }
             },
 
             // interactive ASP.NET Core Web App
@@ -53,8 +63,8 @@ public static class IdentitiyCfg
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    "api1",
-                    "color"
+                    "view",
+                    "write"
                 }
             }
         };

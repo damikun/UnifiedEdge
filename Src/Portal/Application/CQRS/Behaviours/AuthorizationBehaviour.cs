@@ -56,7 +56,7 @@ namespace Aplication.CQRS.Behaviours
         {
 
             var authorizeAttributes = request?.GetType()
-                .GetCustomAttributes<AuthorizeAttribute>();
+                .GetCustomAttributes<Aplication.Core.AuthorizeAttribute>();
 
             if (authorizeAttributes != null && authorizeAttributes.Any())
             {
@@ -78,9 +78,9 @@ namespace Aplication.CQRS.Behaviours
 
                     activity?.Start();
 
-                    // Must be authenticated user
-                    if (!_currentUserService.Exist)
-                        HandleUnAuthorised();
+                    // // Must be authenticated user
+                    // if (!_currentUserService.Exist)
+                    //     HandleUnAuthorised();
 
                     // Role-based authorization
                     var authorizeAttributesWithRoles = authorizeAttributes.Where(
@@ -117,16 +117,16 @@ namespace Aplication.CQRS.Behaviours
                         a => !string.IsNullOrWhiteSpace(a.Policy)
                     );
 
-                    if (authorizeAttributesWithPolicies.Any())
-                    {
-                        foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
-                        {
-                            if (!_currentUserService.HasRole(policy.Trim()))
-                            {
-                                HandleUnAuthorised($"Policy: {policy} authorization failure");
-                            }
-                        }
-                    }
+                    // if (authorizeAttributesWithPolicies.Any())
+                    // {
+                    //     foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
+                    //     {
+                    //         if (!await _currentUserService.ValidatePolicy(policy.Trim()))
+                    //         {
+                    //             HandleUnAuthorised($"Policy: {policy} authorization failure");
+                    //         }
+                    //     }
+                    // }
 
                     if (authorizeAttributes.Any())
                     {

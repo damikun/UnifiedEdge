@@ -10,6 +10,8 @@ using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
 using Aplication.Services.ServerEventHandler;
+using Microsoft.OpenApi.Models;
+using System.Net;
 
 namespace API
 {
@@ -44,8 +46,32 @@ namespace API
 
             services.AddEndpointsApiExplorer();
 
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                                   | SecurityProtocolType.Tls11
+                                                   | SecurityProtocolType.Tls12;
+
             services.AddSwaggerGen(e =>
             {
+                e.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Scheme = "bearer"
+                });
+                e.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer" }
+                        }, new List<string>()
+                    }
+                });
+
                 e.CustomSchemaIds(
                       type => type.FriendlyId()
                       .Replace("[", "< ")
@@ -140,6 +166,15 @@ namespace API
 
             app.UseCors("cors_policy");
 
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            if (env.IsDevelopment())
+            {
+                app.UseVoyager();
+            }
+
             app.UseSwagger();
 
             if (env.IsDevelopment())
@@ -149,18 +184,11 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
             app.UseIdentityServer();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
-            if (env.IsDevelopment())
-            {
-                app.UseVoyager();
-            }
+            app.UseAuthorization();
 
             app.UseHangfireDashboard();
 
