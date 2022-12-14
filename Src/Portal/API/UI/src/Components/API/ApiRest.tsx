@@ -17,6 +17,7 @@ function ApiRest({}:ApiRestProps) {
   return <div className={clsx("block relative w-full h-auto",
   "")}>
     <SwaggerUI 
+    withCredentials
     requestInterceptor={(request) =>{
 
       if(request.url === SWAGGER_ENDPOINT){
