@@ -44,7 +44,6 @@ namespace API
             .AddEntityFrameworkStores<PortalIdentityDbContext>()
             .AddDefaultTokenProviders();
 
-
             serviceCollection
             .AddIdentityServer(options =>
             {
@@ -120,18 +119,16 @@ namespace API
                     },
                 };
             })
-            // this is the key piece!
+
             .AddPolicyScheme("JWT_OR_ID", "JWT_OR_ID", options =>
             {
                 // runs on each request
                 options.ForwardDefaultSelector = context =>
                 {
-                    // filter by auth type
                     string authorization = context.Request.Headers[HeaderNames.Authorization];
                     if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
                         return "Bearer";
 
-                    // otherwise always check for cookie auth
                     return IdentityConstants.ApplicationScheme;
                 };
             });
@@ -142,10 +139,13 @@ namespace API
                 options.AddPolicy("write_access", policy =>
                 {
                     policy.RequireClaim("scope", "write");
-                }
-                );
-            });
+                });
 
+                options.AddPolicy("read_access", policy =>
+                {
+                    policy.RequireClaim("scope", "write");
+                });
+            });
 
             return serviceCollection;
         }

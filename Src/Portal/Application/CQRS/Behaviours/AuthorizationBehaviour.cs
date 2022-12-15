@@ -117,16 +117,16 @@ namespace Aplication.CQRS.Behaviours
                         a => !string.IsNullOrWhiteSpace(a.Policy)
                     );
 
-                    // if (authorizeAttributesWithPolicies.Any())
-                    // {
-                    //     foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
-                    //     {
-                    //         if (!await _currentUserService.ValidatePolicy(policy.Trim()))
-                    //         {
-                    //             HandleUnAuthorised($"Policy: {policy} authorization failure");
-                    //         }
-                    //     }
-                    // }
+                    if (authorizeAttributesWithPolicies.Any())
+                    {
+                        foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
+                        {
+                            if (!await _currentUserService.ValidatePolicy(policy.Trim()))
+                            {
+                                HandleUnAuthorised($"Policy: {policy} authorization failure");
+                            }
+                        }
+                    }
 
                     if (authorizeAttributes.Any())
                     {

@@ -15,8 +15,8 @@ public static class IdentitiyCfg
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-            new ApiScope(name: "view",   displayName: "View"),
-            new ApiScope(name: "write",   displayName: "Write"),
+            new ApiScope(name: "view",  displayName: "View", userClaims: new[] { "scope" }),
+            new ApiScope(name: "write",  displayName: "Write", userClaims: new[] { "scope" }),
         };
 
     public static IEnumerable<Client> Clients =>

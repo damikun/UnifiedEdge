@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace Aplication.CQRS.Commands
 {
 
@@ -191,6 +192,8 @@ namespace Aplication.CQRS.Commands
                 new Claim(JwtClaimTypes.Name, user.UserName),
                 new Claim(JwtClaimTypes.GivenName, user.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                new Claim("scope", "view"),
+                new Claim("scope", "write"),
             });
 
             return _mapper.Map<DTO_User>(user);
