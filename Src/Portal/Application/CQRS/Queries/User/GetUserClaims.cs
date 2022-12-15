@@ -10,6 +10,27 @@ using Microsoft.AspNetCore.Http;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Duende.IdentityServer.Services;
+
+using Microsoft.AspNetCore.Authentication;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Domain.Server;
+using Duende.IdentityServer;
+using Duende.IdentityServer.Events;
+using Duende.IdentityServer.Services;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+
 
 namespace Aplication.CQRS.Queries
 {
@@ -98,6 +119,8 @@ namespace Aplication.CQRS.Queries
         /// </summary>
         private readonly IMapper _mapper;
 
+        private readonly IProfileService _profile;
+
         /// <summary>
         /// Injected <c>UserManager</c>
         /// </summary>
@@ -111,9 +134,12 @@ namespace Aplication.CQRS.Queries
             UserManager<ApplicationUser> manager,
             ICurrentUser currentuser,
             IHttpContextAccessor accessor,
-            IMapper mapper)
+            IMapper mapper,
+            IProfileService profile)
         {
             _mapper = mapper;
+
+            _profile = profile;
 
             _factory = factory;
 
@@ -137,10 +163,15 @@ namespace Aplication.CQRS.Queries
 
             var user = await _manager.FindByIdAsync(request.UserId);
 
-            var claims = await _manager.GetClaimsAsync(user);
+            var claims = await _manager.GetClaimsAsync(user!);
+
+            var subject = _current?.Claims?.Claims
+                .FirstOrDefault(e => e.Type == JwtClaimTypes.Subject);
+
+            if (subject is not null)
+                claims.Add(subject);
 
             return _mapper.Map<List<DTO_Claim>>(claims);
         }
-
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserRolesInfo from "./UserRolesInfo";
 import { useParams } from "react-router-dom";
+import UserScopesInfo from "./UserScopesInfo";
 import UserClaimsInfo from "./UserClaimsInfo";
 import { useLazyLoadQuery } from "react-relay";
 import UserGeneralInfo from "./UserGeneralInfo";
@@ -15,6 +16,7 @@ export const UserInfoQueryTag = graphql`
       ...UserGeneralInfoFragment
     }
     ...UserClaimsInfoFragment @arguments(user_id:$id)
+    ...UserScopesInfoFragment @arguments(user_id:$id)
     ...UserRolesInfoFragment @arguments(user_id:$id)
   }
 `;
@@ -39,6 +41,7 @@ function UserInfo() {
   return <>
     <UserGeneralInfo dataRef={data.userById}/>
     <UserClaimsInfo dataRef={data}/>
+    <UserScopesInfo dataRef={data}/>
     <UserRolesInfo dataRef={data}/>
   </>
 } 

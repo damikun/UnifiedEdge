@@ -39,7 +39,8 @@ function UserClaimsInfo({dataRef}:UserClaimsInfoProps) {
       "justify-between 2xl:justify-start")}>
         <FieldGroup>
           {
-            data?.userClaims.map((enity,index)=>{
+            data?.userClaims.filter(e=>e.type !== "scope")
+            .map((enity,index)=>{
               return enity && enity.type? <FieldSection
               key={index}
               variant="flex-row"

@@ -11,7 +11,7 @@ using Persistence.Identity;
 namespace Persistence.Identity.Migrations
 {
     [DbContext(typeof(PortalIdentityDbContext))]
-    [Migration("20221215081232_Init")]
+    [Migration("20221215084031_Init")]
     partial class Init
     {
         /// <inheritdoc />

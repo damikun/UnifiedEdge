@@ -12,6 +12,7 @@ export const UserGeneralInfoFragmentTag = graphql`
   fragment UserGeneralInfoFragment on GQL_User 
   {
     id
+    sub
     firstName
     lastName
     userName
@@ -47,6 +48,13 @@ function UserGeneralInfo({dataRef}:UserGeneralInfoProps) {
             name="Last name">
             <div className="font-mono truncate break-all">
               {data?.lastName}
+            </div>
+          </FieldSection>
+          <FieldSection
+            variant="flex-row"
+            name="Subject ID">
+            <div className="font-mono truncate break-all">
+              {data?.sub}
             </div>
           </FieldSection>
         </FieldGroup>

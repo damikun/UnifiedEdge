@@ -917,6 +917,7 @@ type GQL_User {
   id: ID!
   lastName: String
   sessionId: String
+  sub: String!
   userName: String
 }
 
@@ -1139,7 +1140,6 @@ type Query {
   systemInfo: GQL_SystemInfo!
   systemLogById(log_id: ID!): GQL_SystemEvent!
   systemLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_SystemEventConnection
-  testik(id: ID!): GQL_Adapter
   userById(user_id: ID!): GQL_User!
   userClaims(user_id: ID!): [GQL_Claim!]!
   userRoles(user_id: ID!): [String!]!

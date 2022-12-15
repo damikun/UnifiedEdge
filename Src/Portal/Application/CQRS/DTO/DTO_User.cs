@@ -1,6 +1,6 @@
 
-using Aplication.Mapping;
 using Domain.Server;
+using Aplication.Mapping;
 
 namespace Aplication.DTO
 {
@@ -13,6 +13,14 @@ namespace Aplication.DTO
         }
 
         public string Id { get; set; }
+
+        public string Sub
+        {
+            get
+            {
+                return Id;
+            }
+        }
 
         public string? UserName { get; set; }
 

@@ -7,7 +7,10 @@ using Aplication.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Aplication.CQRS.Commands;
 using Aplication.Core.Pagination;
+using Duende.IdentityServer.Stores;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
+
 
 namespace API
 {
@@ -16,23 +19,58 @@ namespace API
     {
         public readonly IMediator _mediator;
 
-        public ServerController(IMediator mediator)
+        public readonly IPersistedGrantStore _store;
+
+        private readonly IIssuerNameService _issuerNameService;
+
+        private readonly ITokenService _tokenService;
+
+        public ServerController(
+            IMediator mediator,
+            IPersistedGrantStore store,
+            IIssuerNameService issuerNameService,
+            ITokenService tokenService
+        )
         {
             _mediator = mediator;
+
+            _store = store;
+
+            _tokenService = tokenService;
+
+            _issuerNameService = issuerNameService;
         }
 
 
-        [HttpGet()]
-        [ProducesResponseType(typeof(string), 200)]
-        public async Task<ActionResult<string>> GetToken(
-            [FromServices] IdentityServerTools tool)
-        {
-            var result = await tool.IssueClientJwtAsync(
-                "api_client",
-                3600,
-            new string[] { "read", "write" });
+        // [HttpGet()]
+        // [ProducesResponseType(typeof(string), 200)]
+        // public async Task<ActionResult<List<Duende.IdentityServer.Models.PersistedGrant>>> PrintTokens(
+        //     [FromServices] IdentityServerTools tool)
+        // {
 
-            return Ok(result);
+        //     var result = await _store.GetAllAsync(new PersistedGrantFilter()
+        //     {
+        //         SubjectId = "8be47ae3-dabd-4069-ac23-80b3485356fe"
+        //     });
+
+
+        //     return Ok(result.ToList());
+        // }
+
+        [HttpGet()]
+        [ProducesResponseType(typeof(DTO_Token), 200)]
+        public async Task<ActionResult<DTO_Token>> GetToken(
+            [FromQuery] string description
+        )
+        {
+            var response = await _mediator.Send(
+                new GetApiToken()
+                {
+                    Description = description
+                }
+            );
+
+            return Ok(response);
         }
 
         /// Returns connection of Servers as union IServer

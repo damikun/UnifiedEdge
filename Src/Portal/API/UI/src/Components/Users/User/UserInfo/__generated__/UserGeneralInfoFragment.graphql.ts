@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7f0c32aa92684a01556f820d0d6d8e4a>>
+ * @generated SignedSource<<f95e9090175a8572a423f793d855e58a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type UserGeneralInfoFragment$data = {
   readonly firstName: string | null;
   readonly id: string;
   readonly lastName: string | null;
+  readonly sub: string;
   readonly userName: string | null;
   readonly " $fragmentType": "UserGeneralInfoFragment";
 };
@@ -33,6 +34,13 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "ScalarField",
       "name": "id",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "sub",
       "storageKey": null
     },
     {
@@ -61,6 +69,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "eaf36704b16838fe489aeb8bba5620a7";
+(node as any).hash = "1783c734c9273353d24ecfb88a5d4259";
 
 export default node;

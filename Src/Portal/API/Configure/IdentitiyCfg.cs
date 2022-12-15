@@ -9,7 +9,7 @@ public static class IdentitiyCfg
         new IdentityResource[]
         {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
+            new IdentityResources.Profile()
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -19,6 +19,23 @@ public static class IdentitiyCfg
             new ApiScope(name: "write",  displayName: "Write", userClaims: new[] { "scope" }),
         };
 
+    public static IEnumerable<ApiResource> ApiResources =>
+          new ApiResource[]
+          {
+                new ApiResource("edgeapi")
+                {
+                    Scopes =
+                    {
+                        "view",
+                        "write"
+                    },
+                    ApiSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    }
+                },
+          };
+
     public static IEnumerable<Client> Clients =>
         new Client[]
         {
@@ -27,10 +44,12 @@ public static class IdentitiyCfg
             new Client
             {
                 ClientId = "api_client",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                AllowedGrantTypes = new List<string>(),
+                // AccessTokenType = AccessTokenType.Reference,
 
-                AllowedScopes = { "view" }
+                AllowedScopes = { "view","write"  }
             },
 
             new Client
@@ -64,7 +83,9 @@ public static class IdentitiyCfg
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     "view",
-                    "write"
+                    "write",
+                    "sub",
+                    "aud"
                 }
             }
         };

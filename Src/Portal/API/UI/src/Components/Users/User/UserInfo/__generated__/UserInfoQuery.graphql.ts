@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<54761ea5d95d7f28985966a04078e139>>
+ * @generated SignedSource<<f05c39a018208428ede44f102cda8ba8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type UserInfoQuery$data = {
   readonly userById: {
     readonly " $fragmentSpreads": FragmentRefs<"UserGeneralInfoFragment">;
   };
-  readonly " $fragmentSpreads": FragmentRefs<"UserClaimsInfoFragment" | "UserRolesInfoFragment">;
+  readonly " $fragmentSpreads": FragmentRefs<"UserClaimsInfoFragment" | "UserRolesInfoFragment" | "UserScopesInfoFragment">;
 };
 export type UserInfoQuery = {
   response: UserInfoQuery$data;
@@ -70,6 +70,11 @@ return {
       {
         "args": (v1/*: any*/),
         "kind": "FragmentSpread",
+        "name": "UserScopesInfoFragment"
+      },
+      {
+        "args": (v1/*: any*/),
+        "kind": "FragmentSpread",
         "name": "UserRolesInfoFragment"
       }
     ],
@@ -95,6 +100,13 @@ return {
             "args": null,
             "kind": "ScalarField",
             "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "sub",
             "storageKey": null
           },
           {
@@ -156,16 +168,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9940f8465497b47c5400721222534ed5",
+    "cacheID": "c1aa76a2f0710522d5be2df3b9ab16ab",
     "id": null,
     "metadata": {},
     "name": "UserInfoQuery",
     "operationKind": "query",
-    "text": "query UserInfoQuery(\n  $id: ID!\n) {\n  userById(user_id: $id) {\n    ...UserGeneralInfoFragment\n    id\n  }\n  ...UserClaimsInfoFragment_3UvyJX\n  ...UserRolesInfoFragment_3UvyJX\n}\n\nfragment UserClaimsInfoFragment_3UvyJX on Query {\n  userClaims(user_id: $id) {\n    type\n    value\n  }\n}\n\nfragment UserGeneralInfoFragment on GQL_User {\n  id\n  firstName\n  lastName\n  userName\n}\n\nfragment UserRolesInfoFragment_3UvyJX on Query {\n  userRoles(user_id: $id)\n}\n"
+    "text": "query UserInfoQuery(\n  $id: ID!\n) {\n  userById(user_id: $id) {\n    ...UserGeneralInfoFragment\n    id\n  }\n  ...UserClaimsInfoFragment_3UvyJX\n  ...UserScopesInfoFragment_3UvyJX\n  ...UserRolesInfoFragment_3UvyJX\n}\n\nfragment UserClaimsInfoFragment_3UvyJX on Query {\n  userClaims(user_id: $id) {\n    type\n    value\n  }\n}\n\nfragment UserGeneralInfoFragment on GQL_User {\n  id\n  sub\n  firstName\n  lastName\n  userName\n}\n\nfragment UserRolesInfoFragment_3UvyJX on Query {\n  userRoles(user_id: $id)\n}\n\nfragment UserScopesInfoFragment_3UvyJX on Query {\n  userClaims(user_id: $id) {\n    type\n    value\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c3f7beb977958acf5a4a7b2595efd91e";
+(node as any).hash = "7683f4d1b1e23889d0743aacb902afa8";
 
 export default node;
