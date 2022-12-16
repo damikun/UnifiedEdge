@@ -18,7 +18,7 @@ Code is not currently signed!
 
 [Win64 Installer](https://www.dropbox.com/s/73r18os0vu5tsyv/UnifiedEdge%20Setup%201.0.1.exe?dl=0)
 
-[(Mirror) Win64 Installer](https://ulozto.cz/file/HUNTMGIpcbT7/unifiededge-setup-1-0-1-exe#!ZJDlAQR2AGp1AGuwL2HlZJV2LwEwZGqHLzAxDGWjE2A1nJHmBN==)
+[(Mirror) Win64 Installer](https://ulozto.cz/file/4CG3j1W0ufSE/unifiededge-setup-1-0-1-exe#!ZJWxZwR1BGZ0MwMyZwtmZJRjZGIxEIAzqJWLFUxmsyuQMQRl)
 
 ## Credentials
 
