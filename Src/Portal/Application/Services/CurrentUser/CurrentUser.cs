@@ -219,7 +219,11 @@ namespace Aplication.Services
         }
 
 #nullable enable
-        public static Task<AuthorizationResult?> TestPolicy(IHttpContextAccessor context, IAuthorizationService auth, string policy)
+        public static Task<AuthorizationResult?> TestPolicy(
+            IHttpContextAccessor context,
+            IAuthorizationService auth,
+            string policy
+        )
         {
 
             if (context?.HttpContext?.User == null)
@@ -228,7 +232,7 @@ namespace Aplication.Services
             }
             else
             {
-                return auth.AuthorizeAsync(context.HttpContext.User, "dsdpolicysd")!;
+                return auth.AuthorizeAsync(context.HttpContext.User, policy)!;
             }
         }
 
