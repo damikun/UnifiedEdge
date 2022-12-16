@@ -41,31 +41,34 @@ namespace API
         }
 
 
-        // [HttpGet()]
-        // [ProducesResponseType(typeof(string), 200)]
-        // public async Task<ActionResult<List<Duende.IdentityServer.Models.PersistedGrant>>> PrintTokens(
-        //     [FromServices] IdentityServerTools tool)
-        // {
+        [HttpGet()]
+        [ProducesResponseType(typeof(string), 200)]
+        public async Task<ActionResult<List<Duende.IdentityServer.Models.PersistedGrant>>> PrintTokens()
+        {
 
-        //     var result = await _store.GetAllAsync(new PersistedGrantFilter()
-        //     {
-        //         SubjectId = "8be47ae3-dabd-4069-ac23-80b3485356fe"
-        //     });
+            var result = await _store.GetAllAsync(new PersistedGrantFilter()
+            {
+                SubjectId = "8be47ae3-dabd-4069-ac23-80b3485356fe"
+            });
 
 
-        //     return Ok(result.ToList());
-        // }
+            return Ok(result.ToList());
+        }
 
         [HttpGet()]
         [ProducesResponseType(typeof(DTO_Token), 200)]
         public async Task<ActionResult<DTO_Token>> GetToken(
-            [FromQuery] string description
+            [FromQuery] string description,
+            [FromQuery] TokenSkope scope,
+            [FromQuery] TokenLifetime lifetime
         )
         {
             var response = await _mediator.Send(
                 new GetApiToken()
                 {
-                    Description = description
+                    Description = description,
+                    Scope = scope,
+                    Lifetime = lifetime
                 }
             );
 

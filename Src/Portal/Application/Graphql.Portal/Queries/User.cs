@@ -130,5 +130,22 @@ namespace Aplication.Graphql.Queries
                 isAdmin = result
             };
         }
+
+        [UseConnection(typeof(GQL_Token))]
+        public async Task<Connection<GQL_Token>> GetApiTokens(
+            IResolverContext ctx,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetUserTokens(arguments),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_Token>>(result);
+        }
     }
 }

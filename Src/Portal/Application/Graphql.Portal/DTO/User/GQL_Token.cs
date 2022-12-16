@@ -1,13 +1,12 @@
 
-using Domain.Server;
 using Aplication.Mapping;
 
 namespace Aplication.DTO
 {
 
-    public class DTO_Token
+    public class GQL_Token : IMapFrom<DTO_Token>
     {
-        public DTO_Token()
+        public GQL_Token()
         {
 
         }
@@ -16,8 +15,8 @@ namespace Aplication.DTO
 
         public string SubjectId { get; set; }
 
-        public string Token { get; set; }
-
         public string Description { get; set; }
+
+        public DateTime? Expiration { get; set; }
     }
 }

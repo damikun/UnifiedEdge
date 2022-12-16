@@ -40,6 +40,10 @@ namespace API
             {
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.IncludeFields = true;
+
+                options.JsonSerializerOptions.Converters.Add(
+                    new System.Text.Json.Serialization.JsonStringEnumConverter()
+                );
             });
 
             services.AddCorsConfiguration(Environment, Configuration);
@@ -82,6 +86,8 @@ namespace API
                 var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                 e.IncludeXmlComments(xmlPath, true);
+
+                e.UseInlineDefinitionsForEnums();
             }
 
             );

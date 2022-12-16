@@ -28,8 +28,7 @@ namespace Aplication.Graphql.Mutations
             string first_name,
             string last_name,
             string password,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(new CreateUser()
@@ -52,8 +51,7 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(InternalError))]
         public async Task<GQL_User> RemoveUser(
             [ID] string user_id,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(new RemoveUser()
@@ -74,8 +72,7 @@ namespace Aplication.Graphql.Mutations
         public async Task<GQL_User> UpdateUserFirstName(
             [ID] string user_id,
             string first_name,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(new UpdateUserFirstName()
@@ -97,8 +94,7 @@ namespace Aplication.Graphql.Mutations
         public async Task<GQL_User> UpdateUserLastName(
             [ID] string user_id,
             string last_name,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(new UpdateUserLastName()
@@ -120,8 +116,7 @@ namespace Aplication.Graphql.Mutations
         public async Task<GQL_User> UpdateUserEnabled(
             [ID] string user_id,
             bool enable,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(
@@ -145,8 +140,7 @@ namespace Aplication.Graphql.Mutations
         public async Task<GQL_User> SetUserAdmin(
             [ID] string user_id,
             bool is_admin,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             if (is_admin)
@@ -185,8 +179,7 @@ namespace Aplication.Graphql.Mutations
             [ID] string user_id,
             string current_password,
             string new_password,
-            [Service] IMediator mediator,
-            [Service] IMapper mapper
+            [Service] IMediator mediator
         )
         {
             var dto = await mediator.Send(
@@ -201,5 +194,53 @@ namespace Aplication.Graphql.Mutations
             return _mapper.Map<GQL_User>(dto);
         }
 
+
+        /// <summary>
+        /// Get Api token
+        /// </summary>
+        /// <returns>GQL_TokenResponse</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_TokenResponse> GenerateApiToken(
+            [Service] IMediator mediator,
+            string description,
+            TokenLifetime lifetime = TokenLifetime.hour,
+            TokenSkope scope = TokenSkope.view
+        )
+        {
+            var dto = await mediator.Send(
+                new GetApiToken()
+                {
+                    Description = description,
+                    Lifetime = lifetime,
+                    Scope = scope
+                }
+            );
+
+            return _mapper.Map<GQL_TokenResponse>(dto);
+        }
+
+        /// <summary>
+        /// Get Api token
+        /// </summary>
+        /// <returns>GQL_Token</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_Token> RevokeApiToken(
+            [Service] IMediator mediator,
+            [ID] string token_id
+        )
+        {
+            var dto = await mediator.Send(
+                new RevokeApiToken()
+                {
+                    TokenId = token_id
+                }
+            );
+
+            return _mapper.Map<GQL_Token>(dto);
+        }
     }
 }

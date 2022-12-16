@@ -903,6 +903,38 @@ type GQL_SystemInfo {
   uptime: GQL_Uptime
 }
 
+type GQL_Token {
+  description: String!
+  expiration: DateTime
+  id: ID!
+  subjectId: String!
+}
+
+"A connection to a list of items."
+type GQL_TokenConnection {
+  "A list of edges."
+  edges: [GQL_TokenEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_Token]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_TokenEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_Token
+}
+
+type GQL_TokenResponse {
+  handle: String
+  token: GQL_Token!
+}
+
 type GQL_Uptime {
   days: Int!
   hours: Int!
@@ -1011,6 +1043,12 @@ type GQL_WebHookRecordEdge {
   node: GQL_WebHookRecord
 }
 
+type GenerateApiTokenPayload {
+  errors: [GenerateApiTokenError!]
+  gQL_TokenResponse: GQL_TokenResponse
+  query: Query!
+}
+
 type HistorianRecord {
   timeStamp: DateTime
   value: Any
@@ -1040,6 +1078,7 @@ type Mutation {
   enableMqttLogging(input: EnableMqttLoggingInput!): EnableMqttLoggingPayload!
   enableMqttUserAuth(input: EnableMqttUserAuthInput!): EnableMqttUserAuthPayload!
   enableRestApi(input: EnableRestApiInput!): EnableRestApiPayload!
+  generateApiToken(input: GenerateApiTokenInput!): GenerateApiTokenPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
   removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
@@ -1047,6 +1086,7 @@ type Mutation {
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
   resetMqttClientStatistic(input: ResetMqttClientStatisticInput!): ResetMqttClientStatisticPayload!
+  revokeApiToken(input: RevokeApiTokenInput!): RevokeApiTokenPayload!
   setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
@@ -1095,6 +1135,7 @@ type Query {
   adapterById(id: ID!): GQL_Adapter!
   adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
   adapters("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterConnection
+  apiTokens("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_TokenConnection
   defaultAdapter: GQL_DefaultAdapter!
   edgeInfo: GQL_Edge!
   failedJob(jobid: ID!): GQL_FailedJob!
@@ -1188,6 +1229,12 @@ type RemoveWebHookPayload {
 type ResetMqttClientStatisticPayload {
   errors: [ResetMqttClientStatisticError!]
   gQL_MqttClientStatistics: GQL_MqttClientStatistics
+  query: Query!
+}
+
+type RevokeApiTokenPayload {
+  errors: [RevokeApiTokenError!]
+  gQL_Token: GQL_Token
   query: Query!
 }
 
@@ -1384,6 +1431,8 @@ union EnableRestApiError = ValidationError | AuthorizationError | InternalError
 
 union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | GQL_ServerErrorEvent | GQL_ServerInfoEvent | GQL_ServerStateChangedEvent | GQL_ClientDisconnected
 
+union GenerateApiTokenError = ValidationError | AuthorizationError | InternalError
+
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
 union RemoveMqttAuthClientError = ValidationError | AuthorizationError | InternalError
@@ -1397,6 +1446,8 @@ union RemoveUserError = ValidationError | AuthorizationError | InternalError
 union RemoveWebHookError = ValidationError | AuthorizationError | InternalError
 
 union ResetMqttClientStatisticError = ValidationError | AuthorizationError | InternalError
+
+union RevokeApiTokenError = ValidationError | AuthorizationError | InternalError
 
 union SetEdgeDefaultNetworkAdapterError = ValidationError | AuthorizationError | InternalError
 
@@ -1516,6 +1567,13 @@ input EnableRestApiInput {
   enable: Boolean!
 }
 
+input GenerateApiTokenInput {
+  description: String!
+  lifetime: TokenLifetime! = HOUR
+  scope: TokenSkope! = VIEW
+  user_id: ID!
+}
+
 input ProcessServerCmdInput {
   cmd: GQL_ServerCmd!
   uid: ID!
@@ -1544,6 +1602,10 @@ input RemoveWebHookInput {
 input ResetMqttClientStatisticInput {
   client_uid: ID!
   server_uid: ID!
+}
+
+input RevokeApiTokenInput {
+  token_id: ID!
 }
 
 input SetEdgeDefaultNetworkAdapterInput {
@@ -1846,6 +1908,19 @@ enum ServerEventTypes {
   INFO
   WARNING
   ERROR
+}
+
+enum TokenLifetime {
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum TokenSkope {
+  VIEW
+  VIEW_AND_WRITE
 }
 
 "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."

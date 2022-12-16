@@ -9,7 +9,6 @@ using Aplication.Services.Identitiy;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-
 namespace API
 {
     public static partial class ServiceExtension
@@ -169,6 +168,21 @@ namespace API
                 {
                     policy.RequireClaim("scope", "view");
                 });
+
+                options.AddPolicy("authenticated_user", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy("FullAccess", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(c =>
+                            (
+                                c.Type == "write_access" &&
+                                c.Type == "read_access" &&
+                                c.Type == "authenticated_user"
+                            ))));
+
             });
 
             return serviceCollection;

@@ -1,4 +1,5 @@
 using MediatR;
+using System.Text;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
@@ -8,6 +9,8 @@ using Aplication.Services;
 using Duende.IdentityServer;
 using System.Security.Claims;
 using Aplication.CQRS.Behaviours;
+using Duende.IdentityServer.Stores;
+using System.Security.Cryptography;
 using Duende.IdentityServer.Models;
 using Microsoft.EntityFrameworkCore;
 using Duende.IdentityServer.Services;
@@ -20,10 +23,16 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// GetApiToken
     /// </summary>
-    [Authorize]
-    public class GetApiToken : CommandBase<DTO_Token>
+    [Authorize(Policy = "write_access")]
+    [Authorize(Policy = "authenticated_user")]
+    public class GetApiToken : CommandBase<DTO_TokenResponse>
     {
+#nullable disable
         public string Description { get; set; }
+#nullable enable
+        public TokenSkope Scope { get; set; } = TokenSkope.view;
+
+        public TokenLifetime Lifetime { get; set; } = TokenLifetime.day;
     }
 
     //---------------------------------------
@@ -37,13 +46,29 @@ namespace Aplication.CQRS.Commands
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public GetApiTokenValidator(IDbContextFactory<ManagmentDbCtx> factory)
+        private readonly ICurrentUser _current;
+
+        public GetApiTokenValidator(
+            IDbContextFactory<ManagmentDbCtx> factory,
+            ICurrentUser current
+        )
         {
             _factory = factory;
+
+            _current = current;
 
             RuleFor(e => e.Description)
             .NotNull()
             .NotEmpty();
+
+            RuleFor(e => e)
+            .Must(UserSubExist)
+            .WithMessage("User is not authenticated");
+
+            bool UserSubExist(GetApiToken request)
+            {
+                return !string.IsNullOrWhiteSpace(_current.UserId);
+            }
         }
     }
 
@@ -65,7 +90,7 @@ namespace Aplication.CQRS.Commands
 
     /// <summary>Handler for <c>GetApiTokenHandler</c> command </summary>
     public class GetApiTokenHandler
-        : IRequestHandler<GetApiToken, DTO_Token>
+        : IRequestHandler<GetApiToken, DTO_TokenResponse>
     {
 
         /// <summary>
@@ -84,17 +109,25 @@ namespace Aplication.CQRS.Commands
         private readonly ICurrentUser _current;
 
         /// <summary>
+        /// Injected <c>IPersistedGrantStore</c>
+        /// </summary>
+        private readonly IPersistedGrantStore _grant_store;
+
+        /// <summary>
         /// Main constructor
         /// </summary>
         public GetApiTokenHandler(
             ITokenService tokenService,
             IIssuerNameService issuerNameService,
-            ICurrentUser current
+            ICurrentUser current,
+            IPersistedGrantStore grant_store
         )
         {
             _current = current;
 
             _tokenService = tokenService;
+
+            _grant_store = grant_store;
 
             _issuerNameService = issuerNameService;
         }
@@ -102,19 +135,20 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Command handler for <c>GetApiToken</c>
         /// </summary>
-        public async Task<DTO_Token> Handle(GetApiToken request, CancellationToken cancellationToken)
+        public async Task<DTO_TokenResponse> Handle(GetApiToken request, CancellationToken cancellationToken)
         {
-            var user_sub_id = _current.UserId;
-
-            var uid = Guid.NewGuid().ToString();
-
             var claims = new List<Claim>
             {
                 new("client_id", "api_client"),
-                new("scope", "write"),
                 new("scope", "view"),
-                new("uid", uid)
             };
+
+            if (request.Scope == TokenSkope.viewAndWrite)
+            {
+                claims.Add(new("scope", "write"));
+            }
+
+            var user_sub_id = _current.UserId;
 
             if (user_sub_id is not null)
             {
@@ -124,7 +158,7 @@ namespace Aplication.CQRS.Commands
             var token = new Token(IdentityServerConstants.TokenTypes.AccessToken)
             {
                 Issuer = await _issuerNameService.GetCurrentAsync(),
-                Lifetime = Convert.ToInt32(TimeSpan.FromDays(1).TotalMilliseconds),
+                Lifetime = Convert.ToInt32(GetLifetime(request.Lifetime).TotalSeconds),
                 CreationTime = DateTime.UtcNow,
                 ClientId = "api_client",
 
@@ -137,17 +171,54 @@ namespace Aplication.CQRS.Commands
                 AccessTokenType = AccessTokenType.Reference
             };
 
-            var response_token = await _tokenService.CreateSecurityTokenAsync(token);
+            var handle = await _tokenService.CreateSecurityTokenAsync(token);
 
-            return new DTO_Token()
+            var hash = GetHashedKey(handle);
+
+            var grant = await _grant_store.GetAsync(hash);
+
+            return new DTO_TokenResponse()
             {
-                Id = uid,
-                Token = response_token,
-                SubjectId = user_sub_id,
-                Description = request.Description
+                Token = new DTO_Token(grant),
+                Handle = handle,
             };
         }
 
+        private TimeSpan GetLifetime(TokenLifetime lifetime_enum)
+        {
+            switch (lifetime_enum)
+            {
+                case TokenLifetime.hour: return TimeSpan.FromHours(1);
+                case TokenLifetime.day: return TimeSpan.FromDays(1);
+                case TokenLifetime.week: return TimeSpan.FromDays(7);
+                case TokenLifetime.month: return TimeSpan.FromDays(30);
+                case TokenLifetime.year: return TimeSpan.FromDays(365);
+
+                default: return TimeSpan.FromDays(1);
+            }
+        }
+
+        private const string KeySeparator = ":";
+        const string HexEncodingFormatSuffix = "-1";
+
+        protected virtual string GetHashedKey(string value)
+        {
+            var key = (value + KeySeparator + IdentityServerConstants.PersistedGrantTypes.ReferenceToken);
+
+            if (value.EndsWith(HexEncodingFormatSuffix))
+            {
+                // newer format >= v6; uses hex encoding to avoid collation issues
+                using (var sha = SHA256.Create())
+                {
+                    var bytes = Encoding.UTF8.GetBytes(key);
+                    var hash = sha.ComputeHash(bytes);
+                    return BitConverter.ToString(hash).Replace("-", "");
+                }
+            }
+
+            // old format <= v5
+            return key.Sha256();
+        }
     }
 
     //---------------------------------------
@@ -155,7 +226,7 @@ namespace Aplication.CQRS.Commands
 
 
     public class GetApiToken_PostProcessor
-        : IRequestPostProcessor<GetApiToken, DTO_Token>
+        : IRequestPostProcessor<GetApiToken, DTO_TokenResponse>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
@@ -171,7 +242,7 @@ namespace Aplication.CQRS.Commands
 
         public async Task Process(
             GetApiToken request,
-            DTO_Token response,
+            DTO_TokenResponse response,
             CancellationToken cancellationToken)
         {
             if (response != null)

@@ -127,6 +127,8 @@ namespace API
                 .AddType<MqttTopicType>()
                 .AddType<MqttTopicStatsType>()
 
+                .AddType<TokenType>()
+
                 .AddType<ServerStateChangedNotificationType>()
 
                 .AddType<ServerEventsUnionType>()
