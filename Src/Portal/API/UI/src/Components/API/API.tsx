@@ -1,6 +1,7 @@
 import React from "react";
 import ApiInfo from "./ApiInfo";
 import ApiRest from "./ApiRest";
+import ApiTokens from "./ApiTokens";
 import ApiGraphql from "./ApiGraphql";
 import { Route, Routes } from "react-router";
 import { useLazyLoadQuery } from "react-relay";
@@ -22,8 +23,12 @@ const APIQueryTag = graphql`
 
 export const APITabs = [
   {
-    label: "Graphql",
+    label: "Tokens",
     path: ``,
+  },
+  {
+    label: "Graphql",
+    path: `Graphql`,
   },
   {
     label: "Rest",
@@ -56,7 +61,8 @@ function API() {
 
     <Routes>
       <Route path="/Rest/" element={<ApiRest/>} />
-      <Route path="/*" element={<ApiGraphql/>} />
+      <Route path="/Graphql/" element={<ApiGraphql/>} />
+      <Route path="/*" element={<ApiTokens/>} />
     </Routes>
 
   </>

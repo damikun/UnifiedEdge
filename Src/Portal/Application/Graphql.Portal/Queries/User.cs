@@ -11,7 +11,7 @@ using HotChocolate.Types.Pagination;
 namespace Aplication.Graphql.Queries
 {
     /// <summary>
-    ///  System Queries
+    ///  User Queries
     /// </summary>
     [ExtendObjectType(OperationTypeNames.Query)]
     public class UserQueries
@@ -146,6 +146,17 @@ namespace Aplication.Graphql.Queries
             );
 
             return _mapper.Map<Connection<GQL_Token>>(result);
+        }
+
+        public async Task<GQL_Token> GetTokenById(
+            [ID] string token_id,
+            [Service] IMediator mediator,
+            CancellationToken cancellationToken
+        )
+        {
+            var result = await mediator.Send(new GetUserTokenById(token_id));
+
+            return _mapper.Map<GQL_Token>(result);
         }
     }
 }

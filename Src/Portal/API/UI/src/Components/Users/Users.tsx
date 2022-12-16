@@ -1,8 +1,8 @@
 import { useLazyLoadQuery } from "react-relay";
-import { graphql } from "babel-plugin-relay/macro";
 import WebHookList from "./UserList/UserList";
-import Section from "../../UIComponents/Section/Section";
+import { graphql } from "babel-plugin-relay/macro";
 import WebHookListBar from "./UserList/UserListBar";
+import Section from "../../UIComponents/Section/Section";
 import { UsersQuery } from "./__generated__/UsersQuery.graphql";
 import { UserListCtxProvider } from "./UserList/UserListCtxProvider";
 

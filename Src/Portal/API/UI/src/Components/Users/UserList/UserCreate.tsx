@@ -167,18 +167,20 @@ function CreateNewUser(){
       onChange={formik.handleChange}
     />
 
-    <div className="mb-6 text-center h-10 flex-1">
-      <StayledButton
-        isloading={isInFlight}
-        variant="secondaryblue"
-        disabled={isInFlight}
-        className="flex-1 my-auto w-full"
-        type="submit"
-      >
-        <div className="mx-auto my-auto">
-          Create
-        </div>
-      </StayledButton>
+    <div className="pt-5">
+      <div className="mb-6 text-center h-10 flex-1">
+        <StayledButton
+          isloading={isInFlight}
+          variant="secondaryblue"
+          disabled={isInFlight}
+          className="flex-1 my-auto w-full"
+          type="submit"
+        >
+          <div className="mx-auto my-auto">
+            Create
+          </div>
+        </StayledButton>
+      </div>
     </div>
   </form>
 }

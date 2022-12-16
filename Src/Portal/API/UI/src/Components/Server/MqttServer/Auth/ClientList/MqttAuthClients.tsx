@@ -62,14 +62,14 @@ function MqttAuthClients({dataRef}:MqttAuthClientsProps) {
   }, [searchParams, setSearchParams]);
   
   return <MqttAuthClientsCtxProvider>
-  <Modal
-    position="top"
-    isOpen={isOpen}
-    onClose={handleModalClose}
-    component={
-      <MqttClientDetail />
-    }
-  />
+    <Modal
+      position="top"
+      isOpen={isOpen}
+      onClose={handleModalClose}
+      component={
+        <MqttClientDetail />
+      }
+    />
     <Section 
       name={"Auth Clients"}
       bar={<MqttAuthClientsBar dataRef={dataRef}/>}

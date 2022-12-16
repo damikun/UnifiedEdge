@@ -57,6 +57,8 @@ namespace Aplication.CQRS.Commands
 
             _current = current;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.Description)
             .NotNull()
             .NotEmpty();

@@ -252,6 +252,7 @@ export default function MqttAuthClientDetail(){
         <div className="max-w-lg">
           <StayledButton
             variant="error"
+            isloading={isInFlight_remove}
             iconLeft={faTrash}
             size="normal"
             onClick={handleRemove}>

@@ -43,17 +43,6 @@ namespace Aplication.CQRS.Queries
         public GetUserTokensValidator(ICurrentUser current)
         {
             _current = current;
-
-            RuleFor(e => e)
-             .Must(UserSubExist)
-             .WithMessage("User is not authenticated");
-
-            bool UserSubExist(GetUserTokens request)
-            {
-                return !string.IsNullOrWhiteSpace(
-                    _current.UserId
-                );
-            }
         }
     }
 
@@ -63,11 +52,24 @@ namespace Aplication.CQRS.Queries
     public class GetUserTokensAuthorizationValidator
         : AuthorizationValidator<GetUserTokens>
     {
+        private readonly ICurrentUser _current;
 
-        public GetUserTokensAuthorizationValidator()
+        public GetUserTokensAuthorizationValidator(ICurrentUser current)
         {
+            _current = current;
 
+            RuleFor(e => e)
+            .Must(UserSubExist)
+            .WithMessage("User is not authenticated");
         }
+
+        bool UserSubExist(GetUserTokens request)
+        {
+            return !string.IsNullOrWhiteSpace(
+                _current.UserId
+            );
+        }
+
     }
 
     //---------------------------------------
