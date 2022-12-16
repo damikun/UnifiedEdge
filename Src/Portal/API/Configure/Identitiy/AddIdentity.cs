@@ -1,6 +1,6 @@
 using Domain.Server;
+using IdentityModel;
 using ElectronNET.API;
-using System.Net.Security;
 using Persistence.Identity;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Identity;
@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.Identitiy;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdentityModel;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
+
 
 namespace API
 {
@@ -39,7 +37,7 @@ namespace API
 
             //!SSL is Disabled -> for introspection forwarding mechanism
             serviceCollection.AddHttpClient(OAuth2IntrospectionDefaults.BackChannelHttpClientName)
-                .ConfigurePrimaryHttpMessageHandler(() => GetHttpWithoutSSLHandler());
+                .ConfigurePrimaryHttpMessageHandler(() => IdentitiyHelpers.GetHttpWithoutSSLHandler());
 
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -110,31 +108,32 @@ namespace API
                 options.TokenValidationParameters.ValidateTokenReplay = false;
 
                 //!SSL is Disabled -> for internal token validation
-                options.BackchannelHttpHandler = GetHttpWithoutSSLHandler();
+                options.BackchannelHttpHandler = IdentitiyHelpers.GetHttpWithoutSSLHandler();
 
-                options.ForwardDefaultSelector = ForwardReferenceToken("introspection");
+                options.ForwardDefaultSelector = IdentitiyHelpers.ForwardReferenceToken("introspection");
 
                 options.SaveToken = true;
 
                 options.MapInboundClaims = true;
 
-                // it's recommended to check the type header to avoid "JWT confusion" attacks
                 options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
 
                 options.Events = new JwtBearerEvents
                 {
-                    OnAuthenticationFailed = async ctx =>
+                    OnAuthenticationFailed = ctx =>
                      {
                          var exceptionMessage = ctx.Exception;
+
+                         return Task.CompletedTask;
                      },
 
-                    OnTokenValidated = async ctx =>
+                    OnTokenValidated = ctx =>
                     {
-
+                        return Task.CompletedTask;
                     },
-                    OnForbidden = async ctx =>
+                    OnForbidden = ctx =>
                     {
-
+                        return Task.CompletedTask;
                     },
                 };
             })
@@ -151,7 +150,7 @@ namespace API
                 // runs on each request
                 options.ForwardDefaultSelector = context =>
                 {
-                    string authorization = context.Request.Headers[HeaderNames.Authorization];
+                    string? authorization = context.Request.Headers[HeaderNames.Authorization];
                     if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
                         return "token";
 
@@ -175,89 +174,5 @@ namespace API
             return serviceCollection;
         }
 
-        private static SocketsHttpHandler GetHttpWithoutSSLHandler()
-        {
-            return new SocketsHttpHandler
-            {
-                SslOptions = new SslClientAuthenticationOptions
-                {
-                    RemoteCertificateValidationCallback = (
-                        sender,
-                        certificate,
-                        chain,
-                        sslPolicyErrors
-                    ) => true
-                }
-            };
-        }
-
-        /// <summary>
-        /// Provides a forwarding func for JWT vs reference tokens (based on existence of dot in token)
-        /// </summary>
-        /// <param name="introspectionScheme">Scheme name of the introspection handler</param>
-        /// <returns></returns>
-        public static Func<HttpContext, string> ForwardReferenceToken(string introspectionScheme = "introspection")
-        {
-            string Select(HttpContext context)
-            {
-                var (scheme, credential) = GetSchemeAndCredential(context);
-
-                if (scheme.Equals("Bearer", StringComparison.OrdinalIgnoreCase) &&
-                    !credential.Contains("."))
-                {
-                    return introspectionScheme;
-                }
-
-                return null;
-            }
-
-            return Select;
-        }
-
-        /// <summary>
-        /// Extracts scheme and credential from Authorization header (if present)
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static (string, string) GetSchemeAndCredential(HttpContext context)
-        {
-            var header = context.Request.Headers["Authorization"].FirstOrDefault();
-
-            if (string.IsNullOrEmpty(header))
-            {
-                return ("", "");
-            }
-
-            var parts = header.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length != 2)
-            {
-                return ("", "");
-            }
-
-            return (parts[0], parts[1]);
-        }
-    }
-
-    public sealed class ClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser>
-    {
-        public ClaimsPrincipalFactory(UserManager<ApplicationUser> userManager, IOptions<IdentityOptions> optionsAccessor)
-                : base(userManager, optionsAccessor)
-        {
-
-
-        }
-
-        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
-        {
-            var identity = await base.GenerateClaimsAsync(user).ConfigureAwait(false);
-
-            if (!identity.HasClaim(x => x.Type == JwtClaimTypes.Subject))
-            {
-                var sub = user.Id;
-                identity.AddClaim(new Claim(JwtClaimTypes.Subject, sub));
-            }
-
-            return identity;
-        }
     }
 }

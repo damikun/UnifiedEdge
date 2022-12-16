@@ -2,7 +2,6 @@ using Server;
 using MediatR;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
-using Duende.IdentityServer;
 using Aplication.CQRS.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Aplication.CQRS.Commands;

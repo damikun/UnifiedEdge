@@ -3,9 +3,9 @@ import React from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import Section from "../../../../UIComponents/Section/Section";
+import SectionBody from "../../../../UIComponents/Section/SectionBody";
 import { FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
 import { UserClaimsInfoFragment$key } from "./__generated__/UserClaimsInfoFragment.graphql";
-import SectionBody from "../../../../UIComponents/Section/SectionBody";
 
 
 export const UserClaimsInfoFragmentTag = graphql`
@@ -39,7 +39,9 @@ function UserClaimsInfo({dataRef}:UserClaimsInfoProps) {
       "justify-between 2xl:justify-start")}>
         <FieldGroup>
           {
-            data?.userClaims.filter(e=>e.type !== "scope")
+            data?.userClaims.filter(e=>
+              e.type !== "scope" && 
+              e.type !== "sub")
             .map((enity,index)=>{
               return enity && enity.type? <FieldSection
               key={index}
