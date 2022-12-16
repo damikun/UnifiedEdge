@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.Identitiy;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Reflection;
 
 namespace API
 {
@@ -79,6 +80,15 @@ namespace API
             .AddInMemoryClients(IdentitiyCfg.Clients)
             .AddAspNetIdentity<ApplicationUser>()
             .AddProfileService<CustomProfileService>()
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder =>
+                    builder.UseSqlite("Data Source=IdentityServer.db");
+
+                // this enables automatic token cleanup. this is optional.
+                options.EnableTokenCleanup = true;
+                options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
+            })
             .AddInMemoryCaching();
 
             serviceCollection.AddAuthentication(options =>
