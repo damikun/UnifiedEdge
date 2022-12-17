@@ -2,13 +2,15 @@ using MediatR;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
+using System.Text.Json;
 using Aplication.Services;
 using Aplication.Interfaces;
 using Aplication.Core.Pagination;
 using Aplication.CQRS.Behaviours;
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Stores;
 using Microsoft.EntityFrameworkCore;
-
+using Duende.IdentityServer.Stores.Serialization;
 
 namespace Aplication.CQRS.Queries
 {
@@ -95,12 +97,18 @@ namespace Aplication.CQRS.Queries
         private readonly ICursorPagination<DTO_Token> _cursor_provider;
 
         /// <summary>
+        /// Injected <c>IPersistentGrantSerializer</c>
+        /// </summary>
+        private readonly IPersistentGrantSerializer _grant_serializer;
+
+        /// <summary>
         /// Main constructor
         /// </summary>
         public GetUserTokensHandler(
             IPersistedGrantStore grant_store,
             ICurrentUser currentuser,
-            ICursorPagination<DTO_Token> cursor_provider
+            ICursorPagination<DTO_Token> cursor_provider,
+            IPersistentGrantSerializer grant_serializer
         )
         {
             _grant_store = grant_store;
@@ -108,6 +116,8 @@ namespace Aplication.CQRS.Queries
             _current = currentuser;
 
             _cursor_provider = cursor_provider;
+
+            _grant_serializer = grant_serializer;
         }
 
         /// <summary>
@@ -126,7 +136,7 @@ namespace Aplication.CQRS.Queries
                 SubjectId = subject_id
             });
 
-            var tokens_query = grants.AsQueryable().Where(e =>
+            var tokens_query = grants.Where(e =>
                 e.ClientId.Equals(
                     "api_client", StringComparison.OrdinalIgnoreCase) &&
                 e.Type.Equals(
@@ -136,8 +146,11 @@ namespace Aplication.CQRS.Queries
                 Id = e.Key,
                 Description = e.Description,
                 SubjectId = e.SubjectId,
-                Expiration = e.Expiration
-            });
+                Expiration = e.Expiration,
+                JsonData = JsonSerializer.Serialize(
+                    _grant_serializer.Deserialize<Token>(e.Data)
+                )
+            }).AsQueryable();
 
             Func<CancellationToken, Task<int>> total_count = (ct) => tokens_query
                 .CountAsync(ct);

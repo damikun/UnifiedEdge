@@ -10,12 +10,13 @@ namespace Aplication.DTO
 
         }
 
-        public DTO_Token(PersistedGrant grant)
+        public DTO_Token(PersistedGrant grant, string? jsonData = null)
         {
             this.Id = grant.Key;
             this.SubjectId = grant.SubjectId;
             this.Description = grant.Description;
             this.Expiration = grant.Expiration;
+            this.JsonData = jsonData;
         }
 
 
@@ -24,6 +25,8 @@ namespace Aplication.DTO
         public string SubjectId { get; set; }
 
         public string Description { get; set; }
+
+        public string? JsonData { get; set; }
 
         public DateTime? Expiration { get; set; }
     }

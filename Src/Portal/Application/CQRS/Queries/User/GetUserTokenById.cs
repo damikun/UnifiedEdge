@@ -2,10 +2,12 @@ using MediatR;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
+using System.Text.Json;
 using Aplication.Services;
 using Aplication.CQRS.Behaviours;
 using Duende.IdentityServer.Stores;
-
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Stores.Serialization;
 
 namespace Aplication.CQRS.Queries
 {
@@ -128,16 +130,24 @@ namespace Aplication.CQRS.Queries
         private readonly IPersistedGrantStore _grant_store;
 
         /// <summary>
+        /// Injected <c>IPersistentGrantSerializer</c>
+        /// </summary>
+        private readonly IPersistentGrantSerializer _grant_serializer;
+
+        /// <summary>
         /// Main constructor
         /// </summary>
         public GetUserTokenByIdHandler(
             IPersistedGrantStore grant_store,
-            ICurrentUser currentuser
+            ICurrentUser currentuser,
+            IPersistentGrantSerializer grant_serializer
         )
         {
             _grant_store = grant_store;
 
             _current = currentuser;
+
+            _grant_serializer = grant_serializer;
         }
 
         /// <summary>
@@ -152,9 +162,13 @@ namespace Aplication.CQRS.Queries
 
             var grant = await _grant_store.GetAsync(request.TokenId);
 
+            var token = _grant_serializer.Deserialize<Token>(grant.Data);
+
+            var json_token = JsonSerializer.Serialize(token);
+
             if (grant.SubjectId.Equals(subject_id, StringComparison.OrdinalIgnoreCase))
             {
-                return new DTO_Token(grant);
+                return new DTO_Token(grant, json_token);
             }
             else
             {

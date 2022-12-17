@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<31aeaad7568fac7005a1055c6dbcc455>>
+ * @generated SignedSource<<8e129f5651f81615ac8bc2b198bbd372>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type TokenItemDetailQuery$data = {
     readonly description: string;
     readonly expiration: any | null;
     readonly id: string;
+    readonly jsonData: string | null;
   };
 };
 export type TokenItemDetailQuery = {
@@ -67,6 +68,13 @@ v1 = [
         "kind": "ScalarField",
         "name": "expiration",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "jsonData",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -90,16 +98,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "d7be994166eb9894b8f731858dd882d2",
+    "cacheID": "168afaeebceeb415e21b0e4e675cb274",
     "id": null,
     "metadata": {},
     "name": "TokenItemDetailQuery",
     "operationKind": "query",
-    "text": "query TokenItemDetailQuery(\n  $token_id: ID!\n) {\n  tokenById(token_id: $token_id) {\n    id\n    description\n    expiration\n  }\n}\n"
+    "text": "query TokenItemDetailQuery(\n  $token_id: ID!\n) {\n  tokenById(token_id: $token_id) {\n    id\n    description\n    expiration\n    jsonData\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "4ef5d4cb8608b2632448c43a1fd2eb07";
+(node as any).hash = "94f178ea35e57bf254e1b5aea67f45b4";
 
 export default node;

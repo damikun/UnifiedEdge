@@ -1,6 +1,7 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type SectionProps = {
-    name?: string;
+    name?: string | React.ReactNode;
     component: React.ReactNode;
     bar?: React.ReactNode;
 }

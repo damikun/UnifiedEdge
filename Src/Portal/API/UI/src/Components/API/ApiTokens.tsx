@@ -1,4 +1,5 @@
 import React from "react";
+import ApiTokensInfo from "./ApiTokensInfo";
 import TokenList from "./TokenList/TokenList";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
@@ -33,6 +34,9 @@ function ApiTokens({}:ApiTokensProps) {
 
   return <>
     <TokenListCtxProvider>
+      <Section 
+        component={<ApiTokensInfo />}
+      />
       <Section 
         name="API Tokens"
         bar={<TokenListBar/>}

@@ -12,8 +12,9 @@ import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import ModalContainer from "../../../UIComponents/Modal/ModalContainer";
 import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 import { TokenItemDetailQuery } from "./__generated__/TokenItemDetailQuery.graphql";
-import { FieldDivider, FieldGroup, FieldSection } from "../../../Shared/Field/FieldHelpers";
+import { FieldDivider, FieldGroup, FieldLabel, FieldSection } from "../../../Shared/Field/FieldHelpers";
 import { TokenItemDetailRemoveMutation } from "./__generated__/TokenItemDetailRemoveMutation.graphql";
+import { JsonViewer } from "@textea/json-viewer";
 
 
 const TokenItemDetailTag = graphql`
@@ -22,6 +23,7 @@ const TokenItemDetailTag = graphql`
       id
       description
       expiration
+      jsonData
     }
   }
 `;
@@ -127,6 +129,12 @@ export default function TokenItemDetail(){
   , [data])
 
 
+  const token_json = useMemo(() => 
+  data?.tokenById?.jsonData ?
+  JSON.parse(data?.tokenById?.jsonData) : 
+  data.tokenById.jsonData, [data]
+)
+
   return <ModalContainer label="Token">
     <div className="flex flex-col space-y-5 max-w-2xl md:w-96">
       <FieldGroup>
@@ -152,6 +160,23 @@ export default function TokenItemDetail(){
           </StayledButton>
         </div>
       </FieldSection>
+
+      <FieldDivider/>
+
+      <FieldGroup>
+        <FieldLabel name="Metadata"/>
+        <div className="rounded-md p-3 bg-gray-50 shadow-sm border border-gray-300">
+          <div className="flex overflow-hidden overflow-y-auto text-xs h-full break-all flex-wrap max-w-full">
+            <JsonViewer
+                collapseStringsAfterLength={1000}
+                enableClipboard={false}
+                rootName={false}
+                displayDataTypes={false}
+                value={token_json}
+            />
+          </div>
+        </div>
+      </FieldGroup>
     </div>
   </ModalContainer>
 }

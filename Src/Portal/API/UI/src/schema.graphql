@@ -907,6 +907,7 @@ type GQL_Token {
   description: String!
   expiration: DateTime
   id: ID!
+  jsonData: String
   subjectId: String!
 }
 

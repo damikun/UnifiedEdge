@@ -17,6 +17,8 @@ namespace Aplication.DTO
 
         public string Description { get; set; }
 
+        public string? JsonData { get; set; }
+
         public DateTime? Expiration { get; set; }
     }
 }
