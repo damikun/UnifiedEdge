@@ -180,8 +180,6 @@ namespace Server.Mqtt
             }
 
             var result = await _authHandler.AuthenticateClient(
-                this.UID,
-                args.ClientId,
                 new DTO_MqttAuthArgs(args, this.UID)
             );
 
@@ -192,12 +190,12 @@ namespace Server.Mqtt
                     _publisher.PublishWarning(
                         this.UID,
                         "ClientAuth Error",
-                        $"Failed to autenitcate clientId: `{args.ClientId}` with reason: {result.reason.ToString()}"
+                        $"Failed to autenitcate clientId: `{args.ClientId}` with reason: {result.Result.ToString()}"
                     );
                 }
                 catch { }
 
-                return result.reason; ;
+                return result.Result; ;
             }
             else
             {
@@ -218,8 +216,6 @@ namespace Server.Mqtt
             }
 
             var result = await _authHandler.AuthenticateUser(
-                this.UID,
-                args.UserName,
                 args.Password,
                 new DTO_MqttAuthArgs(args, this.UID)
             );
@@ -231,12 +227,12 @@ namespace Server.Mqtt
                     _publisher.PublishWarning(
                         this.UID,
                         "UserAuth Error",
-                        $"Failed to autenitcate user: `{args.UserName}` with reason: {result.reason.ToString()}"
+                        $"Failed to autenitcate user: `{args.UserName}` with reason: {result.Result.ToString()}"
                     );
                 }
                 catch { }
 
-                return result.reason;
+                return result.Result;
             }
             else
             {

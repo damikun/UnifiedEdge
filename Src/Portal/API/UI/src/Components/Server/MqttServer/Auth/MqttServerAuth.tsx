@@ -6,6 +6,7 @@ import MqttAuthUsers from "./UserList/MqttAuthUsers";
 import MqttAuthLogs from "./AuthLogsList/MqttAuthLogs";
 import MqttAuthClients from "./ClientList/MqttAuthClients";
 import { MqttServerAuthQuery } from "./__generated__/MqttServerAuthQuery.graphql";
+import AuthInfo from "./AuthInfo";
 
 
 export const MqttServerAuthQueryTag = graphql`
@@ -41,6 +42,8 @@ function MqttServerAuth() {
   );
 
   return <>
+    <AuthInfo />
+
     <div className="flex flex-col space-y-5 2xl:space-y-0 2xl:flex-row">
       <div className="flex w-full 2xl:w-1/2 2xl:pr-5">
         <MqttAuthClients dataRef={data}/>

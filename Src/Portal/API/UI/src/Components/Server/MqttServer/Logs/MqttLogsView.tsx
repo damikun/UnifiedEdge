@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import MqttLogs from "./MqttLogs";
+import LogsInfo from "./LogsInfo";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
@@ -32,6 +33,7 @@ export default function MqttLogsView(){
     
     return <>
       <div className="flex flex-col space-y-5 w-full">
+        <LogsInfo/>
         <div className="flex w-full">
           <ServerLogs dataRef={data}/>
         </div>

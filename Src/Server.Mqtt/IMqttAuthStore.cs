@@ -1,75 +1,103 @@
 using Server.Mqtt.DTO;
 using MQTTnet.Protocol;
-using System.Collections;
-
 
 namespace Server.Mqtt
 {
     public interface IMqttAuthHandler
     {
-        Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
-            string server_uid,
-            string client_id,
+        Task<MqttAuthResult> AuthenticateClient(
             DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
        );
 
-        Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
-            string server_uid,
-            string user_name,
+        Task<MqttAuthResult> AuthenticateUser(
             string password,
             DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         );
     }
 
+    public class MqttAuthResult
+    {
+        public MqttAuthResult()
+        {
+
+        }
+
+        public MqttAuthResult(MqttConnectReasonCode result)
+        {
+            Result = result;
+        }
+
+        public bool isSuccess
+        {
+            get
+            {
+                return Result == MqttConnectReasonCode.Success;
+            }
+        }
+
+        public MqttConnectReasonCode Result { get; set; }
+
+        public object? AuthId { get; set; }
+
+    }
+
     // This is Dummy handler in case no handler is provided... 
     // It always return TRUE as auth result for valid input arguments
     internal class DummyMqttAuthHandler : IMqttAuthHandler
     {
-        public Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
-            string server_uid,
-            string client_id,
+        public Task<MqttAuthResult> AuthenticateClient(
             DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         )
         {
-            if (string.IsNullOrWhiteSpace(server_uid) ||
-                string.IsNullOrWhiteSpace(client_id)
+            if (string.IsNullOrWhiteSpace(ctx.ServerUid) ||
+                string.IsNullOrWhiteSpace(ctx.ClientId)
             )
             {
-                return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
-                    (false, MqttConnectReasonCode.ClientIdentifierNotValid, null)
-                )!;
+                return Task.FromResult<MqttAuthResult>(
+                    new MqttAuthResult()
+                    {
+                        Result = MqttConnectReasonCode.ClientIdentifierNotValid
+                    }
+                );
             }
 
-            return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
-                (true, MqttConnectReasonCode.Success, null)
-            )!;
+            return Task.FromResult<MqttAuthResult>(
+                new MqttAuthResult()
+                {
+                    Result = MqttConnectReasonCode.Success
+                }
+            );
         }
 
-        public Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
-            string server_uid,
-            string user_name,
+        public Task<MqttAuthResult> AuthenticateUser(
             string password,
             DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
         )
         {
             if (
-                string.IsNullOrWhiteSpace(server_uid) ||
-                string.IsNullOrWhiteSpace(user_name) ||
+                string.IsNullOrWhiteSpace(ctx.ServerUid) ||
+                string.IsNullOrWhiteSpace(ctx.UserName) ||
                 string.IsNullOrWhiteSpace(password)
             )
             {
-                return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
-                    (false, MqttConnectReasonCode.BadUserNameOrPassword, null)
-                )!;
+                return Task.FromResult<MqttAuthResult>(
+                    new MqttAuthResult()
+                    {
+                        Result = MqttConnectReasonCode.BadUserNameOrPassword
+                    }
+                );
             }
 
-            return Task.FromResult<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)>(
-                (true, MqttConnectReasonCode.Success, null)
-            )!;
+            return Task.FromResult<MqttAuthResult>(
+                new MqttAuthResult()
+                {
+                    Result = MqttConnectReasonCode.Success
+                }
+            );
         }
     }
 }

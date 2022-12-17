@@ -1,10 +1,14 @@
 using Server.Mqtt;
+using IdentityModel;
 using Domain.Server;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
 using MQTTnet.Protocol;
 using Persistence.Portal;
 using Microsoft.EntityFrameworkCore;
+using Duende.IdentityServer.Validation;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Aplication.Services
 {
@@ -25,20 +29,27 @@ namespace Aplication.Services
         /// </summary>
         private readonly IPasswordHasher _hasher;
 
+        /// <summary>
+        /// Injected <c>IServiceCollection</c>
+        /// </summary>
+        private readonly IServiceProvider _services;
+
+        private const string OpenIdIdentifier = "OpenId";
+
         public MqttAuthHandler(
-            IDbContextFactory<ManagmentDbCtx> factory,
             IPublisher publisher,
-            IPasswordHasher hasher
+            IPasswordHasher hasher,
+            IServiceProvider services,
+            IDbContextFactory<ManagmentDbCtx> factory
         )
         {
             _hasher = hasher;
             _factory = factory;
+            _services = services;
             _publisher = publisher;
         }
 
-        private async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClientInternal(
-            string server_uid,
-            string client_id,
+        private async Task<MqttAuthResult> AuthenticateClientInternal(
             DTO_MqttAuthArgs args,
             CancellationToken ct = default
         )
@@ -46,87 +57,90 @@ namespace Aplication.Services
             try
             {
                 var validation_result = ValidateAuthClientInput(
-                    server_uid,
-                    client_id
+                    args.ServerUid,
+                    args.ClientId
                 );
 
                 if (!validation_result.isSuccess)
                 {
-                    return (false, MqttConnectReasonCode.ClientIdentifierNotValid, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.ClientIdentifierNotValid);
                 }
 
                 var context = await _factory.CreateDbContextAsync(ct);
 
-                var normalised_id = client_id.ToLowerInvariant();
+                var normalised_id = args.ClientId.ToLowerInvariant();
 
                 var client = await context.MqttAuthClients
                 .AsNoTracking()
                 .FirstOrDefaultAsync(
                     e => e.Server != null &&
-                    e.Server.UID == server_uid &&
+                    e.Server.UID == args.ServerUid &&
                     e.ClientId == normalised_id &&
                     e.Enabled == true
                 );
 
                 if (client is null)
                 {
-                    return (false, MqttConnectReasonCode.ClientIdentifierNotValid, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.ClientIdentifierNotValid);
                 }
 
                 if (!client.Enabled)
                 {
-                    return (true, MqttConnectReasonCode.Banned, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.Banned);
                 }
                 else
                 {
-                    return (true, MqttConnectReasonCode.Success, client.Id);
+                    return new MqttAuthResult()
+                    {
+                        Result = MqttConnectReasonCode.Success,
+                        AuthId = client.Id
+                    };
                 }
             }
             catch
             {
-                return (true, MqttConnectReasonCode.UnspecifiedError, null);
+                return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
             }
         }
 
-        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateClient(
-            string server_uid,
-            string client_id,
+        public async Task<MqttAuthResult> AuthenticateClient(
             DTO_MqttAuthArgs args,
             CancellationToken ct = default
         )
         {
-            if (!await IsClientAuthActive(server_uid, ct))
+            if (!await IsClientAuthActive(args.ServerUid, ct))
             {
-                return (true, MqttConnectReasonCode.Success, null);
+                return new MqttAuthResult(MqttConnectReasonCode.Success);
             }
 
             var result = await AuthenticateClientInternal(
-                server_uid,
-                client_id,
                 args,
                 ct
             );
 
             try
             {
-                await _publisher.Publish(new MqttAuthEvent()
+                if (result.AuthId is not null)
                 {
-                    AuthClientId = result.AuthId,
-                    AuthUserid = null,
-                    Ctx = args,
-                    Description = "Client Authentication",
-                    Result = (MqttResultCode)result.reason,
-                    ServerUid = server_uid,
-                });
+
+                    await _publisher.Publish(new MqttAuthEvent()
+                    {
+                        AuthClientId = result.AuthId is not null && result.AuthId is int ? (int)result.AuthId : null,
+                        AuthUserid = null,
+                        Ctx = args,
+                        Description = "Client Authentication",
+                        Result = (MqttResultCode)result.Result,
+                        ServerUid = args.ServerUid,
+                    });
+                }
+
             }
             catch { }
 
             return result;
         }
 
-        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUserInternal(
-            string server_uid,
-            string user_name,
+        public async Task<MqttAuthResult> AuthenticateUserInternal(
             string password,
             DTO_MqttAuthArgs ctx,
             CancellationToken ct = default
@@ -135,53 +149,104 @@ namespace Aplication.Services
             try
             {
                 var validation_result = ValidateAuthUserInput(
-                    server_uid,
-                    user_name,
+                    ctx.ServerUid,
+                    ctx.UserName,
                     password
                 );
 
                 if (!validation_result.isSuccess)
                 {
-                    return (false, MqttConnectReasonCode.UnspecifiedError, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
                 }
+
 
                 var context = await _factory.CreateDbContextAsync(ct);
 
-                var normalised_name = user_name.ToLowerInvariant();
+                var normalised_name = ctx.UserName.ToLowerInvariant();
 
                 var user = await context.MqttAuthUsers
                 .AsNoTracking()
                 .Where(
                     e => e.Server != null &&
-                    e.Server.UID == server_uid &&
+                    e.Server.UID == ctx.ServerUid &&
                     e.UserName == normalised_name &&
                     e.Enabled == true
                 ).FirstOrDefaultAsync(ct);
 
                 if (user is null)
                 {
-                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
                 }
 
                 var result = _hasher.Check(user.Password, password);
 
                 if (!result.Verified)
                 {
-                    return (false, MqttConnectReasonCode.BadUserNameOrPassword, null);
+                    return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
                 }
                 else
                 {
-                    return (true, MqttConnectReasonCode.Success, user.Id);
+                    return new MqttAuthResult()
+                    {
+                        Result = MqttConnectReasonCode.Success,
+                        AuthId = user.Id
+                    };
                 }
             }
             catch
             {
-                return (true, MqttConnectReasonCode.UnspecifiedError, null);
+                return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
             }
         }
-        public async Task<(bool isSuccess, MqttConnectReasonCode reason, long? AuthId)> AuthenticateUser(
-            string server_uid,
-            string user_name,
+
+        private async Task<MqttAuthResult> AuthenticateUserOAuth(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
+            }
+
+            TokenValidationResult? result = null;
+
+            try
+            {
+                var token_validator = _services.GetRequiredService<ITokenValidator>();
+
+                result = await token_validator.ValidateAccessTokenAsync(token);
+
+                if (result.IsError)
+                {
+                    return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
+                }
+            }
+            catch
+            {
+                return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
+            }
+
+            try
+            {
+                var subject = result.Claims.Where(
+                    e => e.Type.Equals(
+                        JwtClaimTypes.Subject,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
+
+                return new MqttAuthResult()
+                {
+                    Result = MqttConnectReasonCode.Success,
+                    AuthId = subject
+                };
+            }
+            catch
+            {
+                return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
+            }
+
+        }
+
+        public async Task<MqttAuthResult> AuthenticateUser(
             string password,
             DTO_MqttAuthArgs args,
             CancellationToken ct = default
@@ -189,28 +254,43 @@ namespace Aplication.Services
         {
             if (!await IsUserAuthActive(args.ServerUid, ct))
             {
-                return (true, MqttConnectReasonCode.Success, null);
+                return new MqttAuthResult(MqttConnectReasonCode.Success);
             }
 
-            var result = await AuthenticateUserInternal(
-                args.ServerUid,
-                args.UserName,
-                password,
-                args,
-                ct
-            );
+            if (string.IsNullOrWhiteSpace(args.UserName) || string.IsNullOrWhiteSpace(password))
+            {
+                return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
+            }
+
+            MqttAuthResult? result = null;
+
+            if (args.UserName.Trim().Equals(OpenIdIdentifier, StringComparison.OrdinalIgnoreCase))
+            {
+                result = await AuthenticateUserOAuth(password);
+            }
+            else
+            {
+                result = await AuthenticateUserInternal(
+                     password,
+                     args,
+                     ct
+                 );
+            }
 
             try
             {
-                await _publisher.Publish(new MqttAuthEvent()
+                if (result.AuthId is not null)
                 {
-                    AuthClientId = null,
-                    AuthUserid = result.AuthId,
-                    Ctx = args,
-                    Description = "User Authentication",
-                    Result = (MqttResultCode)result.reason,
-                    ServerUid = server_uid,
-                });
+                    await _publisher.Publish(new MqttAuthEvent()
+                    {
+                        AuthClientId = null,
+                        AuthUserid = result.AuthId is not null ? (int)result.AuthId : null,
+                        Ctx = args,
+                        Description = "User Authentication",
+                        Result = (MqttResultCode)result.Result,
+                        ServerUid = args.ServerUid,
+                    });
+                }
             }
             catch { }
 
