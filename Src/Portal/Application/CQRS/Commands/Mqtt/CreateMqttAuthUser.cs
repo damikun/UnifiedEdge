@@ -7,10 +7,10 @@ using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
 using Aplication.Services;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
 
 namespace Aplication.CQRS.Commands
 {
@@ -42,6 +42,14 @@ namespace Aplication.CQRS.Commands
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        private readonly List<string> Restricted = new()
+        {
+            "OpenId",
+            "Admin",
+            "Sys",
+            "System"
+        };
+
         public CreateMqttAuthUserValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
@@ -69,6 +77,17 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e)
                 .MustAsync(IsUniqueUserNameForServerId)
                 .WithMessage("Username allready defined");
+
+            RuleFor(e => e.UserName)
+                .Must(IsNotRestricted)
+                .WithMessage("Name is restricted (not-allowed");
+        }
+
+        public bool IsNotRestricted(string name)
+        {
+            return Restricted.Any(
+                e => e.Equals(name, StringComparison.OrdinalIgnoreCase)
+            ) == false;
         }
 
         public async Task<bool> ServerExist(
@@ -235,7 +254,10 @@ namespace Aplication.CQRS.Commands
         )
         {
 
-            // publish event?
+            await _publisher.Publish<MqttServerAuthUserAddedNotifi>(
+                new MqttServerAuthUserAddedNotifi(request.Server_uid, response),
+                Services.PublishStrategy.ParallelNoWait
+            );
         }
     }
 

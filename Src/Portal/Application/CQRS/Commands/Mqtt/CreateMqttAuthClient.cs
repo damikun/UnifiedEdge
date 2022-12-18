@@ -6,10 +6,10 @@ using Aplication.Core;
 using FluentValidation;
 using MediatR.Pipeline;
 using Persistence.Portal;
+using Aplication.Events.Server;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
 
 namespace Aplication.CQRS.Commands
 {
@@ -39,6 +39,14 @@ namespace Aplication.CQRS.Commands
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        private readonly List<string> Restricted = new()
+        {
+            "OpenId",
+            "Admin",
+            "Sys",
+            "System"
+        };
+
         public CreateMqttAuthClientValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
@@ -61,6 +69,10 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e)
                 .MustAsync(IsUniqueIdForServerId)
                 .WithMessage("Client allready defined");
+
+            RuleFor(e => e.ClientId)
+                .Must(IsNotRestricted)
+                .WithMessage("ClientId is restricted (not-allowed");
         }
 
         public async Task<bool> ServerExist(
@@ -73,6 +85,13 @@ namespace Aplication.CQRS.Commands
 
             return await dbContext.Servers
                 .AnyAsync(e => e.UID == Uid);
+        }
+
+        public bool IsNotRestricted(string name)
+        {
+            return Restricted.Any(
+                e => e.Equals(name, StringComparison.OrdinalIgnoreCase)
+            ) == false;
         }
 
         public async Task<bool> IsUniqueIdForServerId(
@@ -222,10 +241,10 @@ namespace Aplication.CQRS.Commands
             CancellationToken cancellationToken
         )
         {
-            // await _publisher.Publish<MqttServerAuthClientAdded>(
-            //     new MqttServerAuthClientAdded(response),
-            //     Services.PublishStrategy.ParallelNoWait
-            // );
+            await _publisher.Publish<MqttServerAuthClientAddedNotifi>(
+                new MqttServerAuthClientAddedNotifi(request.Server_uid, response),
+                Services.PublishStrategy.ParallelNoWait
+            );
         }
     }
 

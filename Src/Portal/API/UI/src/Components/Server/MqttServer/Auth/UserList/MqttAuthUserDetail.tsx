@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLazyLoadQuery, useMutation } from "react-relay";
+import { GetLocalDate } from "../../../../../Shared/Common";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 import { useMqttAuthUsersCtx } from "./MqttAuthCUsersCtxProvider";
 import { generateErrors, is } from "../../../../../Utils/Validation";
@@ -20,7 +21,7 @@ import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Fi
 import { MqttAuthUserDetailRemoveMutation } from "./__generated__/MqttAuthUserDetailRemoveMutation.graphql";
 import { MqttAuthUserDetailEnableMutation } from "./__generated__/MqttAuthUserDetailEnableMutation.graphql";
 import { MqttAuthUserDetailUpdatePasswordMutation, SetMqttAuthUserPasswordInput } from "./__generated__/MqttAuthUserDetailUpdatePasswordMutation.graphql";
-import { GetLocalDate } from "../../../../../Shared/Common";
+
 
 
 const MqttAuthUserDetailTag = graphql`
@@ -29,6 +30,7 @@ const MqttAuthUserDetailTag = graphql`
       userName
       enabled
       id
+      system
       lastAuthenticate
     }
   }
@@ -350,18 +352,27 @@ export default function MqttAuthUserDetail(){
         </FieldSection>
       </FieldGroup>
       <FieldDivider/>
-
-      <FieldSection multiline name="Delete">
-        <div className="max-w-lg">
-          <StayledButton
-            variant="error"
-            iconLeft={faTrash}
-            size="normal"
-            onClick={handleRemove}>
-              Remove
-          </StayledButton>
-        </div>
-      </FieldSection>
+      
+      {
+        !data?.mqttAuthUserById?.system ? <>
+          <FieldSection multiline name="Delete">
+            <div className="max-w-lg">
+              <StayledButton
+                variant="error"
+                iconLeft={faTrash}
+                size="normal"
+                onClick={handleRemove}>
+                  Remove
+              </StayledButton>
+            </div>
+          </FieldSection>
+        </> :
+        <>
+        <FieldSection multiline name="Delete">
+          This is System user and cannot be removed!
+        </FieldSection>
+        </>
+      }
 
     </div>
   </ModalContainer>

@@ -18,6 +18,8 @@ namespace Server.Mqtt.DTO
         public string ClientId { get; set; }
 #nullable enable
 
+        public bool System { get; set; }
+
         public List<GQL_MqttAuthRule> Rules { get; set; } = new List<GQL_MqttAuthRule>();
 
         public DateTime? LastAuthenticate { get; set; }

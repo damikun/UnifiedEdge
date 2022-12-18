@@ -49,6 +49,10 @@ namespace Aplication.CQRS.Commands
 
             RuleFor(e => e.AuthClientId)
                 .MustAsync(Exist);
+
+            RuleFor(e => e.AuthClientId)
+                .MustAsync(IsDeletable)
+                .WithMessage("System client cannot be deleted");
         }
 
         public async Task<bool> Exist(
@@ -61,6 +65,19 @@ namespace Aplication.CQRS.Commands
 
             return await dbContext.MqttAuthClients
                 .AnyAsync(e => e.Id == Id);
+        }
+
+        public async Task<bool> IsDeletable(
+            long Id,
+            CancellationToken cancellationToken
+        )
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            return await dbContext.MqttAuthClients
+                .Where(e => e.Id == Id)
+                .AnyAsync(e => e.System == false, cancellationToken);
         }
     }
 

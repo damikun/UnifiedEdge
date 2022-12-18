@@ -45,10 +45,14 @@ namespace Aplication.CQRS.Commands
             ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(e => e.AuthUserId)
-            .GreaterThan(0);
+                .GreaterThan(0);
 
             RuleFor(e => e.AuthUserId)
                 .MustAsync(Exist);
+
+            RuleFor(e => e.AuthUserId)
+                .MustAsync(IsDeletable)
+                .WithMessage("System user cannot be deleted");
         }
 
         public async Task<bool> Exist(
@@ -61,6 +65,19 @@ namespace Aplication.CQRS.Commands
 
             return await dbContext.MqttAuthUsers
                 .AnyAsync(e => e.Id == Id);
+        }
+
+        public async Task<bool> IsDeletable(
+            long Id,
+            CancellationToken cancellationToken
+        )
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            return await dbContext.MqttAuthUsers
+                .Where(e => e.Id == Id)
+                .AnyAsync(e => e.System == false, cancellationToken);
         }
     }
 

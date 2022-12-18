@@ -393,6 +393,7 @@ type GQL_MqttAuthClient {
   id: ID!
   lastAuthenticate: DateTime
   rules: [GQL_MqttAuthRule!]!
+  system: Boolean!
 }
 
 "A connection to a list of items."
@@ -458,6 +459,7 @@ type GQL_MqttAuthUser {
   enabled: Boolean!
   id: ID!
   lastAuthenticate: DateTime
+  system: Boolean!
   userName: String
 }
 

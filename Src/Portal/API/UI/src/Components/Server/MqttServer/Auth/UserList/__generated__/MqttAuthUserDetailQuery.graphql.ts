@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<287e91a75c8692a747be9d04f7ae572a>>
+ * @generated SignedSource<<e0a6f002f6e91521975498b05a863450>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type MqttAuthUserDetailQuery$data = {
     readonly enabled: boolean;
     readonly id: string;
     readonly lastAuthenticate: any | null;
+    readonly system: boolean;
     readonly userName: string | null;
   };
 };
@@ -73,6 +74,13 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "system",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "lastAuthenticate",
         "storageKey": null
       }
@@ -98,16 +106,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "6d5b31dfd872925d6fb6bdcfb812d702",
+    "cacheID": "871f3742f2a9e9b6f1578144f71e4b5a",
     "id": null,
     "metadata": {},
     "name": "MqttAuthUserDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthUserDetailQuery(\n  $authUser_id: ID!\n) {\n  mqttAuthUserById(authUser_id: $authUser_id) {\n    userName\n    enabled\n    id\n    lastAuthenticate\n  }\n}\n"
+    "text": "query MqttAuthUserDetailQuery(\n  $authUser_id: ID!\n) {\n  mqttAuthUserById(authUser_id: $authUser_id) {\n    userName\n    enabled\n    id\n    system\n    lastAuthenticate\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "da7ce6ddef975a547c47f178b9ac2e10";
+(node as any).hash = "e977067a1e299239586a9160e77ac693";
 
 export default node;

@@ -3,7 +3,8 @@ using Aplication.Mapping;
 
 namespace Aplication.DTO
 {
-    public class DTO_MqttAuthClient : IMapFrom<MqttAuthClient>
+    public class DTO_MqttAuthClient
+        : IMapFrom<MqttAuthClient>
     {
         public DTO_MqttAuthClient()
         {
@@ -16,6 +17,8 @@ namespace Aplication.DTO
 #nullable disable
         public string ClientId { get; set; }
 #nullable enable
+
+        public bool System { get; set; }
 
         public DateTime? LastAuthenticate { get; set; }
 
