@@ -159,7 +159,6 @@ namespace Aplication.Services
                     return new MqttAuthResult(MqttConnectReasonCode.UnspecifiedError);
                 }
 
-
                 var context = await _factory.CreateDbContextAsync(ct);
 
                 var normalised_name = ctx.UserName.ToLowerInvariant();
@@ -199,9 +198,12 @@ namespace Aplication.Services
             }
         }
 
-        private async Task<MqttAuthResult> AuthenticateUserOAuth(string token)
+        private async Task<MqttAuthResult> AuthenticateUserOAuth(
+            string token,
+            string server_uid,
+            CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(server_uid))
             {
                 return new MqttAuthResult(MqttConnectReasonCode.BadUserNameOrPassword);
             }
@@ -210,6 +212,24 @@ namespace Aplication.Services
 
             try
             {
+                var context = await _factory.CreateDbContextAsync(ct);
+
+                // Validat if OpenId user is Enabled
+                var open_id_user = await context.MqttAuthUsers
+                .AsNoTracking()
+                .Where(
+                    e => e.Server != null &&
+                    e.Server.UID == server_uid &&
+                    e.UserName == OpenIdIdentifier &&
+                    e.Enabled == true
+                ).FirstOrDefaultAsync(ct);
+
+                if (open_id_user is null || !open_id_user.Enabled)
+                {
+                    return new MqttAuthResult(MqttConnectReasonCode.Banned);
+                }
+
+                // Validate OpenId token 
                 var token_validator = _services.GetRequiredService<ITokenValidator>();
 
                 result = await token_validator.ValidateAccessTokenAsync(token);
@@ -266,7 +286,7 @@ namespace Aplication.Services
 
             if (args.UserName.Trim().Equals(OpenIdIdentifier, StringComparison.OrdinalIgnoreCase))
             {
-                result = await AuthenticateUserOAuth(password);
+                result = await AuthenticateUserOAuth(password, args.ServerUid, ct);
             }
             else
             {
