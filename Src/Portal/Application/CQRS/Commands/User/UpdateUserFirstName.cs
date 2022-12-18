@@ -60,7 +60,12 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.FirstName)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(15);
+
+            RuleFor(e => e.FirstName)
+            .Matches(Common.UserNameRegex);
+
         }
 
         public async Task<bool> Exist(

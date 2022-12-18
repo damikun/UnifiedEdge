@@ -55,12 +55,16 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.LastName)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(15);
 
             RuleFor(e => e.UserId)
             .MinimumLength(3)
             .MustAsync(Exist)
             .WithMessage("User not found");
+
+            RuleFor(e => e.LastName)
+            .Matches(Common.UserNameRegex);
 
         }
 

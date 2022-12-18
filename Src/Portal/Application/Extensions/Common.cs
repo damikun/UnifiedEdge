@@ -11,6 +11,8 @@ namespace Aplication.Core
     {
         public const string URI_REGEX = @"^((https:|http:|[/][/]|www.)([a-z]|[A-Z]|[:0-9]|[/.])*)$";
 
+        public const string UserNameRegex = @"^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+
         // Check if object is derived from specific type
         public static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
         {

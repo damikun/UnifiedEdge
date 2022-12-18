@@ -48,7 +48,6 @@ namespace Aplication.CQRS.Commands
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        const string UserNameRegex = @"^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
         public CreateUserValidator(
             IDbContextFactory<PortalIdentityDbContextPooled> factory,
              UserManager<ApplicationUser> userManager
@@ -85,13 +84,13 @@ namespace Aplication.CQRS.Commands
             .MaximumLength(15);
 
             RuleFor(e => e.FirstName)
-            .Matches(UserNameRegex);
+            .Matches(Common.UserNameRegex);
 
             RuleFor(e => e.LastName)
-            .Matches(UserNameRegex);
+            .Matches(Common.UserNameRegex);
 
             RuleFor(e => e.UserName)
-            .Matches(UserNameRegex);
+            .Matches(Common.UserNameRegex);
 
             RuleFor(e => e.UserName)
             .Must(NotBeReserverd)
