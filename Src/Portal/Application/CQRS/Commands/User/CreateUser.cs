@@ -48,6 +48,7 @@ namespace Aplication.CQRS.Commands
 
         private readonly UserManager<ApplicationUser> _userManager;
 
+        const string UserNameRegex = @"^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
         public CreateUserValidator(
             IDbContextFactory<PortalIdentityDbContextPooled> factory,
              UserManager<ApplicationUser> userManager
@@ -57,15 +58,19 @@ namespace Aplication.CQRS.Commands
 
             _userManager = userManager;
 
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(e => e.FirstName)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(15);
 
             RuleFor(e => e.LastName)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(15);
 
             RuleFor(e => e.Password)
             .NotEmpty()
@@ -76,7 +81,21 @@ namespace Aplication.CQRS.Commands
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .NotNull()
-            .MinimumLength(3);
+            .MinimumLength(3)
+            .MaximumLength(15);
+
+            RuleFor(e => e.FirstName)
+            .Matches(UserNameRegex);
+
+            RuleFor(e => e.LastName)
+            .Matches(UserNameRegex);
+
+            RuleFor(e => e.UserName)
+            .Matches(UserNameRegex);
+
+            RuleFor(e => e.UserName)
+            .Must(NotBeReserverd)
+            .WithMessage("This name is not allowed");
 
             RuleFor(e => e.UserName)
             .MustAsync(BeUniqueUserName)
@@ -95,6 +114,14 @@ namespace Aplication.CQRS.Commands
 
             return (await context.Users
             .AnyAsync(e => e.NormalizedUserName == normalised, cancellationToken)) == false;
+        }
+
+        public bool NotBeReserverd(string name)
+        {
+            var normalised = name.ToUpperInvariant();
+
+            return normalised.Equals("OpenId", StringComparison.OrdinalIgnoreCase) == false &&
+            normalised.Equals("Admin", StringComparison.OrdinalIgnoreCase) == false;
         }
 
     }
