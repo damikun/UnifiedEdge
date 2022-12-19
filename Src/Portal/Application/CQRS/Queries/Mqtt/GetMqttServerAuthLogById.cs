@@ -20,6 +20,16 @@ namespace Aplication.CQRS.Queries
         : CommandBase<DTO_MqttAuthLog>
     {
 
+        public GetMqttServerAuthLogById()
+        {
+
+        }
+
+        public GetMqttServerAuthLogById(long log_identifier)
+        {
+            log_id = log_identifier;
+        }
+
 #nullable disable
         public long log_id { get; set; }
 

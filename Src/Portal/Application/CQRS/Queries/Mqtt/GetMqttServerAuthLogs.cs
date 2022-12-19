@@ -33,11 +33,11 @@ namespace Aplication.CQRS.Queries
 
         public GetMqttServerAuthLogs(
             CursorArguments arguments,
-            string uid
+            string server_identifier
         )
         {
             Arguments = arguments;
-            server_uid = uid;
+            server_uid = server_identifier;
         }
 
         public CursorArguments Arguments { get; init; }

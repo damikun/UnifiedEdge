@@ -46,7 +46,7 @@ namespace API
         }
 
         // Process Start/Stop/Restart to any sserver by UID
-        [HttpGet("{server_uid}/[action]")]
+        [HttpPost("{server_uid}/[action]")]
         [Authorize(Policy = "write_access")]
         [ProducesResponseType(typeof(ServerState), 200)]
         public async Task<ActionResult<ServerState>> ProcessCmd(
