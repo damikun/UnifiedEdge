@@ -131,7 +131,7 @@ export default function AddNewServer(){
         onChange={formik.handleChange}
       >
         <FormSelectOption value="US">MQTT</FormSelectOption>
-        <FormSelectOption value="EF">OPC</FormSelectOption>
+        {/* <FormSelectOption value="EF">OPC</FormSelectOption> */}
       </FormSelect>
 
       <FormInput
