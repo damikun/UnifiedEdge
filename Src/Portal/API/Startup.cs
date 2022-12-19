@@ -1,17 +1,17 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 using Hangfire;
+using System.Net;
 using ElectronNET.API;
 using Aplication.Core;
 using System.Reflection;
 using Aplication.Services;
 using Swashbuckle.Swagger;
+using Microsoft.OpenApi.Models;
 using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
 using Aplication.Services.ServerEventHandler;
-using Microsoft.OpenApi.Models;
-using System.Net;
 
 namespace API
 {
@@ -223,7 +223,7 @@ namespace API
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{id?}");
 
                 endpoints.MapFallbackToFile("index.html");
             });
