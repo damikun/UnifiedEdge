@@ -19,9 +19,31 @@ namespace API
             _mediator = mediator;
         }
 
+        /// Returns connection of MqttServers
+        [HttpGet("")]
+        [ProducesResponseType(typeof(DTO_Connection<DTO_MqttServer>), 200)]
+        public async Task<ActionResult<DTO_Connection<DTO_MqttServer>>> Servers(
+            [FromQuery] int? first = null,
+            [FromQuery] int? last = null,
+            [FromQuery] string? after = null,
+            [FromQuery] string? before = null
+        )
+        {
+            var response = await _mediator.Send(
+                new GetMqttServers(
+                    new CursorArguments(
+                        first: first,
+                        last: last,
+                        after: after,
+                        before: before
+                    ))
+                );
+
+            return Ok(response);
+        }
 
         /// Returns mqtt server by UID
-        [HttpGet("[action]/{server_uid}")]
+        [HttpGet("{server_uid}")]
         [ProducesResponseType(typeof(DTO_MqttServer), 200)]
         public async Task<ActionResult<DTO_MqttServer>> Server(
             [FromRoute] string server_uid
@@ -38,7 +60,7 @@ namespace API
         }
 
         /// Returns mqtt server clinets connection
-        [HttpGet("Server/{server_uid}/[action]")]
+        [HttpGet("{server_uid}/[action]")]
         [ProducesResponseType(typeof(DTO_Connection<DTO_MqttClient>), 200)]
         public async Task<ActionResult<DTO_Connection<DTO_MqttClient>?>> Clients(
             [FromRoute] string server_uid,
@@ -64,7 +86,7 @@ namespace API
         }
 
         /// Returns mqtt server endpoint
-        [HttpGet("Server/{server_uid}/[action]")]
+        [HttpGet("{server_uid}/[action]")]
         [ProducesResponseType(typeof(DTO_MqttServerEndpoint), 200)]
         public async Task<ActionResult<DTO_MqttServerEndpoint>> Endpoint(
             [FromRoute] string server_uid
@@ -80,7 +102,7 @@ namespace API
         }
 
         /// Returns mqtt server recent messages
-        [HttpGet("Server/{server_uid}/[action]")]
+        [HttpGet("{server_uid}/[action]")]
         [ProducesResponseType(typeof(DTO_Connection<DTO_MqttMessage>), 200)]
         public async Task<ActionResult<DTO_Connection<DTO_MqttMessage>>> RecentMessages(
             [FromRoute] string server_uid,

@@ -23,7 +23,7 @@ namespace API
 
 
         /// Returns connection of Servers as union IServer
-        [HttpGet("[Action]")]
+        [HttpGet("")]
         [ProducesResponseType(typeof(DTO_Connection<Aplication.Interfaces.IServer>), 200)]
         public async Task<ActionResult<DTO_Connection<Aplication.Interfaces.IServer>>> Servers(
             [FromQuery] int? first = null,
@@ -46,7 +46,7 @@ namespace API
         }
 
         // Process Start/Stop/Restart to any sserver by UID
-        [HttpGet("Server/{server_uid}/[action]")]
+        [HttpGet("{server_uid}/[action]")]
         [Authorize(Policy = "write_access")]
         [ProducesResponseType(typeof(ServerState), 200)]
         public async Task<ActionResult<ServerState>> ProcessCmd(
