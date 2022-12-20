@@ -39,6 +39,8 @@ namespace Server.Mqtt
 
         public readonly MqttServerInMemoryLogger Logger;
 
+        internal IMqttSubscriptionStore Subscribtions;
+
         public EdgeMqttServer(
             IServerCfg cfg,
             IServerEventPublisher? publisher = null,
@@ -54,6 +56,8 @@ namespace Server.Mqtt
             Meter = new EdgeMqttServerMeter(this);
 
             Logger = new MqttServerInMemoryLogger();
+
+            Subscribtions = new DefaultMqttSubscriptionStore();
 
             _authHandler = authHandler ?? new DummyMqttAuthHandler();
         }

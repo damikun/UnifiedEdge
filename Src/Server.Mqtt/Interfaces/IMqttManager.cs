@@ -14,6 +14,16 @@ namespace Server.Manager.Mqtt
 
         Task<bool> ContainsClient(string server_uid, string client_uid);
 
+        Task<MqttTopicSubscription> Subscribe(string server_uid, string topic);
+
+        Task Unsubscribe(string server_uid, string subscription_id);
+
+        Task UnsubscribeAll(string server_uid);
+
+        Task UnsubscribeAll();
+
+        Task<HashSet<string>> CheckSubscriptions(string server_uid, string topic);
+
         Task<bool> ContainsTopic(string server_uid, string topic_uid);
 
         Task EnableLogging(string server_uid, bool enable);

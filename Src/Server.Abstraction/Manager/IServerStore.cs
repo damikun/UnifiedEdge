@@ -5,6 +5,8 @@ namespace Server.Manager
     {
         public Task<IServer?> GetById(string? service_id);
 
+        public Task<IEnumerable<IServer>> GetAll();
+
         public Task<List<string>> GetServerIds();
 
         public Task<IServer?> AddServer(IServer service);

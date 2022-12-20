@@ -28,6 +28,83 @@ namespace Server.Manager.Mqtt
             return new EdgeMqttServer(cfg, _event_publisher, _auth_handler);
         }
 
+        public async Task<MqttTopicSubscription> Subscribe(string server_uid, string topic)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                return await mqtt_server.Subscribtions.CreateSubscribtion(topic);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task Unsubscribe(string server_uid, string subscription_id)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                await mqtt_server.Subscribtions.Unsubscribe(subscription_id);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task UnsubscribeAll(string server_uid)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                await mqtt_server.Subscribtions.UnsubscribeAll();
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
+
+        public async Task UnsubscribeAll()
+        {
+            var servers = await this.GetAllServers();
+
+            foreach (var server in servers)
+            {
+                try
+                {
+                    if (server is not null && server is EdgeMqttServer mqtt_server)
+                    {
+
+                        await mqtt_server.Subscribtions.UnsubscribeAll();
+                    }
+                }
+                catch { }
+            }
+        }
+
+        public async Task<HashSet<string>> CheckSubscriptions(string server_uid, string topic)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+
+                return mqtt_server.Subscribtions.CheckSubscriptions(topic);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
         public async Task<bool?> GetClientState(string server_uid, string client_uid)
         {
             var server = await this.GetServer(server_uid);

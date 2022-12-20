@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace Aplication
 {
 
-    public static partial class Extensions
+    public static partial class UserExtensions
     {
         private static void Validate(ClaimsPrincipal principal)
         {

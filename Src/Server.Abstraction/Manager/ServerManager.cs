@@ -67,9 +67,14 @@ namespace Server.Manager
             return this._runtime_store.GetServerIds();
         }
 
-        protected async Task<IServer?> GetServer(string server_id)
+        protected Task<IServer?> GetServer(string server_id)
         {
-            return await _runtime_store.GetById(server_id);
+            return _runtime_store.GetById(server_id);
+        }
+
+        protected Task<IEnumerable<IServer>> GetAllServers()
+        {
+            return _runtime_store.GetAll();
         }
 
         public async Task<string?> AddServer(IServer server)

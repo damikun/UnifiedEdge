@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Manager
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         public static IServiceCollection AddServerManager<T>(
             this IServiceCollection services)

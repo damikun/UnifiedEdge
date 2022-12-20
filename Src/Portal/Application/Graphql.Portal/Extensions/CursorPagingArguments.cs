@@ -3,7 +3,7 @@ using Aplication.Core.Pagination;
 
 namespace Aplication.Graphql
 {
-    public static class Extensions
+    public static partial class Extensions
     {
 
 #nullable enable

@@ -116,9 +116,6 @@ export default function AddNewServer(){
 
   });
 
-
-  // const options :ListBoxData<string> = [{id: "", data: "", displayName: ""}]
-
   return <form
     onSubmit={formik.handleSubmit}
     className="px-3 pb-2 w-full">

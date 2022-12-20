@@ -36,7 +36,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0" />
-    <PackageReference Include="MQTTnet" Version="4.1.1.318" />
+    <PackageReference Include="MQTTnet" Version="4.1.4.563" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="6.0.1" />
     <PackageReference Include="HotChocolate" Version="13.0.0-preview.90" />

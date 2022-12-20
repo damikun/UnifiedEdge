@@ -54,5 +54,12 @@ namespace Server.Manager
                 Store.Select(e => e.Key).ToList()
             );
         }
+
+        internal override Task<IEnumerable<IServer>> HandlerGetAll()
+        {
+            var collection = Store.Select(e => e.Value).ToList().AsEnumerable();
+
+            return Task.FromResult(collection);
+        }
     }
 }

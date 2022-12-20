@@ -19,6 +19,8 @@ namespace Server.Manager
 
         internal abstract Task<List<string>> HandlerGetServerIds();
 
+        internal abstract Task<IEnumerable<IServer>> HandlerGetAll();
+
         public async Task<List<string>> GetServerIds()
         {
             return await HandlerGetServerIds();
@@ -75,7 +77,7 @@ namespace Server.Manager
 
         public Task RemoveAll()
         {
-            throw new NotImplementedException();
+            return this.HandleRemoveAll();
         }
 
         private void ValidateServiceId(string? service_id)
@@ -89,6 +91,11 @@ namespace Server.Manager
         public Task<bool> Any()
         {
             return this.HandleAny();
+        }
+
+        public Task<IEnumerable<IServer>> GetAll()
+        {
+            return this.HandlerGetAll();
         }
     }
 }
