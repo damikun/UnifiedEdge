@@ -3,6 +3,7 @@ using Server.Mqtt;
 using Server.Mqtt.DTO;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
+using Aplication.Extensions.Mqtt;
 
 namespace Aplication.Graphql.Queries
 {
@@ -107,6 +108,15 @@ namespace Aplication.Graphql.Queries
             );
 
             return filtred_stream as ISourceStream<GQL_MqttMessage>;
+        }
+
+        [SubscribeAndResolve]
+        public ValueTask<ISourceStream<GQL_MqttMessage>> MqttBridgeSubscribe(
+            [ID] string server_id,
+            string topic,
+            [Service] IMqttTopicEventReceiver receiver)
+        {
+            return receiver.SubscribeAsync(server_id, topic);
         }
     }
 }

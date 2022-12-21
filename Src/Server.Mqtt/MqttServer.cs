@@ -39,7 +39,7 @@ namespace Server.Mqtt
 
         public readonly MqttServerInMemoryLogger Logger;
 
-        internal IMqttSubscriptionStore Subscribtions;
+        internal IMqttSubscriptionStore Subscriptions;
 
         public EdgeMqttServer(
             IServerCfg cfg,
@@ -57,7 +57,7 @@ namespace Server.Mqtt
 
             Logger = new MqttServerInMemoryLogger();
 
-            Subscribtions = new DefaultMqttSubscriptionStore();
+            Subscriptions = new DefaultMqttSubscriptionStore(this);
 
             _authHandler = authHandler ?? new DummyMqttAuthHandler();
         }
@@ -264,6 +264,7 @@ namespace Server.Mqtt
             server.InterceptingPublishAsync += OnInterceptingPublishAsync;
             server.InterceptingPublishAsync += OnInterceptingPublishAsync_RecordTopic;
             server.InterceptingPublishAsync += OnInterceptingPublishAsync_RecordMessage;
+            server.InterceptingPublishAsync += OnInterceptingPublishAsync_HandleExternalSubscriptions;
 
             server.ClientSubscribedTopicAsync += OnClientSubscribedTopicAsync;
 
@@ -546,7 +547,7 @@ namespace Server.Mqtt
                     Dup = m.Dup,
                     Retain = m.Retain,
                     Qos = (byte)m.QualityOfServiceLevel,
-                    ExpireInterval = (int)m.MessageExpiryInterval,
+                    ExpireInterval = (uint)m.MessageExpiryInterval,
                     TimeStamp = DateTime.Now,
                     ClientId = args.ClientId
                 }
@@ -556,17 +557,66 @@ namespace Server.Mqtt
 
         }
 
-        Task OnInterceptingPublishAsync(InterceptingPublishEventArgs args)
+        Task OnInterceptingPublishAsync_HandleExternalSubscriptions(InterceptingPublishEventArgs args)
         {
-            if (args is null)
+            if (
+                args is null ||
+                args.ApplicationMessage == null ||
+                string.IsNullOrWhiteSpace(args.ApplicationMessage.Topic)
+            )
             {
                 return Task.CompletedTask;
             };
 
-            if (args.ApplicationMessage != null)
+            var matching_subs_ids = Subscriptions
+                .CheckSubscriptions(args.ApplicationMessage.Topic);
+
+            var matching_subs = Subscriptions
+                .GetSubscriptions(matching_subs_ids);
+
+            var m = args.ApplicationMessage;
+
+            var event_args = new MqttSubMessageArgs()
             {
-                ServerStats.RecordInboundTopic(args.ApplicationMessage.Topic);
+                Message = new DTO_MqttMessage()
+                {
+                    Uid = Guid.NewGuid().ToString(),
+                    ServerUid = this.UID,
+                    Payload = m.Payload,
+                    TopicUid = MqttStoredTopic.GetUid(this.UID, m.Topic),
+                    ClientUid = DTO_StoredMqttClient.GetUid(this.UID, args.ClientId),
+                    ContentType = m.ContentType,
+                    Topic = m.Topic,
+                    ResponseTopic = m.ResponseTopic,
+                    Dup = m.Dup,
+                    Retain = m.Retain,
+                    Qos = (byte)m.QualityOfServiceLevel,
+                    ExpireInterval = m.MessageExpiryInterval,
+                    TimeStamp = DateTime.Now,
+                    ClientId = args.ClientId,
+                }
+            };
+
+            foreach (var sub in matching_subs)
+            {
+                try
+                {
+                    sub.HandleMessage(event_args);
+                }
+                catch { }
             }
+
+            return Task.CompletedTask;
+        }
+
+        Task OnInterceptingPublishAsync(InterceptingPublishEventArgs args)
+        {
+            if (args is null || args.ApplicationMessage is null)
+            {
+                return Task.CompletedTask;
+            };
+
+            ServerStats.RecordInboundTopic(args.ApplicationMessage.Topic);
 
             return Task.CompletedTask;
         }

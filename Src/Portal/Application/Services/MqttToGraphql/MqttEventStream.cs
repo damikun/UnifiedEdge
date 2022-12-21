@@ -1,22 +1,20 @@
-
+using Server.Mqtt.DTO;
 using HotChocolate.Execution;
 
 namespace Aplication.Extensions.Mqtt;
 
-public class MqttEventStream<TMessage> : ISourceStream<TMessage>
+public class MqttEventStream : ISourceStream<GQL_MqttMessage>
 {
     private readonly MqttSubscribeChannel _channel;
-    private readonly IMqttMessageSerializer _messageSerializer;
     private bool _read;
     private bool _disposed;
 
-    public MqttEventStream(MqttSubscribeChannel channel, IMqttMessageSerializer messageSerializer)
+    public MqttEventStream(MqttSubscribeChannel channel)
     {
         _channel = channel;
-        _messageSerializer = messageSerializer;
     }
 
-    public IAsyncEnumerable<TMessage> ReadEventsAsync()
+    public IAsyncEnumerable<GQL_MqttMessage> ReadEventsAsync()
     {
         if (_read)
         {
@@ -25,13 +23,11 @@ public class MqttEventStream<TMessage> : ISourceStream<TMessage>
 
         if (_disposed || _channel.isCompleted)
         {
-            throw new ObjectDisposedException(nameof(MqttEventStream<TMessage>));
+            throw new ObjectDisposedException(nameof(MqttEventStream));
         }
 
         _read = true;
-        return new EnumerateMessages<TMessage>(
-            _channel,
-            _messageSerializer.Deserialize<TMessage>);
+        return new EnumerateMessages(_channel);
     }
 
     IAsyncEnumerable<object> ISourceStream.ReadEventsAsync()
@@ -43,51 +39,58 @@ public class MqttEventStream<TMessage> : ISourceStream<TMessage>
 
         if (_disposed || _channel.isCompleted)
         {
-            throw new ObjectDisposedException(nameof(MqttEventStream<TMessage>));
+            throw new ObjectDisposedException(nameof(MqttEventStream));
         }
 
         _read = true;
-        return new EnumerateMessages<object>(
-            _channel,
-            s => _messageSerializer.Deserialize<TMessage>(s)!);
+        return new EnumerateMessages(_channel);
     }
 
     public async ValueTask DisposeAsync()
     {
         if (!_disposed)
         {
-            await _channel.CancleAsync().ConfigureAwait(false);
+            try
+            {
+                await _channel.CancleAsync().ConfigureAwait(false);
+            }
+            catch (ObjectDisposedException ex)
+            {
+
+            }
+
             _disposed = true;
         }
     }
 
-    private sealed class EnumerateMessages<T> : IAsyncEnumerable<T>
+    private sealed class EnumerateMessages : IAsyncEnumerable<GQL_MqttMessage>
     {
         private readonly MqttSubscribeChannel _channel;
-        private readonly Func<string, T> _messageSerializer;
-
-        public EnumerateMessages(
-            MqttSubscribeChannel channel,
-            Func<string, T> messageSerializer)
+        public EnumerateMessages(MqttSubscribeChannel channel)
         {
             _channel = channel;
-            _messageSerializer = messageSerializer;
         }
 
-        public async IAsyncEnumerator<T> GetAsyncEnumerator(
+        public async IAsyncEnumerator<GQL_MqttMessage> GetAsyncEnumerator(
             CancellationToken cancellationToken = default)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                var message = await _channel.ReadAsync(cancellationToken).ConfigureAwait(false);
-                string body = message;
+                var message = await _channel
+                .ReadAsync(cancellationToken)
+                .ConfigureAwait(false);
 
-                if (body.Equals(MqttPubSub.Completed, StringComparison.Ordinal))
+                if (message is not null && message.Kind != HotChocolate.Subscriptions.MessageKind.Default)
                 {
                     yield break;
                 }
 
-                yield return _messageSerializer(message);
+                if (message is null || message.Body is null)
+                {
+                    continue;
+                }
+
+                yield return message.Body;
             }
         }
     }

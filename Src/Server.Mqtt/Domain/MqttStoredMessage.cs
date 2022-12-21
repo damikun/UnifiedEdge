@@ -79,7 +79,7 @@ namespace Server.Mqtt.DTO
         // <summary>
         /// ExpireInterval
         /// </summary>
-        public int ExpireInterval { get; set; }
+        public uint ExpireInterval { get; set; }
 
         // <summary>
         /// TimeStamp

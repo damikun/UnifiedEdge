@@ -178,6 +178,7 @@ namespace API
                 .AddDataLoader<ServerClientSessionByServerIdAndClientId>()
 
                 .AddInMemorySubscriptions()
+                .AddMqttSubscriptions()
                 .AddMaxExecutionDepthRule(8, skipIntrospectionFields: true)
                 .UseCustomPipeline();
 

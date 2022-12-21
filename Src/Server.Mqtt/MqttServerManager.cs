@@ -35,7 +35,7 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
 
-                return await mqtt_server.Subscribtions.CreateSubscribtion(topic);
+                return await mqtt_server.Subscriptions.CreateSubscription(topic);
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
 
-                await mqtt_server.Subscribtions.Unsubscribe(subscription_id);
+                await mqtt_server.Subscriptions.Unsubscribe(subscription_id);
             }
             else
             {
@@ -65,7 +65,7 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
 
-                await mqtt_server.Subscribtions.UnsubscribeAll();
+                await mqtt_server.Subscriptions.UnsubscribeAll();
             }
             else
             {
@@ -84,7 +84,7 @@ namespace Server.Manager.Mqtt
                     if (server is not null && server is EdgeMqttServer mqtt_server)
                     {
 
-                        await mqtt_server.Subscribtions.UnsubscribeAll();
+                        await mqtt_server.Subscriptions.UnsubscribeAll();
                     }
                 }
                 catch { }
@@ -98,7 +98,7 @@ namespace Server.Manager.Mqtt
             if (server is not null && server is EdgeMqttServer mqtt_server)
             {
 
-                return mqtt_server.Subscribtions.CheckSubscriptions(topic);
+                return mqtt_server.Subscriptions.CheckSubscriptions(topic);
             }
             else
             {

@@ -1,5 +1,6 @@
 using MQTTnet;
 using MQTTnet.Server;
+using Server.Mqtt.DTO;
 using System.Collections.Concurrent;
 
 namespace Server.Mqtt
@@ -12,9 +13,9 @@ namespace Server.Mqtt
 
         Task UnsubscribeAll();
 
-        Task<MqttTopicSubscription> CreateSubscribtion(
-            string topic
-        );
+        Task<MqttTopicSubscription> CreateSubscription(string topic);
+
+        ICollection<MqttTopicSubscription> GetSubscriptions(HashSet<string> subs);
     }
 
     public class MqttTopicSubscription
@@ -46,34 +47,36 @@ namespace Server.Mqtt
 
         public bool TopicHasWildcard { get; }
 
-        public event EventHandler OnMessageEvent;
+        public event EventHandler<MqttSubMessageArgs> OnMessageEvent;
 
         protected internal virtual void ClearHandlers()
         {
             if (OnMessageEvent is not null)
             {
-                foreach (EventHandler handler in OnMessageEvent.GetInvocationList())
+                foreach (EventHandler<MqttSubMessageArgs> handler in OnMessageEvent.GetInvocationList())
                 {
                     OnMessageEvent -= handler;
                 }
             }
         }
-        protected internal virtual void HandleMessage(EventArgs e)
+        protected internal virtual void HandleMessage(MqttSubMessageArgs args)
         {
             if (OnMessageEvent is not null)
             {
                 try
                 {
-                    OnMessageEvent?.Invoke(this, e);
+                    OnMessageEvent?.Invoke(this, args);
                 }
                 catch { }
             }
         }
     }
 
+    public class MqttSubMessageArgs : EventArgs
+    {
+        public DTO_MqttMessage Message { get; init; }
+    }
 
-    // /topic/some/random
-    // topic/#/
 
     // This is Dummy handler in case no handler is provided... 
     public class DefaultMqttSubscriptionStore
@@ -86,10 +89,17 @@ namespace Server.Mqtt
 
         readonly ConcurrentDictionary<ulong, ConcurrentDictionary<string, MqttTopicSubscription>> _subscriptions_with_no_hash = new();
 
+        private readonly EdgeMqttServer Server;
 
-        public DefaultMqttSubscriptionStore()
+
+        public DefaultMqttSubscriptionStore(EdgeMqttServer server)
         {
+            Server = server;
+        }
 
+        public ICollection<MqttTopicSubscription> GetSubscriptions(HashSet<string> subs)
+        {
+            return _subscriptions.Where(e => subs.Contains(e.Key)).Select(e => e.Value).ToList();
         }
 
         public HashSet<string> CheckSubscriptions(string topic)
@@ -233,7 +243,7 @@ namespace Server.Mqtt
 
         }
 
-        public async Task<MqttTopicSubscription> CreateSubscribtion(
+        public async Task<MqttTopicSubscription> CreateSubscription(
             string topic
         )
         {
@@ -262,14 +272,7 @@ namespace Server.Mqtt
                 subscriptions.TryAdd(sub.Id, sub);
             }
 
-            if (_subscriptions.TryAdd(sub.Id, sub))
-            {
-                return sub;
-            }
-            else
-            {
-                throw new Exception("Failed to create subsciption internaly");
-            }
+            return sub;
         }
 
     }

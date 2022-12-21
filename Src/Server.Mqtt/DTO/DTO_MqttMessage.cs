@@ -1,4 +1,6 @@
 
+using MQTTnet;
+
 namespace Server.Mqtt.DTO
 {
     public class DTO_MqttMessage
@@ -25,6 +27,7 @@ namespace Server.Mqtt.DTO
             TimeStamp = message.TimeStamp;
             ClientId = message.ClientId;
         }
+
 
         // <summary>
         /// Uid
@@ -89,7 +92,7 @@ namespace Server.Mqtt.DTO
         // <summary>
         /// ExpireInterval
         /// </summary>
-        public int ExpireInterval { get; set; }
+        public uint ExpireInterval { get; set; }
 
         // <summary>
         /// TimeStamp

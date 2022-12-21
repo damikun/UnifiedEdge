@@ -17,11 +17,8 @@ public static class RedisSubscriptionsServiceCollectionExtensions
 
         services.AddSingleton<IMqttSubscriptionManager, MqttSubscriptionManager>();
 
-        services.AddSingleton<IMqttMessageSerializer, JsonMessageSerializer>();
-
         services.AddSingleton(sp => new MqttPubSub(
             sp.GetRequiredService<IMqttSubscriptionManager>(),
-            sp.GetRequiredService<IMqttMessageSerializer>(),
             sp.GetRequiredService<ISubscriptionDiagnosticEvents>()
         ));
 
