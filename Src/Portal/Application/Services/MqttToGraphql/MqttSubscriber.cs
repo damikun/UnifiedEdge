@@ -58,6 +58,12 @@ public class MqttSubscribeChannel
 
     public ValueTask WriteAsync(GQL_MqttMessage message, CancellationToken ct)
     {
+        // The new messages get dropped
+        if (_channel.Reader.Count > QUEUE_SIZE)
+        {
+            return ValueTask.CompletedTask;
+        }
+
         return _channel.Writer.WriteAsync(
             new MessageEnvelope<GQL_MqttMessage>(message),
             ct)
