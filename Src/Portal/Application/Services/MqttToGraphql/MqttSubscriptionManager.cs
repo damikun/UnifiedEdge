@@ -1,6 +1,6 @@
 using AutoMapper;
-using Server.Manager.Mqtt;
 using Server.Mqtt.DTO;
+using Server.Manager.Mqtt;
 using System.Collections.Concurrent;
 
 namespace Aplication.Extensions.Mqtt;

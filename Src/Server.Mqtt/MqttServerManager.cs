@@ -1,5 +1,6 @@
 using Server.Mqtt;
 using Server.Mqtt.DTO;
+using Server.Mqtt.Subscriptions;
 
 namespace Server.Manager.Mqtt
 {

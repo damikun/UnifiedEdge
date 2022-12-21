@@ -1,85 +1,11 @@
 using MQTTnet;
 using MQTTnet.Server;
-using Server.Mqtt.DTO;
 using System.Collections.Concurrent;
 
-namespace Server.Mqtt
+namespace Server.Mqtt.Subscriptions
 {
-    public interface IMqttSubscriptionStore
-    {
-        HashSet<string> CheckSubscriptions(string topic);
 
-        Task Unsubscribe(string sub_uid);
-
-        Task UnsubscribeAll();
-
-        Task<MqttTopicSubscription> CreateSubscription(string topic);
-
-        ICollection<MqttTopicSubscription> GetSubscriptions(HashSet<string> subs);
-    }
-
-    public class MqttTopicSubscription
-    {
-        public MqttTopicSubscription(string topic)
-        {
-            Id = Guid.NewGuid().ToString();
-            Topic = topic;
-
-            MqttSubscription.CalculateTopicHash(
-                topic,
-                out var hash,
-                out var hashMask,
-                out var hasWildcard
-            );
-
-            TopicHash = hash;
-            TopicHashMask = hashMask;
-            TopicHasWildcard = hasWildcard;
-        }
-
-        public string Id { get; init; }
-
-        public string Topic { get; }
-
-        public ulong TopicHash { get; }
-
-        public ulong TopicHashMask { get; }
-
-        public bool TopicHasWildcard { get; }
-
-        public event EventHandler<MqttSubMessageArgs> OnMessageEvent;
-
-        protected internal virtual void ClearHandlers()
-        {
-            if (OnMessageEvent is not null)
-            {
-                foreach (EventHandler<MqttSubMessageArgs> handler in OnMessageEvent.GetInvocationList())
-                {
-                    OnMessageEvent -= handler;
-                }
-            }
-        }
-        protected internal virtual void HandleMessage(MqttSubMessageArgs args)
-        {
-            if (OnMessageEvent is not null)
-            {
-                try
-                {
-                    OnMessageEvent?.Invoke(this, args);
-                }
-                catch { }
-            }
-        }
-    }
-
-    public class MqttSubMessageArgs : EventArgs
-    {
-        public DTO_MqttMessage Message { get; init; }
-    }
-
-
-    // This is Dummy handler in case no handler is provided... 
-    public class DefaultMqttSubscriptionStore
+    public class InMemoryMqttSubscriptionStore
         : IMqttSubscriptionStore
     {
 
@@ -91,8 +17,7 @@ namespace Server.Mqtt
 
         private readonly EdgeMqttServer Server;
 
-
-        public DefaultMqttSubscriptionStore(EdgeMqttServer server)
+        public InMemoryMqttSubscriptionStore(EdgeMqttServer server)
         {
             Server = server;
         }
@@ -275,6 +200,20 @@ namespace Server.Mqtt
             return sub;
         }
 
+        public async Task Publish(InjectedMqttApplicationMessage message, CancellationToken ct)
+        {
+            if (Server is not null &&
+                Server.Server is not null &&
+                await Server.IsRunning()
+            )
+            {
+                await Server.Server.InjectApplicationMessage(message, ct);
+            }
+            else
+            {
+                throw new Exception("Server is not running");
+            }
+        }
     }
 
     public sealed class HashMaskSubscriptionsCollection

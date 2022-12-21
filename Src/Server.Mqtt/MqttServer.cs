@@ -3,6 +3,7 @@ using System.Net;
 using MQTTnet.Server;
 using Server.Mqtt.DTO;
 using MQTTnet.Protocol;
+using Server.Mqtt.Subscriptions;
 
 namespace Server.Mqtt
 {
@@ -57,7 +58,7 @@ namespace Server.Mqtt
 
             Logger = new MqttServerInMemoryLogger();
 
-            Subscriptions = new DefaultMqttSubscriptionStore(this);
+            Subscriptions = new InMemoryMqttSubscriptionStore(this);
 
             _authHandler = authHandler ?? new DummyMqttAuthHandler();
         }
