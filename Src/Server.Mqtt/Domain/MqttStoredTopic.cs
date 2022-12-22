@@ -8,7 +8,7 @@ namespace Server.Mqtt.DTO
             Stats = new MqttTopicStat(this);
         }
 
-        internal static string GetUid(string server_uid, string topic)
+        public static string GetUid(string server_uid, string topic)
         {
             if (string.IsNullOrEmpty(server_uid))
             {

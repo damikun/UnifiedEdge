@@ -199,21 +199,6 @@ namespace Server.Mqtt.Subscriptions
 
             return sub;
         }
-
-        public async Task Publish(InjectedMqttApplicationMessage message, CancellationToken ct)
-        {
-            if (Server is not null &&
-                Server.Server is not null &&
-                await Server.IsRunning()
-            )
-            {
-                await Server.Server.InjectApplicationMessage(message, ct);
-            }
-            else
-            {
-                throw new Exception("Server is not running");
-            }
-        }
     }
 
     public sealed class HashMaskSubscriptionsCollection

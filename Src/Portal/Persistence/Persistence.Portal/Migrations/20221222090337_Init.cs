@@ -303,6 +303,7 @@ namespace Persistence.Portal.Migrations
                     ServerId = table.Column<long>(type: "INTEGER", nullable: true),
                     Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     ClientId = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
                     System = table.Column<bool>(type: "INTEGER", nullable: false),
                     LastAuthenticate = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
@@ -412,7 +413,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "ApiGraphql", "ApiRest", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, false, false, null, null, "802a874a-1ce9-4b2c-96bc-e897f820077d", null, null, null, "Undefined" });
+                values: new object[] { 1, false, false, null, null, "c7561681-1f56-439e-918a-ad81fbf9ef83", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",

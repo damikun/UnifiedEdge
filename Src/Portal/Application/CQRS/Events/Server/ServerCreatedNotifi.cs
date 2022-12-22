@@ -111,6 +111,74 @@ namespace Aplication.Events.Server
         }
     }
 
+
+    /// <summary>
+    /// Command handler for user <c>ServerCreatedNotifi</c>
+    /// </summary>
+    public class MqttServerRegisterDefaultAuthClient_Handler
+        : INotificationHandler<ServerCreatedNotifi>
+    {
+
+        /// <summary>
+        /// Injected <c>ILogger</c>
+        /// </summary>
+        private readonly ILogger _logger;
+
+        /// <summary>
+        /// Injected <c>ManagmentDbCtx</c>
+        /// </summary>
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
+
+        public MqttServerRegisterDefaultAuthClient_Handler(
+            ILogger logger,
+            IDbContextFactory<ManagmentDbCtx> factory
+        )
+        {
+            _logger = logger;
+
+            _factory = factory;
+        }
+
+        /// <summary>
+        /// Command handler for <c>ServerCreatedNotifi</c>
+        /// </summary>
+        public async Task Handle(ServerCreatedNotifi request, CancellationToken cancellationToken)
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            if (request is null || request.ServerGuid is null)
+            {
+                return;
+            }
+
+            var server = await dbContext.Servers
+            .AsNoTracking()
+            .Where(e => e.UID == request.ServerGuid)
+            .FirstOrDefaultAsync(cancellationToken);
+
+            if (server is null || server.Type != ServerType.mqtt)
+            {
+                return;
+            }
+
+            var sys_ui = new MqttAuthClient()
+            {
+                System = true,
+                Enabled = true,
+                ClientId = "Sys",
+                DisplayName = "Sys-*",
+                ServerId = server.ID,
+            };
+
+            dbContext.MqttAuthClients
+            .Add(sys_ui);
+
+            await dbContext
+            .SaveChangesAsync(cancellationToken);
+        }
+    }
+
     /// <summary>
     /// Command handler for user <c>ServerCreatedNotifi</c>
     /// </summary>

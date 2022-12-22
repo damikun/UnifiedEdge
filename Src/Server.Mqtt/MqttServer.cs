@@ -157,6 +157,20 @@ namespace Server.Mqtt
 
         }
 
+        public async Task Publish(InjectedMqttApplicationMessage message, CancellationToken ct)
+        {
+            if (Server is not null &&
+                await this.IsRunning()
+            )
+            {
+                await Server.InjectApplicationMessage(message, ct);
+            }
+            else
+            {
+                throw new Exception("Server is not running");
+            }
+        }
+
         private async Task ValidatingConnectionAsync_Auth(ValidatingConnectionEventArgs args)
         {
             args.SessionItems.Add("ServerUid", this.UID);

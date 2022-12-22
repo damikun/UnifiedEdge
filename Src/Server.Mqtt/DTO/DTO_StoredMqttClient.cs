@@ -8,7 +8,7 @@ namespace Server.Mqtt.DTO
 
         }
 
-        internal static string GetUid(string server_uid, string clinet_id)
+        public static string GetUid(string server_uid, string clinet_id)
         {
             var normalised_client_id = clinet_id.ToLowerInvariant();
 

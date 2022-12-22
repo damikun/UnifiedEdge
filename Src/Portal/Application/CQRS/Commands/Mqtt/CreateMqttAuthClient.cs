@@ -11,6 +11,7 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
+
 namespace Aplication.CQRS.Commands
 {
 
@@ -90,7 +91,7 @@ namespace Aplication.CQRS.Commands
         public bool IsNotRestricted(string name)
         {
             return Restricted.Any(
-                e => e.Equals(name, StringComparison.OrdinalIgnoreCase)
+                e => e.StartsWith(name, StringComparison.OrdinalIgnoreCase)
             ) == false;
         }
 

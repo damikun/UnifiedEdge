@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221218173635_Init")]
+    [Migration("20221222090337_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -64,7 +64,7 @@ namespace Persistence.Portal.Migrations
                             Id = 1,
                             ApiGraphql = false,
                             ApiRest = false,
-                            Guid = "802a874a-1ce9-4b2c-96bc-e897f820077d",
+                            Guid = "c7561681-1f56-439e-918a-ad81fbf9ef83",
                             Name = "Undefined"
                         });
                 });
@@ -138,6 +138,9 @@ namespace Persistence.Portal.Migrations
 
                     b.Property<string>("ClientId")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")

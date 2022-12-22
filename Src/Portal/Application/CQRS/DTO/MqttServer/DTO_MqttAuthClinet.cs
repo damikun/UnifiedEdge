@@ -17,6 +17,7 @@ namespace Aplication.DTO
 #nullable disable
         public string ClientId { get; set; }
 #nullable enable
+        public string? DisplayName { get; set; }
 
         public bool System { get; set; }
 

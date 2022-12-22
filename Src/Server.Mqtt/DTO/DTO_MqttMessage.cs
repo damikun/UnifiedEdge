@@ -1,5 +1,4 @@
 
-using MQTTnet;
 
 namespace Server.Mqtt.DTO
 {

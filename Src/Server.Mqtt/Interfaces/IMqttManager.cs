@@ -1,4 +1,5 @@
 using Server.Mqtt;
+using MQTTnet.Server;
 using Server.Mqtt.DTO;
 using Server.Mqtt.Subscriptions;
 
@@ -16,6 +17,8 @@ namespace Server.Manager.Mqtt
         Task<bool> ContainsClient(string server_uid, string client_uid);
 
         Task<MqttTopicSubscription> Subscribe(string server_uid, string topic);
+
+        Task Publish(string server_uid, InjectedMqttApplicationMessage message, CancellationToken ct);
 
         Task Unsubscribe(string server_uid, string subscription_id);
 

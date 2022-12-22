@@ -17,7 +17,8 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// ServerCmd
     /// </summary>
-    // [Authorize(Policy = "write_access")]
+    [Authorize(Policy = "write_access")]
+    [Authorize(Policy = "authenticated_user")]
     public class ProcessServerCmd : CommandBase<ServerState>
     {
 #nullable disable

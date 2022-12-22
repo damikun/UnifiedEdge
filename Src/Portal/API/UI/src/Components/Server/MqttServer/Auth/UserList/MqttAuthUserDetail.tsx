@@ -369,7 +369,7 @@ export default function MqttAuthUserDetail(){
         </> :
         <>
         <FieldSection multiline name="Delete">
-          This is System user and cannot be removed!
+          System user is not removable!
         </FieldSection>
         </>
       }

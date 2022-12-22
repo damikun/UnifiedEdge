@@ -365,5 +365,37 @@ namespace Aplication.Graphql.Mutations
 
             return mapper.Map<GQL_MqttServer>(response);
         }
+
+        /// <summary>
+        /// Publis mqtt message to specific server
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttMessage> PublishMqttMessage(
+            [ID] string server_uid,
+            MessageContentType contentType,
+            MessageQoS qos,
+            bool retain,
+            string topic,
+            byte[] payload,
+            int expireInterval,
+            [Service] IMediator mediator)
+        {
+            var response = await mediator.Send(
+                new PublishMqttMessage()
+                {
+                    ServerUid = server_uid,
+                    ContentType = contentType,
+                    QoS = qos,
+                    Retain = retain,
+                    Topic = topic,
+                    Payload = payload,
+                    ExpireInterval = expireInterval
+                }
+            );
+
+            return _mapper.Map<GQL_MqttMessage>(response);
+        }
     }
 }

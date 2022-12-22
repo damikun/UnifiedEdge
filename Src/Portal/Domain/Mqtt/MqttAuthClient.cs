@@ -13,6 +13,8 @@ namespace Domain.Server
         public string ClientId { get; set; }
 #nullable enable
 
+        public string? DisplayName { get; set; }
+
         public bool System { get; set; } = false;
 
         public ICollection<MqttAuthRule> Rules { get; set; } = new List<MqttAuthRule>();

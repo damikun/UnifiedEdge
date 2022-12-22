@@ -1,4 +1,5 @@
 using Server.Mqtt;
+using MQTTnet.Server;
 using Server.Mqtt.DTO;
 using Server.Mqtt.Subscriptions;
 
@@ -214,6 +215,20 @@ namespace Server.Manager.Mqtt
             }
         }
 
+
+        public async Task Publish(string server_uid, InjectedMqttApplicationMessage message, CancellationToken ct = default)
+        {
+            var server = await this.GetServer(server_uid);
+
+            if (server is not null && server is EdgeMqttServer mqtt_server)
+            {
+                await mqtt_server.Publish(message, ct);
+            }
+            else
+            {
+                throw new Exception("Server not found");
+            }
+        }
 
         public async Task<DTO_MqttClient?> GetClient(string server_uid, string clinet_uid)
         {
