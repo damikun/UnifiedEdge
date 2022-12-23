@@ -344,6 +344,23 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<Connection<GQL_MqttAuthLog>>(result);
         }
 
+        [UseConnection(typeof(GQL_MqttExplorerSub))]
+        public async Task<Connection<GQL_MqttExplorerSub>> GetMqttExplorerUserStoredSubs(
+        [ID] string server_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerExplorerUserScopedSubs(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttExplorerSub>>(result);
+        }
+
         public async Task<GQL_MqttAuthLog> GetMqttAuthLogById(
             [ID] long log_id,
             [Service] IMediator mediator,

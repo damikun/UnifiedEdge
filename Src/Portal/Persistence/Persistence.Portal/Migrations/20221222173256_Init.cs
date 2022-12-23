@@ -48,6 +48,24 @@ namespace Persistence.Portal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MqttExplorerSubs",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ServerUid = table.Column<string>(type: "TEXT", nullable: true),
+                    UserUid = table.Column<string>(type: "TEXT", nullable: true),
+                    Topic = table.Column<string>(type: "TEXT", nullable: true),
+                    Alias = table.Column<int>(type: "INTEGER", nullable: true),
+                    Color = table.Column<string>(type: "TEXT", nullable: true),
+                    NoLocal = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttExplorerSubs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServerCfg",
                 columns: table => new
                 {
@@ -413,7 +431,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "ApiGraphql", "ApiRest", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, false, false, null, null, "c7561681-1f56-439e-918a-ad81fbf9ef83", null, null, null, "Undefined" });
+                values: new object[] { 1, false, false, null, null, "6e42cc78-c58d-41cd-8c47-4261937ed1bc", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -516,6 +534,9 @@ namespace Persistence.Portal.Migrations
 
             migrationBuilder.DropTable(
                 name: "MqttAuthUsers");
+
+            migrationBuilder.DropTable(
+                name: "MqttExplorerSubs");
 
             migrationBuilder.DropTable(
                 name: "MqttServerCfg");

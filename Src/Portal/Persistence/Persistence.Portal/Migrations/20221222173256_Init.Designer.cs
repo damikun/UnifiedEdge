@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221222090337_Init")]
+    [Migration("20221222173256_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -64,7 +64,7 @@ namespace Persistence.Portal.Migrations
                             Id = 1,
                             ApiGraphql = false,
                             ApiRest = false,
-                            Guid = "c7561681-1f56-439e-918a-ad81fbf9ef83",
+                            Guid = "6e42cc78-c58d-41cd-8c47-4261937ed1bc",
                             Name = "Undefined"
                         });
                 });
@@ -278,6 +278,35 @@ namespace Persistence.Portal.Migrations
                     b.HasIndex("ServerId");
 
                     b.ToTable("MqttAuthUsers");
+                });
+
+            modelBuilder.Entity("Domain.Server.MqttExplorerSub", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Alias")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("NoLocal")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ServerUid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserUid")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MqttExplorerSubs");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>

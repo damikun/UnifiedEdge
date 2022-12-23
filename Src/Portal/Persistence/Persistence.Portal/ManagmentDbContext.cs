@@ -35,6 +35,8 @@ namespace Persistence.Portal
 
         public DbSet<MqttAuthLog> MqttAuthLogs { get; set; }
 
+        public DbSet<MqttExplorerSub> MqttExplorerSubs { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(

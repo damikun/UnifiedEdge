@@ -114,6 +114,7 @@ namespace API
 
                 .AddType<WebHookRecordType>()
                 .AddType<WebHookType>()
+                .AddType<MqttExplorerSubType>()
 
                 .AddType<SystemEventType>()
                 .AddType<MqttServerStatsType>()

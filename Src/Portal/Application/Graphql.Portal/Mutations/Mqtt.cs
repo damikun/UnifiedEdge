@@ -366,6 +366,56 @@ namespace Aplication.Graphql.Mutations
             return mapper.Map<GQL_MqttServer>(response);
         }
 
+
+        /// <summary>
+        /// Create Mqtt Server User scoped subscription record
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttExplorerSub> CreateMqttServerExplorerUserSub(
+            [ID] string server_uid,
+            string topic,
+            bool noLocal,
+            string? color,
+            [Service] IMediator mediator
+        )
+        {
+            var response = await mediator.Send(
+                new CreateMqttServerExplorerUserScopedSubs()
+                {
+                    ServerUid = server_uid,
+                    Topic = topic,
+                    NoLocal = noLocal,
+                    Color = color
+                }
+            );
+
+            return _mapper.Map<GQL_MqttExplorerSub>(response);
+        }
+
+        /// <summary>
+        /// Remove Mqtt Server User scoped subscription record
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttExplorerSub> RemoveMqttServerExplorerUserSub(
+            [ID] long storedsub_id,
+            [Service] IMediator mediator
+        )
+        {
+            var response = await mediator.Send(
+                new RemoveMqttServerExplorerUserScopedSubs()
+                {
+                    StoredSubId = storedsub_id
+                }
+            );
+
+            return _mapper.Map<GQL_MqttExplorerSub>(response);
+        }
+
+
         /// <summary>
         /// Publis mqtt message to specific server
         /// </summary>

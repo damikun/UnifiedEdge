@@ -55,6 +55,12 @@ type CreateMqttAuthUserPayload {
   query: Query!
 }
 
+type CreateMqttServerExplorerUserSubPayload {
+  errors: [CreateMqttServerExplorerUserSubError!]
+  gQL_MqttExplorerSub: GQL_MqttExplorerSub
+  query: Query!
+}
+
 type CreateServerPayload {
   errors: [CreateServerError!]
   gQL_IServer: GQL_IServer
@@ -389,6 +395,7 @@ type GQL_MqttAuthCfg {
 
 type GQL_MqttAuthClient {
   clientId: String
+  displayName: String
   enabled: Boolean!
   id: ID!
   lastAuthenticate: DateTime
@@ -563,6 +570,35 @@ type GQL_MqttClientStatsUpdate {
   serverId: String!
   stats: GQL_MqttClientStatistics!
   timestamp: DateTime!
+}
+
+type GQL_MqttExplorerSub {
+  color: String
+  id: ID!
+  noLocal: Boolean!
+  serverUid: String
+  topic: String
+  userUid: String
+}
+
+"A connection to a list of items."
+type GQL_MqttExplorerSubConnection {
+  "A list of edges."
+  edges: [GQL_MqttExplorerSubEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttExplorerSub]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttExplorerSubEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttExplorerSub
 }
 
 type GQL_MqttMessage {
@@ -1070,6 +1106,7 @@ type IsAdminResult {
 type Mutation {
   createMqttAuthClient(input: CreateMqttAuthClientInput!): CreateMqttAuthClientPayload!
   createMqttAuthUser(input: CreateMqttAuthUserInput!): CreateMqttAuthUserPayload!
+  createMqttServerExplorerUserSub(input: CreateMqttServerExplorerUserSubInput!): CreateMqttServerExplorerUserSubPayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
   createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
@@ -1083,8 +1120,10 @@ type Mutation {
   enableRestApi(input: EnableRestApiInput!): EnableRestApiPayload!
   generateApiToken(input: GenerateApiTokenInput!): GenerateApiTokenPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
+  publishMqttMessage(input: PublishMqttMessageInput!): PublishMqttMessagePayload!
   removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
   removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
+  removeMqttServerExplorerUserSub(input: RemoveMqttServerExplorerUserSubInput!): RemoveMqttServerExplorerUserSubPayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
@@ -1134,6 +1173,12 @@ type ProcessServerCmdPayload {
   query: Query!
 }
 
+type PublishMqttMessagePayload {
+  errors: [PublishMqttMessageError!]
+  gQL_MqttMessage: GQL_MqttMessage
+  query: Query!
+}
+
 type Query {
   adapterById(id: ID!): GQL_Adapter!
   adapterLogs(adapter_id: ID! "Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_AdapterLogConnection
@@ -1152,6 +1197,7 @@ type Query {
   mqttAuthLogs("Returns the elements in the list that come after the specified cursor." after: String auth_client_id: ID auth_user_id: ID "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthLogConnection
   mqttAuthUserById(authUser_id: ID!): GQL_MqttAuthUser!
   mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
+  mqttExplorerUserStoredSubs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttExplorerSubConnection
   mqttLogById(log_uid: ID! server_id: ID!): GQL_MqttServerLog!
   mqttLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int level: MqttNetLogLevel server_uid: ID!): GQL_MqttServerLogConnection
   mqttServerAuthCfg(server_uid: ID!): GQL_MqttAuthCfg!
@@ -1205,6 +1251,12 @@ type RemoveMqttAuthClientPayload {
 type RemoveMqttAuthUserPayload {
   errors: [RemoveMqttAuthUserError!]
   gQL_MqttAuthUser: GQL_MqttAuthUser
+  query: Query!
+}
+
+type RemoveMqttServerExplorerUserSubPayload {
+  errors: [RemoveMqttServerExplorerUserSubError!]
+  gQL_MqttExplorerSub: GQL_MqttExplorerSub
   query: Query!
 }
 
@@ -1339,6 +1391,7 @@ type SetUserPasswordPayload {
 }
 
 type Subscription {
+  mqttBridgeSubscribe(server_id: ID! topic: String!): GQL_MqttMessage!
   mqttClientUpdated(server_id: ID!): GQL_MqttClient!
   mqttNewClient(server_id: ID!): GQL_MqttNewClient!
   mqttNewTopic(server_id: ID!): GQL_MqttNewTopic!
@@ -1411,6 +1464,8 @@ union CreateMqttAuthClientError = ValidationError | AuthorizationError | Interna
 
 union CreateMqttAuthUserError = ValidationError | AuthorizationError | InternalError
 
+union CreateMqttServerExplorerUserSubError = ValidationError | AuthorizationError | InternalError
+
 union CreateServerError = ValidationError | AuthorizationError | InternalError
 
 union CreateUserError = ValidationError | AuthorizationError | InternalError
@@ -1439,9 +1494,13 @@ union GenerateApiTokenError = ValidationError | AuthorizationError | InternalErr
 
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
+union PublishMqttMessageError = ValidationError | AuthorizationError | InternalError
+
 union RemoveMqttAuthClientError = ValidationError | AuthorizationError | InternalError
 
 union RemoveMqttAuthUserError = ValidationError | AuthorizationError | InternalError
+
+union RemoveMqttServerExplorerUserSubError = ValidationError | AuthorizationError | InternalError
 
 union RemoveServerError = ValidationError | AuthorizationError | InternalError
 
@@ -1510,6 +1569,13 @@ input CreateMqttAuthUserInput {
   password: String!
   server_uid: ID!
   userName: String!
+}
+
+input CreateMqttServerExplorerUserSubInput {
+  color: String
+  noLocal: Boolean!
+  server_uid: ID!
+  topic: String!
 }
 
 input CreateServerInput {
@@ -1582,12 +1648,26 @@ input ProcessServerCmdInput {
   uid: ID!
 }
 
+input PublishMqttMessageInput {
+  contentType: MessageContentType!
+  expireInterval: Int!
+  payload: [Byte!]!
+  qos: MessageQoS!
+  retain: Boolean!
+  server_uid: ID!
+  topic: String!
+}
+
 input RemoveMqttAuthClientInput {
   authClientId: ID!
 }
 
 input RemoveMqttAuthUserInput {
   authUserId: ID!
+}
+
+input RemoveMqttServerExplorerUserSubInput {
+  storedsub_id: ID!
 }
 
 input RemoveServerInput {
@@ -1817,6 +1897,18 @@ enum HookEventGroup {
   MQTT
   OPC
   S7
+}
+
+enum MessageContentType {
+  UNDEFINED
+  TEXT
+  JSON
+}
+
+enum MessageQoS {
+  AT_MOST_ONCE
+  AT_LEAST_ONCE
+  EXACTLY_ONCE
 }
 
 enum MqttAction {
