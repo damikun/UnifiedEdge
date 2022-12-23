@@ -71,10 +71,10 @@ const Users = lazy(
     )
 );
 
-const Help = lazy(
+const Info = lazy(
     () =>
       import(
-        /* webpackChunkName: "Help" */ "../Help/Help"
+        /* webpackChunkName: "Info" */ "../Info/Info"
       )
   );
 
@@ -93,7 +93,7 @@ const Connections = lazy(
 );
 
 export default function Body(){
-    return <div className="p-5 md:p-10 space-y-5">
+    return <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/Monitor/" element={<Monitor/>} />
@@ -108,11 +108,11 @@ export default function Body(){
           <Route path="/Analytics/*" element={<Analytics/>} />  
           <Route path="/Alarms/*" element={<Alarms/>} />
           <Route path="/Users/*" element={<Users/>} />
-          <Route path="/Help/*" element={<Help/>} />
+          <Route path="/Info/*" element={<Info/>} />
           <Route path="/System/*" element={<System/>} />
           <Route path="/Connections/*" element={<Connections/>} />
           <Route path="/*" element={<Navigate to={"/Monitor"}/>} />
         </Routes>
       </Suspense>
-    </div>
+    </>
 }

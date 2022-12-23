@@ -1,16 +1,18 @@
-import React, { Suspense } from "react";
 import EdgeInfo from "./EdgeInfo";
+import React, { Suspense } from "react";
 import EdgeMetrics from "./EdgeMetrics";
 import { useLazyLoadQuery } from "react-relay";
 import ServerList from "./ServerList/ServerList";
 import { graphql } from "babel-plugin-relay/macro";
 import AdapterList from "./AdapterList/AdapterList";
+import PageContainer from "../Layout/PageContainer";
 import ServerListBar from "./ServerList/ServerListBar";
 import Section from "../../UIComponents/Section/Section";
 import AdapterListBar from "./AdapterList/AdapterListBar";
 import { MonitorQuery } from "./__generated__/MonitorQuery.graphql";
 import { ServerListCtxProvider } from "./ServerList/ServerListCtxProvider";
 import { AdapterListCtxProvider } from "./AdapterList/AdapterListCtxProvider";
+
 
 
 const MonitorQueryTag = graphql`
@@ -36,7 +38,7 @@ function Monitor() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name="Edge"
       component={<EdgeInfo dataRef={data} />}
@@ -65,5 +67,5 @@ function Monitor() {
       />
     </Suspense>
 
-  </>
+  </PageContainer>
 }

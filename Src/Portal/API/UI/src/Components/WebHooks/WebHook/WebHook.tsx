@@ -2,13 +2,14 @@ import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import WebHookInfo from "./WebHookInfo/WebHookInfo";
+import PageContainer from "../../Layout/PageContainer";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import WebHookInfoBar from "./WebHookInfoBar/WebHookInfoBar";
 import WebHookSettings from "./WebHookSettings/WebHookSettings";
-import { WebHookQuery } from "./__generated__/WebHookQuery.graphql";
-import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 import StyledTabSection from "../../../Shared/StyledTabSection";
+import { WebHookQuery } from "./__generated__/WebHookQuery.graphql";
+import { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 
 
 export const SettingsTabs = [
@@ -45,7 +46,7 @@ function WebHook() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name={"Hook"}
       component={<WebHookInfoBar dataRef={data.webHookById}/>}
@@ -58,5 +59,5 @@ function WebHook() {
       <Route path="/*" element={<WebHookInfo/>} />
     </Routes>
 
-  </>
+  </PageContainer>
 }

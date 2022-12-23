@@ -36,7 +36,7 @@ export default function Layout(){
                 <MenuItem to="/Users" icon={faUsers} name="Users" />
                 <MenuItem to="/System" pattern="/System/*" icon={faGear} name="System" />
                 <MenuItem to="/Api" pattern="/Api/*" icon={faPlug} name="API" />
-                <MenuItem to="/Help" icon={faInfo} name="Help" />
+                <MenuItem to="/Info" icon={faInfo} name="Info" />
             </MenuList>
 
             <BodyContainer state={isOpen} />

@@ -3,12 +3,13 @@ import UserInfo from "./UserInfo/UserInfo";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import UserInfoBar from "./UserInfoBar/UserInfoBar";
+import PageContainer from "../../Layout/PageContainer";
 import UserSettings from "./UserSettings/UserSettings";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import { UserQuery } from "./__generated__/UserQuery.graphql";
-import RouterTabList, { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 import StyledTabSection from "../../../Shared/StyledTabSection";
+import { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
 
 
 export const SettingsTabs = [
@@ -45,7 +46,7 @@ function User() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name={"User"}
       component={<UserInfoBar dataRef={data.userById}/>}
@@ -58,5 +59,5 @@ function User() {
       <Route path="/*" element={<UserInfo/>} />
     </Routes>
 
-  </>
+  </PageContainer>
 }

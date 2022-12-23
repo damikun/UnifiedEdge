@@ -5,6 +5,7 @@ import ServerInfo from "../ServerInfo/ServerInfo";
 import MqttServerInfo from "./Info/MqttServerInfo";
 import { graphql } from "babel-plugin-relay/macro";
 import MqttServerAuth from "./Auth/MqttServerAuth";
+import PageContainer from "../../Layout/PageContainer";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
 import MqttServerExplorer from "./Explorer/MqttServerExplorer";
@@ -12,7 +13,6 @@ import MqttServerSettings from "./Settings/MqttServerSettings";
 import StyledTabSection from "../../../Shared/StyledTabSection";
 import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
 import { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
-
 
 
 export const SettingsTabs = [
@@ -64,7 +64,7 @@ function MqttServer() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name={"Server"}
       component={<ServerInfo dataRef={data.mqttServerById}/>}
@@ -80,5 +80,5 @@ function MqttServer() {
       <Route path="/*" element={<MqttServerInfo/>} />
     </Routes>
 
-  </>
+  </PageContainer>
 }

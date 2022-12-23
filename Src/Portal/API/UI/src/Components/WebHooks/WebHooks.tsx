@@ -1,10 +1,12 @@
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import WebHookList from "./WebHookList/WebHookList";
+import PageContainer from "../Layout/PageContainer";
 import Section from "../../UIComponents/Section/Section";
 import WebHookListBar from "./WebHookList/ServerListBar";
 import { WebHooksQuery } from "./__generated__/WebHooksQuery.graphql";
 import { WebHookListCtxProvider } from "./WebHookList/WebHookListCtxProvider";
+
 
 
 const WebHooksQueryTag = graphql`
@@ -24,7 +26,7 @@ export default function WebHooks(){
         },
     );
 
-    return <>
+    return <PageContainer>
         <WebHookListCtxProvider>
             <Section 
                 name="WebHooks"
@@ -32,5 +34,5 @@ export default function WebHooks(){
                 component={<WebHookList dataRef={data} />}
             />
         </WebHookListCtxProvider>
-    </>
+    </PageContainer>
 }

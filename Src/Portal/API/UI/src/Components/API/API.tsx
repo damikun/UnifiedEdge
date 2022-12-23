@@ -6,10 +6,12 @@ import ApiGraphql from "./ApiGraphql";
 import { Route, Routes } from "react-router";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
+import PageContainer from "../Layout/PageContainer";
 import Section from "../../UIComponents/Section/Section";
 import { APIQuery } from "./__generated__/APIQuery.graphql";
 import StyledTabSection from "../../Shared/StyledTabSection";
 import { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+
 
 
 const APIQueryTag = graphql`
@@ -49,7 +51,7 @@ function API() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name={"API"}
       component={
@@ -65,5 +67,5 @@ function API() {
       <Route path="/*" element={<ApiTokens/>} />
     </Routes>
 
-  </>
+  </PageContainer>
 }
