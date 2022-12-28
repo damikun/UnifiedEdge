@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0ad32ff514df12292a6ece5961d4b7f5>>
+ * @generated SignedSource<<dad862997055c5235c4439dc8ecec170>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,7 +23,7 @@ export type MqttRecentMessageDetailQuery$data = {
     readonly qos: any;
     readonly responseTopic: string | null;
     readonly retain: boolean;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
     readonly topic: string;
     readonly " $fragmentSpreads": FragmentRefs<"MqttRecentMessageDetailmessagePayloadFragment">;
   } | null;

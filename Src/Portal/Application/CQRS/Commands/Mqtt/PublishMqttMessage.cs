@@ -1,8 +1,10 @@
 using MediatR;
 using MQTTnet;
 using AutoMapper;
+using System.Text;
 using Aplication.DTO;
 using MQTTnet.Server;
+using Newtonsoft.Json;
 using Aplication.Core;
 using Server.Mqtt.DTO;
 using FluentValidation;
@@ -11,6 +13,8 @@ using MQTTnet.Protocol;
 using Persistence.Portal;
 using Server.Manager.Mqtt;
 using Aplication.Services;
+using System.Globalization;
+using Newtonsoft.Json.Linq;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using Aplication.Services.ServerFascade;
@@ -42,7 +46,7 @@ namespace Aplication.CQRS.Commands
         public int? ExpireInterval { get; set; }
 
 #nullable disable
-        public byte[] Payload { get; set; }
+        public string Payload { get; set; }
 
         public string Topic { get; set; }
 #nullable enable
@@ -80,8 +84,15 @@ namespace Aplication.CQRS.Commands
             .NotEmpty();
 
             RuleFor(e => e.Topic)
-            .NotNull()
-            .NotEmpty();
+            .Must(IsLegalUnicode)
+            .WithMessage("topic invalid Unicode string");
+
+            RuleFor(e => e.Payload)
+            .NotNull();
+
+            RuleFor(e => e)
+            .Must(isValidPayloadFormat)
+            .WithMessage("Invalid payload format");
 
             RuleFor(e => e.ExpireInterval)
             .GreaterThanOrEqualTo(0);
@@ -100,6 +111,74 @@ namespace Aplication.CQRS.Commands
             return await _manager.Contains(ServerUid);
         }
 
+        static bool IsLegalUnicode(string str)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                var uc = char.GetUnicodeCategory(str, i);
+
+                if (uc == UnicodeCategory.Surrogate)
+                {
+                    // Unpaired surrogate, like  "😵"[0] + "A" or  "😵"[1] + "A"
+                    return false;
+                }
+                else if (uc == UnicodeCategory.OtherNotAssigned)
+                {
+                    // \uF000 or \U00030000
+                    return false;
+                }
+
+                if (char.IsHighSurrogate(str, i))
+                {
+                    i++;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool isValidPayloadFormat(PublishMqttMessage cmd)
+        {
+            var payload_str = cmd.Payload;
+
+            if (cmd.ContentType == MessageContentType.json)
+            {
+                return ValidateJson(cmd.Payload);
+            }
+            else
+            {
+                return IsLegalUnicode(cmd.Payload);
+            }
+        }
+
+        private static bool ValidateJson(string data)
+        {
+
+            if (string.IsNullOrWhiteSpace(data)) { return false; }
+            data = data.Trim();
+            if ((data.StartsWith("{") && data.EndsWith("}")) ||
+                (data.StartsWith("[") && data.EndsWith("]")))
+            {
+                try
+                {
+                    var obj = JToken.Parse(data);
+
+                    return true;
+                }
+                catch (JsonReaderException jex)
+                {
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     /// <summary>
@@ -170,11 +249,17 @@ namespace Aplication.CQRS.Commands
             CancellationToken cancellationToken
         )
         {
+            var formated = request.ContentType == MessageContentType.json ?
+            format_json(request.Payload) :
+            request.Payload;
+
+            var byte_arr = Encoding.ASCII.GetBytes(formated);
+
             var message = new MqttApplicationMessage()
             {
                 ContentType = GetContentType(request.ContentType),
                 MessageExpiryInterval = request.ExpireInterval != null ? (uint)request.ExpireInterval : 0,
-                Payload = request.Payload,
+                Payload = byte_arr,
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)request.QoS,
                 Retain = request.Retain,
                 Topic = request.Topic,
@@ -219,6 +304,11 @@ namespace Aplication.CQRS.Commands
 
                 default: return null;
             }
+        }
+
+        private static string format_json(string json)
+        {
+            return JToken.Parse(json).ToString(Formatting.Indented);
         }
     }
 

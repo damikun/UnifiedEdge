@@ -8,7 +8,7 @@ export class Node<T> {
 interface ILinkedList<T> {
     insertInBegin(data: T): Node<T>;
     insertAtEnd(data: T): Node<T>;
-    deleteNode(node: Node<T>): void;
+    // deleteNode(node: Node<T>): void;
     traverse(): T[];
     size(): number;
     search(comparator: (data: T) => boolean): Node<T> | null;
@@ -16,6 +16,16 @@ interface ILinkedList<T> {
 
 export class LinkedList<T> implements ILinkedList<T> {
     private head: Node<T> | null = null;
+
+    private length:number = 0;
+
+    private max_size:number | null = null
+
+    constructor(max_size?:number|null) {
+      if(max_size){
+        this.max_size = max_size
+      }
+    }
 
     public lastNode(){
       if (!this.head) {
@@ -42,7 +52,7 @@ export class LinkedList<T> implements ILinkedList<T> {
         node.prev = lastNode;
         lastNode.next = node;
       }
-      
+      this.length++;      
       return node;
     }
   
@@ -55,16 +65,18 @@ export class LinkedList<T> implements ILinkedList<T> {
         node.next = this.head;
         this.head = node;
       }
+      this.length++;
       return node;
     }
   
-    public deleteNode(node: Node<T>): void {
+    private deleteNode(node: Node<T>): void {
       if (!node.prev) {
         this.head = node.next;
       } else {
         const prevNode = node.prev;
         prevNode.next = node.next;
       }
+      this.length--;    
     }
 
     public deleteFirst(): void {
@@ -74,6 +86,8 @@ export class LinkedList<T> implements ILinkedList<T> {
         }
 
         this.head = this.head.next;
+
+        this.length--;    
     }
 
     public deleteLast(): void {
@@ -116,6 +130,7 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
   
     public size(): number {
-      return this.traverse().length;
+      return this.length
     }
+
 }

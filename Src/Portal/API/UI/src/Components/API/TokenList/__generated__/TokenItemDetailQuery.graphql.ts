@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8e129f5651f81615ac8bc2b198bbd372>>
+ * @generated SignedSource<<73cba073d3fb53f7b29ea2cf9c5e4f73>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type TokenItemDetailQuery$variables = {
 export type TokenItemDetailQuery$data = {
   readonly tokenById: {
     readonly description: string;
-    readonly expiration: any | null;
+    readonly expiration: string | null;
     readonly id: string;
     readonly jsonData: string | null;
   };

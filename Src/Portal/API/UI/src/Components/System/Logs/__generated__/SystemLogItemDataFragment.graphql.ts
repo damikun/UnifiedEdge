@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6a3d5670c44add56283a3edf29953d67>>
+ * @generated SignedSource<<90d51f9ea5db3b6a6d7554704e40b931>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ import { FragmentRefs } from "relay-runtime";
 export type SystemLogItemDataFragment$data = {
   readonly iD: string;
   readonly name: string;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly type: EventType;
   readonly " $fragmentType": "SystemLogItemDataFragment";
 };

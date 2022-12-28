@@ -3,11 +3,13 @@ import AdapterLogs from "./AdapterLogs";
 import AdapterAddress from "./AdapterAddress";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
+import PageContainer from "../Layout/PageContainer";
+import { Route, Routes,useParams } from "react-router";
 import Section from "../../UIComponents/Section/Section";
-import { AdapterQuery } from "./__generated__/AdapterQuery.graphql";
-import { Route, Routes, useMatch, useParams, useResolvedPath } from "react-router";
-import RouterTabList, { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
 import StyledTabSection from "../../Shared/StyledTabSection";
+import { AdapterQuery } from "./__generated__/AdapterQuery.graphql";
+import { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
+
 
 export const SettingsTabs = [
   {
@@ -39,10 +41,6 @@ function Adapter() {
 
   const { id }: any = useParams<string>();
 
-  const resolved_path = useResolvedPath("/Logs/");
-
-  const match = useMatch("/Logs/");
-
   const [adapter_id] = useState(id)
 
   const data = useLazyLoadQuery<AdapterQuery>(
@@ -54,7 +52,7 @@ function Adapter() {
     },
   );
 
-  return <>
+  return <PageContainer>
     <Section 
       name={data.adapterById.name}
       component={<div></div>}
@@ -67,5 +65,5 @@ function Adapter() {
       <Route path="/*" element={<AdapterAddress dataRef={data.adapterById}/>} />
     </Routes>
 
-  </>
+  </PageContainer>
 }

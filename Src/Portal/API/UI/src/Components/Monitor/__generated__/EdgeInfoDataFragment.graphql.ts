@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<673f354b8ff724be76238f067169be8b>>
+ * @generated SignedSource<<dc0227bcde4caf896e0a925b258bde10>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,7 +22,7 @@ export type EdgeInfoDataFragment$data = {
       readonly platform: PlatformID;
       readonly version: string | null;
     } | null;
-    readonly serverDateTime: any;
+    readonly serverDateTime: string;
     readonly targetFramework: string | null;
     readonly uptime: {
       readonly days: number;

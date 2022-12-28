@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9d78096c0f4692e007a9bd3d00b08ff3>>
+ * @generated SignedSource<<7613338224e8d1ff16f98ba218ae8762>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type EdgeMetricsData$data = {
   readonly id: string;
   readonly name: string;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly value: any | null;
   readonly " $fragmentType": "EdgeMetricsData";
 };

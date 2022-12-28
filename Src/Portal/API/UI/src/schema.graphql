@@ -576,9 +576,9 @@ type GQL_MqttExplorerSub {
   color: String
   id: ID!
   noLocal: Boolean!
-  serverUid: String
+  serverUid: ID
   topic: String
-  userUid: String
+  userUid: ID
 }
 
 "A connection to a list of items."
@@ -1651,7 +1651,7 @@ input ProcessServerCmdInput {
 input PublishMqttMessageInput {
   contentType: MessageContentType!
   expireInterval: Int!
-  payload: [Byte!]!
+  payload: String!
   qos: MessageQoS!
   retain: Boolean!
   server_uid: ID!

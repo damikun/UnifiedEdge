@@ -16,7 +16,7 @@ type InfinityScrollBodyProps = {
     header?: React.ReactNode;
     isLoadingMore?: boolean;
     fallback?:React.ReactNode;
-    height?: "h-96" | "h-72" |"h-60" | "h-80",
+    height?: "h-96" | "h-72" |"h-60" | "h-80" | "h-full",
     onEnd?: () => void;
 }
 
@@ -43,8 +43,8 @@ export default function InfinityScrollBody({
 
     return <tbody ref={reference} className={clsx("relative min-h-9rem max-w-full",
         "overflow-y-scroll divide-y divide-gray-200",
-        "divide-opacity-50 bg-gray-50",
-        "scrollbarwidth scrollbarhide2 scrollbarhide",
+        "divide-opacity-50 bg-gray-50 max-h-full",
+        "scrollbarwidth scrollbarhide2 scrollbarhide pb-10",
         height)}>
         
             {

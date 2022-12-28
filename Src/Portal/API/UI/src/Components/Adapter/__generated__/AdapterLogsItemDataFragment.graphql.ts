@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fda8a25576370d780b2336b7bee81936>>
+ * @generated SignedSource<<25a90ce3c2a8e8e492bfd3f8e9f08617>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ import { FragmentRefs } from "relay-runtime";
 export type AdapterLogsItemDataFragment$data = {
   readonly id: string;
   readonly state: AdapterState;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly " $fragmentType": "AdapterLogsItemDataFragment";
 };
 export type AdapterLogsItemDataFragment$key = {

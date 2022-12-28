@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7eb560039357c5213a25dbb681a2c20f>>
+ * @generated SignedSource<<583ea6e60249d18afcf5929e8af21712>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,28 +9,27 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-export type HookEventGroup = "MQTT" | "OPC" | "S7" | "SYSTEM" | "%future added value";
-export type RecordResult = "HTTP" | "OK" | "PARAM" | "QUERY" | "UNDEFINED" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
-export type WebHookRecordItemDataFragment$data = {
-  readonly guid: string;
-  readonly hookEventGroup: HookEventGroup;
+export type MqttExplorerMessageDataFragment$data = {
+  readonly contentType: string | null;
   readonly id: string;
-  readonly result: RecordResult;
-  readonly statusCode: number;
-  readonly timestamp: string;
-  readonly " $fragmentType": "WebHookRecordItemDataFragment";
+  readonly isJsonPayload: boolean;
+  readonly isTextPayload: boolean;
+  readonly isXmlPayload: boolean;
+  readonly payload: ReadonlyArray<any> | null;
+  readonly payloadUtf8Str: string | null;
+  readonly " $fragmentType": "MqttExplorerMessageDataFragment";
 };
-export type WebHookRecordItemDataFragment$key = {
-  readonly " $data"?: WebHookRecordItemDataFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"WebHookRecordItemDataFragment">;
+export type MqttExplorerMessageDataFragment$key = {
+  readonly " $data"?: MqttExplorerMessageDataFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"MqttExplorerMessageDataFragment">;
 };
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "WebHookRecordItemDataFragment",
+  "name": "MqttExplorerMessageDataFragment",
   "selections": [
     {
       "alias": null,
@@ -43,42 +42,49 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "result",
+      "name": "contentType",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "hookEventGroup",
+      "name": "isJsonPayload",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "guid",
+      "name": "isTextPayload",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "timestamp",
+      "name": "isXmlPayload",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "statusCode",
+      "name": "payload",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "payloadUtf8Str",
       "storageKey": null
     }
   ],
-  "type": "GQL_WebHookRecord",
+  "type": "GQL_MqttMessage",
   "abstractKey": null
 };
 
-(node as any).hash = "aeb74c491809687b1f0c002c1939c030";
+(node as any).hash = "ebc1ea4edda62e93f19c127cedf61c6e";
 
 export default node;

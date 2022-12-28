@@ -1,4 +1,5 @@
 using Aplication.DTO;
+using Server.Mqtt.DTO;
 
 namespace Aplication.Graphql.Types
 {
@@ -13,6 +14,15 @@ namespace Aplication.Graphql.Types
         {
             descriptor.Field(e => e.Id)
             .ID();
+
+            descriptor.Field(e => e.ServerUid)
+            .ID(nameof(GQL_MqttServer));
+
+            // descriptor.Field(e => e.TopicUid)
+            // .ID(nameof(GQL_MqttTopic));
+
+            descriptor.Field(e => e.UserUid)
+            .ID(nameof(GQL_User));
         }
     }
 }

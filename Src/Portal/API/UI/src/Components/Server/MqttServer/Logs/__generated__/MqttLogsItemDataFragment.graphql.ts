@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a59e0223d7c566e502e1c44467f98630>>
+ * @generated SignedSource<<bdc07fc1e8876151cbfa4291998d7bef>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type MqttLogsItemDataFragment$data = {
   readonly logLevel: MqttNetLogLevel;
   readonly message: string | null;
   readonly source: string | null;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly uid: string;
   readonly " $fragmentType": "MqttLogsItemDataFragment";
 };

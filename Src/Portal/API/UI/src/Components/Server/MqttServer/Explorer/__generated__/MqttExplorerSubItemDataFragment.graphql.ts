@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0db420aad0c8232308f7e0fc71086c6f>>
+ * @generated SignedSource<<d17722637400bc8d5718070da984c6a3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,9 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MqttExplorerSubItemDataFragment$data = {
+  readonly color: string | null;
   readonly id: string;
+  readonly serverUid: string | null;
   readonly topic: string | null;
   readonly " $fragmentType": "MqttExplorerSubItemDataFragment";
 };
@@ -39,12 +41,26 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "topic",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "color",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "serverUid",
+      "storageKey": null
     }
   ],
   "type": "GQL_MqttExplorerSub",
   "abstractKey": null
 };
 
-(node as any).hash = "3b1696b57cd4d56cefe70b437796c2ab";
+(node as any).hash = "ff3a225db1b94c359201bf78ac76b52e";
 
 export default node;

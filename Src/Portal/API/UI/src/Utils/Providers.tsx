@@ -1,11 +1,14 @@
 import { RelayEnv } from "../App";
+import { RecoilRoot } from "recoil";
 import UserProvider from "./UserProvider";
-import { createEnvironment } from "./Environment";
+import { Environment, PreloadedQuery } from "react-relay";
 import { BrowserRouter as Router } from "react-router-dom";
+import { RecoilRelayEnvironmentProvider } from "recoil-relay";
 import ToastProvider from "../UIComponents/Toast/ToastProvider";
+import { createEnvironment, environmentKey } from "./Environment";
 import React, { Suspense, useContext, useMemo, useState } from "react"
 import { UserProviderQuery } from "./__generated__/UserProviderQuery.graphql";
-import { Environment, PreloadedQuery, RelayEnvironmentProvider } from "react-relay";
+
 
 type ProvidersProps  = {
   children: React.ReactNode;
@@ -38,21 +41,26 @@ export default function Providers({ children, fallback, initialQueryRef }: Provi
   }, [envState, setEnvState]);
 
     return (
+
       <EnviromentContext.Provider value={providerInit}>
         <EnviromentContext.Consumer>
           {(state) =>
             state && (
-              <RelayEnvironmentProvider environment={state?.env}>
-                <Router>
-                  <Suspense fallback={fallback ? fallback : null}>
-                    <UserProvider initialQueryRef={initialQueryRef}>
-                      <ToastProvider>
-                        {children}
-                      </ToastProvider>
-                    </UserProvider>
-                  </Suspense>
-                </Router>
-              </RelayEnvironmentProvider>
+              <RecoilRoot>
+                <RecoilRelayEnvironmentProvider 
+                  environmentKey={environmentKey}
+                  environment={state?.env}>
+                    <Router>
+                      <Suspense fallback={fallback ? fallback : null}>
+                        <UserProvider initialQueryRef={initialQueryRef}>
+                          <ToastProvider>
+                            {children}
+                          </ToastProvider>
+                        </UserProvider>
+                      </Suspense>
+                    </Router>
+                </RecoilRelayEnvironmentProvider>
+              </RecoilRoot>
             )
           }
         </EnviromentContext.Consumer>

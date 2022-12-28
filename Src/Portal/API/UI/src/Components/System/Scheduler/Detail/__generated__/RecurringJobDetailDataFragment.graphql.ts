@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0777720d450ca1ad5d1529d75f95a334>>
+ * @generated SignedSource<<db8491238b95706020f29b139945957a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ export type GQL_ScheduleState = "Awaiting" | "Deleted" | "Enqueued" | "Failed" |
 import { FragmentRefs } from "relay-runtime";
 export type RecurringJobDetailDataFragment$data = {
   readonly callName?: string;
-  readonly createdAt?: any | null;
+  readonly createdAt?: string | null;
   readonly cron?: string;
   readonly id?: string;
   readonly jobDetail?: {
@@ -24,9 +24,9 @@ export type RecurringJobDetailDataFragment$data = {
       readonly value: string;
     }>;
   } | null;
-  readonly lastExecution?: any | null;
+  readonly lastExecution?: string | null;
   readonly lastJobState?: GQL_ScheduleState | null;
-  readonly nextExecution?: any | null;
+  readonly nextExecution?: string | null;
   readonly queue?: string;
   readonly " $fragmentType": "RecurringJobDetailDataFragment";
 };

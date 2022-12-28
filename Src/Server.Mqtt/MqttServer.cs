@@ -607,7 +607,7 @@ namespace Server.Mqtt
                     Retain = m.Retain,
                     Qos = (byte)m.QualityOfServiceLevel,
                     ExpireInterval = m.MessageExpiryInterval,
-                    TimeStamp = DateTime.Now,
+                    TimeStamp = DateTime.Now.AddMilliseconds(10),
                     ClientId = args.ClientId,
                 }
             };

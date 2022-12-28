@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<39061ac56f3433600c6e184eb34bf96b>>
+ * @generated SignedSource<<dc0102f4a9cac0b577051d9ac186aedc>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type MqttServerNetworkInfoRcvdPacketsSubscription$variables = {
 export type MqttServerNetworkInfoRcvdPacketsSubscription$data = {
   readonly mqttServerMetrics: {
     readonly id: string;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
     readonly unit: string | null;
     readonly value: any | null;
   };

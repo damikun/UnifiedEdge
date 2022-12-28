@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4cd3d35d7a392f351de26ded46f474fd>>
+ * @generated SignedSource<<304317b6b4e7effd7cd2e6e4685e7014>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,7 +35,7 @@ export type TokenCreateMutation$data = {
       readonly handle: string | null;
       readonly token: {
         readonly description: string;
-        readonly expiration: any | null;
+        readonly expiration: string | null;
         readonly id: string;
         readonly " $fragmentSpreads": FragmentRefs<"TokenListItemDataFragment">;
       };

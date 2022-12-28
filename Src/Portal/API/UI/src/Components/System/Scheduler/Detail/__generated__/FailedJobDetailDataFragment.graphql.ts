@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cca4499774b6ca013014031df826433a>>
+ * @generated SignedSource<<b2d75da2c1514bd5db40c4ce095f334c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type FailedJobDetailDataFragment$data = {
   readonly exceptionDetails?: string;
   readonly exceptionMessage?: string;
   readonly exceptionType?: string;
-  readonly failedAt?: any | null;
+  readonly failedAt?: string | null;
   readonly inFailedState?: boolean;
   readonly jobDetail?: {
     readonly lastState: string | null;

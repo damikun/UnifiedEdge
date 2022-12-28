@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c9cb64da3f8cda928fafacad67e92f9>>
+ * @generated SignedSource<<e0e6bb274a0260bdaff391717d3c03ed>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type CreateMqttServerExplorerUserSubInput = {
   color?: string | null;
   noLocal: boolean;
@@ -34,6 +35,7 @@ export type MqttExplorerAddSubMutation$data = {
       readonly id: string;
       readonly noLocal: boolean;
       readonly topic: string | null;
+      readonly " $fragmentSpreads": FragmentRefs<"MqttExplorerSubItemDataFragment">;
     } | null;
   };
 };
@@ -63,50 +65,39 @@ v2 = [
 v3 = {
   "alias": null,
   "args": null,
-  "concreteType": "GQL_MqttExplorerSub",
-  "kind": "LinkedField",
-  "name": "gQL_MqttExplorerSub",
-  "plural": false,
-  "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "color",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "noLocal",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "topic",
-      "storageKey": null
-    }
-  ],
+  "kind": "ScalarField",
+  "name": "id",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "message",
+  "name": "color",
   "storageKey": null
 },
 v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "noLocal",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "topic",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "message",
+  "storageKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "concreteType": null,
@@ -139,7 +130,7 @@ v5 = {
               "name": "property",
               "storageKey": null
             },
-            (v4/*: any*/)
+            (v7/*: any*/)
           ],
           "storageKey": null
         }
@@ -150,7 +141,7 @@ v5 = {
     {
       "kind": "InlineFragment",
       "selections": [
-        (v4/*: any*/)
+        (v7/*: any*/)
       ],
       "type": "ResultError",
       "abstractKey": "__isResultError"
@@ -176,8 +167,27 @@ return {
         "name": "createMqttServerExplorerUserSub",
         "plural": false,
         "selections": [
-          (v3/*: any*/),
-          (v5/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "GQL_MqttExplorerSub",
+            "kind": "LinkedField",
+            "name": "gQL_MqttExplorerSub",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              (v6/*: any*/),
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "MqttExplorerSubItemDataFragment"
+              }
+            ],
+            "storageKey": null
+          },
+          (v8/*: any*/)
         ],
         "storageKey": null
       }
@@ -202,7 +212,28 @@ return {
         "name": "createMqttServerExplorerUserSub",
         "plural": false,
         "selections": [
-          (v3/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "GQL_MqttExplorerSub",
+            "kind": "LinkedField",
+            "name": "gQL_MqttExplorerSub",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              (v4/*: any*/),
+              (v5/*: any*/),
+              (v6/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "serverUid",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -224,23 +255,23 @@ return {
               }
             ]
           },
-          (v5/*: any*/)
+          (v8/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "497f058b40580b02505a5271899153ad",
+    "cacheID": "59132d1c4d8feb176fc26e4b429c06ad",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerAddSubMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerAddSubMutation(\n  $input: CreateMqttServerExplorerUserSubInput!\n) {\n  createMqttServerExplorerUserSub(input: $input) {\n    gQL_MqttExplorerSub {\n      id\n      color\n      noLocal\n      topic\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": "mutation MqttExplorerAddSubMutation(\n  $input: CreateMqttServerExplorerUserSubInput!\n) {\n  createMqttServerExplorerUserSub(input: $input) {\n    gQL_MqttExplorerSub {\n      id\n      color\n      noLocal\n      topic\n      ...MqttExplorerSubItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n  color\n  serverUid\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3f4ab9813450f9a308711c68322bbbb9";
+(node as any).hash = "01bc9d010852f237fd59c7ee5807051a";
 
 export default node;

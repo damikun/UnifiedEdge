@@ -40,12 +40,12 @@ export const ROUNDING = {
 };
 
 export const SIZE = {
-  auto: "h-full text-xs md:text-sm",
+  auto: "h-full text-sm md:text-base",
   tiny: "h-5 text-xxs",
   small: "h-6 text-xs md:text-sm",
   normal: "h-8 text-sm md:text-base",
-  medium: "h-10 text-md md:text-lg",
-  large: "h-12 text-lg md:text-xl",
+  medium: "h-10 text-sm md:text-base",
+  large: "h-12 text-base md:text-lg",
 };
 
 export const STAYLED_BUTTON_VARIANTS = {

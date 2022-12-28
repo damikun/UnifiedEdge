@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c636786ef20f0b1f26a886e1fb74778d>>
+ * @generated SignedSource<<00801691c457d3e4d57956d772a56ee4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,9 +25,9 @@ export type MqttClientDetailQuery$data = {
     readonly bytesReceived: any;
     readonly bytesSent: any;
     readonly id: string;
-    readonly lastNonKeepAlivePacketReceivedTimestamp: any | null;
-    readonly lastPacketReceivedTimestamp: any | null;
-    readonly lastPacketSentTimestamp: any | null;
+    readonly lastNonKeepAlivePacketReceivedTimestamp: string | null;
+    readonly lastPacketReceivedTimestamp: string | null;
+    readonly lastPacketSentTimestamp: string | null;
     readonly receivedApplicationMessagesCount: any;
     readonly receivedPacketsCount: any;
     readonly sentApplicationMessagesCount: any;

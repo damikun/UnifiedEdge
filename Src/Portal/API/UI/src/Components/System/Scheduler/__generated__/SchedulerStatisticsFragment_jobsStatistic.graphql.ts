@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cf80426868bab9855b7020466bd5a002>>
+ * @generated SignedSource<<d2c89084bbfa11e2aa5e0eb4c201cb19>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,11 +14,11 @@ export type SchedulerStatisticsFragment_jobsStatistic$data = {
   readonly jobsStatistic: {
     readonly recentFailedByDate: ReadonlyArray<{
       readonly count: any;
-      readonly date: any;
+      readonly date: string;
     }>;
     readonly recentSucceededByDate: ReadonlyArray<{
       readonly count: any;
-      readonly date: any;
+      readonly date: string;
     }>;
   };
   readonly " $fragmentType": "SchedulerStatisticsFragment_jobsStatistic";

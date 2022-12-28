@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<91164ef64af7dc2a0de2dd209154cb6c>>
+ * @generated SignedSource<<839992d54a02d16db64fd44102045905>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type MessageQoS = "AT_LEAST_ONCE" | "AT_MOST_ONCE" | "EXACTLY_ONCE" | "%f
 export type PublishMqttMessageInput = {
   contentType: MessageContentType;
   expireInterval: number;
-  payload: ReadonlyArray<any>;
+  payload: string;
   qos: MessageQoS;
   retain: boolean;
   server_uid: string;
@@ -39,10 +39,12 @@ export type MqttExplorerPublishMessageMutation$data = {
       readonly id: string;
       readonly isJsonPayload: boolean;
       readonly isTextPayload: boolean;
+      readonly isXmlPayload: boolean;
       readonly payload: ReadonlyArray<any> | null;
       readonly payloadUtf8Str: string | null;
       readonly qos: any;
       readonly retain: boolean;
+      readonly timeStamp: string;
       readonly topic: string;
     } | null;
   };
@@ -136,6 +138,13 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "timeStamp",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "payloadUtf8Str",
             "storageKey": null
           },
@@ -158,6 +167,13 @@ v2 = [
             "args": null,
             "kind": "ScalarField",
             "name": "contentType",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isXmlPayload",
             "storageKey": null
           }
         ],
@@ -237,16 +253,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "69dc5be4638d455c13273337cd5d72ac",
+    "cacheID": "5fb141095046e9202c5bcdb8f680f68f",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerPublishMessageMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageMutation(\n  $input: PublishMqttMessageInput!\n) {\n  publishMqttMessage(input: $input) {\n    gQL_MqttMessage {\n      id\n      clientId\n      topic\n      qos\n      retain\n      payload\n      payloadUtf8Str\n      isJsonPayload\n      isTextPayload\n      contentType\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": "mutation MqttExplorerPublishMessageMutation(\n  $input: PublishMqttMessageInput!\n) {\n  publishMqttMessage(input: $input) {\n    gQL_MqttMessage {\n      id\n      clientId\n      topic\n      qos\n      retain\n      payload\n      timeStamp\n      payloadUtf8Str\n      isJsonPayload\n      isTextPayload\n      contentType\n      isXmlPayload\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5bea0d0999f8c8267aeecb28de311be5";
+(node as any).hash = "a8ee1ba0a8584f41bdbbca59c335b224";
 
 export default node;

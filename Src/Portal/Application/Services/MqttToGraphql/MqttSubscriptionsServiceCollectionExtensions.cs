@@ -22,8 +22,6 @@ public static class RedisSubscriptionsServiceCollectionExtensions
             sp.GetRequiredService<ISubscriptionDiagnosticEvents>()
         ));
 
-        // services.TryAddSingleton<IMqttTopicEventSender>(sp =>
-        //     sp.GetRequiredService<MqttPubSub>());
         services.TryAddSingleton<IMqttTopicEventReceiver>(sp =>
             sp.GetRequiredService<MqttPubSub>());
 

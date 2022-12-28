@@ -1,46 +1,29 @@
-
-import { createClient } from "graphql-ws";
 import { meros } from "meros";
+import { createClient } from "graphql-ws";
+import { EnvironmentKey } from "recoil-relay";
 
 import {
-  Environment,
-  FetchFunction,
-  Network,
-  Observable,
-  RecordSource,
-  RequestParameters,
-  Store,
-  Variables,
+	Environment,
+	FetchFunction,
+	Network,
+	Observable,
+	RecordSource,
+	RequestParameters,
+	Store,
+	Variables,
 } from "relay-runtime";
 
-import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_INTERNAL_ENDPOINT } from "../constants";
+import { 
+	BASE_SERVER_URL, 
+	BASE_SERVER_WS_URL_DEV, 
+	GQL_INTERNAL_ENDPOINT, 
+	NetworkErrors 
+} from "../constants";
 
-const ErrorMessages = {
-	FAILED_FETCH: 'Failed to fetch',
-	ERROR_FETCH: 'Error in fetch',
-	UNWORKABLE_FETCH: 'Unworkable fetch',
-	SOCKET_CLOSED: 'Socket closed',
-	GRAPHQL_ERRORS: 'GraphQL error',
-  };
-
-class NetworkError extends Error {
-	constructor(message:any, options:any) {
-	  super(message, options);
-  
-	  this.name = 'NetworkError';
-  
-	  if (options) {
-		const {cause, ...meta} = options;
-  
-		Object.assign(this, meta);
-	  }
-	}
-  }
 
 const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 	return Observable.create((sink) => {
 		(async () => {
-
 
 		const request = new Request(`${BASE_SERVER_URL}/${GQL_INTERNAL_ENDPOINT}`, {
 			credentials: "include",
@@ -57,7 +40,7 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 				"Content-Type": "application/json",
 				'X-CSRF': '1'
 			},
-			})
+		})
 
 		const response = await fetch(request);
 
@@ -71,19 +54,17 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 					for await (const part of parts) {
 					  if (!part.json) {
 						sink.error(
-						  new NetworkError(ErrorMessages.UNWORKABLE_FETCH, {
-							Request,
+						  new NetworkError(NetworkErrors.UNWORKABLE_FETCH, {
+							request,
 							response,
 						  }),
 						);
 						break;
 					  }
-	  
-					  // If any exceptions occurred when processing the request,
-					  // throw an error to indicate to the developer what went wrong.
+
 					  if ('errors' in part.body) {
 						sink.error(
-						  new NetworkError(ErrorMessages.GRAPHQL_ERRORS, {
+						  new NetworkError(NetworkErrors.GRAPHQL_ERRORS, {
 							request,
 							response,
 						  }),
@@ -133,21 +114,20 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 
 					if ('errors' in json) {
 					  sink.error(
-						new NetworkError(ErrorMessages.GRAPHQL_ERRORS, {
+						new NetworkError(NetworkErrors.GRAPHQL_ERRORS, {
 						  request,
 						  response,
 						}),
 					  );
 					} else {
-	  
-					  sink.next(json);
+						sink.next(json);
 					}
 				  }
 	  
 				  sink.complete();
 				} catch (err) {
 				  sink.error(
-					new NetworkError(ErrorMessages.UNWORKABLE_FETCH, {
+					new NetworkError(NetworkErrors.UNWORKABLE_FETCH, {
 					  cause: err,
 					  request,
 					  response,
@@ -157,19 +137,34 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 				}
 			  } else {
 				sink.error(
-				  new NetworkError(ErrorMessages.ERROR_FETCH, {request, response}),
+				  new NetworkError(
+					NetworkErrors.ERROR_FETCH, 
+					{request, response}
+				),
 				);
 			  }
-			
 		})();
-		
 	});
 };
 
+class NetworkError extends Error {
+	constructor(message:any, options:{cause?:any,request?:any,response:any}) {
+		super(message, options);
 
-const STORE_ENTRIES = 250;
+		this.name = 'NetworkError';
 
-const STORE_CACHE_RELEASE_TIME = 3 * 5 * 1000; // 2 mins
+		if (options) {
+		const {cause, ...meta} = options;
+
+		Object.assign(this, meta);
+		}
+	}
+}
+
+
+const STORE_ENTRIES = 350;
+
+const STORE_CACHE_RELEASE_TIME = 3 * 5 * 1000; 
 
 export interface ExecutionPatchResult<
 	TData = ObjMap<unknown> | unknown,
@@ -215,6 +210,8 @@ function fetchOrSubscribe(
 	});
   }
   
+export const environmentKey = new EnvironmentKey('RelayEnvironment');
+
 export function createEnvironment() {
 	//@ts-ignore
 	const network = Network.create(fetchGraphQL, fetchOrSubscribe);
@@ -234,12 +231,3 @@ export function createEnvironment() {
 
 export const isAsyncIterable = (value:any) =>
   typeof Object(value)[Symbol.asyncIterator] === 'function';
-
-// function isAsyncIterable(input: unknown): input is AsyncIterable<unknown> {
-// 	return (
-// 		typeof input === 'object' &&
-// 		input !== null &&
-// 		((input as any)[Symbol.toStringTag] === 'AsyncGenerator' ||
-// 			Symbol.asyncIterator in input)
-// 	);
-// }

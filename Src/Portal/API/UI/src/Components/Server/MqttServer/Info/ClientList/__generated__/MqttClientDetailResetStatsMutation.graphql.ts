@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f30c09ebe5864b23fa7ac37fd2682517>>
+ * @generated SignedSource<<1cbf151840f757093105fcda5be52230>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -30,9 +30,9 @@ export type MqttClientDetailResetStatsMutation$data = {
       readonly bytesReceived: any;
       readonly bytesSent: any;
       readonly id: string;
-      readonly lastNonKeepAlivePacketReceivedTimestamp: any | null;
-      readonly lastPacketReceivedTimestamp: any | null;
-      readonly lastPacketSentTimestamp: any | null;
+      readonly lastNonKeepAlivePacketReceivedTimestamp: string | null;
+      readonly lastPacketReceivedTimestamp: string | null;
+      readonly lastPacketSentTimestamp: string | null;
       readonly receivedApplicationMessagesCount: any;
       readonly receivedPacketsCount: any;
       readonly sentApplicationMessagesCount: any;

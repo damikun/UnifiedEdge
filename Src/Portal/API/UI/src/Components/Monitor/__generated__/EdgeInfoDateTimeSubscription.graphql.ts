@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2ec51097bc20322492c9404652ca54ac>>
+ * @generated SignedSource<<94d416c6715ac0624939dd9374be5bfa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type EdgeInfoDateTimeSubscription$variables = {};
 export type EdgeInfoDateTimeSubscription$data = {
-  readonly systemTime: any;
+  readonly systemTime: string;
 };
 export type EdgeInfoDateTimeSubscription = {
   response: EdgeInfoDateTimeSubscription$data;

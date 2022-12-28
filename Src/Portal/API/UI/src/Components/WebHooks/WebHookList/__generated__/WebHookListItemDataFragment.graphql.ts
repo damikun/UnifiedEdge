@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b3c96e26e07d4b9a0efc6c653eb6d561>>
+ * @generated SignedSource<<650f3f008c0515650461ac0e8a93fb1a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type WebHookListItemDataFragment$data = {
   readonly eventGroup: ReadonlyArray<HookEventGroup>;
   readonly id: string;
   readonly isActive: boolean;
-  readonly lastTrigger: any | null;
+  readonly lastTrigger: string | null;
   readonly name: string;
   readonly secret: string | null;
   readonly serverUid: string | null;

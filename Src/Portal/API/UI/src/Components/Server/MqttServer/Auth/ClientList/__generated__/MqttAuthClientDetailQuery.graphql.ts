@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0134106a6d2ec4a1e2f0a336e37cd7ca>>
+ * @generated SignedSource<<ade7a4bfa3d209124592654abd3a4d02>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,7 +19,7 @@ export type MqttAuthClientDetailQuery$data = {
     readonly clientId: string | null;
     readonly enabled: boolean;
     readonly id: string;
-    readonly lastAuthenticate: any | null;
+    readonly lastAuthenticate: string | null;
     readonly rules: ReadonlyArray<{
       readonly authAction: AuthAction;
       readonly id: string;

@@ -6,10 +6,10 @@ using Aplication.Core;
 using FluentValidation;
 using Persistence.Portal;
 using Aplication.Services;
+using System.Globalization;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
-
 
 namespace Aplication.CQRS.Commands
 {
@@ -47,13 +47,21 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
+        /// <summary>
+        /// Injected <c>ICurrentUser</c>
+        /// </summary>
+        private readonly ICurrentUser _current;
+
         private const string HEX_COLOR_REGEX = @"^#(?:[0-9a-fA-F]{3}){1,2}$";
 
         public CreateMqttServerExplorerUserScopedSubsValidator(
-            IDbContextFactory<ManagmentDbCtx> factory
+            IDbContextFactory<ManagmentDbCtx> factory,
+            ICurrentUser current
         )
         {
             _factory = factory;
+
+            _current = current;
 
             RuleFor(e => e.ServerUid)
                 .NotNull()
@@ -64,6 +72,14 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.Topic)
                 .NotNull()
                 .NotEmpty();
+
+            RuleFor(e => e.Topic)
+                .Must(IsLegalUnicode)
+                .WithMessage("topic invalid Unicode string");
+
+            RuleFor(e => e)
+                .MustAsync(IsUniqueTopic)
+                .WithMessage("Topic allready defined");
 
             RuleFor(e => e.Color)
                 .Must(IsValidHex)
@@ -78,6 +94,58 @@ namespace Aplication.CQRS.Commands
             }
 
             return Regex.Match(Color, HEX_COLOR_REGEX, RegexOptions.IgnoreCase).Success;
+        }
+
+        static bool IsLegalUnicode(string str)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                var uc = char.GetUnicodeCategory(str, i);
+
+                if (uc == UnicodeCategory.Surrogate)
+                {
+                    // Unpaired surrogate, like  "😵"[0] + "A" or  "😵"[1] + "A"
+                    return false;
+                }
+                else if (uc == UnicodeCategory.OtherNotAssigned)
+                {
+                    // \uF000 or \U00030000
+                    return false;
+                }
+
+                if (char.IsHighSurrogate(str, i))
+                {
+                    i++;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> IsUniqueTopic(
+            CreateMqttServerExplorerUserScopedSubs cmd,
+            CancellationToken cancellationToken
+        )
+        {
+            await using ManagmentDbCtx dbContext =
+                _factory.CreateDbContext();
+
+            var sub_id = _current.UserId;
+
+            if (string.IsNullOrWhiteSpace(sub_id))
+            {
+                return false;
+            }
+
+            var normalised_topic = CreateMqttServerExplorerUserScopedSubsHandler
+                .NormalizeTopic(cmd.Topic);
+
+            return !await dbContext.MqttExplorerSubs
+            .AnyAsync(e =>
+                e.ServerUid == cmd.ServerUid &&
+                e.UserUid == sub_id &&
+                e.Topic == normalised_topic
+            );
         }
 
         public async Task<bool> ServerExist(
@@ -179,7 +247,7 @@ namespace Aplication.CQRS.Commands
             {
                 Color = request.Color,
                 NoLocal = request.NoLocal,
-                Topic = request.Topic,
+                Topic = NormalizeTopic(request.Topic),
                 ServerUid = request.ServerUid,
                 UserUid = sub_id
             };
@@ -190,5 +258,17 @@ namespace Aplication.CQRS.Commands
 
             return _mapper.Map<DTO_MqttExplorerSub>(sub_cfg);
         }
+
+        public static string NormalizeTopic(string topic)
+        {
+            var normalised = topic.ToLowerInvariant()
+                .TrimStart()
+                .TrimEnd()
+                .TrimStart('/');
+
+            //Remove white-spaces in-between
+            return Regex.Replace(normalised, @"\s+", "");
+        }
     }
+
 }

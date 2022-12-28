@@ -64,14 +64,15 @@ function MqttServer() {
     },
   );
 
-  return <PageContainer>
+  return <PageContainer fullHeight reservefooterSpace>
+
     <Section 
       name={"Server"}
       component={<ServerInfo dataRef={data.mqttServerById}/>}
     />
 
     <StyledTabSection tabs={SettingsTabs}/>
-
+ 
     <Routes>
       <Route path="/Settings/" element={<MqttServerSettings/>} />
       <Route path="/Logs/" element={<MqttLogsView/>} />
@@ -82,3 +83,4 @@ function MqttServer() {
 
   </PageContainer>
 }
+

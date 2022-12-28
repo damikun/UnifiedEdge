@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e3ed9f0bc25ceb61f68005882dccb726>>
+ * @generated SignedSource<<56f38ca57fbf4221f7adbb3af01c3fc3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type SchedulerFailedJobItemDataFragment$data = {
-  readonly failedAt: any | null;
+  readonly failedAt: string | null;
   readonly id: string;
   readonly jobName: string | null;
   readonly reason: string;

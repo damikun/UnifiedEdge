@@ -1,5 +1,8 @@
 {
   "src": "./src",
   "schema": "./src/schema.graphql",
-  "language": "typescript"
+  "language": "typescript",
+  "customScalars": {
+    "DateTime": "string"
+  }
 }

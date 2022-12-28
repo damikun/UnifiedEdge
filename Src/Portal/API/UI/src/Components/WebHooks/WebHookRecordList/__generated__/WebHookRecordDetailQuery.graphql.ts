@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<71e82690d70db49246ebd6c16bc0bf73>>
+ * @generated SignedSource<<8d523b282ddcf774474232bb16a6288a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,7 +28,7 @@ export type WebHookRecordDetailQuery$data = {
     readonly responseContentType: string | null;
     readonly result: RecordResult;
     readonly statusCode: number;
-    readonly timestamp: any;
+    readonly timestamp: string;
   };
 };
 export type WebHookRecordDetailQuery = {

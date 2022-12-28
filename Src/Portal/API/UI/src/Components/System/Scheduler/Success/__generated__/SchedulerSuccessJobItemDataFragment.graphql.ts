@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6641041b796ab420a9b7359bc883b237>>
+ * @generated SignedSource<<e3b223bd98e6e318e3d795f100f2183e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type SchedulerSuccessJobItemDataFragment$data = {
   readonly id: string;
   readonly name: string;
-  readonly succeededAt: any | null;
+  readonly succeededAt: string | null;
   readonly totalDuration: any | null;
   readonly " $fragmentType": "SchedulerSuccessJobItemDataFragment";
 };

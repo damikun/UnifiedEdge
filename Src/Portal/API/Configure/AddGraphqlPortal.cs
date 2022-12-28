@@ -14,6 +14,7 @@ using Microsoft.Extensions.Primitives;
 using HotChocolate.AspNetCore.Extensions;
 using HotChocolate.Execution.Configuration;
 
+
 namespace API
 {
     public static partial class ServiceExtension

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<21987947f41abff0d098ae30a00af05a>>
+ * @generated SignedSource<<90911aae3b43d4282043a4365985b07a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type MqttAuthUserItemDataFragment$data = {
   readonly enabled: boolean;
   readonly id: string;
-  readonly lastAuthenticate: any | null;
+  readonly lastAuthenticate: string | null;
   readonly userName: string | null;
   readonly " $fragmentType": "MqttAuthUserItemDataFragment";
 };

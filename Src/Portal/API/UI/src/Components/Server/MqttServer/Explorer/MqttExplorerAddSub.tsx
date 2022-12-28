@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useMutation } from "react-relay";
@@ -11,8 +10,10 @@ import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { useModalContext } from "../../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
-import { CreateMqttServerExplorerUserSubInput, MqttExplorerAddSubMutation } from "./__generated__/MqttExplorerAddSubMutation.graphql";
 import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
+import { FormColorInput } from "../../../../UIComponents/Form/FormColorInput";
+import { CreateMqttServerExplorerUserSubInput, MqttExplorerAddSubMutation } from "./__generated__/MqttExplorerAddSubMutation.graphql";
+
 
 
 const MqttExplorerAddSubMutationTag = graphql`
@@ -31,6 +32,7 @@ const MqttExplorerAddSubMutationTag = graphql`
         color
         noLocal
         topic
+        ...MqttExplorerSubItemDataFragment
       }
       errors{
         __typename
@@ -50,11 +52,6 @@ const MqttExplorerAddSubMutationTag = graphql`
   }
 }
 `
-
-function GetRandomColor(){
-  var random = Math.floor(Math.random()*16777215).toString(16);
-  return  "#" + random;
-}
 
 export default function MqttExplorerAddSub(){
 
@@ -131,7 +128,7 @@ export default function MqttExplorerAddSub(){
   return <ModalContainer label="Add Subscription">
   <form
   onSubmit={formik.handleSubmit}
-  className="px-3 pb-2 w-full">
+  className="px-3 pb-2 w-full space-y-5 relative">
   
     <FormInput
       label="Topic"
@@ -142,17 +139,38 @@ export default function MqttExplorerAddSub(){
       disabled={isInFlight_add}
       onChange={formik.handleChange}
     />
-    <div className="mb-6 text-center mt-10 h-10 flex-1">
+    <FormColorInput
+      label="Color"
+      id="color"
+      error={formik.errors.color}
+      value={formik.values.color??"#FFFFFF"}
+      disabled={isInFlight_add}
+      onChange={formik.handleChange}
+    />
+    <div className="w-full pt-5">
       <StayledButton
         isloading={isInFlight_add}
         variant="secondaryblue"
         disabled={isInFlight_add}
         className="flex-1 my-auto w-full"
         type="submit"
+        size="medium"
       >
-        <div className="mx-auto my-auto">Confirm</div>
+        Confirm
       </StayledButton>
     </div>
 </form>
 </ModalContainer>
+}
+
+//---------------------------------------------
+
+function GetRandomColor(){
+  var color:string = "";
+
+  do{
+    color =  Math.floor(Math.random()*16777215).toString(16);
+  }while(color.length !== 6)
+
+  return  "#" + color;
 }

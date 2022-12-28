@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e0a6f002f6e91521975498b05a863450>>
+ * @generated SignedSource<<b629bb12eb0496d59bcfc17da75f4aee>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type MqttAuthUserDetailQuery$data = {
   readonly mqttAuthUserById: {
     readonly enabled: boolean;
     readonly id: string;
-    readonly lastAuthenticate: any | null;
+    readonly lastAuthenticate: string | null;
     readonly system: boolean;
     readonly userName: string | null;
   };

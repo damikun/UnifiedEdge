@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<57cd193726be47c4f10667b68121a575>>
+ * @generated SignedSource<<f10cd57bdcc90b051e667ad3d4aefc3f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ServerLogsItemDataFragment$data = {
   readonly iD: string;
   readonly name: string;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly type: ServerEventTypes;
   readonly " $fragmentType": "ServerLogsItemDataFragment";
 };

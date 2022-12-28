@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ef620ccb6d27bd882c3e773cdc191606>>
+ * @generated SignedSource<<98f0a006771ce88d9f0c4d80fc8a7a64>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type TokenListItemDataFragment$data = {
   readonly description: string;
-  readonly expiration: any | null;
+  readonly expiration: string | null;
   readonly id: string;
   readonly " $fragmentType": "TokenListItemDataFragment";
 };

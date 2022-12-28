@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a32b10a60ac76ecb09ae9036dfae8760>>
+ * @generated SignedSource<<e45d914e52788f7e677b4c6302723de5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MetricTrendHistoryFragment$data = {
   readonly metricHistory: ReadonlyArray<{
-    readonly timeStamp: any | null;
+    readonly timeStamp: string | null;
     readonly value: any | null;
   } | null> | null;
   readonly " $fragmentType": "MetricTrendHistoryFragment";

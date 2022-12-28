@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53e077cbefa7f9312ab9a5966b8fabbb>>
+ * @generated SignedSource<<6cd23eec0221fe001d95e50cdb6fb2c4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,9 +17,9 @@ export type ServerInfoConfigModalQuery$data = {
     readonly configState?: {
       readonly isConfigMatch: boolean;
       readonly offlineConfig: string | null;
-      readonly offlineTimeStamp: any | null;
+      readonly offlineTimeStamp: string | null;
       readonly onlineConfig: string | null;
-      readonly onlineTimeStamp: any | null;
+      readonly onlineTimeStamp: string | null;
     } | null;
   } | null;
 };

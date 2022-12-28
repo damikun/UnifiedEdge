@@ -27,6 +27,14 @@ export const TRACES_ENDPOINT = `${BASE_SERVER_URL}/traces`;
 
 export const SWAGGER_PATH = "swagger/v1/swagger.json" 
 
+export const NetworkErrors = {
+	FAILED_FETCH: 'Failed to fetch',
+	ERROR_FETCH: 'Error in fetch',
+	UNWORKABLE_FETCH: 'Unworkable fetch',
+	SOCKET_CLOSED: 'Socket closed',
+	GRAPHQL_ERRORS: 'GraphQL error',
+};
+
 /*-----------------------------------------------------------------------*/
 
 export const MEDIA_Q = {

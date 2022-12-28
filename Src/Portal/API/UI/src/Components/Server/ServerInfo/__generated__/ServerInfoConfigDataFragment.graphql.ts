@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ec680ba1dc82353748a00c518da99df8>>
+ * @generated SignedSource<<0997452a557a5c2f17142897cd6cd91c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,8 +13,8 @@ import { FragmentRefs } from "relay-runtime";
 export type ServerInfoConfigDataFragment$data = {
   readonly configState: {
     readonly isConfigMatch: boolean;
-    readonly offlineTimeStamp: any | null;
-    readonly onlineTimeStamp: any | null;
+    readonly offlineTimeStamp: string | null;
+    readonly onlineTimeStamp: string | null;
   } | null;
   readonly isConfigMatch: boolean | null;
   readonly " $fragmentType": "ServerInfoConfigDataFragment";

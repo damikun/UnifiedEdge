@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6832a389e356e985b87de42865550f3c>>
+ * @generated SignedSource<<279c80c85ddefa46d4cc89f69411a964>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WebHookLastRunDataFragment$data = {
-  readonly lastTrigger: any | null;
+  readonly lastTrigger: string | null;
   readonly " $fragmentType": "WebHookLastRunDataFragment";
 };
 export type WebHookLastRunDataFragment$key = {

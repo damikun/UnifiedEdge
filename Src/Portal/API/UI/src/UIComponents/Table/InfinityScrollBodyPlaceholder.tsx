@@ -5,7 +5,7 @@ import { createRef, useEffect, useState } from "react";
 
 
 type InfinityScrollBodyPlaceholderProps = {
-    height?: "h-96" | "h-72" |"h-60" | "h-80",
+    height?: "h-96" | "h-72" |"h-60" | "h-80"| "h-full",
 }
 
 export default function InfinityScrollBodyPlaceholder({

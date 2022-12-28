@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4b158de1d9d573cf56d3de672b29b3f5>>
+ * @generated SignedSource<<ffb6dd424841b0a3a0cd637c65159e62>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type MqttAuthLogItemDataFragment$data = {
   readonly errorMessage: string | null;
   readonly id: string;
   readonly jsonMetadata: string | null;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly " $fragmentType": "MqttAuthLogItemDataFragment";
 };
 export type MqttAuthLogItemDataFragment$key = {

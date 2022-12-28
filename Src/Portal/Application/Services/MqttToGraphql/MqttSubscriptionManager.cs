@@ -38,15 +38,15 @@ public class MqttSubscriptionManager : IMqttSubscriptionManager, IDisposable
         return channel;
     }
 
-    public async ValueTask CancleSubscription(string server_uid, string uid)
+    public async ValueTask CancleSubscription(string server_uid, string sub_uid)
     {
         try
         {
-            await _mqtt_manager.Unsubscribe(server_uid, uid);
+            await _mqtt_manager.Unsubscribe(server_uid, sub_uid);
         }
         catch { }
 
-        _channels.Remove(uid, out MqttSubscribeChannel? channel);
+        _channels.Remove(sub_uid, out MqttSubscribeChannel? channel);
 
         if (channel is not null && !channel.isCompleted)
         {

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2774f5102a8dca6d4b061913fe64d54f>>
+ * @generated SignedSource<<1b6acf058a1c88995988b21c08c2bf97>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,7 +21,7 @@ export type SuccessJobDetailDataFragment$data = {
     }>;
   } | null;
   readonly name?: string;
-  readonly succeededAt?: any | null;
+  readonly succeededAt?: string | null;
   readonly totalDuration?: any | null;
   readonly " $fragmentType": "SuccessJobDetailDataFragment";
 };

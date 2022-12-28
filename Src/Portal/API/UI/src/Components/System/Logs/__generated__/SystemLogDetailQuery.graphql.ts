@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<96ec113e455834b8cc8f2c7b882aedab>>
+ * @generated SignedSource<<56e8ae128d838021d8a734cafc45efb4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,7 @@ export type SystemLogDetailQuery$data = {
     readonly iD: string;
     readonly json: string | null;
     readonly name: string;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
     readonly type: EventType;
   };
 };

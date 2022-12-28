@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<31fdfe8d70a5c33b363224424bb03147>>
+ * @generated SignedSource<<727b0226b9e759fc8da7d34043857d70>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,7 +23,7 @@ export type MqttAuthLogDetailQuery$data = {
     readonly id: string;
     readonly isSuccess: boolean;
     readonly jsonMetadata: string | null;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
   };
 };
 export type MqttAuthLogDetailQuery = {

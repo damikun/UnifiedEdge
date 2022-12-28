@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6019632853c98f62234425df44bfb7a7>>
+ * @generated SignedSource<<c652ff7a92cbafb90478d56fb88f7167>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,9 +14,9 @@ import { FragmentRefs } from "relay-runtime";
 export type SchedulerRecurringJobItemDataFragment$data = {
   readonly callName: string;
   readonly id: string;
-  readonly lastExecution: any | null;
+  readonly lastExecution: string | null;
   readonly lastJobState: GQL_ScheduleState | null;
-  readonly nextExecution: any | null;
+  readonly nextExecution: string | null;
   readonly " $fragmentType": "SchedulerRecurringJobItemDataFragment";
 };
 export type SchedulerRecurringJobItemDataFragment$key = {

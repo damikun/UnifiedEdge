@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<56955e408c1427ee9c8878ec7a1c198e>>
+ * @generated SignedSource<<13c8f740777a570925a51f5e099788f9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type MetricTrendSubscription$data = {
   readonly runtimeMetric: {
     readonly id: string;
     readonly name: string;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
     readonly value: any | null;
   };
 };

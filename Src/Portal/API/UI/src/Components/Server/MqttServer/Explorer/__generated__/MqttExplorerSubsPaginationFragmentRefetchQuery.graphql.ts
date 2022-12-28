@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6868636d5d744b98a66706882acfa8d0>>
+ * @generated SignedSource<<aa72b35bf23f6329c6147280ae1a7f2e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -134,6 +134,20 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "color",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "serverUid",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -194,12 +208,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b27210d7c0b6f858b4402da993d6cc67",
+    "cacheID": "6e12eec53e289c156e5cd0469ab56975",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerSubsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttExplorerSubsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttExplorerSubsPaginationFragment_3VI1TY\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n}\n\nfragment MqttExplorerSubsPaginationFragment_3VI1TY on Query {\n  mqttExplorerUserStoredSubs(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttExplorerSubItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttExplorerSubsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttExplorerSubsPaginationFragment_3VI1TY\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n  color\n  serverUid\n}\n\nfragment MqttExplorerSubsPaginationFragment_3VI1TY on Query {\n  mqttExplorerUserStoredSubs(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttExplorerSubItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c2b51db2fe686775266cf592fdb06502>>
+ * @generated SignedSource<<73730231dc5670b0e3c2eca539413154>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,7 +20,7 @@ export type MqttlogDetailQuery$data = {
     readonly logLevel: MqttNetLogLevel;
     readonly message: string | null;
     readonly source: string | null;
-    readonly timeStamp: any;
+    readonly timeStamp: string;
     readonly uid: string;
   };
 };

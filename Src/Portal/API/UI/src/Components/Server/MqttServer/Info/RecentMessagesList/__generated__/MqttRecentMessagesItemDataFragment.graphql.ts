@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f95c8037f23aacd8b4c6fdcdd83a661e>>
+ * @generated SignedSource<<825290a0b780df06610c50ac71a57311>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type MqttRecentMessagesItemDataFragment$data = {
   readonly clientId: string | null;
   readonly clientUid: string | null;
   readonly id: string;
-  readonly timeStamp: any;
+  readonly timeStamp: string;
   readonly topic: string;
   readonly " $fragmentType": "MqttRecentMessagesItemDataFragment";
 };

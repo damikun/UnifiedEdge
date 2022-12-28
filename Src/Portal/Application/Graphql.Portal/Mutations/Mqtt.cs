@@ -428,7 +428,7 @@ namespace Aplication.Graphql.Mutations
             MessageQoS qos,
             bool retain,
             string topic,
-            byte[] payload,
+            string payload,
             int expireInterval,
             [Service] IMediator mediator)
         {

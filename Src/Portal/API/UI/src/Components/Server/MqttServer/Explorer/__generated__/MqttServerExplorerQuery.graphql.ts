@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<852fff832453012aef1cfc0422d94aeb>>
+ * @generated SignedSource<<8afa4892213a3a8b942522d69d0f0a65>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -120,6 +120,20 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "color",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "serverUid",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -180,12 +194,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1808f39566f9e3202c30a036ca98675a",
+    "cacheID": "5b93283bfcdf21b5902e6d34f902afcc",
     "id": null,
     "metadata": {},
     "name": "MqttServerExplorerQuery",
     "operationKind": "query",
-    "text": "query MqttServerExplorerQuery(\n  $id: ID!\n) {\n  ...MqttExplorerSubsPaginationFragment_2YLYDF\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n}\n\nfragment MqttExplorerSubsPaginationFragment_2YLYDF on Query {\n  mqttExplorerUserStoredSubs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttExplorerSubItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttServerExplorerQuery(\n  $id: ID!\n) {\n  ...MqttExplorerSubsPaginationFragment_2YLYDF\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n  color\n  serverUid\n}\n\nfragment MqttExplorerSubsPaginationFragment_2YLYDF on Query {\n  mqttExplorerUserStoredSubs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttExplorerSubItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

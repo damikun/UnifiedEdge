@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import MqttExplorerAddSub from "./MqttExplorerAddSub";
 import Modal from "../../../../UIComponents/Modal/Modal";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMessage } from "@fortawesome/free-solid-svg-icons";
+import MqttExplorerPublishMessage from "./MqttExplorerPublishMessage";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 
 
@@ -28,7 +28,7 @@ export default function MqttExplorerMessagesBarBar(){
       isOpen={modalState}
       position="center"
       onClose={handleClose}>
-      <MqttExplorerAddSub />
+      <MqttExplorerPublishMessage />
     </Modal>
 
     <div className="flex flex-row space-x-3 items-center flex-nowrap">
@@ -36,8 +36,9 @@ export default function MqttExplorerMessagesBarBar(){
         onMobileIconOnly={false}
         variant="primaryblue"
         onClick={handleOpen}
-        iconLeft={faPlus}>
-          Add
+        size="normal"
+        iconRight={faMessage}>
+          Publish
       </StayledButton>
     </div>
   </> 

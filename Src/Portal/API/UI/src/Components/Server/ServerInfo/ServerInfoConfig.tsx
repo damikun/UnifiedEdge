@@ -4,12 +4,12 @@ import { graphql } from "babel-plugin-relay/macro";
 import Modal from "../../../UIComponents/Modal/Modal";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
+import ServerInfoConfigModal from "./ServerInfoConfigModal";
 import { useParams, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { ServerInfoConfigDataFragment$key } from "./__generated__/ServerInfoConfigDataFragment.graphql";
 import { ServerInfoConfigMatchSubscription } from "./__generated__/ServerInfoConfigMatchSubscription.graphql";
-import ServerInfoConfigModal from "./ServerInfoConfigModal";
 
 
 const ServerInfoConfigDataFragment = graphql`

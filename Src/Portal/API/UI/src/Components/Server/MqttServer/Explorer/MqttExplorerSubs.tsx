@@ -48,7 +48,7 @@ function MqttExplorerSubs({dataRef}:MqttExplorerSubsProps) {
       bar={<MqttExplorerSubsBar/>}
       component={
         <InfinityScrollTable
-          height="h-96"
+          height="h-full"
         > 
           <MqttExplorerSubsBody dataRef={dataRef}/>
         </InfinityScrollTable>
@@ -96,7 +96,7 @@ function MqttExplorerSubsBody({dataRef}:MqttExplorerSubsBodyProps){
   );
 
   return <InfinityScrollBody
-    height="h-72"
+    height="h-full"
     onEnd={handleLoadMore}
     >
       {

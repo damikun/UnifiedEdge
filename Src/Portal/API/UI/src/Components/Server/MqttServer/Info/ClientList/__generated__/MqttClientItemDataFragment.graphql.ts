@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b06b5bf1d22388a2150329817362e5d0>>
+ * @generated SignedSource<<3d28ab4f96c536925f0c475636e841c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,11 +13,11 @@ export type DTO_MqttProtocol = "UNKNOWN" | "V310" | "V311" | "V500" | "%future a
 import { FragmentRefs } from "relay-runtime";
 export type MqttClientItemDataFragment$data = {
   readonly clientId: string;
-  readonly connectedTimeStamp: any | null;
-  readonly disconnectedTimeStamp: any | null;
+  readonly connectedTimeStamp: string | null;
+  readonly disconnectedTimeStamp: string | null;
   readonly id: string;
   readonly isConnected: boolean;
-  readonly lastMessageTimestamp: any | null;
+  readonly lastMessageTimestamp: string | null;
   readonly protocol: DTO_MqttProtocol;
   readonly serverUid: string;
   readonly " $fragmentType": "MqttClientItemDataFragment";

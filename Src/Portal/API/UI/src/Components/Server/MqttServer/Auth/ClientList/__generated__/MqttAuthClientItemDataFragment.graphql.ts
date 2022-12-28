@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d595092f26c9b3ee1c05dbc1c91407b2>>
+ * @generated SignedSource<<f1c998bc168f46b4677b018c528e5f3d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,7 @@ export type MqttAuthClientItemDataFragment$data = {
   readonly clientId: string | null;
   readonly enabled: boolean;
   readonly id: string;
-  readonly lastAuthenticate: any | null;
+  readonly lastAuthenticate: string | null;
   readonly " $fragmentType": "MqttAuthClientItemDataFragment";
 };
 export type MqttAuthClientItemDataFragment$key = {
