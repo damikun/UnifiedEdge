@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<839992d54a02d16db64fd44102045905>>
+ * @generated SignedSource<<cfa166fe7351f158989686b0fe07ffb6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -36,6 +36,7 @@ export type MqttExplorerPublishMessageMutation$data = {
     readonly gQL_MqttMessage: {
       readonly clientId: string | null;
       readonly contentType: string | null;
+      readonly dup: boolean;
       readonly id: string;
       readonly isJsonPayload: boolean;
       readonly isTextPayload: boolean;
@@ -103,7 +104,7 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "clientId",
+            "name": "contentType",
             "storageKey": null
           },
           {
@@ -117,14 +118,21 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "qos",
+            "name": "isJsonPayload",
             "storageKey": null
           },
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "retain",
+            "name": "isTextPayload",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isXmlPayload",
             "storageKey": null
           },
           {
@@ -152,28 +160,28 @@ v2 = [
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "isJsonPayload",
+            "name": "qos",
             "storageKey": null
           },
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "isTextPayload",
+            "name": "retain",
             "storageKey": null
           },
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "contentType",
+            "name": "clientId",
             "storageKey": null
           },
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "isXmlPayload",
+            "name": "dup",
             "storageKey": null
           }
         ],
@@ -253,16 +261,16 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "5fb141095046e9202c5bcdb8f680f68f",
+    "cacheID": "fd185cdbdc34cd92e7cff36b813ef91c",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerPublishMessageMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageMutation(\n  $input: PublishMqttMessageInput!\n) {\n  publishMqttMessage(input: $input) {\n    gQL_MqttMessage {\n      id\n      clientId\n      topic\n      qos\n      retain\n      payload\n      timeStamp\n      payloadUtf8Str\n      isJsonPayload\n      isTextPayload\n      contentType\n      isXmlPayload\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": "mutation MqttExplorerPublishMessageMutation(\n  $input: PublishMqttMessageInput!\n) {\n  publishMqttMessage(input: $input) {\n    gQL_MqttMessage {\n      id\n      contentType\n      topic\n      isJsonPayload\n      isTextPayload\n      isXmlPayload\n      payload\n      timeStamp\n      payloadUtf8Str\n      qos\n      retain\n      clientId\n      dup\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "a8ee1ba0a8584f41bdbbca59c335b224";
+(node as any).hash = "d4e6caf4b97fe64c1f2b1767dada7b58";
 
 export default node;

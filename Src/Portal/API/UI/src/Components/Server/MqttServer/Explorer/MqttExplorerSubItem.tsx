@@ -72,6 +72,10 @@ const TopicSub = graphql`
           payload
           timeStamp
           payloadUtf8Str
+          qos
+          retain
+          clientId
+          dup
         }
     }
 `;

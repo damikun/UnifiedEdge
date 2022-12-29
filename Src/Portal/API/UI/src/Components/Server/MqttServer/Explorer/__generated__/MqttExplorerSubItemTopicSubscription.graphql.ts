@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<49e788ede61acc22962201d776ec448c>>
+ * @generated SignedSource<<6c1861389b7d75f59ff71be44606ee4b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,13 +15,17 @@ export type MqttExplorerSubItemTopicSubscription$variables = {
 };
 export type MqttExplorerSubItemTopicSubscription$data = {
   readonly mqttBridgeSubscribe: {
+    readonly clientId: string | null;
     readonly contentType: string | null;
+    readonly dup: boolean;
     readonly id: string;
     readonly isJsonPayload: boolean;
     readonly isTextPayload: boolean;
     readonly isXmlPayload: boolean;
     readonly payload: ReadonlyArray<any> | null;
     readonly payloadUtf8Str: string | null;
+    readonly qos: any;
+    readonly retain: boolean;
     readonly timeStamp: string;
     readonly topic: string;
   };
@@ -126,6 +130,34 @@ v1 = [
         "kind": "ScalarField",
         "name": "payloadUtf8Str",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "qos",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "retain",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "clientId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "dup",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -149,16 +181,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "5e1d738d056e039d06dadaf02d084688",
+    "cacheID": "586955d8470dd7572a62694ad16e64e4",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerSubItemTopicSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttExplorerSubItemTopicSubscription(\n  $id: ID!\n  $topic: String!\n) {\n  mqttBridgeSubscribe(server_id: $id, topic: $topic) {\n    id\n    contentType\n    topic\n    isJsonPayload\n    isTextPayload\n    isXmlPayload\n    payload\n    timeStamp\n    payloadUtf8Str\n  }\n}\n"
+    "text": "subscription MqttExplorerSubItemTopicSubscription(\n  $id: ID!\n  $topic: String!\n) {\n  mqttBridgeSubscribe(server_id: $id, topic: $topic) {\n    id\n    contentType\n    topic\n    isJsonPayload\n    isTextPayload\n    isXmlPayload\n    payload\n    timeStamp\n    payloadUtf8Str\n    qos\n    retain\n    clientId\n    dup\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "80a2b22ef44cc87932d4858f7d5b6ba9";
+(node as any).hash = "5b9f8f676be73e328d0a2f04db124d6f";
 
 export default node;

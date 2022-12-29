@@ -1,15 +1,17 @@
 import clsx from "clsx";
-import {useState } from "react";
 import { useRecoilValue} from "recoil";
 import { useParams } from "react-router";
+import {useCallback, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 import MqttExplorerMessage from "./MqttExplorerMessage";
+import Modal from "../../../../UIComponents/Modal/Modal";
 import { useOnScreen } from "../../../../Hooks/useOnScreen";
 import Section from "../../../../UIComponents/Section/Section";
-import { mqttExplorerUniqueMessages } from "./MqttServerExplorer";
 import MqttExplorerMessagesBarBar from "./MqttExplorerMessagesBar";
+import MqttExplorerMessageDetail from "./MqttExplorerMessageDetail";
 import useScrollDirection from "../../../../Hooks/useScrollDirection";
+import { mqttExplorerUniqueMessages, MqttMessagePayload } from "./MqttServerExplorer";
 
 
 export default React.memo(MqttExplorerMessages)
@@ -32,6 +34,8 @@ function MqttExplorerMessages() {
 
   const [autoScroll,setAutoScroll] = useState(true);
 
+  const [modal,setModal] = useState<MqttMessagePayload | null>(null)
+
   useEffect(() => {  
     return () => {
       dispose()
@@ -48,8 +52,23 @@ function MqttExplorerMessages() {
     }
   }, [direction,intersecting])
   
-  
+  const handleModalClose = useCallback(() => {
+    setModal(null)
+  }, [setModal]);
+
+  const handleMessageDetail = useCallback((data:MqttMessagePayload) => {
+    setModal(data)
+  }, [setModal]);
+
   return <>
+    <Modal
+      position="top"
+      isOpen={modal != null}
+      onClose={handleModalClose}
+      component={
+        modal && <MqttExplorerMessageDetail data={modal}/>
+      }
+    />
     <Section 
       name={"Messages"}
       bar={<MqttExplorerMessagesBarBar/>}
@@ -60,11 +79,11 @@ function MqttExplorerMessages() {
         "border border-gray-200 rounded-md shadow-sm relative space-y-5",
         "overflow-y-scroll overflow-x-hidden bg-gray-50",
         "bg-explorer-background bg-contain")}>
-          {/* <div className="w-full block space-y-2 overflow-hidden"> */}
             <AnimatePresence>
               {
                 data.map((enity)=>{
-                  return <MqttExplorerMessage 
+                  return <MqttExplorerMessage
+                  onClick={handleMessageDetail}
                   key={enity.message.id}
                   data={enity} />
                 })
@@ -76,7 +95,6 @@ function MqttExplorerMessages() {
             </div>
 
           </div>
-        // </div>
       }
     />
   </>

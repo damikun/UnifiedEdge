@@ -42,17 +42,18 @@ const MqttExplorerPublishMessageMutationTag = graphql`
       ... on PublishMqttMessagePayload {
         gQL_MqttMessage{
           id
-          clientId
+          contentType
           topic
-          qos
-          retain
+          isJsonPayload
+          isTextPayload
+          isXmlPayload
           payload
           timeStamp
           payloadUtf8Str
-          isJsonPayload
-          isTextPayload
-          contentType
-          isXmlPayload
+          qos
+          retain
+          clientId
+          dup
         }
         errors{
           __typename

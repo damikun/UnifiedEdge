@@ -28,16 +28,20 @@ export type MqttMessagePayload = {
   message:MqttMessageType
 }
 
-type MqttMessageType = {
+export type MqttMessageType = {
+  clientId: string | null;
   contentType: string | null;
-  id: string;
-  topic:string;
+  dup: boolean;
   isJsonPayload: boolean;
   isTextPayload: boolean;
   isXmlPayload: boolean;
   payload: ReadonlyArray<any> | null;
   payloadUtf8Str: string | null;
-  timeStamp: any;
+  qos: any;
+  retain: boolean;
+  timeStamp: string;
+  topic: string;
+  id: string;
 }
 
 export const mqttExplorerStore = atomFamily({
@@ -67,6 +71,7 @@ export const mqttExplorerData = selectorFamily({
     })
   }
 });
+
 
 export const mqttExplorerUniqueMessages = selectorFamily({
   key: 'mqttExplorerUniqueMessages',
