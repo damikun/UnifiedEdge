@@ -1,4 +1,5 @@
-﻿using Server.Mqtt.DTO;
+﻿using AutoMapper;
+using Server.Mqtt.DTO;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions.Diagnostics;
 
@@ -10,12 +11,18 @@ public class MqttPubSub
     private readonly IMqttSubscriptionManager _manager;
 
     private readonly ISubscriptionDiagnosticEvents _diagnosticEvents;
+
+    private readonly IMapper _mapper;
+
     public MqttPubSub(
+        IMapper mapper,
         IMqttSubscriptionManager manager,
         ISubscriptionDiagnosticEvents diagnosticEvents
     )
     {
         _diagnosticEvents = diagnosticEvents;
+
+        _mapper = mapper;
 
         _manager = manager ??
             throw new ArgumentNullException(nameof(manager));
@@ -38,6 +45,6 @@ public class MqttPubSub
 
         _diagnosticEvents.SubscribeSuccess(topic);
 
-        return new MqttEventStream(channel);
+        return new MqttEventStream(channel, _mapper);
     }
 }

@@ -13,11 +13,11 @@ public class MqttSubscribeChannel
 
     private CancellationTokenSource cts { get; } = new();
 
-    private Channel<MessageEnvelope<GQL_MqttMessage>> _channel;
+    private Channel<MessageEnvelope<DTO_MqttMessage>> _channel;
 
     private readonly IMqttSubscriptionManager _sub_manager;
 
-    private static readonly MessageEnvelope<GQL_MqttMessage> _completed = new(kind: Completed);
+    private static readonly MessageEnvelope<DTO_MqttMessage> _completed = new(kind: Completed);
 
     public const int QUEUE_SIZE = 1000;
 
@@ -46,17 +46,17 @@ public class MqttSubscribeChannel
 
         Uid = uid;
 
-        _channel = Channel.CreateUnbounded<MessageEnvelope<GQL_MqttMessage>>();
+        _channel = Channel.CreateUnbounded<MessageEnvelope<DTO_MqttMessage>>();
 
         Topic = topic;
     }
 
-    public ValueTask<MessageEnvelope<GQL_MqttMessage>> ReadAsync(CancellationToken ct)
+    public ValueTask<MessageEnvelope<DTO_MqttMessage>> ReadAsync(CancellationToken ct)
     {
         return _channel.Reader.ReadAsync(ct);
     }
 
-    public ValueTask WriteAsync(GQL_MqttMessage message, CancellationToken ct)
+    public ValueTask WriteAsync(DTO_MqttMessage message, CancellationToken ct)
     {
         // The new messages get dropped
         if (_channel.Reader.Count > QUEUE_SIZE)
@@ -65,7 +65,7 @@ public class MqttSubscribeChannel
         }
 
         return _channel.Writer.WriteAsync(
-            new MessageEnvelope<GQL_MqttMessage>(message),
+            new MessageEnvelope<DTO_MqttMessage>(message),
             ct)
         ;
     }

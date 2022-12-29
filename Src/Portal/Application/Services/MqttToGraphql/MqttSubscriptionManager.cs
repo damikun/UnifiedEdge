@@ -1,5 +1,4 @@
 using AutoMapper;
-using Server.Mqtt.DTO;
 using Server.Manager.Mqtt;
 using System.Collections.Concurrent;
 
@@ -28,9 +27,9 @@ public class MqttSubscriptionManager : IMqttSubscriptionManager, IDisposable
 
         var channel = new MqttSubscribeChannel(sub.Id, topic, server_uid, this);
 
-        sub.OnMessageEvent += async (sender, args) =>
+        sub.OnMessageEvent += (sender, args) =>
         {
-            await channel.WriteAsync(_mapper.Map<GQL_MqttMessage>(args.Message), default);
+            channel.WriteAsync(args.Message, default);
         };
 
         _channels.TryAdd(sub.Id, channel);

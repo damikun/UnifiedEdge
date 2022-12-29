@@ -1,3 +1,4 @@
+using AutoMapper;
 using Aplication.Extensions.Mqtt;
 using HotChocolate.Execution.Configuration;
 using HotChocolate.Subscriptions.Diagnostics;
@@ -18,6 +19,7 @@ public static class RedisSubscriptionsServiceCollectionExtensions
         services.AddSingleton<IMqttSubscriptionManager, MqttSubscriptionManager>();
 
         services.AddSingleton(sp => new MqttPubSub(
+            sp.GetRequiredService<IMapper>(),
             sp.GetRequiredService<IMqttSubscriptionManager>(),
             sp.GetRequiredService<ISubscriptionDiagnosticEvents>()
         ));

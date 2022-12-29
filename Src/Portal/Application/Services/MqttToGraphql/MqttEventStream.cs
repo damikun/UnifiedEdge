@@ -1,3 +1,4 @@
+using AutoMapper;
 using Server.Mqtt.DTO;
 using HotChocolate.Execution;
 
@@ -6,12 +7,17 @@ namespace Aplication.Extensions.Mqtt;
 public class MqttEventStream : ISourceStream<GQL_MqttMessage>
 {
     private readonly MqttSubscribeChannel _channel;
+
+    private readonly IMapper _mapper;
+
     private bool _read;
     private bool _disposed;
 
-    public MqttEventStream(MqttSubscribeChannel channel)
+    public MqttEventStream(MqttSubscribeChannel channel, IMapper mapper)
     {
         _channel = channel;
+
+        _mapper = mapper;
     }
 
     public IAsyncEnumerable<GQL_MqttMessage> ReadEventsAsync()
@@ -27,7 +33,7 @@ public class MqttEventStream : ISourceStream<GQL_MqttMessage>
         }
 
         _read = true;
-        return new EnumerateMessages(_channel);
+        return new EnumerateMessages(_channel, _mapper);
     }
 
     IAsyncEnumerable<object> ISourceStream.ReadEventsAsync()
@@ -43,7 +49,7 @@ public class MqttEventStream : ISourceStream<GQL_MqttMessage>
         }
 
         _read = true;
-        return new EnumerateMessages(_channel);
+        return new EnumerateMessages(_channel, _mapper);
     }
 
     public async ValueTask DisposeAsync()
@@ -66,9 +72,14 @@ public class MqttEventStream : ISourceStream<GQL_MqttMessage>
     private sealed class EnumerateMessages : IAsyncEnumerable<GQL_MqttMessage>
     {
         private readonly MqttSubscribeChannel _channel;
-        public EnumerateMessages(MqttSubscribeChannel channel)
+
+        private readonly IMapper _mapper;
+
+        public EnumerateMessages(MqttSubscribeChannel channel, IMapper mapper)
         {
             _channel = channel;
+
+            _mapper = mapper;
         }
 
         public async IAsyncEnumerator<GQL_MqttMessage> GetAsyncEnumerator(
@@ -90,7 +101,7 @@ public class MqttEventStream : ISourceStream<GQL_MqttMessage>
                     continue;
                 }
 
-                yield return message.Body;
+                yield return _mapper.Map<GQL_MqttMessage>(message.Body);
             }
         }
     }

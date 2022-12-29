@@ -12,6 +12,7 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { FieldSection } from "../../../../Shared/Field/FieldHelpers";
+import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 import { useModalContext } from "../../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
@@ -19,7 +20,7 @@ import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import { Suspense, useCallback, useEffect, useMemo, useState, } from "react";
 import FormSelect, { FormSelectOption } from "../../../../UIComponents/Form/FormSelect";
 import { MqttExplorerPublishMessageMutation, PublishMqttMessageInput } from "./__generated__/MqttExplorerPublishMessageMutation.graphql";
-import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
+
 
 
 const editor_options = {
