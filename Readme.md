@@ -5,7 +5,7 @@
 
 ## ✨ Description
 
-Edge Brooker provides server functionality and a future bridge between different industrial protocols. 
+UnifiedEdge provides edge functionality and a future bridge between different industrial protocols. 
 
 (Currently full functional MQTT servers).
 
@@ -74,7 +74,7 @@ Password: Admin
     <img src="./Doc/Screens/server_explorer.png" alt="Mqtt explorer" />
     <img src="./Doc/Screens/server_publish_message.png" alt="Publish mqtt message from portal" />
     <img src="./Doc/Screens/server_users.png" alt="User managment" />
-    <img src="./Doc/Screens/server_profile.png" alt="User profile page" />
+    <img src="./Doc/Screens/user_profile.png" alt="User profile page" />
     <img src="./Doc/Screens/api.png" alt="API options" />      
     <img src="./Doc/Screens/graphql.png" alt="API options" /> 
     <img src="./Doc/Screens/rest.png" alt="API options" />
