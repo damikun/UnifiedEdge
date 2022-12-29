@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { AnimatePresence, motion } from "framer-motion";
 import { mqttExplorerData } from "./MqttServerExplorer";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import Editor, { loader, useMonaco } from "@monaco-editor/react";
 import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { generateErrors, is } from "../../../../Utils/Validation";
@@ -21,7 +21,7 @@ import { Suspense, useCallback, useEffect, useMemo, useState, } from "react";
 import FormSelect, { FormSelectOption } from "../../../../UIComponents/Form/FormSelect";
 import { MqttExplorerPublishMessageMutation, PublishMqttMessageInput } from "./__generated__/MqttExplorerPublishMessageMutation.graphql";
 
-
+import * as monaco from "monaco-editor";
 
 const editor_options = {
   selectOnLineNumbers: true,
@@ -32,9 +32,22 @@ const editor_options = {
   scrollBeyondLastLine:false
 };
 
+loader.config({ monaco });
+
 const json_default = `{
   "Measurement": 10
 }`
+
+//@ts-ignore
+const uriFromPath = _path => {
+  //@ts-ignore
+  let pathName = path.resolve(_path).replace(/\\/g, '/');
+
+  if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+    pathName = `/${pathName}`;
+  }
+  return encodeURI(`file://${pathName}`);
+};
 
 const MqttExplorerPublishMessageMutationTag = graphql`
   mutation MqttExplorerPublishMessageMutation(
@@ -95,7 +108,7 @@ export default function MqttExplorerPublishMessage(){
   
   const toast = useToast();
 
-  const monaco = useMonaco();
+  const monaco_editor = useMonaco();
 
   const formik = useFormik<PublishMqttMessageInput>({
     initialValues: {
@@ -156,7 +169,7 @@ export default function MqttExplorerPublishMessage(){
         payload: [
           is.required(),
           is.match(()=> 
-            monaco ?monaco.editor.getModelMarkers({}).length ===0 :false,
+          monaco_editor ?monaco_editor.editor.getModelMarkers({}).length ===0 :false,
             "Syntax error")
         ],
       });

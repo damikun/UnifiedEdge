@@ -37,7 +37,9 @@
     "history": "^5.3.0",
     "lodash": "^4.17.21",
     "meros": "1.2.1",
+    "monaco-editor-webpack-plugin": "^7.0.1",
     "react": "0.0.0-experimental-3d443cad7-20220823",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "0.0.0-experimental-3d443cad7-20220823",
     "react-relay": "0.0.0-main-8e25d86a",
     "react-router": "^6.3.0",
@@ -63,9 +65,9 @@
   },
   "scripts": {
     "relay": "relay-compiler relay.json",
-    "start": "rimraf ./build && react-scripts start",
-    "build": "react-scripts build",
-    "test": "cross-env CI=true react-scripts test",
+    "start": "rimraf ./build && react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "cross-env CI=true react-app-rewired test",
     "eject": "react-scripts eject",
     "tailwindoutput": "npx tailwindcss -c ./tailwind.config.js -i ./src/index.css -o ./src/output.css"
   },

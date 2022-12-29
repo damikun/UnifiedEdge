@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Aplication.Services.Identitiy;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Reflection;
 
 namespace API
 {
