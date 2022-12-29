@@ -49,26 +49,29 @@ export function FormSwitch({
         {label}
       </label>
     }
-    <Switch
-      id={id}
-      value={value}
-      name={name}
-      checked={checked}
-      onChange={handleOnChange}
-      className={clsx("relative inline-flex h-6 w-11",
-      "rounded-full items-center border border-gray-100",
-      "shadow-sm",
-      checked ? 
-        checkedColor??"bg-blue-500":
-        uncheckedColor ??"bg-gray-200")}
-    >
-      <span className="sr-only">
-        Select group
-      </span>
-      <span className={clsx("inline-block h-4 w-4 transform",
-        "rounded-full bg-white transition-all",
-        checked ? "translate-x-6" : "translate-x-1"
-      )}/>
-    </Switch>
+    <div className="flex h-full items-center">
+      <Switch
+        id={id}
+        value={value}
+        name={name}
+        checked={checked}
+        onChange={handleOnChange}
+        className={clsx("relative inline-flex h-6 w-11",
+        "rounded-full items-center border border-gray-100",
+        "shadow-sm",
+        checked ? 
+          checkedColor??"bg-blue-500":
+          uncheckedColor ??"bg-gray-200")}
+      >
+        <span className="sr-only">
+          Select group
+        </span>
+        <span className={clsx("inline-block h-4 w-4 transform",
+          "rounded-full bg-white transition-all",
+          checked ? "translate-x-6" : "translate-x-1"
+        )}/>
+      </Switch>
+    </div>
+
 </div>
 }

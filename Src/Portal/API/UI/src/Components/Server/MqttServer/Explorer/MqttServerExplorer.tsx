@@ -17,7 +17,7 @@ export const MqttServerExplorerQueryTag = graphql`
   }
 `;
 
-function CreateDefaultStore(){
+export function CreateDefaultStore(){
   return {
     data: new LinkedList<MqttMessagePayload>()
   } 

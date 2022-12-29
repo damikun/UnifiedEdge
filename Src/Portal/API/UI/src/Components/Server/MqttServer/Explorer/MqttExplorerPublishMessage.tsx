@@ -19,6 +19,7 @@ import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import { Suspense, useCallback, useEffect, useMemo, useState, } from "react";
 import FormSelect, { FormSelectOption } from "../../../../UIComponents/Form/FormSelect";
 import { MqttExplorerPublishMessageMutation, PublishMqttMessageInput } from "./__generated__/MqttExplorerPublishMessageMutation.graphql";
+import { FormSwitch } from "../../../../UIComponents/Form/FormSwitch";
 
 
 const editor_options = {
@@ -93,6 +94,8 @@ export default function MqttExplorerPublishMessage(){
   
   const toast = useToast();
 
+  const monaco = useMonaco();
+
   const formik = useFormik<PublishMqttMessageInput>({
     initialValues: {
       topic:"some/topic",
@@ -149,6 +152,12 @@ export default function MqttExplorerPublishMessage(){
           is.required(),
           is.minLength(1),
         ],
+        payload: [
+          is.required(),
+          is.match(()=> 
+            monaco ?monaco.editor.getModelMarkers({}).length ===0 :false,
+            "Syntax error")
+        ],
       });
     },
 
@@ -157,12 +166,6 @@ export default function MqttExplorerPublishMessage(){
   });
   
   const [showEditor, setShowEditor] = useState(false);
-
-  // const monaco = useMonaco();
-  
-  // if(monaco){
-  //   monaco.editor.getModelMarkers({}).length
-  // }
 
   const handleEditorChange = useCallback(
     (value:string | undefined) => {
@@ -181,6 +184,18 @@ export default function MqttExplorerPublishMessage(){
     }, 400);
     return () => clearTimeout(timer);
   }, []);
+  
+  const handleRetainChange = useCallback(
+    (
+      id: string | undefined,
+      checked: boolean,
+      value: string | undefined,
+      name: string | undefined
+    ) => {
+      formik.setFieldValue("retain",checked)
+    },
+    [formik],
+  )
   
   return <ModalContainer label="Publish Message">
     <form onSubmit={formik.handleSubmit} 
@@ -216,16 +231,30 @@ export default function MqttExplorerPublishMessage(){
         value={formik.values.qos}
         onChange={formik.handleChange}
       >
-        <FormSelectOption value="AT_LEAST_ONCE">At least once</FormSelectOption>
         <FormSelectOption value="AT_MOST_ONCE">At most once</FormSelectOption>
+        <FormSelectOption value="AT_LEAST_ONCE">At least once</FormSelectOption>
         <FormSelectOption value="EXACTLY_ONCE">Exactly once</FormSelectOption>
       </FormSelect>
+
+      <FormSwitch
+        id="retain"
+        label="Retain"
+        uncheckedColor="bg-red-500"
+        checked={formik.values.retain}
+        onChange={handleRetainChange}
+      />
       </div>
 
       <FieldSection variant="flex-col" name="Message">
         <AnimatePresence>
           <div className={clsx("flex h-96 w-full relative border",
-          "bg-white rounded-md")}>
+          "bg-white rounded-md border",
+          formik.errors.payload
+          ? " border-red-500 "
+          : clsx(
+              "border-gray-300 focus-within:border-blue-500",
+              "hover:border-blue-500"
+            ))}>
           <Suspense>
             {
               showEditor && <motion.div

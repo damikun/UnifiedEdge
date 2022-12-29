@@ -74,7 +74,7 @@ export default function MqttExplorerAddSub(){
 
   const formik = useFormik<CreateMqttServerExplorerUserSubInput>({
     initialValues: {
-      topic:"/topic",
+      topic:"some/topic",
       color:GetRandomColor(),
       noLocal:false,
       server_uid:server_id
