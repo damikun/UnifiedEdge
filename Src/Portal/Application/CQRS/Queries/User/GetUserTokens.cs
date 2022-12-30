@@ -128,13 +128,14 @@ namespace Aplication.CQRS.Queries
             CancellationToken cancellationToken
         )
         {
+
             var subject_id = _current.UserId;
 
-            var grants = await _grant_store
+            var grants = (await _grant_store
             .GetAllAsync(new PersistedGrantFilter()
             {
                 SubjectId = subject_id
-            });
+            }));
 
             var tokens_query = grants.Where(e =>
                 e.ClientId.Equals(

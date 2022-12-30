@@ -26,8 +26,6 @@ Code is not currently signed!
 
 [Win64 Installer](https://www.dropbox.com/s/73r18os0vu5tsyv/UnifiedEdge%20Setup%201.0.1.exe?dl=0)
 
-[(Mirror) Win64 Installer](https://ulozto.cz/tamhle/6dYPMRsfZU7M#!ZJD5LmR2ZGp0AQLmMwIvMwEyLJR0Z003IIcgn1ILD2ghM2HlMN==)
-
 ## 👤 Credentials
 
 Login: Admin
@@ -56,6 +54,7 @@ Password: Admin
 - Multiple servers ✅
 - GraphqlToMqtt ✅
 - WebHooks ✅
+- Auth / OpenId ✅
 - Message intercepting
 - Protocol bridge
 - Telemetry exporter

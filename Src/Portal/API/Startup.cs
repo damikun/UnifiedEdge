@@ -62,7 +62,7 @@ namespace API
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Scheme = "bearer"
+                    Scheme = "bearer",
                 });
                 e.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -71,7 +71,8 @@ namespace API
                         {
                             Reference = new OpenApiReference {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer" }
+                                Id = "Bearer"
+                            }
                         }, new List<string>()
                     }
                 });
@@ -190,11 +191,11 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseIdentityServer();
-
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseIdentityServer();
 
             app.UseHangfireDashboard();
 

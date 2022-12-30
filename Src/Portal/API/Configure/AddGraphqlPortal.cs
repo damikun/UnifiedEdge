@@ -48,6 +48,7 @@ namespace API
                     }
 
                     requestExecutorOptions.IncludeExceptionDetails = !env.IsProduction();
+
                 })
                 .AllowIntrospection(env.IsDevelopment())
                 .AddExportDirectiveType()

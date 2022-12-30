@@ -8,6 +8,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <SpaRoot>UI\</SpaRoot>
     <Certificates>Certificates\</Certificates>
+    <Keys>keys\</Keys>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <SpaProxyServerUrl>https://localhost:44459</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
@@ -97,10 +98,13 @@
   <ItemGroup>
     <None Update="identity.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <None Update="schedulery.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
+    <None Update="IdentityServer.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="managment.db" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
