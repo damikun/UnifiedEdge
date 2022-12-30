@@ -66,7 +66,7 @@
   "scripts": {
     "relay": "relay-compiler relay.json",
     "start": "rimraf ./build && react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "GENERATE_SOURCEMAP=false && (react-app-rewired build || true)",
     "test": "cross-env CI=true react-app-rewired test",
     "eject": "react-scripts eject",
     "tailwindoutput": "npx tailwindcss -c ./tailwind.config.js -i ./src/index.css -o ./src/output.css"

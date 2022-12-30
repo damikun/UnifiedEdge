@@ -52,7 +52,7 @@ Password: Admin
 
 **Features:**
 - Multiple servers ✅
-- GraphqlToMqtt ✅
+- MqttToGraphql ✅
 - WebHooks ✅
 - Auth / OpenId ✅
 - Message intercepting
