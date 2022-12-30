@@ -6,10 +6,16 @@ services:
             dockerfile: Dockerfile
             args: 
                 - MAX_OLD_SPACE=16384
+
         ports: 
             - "5001:5001"
             - "443:443"
 
         environment:
             - ASPNETCORE_HTTPS_PORT=5001
-            - ASPNETCORE_URLS="https://localhost:5001"
+            - ASPNETCORE_URLS="https://+:5001"
+        networks:
+            - edge-net
+
+networks:
+  edge-net:

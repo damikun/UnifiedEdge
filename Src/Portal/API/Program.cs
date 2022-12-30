@@ -38,7 +38,7 @@ namespace API
 
                     if (HybridSupport.IsElectronActive)
                     {
-                        webBuilder.UseUrls("https://localhost:5001");
+                        webBuilder.UseUrls("https://+:5001");
                     }
 
                 })

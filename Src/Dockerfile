@@ -54,5 +54,7 @@ COPY --from=publish /app/publish .
 RUN ls -l
 
 EXPOSE 8080 443 5000 5001 
+ENV ASPNETCORE_URLS=https://+:5001
+ENV ASPNETCORE_HTTPS_PORT=5001
 
 ENTRYPOINT [ "dotnet", "API.dll" ]
