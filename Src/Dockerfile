@@ -34,7 +34,7 @@ WORKDIR "/src/Portal/API/"
 RUN dotnet build -c Release -o /app/build
 
 # use arg for node options... Args are only for buildtime
-ARG MAX_OLD_SPACE = 16384
+ARG MAX_OLD_SPACE=16384
 ENV NODE_OPTIONS=--max_old_space_size=${MAX_OLD_SPACE}
 
 # run publish over the API project
