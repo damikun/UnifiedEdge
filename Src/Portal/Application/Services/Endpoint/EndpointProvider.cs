@@ -20,8 +20,8 @@ namespace Aplication.Services.ServerFascade
         /// </summary>
         private readonly IMemoryCache _cache;
 
-        private const int PORT_MIN = 1000;
-        private const int PORT_MAX = 65535;
+        private const int DEFAULT_PORT_MIN = 1000;
+        private const int DEFAULT_PORT_MAX = 65535;
 
         private ICollection<int> RESERVED = new List<int>() { 0, 80, 8080 };
 
@@ -306,11 +306,43 @@ namespace Aplication.Services.ServerFascade
 
             var excludes = await GetUsedPorts(dif_ip);
 
-            var port = getRandomWithExclusion(PORT_MIN, PORT_MAX, excludes);
+            var port_range = GetPortRangeOrDefault();
+
+            var port = getRandomWithExclusion(port_range.min, port_range.max, excludes);
 
             var endpont = new IPEndPoint(dif_ip, port);
 
             return endpont;
+        }
+
+        private (int min, int max) GetPortRangeOrDefault()
+        {
+            var port_min = Environment.GetEnvironmentVariable("MIN_PORT");
+            var port_max = Environment.GetEnvironmentVariable("MAX_PORT");
+
+            if (string.IsNullOrWhiteSpace(port_min) || string.IsNullOrWhiteSpace(port_max))
+            {
+                return (DEFAULT_PORT_MIN, DEFAULT_PORT_MAX);
+            }
+
+            try
+            {
+                if (!Int32.TryParse(port_min, out int min) || !Int32.TryParse(port_max, out int max))
+                {
+                    return (DEFAULT_PORT_MIN, DEFAULT_PORT_MAX);
+                }
+
+                if (min >= 0 && max >= 0)
+                {
+                    return (min, max);
+                }
+
+                return (DEFAULT_PORT_MIN, DEFAULT_PORT_MAX);
+            }
+            catch
+            {
+                return (DEFAULT_PORT_MIN, DEFAULT_PORT_MAX);
+            }
         }
 
         public async Task<bool> IsUsed(IPEndPoint endpoint)

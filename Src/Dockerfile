@@ -33,7 +33,8 @@ COPY . .
 WORKDIR "/src/Portal/API/"
 RUN dotnet build -c Release -o /app/build
 
-ARG MAX_OLD_SPACE
+# use arg for node options... Args are only for buildtime
+ARG MAX_OLD_SPACE = 16384
 ENV NODE_OPTIONS=--max_old_space_size=${MAX_OLD_SPACE}
 
 # run publish over the API project
@@ -53,8 +54,9 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 RUN ls -l
 
-EXPOSE 8080 443 5000 5001 
-ENV ASPNETCORE_URLS=https://+:5001
-ENV ASPNETCORE_HTTPS_PORT=5001
+EXPOSE 8080 443 5000 5001
+
+# ENV ASPNETCORE_URLS=https://+:5001
+# ENV ASPNETCORE_HTTPS_PORT=5001
 
 ENTRYPOINT [ "dotnet", "API.dll" ]

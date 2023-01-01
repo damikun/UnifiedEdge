@@ -14,6 +14,8 @@ services:
         environment:
             - ASPNETCORE_HTTPS_PORT=5001
             - ASPNETCORE_URLS="https://+:5001"
+            - MIN_PORT=2000
+            - MAX_PORT=3000
         networks:
             - edge-net
 
