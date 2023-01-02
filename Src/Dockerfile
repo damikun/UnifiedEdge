@@ -56,6 +56,7 @@ FROM base AS runtime
 WORKDIR /app
 RUN ls -l
 COPY --from=publish /app/publish .
+COPY --from=build /Portal/API/DevCerts/ /DevCer/
 RUN ls -l
 
 EXPOSE 8080 443 5000 5001
