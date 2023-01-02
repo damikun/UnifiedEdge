@@ -24,7 +24,7 @@ COPY ["./Portal/Persistence/Persistence.Identity/Persistence.Identity.csproj", "
 COPY ["./Portal/Persistence/Persistence.Portal/Persistence.Portal.csproj", "Portal/Persistence/Persistence.Portal/"]
 COPY ["./Server.Abstraction/Server.csproj", "Server.Abstraction/"]
 COPY ["./Server.Mqtt/Server.Mqtt.csproj", "Server.Mqtt/"]
-COPY ["./Portal/API/Certificates/certificate.pfx", "Portal/API/Certificates/"]
+COPY ["./Portal/API/DevCerts/c.pfx", "Portal/API/DevCerts/"]
 
 RUN dotnet restore "Portal/API/API.csproj"
 
