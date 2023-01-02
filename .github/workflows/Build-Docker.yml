@@ -1,21 +1,3 @@
-# name: Docker Build and publish
-
-# on: workflow_dispatch
-
-# jobs:
-#   build-and-publish-context:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - uses: actions/checkout@v2.5.0 # Checking out the repo
-
-#       - name: Build and publish Docker image from a different context
-#         uses: VaultVulp/gp-docker-action@1.5.0
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-#           image-name: unified-edge # Provide Docker image name
-#           build-context: ./src # Provide path to the folder with a Dockerfile
-
 name: Create and publish a Docker image
 
 on: workflow_dispatch
@@ -55,3 +37,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # build-args: MAX_OLD_SPACE=16384
+      # env:
+      #   CI: false

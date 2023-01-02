@@ -1,21 +1,23 @@
 version: "3"
 services: 
     api:
-        build: 
-            context: ./Src
-            dockerfile: Dockerfile
-            args: 
-                - MAX_OLD_SPACE=16384
+        image: ghcr.io/damikun/unifiededge:main
+        # build: 
+        #     context: ./Src
+        #     dockerfile: Dockerfile
+        #     args: 
+        #         - MAX_OLD_SPACE=16384
 
         ports: 
             - "5001:5001"
             - "443:443"
+            - "3000-3100:3000-3100"
 
         environment:
             - ASPNETCORE_HTTPS_PORT=5001
             - ASPNETCORE_URLS="https://+:5001"
-            - MIN_PORT=2000
-            - MAX_PORT=3000
+            - MIN_PORT=3000
+            - MAX_PORT=3100
         networks:
             - edge-net
 

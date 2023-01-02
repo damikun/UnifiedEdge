@@ -24,6 +24,7 @@ COPY ["./Portal/Persistence/Persistence.Identity/Persistence.Identity.csproj", "
 COPY ["./Portal/Persistence/Persistence.Portal/Persistence.Portal.csproj", "Portal/Persistence/Persistence.Portal/"]
 COPY ["./Server.Abstraction/Server.csproj", "Server.Abstraction/"]
 COPY ["./Server.Mqtt/Server.Mqtt.csproj", "Server.Mqtt/"]
+COPY ["./Portal/API/Certificates/certificate.pfx", "Portal/API/Certificates/"]
 
 RUN dotnet restore "Portal/API/API.csproj"
 
@@ -48,9 +49,12 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o /app/publish
 # RUN dotnet publish -c Release -o /app/publish --verbosity quiet
 
+WORKDIR /
+RUN ls -l
+
 FROM base AS runtime
 WORKDIR /app
-
+RUN ls -l
 COPY --from=publish /app/publish .
 RUN ls -l
 
