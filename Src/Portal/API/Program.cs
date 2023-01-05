@@ -28,20 +28,29 @@ namespace API
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseElectron(args);
-                    webBuilder.UseEnvironment("Development");
-                    webBuilder.UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
 
-                    if (HybridSupport.IsElectronActive)
-                    {
-                        webBuilder.UseUrls("https://+:5001");
-                    }
+            if (HybridSupport.IsElectronActive)
+            {
+                Environment.SetEnvironmentVariable(
+                    "ASPNETCORE_ENVIRONMENT", "Electron"
+                );
+            }
 
-                })
-                .UseSerilog();
+            return Host.CreateDefaultBuilder(args)
+                 .ConfigureWebHostDefaults(webBuilder =>
+                 {
+                     webBuilder.UseElectron(args);
+                     webBuilder.UseEnvironment("Development");
+                     webBuilder.UseStartup<Startup>();
+                     if (HybridSupport.IsElectronActive)
+                     {
+                         webBuilder.UseUrls("https://+:5001");
+                     }
+
+                 })
+                 .UseSerilog();
+        }
     }
 }

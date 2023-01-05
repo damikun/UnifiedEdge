@@ -13,10 +13,6 @@ UnifiedEdge provides edge functionality and a future bridge between different in
 - App is in BETA and is not ready for production or ussage
 - Many parts will get optimized and changed in time...
 
-## 🧑‍💻 Local run
-
-- Go to folder `/src/Portal/API`
-- Run `dotnet watch run` from cmd
 
 ##  💾 Installers
 
@@ -25,6 +21,46 @@ Code is not currently signed!
 >The installers can be behind the current app.
 
 [Win64 Installer](https://www.dropbox.com/s/73r18os0vu5tsyv/UnifiedEdge%20Setup%201.0.1.exe?dl=0)
+
+
+## 🧑‍💻 Local run
+
+- Go to folder `/src/Portal/API`
+- Run `dotnet watch run` from cmd
+
+
+>App require HTTPS! Install proper certificate or use dotnet tool to generate developer one...
+
+Example
+```cli
+dotnet dev-certs https 
+dotnet dev-certs https --trust
+```
+
+(https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-dev-certs)
+
+## 🧑‍💻 Docker
+
+Run:
+
+`docker-compose up` from root folder.. (Make sure you have proper cert installed...) The default path and password is defined inside compose file.. 
+
+Default env. confinguration is:
+
+```yaml
+- ASPNETCORE_Kestrel__Certificates__Default__Password=password
+- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+```
+
+To generate proper certs use following cmd for Windows 
+```cli
+dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p password
+dotnet dev-certs https --trust
+```
+
+For other platforms look on [Microsoft documentation.](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0).
+
+Make sure the paths in config match with generated certs...
 
 ## 👤 Credentials
 
@@ -48,7 +84,7 @@ Password: Admin
 **Environment:**
 - Electron multiplatform app ✅
 - Self-hosted webApp ✅
-- Docker deployment
+- Docker ✅
 
 **Features:**
 - Multiple servers ✅

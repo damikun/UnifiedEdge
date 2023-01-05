@@ -18,7 +18,7 @@
     "ReactCsharpTest": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7060",
+      "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
