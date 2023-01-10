@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Persistence.Portal
 {
-    public class ManagmentDbContext_DesignContextFactory : IDesignTimeDbContextFactory<ManagmentDbCtx>
+    public class ManagmentDbContext_DesignContextFactory
+        : IDesignTimeDbContextFactory<ManagmentDbCtx>
     {
 
         public ManagmentDbCtx CreateDbContext(string[] args)

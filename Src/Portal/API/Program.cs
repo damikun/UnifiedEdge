@@ -44,6 +44,7 @@ namespace API
                      webBuilder.UseElectron(args);
                      webBuilder.UseEnvironment("Development");
                      webBuilder.UseStartup<Startup>();
+
                      if (HybridSupport.IsElectronActive)
                      {
                          webBuilder.UseUrls("https://+:5001");

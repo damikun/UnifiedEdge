@@ -104,6 +104,7 @@ namespace API
                 // base-address of your identityserver
                 options.Authority = "https://localhost:5001";
 
+                // !only for Dev!
                 options.RequireHttpsMetadata = false;
 
                 // audience is optional, make sure you read the following paragraphs
@@ -190,12 +191,13 @@ namespace API
                                 c.Type == "write_access" &&
                                 c.Type == "read_access" &&
                                 c.Type == "authenticated_user"
-                            ))));
-
+                            )
+                        )
+                    )
+                );
             });
 
             return serviceCollection;
         }
-
     }
 }

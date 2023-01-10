@@ -642,6 +642,37 @@ type GQL_MqttMessageEdge {
   node: GQL_MqttMessage
 }
 
+type GQL_MqttMessageTemplate {
+  contentType: MessageContentType!
+  expireInterval: Int
+  id: ID!
+  payload: String
+  qoS: MessageQoS!
+  retain: Boolean!
+  serverUid: String!
+  topic: String
+}
+
+"A connection to a list of items."
+type GQL_MqttMessageTemplateConnection {
+  "A list of edges."
+  edges: [GQL_MqttMessageTemplateEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_MqttMessageTemplate]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_MqttMessageTemplateEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_MqttMessageTemplate
+}
+
 type GQL_MqttNewClient {
   client: GQL_MqttClient!
   timeStamp: DateTime!
@@ -1124,11 +1155,13 @@ type Mutation {
   removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
   removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
   removeMqttServerExplorerUserSub(input: RemoveMqttServerExplorerUserSubInput!): RemoveMqttServerExplorerUserSubPayload!
+  removeMqttServerExplorerUserTemplate(input: RemoveMqttServerExplorerUserTemplateInput!): RemoveMqttServerExplorerUserTemplatePayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
   resetMqttClientStatistic(input: ResetMqttClientStatisticInput!): ResetMqttClientStatisticPayload!
   revokeApiToken(input: RevokeApiTokenInput!): RevokeApiTokenPayload!
+  saveMqttExplorerMessageTemplate(input: SaveMqttExplorerMessageTemplateInput!): SaveMqttExplorerMessageTemplatePayload!
   setEdgeDefaultNetworkAdapter(input: SetEdgeDefaultNetworkAdapterInput!): SetEdgeDefaultNetworkAdapterPayload!
   setEdgeDescription(request: SetEdgeDescriptionInput!): SetEdgeDescriptionPayload!
   setEdgeLocation1(request: SetEdgeLocation1Input!): SetEdgeLocation1Payload!
@@ -1197,6 +1230,7 @@ type Query {
   mqttAuthLogs("Returns the elements in the list that come after the specified cursor." after: String auth_client_id: ID auth_user_id: ID "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthLogConnection
   mqttAuthUserById(authUser_id: ID!): GQL_MqttAuthUser!
   mqttAuthUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttAuthUserConnection
+  mqttExplorerStoredTemplates("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttMessageTemplateConnection
   mqttExplorerUserStoredSubs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int server_uid: ID!): GQL_MqttExplorerSubConnection
   mqttLogById(log_uid: ID! server_id: ID!): GQL_MqttServerLog!
   mqttLogs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int level: MqttNetLogLevel server_uid: ID!): GQL_MqttServerLogConnection
@@ -1260,6 +1294,12 @@ type RemoveMqttServerExplorerUserSubPayload {
   query: Query!
 }
 
+type RemoveMqttServerExplorerUserTemplatePayload {
+  errors: [RemoveMqttServerExplorerUserTemplateError!]
+  gQL_MqttMessageTemplate: GQL_MqttMessageTemplate
+  query: Query!
+}
+
 type RemoveServerData {
   removed_id: ID
 }
@@ -1291,6 +1331,12 @@ type ResetMqttClientStatisticPayload {
 type RevokeApiTokenPayload {
   errors: [RevokeApiTokenError!]
   gQL_Token: GQL_Token
+  query: Query!
+}
+
+type SaveMqttExplorerMessageTemplatePayload {
+  errors: [SaveMqttExplorerMessageTemplateError!]
+  gQL_MqttMessageTemplate: GQL_MqttMessageTemplate
   query: Query!
 }
 
@@ -1502,6 +1548,8 @@ union RemoveMqttAuthUserError = ValidationError | AuthorizationError | InternalE
 
 union RemoveMqttServerExplorerUserSubError = ValidationError | AuthorizationError | InternalError
 
+union RemoveMqttServerExplorerUserTemplateError = ValidationError | AuthorizationError | InternalError
+
 union RemoveServerError = ValidationError | AuthorizationError | InternalError
 
 union RemoveUserError = ValidationError | AuthorizationError | InternalError
@@ -1511,6 +1559,8 @@ union RemoveWebHookError = ValidationError | AuthorizationError | InternalError
 union ResetMqttClientStatisticError = ValidationError | AuthorizationError | InternalError
 
 union RevokeApiTokenError = ValidationError | AuthorizationError | InternalError
+
+union SaveMqttExplorerMessageTemplateError = ValidationError | AuthorizationError | InternalError
 
 union SetEdgeDefaultNetworkAdapterError = ValidationError | AuthorizationError | InternalError
 
@@ -1670,6 +1720,10 @@ input RemoveMqttServerExplorerUserSubInput {
   storedsub_id: ID!
 }
 
+input RemoveMqttServerExplorerUserTemplateInput {
+  template_id: ID!
+}
+
 input RemoveServerInput {
   id: ID!
 }
@@ -1689,6 +1743,16 @@ input ResetMqttClientStatisticInput {
 
 input RevokeApiTokenInput {
   token_id: ID!
+}
+
+input SaveMqttExplorerMessageTemplateInput {
+  contentType: MessageContentType!
+  expireInterval: Int!
+  payload: String!
+  qos: MessageQoS!
+  retain: Boolean!
+  server_uid: ID!
+  topic: String!
 }
 
 input SetEdgeDefaultNetworkAdapterInput {

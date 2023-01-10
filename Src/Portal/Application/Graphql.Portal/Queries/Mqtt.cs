@@ -395,6 +395,23 @@ namespace Aplication.Graphql.Queries
             return _mapper.Map<Connection<GQL_MqttServerLog>>(result);
         }
 
+        [UseConnection(typeof(GQL_MqttMessageTemplate))]
+        public async Task<Connection<GQL_MqttMessageTemplate>> GetMqttExplorerStoredTemplates(
+        [ID] string server_uid,
+        IResolverContext ctx,
+        [Service] IMediator mediator,
+        CancellationToken cancellationToken)
+        {
+            var arguments = ctx.GetPaggingArguments();
+
+            var result = await mediator.Send(
+                new GetMqttServerExplorerUserScopedTemplates(arguments, server_uid),
+                cancellationToken
+            );
+
+            return _mapper.Map<Connection<GQL_MqttMessageTemplate>>(result);
+        }
+
         public async Task<GQL_MqttServerLog> GetMqttLogById(
             [ID] string log_uid,
             [ID] string server_id,

@@ -1,5 +1,5 @@
 
-namespace Aplication.DTO
+namespace Domain.Server
 {
     public enum MessageContentType
     {

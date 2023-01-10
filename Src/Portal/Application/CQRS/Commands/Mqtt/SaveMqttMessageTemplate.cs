@@ -11,36 +11,43 @@ using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
+
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// Publish mqtt server message (inject message)
+    /// Create mqtt message template
     /// </summary>
-    public class CreateMqttServerExplorerUserScopedSubs
-        : CommandBase<DTO_MqttExplorerSub>
+    public class SaveMqttMessageTemplate
+        : CommandBase<DTO_MqttMessageTemplate>
     {
 
 #nullable disable
         public string ServerUid { get; set; }
 
+        public MessageContentType ContentType { get; set; }
+
+        public MessageQoS QoS { get; set; }
+
+        public bool Retain { get; set; }
+
+        public int? ExpireInterval { get; set; }
+
+        public string Payload { get; set; }
+
         public string Topic { get; set; }
 
 #nullable enable
-
-        public string? Color { get; set; }
-
-        public bool NoLocal { get; set; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// CreateMqttServerExplorerUserScopedSubs Field Validator
+    /// SaveMqttMessageTemplate Field Validator
     /// </summary>
-    public class CreateMqttServerExplorerUserScopedSubsValidator
-        : AbstractValidator<CreateMqttServerExplorerUserScopedSubs>
+    public class SaveMqttMessageTemplateValidator
+        : AbstractValidator<SaveMqttMessageTemplate>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx> </c>
@@ -52,9 +59,7 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly ICurrentUser _current;
 
-        private const string HEX_COLOR_REGEX = @"^#(?:[0-9a-fA-F]{3}){1,2}$";
-
-        public CreateMqttServerExplorerUserScopedSubsValidator(
+        public SaveMqttMessageTemplateValidator(
             IDbContextFactory<ManagmentDbCtx> factory,
             ICurrentUser current
         )
@@ -76,24 +81,6 @@ namespace Aplication.CQRS.Commands
             RuleFor(e => e.Topic)
                 .Must(IsLegalUnicode)
                 .WithMessage("topic invalid Unicode string");
-
-            RuleFor(e => e)
-                .MustAsync(IsUniqueTopic)
-                .WithMessage("Topic allready defined");
-
-            RuleFor(e => e.Color)
-                .Must(IsValidHex)
-                .WithMessage("Invalid color HEX value");
-        }
-
-        public bool IsValidHex(string? Color)
-        {
-            if (string.IsNullOrWhiteSpace(Color))
-            {
-                return true;
-            }
-
-            return Regex.Match(Color, HEX_COLOR_REGEX, RegexOptions.IgnoreCase).Success;
         }
 
         static bool IsLegalUnicode(string str)
@@ -122,32 +109,6 @@ namespace Aplication.CQRS.Commands
             return true;
         }
 
-        public async Task<bool> IsUniqueTopic(
-            CreateMqttServerExplorerUserScopedSubs cmd,
-            CancellationToken cancellationToken
-        )
-        {
-            await using ManagmentDbCtx dbContext =
-                _factory.CreateDbContext();
-
-            var sub_id = _current.UserId;
-
-            if (string.IsNullOrWhiteSpace(sub_id))
-            {
-                return false;
-            }
-
-            var normalised_topic = CreateMqttServerExplorerUserScopedSubsHandler
-                .NormalizeTopic(cmd.Topic);
-
-            return !await dbContext.MqttExplorerSubs
-            .AnyAsync(e =>
-                e.ServerUid == cmd.ServerUid &&
-                e.UserUid == sub_id &&
-                e.Topic == normalised_topic
-            );
-        }
-
         public async Task<bool> ServerExist(
             string ServerUid,
             CancellationToken cancellationToken
@@ -162,14 +123,14 @@ namespace Aplication.CQRS.Commands
     }
 
     /// <summary>
-    /// CreateMqttServerExplorerUserScopedSubs Field Authorization validator
+    /// SaveMqttMessageTemplate Field Authorization validator
     /// </summary>
-    public class CreateMqttServerExplorerUserScopedSubsAuthorizationValidator
-        : AuthorizationValidator<CreateMqttServerExplorerUserScopedSubs>
+    public class SaveMqttMessageTemplateAuthorizationValidator
+        : AuthorizationValidator<SaveMqttMessageTemplate>
     {
         private readonly ICurrentUser _current_user;
 
-        public CreateMqttServerExplorerUserScopedSubsAuthorizationValidator(
+        public SaveMqttMessageTemplateAuthorizationValidator(
             ICurrentUser current_user
         )
         {
@@ -181,7 +142,7 @@ namespace Aplication.CQRS.Commands
 
         }
 
-        public bool ExistValidUserSubId(CreateMqttServerExplorerUserScopedSubs command)
+        public bool ExistValidUserSubId(SaveMqttMessageTemplate command)
         {
             if (string.IsNullOrWhiteSpace(_current_user.UserId))
             {
@@ -195,9 +156,9 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>CreateMqttServerExplorerUserScopedSubs</c> command </summary>
-    public class CreateMqttServerExplorerUserScopedSubsHandler
-        : IRequestHandler<CreateMqttServerExplorerUserScopedSubs, DTO_MqttExplorerSub>
+    /// <summary>Handler for <c>SaveMqttMessageTemplate</c> command </summary>
+    public class SaveMqttMessageTemplateHandler
+        : IRequestHandler<SaveMqttMessageTemplate, DTO_MqttMessageTemplate>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
@@ -217,7 +178,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public CreateMqttServerExplorerUserScopedSubsHandler(
+        public SaveMqttMessageTemplateHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             ICurrentUser current_user
@@ -231,10 +192,10 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>CreateMqttServerExplorerUserScopedSubs</c>
+        /// Command handler for <c>SaveMqttMessageTemplate</c>
         /// </summary>
-        public async Task<DTO_MqttExplorerSub> Handle(
-            CreateMqttServerExplorerUserScopedSubs request,
+        public async Task<DTO_MqttMessageTemplate> Handle(
+            SaveMqttMessageTemplate request,
             CancellationToken cancellationToken
         )
         {
@@ -243,20 +204,23 @@ namespace Aplication.CQRS.Commands
 
             var sub_id = _current_user.UserId;
 
-            var sub_cfg = new MqttExplorerSub()
+            var message_temp = new MqttMessageTemplate()
             {
-                Color = request.Color,
-                NoLocal = request.NoLocal,
+                ContentType = request.ContentType,
+                Payload = request.Payload,
+                ExpireInterval = request.ExpireInterval,
+                QoS = request.QoS,
+                Retain = request.Retain,
                 Topic = NormalizeTopic(request.Topic),
                 ServerUid = request.ServerUid,
                 UserUid = sub_id
             };
 
-            var cfg = dbContext.MqttExplorerSubs.Add(sub_cfg);
+            var cfg = dbContext.MqttMessageTemplates.Add(message_temp);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<DTO_MqttExplorerSub>(sub_cfg);
+            return _mapper.Map<DTO_MqttMessageTemplate>(message_temp);
         }
 
         public static string NormalizeTopic(string topic)

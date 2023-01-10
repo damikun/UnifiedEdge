@@ -127,6 +127,8 @@ namespace API
                 .AddType<EdgeType>()
                 .AddType<MqttAuthCfgType>()
 
+                .AddType<MqttMessageTemplateType>()
+
                 .AddType<MqttTopicType>()
                 .AddType<MqttTopicStatsType>()
 

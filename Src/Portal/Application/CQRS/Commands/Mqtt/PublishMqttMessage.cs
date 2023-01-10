@@ -2,7 +2,7 @@ using MediatR;
 using MQTTnet;
 using AutoMapper;
 using System.Text;
-using Aplication.DTO;
+using Domain.Server;
 using MQTTnet.Server;
 using Newtonsoft.Json;
 using Aplication.Core;

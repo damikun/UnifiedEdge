@@ -1,5 +1,6 @@
 using MediatR;
 using AutoMapper;
+using Domain.Server;
 using Aplication.DTO;
 using Server.Mqtt.DTO;
 using Aplication.CQRS.Commands;
@@ -395,6 +396,39 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
+        /// Save mqtt explorer message template
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttMessageTemplate> SaveMqttExplorerMessageTemplate(
+            [ID] string server_uid,
+            MessageContentType contentType,
+            MessageQoS qos,
+            bool retain,
+            string topic,
+            string payload,
+            int expireInterval,
+            [Service] IMediator mediator
+        )
+        {
+            var response = await mediator.Send(
+                new SaveMqttMessageTemplate()
+                {
+                    ServerUid = server_uid,
+                    Topic = topic,
+                    ContentType = contentType,
+                    ExpireInterval = expireInterval,
+                    Payload = payload,
+                    QoS = qos,
+                    Retain = retain,
+                }
+            );
+
+            return _mapper.Map<GQL_MqttMessageTemplate>(response);
+        }
+
+        /// <summary>
         /// Remove Mqtt Server User scoped subscription record
         /// </summary>
         [Error(typeof(ValidationError))]
@@ -415,6 +449,26 @@ namespace Aplication.Graphql.Mutations
             return _mapper.Map<GQL_MqttExplorerSub>(response);
         }
 
+        /// <summary>
+        /// Remove Mqtt Server User scoped message template
+        /// </summary>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_MqttMessageTemplate> RemoveMqttServerExplorerUserTemplate(
+            [ID] long template_id,
+            [Service] IMediator mediator
+        )
+        {
+            var response = await mediator.Send(
+                new RemoveMqttExplorerMessageTemplate()
+                {
+                    TemplateId = template_id
+                }
+            );
+
+            return _mapper.Map<GQL_MqttMessageTemplate>(response);
+        }
 
         /// <summary>
         /// Publis mqtt message to specific server

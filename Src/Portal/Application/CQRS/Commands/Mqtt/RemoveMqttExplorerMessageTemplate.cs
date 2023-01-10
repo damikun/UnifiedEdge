@@ -13,29 +13,29 @@ namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// Remove user scoped subscription
+    /// Remove stored message template
     /// </summary>
-    public class RemoveMqttServerExplorerUserScopedSubs
-        : CommandBase<DTO_MqttExplorerSub>
+    public class RemoveMqttExplorerMessageTemplate
+        : CommandBase<DTO_MqttMessageTemplate>
     {
-        public long StoredSubId { get; set; }
+        public long TemplateId { get; set; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// RemoveMqttServerExplorerUserScopedSubs Field Validator
+    /// RemoveMqttExplorerMessageTemplate Field Validator
     /// </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsValidator
-        : AbstractValidator<RemoveMqttServerExplorerUserScopedSubs>
+    public class RemoveMqttExplorerMessageTemplateValidator
+        : AbstractValidator<RemoveMqttExplorerMessageTemplate>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx> </c>
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public RemoveMqttServerExplorerUserScopedSubsValidator(
+        public RemoveMqttExplorerMessageTemplateValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
@@ -43,29 +43,29 @@ namespace Aplication.CQRS.Commands
 
             ClassLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(e => e.StoredSubId)
+            RuleFor(e => e.TemplateId)
                 .MustAsync(StoredSubExist)
-                .WithMessage("Sub. not found");
+                .WithMessage("Templeate not found");
         }
 
         public async Task<bool> StoredSubExist(
-            long StoredSubId,
+            long StoredId,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttExplorerSubs
-            .AnyAsync(e => e.Id == StoredSubId);
+            return await dbContext.MqttMessageTemplates
+            .AnyAsync(e => e.Id == StoredId);
         }
     }
 
     /// <summary>
-    /// RemoveMqttServerExplorerUserScopedSubs Field Authorization validator
+    /// RemoveMqttExplorerMessageTemplate Field Authorization validator
     /// </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsAuthorizationValidator
-        : AuthorizationValidator<RemoveMqttServerExplorerUserScopedSubs>
+    public class RemoveMqttExplorerMessageTemplateAuthorizationValidator
+        : AuthorizationValidator<RemoveMqttExplorerMessageTemplate>
     {
         /// <summary>
         /// Injected <c>ICurrentUser</c>
@@ -78,7 +78,7 @@ namespace Aplication.CQRS.Commands
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
 
-        public RemoveMqttServerExplorerUserScopedSubsAuthorizationValidator(
+        public RemoveMqttExplorerMessageTemplateAuthorizationValidator(
             ICurrentUser current_user,
             IDbContextFactory<ManagmentDbCtx> factory
         )
@@ -98,7 +98,7 @@ namespace Aplication.CQRS.Commands
             .WithMessage("You are not resource owner");
         }
 
-        public bool ExistValidUserSubId(RemoveMqttServerExplorerUserScopedSubs command)
+        public bool ExistValidUserSubId(RemoveMqttExplorerMessageTemplate command)
         {
             if (string.IsNullOrWhiteSpace(_current_user.UserId))
             {
@@ -109,16 +109,16 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task<bool> SubjectIdPairedWithSubscription(
-            RemoveMqttServerExplorerUserScopedSubs command,
+            RemoveMqttExplorerMessageTemplate command,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttExplorerSubs
+            return await dbContext.MqttMessageTemplates
             .AnyAsync(e =>
-                e.Id == command.StoredSubId &&
+                e.Id == command.TemplateId &&
                 e.UserUid == _current_user.UserId
             );
         }
@@ -128,9 +128,9 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>RemoveMqttServerExplorerUserScopedSubs</c> command </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsHandler
-        : IRequestHandler<RemoveMqttServerExplorerUserScopedSubs, DTO_MqttExplorerSub>
+    /// <summary>Handler for <c>RemoveMqttExplorerMessageTemplate</c> command </summary>
+    public class RemoveMqttExplorerMessageTemplateHandler
+        : IRequestHandler<RemoveMqttExplorerMessageTemplate, DTO_MqttMessageTemplate>
     {
         /// <summary>
         /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
@@ -150,7 +150,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public RemoveMqttServerExplorerUserScopedSubsHandler(
+        public RemoveMqttExplorerMessageTemplateHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             ICurrentUser current_user
@@ -164,25 +164,26 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>RemoveMqttServerExplorerUserScopedSubs</c>
+        /// Command handler for <c>RemoveMqttExplorerMessageTemplate</c>
         /// </summary>
-        public async Task<DTO_MqttExplorerSub> Handle(
-            RemoveMqttServerExplorerUserScopedSubs request,
+        public async Task<DTO_MqttMessageTemplate> Handle(
+            RemoveMqttExplorerMessageTemplate request,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var enity = await dbContext.MqttExplorerSubs
-            .Where(e => e.Id == request.StoredSubId)
+            var enity = await dbContext.MqttMessageTemplates
+            .Where(e => e.Id == request.TemplateId)
             .FirstAsync(cancellationToken);
 
-            dbContext.MqttExplorerSubs.Remove(enity);
+            dbContext.MqttMessageTemplates
+            .Remove(enity);
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<DTO_MqttExplorerSub>(enity);
+            return _mapper.Map<DTO_MqttMessageTemplate>(enity);
         }
     }
 }

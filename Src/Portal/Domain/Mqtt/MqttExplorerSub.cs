@@ -5,12 +5,12 @@ namespace Domain.Server
         public long Id { get; set; }
 
 #nullable disable
+
         public string ServerUid { get; set; }
 
         public string UserUid { get; set; }
 
         public string Topic { get; set; }
-
 
 #nullable enable
 

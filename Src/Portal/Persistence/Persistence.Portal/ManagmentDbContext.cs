@@ -37,6 +37,8 @@ namespace Persistence.Portal
 
         public DbSet<MqttExplorerSub> MqttExplorerSubs { get; set; }
 
+        public DbSet<MqttMessageTemplate> MqttMessageTemplates { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(
