@@ -29,15 +29,8 @@ Code is not currently signed!
 - Run `dotnet watch run` from cmd
 
 
->App require HTTPS! Install proper certificate or use dotnet tool to generate developer one...
+>App require HTTPS! Default self-signed cert location is: `./DevCerts/c.pfx"`
 
-Example
-```cli
-dotnet dev-certs https 
-dotnet dev-certs https --trust
-```
-
-(https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-dev-certs)
 
 ## 🧑‍💻 Docker
 
@@ -48,13 +41,21 @@ Run:
 Default env. confinguration is:
 
 ```yaml
-- ASPNETCORE_Kestrel__Certificates__Default__Password=password
 - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 ```
 
 To generate proper certs use following cmd for Windows 
+Windows Example
 ```cli
-dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p password
+dotnet dev-certs https --clean
+dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx
+dotnet dev-certs https --trust
+```
+
+Linux Example
+```cli
+dotnet dev-certs https --clean
+dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx
 dotnet dev-certs https --trust
 ```
 

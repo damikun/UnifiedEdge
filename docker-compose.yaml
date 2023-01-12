@@ -16,7 +16,7 @@ services:
         environment:
             - ASPNETCORE_HTTPS_PORT=5001
             - ASPNETCORE_URLS=https://+:5001
-            - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+            # - ASPNETCORE_Kestrel__Certificates__Default__Password=password
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
             - MIN_PORT=3000
             - MAX_PORT=3050

@@ -191,11 +191,11 @@ namespace API
                 app.UseSwaggerUI();
             }
 
+            // app.UseIdentityServer();
+
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseIdentityServer();
 
             app.UseHangfireDashboard();
 
