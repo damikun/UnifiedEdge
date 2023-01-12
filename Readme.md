@@ -31,6 +31,7 @@ Code is not currently signed!
 
 >App require HTTPS! Default self-signed cert location is: `./DevCerts/c.pfx"`
 
+Default url: `https://localhost:5001/`
 
 ## 🧑‍💻 Docker
 
@@ -59,9 +60,12 @@ dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx
 dotnet dev-certs https --trust
 ```
 
+
 For other platforms look on [Microsoft documentation.](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0).
 
 Make sure the paths in config match with generated certs...
+
+Default url: `https://localhost:5001/`
 
 ## 👤 Credentials
 
