@@ -1,12 +1,6 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-# RUN apt-get update
-# RUN apt-get install -y curl
-# RUN apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx
-# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-# RUN apt-get install -y nodejs
-
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
@@ -36,8 +30,6 @@ RUN ls -l
 WORKDIR "/src/Portal/API/"
 RUN dotnet build -c Release -o /app/build
 
-# RUN dotnet dev-certs https
-
 RUN ls -l
 
 # use arg for node options... Args are only for buildtime
@@ -63,9 +55,5 @@ COPY --from=publish /app/publish .
 RUN ls -l
 
 EXPOSE 8080 443 5000 5001
-
-# ENV ASPNETCORE_URLS=https://+:5001
-# ENV ASPNETCORE_HTTPS_PORT=5001
-
 
 ENTRYPOINT [ "dotnet", "API.dll" ]
