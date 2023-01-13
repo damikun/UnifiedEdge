@@ -66,6 +66,27 @@ namespace Persistence.Portal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MqttMessageTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    ServerUid = table.Column<string>(type: "TEXT", nullable: true),
+                    UserUid = table.Column<string>(type: "TEXT", nullable: true),
+                    ContentType = table.Column<int>(type: "INTEGER", nullable: false),
+                    QoS = table.Column<int>(type: "INTEGER", nullable: false),
+                    Retain = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ExpireInterval = table.Column<int>(type: "INTEGER", nullable: true),
+                    Payload = table.Column<string>(type: "TEXT", nullable: true),
+                    Topic = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MqttMessageTemplates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServerCfg",
                 columns: table => new
                 {
@@ -431,7 +452,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "ApiGraphql", "ApiRest", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, false, false, null, null, "6e42cc78-c58d-41cd-8c47-4261937ed1bc", null, null, null, "Undefined" });
+                values: new object[] { 1, false, false, null, null, "4dde4d02-dbe8-4f0f-8227-8be3b67101b3", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -537,6 +558,9 @@ namespace Persistence.Portal.Migrations
 
             migrationBuilder.DropTable(
                 name: "MqttExplorerSubs");
+
+            migrationBuilder.DropTable(
+                name: "MqttMessageTemplates");
 
             migrationBuilder.DropTable(
                 name: "MqttServerCfg");

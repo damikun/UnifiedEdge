@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20221222173256_Init")]
+    [Migration("20230113182704_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -64,7 +64,7 @@ namespace Persistence.Portal.Migrations
                             Id = 1,
                             ApiGraphql = false,
                             ApiRest = false,
-                            Guid = "6e42cc78-c58d-41cd-8c47-4261937ed1bc",
+                            Guid = "4dde4d02-dbe8-4f0f-8227-8be3b67101b3",
                             Name = "Undefined"
                         });
                 });
@@ -307,6 +307,44 @@ namespace Persistence.Portal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MqttExplorerSubs");
+                });
+
+            modelBuilder.Entity("Domain.Server.MqttMessageTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ContentType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ExpireInterval")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Payload")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("QoS")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Retain")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ServerUid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserUid")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MqttMessageTemplates");
                 });
 
             modelBuilder.Entity("Domain.Server.ServerBase", b =>

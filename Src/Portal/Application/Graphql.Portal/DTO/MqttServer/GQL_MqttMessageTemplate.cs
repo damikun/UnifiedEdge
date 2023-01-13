@@ -8,6 +8,8 @@ namespace Aplication.DTO
     {
         public long Id { get; set; }
 
+        public string Name { get; set; }
+
         public string ServerUid { get; set; }
 
         public MessageContentType ContentType { get; set; }

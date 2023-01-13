@@ -646,6 +646,7 @@ type GQL_MqttMessageTemplate {
   contentType: MessageContentType!
   expireInterval: Int
   id: ID!
+  name: String!
   payload: String
   qoS: MessageQoS!
   retain: Boolean!
@@ -1748,6 +1749,7 @@ input RevokeApiTokenInput {
 input SaveMqttExplorerMessageTemplateInput {
   contentType: MessageContentType!
   expireInterval: Int!
+  name: String!
   payload: String!
   qos: MessageQoS!
   retain: Boolean!

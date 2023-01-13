@@ -403,6 +403,7 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(InternalError))]
         public async Task<GQL_MqttMessageTemplate> SaveMqttExplorerMessageTemplate(
             [ID] string server_uid,
+            string name,
             MessageContentType contentType,
             MessageQoS qos,
             bool retain,
@@ -415,6 +416,7 @@ namespace Aplication.Graphql.Mutations
             var response = await mediator.Send(
                 new SaveMqttMessageTemplate()
                 {
+                    Name = name,
                     ServerUid = server_uid,
                     Topic = topic,
                     ContentType = contentType,

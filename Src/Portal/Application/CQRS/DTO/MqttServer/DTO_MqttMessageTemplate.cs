@@ -8,6 +8,9 @@ namespace Aplication.DTO
         public long Id { get; set; }
 
 #nullable disable
+
+        public string Name { get; set; }
+
         public string ServerUid { get; set; }
 
         public string UserUid { get; set; }

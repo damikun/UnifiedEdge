@@ -23,6 +23,9 @@ namespace Aplication.CQRS.Commands
     {
 
 #nullable disable
+
+        public string Name { get; set; }
+
         public string ServerUid { get; set; }
 
         public MessageContentType ContentType { get; set; }
@@ -67,6 +70,11 @@ namespace Aplication.CQRS.Commands
             _factory = factory;
 
             _current = current;
+
+            RuleFor(e => e.Name)
+                .NotNull()
+                .NotEmpty()
+                .MinimumLength(2);
 
             RuleFor(e => e.ServerUid)
                 .NotNull()
@@ -206,6 +214,7 @@ namespace Aplication.CQRS.Commands
 
             var message_temp = new MqttMessageTemplate()
             {
+                Name = request.Name,
                 ContentType = request.ContentType,
                 Payload = request.Payload,
                 ExpireInterval = request.ExpireInterval,
