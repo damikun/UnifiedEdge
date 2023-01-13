@@ -162,8 +162,7 @@ namespace API
         {
             var env = builder.ServiceProvider.GetService<IWebHostEnvironment>();
 
-            return builder.MapGraphQL(Endpoint_path, "public").RequireCors("dsds")
-
+            return builder.MapGraphQL(Endpoint_path, "public")
             .WithOptions(new GraphQLServerOptions
             {
 

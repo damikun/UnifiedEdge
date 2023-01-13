@@ -13,7 +13,12 @@ export default React.memo(ApiGraphql)
 
 const fetcher = createGraphiQLFetcher({
   url: `${BASE_SERVER_URL}/${GQL_PUBLIC_ENDPOINT}`,
-  subscriptionUrl: `${BASE_SERVER_WS_URL_DEV}/${GQL_PUBLIC_ENDPOINT}`
+  subscriptionUrl: `${BASE_SERVER_WS_URL_DEV}/${GQL_PUBLIC_ENDPOINT}`,
+  headers: {
+    "Accept": "application/graphql-response+json;charset=utf-8, multipart/mixed;charset=utf-8",
+    "Content-Type": "application/json",
+    'X-CSRF': '1'
+  },
 });
 
 const defaultQuery =

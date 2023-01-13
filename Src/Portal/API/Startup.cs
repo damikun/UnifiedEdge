@@ -162,25 +162,22 @@ namespace API
 
             app.UseHttpsRedirection();
 
-            app.UseWebSockets(new WebSocketOptions()
-            {
-
-            });
+            app.UseWebSockets(new WebSocketOptions() { });
 
             app.UseFwdHeaders();
 
             // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
-            app.UseCors("cors_policy");
-
-            app.UseStaticFiles();
-
             app.UseRouting();
+
+            app.UseCors("cors_policy");
 
             if (env.IsDevelopment())
             {
                 app.UseVoyager();
             }
+
+            app.UseStaticFiles();
 
             app.UseSwagger();
 

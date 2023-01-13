@@ -18,6 +18,8 @@ namespace API
                 "https://localhost:44459/",
                 "https://localhost",
                 "http://127.0.0.1",
+                "[::1]:5001",
+                "https://[::1]:5001",
                 "https://127.0.0.1",
                 "http://host.docker.internal",
                 "http://host.docker.internal:7060",
