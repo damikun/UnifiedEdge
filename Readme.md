@@ -2,6 +2,7 @@
 
 ![Backend-Compile](https://github.com/damikun/UnifiedEdge/actions/workflows/Clean-Restore-Compile.yml/badge.svg)
 [![Electron](https://github.com/damikun/UnifiedEdge/actions/workflows/Build-Electron-Artefact.yml/badge.svg)](https://github.com/damikun/UnifiedEdge/actions/workflows/Build-Electron-Artefact.yml)
+[![Docker](https://github.com/damikun/UnifiedEdge/actions/workflows/Build-Docker.yml/badge.svg)](https://github.com/damikun/UnifiedEdge/actions/workflows/Build-Docker.yml)
 
 ## ✨ Description
 
