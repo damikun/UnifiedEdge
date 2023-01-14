@@ -5,6 +5,7 @@ import { EnvironmentKey } from "recoil-relay";
 import {
 	Environment,
 	FetchFunction,
+	GraphQLTaggedNode,
 	Network,
 	Observable,
 	RecordSource,
@@ -209,8 +210,21 @@ function fetchOrSubscribe(
 	  );
 	});
   }
+
+export const getNode = (taggedNode: GraphQLTaggedNode): GraphQLTaggedNode => {
+// Support for languages that work (best) with ES6 modules, such as TypeScript.
+const node: any = taggedNode
+if (node.default) {
+	return node.default
+}
+
+return taggedNode
+}
+
+export type ResponseFrom<TResponse extends { response: unknown }> =
+  TResponse["response"];
   
-export const environmentKey = new EnvironmentKey('RelayEnvironment');
+export const environmentKey = new EnvironmentKey('RelayEnviroment');
 
 export function createEnvironment() {
 	//@ts-ignore

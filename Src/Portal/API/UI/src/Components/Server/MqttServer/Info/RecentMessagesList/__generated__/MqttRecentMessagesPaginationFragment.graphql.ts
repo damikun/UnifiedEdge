@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<54d14e1e3f28ce917d0b56e68fa67a0c>>
+ * @generated SignedSource<<d68a19c57308593c11bde7852f063c49>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type MqttRecentMessagesPaginationFragment$key = {
   readonly " $data"?: MqttRecentMessagesPaginationFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"MqttRecentMessagesPaginationFragment">;
 };
+
+import MqttRecentMessagesPaginationFragmentRefetchQuery_graphql from './MqttRecentMessagesPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -92,7 +94,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./MqttRecentMessagesPaginationFragmentRefetchQuery.graphql')
+      "operation": MqttRecentMessagesPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "MqttRecentMessagesPaginationFragment",

@@ -48,15 +48,14 @@ export default function Providers({ children, fallback, initialQueryRef }: Provi
             state && (
               <RecoilRoot>
                 <RecoilRelayEnvironmentProvider 
+                  environment={state?.env}
                   environmentKey={environmentKey}
-                  environment={state?.env}>
+                  >
                     <Router>
                       <Suspense fallback={fallback ? fallback : null}>
-                        <UserProvider initialQueryRef={initialQueryRef}>
                           <ToastProvider>
                             {children}
                           </ToastProvider>
-                        </UserProvider>
                       </Suspense>
                     </Router>
                 </RecoilRelayEnvironmentProvider>

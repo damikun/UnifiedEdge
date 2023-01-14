@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3ca1fad96b65716474ef35f445a05664>>
+ * @generated SignedSource<<5dc1fb6250de44e0132c595240b3a3ed>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -32,6 +32,8 @@ export type UserListDataFragment$key = {
   readonly " $data"?: UserListDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"UserListDataFragment">;
 };
+
+import UserListRefetchQuery_graphql from './UserListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -70,7 +72,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./UserListRefetchQuery.graphql')
+      "operation": UserListRefetchQuery_graphql
     }
   },
   "name": "UserListDataFragment",

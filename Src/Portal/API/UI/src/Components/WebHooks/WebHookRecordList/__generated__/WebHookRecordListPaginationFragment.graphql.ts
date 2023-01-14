@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e9b0a9faec64990381c172e1014c9d12>>
+ * @generated SignedSource<<0ab3c01cbe5a4857ce3b3d4634f7955d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type WebHookRecordListPaginationFragment$key = {
   readonly " $data"?: WebHookRecordListPaginationFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"WebHookRecordListPaginationFragment">;
 };
+
+import WebHookRecordListPaginationFragmentRefetchQuery_graphql from './WebHookRecordListPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -82,7 +84,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./WebHookRecordListPaginationFragmentRefetchQuery.graphql')
+      "operation": WebHookRecordListPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "WebHookRecordListPaginationFragment",

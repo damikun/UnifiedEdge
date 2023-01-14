@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<caa1dfaea0327276911fb40bf268597e>>
+ * @generated SignedSource<<9b29877701b930b7e9914e04663eed2e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -32,6 +32,8 @@ export type ServerListDataFragment$key = {
   readonly " $data"?: ServerListDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"ServerListDataFragment">;
 };
+
+import ServerListRefetchQuery_graphql from './ServerListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -70,7 +72,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./ServerListRefetchQuery.graphql')
+      "operation": ServerListRefetchQuery_graphql
     }
   },
   "name": "ServerListDataFragment",

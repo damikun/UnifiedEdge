@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6ec4228352acedc48b87e4daf9f0ca4c>>
+ * @generated SignedSource<<6fe3260f781f33ed95796b166a62bd80>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -32,6 +32,8 @@ export type AdapterListDataFragment$key = {
   readonly " $data"?: AdapterListDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"AdapterListDataFragment">;
 };
+
+import AdapterListRefetchQuery_graphql from './AdapterListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -70,7 +72,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./AdapterListRefetchQuery.graphql')
+      "operation": AdapterListRefetchQuery_graphql
     }
   },
   "name": "AdapterListDataFragment",

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0678702d2fafc5606160fa092e96a71c>>
+ * @generated SignedSource<<004eb5bb0d768c08fde64547c04afb9e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type SystemLogsPaginationFragment$key = {
   readonly " $data"?: SystemLogsPaginationFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"SystemLogsPaginationFragment">;
 };
+
+import SystemLogsPaginationFragmentRefetchQuery_graphql from './SystemLogsPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -77,7 +79,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./SystemLogsPaginationFragmentRefetchQuery.graphql')
+      "operation": SystemLogsPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "SystemLogsPaginationFragment",

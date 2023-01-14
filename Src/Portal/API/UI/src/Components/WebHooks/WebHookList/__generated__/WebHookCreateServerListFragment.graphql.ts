@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9a0d81f34091f406fbd964c4903a4425>>
+ * @generated SignedSource<<860d70d45513849f5708a99dc6e9b1ae>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -34,6 +34,8 @@ export type WebHookCreateServerListFragment$key = {
   readonly " $data"?: WebHookCreateServerListFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"WebHookCreateServerListFragment">;
 };
+
+import WebHookCreate_ServerListRefetchQuery_graphql from './WebHookCreate_ServerListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -72,7 +74,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./WebHookCreate_ServerListRefetchQuery.graphql')
+      "operation": WebHookCreate_ServerListRefetchQuery_graphql
     }
   },
   "name": "WebHookCreateServerListFragment",

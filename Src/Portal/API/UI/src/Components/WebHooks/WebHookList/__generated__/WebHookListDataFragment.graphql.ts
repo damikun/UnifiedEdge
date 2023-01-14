@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8c22cb98475f05bde93b097e2934e424>>
+ * @generated SignedSource<<7f3493530a29d1b00d66938192cf605d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -32,6 +32,8 @@ export type WebHookListDataFragment$key = {
   readonly " $data"?: WebHookListDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"WebHookListDataFragment">;
 };
+
+import WebHookListRefetchQuery_graphql from './WebHookListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -70,7 +72,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./WebHookListRefetchQuery.graphql')
+      "operation": WebHookListRefetchQuery_graphql
     }
   },
   "name": "WebHookListDataFragment",

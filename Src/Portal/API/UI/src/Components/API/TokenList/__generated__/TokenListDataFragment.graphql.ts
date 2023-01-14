@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0c5d30fd4bf8b5a300fb1c399bb96fbb>>
+ * @generated SignedSource<<b55bf62f5ba4d93a3707995d187f30c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -32,6 +32,8 @@ export type TokenListDataFragment$key = {
   readonly " $data"?: TokenListDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"TokenListDataFragment">;
 };
+
+import TokenListRefetchQuery_graphql from './TokenListRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -70,7 +72,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./TokenListRefetchQuery.graphql')
+      "operation": TokenListRefetchQuery_graphql
     }
   },
   "name": "TokenListDataFragment",

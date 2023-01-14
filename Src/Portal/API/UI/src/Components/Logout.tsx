@@ -1,14 +1,15 @@
 import {  useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import { LOGOUT_ENDPOINT } from "../constants";
-import { useUserStore } from "../Utils/UserProvider";
+import { currentUserQuery } from "../Utils/UserProvider";
 
 export default function Logout() {
 
-  const store = useUserStore();
+  const user = useRecoilValue(currentUserQuery);
     
       useEffect(() => {
-        if(store?.user?.me?.sessionId){
-          window.location.href = `${LOGOUT_ENDPOINT}?sid=${store?.user?.me?.sessionId}`;
+        if(user?.me?.sessionId){
+          window.location.href = `${LOGOUT_ENDPOINT}?sid=${user?.me?.sessionId}`;
         }else{
           window.location.href = LOGOUT_ENDPOINT;
         }

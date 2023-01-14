@@ -1,16 +1,17 @@
 import clsx from "clsx";
+import { useRecoilValue } from "recoil";
 import { Link } from "../../UIComponents/Link/Link";
 import { Menu, Transition } from "@headlessui/react";
-import { useUserStore } from "../../Utils/UserProvider";
+import { currentUserQuery } from "../../Utils/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function UserMenu() {
 
-  const userStore = useUserStore();
+  const user = useRecoilValue(currentUserQuery);
 
-  if(userStore?.user?.me == null){
+  if(user?.me == null){
     return null
   }
   
@@ -25,7 +26,7 @@ export default function UserMenu() {
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
           "focus-visible:ring-opacity-75")}
         >
-          {userStore.user.me.userName}
+          {user.me.userName}
         </Menu.Button>
         <Transition
         enter="transition duration-100 ease-out"
@@ -41,16 +42,16 @@ export default function UserMenu() {
           <Menu.Item disabled>
             <span className={clsx("opacity-75 text-center capitalize font-bold",
             "truncate text-lg p-2 py-5 text-gray-700")}>
-                {`${userStore.user.me.firstName} ${userStore.user.me.lastName}`}
+                {`${user.me.firstName} ${user.me.lastName}`}
             </span>
           </Menu.Item>
 
           {
-            userStore.user?.me?.id && <Menu.Item>
+            user?.me?.id && <Menu.Item>
               {({ active }) => (
                 <Link
                   className={clsx(active &&"bg-gray-50","py-2 rounded-lg p-2")}
-                  to={`/Users/User/${userStore.user?.me?.id}`}
+                  to={`/Users/User/${user?.me?.id}`}
                 >
                   <div className="flex justify-start w-full items-center space-x-3">
                   <div className={clsx("rounded-full bg-gray-50 items-center",

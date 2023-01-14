@@ -1,12 +1,15 @@
+import React from "react";
 import { PreloadedQuery } from "react-relay";
-import React, { useContext, useMemo } from "react";
+import { graphQLSelector } from "recoil-relay";
+import { VariablesOf } from "react-relay/hooks";
 import { graphql } from "babel-plugin-relay/macro";
-import {  usePreloadedQuery } from "react-relay/hooks";
+import { environmentKey,getNode, ResponseFrom } from "./Environment";
 import * as MeQuery from "../Utils/__generated__/UserProviderQuery.graphql";
+import { UserProviderQuery } from "../Utils/__generated__/UserProviderQuery.graphql";
 
 
 export const UserProviderQueryTag = graphql`
-  query UserProviderQuery {
+  query UserProviderQuery @preloadable{
     me {
       id
       userName
@@ -17,47 +20,31 @@ export const UserProviderQueryTag = graphql`
   }
 `;
 
-export type UserType = {
-    readonly me: {
-      readonly firstName: string | null;
-      readonly id: string;
-      readonly lastName: string | null;
-      readonly sessionId: string | null;
-      readonly userName: string | null;
-  } | null;
-} | null;
+export const currentUserQuery = graphQLSelector<
+  VariablesOf<UserProviderQuery>,
+  ResponseFrom<UserProviderQuery>
+>({
+  key: 'CurrentUser',
+  environment: environmentKey,
+  query:getNode(UserProviderQueryTag),
+  default: undefined,
+  variables: {},
+  mapResponse: data => data
+});
 
 export type UserProviderProps = {
   children?: React.ReactNode;
   initialQueryRef: PreloadedQuery<MeQuery.UserProviderQuery>;
 };
-
-type userStoreContextType = {
-  user: UserType;
-};
-
-export const userStoreContext = React.createContext<
-  userStoreContextType | undefined
->(undefined);
-
-export const useUserStore = () => useContext(userStoreContext);
-
 export default function UserProvider({ children,initialQueryRef }: UserProviderProps) {
 
-  const preloaded_user_data = usePreloadedQuery(
-    UserProviderQueryTag,
-    initialQueryRef
-  );
+  // We dont need this because we sync with recoil store now!
+  // const preloaded_user_data = usePreloadedQuery(
+  //   UserProviderQueryTag,
+  //   initialQueryRef
+  // );
   
-  const userStoreInitCtx = useMemo(() => {
-    return {
-      user: preloaded_user_data,
-    };
-  }, [preloaded_user_data]);
-
   return (
-    <userStoreContext.Provider value={userStoreInitCtx}>
       {children}
-    </userStoreContext.Provider>
   );
 }

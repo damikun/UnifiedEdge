@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7d19cca4ca76f8ed9da98a658b55c830>>
+ * @generated SignedSource<<d6d462d0cbd542246dffce77ddbfa451>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type SchedulerSuccessJobsDataFragment$key = {
   readonly " $data"?: SchedulerSuccessJobsDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"SchedulerSuccessJobsDataFragment">;
 };
+
+import SchedulerSuccessJobsPaginationFragmentRefetchQuery_graphql from './SchedulerSuccessJobsPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -77,7 +79,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./SchedulerSuccessJobsPaginationFragmentRefetchQuery.graphql')
+      "operation": SchedulerSuccessJobsPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "SchedulerSuccessJobsDataFragment",

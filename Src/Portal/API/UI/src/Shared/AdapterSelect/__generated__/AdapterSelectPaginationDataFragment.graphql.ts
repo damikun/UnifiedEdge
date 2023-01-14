@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<915d7608416a17406bd4a500814faaf7>>
+ * @generated SignedSource<<fbc811013de89ecf27e6a1f20de59147>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -33,6 +33,8 @@ export type AdapterSelectPaginationDataFragment$key = {
   readonly " $data"?: AdapterSelectPaginationDataFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"AdapterSelectPaginationDataFragment">;
 };
+
+import AdapterSelectPaginationQuery_graphql from './AdapterSelectPaginationQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -71,7 +73,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./AdapterSelectPaginationQuery.graphql')
+      "operation": AdapterSelectPaginationQuery_graphql
     }
   },
   "name": "AdapterSelectPaginationDataFragment",

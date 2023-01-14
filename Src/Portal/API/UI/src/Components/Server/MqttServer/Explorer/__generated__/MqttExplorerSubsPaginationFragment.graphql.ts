@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8f357fc2bbdad6ed9e06835527408027>>
+ * @generated SignedSource<<c9dd4f3148485e09a5ac4c7151b0de92>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type MqttExplorerSubsPaginationFragment$key = {
   readonly " $data"?: MqttExplorerSubsPaginationFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"MqttExplorerSubsPaginationFragment">;
 };
+
+import MqttExplorerSubsPaginationFragmentRefetchQuery_graphql from './MqttExplorerSubsPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -82,7 +84,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./MqttExplorerSubsPaginationFragmentRefetchQuery.graphql')
+      "operation": MqttExplorerSubsPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "MqttExplorerSubsPaginationFragment",

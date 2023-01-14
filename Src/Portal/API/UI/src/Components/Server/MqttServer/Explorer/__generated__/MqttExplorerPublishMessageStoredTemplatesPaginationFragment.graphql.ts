@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8ed603745467a7ba5a7a8461ee89f275>>
+ * @generated SignedSource<<58c6715986a1d6f6020e514068aebfc9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,8 @@ export type MqttExplorerPublishMessageStoredTemplatesPaginationFragment$key = {
   readonly " $data"?: MqttExplorerPublishMessageStoredTemplatesPaginationFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"MqttExplorerPublishMessageStoredTemplatesPaginationFragment">;
 };
+
+import MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery_graphql from './MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -82,7 +84,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery.graphql')
+      "operation": MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "MqttExplorerPublishMessageStoredTemplatesPaginationFragment",

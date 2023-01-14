@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<52f8c16d404400f8f38f84551ef76f8c>>
+ * @generated SignedSource<<100093c213b463db1f2ae3f2ebf4dbd3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,6 +28,8 @@ export type AdapterLogsPaginationFragment_logs$key = {
   readonly " $data"?: AdapterLogsPaginationFragment_logs$data;
   readonly " $fragmentSpreads": FragmentRefs<"AdapterLogsPaginationFragment_logs">;
 };
+
+import AdapterLogsPaginationFragmentRefetchQuery_graphql from './AdapterLogsPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -87,7 +89,7 @@ return {
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./AdapterLogsPaginationFragmentRefetchQuery.graphql'),
+      "operation": AdapterLogsPaginationFragmentRefetchQuery_graphql,
       "identifierField": "id"
     }
   },

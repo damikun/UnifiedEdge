@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a203afa8fb8feb6a47752c3b4849f14b>>
+ * @generated SignedSource<<2403413c023c0f45b142bc89eed4ed86>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,6 +28,8 @@ export type MqttLogsPaginationFragment_logs$key = {
   readonly " $data"?: MqttLogsPaginationFragment_logs$data;
   readonly " $fragmentSpreads": FragmentRefs<"MqttLogsPaginationFragment_logs">;
 };
+
+import MqttLogsPaginationFragmentRefetchQuery_graphql from './MqttLogsPaginationFragmentRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -83,7 +85,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./MqttLogsPaginationFragmentRefetchQuery.graphql')
+      "operation": MqttLogsPaginationFragmentRefetchQuery_graphql
     }
   },
   "name": "MqttLogsPaginationFragment_logs",

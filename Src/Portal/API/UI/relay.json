@@ -4,5 +4,6 @@
   "language": "typescript",
   "customScalars": {
     "DateTime": "string"
-  }
+  },
+  "eagerEsModules":true
 }

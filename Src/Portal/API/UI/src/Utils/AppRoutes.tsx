@@ -1,14 +1,16 @@
-import { Route, Routes } from "react-router-dom";
-import { useUserStore } from "./UserProvider";
+import { useRecoilValue } from "recoil";
 import Login from "../Components/Login";
 import Logout from "../Components/Logout";
-import FourOhFour from "../Components/FourOhFour";
 import Layout from "../Components/Layout/Layout";
+import { Route, Routes } from "react-router-dom";
+import FourOhFour from "../Components/FourOhFour";
+import { currentUserQuery } from "./UserProvider";
+
 
 export default function AppRoutes() {
-  const userStore = useUserStore();
+  const user = useRecoilValue(currentUserQuery);
 
-  if (!userStore?.user?.me) {
+  if (!user?.me) {
     
     return (
       <Routes>

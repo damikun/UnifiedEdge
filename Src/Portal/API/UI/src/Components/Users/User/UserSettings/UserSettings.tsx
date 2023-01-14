@@ -2,6 +2,7 @@ import clsx from "clsx";
 import UserRemove from "./UserRemove";
 import React, { useMemo } from "react";
 import SetPassword from "./SetPassword";
+import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import UserAdminSetting from "./UserAdminSetting";
@@ -9,10 +10,11 @@ import UserActivSetting from "./UserActivSetting";
 import { graphql } from "babel-plugin-relay/macro";
 import UserLastNameSetting from "./UserLastNameSetting";
 import UserFirstNameSetting from "./UserFirstNameSetting";
-import { useUserStore } from "../../../../Utils/UserProvider";
 import Section from "../../../../UIComponents/Section/Section";
-import { UserSettingsQuery } from "./__generated__/UserSettingsQuery.graphql";
+import { currentUserQuery } from "../../../../Utils/UserProvider";
 import SectionBody from "../../../../UIComponents/Section/SectionBody";
+import { UserSettingsQuery } from "./__generated__/UserSettingsQuery.graphql";
+
 
 
 export const UserSettingsQueryTag = graphql`
@@ -45,33 +47,30 @@ function UserSettings() {
 
   const { id }: any = useParams<string>();
 
-  const user = useUserStore();
+  const user = useRecoilValue(currentUserQuery);
 
   const data = useLazyLoadQuery<UserSettingsQuery>(
     UserSettingsQueryTag,
     {
       user_id:id,
-      current_user_id:user?.user?.me?.id as string
+      current_user_id:user?.me?.id as string
     },
     {
       fetchPolicy: "store-and-network",
     },
   );
-
-  const userStore = useUserStore()
-
   const isNotCurrentUser = useMemo(() => {
-    if(!userStore?.user?.me){
+    if(!user?.me){
       return false
     }
 
-    if(userStore.user.me?.id === data.userById.id){
+    if(user.me?.id === data.userById.id){
       return false
     }
 
     return true;
 
-  }, [data.userById.id,userStore?.user?.me])
+  }, [data.userById.id,user?.me])
 
   return <>
     {
