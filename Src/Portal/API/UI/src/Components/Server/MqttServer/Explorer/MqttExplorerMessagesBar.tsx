@@ -47,7 +47,7 @@ export default function MqttExplorerMessagesBarBar(){
     <Modal
       isOpen={modalState}
       position="center"
-      onClose={handleClose}>
+      onClose={handleClose}>``
       <MqttExplorerPublishMessage />
     </Modal>
 
