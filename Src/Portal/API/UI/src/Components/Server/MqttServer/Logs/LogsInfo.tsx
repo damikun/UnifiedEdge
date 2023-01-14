@@ -8,7 +8,7 @@ function LogsInfo() {
 
   return  <div className={clsx("flex bg-gray-50 flex-col w-full",
   "border border-gray-200 rounded-lg shadow-sm pt-2 px-5 py-3 space-y-2",)}>
-    <div className="w-full py-3 flex flex-col space-y-2">
+    <div className="w-full py-3 flex flex-col space-y-2 bg-info-background bg-contain">
 
       <div className="flex flex-row items-center justify-between">
 
