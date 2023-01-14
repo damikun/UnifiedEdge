@@ -34,7 +34,6 @@ import { MqttExplorerPublishMessageSaveTemplateMutation, SaveMqttExplorerMessage
 import { MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery } from "./__generated__/MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery.graphql";
 
 
-
 const editor_options = {
   selectOnLineNumbers: true,
   automaticLayout: true,
@@ -77,7 +76,6 @@ export const MqttExplorerPublishMessageStoredTemplatesPaginationFragment = graph
     }
   }
 `;
-
 
 const MqttExplorerPublishMessageMutationTag = graphql`
   mutation MqttExplorerPublishMessageMutation(
@@ -175,7 +173,8 @@ export default function MqttExplorerPublishMessage(){
   MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery,
   MqttExplorerPublishMessageStoredTemplatesPaginationFragment$key
   >(MqttExplorerPublishMessageStoredTemplatesPaginationFragment, data);
-  
+  // ^?
+
   const [
     commit_publish,
     isInFlight_publish,
@@ -269,7 +268,7 @@ export default function MqttExplorerPublishMessage(){
   
   
   const formik_template = useFormik<SaveMqttExplorerMessageTemplateInput>({
-    initialValues: {
+    initialValues: {  
       name:"",
       topic:formik_publish.values.topic,
       contentType:formik_publish.values.contentType,
@@ -490,7 +489,7 @@ export default function MqttExplorerPublishMessage(){
         <FormInput
           label="Template name (save)"
           id="name"
-          error={formik_template.errors.name}
+          error={hasChanged?formik_template.errors.name:""}
           value={formik_template.values.name}
           disabled={isInFlight_publish}
           onChange={formik_template.handleChange}

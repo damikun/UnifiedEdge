@@ -1,18 +1,30 @@
 import clsx from "clsx";
 import { useRecoilValue} from "recoil";
 import { useParams } from "react-router";
-import {useCallback, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef } from "react";
-import MqttExplorerMessage from "./MqttExplorerMessage";
 import Modal from "../../../../UIComponents/Modal/Modal";
 import { useOnScreen } from "../../../../Hooks/useOnScreen";
+import {lazy, Suspense, useCallback, useState } from "react";
 import Section from "../../../../UIComponents/Section/Section";
 import MqttExplorerMessagesBarBar from "./MqttExplorerMessagesBar";
-import MqttExplorerMessageDetail from "./MqttExplorerMessageDetail";
 import useScrollDirection from "../../../../Hooks/useScrollDirection";
 import { mqttExplorerUniqueMessages, MqttMessagePayload } from "./MqttServerExplorer";
 
+
+const MqttExplorerMessage = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttExplorerMessage" */ "./MqttExplorerMessage"
+    )
+);
+
+const MqttExplorerMessageDetail = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttExplorerMessageDetail" */ "./MqttExplorerMessageDetail"
+    )
+);
 
 export default React.memo(MqttExplorerMessages)
 
@@ -66,7 +78,7 @@ function MqttExplorerMessages() {
       isOpen={modal != null}
       onClose={handleModalClose}
       component={
-        modal && <MqttExplorerMessageDetail data={modal}/>
+        modal && <MqttExplorerMessageDetail data={modal}/>      
       }
     />
     <Section 
@@ -80,14 +92,16 @@ function MqttExplorerMessages() {
         "overflow-y-scroll overflow-x-hidden bg-gray-50",
         "bg-explorer-background bg-contain")}>
             <AnimatePresence>
-              {
-                data.map((enity)=>{
-                  return <MqttExplorerMessage
-                  onClick={handleMessageDetail}
-                  key={enity.message.id}
-                  data={enity} />
-                })
-              }
+              <Suspense fallback={null}>
+                {
+                  data.map((enity)=>{
+                    return <MqttExplorerMessage
+                    onClick={handleMessageDetail}
+                    key={enity.message.id}
+                    data={enity} />
+                  })
+                }
+              </Suspense>
             </AnimatePresence>
 
             <div ref={endRef}>

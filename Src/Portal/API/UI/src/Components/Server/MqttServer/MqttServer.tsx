@@ -1,18 +1,49 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
-import MqttLogsView from "./Logs/MqttLogsView";
 import ServerInfo from "../ServerInfo/ServerInfo";
-import MqttServerInfo from "./Info/MqttServerInfo";
 import { graphql } from "babel-plugin-relay/macro";
-import MqttServerAuth from "./Auth/MqttServerAuth";
 import PageContainer from "../../Layout/PageContainer";
 import { Route, Routes, useParams } from "react-router";
 import Section from "../../../UIComponents/Section/Section";
-import MqttServerExplorer from "./Explorer/MqttServerExplorer";
-import MqttServerSettings from "./Settings/MqttServerSettings";
 import StyledTabSection from "../../../Shared/StyledTabSection";
 import { MqttServerQuery } from "./__generated__/MqttServerQuery.graphql";
 import { RouterTabItemType } from "../../../UIComponents/RouterTab/RouterTabList";
+
+
+const MqttServerAuth = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttServerAuth" */ "./Auth/MqttServerAuth"
+    )
+);
+
+const MqttServerInfo = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttServerInfo" */ "./Info/MqttServerInfo"
+    )
+);
+
+const MqttLogsView = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttLogsView" */ "./Logs/MqttLogsView"
+    )
+);
+
+const MqttServerExplorer = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttServerExplorer" */ "./Explorer/MqttServerExplorer"
+    )
+);
+
+const MqttServerSettings = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttServerSettings" */ "./Settings/MqttServerSettings"
+    )
+);
 
 
 export const SettingsTabs = [

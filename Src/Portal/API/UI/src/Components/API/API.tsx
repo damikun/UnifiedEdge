@@ -1,8 +1,5 @@
-import React from "react";
-import ApiInfo from "./ApiInfo";
-import ApiRest from "./ApiRest";
+import React, { lazy, Suspense } from "react";
 import ApiTokens from "./ApiTokens";
-import ApiGraphql from "./ApiGraphql";
 import { Route, Routes } from "react-router";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
@@ -13,6 +10,26 @@ import StyledTabSection from "../../Shared/StyledTabSection";
 import { RouterTabItemType } from "../../UIComponents/RouterTab/RouterTabList";
 
 
+const ApiInfo = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "ApiInfo" */ "./ApiInfo"
+    )
+);
+
+const ApiGraphql = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "ApiGraphql" */ "./ApiGraphql"
+    )
+);
+
+const ApiRest = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "ApiRest" */ "./ApiRest"
+    )
+);
 
 const APIQueryTag = graphql`
   query APIQuery{
@@ -61,11 +78,13 @@ function API() {
 
     <StyledTabSection tabs={APITabs}/>
 
-    <Routes>
-      <Route path="/Rest/" element={<ApiRest/>} />
-      <Route path="/Graphql/" element={<ApiGraphql/>} />
-      <Route path="/*" element={<ApiTokens/>} />
-    </Routes>
+    <Suspense fallback={null}>
+      <Routes>
+        <Route path="/Rest/" element={<ApiRest/>} />
+        <Route path="/Graphql/" element={<ApiGraphql/>} />
+        <Route path="/*" element={<ApiTokens/>} />
+      </Routes>
+    </Suspense>
 
   </PageContainer>
 }

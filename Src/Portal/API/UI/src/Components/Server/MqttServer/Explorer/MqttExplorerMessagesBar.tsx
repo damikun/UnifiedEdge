@@ -1,12 +1,17 @@
 import { useSetRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { lazy, useCallback, useState } from "react";
 import Modal from "../../../../UIComponents/Modal/Modal";
-import MqttExplorerPublishMessage from "./MqttExplorerPublishMessage";
 import { faEraser, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import { CreateDefaultStore, mqttExplorerStore } from "./MqttServerExplorer";
 
+const MqttExplorerPublishMessage = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "MqttExplorerPublishMessage" */ "./MqttExplorerPublishMessage"
+    )
+);
 
 export default function MqttExplorerMessagesBarBar(){
   const [modalState, setModalState] = useState(false);

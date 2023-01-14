@@ -178,6 +178,13 @@ export default function MqttAuthClientDetail(){
     ]
   );
 
+  const isSystemEnity = useMemo(() => {
+    if(data.mqttAuthClientById.clientId){
+      return data.mqttAuthClientById.clientId.toLocaleLowerCase() === "sys"
+    }
+    return false;
+  }, [data.mqttAuthClientById.clientId])
+
   const ctx = useMqttAuthClientsCtx();
   
   const handleRemove = useCallback(
@@ -248,7 +255,9 @@ export default function MqttAuthClientDetail(){
 
       <FieldDivider/>
 
-      <FieldSection multiline name="Delete">
+      {
+        !isSystemEnity ? <>
+        <FieldSection multiline name="Delete">
         <div className="max-w-lg">
           <StayledButton
             variant="error"
@@ -260,6 +269,14 @@ export default function MqttAuthClientDetail(){
           </StayledButton>
         </div>
       </FieldSection>
+        </>:
+        <>
+        <FieldSection multiline name="Delete">
+          System client is not removable!
+        </FieldSection>
+        </>
+      }
+
     </div>
   </ModalContainer>
 }
