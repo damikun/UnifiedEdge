@@ -111,7 +111,6 @@ export function MqttExplorerSubItem({dataRef, onItemClick}:MqttExplorerSubItemPr
         }])
       }
 
-    
     },
     onCompleted: () => {} /* Subscription established */,
     onError: error => {} /* Subscription errored */,
@@ -189,7 +188,6 @@ export function MqttExplorerSubItem({dataRef, onItemClick}:MqttExplorerSubItemPr
     key={data?.id}>
     <td className="flex items-center justify-between w-full">
       <div className="flex w-full flex-row space-x-3 h-8 items-center">
-
         <div style={{backgroundColor:data?.color??"#FFFFFF"}}
          className="w-1 flex h-full bg-opacity-40 rounded-lg bg-black whitespace-pre-line"/>
         <div className={clsx("flex w-full line-clamp-1 font-sans text-gray-700",
@@ -197,8 +195,11 @@ export function MqttExplorerSubItem({dataRef, onItemClick}:MqttExplorerSubItemPr
           {data?.topic}
         </div>
       </div>
+    </td>
 
-      <div onClick={handleRemove} className={clsx(" w-5 h-5 rounded-full",
+    <td className="w-6">
+      <div onClick={handleRemove} 
+        className={clsx(" w-5 h-5 rounded-full",
         "items-center justify-center bg-gray-400 leading-none",
         "shadow-md hover:scale-105 flex transition duration-300",
         "hover:bg-red-500 p-0.5")}>

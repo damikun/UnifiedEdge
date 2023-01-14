@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<10f11ae6c5b633eacb9c1f889840a10b>>
+ * @generated SignedSource<<8b7e16db694eedc3be209ab6290f940c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,9 +9,12 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
+export type MessageContentType = "JSON" | "TEXT" | "UNDEFINED" | "%future added value";
 export type MessageQoS = "AT_LEAST_ONCE" | "AT_MOST_ONCE" | "EXACTLY_ONCE" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type MqttExplorerPublishMessageStoredTemplateItemDataFragment$data = {
+  readonly contentType: MessageContentType;
+  readonly expireInterval: number | null;
   readonly id: string;
   readonly name: string;
   readonly payload: string | null;
@@ -72,12 +75,26 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "topic",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "contentType",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "expireInterval",
+      "storageKey": null
     }
   ],
   "type": "GQL_MqttMessageTemplate",
   "abstractKey": null
 };
 
-(node as any).hash = "5ed5c6f95b6727f8c77cdc389ee41b66";
+(node as any).hash = "06f545083f34a1f615abac7a6ded7b4a";
 
 export default node;

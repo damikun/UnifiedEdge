@@ -10,7 +10,7 @@ import { HandleErrors } from "../../../../Utils/ErrorHelper";
 import Section from "../../../../UIComponents/Section/Section";
 import TableItem from "../../../../UIComponents/Table/TableItem";
 import Editor, { loader, useMonaco } from "@monaco-editor/react";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { generateErrors, is } from "../../../../Utils/Validation";
 import { FormInput } from "../../../../UIComponents/Form/FormInput";
 import { FieldSection } from "../../../../Shared/Field/FieldHelpers";
@@ -20,16 +20,19 @@ import { useToast } from "../../../../UIComponents/Toast/ToastProvider";
 import StayledButton from "../../../../UIComponents/Buttons/StayledButton";
 import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import InfinityScrollBody from "../../../../UIComponents/Table/InfinityScrollBody";
+import { faPaperPlane, faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import InfinityScrollTable from "../../../../UIComponents/Table/InfinityScrollTable";
 import FormSelect, { FormSelectOption } from "../../../../UIComponents/Form/FormSelect";
 import { Suspense, useCallback, useEffect, useMemo, useState,useTransition } from "react";
 import { useFragment, useLazyLoadQuery, useMutation, usePaginationFragment } from "react-relay";
 import { MqttExplorerPublishMessageQuery } from "./__generated__/MqttExplorerPublishMessageQuery.graphql";
 import { MqttExplorerPublishMessageMutation, PublishMqttMessageInput } from "./__generated__/MqttExplorerPublishMessageMutation.graphql";
+import { MqttExplorerPublishMessageTemplateRemoveMutation } from "./__generated__/MqttExplorerPublishMessageTemplateRemoveMutation.graphql";
 import { MqttExplorerPublishMessageStoredTemplateItemDataFragment$key } from "./__generated__/MqttExplorerPublishMessageStoredTemplateItemDataFragment.graphql";
 import { MqttExplorerPublishMessageStoredTemplatesPaginationFragment$key } from "./__generated__/MqttExplorerPublishMessageStoredTemplatesPaginationFragment.graphql";
 import { MqttExplorerPublishMessageSaveTemplateMutation, SaveMqttExplorerMessageTemplateInput } from "./__generated__/MqttExplorerPublishMessageSaveTemplateMutation.graphql";
 import { MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery } from "./__generated__/MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery.graphql";
+
 
 
 const editor_options = {
@@ -52,7 +55,6 @@ const MqttExplorerPublishMessageQueryTag = graphql`
     ...MqttExplorerPublishMessageStoredTemplatesPaginationFragment@arguments(server_uid:$server_uid)
   }
 `;
-
 
 export const MqttExplorerPublishMessageStoredTemplatesPaginationFragment = graphql`
   fragment MqttExplorerPublishMessageStoredTemplatesPaginationFragment on Query
@@ -370,14 +372,15 @@ export default function MqttExplorerPublishMessage(){
   )
 
   const handleTemplateSelect = useCallback(
-    (template_id: string | null | undefined) => {
+    (data:PublishMqttMessageInput) => {
+      formik_publish.setValues(data)
     },
-    []
+    [formik_publish]
   );
 
   const hasChanged = useMemo(() => formik_template.values.name !== "" ,
   [formik_template.values.name]
- )
+  )
 
   return <ModalContainer label="Publish Message">
     <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
@@ -455,6 +458,7 @@ export default function MqttExplorerPublishMessage(){
                   options={editor_options}
                   line={2}
                   onChange={handleEditorChange}
+                  value={formik_publish.values.payload}
                   defaultValue={formik_publish.values.payload}
                 />
                 </motion.div>
@@ -519,9 +523,11 @@ export default function MqttExplorerPublishMessage(){
                   }
 
                   return <MqttAuthClientItem 
-                    key={edge.node?.id??index}
                     dataRef={edge.node}
+                    serverId={server_id}
+                    key={edge.node?.id??index}
                     onItemClick={handleTemplateSelect}
+                    connectionId={pagination.data.mqttExplorerStoredTemplates?.__id}
                   />
                 })
               }
@@ -544,15 +550,54 @@ const MqttExplorerPublishMessageStoredTemplateItemDataFragment = graphql`
     qoS
     retain
     topic
+    contentType
+    expireInterval
   }
 `;
 
+
+const MqttExplorerPublishMessageTemplateRemoveMutationTag = graphql`
+  mutation MqttExplorerPublishMessageTemplateRemoveMutation(
+    $input: RemoveMqttServerExplorerUserTemplateInput!,
+    $connections: [ID!]!
+    ) {
+      removeMqttServerExplorerUserTemplate(input: $input) {
+      ... on RemoveMqttServerExplorerUserTemplatePayload {
+        gQL_MqttMessageTemplate{
+          id @deleteEdge(connections: $connections)
+        }
+        errors{
+          __typename
+
+          ... on ValidationError{
+            errors{
+              property
+              message
+            }
+          }
+
+          ... on ResultError{
+            message
+          }
+        }
+      }
+    }
+}
+`
+
 type MqttAuthClientItemProps = {
   dataRef: MqttExplorerPublishMessageStoredTemplateItemDataFragment$key | null;
-  onItemClick: (id:string|undefined)=>void
+  onItemClick: (data:PublishMqttMessageInput)=>void
+  connectionId: string|null|undefined
+  serverId:string
 }
 
-export function MqttAuthClientItem({dataRef, onItemClick}:MqttAuthClientItemProps){
+export function MqttAuthClientItem({
+  dataRef,
+  onItemClick,
+  connectionId,
+  serverId
+}:MqttAuthClientItemProps){
 
   const data = useFragment(MqttExplorerPublishMessageStoredTemplateItemDataFragment, dataRef);
   
@@ -564,71 +609,79 @@ export function MqttAuthClientItem({dataRef, onItemClick}:MqttAuthClientItemProp
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
       data?.id && startTransition(() => {
-        onItemClick(data.id)
+        onItemClick({
+          contentType:data.contentType,
+          expireInterval: data.expireInterval ??0,
+          payload: data.payload??"",
+          qos: data.qoS,
+          retain: data.retain,
+          server_uid: serverId,
+          topic: data.topic??""
+        })
       });
     },
-    [onItemClick,data],
+    [onItemClick,data,serverId],
   )
 
-  // const [
-  //   commit,
-  //   isInFlight,
-  // ] = useMutation<MqttAuthClientItemEnableMutation>(
-  //   MqttAuthClientItemEnableMutationTag
-  // );
+  const [
+    commit_remove,
+    isInFlight_remove,
+  ] = useMutation<MqttExplorerPublishMessageTemplateRemoveMutation>(
+    MqttExplorerPublishMessageTemplateRemoveMutationTag
+  );
 
-  // const toast = useToast();
+  const toast = useToast();
 
-  // const handleCheckedEvent = useCallback(
-  //   (id: string | undefined,
-  //   checked: boolean,
-  //   value: string | undefined,
-  //   name: string | undefined) => {
+  const handleRemove = useCallback(
+    (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
+      e.preventDefault()
+      e.stopPropagation();
 
-  //     return !isInFlight  && commit({
-  //       variables: {
-  //         input: {
-  //           authClient_id: data?.id as string,
-  //           enable: checked,
-  //         }
-  //       },
+      return data?.id && !isInFlight_remove  && commit_remove({
+        variables: {
+          input: {
+            template_id:data?.id as string
+          },
+          connections:connectionId ?[connectionId]:[]
+        },
 
-  //       onError(error) {
-  //         toast?.pushError("Failed to process mutation");
-  //         console.log(error);
-  //       },
+        onError(error) {
+          toast?.pushError("Failed to process mutation");
+          console.log(error);
+        },
 
-  //       onCompleted(response) {},
+        onCompleted(response) {},
 
-  //       updater(store, response) {
-  //         if(response?.enableMqttAuthClinet?.gQL_MqttAuthClient){
-  //           // ...
-  //         }
-  //         HandleErrors(toast, response?.enableMqttAuthClinet?.errors);
-  //       },
+        updater(store, response) {
+          if(response?.removeMqttServerExplorerUserTemplate?.gQL_MqttMessageTemplate){
+            // ...
+          }
+          HandleErrors(toast, response?.removeMqttServerExplorerUserTemplate?.errors);
+        },
 
-  //       optimisticUpdater(store){
-
-  //         if(data?.id){
-  //           var hook = store.get(data?.id);
-
-  //           hook?.setValue(checked,"enabled")
-  //         }
-  //       }
-
-  //     });
-  //   },
-  //   [isInFlight,data?.id,commit,toast]
-  // );
-
+      });
+    },
+    [isInFlight_remove,data?.id,commit_remove,toast,connectionId]
+  );
 
   return <TableItem
-    className="bg-white bg-opacity-50"
+    className="bg-white bg-opacity-50 justify-between"
     onClick={handleClick}
     key={data?.id}>
     <td className="w-6/12 2xl:w-8/12 flex truncate capitalize">
       <div className="truncate font-sans text-gray-700 font-semibold text-sm">
         {data?.name}
+      </div>
+    </td>
+    <td className="w-6">
+      <div onClick={handleRemove} className={clsx("w-5 h-5 rounded-full",
+        "items-center justify-center bg-gray-400 leading-none",
+        "shadow-md hover:scale-105 flex transition duration-300",
+        "hover:bg-red-500 p-0.5")}>
+        <FontAwesomeIcon 
+          spin={isInFlight_remove}
+          className="text-white flex m-auto" 
+          icon={isInFlight_remove? faSpinner : faTimes} />
       </div>
     </td>
   </TableItem>

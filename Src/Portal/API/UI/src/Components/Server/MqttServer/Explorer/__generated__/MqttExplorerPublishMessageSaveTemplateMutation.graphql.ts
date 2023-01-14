@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a8726c1ec30b6897de951f57ba2afe30>>
+ * @generated SignedSource<<69a8dd2b92b406887e7b951de5fc86d2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -234,6 +234,20 @@ return {
                 "kind": "ScalarField",
                 "name": "topic",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "contentType",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "expireInterval",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -266,12 +280,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b37b854fce5c97fb02ef2cf32c93d62c",
+    "cacheID": "83db906edaa811df17846326eb67eb6b",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerPublishMessageSaveTemplateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageSaveTemplateMutation(\n  $input: SaveMqttExplorerMessageTemplateInput!\n) {\n  saveMqttExplorerMessageTemplate(input: $input) {\n    gQL_MqttMessageTemplate {\n      id\n      ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n}\n"
+    "text": "mutation MqttExplorerPublishMessageSaveTemplateMutation(\n  $input: SaveMqttExplorerMessageTemplateInput!\n) {\n  saveMqttExplorerMessageTemplate(input: $input) {\n    gQL_MqttMessageTemplate {\n      id\n      ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n  contentType\n  expireInterval\n}\n"
   }
 };
 })();

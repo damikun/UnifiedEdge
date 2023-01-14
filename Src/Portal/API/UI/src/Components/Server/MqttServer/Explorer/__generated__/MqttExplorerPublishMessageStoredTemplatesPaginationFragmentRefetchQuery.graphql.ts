@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<60834033c66f0c2e0390baa9744b51df>>
+ * @generated SignedSource<<e8d33ffdcf24cb6c0ec27ddd137b2b40>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -162,6 +162,20 @@ return {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "contentType",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "expireInterval",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "__typename",
                     "storageKey": null
                   }
@@ -222,12 +236,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c9125bdf02de1525894a41f695e63027",
+    "cacheID": "c631bc7b13244776c7035c36eecd921d",
     "id": null,
     "metadata": {},
     "name": "MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n}\n\nfragment MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY on Query {\n  mqttExplorerStoredTemplates(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n  contentType\n  expireInterval\n}\n\nfragment MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY on Query {\n  mqttExplorerStoredTemplates(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
