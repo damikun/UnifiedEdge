@@ -82,7 +82,7 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
        data.node?.configState?.isConfigMatch === false && <>
             <FieldGroup>
                 <FieldLabel name="Online"/>
-                <div className="rounded-md p-3 bg-gray-50 shadow-sm border border-gray-300">
+                <div className="rounded-lg p-3 bg-gray-50 shadow-sm border border-gray-300">
                     <div className="flex overflow-hidden overflow-y-auto text-xs h-full break-all flex-wrap max-w-full">
                     <JsonViewer 
                         collapseStringsAfterLength={1000}
@@ -101,7 +101,7 @@ export default function ServerInfoConfigModal({server_id}:ServerInfoConfigProps)
       
       <FieldGroup>
         <FieldLabel name="Offline"/>
-        <div className="rounded-md p-3 bg-gray-50 shadow-sm border border-gray-300">
+        <div className="rounded-lg p-3 bg-gray-50 shadow-sm border border-gray-300">
           <div className="flex overflow-hidden overflow-y-auto text-xs h-full break-all flex-wrap max-w-full">
             <JsonViewer
                 collapseStringsAfterLength={1000}

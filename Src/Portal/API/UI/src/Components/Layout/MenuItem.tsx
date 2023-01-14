@@ -41,7 +41,7 @@ export default function MenuItem({name,to,pattern,icon}:MenuItemProps){
         <Link onClick={handleClick} to={to}
             className={clsx("flex space-x-3 flex-row w-full",
             "p-1 px-3 hover:bg-gray-200 cursor-pointer",
-            "rounded-md transition duration-200 select-none",
+            "rounded-lg transition duration-200 select-none",
             match && "text-blue-600 bg-gray-200 font-semibold")}>
 
             <div className={clsx("flex w-8 h-8 cursor-pointer",

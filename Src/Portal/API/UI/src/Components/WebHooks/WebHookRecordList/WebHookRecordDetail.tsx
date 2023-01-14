@@ -136,7 +136,7 @@ type ModalContainerProps = {
 
 function ModalContainer({children,label}:ModalContainerProps){
   return <div className={clsx("flex flex-col w-full h-full",
-    "bg-gray-50 z-50 rounded-md shadow-sm overflow-hidden")}>
+    "bg-gray-50 z-50 rounded-lg shadow-sm overflow-hidden")}>
     <ModalHeader label={label}/>
     <div className="p-5 xl:p-7">
       {children}
@@ -175,7 +175,7 @@ function JsonSection({ raw_json }: JsonSectionProps) {
 
   return (
     <FieldGroup className="w-full">
-      <div className={clsx("rounded-md p-3 bg-gray-50",
+      <div className={clsx("rounded-lg p-3 bg-gray-50",
         "shadow-sm border border-gray-300 w-full")}>
         <div className={clsx("flex overflow-hidden overflow-y-auto",
         "text-xs h-full break-all flex-wrap max-w-full")}>
@@ -210,7 +210,7 @@ function HtmlSection({ raw_html }: HtmlSectionProps) {
   return (
     <div className={clsx("flex w-full h-full max-h-96 overflow-y-scroll",
       "overflow-x-hidden border border-gray-200 shadow-sm",
-      "p-2 md:p-5 bg-gray-900 text-white rounded-md")}>
+      "p-2 md:p-5 bg-gray-900 text-white rounded-lg")}>
       <div className="break-all whitespace-pre-wrap font-mono">
         {raw_html}
       </div>
@@ -235,7 +235,7 @@ function ExceptionSection({ exception }: ExceptionSectionProps) {
   return (
     <div className={clsx("flex w-full h-full max-h-96 overflow-y-scroll",
       "overflow-x-hidden border border-gray-200 shadow-sm",
-      "p-2 md:p-5 bg-gray-900 text-white rounded-md")}>
+      "p-2 md:p-5 bg-gray-900 text-white rounded-lg")}>
       <div className="break-all whitespace-pre-wrap font-mono">
         {exception}
       </div>

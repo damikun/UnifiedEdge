@@ -181,7 +181,7 @@ export default function MetricTrend({
       transition={{duration:0.5}}>
         <div className="flex font-semibold text-gray-700 justify-between mt-2">
           <div>{name}</div>
-          <div className={clsx("rounded-md select-none font-semibold",
+          <div className={clsx("rounded-lg select-none font-semibold",
           "border bg-opacity-50 text-gray-700 px-1 text-sm")}>
             {normalised_data.last}
           </div>

@@ -87,9 +87,9 @@ export const Badge_VARIANTS = {
 };
 
 const Badge_ROUNDING = {
-  small: "rounded-md",
+  small: "rounded-lg",
   normal: "rounded",
-  medium: "rounded-md",
+  medium: "rounded-lg",
   large: "rounded-lg",
   full: "rounded-full",
   none: " ",

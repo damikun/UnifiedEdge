@@ -45,9 +45,9 @@ export default function SelectList<T>({
         {
           opt=> <>
            <Listbox.Button className={clsx("flex flex-col",
-            "font-semibold border transition border-s rounded-md",
+            "font-semibold border transition border-s rounded-lg",
             "px-1 py-1.5 bg-gray-50 focus:outline-none relative w-full",
-            "rounded-md shadow-sm outline-1 outline-gray-100 border-2",
+            "rounded-lg shadow-sm outline-1 outline-gray-100 border-2",
             "border-gray-200 w-36",
             disabled && "cursor-not-allowed")}>
 
@@ -69,7 +69,7 @@ export default function SelectList<T>({
 
           <Listbox.Options className={clsx("flex flex-col origin-top-right",
             "absolute w-max max-w-sm lg:max-w-md 2xl:max-w-lg z-10",
-            "right-0 bg-gray-50 border-2 rounded-md",
+            "right-0 bg-gray-50 border-2 rounded-lg",
             "p-1 border-gray-200 shadow-sm mt-1")}>
               {
                 defaultValue && value.id !== defaultValue.id && <>

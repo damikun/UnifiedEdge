@@ -433,7 +433,7 @@ export default function MqttExplorerPublishMessage(){
         <FieldSection variant="flex-col" name="Message">
           <AnimatePresence>
             <div className={clsx("flex h-96 w-full relative border",
-            "bg-white rounded-md border",
+            "bg-white rounded-lg border",
             formik_publish.errors.payload
             ? " border-red-500 "
             : clsx(

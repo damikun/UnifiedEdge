@@ -31,9 +31,9 @@ export type StayledButtonPorps = {
 
 export const ROUNDING = {
   none: "rounded-none",
-  small: "rounded-md ",
+  small: "rounded-lg ",
   normal: "rounded",
-  medium: "rounded-md ",
+  medium: "rounded-lg ",
   large: "rounded-lg ",
   extra: "rounded-xl",
   full: "rounded-full",

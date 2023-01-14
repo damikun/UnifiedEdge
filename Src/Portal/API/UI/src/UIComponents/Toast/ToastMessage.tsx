@@ -90,7 +90,7 @@ export default function ToastMessage({
     <div
       className={clsx(
         "flex w-full visible flex-row shadow-lg",
-        "border-l-4 rounded-md duration-100 cursor-pointer",
+        "border-l-4 rounded-lg duration-100 cursor-pointer",
         "hover:bg-gray-50",
         Var.base,
         type && "max-h-40"

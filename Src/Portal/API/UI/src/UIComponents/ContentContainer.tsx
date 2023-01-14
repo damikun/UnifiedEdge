@@ -29,7 +29,7 @@ export default function ContentContainer({
       id={id ? id : "__ModalContainer"}
       className={clsx(
         "flex w-full text-xs md:text-sm",
-        "select-text my-auto rounded-md shadow-xl",
+        "select-text my-auto rounded-lg shadow-xl",
         "flex-grow bg-white items-center",
         className ? className : "flex w-auto md:w-md lg:w-lg xl:w-xl"
       )}

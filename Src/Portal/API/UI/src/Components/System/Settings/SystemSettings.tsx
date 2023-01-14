@@ -42,7 +42,7 @@ function SystemSettings({dataRef}:SystemSettingsProps) {
       name="System"
       component={
         <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-        "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2")}>
+        "border border-gray-200 rounded-lg shadow-sm pt-2 p-5 space-y-2")}>
           <div className="max-w-lg w-full py-3">
 
             <EdgeName dataRef={data?.edgeInfo}/>

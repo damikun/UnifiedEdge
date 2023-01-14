@@ -52,7 +52,7 @@ type ApiGraphqlProps = {
 
 function ApiGraphql({}:ApiGraphqlProps) {
 
-  return <div className={clsx("flex w-full h-128 2xl:h-160 rounded-md",
+  return <div className={clsx("flex w-full h-128 2xl:h-160 rounded-lg",
     "overflow-hidden border-gray-100 shadow-sm")}>
     <GraphiQL
       defaultQuery={defaultQuery}

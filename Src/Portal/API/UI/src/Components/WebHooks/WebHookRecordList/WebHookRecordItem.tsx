@@ -55,7 +55,7 @@ export function WebHookRecordItem({dataRef, onItemClick,key_}:WebHookRecordItemP
       <div
         className={clsx(
           "flex py-0.5 truncate-1-lines",
-          "break-all rounded-md font-semibold",
+          "break-all rounded-lg font-semibold",
           "whitespace-pre capitalize text-sm"
         )}
       >
@@ -135,7 +135,7 @@ export function StatusCodeSection({ status }: StatusCodeSectionProps) {
     <div
       className={clsx(
         "px-1.5 py-0.5 flex leading-none truncate-1-lines",
-        "break-all rounded-md font-semibold text-xs w-10 text-center justify-center",
+        "break-all rounded-lg font-semibold text-xs w-10 text-center justify-center",
         status_style
       )}
     >

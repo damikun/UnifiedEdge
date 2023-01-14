@@ -36,7 +36,7 @@ export default function UserMenu() {
         leaveTo="transform scale-95 opacity-0"
         >
          <Menu.Items className={clsx("absolute p-3 flex flex-col right-0 mt-2 w-56",
-         "origin-top-right d rounded-md bg-white",
+         "origin-top-right d rounded-lg bg-white",
          "shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50")}>
           <Menu.Item disabled>
             <span className={clsx("opacity-75 text-center capitalize font-bold",
@@ -49,7 +49,7 @@ export default function UserMenu() {
             userStore.user?.me?.id && <Menu.Item>
               {({ active }) => (
                 <Link
-                  className={clsx(active &&"bg-gray-50","py-2 rounded-md p-2")}
+                  className={clsx(active &&"bg-gray-50","py-2 rounded-lg p-2")}
                   to={`/Users/User/${userStore.user?.me?.id}`}
                 >
                   <div className="flex justify-start w-full items-center space-x-3">
@@ -72,7 +72,7 @@ export default function UserMenu() {
             {({ active }) => (
               
               <Link
-                className={clsx(active &&"bg-gray-50","py-2 rounded-md p-2")}
+                className={clsx(active &&"bg-gray-50","py-2 rounded-lg p-2")}
                 to="/Logout"
               >
                 <div className="flex justify-start w-full items-center space-x-3">

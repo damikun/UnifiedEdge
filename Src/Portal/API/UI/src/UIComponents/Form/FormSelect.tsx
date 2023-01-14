@@ -15,7 +15,7 @@ export default function FormSelect({label,error,children, ...rest}:FormSelectPro
     <label className="font-semibold text-base">{label}</label>
 
     <select {...rest} className={clsx("bg-gray-50 border",
-    "rounded-md block w-full p-1 my-2 text-gray-600 h-10",
+    "rounded-lg block w-full p-1 my-2 text-gray-600 h-10",
     "focus:text-gray-700 shadow-sm outline-none focus:outline-none",
     "focus:bg-white focus-within:bg-white text-base font-semibold",
     error 

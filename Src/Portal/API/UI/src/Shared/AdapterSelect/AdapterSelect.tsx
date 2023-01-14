@@ -84,7 +84,7 @@ export function AdapterSelect({selected_id,error,dataRef,disable,onSelect}:Adapt
     )
     
     return (
-    <div className={clsx("mx-auto w-full", error && "ring-red-500 ring-2 rounded-md")}>
+    <div className={clsx("mx-auto w-full", error && "ring-red-500 ring-2 rounded-lg")}>
         <RadioGroup disabled={disable} value={selected} onChange={handleSelect}>
         <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
         <div className="space-y-2">

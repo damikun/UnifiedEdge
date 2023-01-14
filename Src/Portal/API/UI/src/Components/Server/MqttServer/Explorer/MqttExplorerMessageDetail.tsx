@@ -90,7 +90,7 @@ function MessageSection({message}:MessageSectionProps){
     <pre
   className={clsx("text-gray-800 resize-none whitespace-pre-wrap",
   "flex p-2 m-1 focus:outline-none font-mono w-full h-full text-sm",
-  "flex-nowrap border bg-white rounded-md items-center select-text")}
+  "flex-nowrap border bg-white rounded-lg items-center select-text")}
   >
     {beautifyed}
   </pre>

@@ -83,7 +83,7 @@ function NetworkDefaultAdapter({dataRef}:NetworkDefaultAdapterProps) {
           <div
             onClick={(handleModalOpen)} 
             className={clsx("p-2 px-3 cursor-pointer text-gray-800",
-            "border-gray-300 rounded-md max-w-md border shadow-sm",
+            "border-gray-300 rounded-lg max-w-md border shadow-sm",
             "flex flex-row space-x-2 bg-gray-50 hover:bg-gray-200")}>
             <div className="truncate break-all underline font-semibold">
               Set default adapter

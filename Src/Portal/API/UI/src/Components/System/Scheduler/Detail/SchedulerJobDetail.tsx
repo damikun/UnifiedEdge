@@ -61,7 +61,7 @@ export function SchedulerJobDetail({jobId}:SchedulerJobDetailProps){
     
     function ModalContainer({children,label}:ModalContainerProps){
         return <div className={clsx("flex flex-col w-full h-full",
-        "bg-gray-50 z-50 rounded-md shadow-sm overflow-hidden")}>
+        "bg-gray-50 z-50 rounded-lg shadow-sm overflow-hidden")}>
             <ModalHeader label={label}/>
             <div className="p-5 xl:p-7">
                 <div className="px-3 pb-2 w-fullflex-clex-col">

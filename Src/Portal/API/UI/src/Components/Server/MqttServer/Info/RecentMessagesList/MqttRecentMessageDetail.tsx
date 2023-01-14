@@ -256,7 +256,7 @@ function JsonSection({ rawData }: JsonSectionProps) {
 
   return (
     <FieldGroup className="w-full">
-      <div className={clsx("rounded-md p-3 bg-gray-50",
+      <div className={clsx("rounded-lg p-3 bg-gray-50",
         "shadow-sm border border-gray-300 w-full")}>
         <div className={clsx("flex overflow-x-scroll overflow-y-auto",
         "text-xs h-full break-all flex-wrap max-w-full")}>
@@ -289,7 +289,7 @@ function TextSection({ rawData }: TextSectionProps) {
   return (
     <div className={clsx("flex w-full h-full max-h-96 overflow-y-scroll",
       "overflow-x-hidden border border-gray-200 shadow-sm",
-      "p-2 md:p-5 bg-gray-50 rounded-md")}>
+      "p-2 md:p-5 bg-gray-50 rounded-lg")}>
       <div className="break-all whitespace-pre-wrap font-mono select-text">
         {rawData}
       </div>

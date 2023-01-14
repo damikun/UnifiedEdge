@@ -93,7 +93,7 @@ type MessageContainerProps = {
 
     <div onClick={onClickHandler} 
       className={clsx("flex flex-col bg-opacity-70 break-all cursor-pointer",
-      "rounded-md min-h-32 max-h-fit backdrop-blur-sm shadow-sm",
+      "rounded-lg min-h-32 max-h-fit backdrop-blur-sm shadow-sm",
       "overflow-x-hidden py-2 px-3 border-gray-200 border",
       "hover:ring-2 ring-gray-500 transition duration-200",
       type === "in" && "bg-gray-200 text-gray-700",
@@ -130,7 +130,7 @@ function PayloadSection({ data }: PayloadSectionProps) {
   return <pre
   className={clsx("text-gray-800 resize-none whitespace-pre-wrap",
   "flex p-2 m-1 focus:outline-none font-mono w-full h-full text-sm",
-  "flex-nowrap border bg-white rounded-md items-center")}
+  "flex-nowrap border bg-white rounded-lg items-center")}
   >
     {beautifyed}
   </pre>

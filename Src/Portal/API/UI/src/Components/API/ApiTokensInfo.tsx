@@ -8,7 +8,7 @@ export default React.memo(ApiTokensInfo)
 function ApiTokensInfo() {
 
   return  <div className={clsx("flex bg-gray-50 flex-col w-full pt-4",
-  "border border-gray-200 rounded-md shadow-sm pt-2 p-5 space-y-2",)}>
+  "border border-gray-200 rounded-lg shadow-sm pt-2 p-5 space-y-2",)}>
     <div className="w-full py-3 flex flex-col space-y-2">
 
       <div className="flex flex-row items-center justify-between">
