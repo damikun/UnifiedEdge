@@ -1,4 +1,5 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import { PreloadedQuery } from "react-relay";
 import { graphQLSelector } from "recoil-relay";
 import { VariablesOf } from "react-relay/hooks";
@@ -31,6 +32,11 @@ export const currentUserQuery = graphQLSelector<
   variables: {},
   mapResponse: data => data
 });
+
+export const useUser = () => {
+  const user = useRecoilValue(currentUserQuery)
+  return user
+}
 
 export type UserProviderProps = {
   children?: React.ReactNode;

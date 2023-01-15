@@ -1,15 +1,14 @@
 import clsx from "clsx";
-import { useRecoilValue } from "recoil";
+import { useUser } from "../../Utils/UserProvider";
 import { Link } from "../../UIComponents/Link/Link";
 import { Menu, Transition } from "@headlessui/react";
-import { currentUserQuery } from "../../Utils/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function UserMenu() {
 
-  const user = useRecoilValue(currentUserQuery);
+  const user = useUser();
 
   if(user?.me == null){
     return null

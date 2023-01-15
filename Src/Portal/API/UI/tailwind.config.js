@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'explorer-background': "linear-gradient(rgba(248, 250, 252, 0.8), rgba(248, 250, 252, 0.95)), url('/public/images/explorer_background.png')",
-        'info-background': "linear-gradient(to right,rgba(248, 250, 252, 1),rgba(248, 250, 252, 0.99), rgba(248, 250, 252, 0.95)), url('/public/images/info.png')",
+        'info-background': "linear-gradient(to right,rgba(248, 250, 252, 1),rgba(248, 250, 252, 0.99), rgba(248, 250, 252, 0.90)), url('/public/images/info.png')",
       },
       keyframes: {
         wiggle: {

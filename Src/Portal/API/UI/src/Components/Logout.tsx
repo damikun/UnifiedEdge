@@ -1,11 +1,10 @@
 import {  useEffect } from "react";
-import { useRecoilValue } from "recoil";
 import { LOGOUT_ENDPOINT } from "../constants";
-import { currentUserQuery } from "../Utils/UserProvider";
+import {useUser } from "../Utils/UserProvider";
 
 export default function Logout() {
 
-  const user = useRecoilValue(currentUserQuery);
+  const user = useUser();
     
       useEffect(() => {
         if(user?.me?.sessionId){

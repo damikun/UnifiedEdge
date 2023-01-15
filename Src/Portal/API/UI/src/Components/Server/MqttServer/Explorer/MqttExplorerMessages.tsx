@@ -26,6 +26,7 @@ const MqttExplorerMessageDetail = lazy(
     )
 );
 
+
 export default React.memo(MqttExplorerMessages)
 
 function MqttExplorerMessages() {
@@ -88,7 +89,7 @@ function MqttExplorerMessages() {
         <div ref={containerRef} 
         onScroll={handleScroll}
         className={clsx("flex h-96 lg:h-auto max-h-fit flex-col w-full p-2",
-        "border border-gray-200 rounded-lg shadow-sm relative space-y-5",
+        "border border-gray-200 rounded-md shadow-sm relative space-y-5",
         "overflow-y-scroll overflow-x-hidden bg-gray-50",
         "bg-explorer-background bg-contain")}>
             <AnimatePresence>

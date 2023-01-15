@@ -2,16 +2,15 @@ import clsx from "clsx";
 import UserRemove from "./UserRemove";
 import React, { useMemo } from "react";
 import SetPassword from "./SetPassword";
-import { useRecoilValue } from "recoil";
 import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import UserAdminSetting from "./UserAdminSetting";
 import UserActivSetting from "./UserActivSetting";
 import { graphql } from "babel-plugin-relay/macro";
+import { useUser } from "../../../../Utils/UserProvider";
 import UserLastNameSetting from "./UserLastNameSetting";
 import UserFirstNameSetting from "./UserFirstNameSetting";
 import Section from "../../../../UIComponents/Section/Section";
-import { currentUserQuery } from "../../../../Utils/UserProvider";
 import SectionBody from "../../../../UIComponents/Section/SectionBody";
 import { UserSettingsQuery } from "./__generated__/UserSettingsQuery.graphql";
 
@@ -47,7 +46,7 @@ function UserSettings() {
 
   const { id }: any = useParams<string>();
 
-  const user = useRecoilValue(currentUserQuery);
+  const user = useUser();
 
   const data = useLazyLoadQuery<UserSettingsQuery>(
     UserSettingsQueryTag,

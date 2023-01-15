@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import UserMenu from "./UserMenu";
-import { useRecoilValue } from "recoil";
-import { currentUserQuery } from "../../Utils/UserProvider";
+import { useUser } from "../../Utils/UserProvider";
+
 
 export default function Header(){
     return <div className={clsx("flex sticky top-0 h-16 bg-gradient-to-t",
@@ -13,7 +13,7 @@ export default function Header(){
 
 function UserInfo(){
 
-    const user = useRecoilValue(currentUserQuery);
+    const user = useUser();
 
     if(user?.me == null){
         return null
