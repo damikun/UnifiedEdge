@@ -136,11 +136,3 @@ export const URL_REGEX =
   /^((https:|http:|[/][/]|www.)([a-z]|[A-Z]|[:0-9]|[/.])*)$/;
 
 export const SEARCH_SEPARATORS = [" ", "\\(", "\\)", "/"];
-
-export function SplitSearchStr(value: string) {
-  return value
-    .replace(/\s+/g, " ") // clean duplicate whitespaces
-    .trim() // Trim end/start
-    .split(new RegExp(SEARCH_SEPARATORS.join("|"), "g")) // split to array of search terms
-    .filter((e) => e !== "" && e !== " ");
-}
