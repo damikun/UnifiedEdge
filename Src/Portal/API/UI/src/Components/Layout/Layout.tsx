@@ -10,13 +10,13 @@ import { faDesktop, faEthernet, faGear, faInfo, faPlug, faServer, faSignal, faUs
 
 
 export default function Layout(){
-    const [storageState, setStorageState] = useLocalStorage<boolean>("sidebar",true);
+    const [sidebarState, setSidebarState] = useLocalStorage<boolean>("sidebar",true);
 
     const handleMenuButton = useCallback(
       () => {
-        setStorageState(!storageState)
+        setSidebarState(!sidebarState)
       },
-      [setStorageState,storageState],
+      [setSidebarState,sidebarState],
     )
 
     return <div className={clsx("h-screen w-screen bg-gradient-to-t to-slate-50",
@@ -25,10 +25,10 @@ export default function Layout(){
             "overflow-hidden bg-gray-200 bg-opacity-50")}>
 
             <SideBar>
-                <MenuButton state={storageState} onClick={handleMenuButton}/>
+                <MenuButton state={sidebarState} onClick={handleMenuButton}/>
             </SideBar>
 
-            <MenuList state={storageState}>
+            <MenuList state={sidebarState}>
                 <MenuItem to="/Monitor" pattern="/Monitor/*" icon={faDesktop} name="Monitor" />
                 <MenuItem to="/WebHooks" pattern="/WebHooks/*" icon={faServer} name="WebHooks" />
                 {/* <MenuItem to="/Connections" icon={faLink} name="Connections" />
@@ -40,7 +40,7 @@ export default function Layout(){
                 <MenuItem to="/Info" icon={faInfo} name="Info" />
             </MenuList>
 
-            <BodyContainer state={storageState} />
+            <BodyContainer state={sidebarState} />
 
         </div>
     </div> 
