@@ -1,8 +1,8 @@
 using Server;
 using AutoMapper;
-using Persistence.Portal;
 using Domain.Server;
 using Server.Manager;
+using Persistence.Portal;
 using Server.Manager.Mqtt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -265,6 +265,24 @@ namespace Aplication.Services.ServerFascade
             var m = await GetManager(server_uid);
 
             return await m.IsConfigMatch(server_uid);
+        }
+
+        public async Task<IEnumerable<string>> GetManagedIds()
+        {
+            var managers = GetManagers();
+
+            List<string> ids = new List<string>();
+
+            foreach (var m in managers)
+            {
+                try
+                {
+                    ids.AddRange(await m.GetManagedServerIds());
+                }
+                catch { }
+            }
+
+            return ids.Distinct().ToHashSet();
         }
     }
 }

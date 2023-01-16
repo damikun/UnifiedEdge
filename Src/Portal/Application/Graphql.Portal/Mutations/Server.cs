@@ -87,6 +87,28 @@ namespace Aplication.Graphql.Mutations
             return (GQL_ServerState)state;
         }
 
+        /// <summary>
+        /// Process server group cmd
+        /// </summary>
+        /// <returns>bool</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_ServerGroupResult> ProcessServerGroupCmd(
+            GQL_ServerGroupCmd cmd,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper,
+            IResolverContext context)
+        {
+            var result = await mediator.Send(
+                new ProcessServerGroupCmd()
+                {
+                    Command = (ServerGroupCmd)cmd
+                }
+            );
+
+            return (GQL_ServerGroupResult)result;
+        }
 
         public class RemoveServerData
         {
@@ -176,7 +198,7 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
-        /// Set server Description
+        /// Set server Location
         /// </summary>
         [Error(typeof(ValidationError))]
         [Error(typeof(AuthorizationError))]

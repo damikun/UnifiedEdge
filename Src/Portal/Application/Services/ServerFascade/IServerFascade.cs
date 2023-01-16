@@ -38,6 +38,8 @@ namespace Aplication.Services.ServerFascade
 
         public Task<ServerState> State(string server_uid);
 
+        public Task<IEnumerable<string>> GetManagedIds();
+
         public Task<IServer?> UpdateServer(ServerCfgBase db_cfg, CancellationToken ct = default);
     }
 }

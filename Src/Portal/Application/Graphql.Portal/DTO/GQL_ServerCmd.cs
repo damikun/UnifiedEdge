@@ -7,4 +7,17 @@ namespace Aplication.DTO
         start,
         restart
     }
+
+    public enum GQL_ServerGroupCmd
+    {
+        stop,
+        start
+    }
+
+    public enum GQL_ServerGroupResult
+    {
+        done,
+        doneWithErrors,
+        failed
+    }
 }

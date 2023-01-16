@@ -34,8 +34,7 @@ export const currentUserQuery = graphQLSelector<
 });
 
 export const useUser = () => {
-  const user = useRecoilValue(currentUserQuery)
-  return user
+  return useRecoilValue(currentUserQuery)
 }
 
 export type UserProviderProps = {

@@ -1152,6 +1152,7 @@ type Mutation {
   enableRestApi(input: EnableRestApiInput!): EnableRestApiPayload!
   generateApiToken(input: GenerateApiTokenInput!): GenerateApiTokenPayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
+  processServerGroupCmd(input: ProcessServerGroupCmdInput!): ProcessServerGroupCmdPayload!
   publishMqttMessage(input: PublishMqttMessageInput!): PublishMqttMessagePayload!
   removeMqttAuthClient(input: RemoveMqttAuthClientInput!): RemoveMqttAuthClientPayload!
   removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
@@ -1204,6 +1205,12 @@ type PageInfo {
 type ProcessServerCmdPayload {
   errors: [ProcessServerCmdError!]
   gQL_ServerState: GQL_ServerState
+  query: Query!
+}
+
+type ProcessServerGroupCmdPayload {
+  errors: [ProcessServerGroupCmdError!]
+  gQL_ServerGroupResult: GQL_ServerGroupResult
   query: Query!
 }
 
@@ -1541,6 +1548,8 @@ union GenerateApiTokenError = ValidationError | AuthorizationError | InternalErr
 
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
+union ProcessServerGroupCmdError = ValidationError | AuthorizationError | InternalError
+
 union PublishMqttMessageError = ValidationError | AuthorizationError | InternalError
 
 union RemoveMqttAuthClientError = ValidationError | AuthorizationError | InternalError
@@ -1697,6 +1706,10 @@ input GenerateApiTokenInput {
 input ProcessServerCmdInput {
   cmd: GQL_ServerCmd!
   uid: ID!
+}
+
+input ProcessServerGroupCmdInput {
+  cmd: GQL_ServerGroupCmd!
 }
 
 input PublishMqttMessageInput {
@@ -1941,6 +1954,17 @@ enum GQL_ServerCmd {
   STOP
   START
   RESTART
+}
+
+enum GQL_ServerGroupCmd {
+  STOP
+  START
+}
+
+enum GQL_ServerGroupResult {
+  DONE
+  DONE_WITH_ERRORS
+  FAILED
 }
 
 enum GQL_ServerState {
