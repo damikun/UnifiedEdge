@@ -3,40 +3,38 @@ using AutoMapper;
 using Aplication.DTO;
 using Aplication.Core;
 using FluentValidation;
+using MediatR.Pipeline;
 using Persistence.Portal;
 using Aplication.Services;
 using Aplication.CQRS.Behaviours;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// Remove user scoped subscription
+    /// SetNotePublic
     /// </summary>
     [Authorize(Policy = "authenticated_user")]
-    public class RemoveMqttServerExplorerUserScopedSubs
-        : CommandBase<DTO_MqttExplorerSub>
+    public class SetNotePublic : CommandBase<DTO_Note>
     {
-        public long StoredSubId { get; set; }
+        public long NoteId { get; set; }
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// RemoveMqttServerExplorerUserScopedSubs Field Validator
+    /// Field validator - SetNotePublic
     /// </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsValidator
-        : AbstractValidator<RemoveMqttServerExplorerUserScopedSubs>
+    public class SetNotePublicValidator : AbstractValidator<SetNotePublic>
     {
-        /// <summary>
-        /// Injected <c>IDbContextFactory<ManagmentDbCtx> </c>
-        /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public RemoveMqttServerExplorerUserScopedSubsValidator(
+
+        public SetNotePublicValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
@@ -44,29 +42,28 @@ namespace Aplication.CQRS.Commands
 
             ClassLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(e => e.StoredSubId)
-                .MustAsync(StoredSubExist)
-                .WithMessage("Sub. not found");
+            RuleFor(e => e.NoteId)
+                .MustAsync(Exist);
         }
 
-        public async Task<bool> StoredSubExist(
-            long StoredSubId,
+        public async Task<bool> Exist(
+            long Id,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttExplorerSubs
-            .AnyAsync(e => e.Id == StoredSubId);
+            return await dbContext.Notes
+                .AnyAsync(e => e.Id == Id);
         }
     }
 
     /// <summary>
-    /// RemoveMqttServerExplorerUserScopedSubs Field Authorization validator
+    /// Authorization validators - SetNotePublic
     /// </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsAuthorizationValidator
-        : AuthorizationValidator<RemoveMqttServerExplorerUserScopedSubs>
+    public class SetNotePublicAuthorizationValidator
+        : AuthorizationValidator<SetNotePublic>
     {
         /// <summary>
         /// Injected <c>ICurrentUser</c>
@@ -78,8 +75,7 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-
-        public RemoveMqttServerExplorerUserScopedSubsAuthorizationValidator(
+        public SetNotePublicAuthorizationValidator(
             ICurrentUser current_user,
             IDbContextFactory<ManagmentDbCtx> factory
         )
@@ -95,11 +91,11 @@ namespace Aplication.CQRS.Commands
             .WithMessage("Missing user profile data");
 
             RuleFor(e => e)
-            .MustAsync(SubjectIdPairedWithSubscription)
+            .MustAsync(SubjectIdPairedWithNote)
             .WithMessage("You are not resource owner");
         }
 
-        public bool ExistValidUserSubId(RemoveMqttServerExplorerUserScopedSubs command)
+        public bool ExistValidUserSubId(SetNotePublic command)
         {
             if (string.IsNullOrWhiteSpace(_current_user.UserId))
             {
@@ -109,34 +105,33 @@ namespace Aplication.CQRS.Commands
             return true;
         }
 
-        public async Task<bool> SubjectIdPairedWithSubscription(
-            RemoveMqttServerExplorerUserScopedSubs command,
+        public async Task<bool> SubjectIdPairedWithNote(
+            SetNotePublic command,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            return await dbContext.MqttExplorerSubs
+            return await dbContext.Notes
+            .Where(e => e.Id == command.NoteId)
             .AnyAsync(e =>
-                e.Id == command.StoredSubId &&
-                e.UserUid == _current_user.UserId
+                (e.isPrivate == false) ||
+                (
+                e.isPrivate &&
+                e.CreatedBy == _current_user.UserId
+                )
             );
         }
-
     }
 
+
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>RemoveMqttServerExplorerUserScopedSubs</c> command </summary>
-    public class RemoveMqttServerExplorerUserScopedSubsHandler
-        : IRequestHandler<RemoveMqttServerExplorerUserScopedSubs, DTO_MqttExplorerSub>
+    /// <summary>Handler for <c>SetNotePublicHandler</c> command </summary>
+    public class SetNotePublicHandler : IRequestHandler<SetNotePublic, DTO_Note>
     {
-        /// <summary>
-        /// Injected <c>IDbContextFactory<ManagmentDbCtx></c>
-        /// </summary>
-        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         /// <summary>
         /// Injected <c>IMapper</c>
@@ -146,44 +141,85 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Injected <c>ICurrentUser</c>
         /// </summary>
-        private readonly ICurrentUser _current_user;
+        private readonly ICurrentUser _current;
+
+        /// <summary>
+        /// Injected <c>ManagmentDbCtx</c>
+        /// </summary>
+        private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
         /// <summary>
         /// Main constructor
         /// </summary>
-        public RemoveMqttServerExplorerUserScopedSubsHandler(
+        public SetNotePublicHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
-            ICurrentUser current_user
+            ICurrentUser current
         )
         {
-            _mapper = mapper;
-
             _factory = factory;
 
-            _current_user = current_user;
+            _current = current;
+
+            _mapper = mapper;
         }
 
         /// <summary>
-        /// Command handler for <c>RemoveMqttServerExplorerUserScopedSubs</c>
+        /// Command handler for <c>SetNotePublic</c>
         /// </summary>
-        public async Task<DTO_MqttExplorerSub> Handle(
-            RemoveMqttServerExplorerUserScopedSubs request,
+        public async Task<DTO_Note> Handle(
+            SetNotePublic request,
             CancellationToken cancellationToken
         )
         {
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var enity = await dbContext.MqttExplorerSubs
-            .Where(e => e.Id == request.StoredSubId)
+            var note = await dbContext.Notes.Where(e => e.Id == request.NoteId)
             .FirstAsync(cancellationToken);
 
-            dbContext.MqttExplorerSubs.Remove(enity);
+            note.isPrivate = false;
+
+            note.Updatedby = _current.UserId;
+
+            note.Updated = DateTime.Now;
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<DTO_MqttExplorerSub>(enity);
+            return _mapper.Map<DTO_Note>(note);
+        }
+
+    }
+
+    //---------------------------------------
+    //---------------------------------------
+
+
+    public class SetNotePublic_PostProcessor
+        : IRequestPostProcessor<SetNotePublic, DTO_Note>
+    {
+        /// <summary>
+        /// Injected <c>IPublisher</c>
+        /// </summary>
+        private readonly Aplication.Services.IPublisher _publisher;
+
+        public SetNotePublic_PostProcessor(
+            IMemoryCache cache,
+            Aplication.Services.IPublisher publisher)
+        {
+            _publisher = publisher;
+        }
+
+        public async Task Process(
+            SetNotePublic request,
+            DTO_Note response,
+            CancellationToken cancellationToken)
+        {
+            if (response != null)
+            {
+
+            }
         }
     }
+
 }

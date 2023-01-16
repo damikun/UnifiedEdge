@@ -61,6 +61,12 @@ type CreateMqttServerExplorerUserSubPayload {
   query: Query!
 }
 
+type CreateNotePayload {
+  errors: [CreateNoteError!]
+  gQL_Note: GQL_Note
+  query: Query!
+}
+
 type CreateServerPayload {
   errors: [CreateServerError!]
   gQL_IServer: GQL_IServer
@@ -787,6 +793,37 @@ type GQL_MqttTopicStats {
   messagesCount: Long!
 }
 
+type GQL_Note {
+  content: String
+  created: DateTime!
+  createdBy: GQL_User
+  id: ID!
+  isHighlighted: Boolean!
+  isPrivate: Boolean!
+  updated: DateTime!
+  updatedby: GQL_User
+}
+
+"A connection to a list of items."
+type GQL_NoteConnection {
+  "A list of edges."
+  edges: [GQL_NoteEdge!]
+  "A flattened list of the nodes."
+  nodes: [GQL_Note]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type GQL_NoteEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GQL_Note
+}
+
 type GQL_OS {
   isBrowser: Boolean!
   platform: PlatformID!
@@ -1120,6 +1157,12 @@ type GenerateApiTokenPayload {
   query: Query!
 }
 
+type HighlightNotePayload {
+  errors: [HighlightNoteError!]
+  gQL_Note: GQL_Note
+  query: Query!
+}
+
 type HistorianRecord {
   timeStamp: DateTime
   value: Any
@@ -1139,6 +1182,7 @@ type Mutation {
   createMqttAuthClient(input: CreateMqttAuthClientInput!): CreateMqttAuthClientPayload!
   createMqttAuthUser(input: CreateMqttAuthUserInput!): CreateMqttAuthUserPayload!
   createMqttServerExplorerUserSub(input: CreateMqttServerExplorerUserSubInput!): CreateMqttServerExplorerUserSubPayload!
+  createNote(input: CreateNoteInput!): CreateNotePayload!
   createServer(request: CreateServerInput!): CreateServerPayload!
   createUser(input: CreateUserInput!): CreateUserPayload!
   createWebHook(input: CreateWebHookInput!): CreateWebHookPayload!
@@ -1151,6 +1195,7 @@ type Mutation {
   enableMqttUserAuth(input: EnableMqttUserAuthInput!): EnableMqttUserAuthPayload!
   enableRestApi(input: EnableRestApiInput!): EnableRestApiPayload!
   generateApiToken(input: GenerateApiTokenInput!): GenerateApiTokenPayload!
+  highlightNote(input: HighlightNoteInput!): HighlightNotePayload!
   processServerCmd(input: ProcessServerCmdInput!): ProcessServerCmdPayload!
   processServerGroupCmd(input: ProcessServerGroupCmdInput!): ProcessServerGroupCmdPayload!
   publishMqttMessage(input: PublishMqttMessageInput!): PublishMqttMessagePayload!
@@ -1158,6 +1203,7 @@ type Mutation {
   removeMqttAuthUser(input: RemoveMqttAuthUserInput!): RemoveMqttAuthUserPayload!
   removeMqttServerExplorerUserSub(input: RemoveMqttServerExplorerUserSubInput!): RemoveMqttServerExplorerUserSubPayload!
   removeMqttServerExplorerUserTemplate(input: RemoveMqttServerExplorerUserTemplateInput!): RemoveMqttServerExplorerUserTemplatePayload!
+  removeNote(input: RemoveNoteInput!): RemoveNotePayload!
   removeServer(input: RemoveServerInput!): RemoveServerPayload!
   removeUser(input: RemoveUserInput!): RemoveUserPayload!
   removeWebHook(input: RemoveWebHookInput!): RemoveWebHookPayload!
@@ -1175,11 +1221,13 @@ type Mutation {
   setMqttServerClientMaxPendingMessages(input: SetMqttServerClientMaxPendingMessagesInput!): SetMqttServerClientMaxPendingMessagesPayload!
   setMqttServerClientPresistSession(input: SetMqttServerClientPresistSessionInput!): SetMqttServerClientPresistSessionPayload!
   setMqttServerEndpoint(input: SetMqttServerEndpointInput!): SetMqttServerEndpointPayload!
+  setNotePublic(input: SetNotePublicInput!): SetNotePublicPayload!
   setServerDescription(input: SetServerDescriptionInput!): SetServerDescriptionPayload!
   setServerLocation(input: SetServerLocationInput!): SetServerLocationPayload!
   setServerName(input: SetServerNameInput!): SetServerNamePayload!
   setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
   setUserPassword(input: SetUserPasswordInput!): SetUserPasswordPayload!
+  updateNote(input: UpdateNoteInput!): UpdateNotePayload!
   updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
   updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
   updateUserLastName(input: UpdateUserLastNameInput!): UpdateUserLastNamePayload!
@@ -1261,6 +1309,8 @@ type Query {
   node("ID of the object." id: ID!): Node
   "Lookup nodes by a list of IDs."
   nodes("The list of node IDs." ids: [ID!]!): [Node]!
+  noteById(note_id: ID!): GQL_Note!
+  notes("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: NoteFilter! "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_NoteConnection
   recurringJob(jobid: ID!): GQL_RecurringJob!
   recurringJobs("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): GQL_RecurringJobConnection
   runtimeMetrics: GQL_RuntimeMetrics!
@@ -1305,6 +1355,12 @@ type RemoveMqttServerExplorerUserSubPayload {
 type RemoveMqttServerExplorerUserTemplatePayload {
   errors: [RemoveMqttServerExplorerUserTemplateError!]
   gQL_MqttMessageTemplate: GQL_MqttMessageTemplate
+  query: Query!
+}
+
+type RemoveNotePayload {
+  errors: [RemoveNoteError!]
+  gQL_Note: GQL_Note
   query: Query!
 }
 
@@ -1414,6 +1470,12 @@ type SetMqttServerEndpointPayload {
   query: Query!
 }
 
+type SetNotePublicPayload {
+  errors: [SetNotePublicError!]
+  gQL_Note: GQL_Note
+  query: Query!
+}
+
 type SetServerDescriptionPayload {
   errors: [SetServerDescriptionError!]
   gQL_IServer: GQL_IServer
@@ -1458,6 +1520,12 @@ type Subscription {
   serverStateChanged(server_id: ID!): GQL_ServerStateChangedNotification!
   systemTime: DateTime!
   uptime: GQL_Uptime!
+}
+
+type UpdateNotePayload {
+  errors: [UpdateNoteError!]
+  gQL_Note: GQL_Note
+  query: Query!
 }
 
 type UpdateUserEnabledPayload {
@@ -1520,6 +1588,8 @@ union CreateMqttAuthUserError = ValidationError | AuthorizationError | InternalE
 
 union CreateMqttServerExplorerUserSubError = ValidationError | AuthorizationError | InternalError
 
+union CreateNoteError = ValidationError | AuthorizationError | InternalError
+
 union CreateServerError = ValidationError | AuthorizationError | InternalError
 
 union CreateUserError = ValidationError | AuthorizationError | InternalError
@@ -1546,6 +1616,8 @@ union GQL_IServerEventUnion = GQL_ClientConnected | GQL_ServerConfigDiffEvent | 
 
 union GenerateApiTokenError = ValidationError | AuthorizationError | InternalError
 
+union HighlightNoteError = ValidationError | AuthorizationError | InternalError
+
 union ProcessServerCmdError = ValidationError | AuthorizationError | InternalError
 
 union ProcessServerGroupCmdError = ValidationError | AuthorizationError | InternalError
@@ -1559,6 +1631,8 @@ union RemoveMqttAuthUserError = ValidationError | AuthorizationError | InternalE
 union RemoveMqttServerExplorerUserSubError = ValidationError | AuthorizationError | InternalError
 
 union RemoveMqttServerExplorerUserTemplateError = ValidationError | AuthorizationError | InternalError
+
+union RemoveNoteError = ValidationError | AuthorizationError | InternalError
 
 union RemoveServerError = ValidationError | AuthorizationError | InternalError
 
@@ -1594,6 +1668,8 @@ union SetMqttServerClientPresistSessionError = ValidationError | AuthorizationEr
 
 union SetMqttServerEndpointError = ValidationError | AuthorizationError | InternalError
 
+union SetNotePublicError = ValidationError | AuthorizationError | InternalError
+
 union SetServerDescriptionError = ValidationError | AuthorizationError | InternalError
 
 union SetServerLocationError = ValidationError | AuthorizationError | InternalError
@@ -1603,6 +1679,8 @@ union SetServerNameError = ValidationError | AuthorizationError | InternalError
 union SetUserAdminError = ValidationError | AuthorizationError | InternalError
 
 union SetUserPasswordError = ValidationError | AuthorizationError | InternalError
+
+union UpdateNoteError = ValidationError | AuthorizationError | InternalError
 
 union UpdateUserEnabledError = ValidationError | AuthorizationError | InternalError
 
@@ -1636,6 +1714,11 @@ input CreateMqttServerExplorerUserSubInput {
   noLocal: Boolean!
   server_uid: ID!
   topic: String!
+}
+
+input CreateNoteInput {
+  data: String!
+  isPrivate: Boolean!
 }
 
 input CreateServerInput {
@@ -1703,6 +1786,11 @@ input GenerateApiTokenInput {
   scope: TokenSkope! = VIEW
 }
 
+input HighlightNoteInput {
+  highlight: Boolean!
+  noteId: ID!
+}
+
 input ProcessServerCmdInput {
   cmd: GQL_ServerCmd!
   uid: ID!
@@ -1736,6 +1824,10 @@ input RemoveMqttServerExplorerUserSubInput {
 
 input RemoveMqttServerExplorerUserTemplateInput {
   template_id: ID!
+}
+
+input RemoveNoteInput {
+  noteId: ID!
 }
 
 input RemoveServerInput {
@@ -1820,6 +1912,10 @@ input SetMqttServerEndpointInput {
   server_uid: ID!
 }
 
+input SetNotePublicInput {
+  noteId: ID!
+}
+
 input SetServerDescriptionInput {
   description: String!
   id: ID!
@@ -1844,6 +1940,11 @@ input SetUserPasswordInput {
   current_password: String!
   new_password: String!
   user_id: ID!
+}
+
+input UpdateNoteInput {
+  data: String!
+  noteId: ID!
 }
 
 input UpdateUserEnabledInput {
@@ -2068,6 +2169,12 @@ enum NetworkInterfaceType {
   WMAN
   WWANPP
   WWANPP2
+}
+
+enum NoteFilter {
+  ALL
+  PUBLIC_ONLY
+  PRIVATE_ONLY
 }
 
 enum PlatformID {

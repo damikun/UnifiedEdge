@@ -11,7 +11,7 @@ using Persistence.Portal;
 namespace Persistence.Portal.Migrations
 {
     [DbContext(typeof(ManagmentDbCtx))]
-    [Migration("20230113182704_Init")]
+    [Migration("20230116124551_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -64,9 +64,44 @@ namespace Persistence.Portal.Migrations
                             Id = 1,
                             ApiGraphql = false,
                             ApiRest = false,
-                            Guid = "4dde4d02-dbe8-4f0f-8227-8be3b67101b3",
+                            Guid = "90fca265-3aa9-4459-9216-f158ea00bf2b",
                             Name = "Undefined"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Note", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Updatedby")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isDraft")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("isHighlighted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("isPrivate")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("Domain.Server.AdapterEvent", b =>

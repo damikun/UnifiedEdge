@@ -79,11 +79,13 @@ namespace API
                     .AddTypeExtension<UserQueries>()
                     .AddTypeExtension<GlobalQueries>()
                     .AddTypeExtension<ServerQueries>()
+                    .AddTypeExtension<NotesQueries>()
                     .AddTypeExtension<SchedulerQueries>()
                 .AddMutationType<MutationType>()
                     .AddTypeExtension<TestMutations>()
                     .AddTypeExtension<MqttMutations>()
                     .AddTypeExtension<OpcMutations>()
+                    .AddTypeExtension<NotesMutations>()
                     .AddTypeExtension<ServerMutations>()
                     .AddTypeExtension<EdgeMutations>()
                     .AddTypeExtension<UserMutations>()
@@ -104,6 +106,8 @@ namespace API
                 .AddType<MetricType>()
                 .AddType<RuntimeMetricsType>()
                 .AddType<RuntimeMetricsSourceType>()
+
+                .AddType<NoteType>()
 
                 .AddType<DefaultAdapterType>()
                 .AddType<FailedJobType>()

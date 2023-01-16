@@ -18,6 +18,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Create mqtt message template
     /// </summary>
+    [Authorize]
     public class SaveMqttMessageTemplate
         : CommandBase<DTO_MqttMessageTemplate>
     {

@@ -87,6 +87,26 @@ namespace Persistence.Portal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notes",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    isPrivate = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isDraft = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isHighlighted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Updated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Updatedby = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServerCfg",
                 columns: table => new
                 {
@@ -452,7 +472,7 @@ namespace Persistence.Portal.Migrations
             migrationBuilder.InsertData(
                 table: "Edge",
                 columns: new[] { "Id", "ApiGraphql", "ApiRest", "DefaultAdapterId", "Description", "Guid", "Location1", "Location2", "Location3", "Name" },
-                values: new object[] { 1, false, false, null, null, "4dde4d02-dbe8-4f0f-8227-8be3b67101b3", null, null, null, "Undefined" });
+                values: new object[] { 1, false, false, null, null, "90fca265-3aa9-4459-9216-f158ea00bf2b", null, null, null, "Undefined" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdapterEvents_AdapterId",
@@ -564,6 +584,9 @@ namespace Persistence.Portal.Migrations
 
             migrationBuilder.DropTable(
                 name: "MqttServerCfg");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "OpcServer");

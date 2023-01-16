@@ -15,6 +15,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Remove stored message template
     /// </summary>
+    [Authorize]
     public class RemoveMqttExplorerMessageTemplate
         : CommandBase<DTO_MqttMessageTemplate>
     {

@@ -17,6 +17,7 @@ namespace Aplication.CQRS.Commands
     /// <summary>
     /// Publish mqtt server message (inject message)
     /// </summary>
+    [Authorize(Policy = "authenticated_user")]
     public class CreateMqttServerExplorerUserScopedSubs
         : CommandBase<DTO_MqttExplorerSub>
     {

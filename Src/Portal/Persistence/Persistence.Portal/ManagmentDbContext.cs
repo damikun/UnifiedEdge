@@ -39,6 +39,8 @@ namespace Persistence.Portal
 
         public DbSet<MqttMessageTemplate> MqttMessageTemplates { get; set; }
 
+        public DbSet<Note> Notes { get; set; }
+
         public DbSet<Edge> Edge { get; set; }
 
         public ManagmentDbCtx(
