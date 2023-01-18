@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import MenuButton from "./MenuButton";
 import BodyContainer from "./BodyContainer";
 import { useLocalStorage } from "../../Utils/LocalStorage";
-import { faDesktop, faEthernet, faGear, faInfo, faPlug, faServer, faSignal, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faDesktop, faEthernet, faGear, faInfo, faNoteSticky, faPlug, faServer, faSignal, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function Layout(){
@@ -34,9 +34,10 @@ export default function Layout(){
                 {/* <MenuItem to="/Connections" icon={faLink} name="Connections" />
                 <MenuItem to="/Analytics" icon={faChartLine} name="Analytics" />
                 <MenuItem to="/Alarms" icon={faTriangleExclamation} name="Alarms" /> */}
-                <MenuItem to="/Users" icon={faUsers} name="Users" />
+                <MenuItem to="/Users" pattern="/Users/*" icon={faUsers} name="Users" />
                 <MenuItem to="/System" pattern="/System/*" icon={faGear} name="System" />
                 <MenuItem to="/Api" pattern="/Api/*" icon={faPlug} name="API" />
+                <MenuItem to="/Documents" pattern="/Documents/*" icon={faNoteSticky} name="Documents" />
                 <MenuItem to="/Info" icon={faInfo} name="Info" />
             </MenuList>
 

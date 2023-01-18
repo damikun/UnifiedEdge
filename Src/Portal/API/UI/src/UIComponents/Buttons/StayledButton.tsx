@@ -233,7 +233,9 @@ function StayledButton({
         {isloadingDebounced ? (
           <FontAwesomeIcon size="xs" className="animate-spin text-xs max-w-fit" icon={faSpinner} />
         ) : (
-          <div className="flex flex-row flex-nowrap space-x-2 leading-none justify-center items-center">
+          <div className={clsx("flex flex-row flex-nowrap",
+          onMobileIconOnly ? "md:space-x-2" :"space-x-2",
+          "leading-none justify-center items-center")}>
             {iconLeft && <FontAwesomeIcon icon={iconLeft} />}
 
             {!iconOnly && children && (

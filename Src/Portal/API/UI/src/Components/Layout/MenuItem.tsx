@@ -56,4 +56,3 @@ export default function MenuItem({name,to,pattern,icon}:MenuItemProps){
         </Link>
     )
 }
-

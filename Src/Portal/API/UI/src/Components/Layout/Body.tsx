@@ -8,6 +8,27 @@ const API = lazy(
     )
 );
 
+const Documents = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Notes" */ "../Documents/Documents"
+    )
+);
+
+const Note = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Note" */ "../Documents/Note"
+    )
+);
+
+const NewNote = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "NewNote" */ "../Documents/NewNote"
+    )
+);
+
 const User = lazy(
   () =>
     import(
@@ -102,6 +123,9 @@ export default function Body(){
           <Route path="/Monitor/Adapter/:id/*" element={<Adapter/>} />
           <Route path="/WebHooks/" element={<WebHooks/>} />
           <Route path="/WebHooks/Hook/:id/*" element={<WebHook/>} />
+          <Route path="/Documents/" element={<Documents/>} />
+          <Route path="/Documents/Notes/Note/:id/*" element={<Note/>} />
+          <Route path="/Documents/Notes/New/*" element={<NewNote/>} />
           <Route path="/API/*" element={<API/>} />
           <Route path="/Users/" element={<Users/>} />
           <Route path="/Users/User/:id/*" element={<User/>} />

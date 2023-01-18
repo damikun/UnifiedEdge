@@ -10,6 +10,10 @@ namespace Aplication.DTO
 
         public bool isPrivate { get; set; }
 
+#nullable disable
+        public string Name { get; set; }
+#nullable enable
+
         public bool isHighlighted { get; set; }
 
         public DateTime Created { get; set; }

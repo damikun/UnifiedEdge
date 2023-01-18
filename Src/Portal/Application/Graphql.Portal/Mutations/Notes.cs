@@ -27,6 +27,7 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(AuthorizationError))]
         [Error(typeof(InternalError))]
         public async Task<GQL_Note> CreateNote(
+            string name,
             string data,
             bool isPrivate,
             [Service] IMediator mediator,
@@ -35,6 +36,7 @@ namespace Aplication.Graphql.Mutations
         {
             var dto = await mediator.Send(new CreateNote()
             {
+                Name = name,
                 Data = data,
                 IsPrivate = isPrivate
             });

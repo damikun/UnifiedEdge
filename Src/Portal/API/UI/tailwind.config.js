@@ -1,3 +1,14 @@
+const plugin = require('tailwindcss/plugin')
+
+const capitalizeFirst = plugin(function ({ addUtilities }) {
+  const newUtilities = {
+    '.capitalize-first:first-letter': {
+      textTransform: 'uppercase',
+    },
+  }
+  addUtilities(newUtilities, ['responsive', 'hover'])
+})
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -46,6 +57,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
+    capitalizeFirst
     // ...
   ],
 }

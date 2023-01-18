@@ -23,6 +23,8 @@ namespace Aplication.CQRS.Commands
     {
 #nullable disable
         public string Data;
+
+        public string Name;
 #nullable enable
 
         public bool IsPrivate { get; set; } = false;
@@ -39,6 +41,11 @@ namespace Aplication.CQRS.Commands
         public CreateNoteValidator()
         {
             ClassLevelCascadeMode = CascadeMode.Stop;
+
+            RuleFor(e => e.Name)
+            .NotEmpty()
+            .NotNull()
+            .MinimumLength(3);
 
             RuleFor(e => e.Data)
             .NotEmpty()
@@ -130,6 +137,7 @@ namespace Aplication.CQRS.Commands
 
             var note = new Note()
             {
+                Name = request.Name,
                 Content = request.Data,
                 Created = timestamp,
                 Updated = timestamp,
@@ -174,10 +182,7 @@ namespace Aplication.CQRS.Commands
         {
             if (response != null)
             {
-                // await _publisher.Publish(
-                //     new EdgeDefaultAdapterUpdated(response),
-                //     PublishStrategy.ParallelNoWait, default(CancellationToken)
-                // );
+
             }
         }
     }

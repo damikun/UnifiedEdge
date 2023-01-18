@@ -800,6 +800,7 @@ type GQL_Note {
   id: ID!
   isHighlighted: Boolean!
   isPrivate: Boolean!
+  name: String
   updated: DateTime!
   updatedby: GQL_User
 }
@@ -1719,6 +1720,7 @@ input CreateMqttServerExplorerUserSubInput {
 input CreateNoteInput {
   data: String!
   isPrivate: Boolean!
+  name: String!
 }
 
 input CreateServerInput {

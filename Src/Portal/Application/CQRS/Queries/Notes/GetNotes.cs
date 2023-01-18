@@ -127,25 +127,27 @@ namespace Aplication.CQRS.Queries
             await using ManagmentDbCtx dbContext =
                 _factory.CreateDbContext();
 
-            var queriable = dbContext.Notes.AsNoTracking();
+            var queriable = dbContext.Notes
+            .AsNoTracking();
 
             if (request.privateOnly)
             {
                 queriable = queriable.Where(e =>
-                    (e.isPrivate == false) ||
-                    (e.isPrivate && e.CreatedBy == _current.UserId)
-                );
+                    e.isPrivate && e.CreatedBy == _current.UserId
+                ).TagWith("Query private notes");
             }
             else if (request.publicOnly)
             {
-                queriable = queriable.Where(e => e.isPrivate == false);
+                queriable = queriable.Where(e => !e.isPrivate)
+                .TagWith("Query public notes");
             }
             else
             {
                 queriable = queriable.Where(e =>
-                    e.isPrivate &&
-                    e.CreatedBy == _current.UserId
-                );
+                    !e.isPrivate ||
+                    (e.isPrivate && e.CreatedBy == _current.UserId)
+                )
+                .TagWith("Query private and public notes");
             }
 
             Func<CancellationToken, Task<int>> total_count = (ct) => queriable

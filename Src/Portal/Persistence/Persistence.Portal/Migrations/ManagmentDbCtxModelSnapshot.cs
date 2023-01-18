@@ -61,7 +61,7 @@ namespace Persistence.Portal.Migrations
                             Id = 1,
                             ApiGraphql = false,
                             ApiRest = false,
-                            Guid = "90fca265-3aa9-4459-9216-f158ea00bf2b",
+                            Guid = "eed20810-3109-4624-b625-0b187bad99dc",
                             Name = "Undefined"
                         });
                 });
@@ -79,6 +79,9 @@ namespace Persistence.Portal.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Updated")

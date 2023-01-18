@@ -13,7 +13,6 @@ type InfinityScrollBodyProps = {
     isEmpty?: boolean;
     offset?: number;
     isLoading?: boolean;
-    header?: React.ReactNode;
     isLoadingMore?: boolean;
     fallback?:React.ReactNode;
     height?: "h-96" | "h-72" |"h-60" | "h-80" | "h-full",

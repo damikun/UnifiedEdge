@@ -7,6 +7,11 @@ namespace Domain
 
         public bool isPrivate { get; set; }
 
+#nullable disable
+        public string Name { get; set; }
+
+#nullable enable
+
         public bool isDraft { get; set; }
 
         public bool isHighlighted { get; set; }

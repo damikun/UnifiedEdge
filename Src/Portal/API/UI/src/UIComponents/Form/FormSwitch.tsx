@@ -10,7 +10,7 @@ type FormInput = {
   name?:string
   error?:string
   checkedColor?:"bg-blue-500" | "bg-yellow-500" | "bg-green-500"
-  uncheckedColor?:"bg-gray-500" | "bg-red-500"
+  uncheckedColor?:"bg-gray-500" | "bg-red-500" | "bg-gray-300"
   onChange: (id:string|undefined, checked:boolean, value:string|undefined, name:string|undefined)=>void
   flexOrientation?: "flex-row" | "flex-col"
 }
@@ -43,13 +43,16 @@ export function FormSwitch({
   )
   
   return <div onClick={handleClick} className={clsx("flex",
-    flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col space-y-2")}>
+    flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col space-y-d2")}>
     {
       label && <label className="font-semibold text-base">
         {label}
       </label>
     }
-    <div className="flex h-full items-center">
+    <div className={clsx(
+        "flex flex-row my-auto justify-start align-middle",
+        "content-center p-1 my-2 h-10 items-center"
+      )}>
       <Switch
         id={id}
         value={value}
