@@ -141,7 +141,7 @@ partial class Build : NukeBuild
 
     Target Clean => _ => _
         .Before(Compile)
-        .DependsOn(Server_Clean);
+        .DependsOn(Server_Clean, Portal_Clean);
 
     Target Compile => _ => _
         .DependsOn(
@@ -152,7 +152,7 @@ partial class Build : NukeBuild
 
     Target Server_Clean => _ => _
         .DependsOn(ServerCore_Clean, ServerMqtt_Clean)
-        .Before(ServerCore_Restore, ServerMqtt_Restore)
+        .Before(ServerCore_Restore, ServerMqtt_Restore, Portal_Clean)
         .Executes(() =>
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj")
