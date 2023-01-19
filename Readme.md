@@ -97,6 +97,7 @@ Password: Admin
 - MqttToGraphql ✅
 - WebHooks ✅
 - Auth / OpenId ✅
+- OnSide Documents ✅
 - Message intercepting
 - Protocol bridge
 - Telemetry exporter
@@ -113,9 +114,10 @@ Password: Admin
     <img src="./Doc/Screens/clinet_statistic.png" alt="Mqtt server client stats" />
     <img src="./Doc/Screens/server_auth.png" alt="Mqtt server authentication/authorization" />
     <img src="./Doc/Screens/server_explorer.png" alt="Mqtt explorer" />
-    <img src="./Doc/Screens/server_publish_message.png" alt="Publish mqtt message from portal" />
+    <img src="./Doc/Screens/mqtt_explorer.png" alt="Publish mqtt message from portal" />
     <img src="./Doc/Screens/server_users.png" alt="User managment" />
     <img src="./Doc/Screens/user_profile.png" alt="User profile page" />
+    <img src="./Doc/Screens/note_view.png" alt="Create new Note" />
     <img src="./Doc/Screens/api.png" alt="API options" />      
     <img src="./Doc/Screens/graphql.png" alt="API options" /> 
     <img src="./Doc/Screens/rest.png" alt="API options" />
