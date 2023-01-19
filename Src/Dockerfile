@@ -25,6 +25,7 @@ RUN dotnet restore "Portal/API/API.csproj"
 COPY . .
 
 RUN ls -l
+RUN npm cache clean –force
 
 # run build over the API project
 WORKDIR "/src/Portal/API/"

@@ -1,12 +1,12 @@
 version: "3"
 services: 
     api:
-        image: ghcr.io/damikun/unifiededge:main
-        # build: 
-        #     context: ./Src
-        #     dockerfile: Dockerfile
-        #     args: 
-        #         - MAX_OLD_SPACE=16384
+        # image: ghcr.io/damikun/unifiededge:main
+        build: 
+            context: ./Src
+            dockerfile: Dockerfile
+            args: 
+                - MAX_OLD_SPACE=16384
 
         ports: 
             - "5001:5001"
