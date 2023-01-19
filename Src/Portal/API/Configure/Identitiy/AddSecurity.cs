@@ -1,3 +1,4 @@
+using System.Net;
 using Domain.Server;
 using IdentityModel;
 using ElectronNET.API;
@@ -13,8 +14,14 @@ namespace API
 {
     public static partial class ServiceExtension
     {
-        public static IServiceCollection AddIdentity(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddSecurity(this IServiceCollection serviceCollection)
         {
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                                   | SecurityProtocolType.Tls11
+                                                   | SecurityProtocolType.Tls12;
+
+
             serviceCollection.AddRazorPages();
 
             serviceCollection.AddDbContext<PortalIdentityDbContext>(options =>
@@ -101,6 +108,7 @@ namespace API
             {
                 options.Audience = "edgeapi";
 
+                // ToDo Need to be dynamic from cfg.
                 // base-address of your identityserver
                 options.Authority = "https://localhost:5001";
 
@@ -197,7 +205,23 @@ namespace API
                 );
             });
 
+            if (HybridSupport.IsElectronActive)
+            {
+                System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                    new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications!);
+            }
+
             return serviceCollection;
+        }
+
+        private static bool AcceptAllCertifications(
+            object sender,
+            System.Security.Cryptography.X509Certificates.X509Certificate certification,
+            System.Security.Cryptography.X509Certificates.X509Chain chain,
+            System.Net.Security.SslPolicyErrors sslPolicyErrors
+        )
+        {
+            return true;
         }
     }
 }

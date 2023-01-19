@@ -1,13 +1,9 @@
 // Copyright (c) Dalibor Kundrat All rights reserved.
 // See LICENSE in root.
 using Hangfire;
-using System.Net;
 using ElectronNET.API;
 using Aplication.Core;
-using System.Reflection;
 using Aplication.Services;
-using Swashbuckle.Swagger;
-using Microsoft.OpenApi.Models;
 using Aplication.Services.Scheduler;
 using Aplication.Services.ServerFascade;
 using Aplication.Services.SystemEventHandler;
@@ -50,48 +46,7 @@ namespace API
 
             services.AddEndpointsApiExplorer();
 
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                                                   | SecurityProtocolType.Tls11
-                                                   | SecurityProtocolType.Tls12;
-
-            services.AddSwaggerGen(e =>
-            {
-                e.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Scheme = "bearer",
-                });
-                e.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        }, new List<string>()
-                    }
-                });
-
-                e.CustomSchemaIds(
-                      type => type.FriendlyId()
-                      .Replace("[", "< ")
-                      .Replace("]", ">")
-                );
-
-                var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml" ?? "ApiGen.xml";
-                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-                e.IncludeXmlComments(xmlPath, true);
-
-                e.UseInlineDefinitionsForEnums();
-            }
-
-            );
+            services.AddOpenAPI();
 
             services.AddHttpClient();
 
@@ -111,7 +66,7 @@ namespace API
 
             ConfigureTelemetry(services);
 
-            services.AddIdentity();
+            services.AddSecurity();
 
             services.AddMapper();
 
@@ -134,12 +89,6 @@ namespace API
             services.AddElectron();
 
             services.AddSystemEventHandler();
-
-            if (HybridSupport.IsElectronActive)
-            {
-                System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                    new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications!);
-            }
 
         }
 
@@ -168,6 +117,10 @@ namespace API
 
             // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
+            app.UseResponseCaching();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseCors("cors_policy");
@@ -176,8 +129,6 @@ namespace API
             {
                 app.UseVoyager();
             }
-
-            app.UseStaticFiles();
 
             app.UseSwagger();
 
@@ -247,16 +198,6 @@ namespace API
         public virtual void ConfigureTelemetry(IServiceCollection services)
         {
             services.AddTelemerty(Configuration, Environment);
-        }
-
-        private static bool AcceptAllCertifications(
-            object sender,
-            System.Security.Cryptography.X509Certificates.X509Certificate certification,
-            System.Security.Cryptography.X509Certificates.X509Chain chain,
-            System.Net.Security.SslPolicyErrors sslPolicyErrors
-        )
-        {
-            return true;
         }
 
     }
