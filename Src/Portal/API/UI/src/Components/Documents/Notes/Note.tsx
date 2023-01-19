@@ -1,20 +1,30 @@
 import clsx from "clsx";
+import { createEditor } from "lexical";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import NoteNameSection from "./NoteNameSection";
 import { graphql } from "babel-plugin-relay/macro";
+import NoteUpdateSection from "./NoteUpdateSection";
 import PageContainer from "../../Layout/PageContainer";
+import NoteHighlightSection from "./NoteHighlightSection";
+import NoteVisibilitySection from "./NoteVisibilitySection";
 import { useFragment, useLazyLoadQuery } from "react-relay";
 import { NoteQuery } from "./__generated__/NoteQuery.graphql";
 import { NoteDataFragment$key } from "./__generated__/NoteDataFragment.graphql";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import TextEditor, { TextEditorCtx } from "../../../UIComponents/TextEditor/UniversalEditor";
+import TextEditor, { EMPTY_EDITOR, TextEditorCtx } from "../../../UIComponents/TextEditor/UniversalEditor";
 
 
 const NoteQueryTag = graphql`
     query NoteQuery($note_id:ID!) {
         noteById(note_id:$note_id) {
             id
+            content
             ...NoteDataFragment
+            ...NoteNameSectionDataFragment
+            ...NoteVisibilitySectionDataFragment
+            ...NoteHighlightSectionDataFragment
+            ...NoteUpdateSectionDataFragment
         }
     }
 `;
@@ -36,6 +46,20 @@ export const NoteDataFragmentTag = graphql`
   }
 `;
 
+function ValidateState(state:string|null|undefined){
+
+  if(!state){
+    return EMPTY_EDITOR;
+  }
+    const editor = createEditor()
+  try{
+    editor.parseEditorState(state)
+    return state;
+  }catch{
+    return EMPTY_EDITOR;
+  }
+}
+
 export default function Note(){
 
     const { id }: any = useParams<string>();
@@ -49,7 +73,7 @@ export default function Note(){
             fetchPolicy: "store-and-network",
             UNSTABLE_renderPolicy: "partial"
         },
-    );
+    ); 
 
     return <PageContainer  reservefooterSpace>
     <TextEditorCtx>
@@ -62,8 +86,6 @@ type NoteEditorProps = {
     dataRef:NoteDataFragment$key | null;
 }
 
-const EMPTY = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
-
 function NoteEditor({dataRef}:NoteEditorProps){
 
     const data = useFragment(NoteDataFragmentTag, dataRef);
@@ -74,16 +96,24 @@ function NoteEditor({dataRef}:NoteEditorProps){
       try{
         editor.setEditorState(editor.parseEditorState(data?.content??""));
       }catch{
-        editor.setEditorState(editor.parseEditorState(EMPTY));
+        editor.setEditorState(editor.parseEditorState(EMPTY_EDITOR));
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     return <>
-        <div
-        className={clsx("flex h-full flex-row space-x-3 md:space-x-5",
-        "items-center")}>
-            {data?.name}
+      <div
+        className={clsx("flex h-full flex-col md:flex-row md:space-x-5",
+        "md:items-center justify-end md:justify-between")}>
+        <NoteNameSection dataRef={dataRef} />
+        <div className="flex">
+          <div className="flex flex-row space-x-5">
+            <NoteHighlightSection dataRef={dataRef} />
+            <NoteVisibilitySection dataRef={dataRef} />
+            <NoteUpdateSection dataRef={dataRef} />
+          </div>
         </div>
-        <TextEditor/>
-    </>
+      </div>
+      <TextEditor/>
+  </>
 }

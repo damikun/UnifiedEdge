@@ -22,7 +22,6 @@ export function FormSwitch({
   id,
   name,
   checked,
-  error,
   checkedColor,
   uncheckedColor,
   flexOrientation = "flex-col"} : FormInput){
@@ -42,17 +41,19 @@ export function FormSwitch({
     [],
   )
   
-  return <div onClick={handleClick} className={clsx("flex",
-    flexOrientation === "flex-row"?"space-x-2 items-center":"flex-col space-y-d2")}>
+  return <div onClick={handleClick} 
+    className={clsx("flex",
+    flexOrientation === "flex-row"?
+    "space-x-2 items-center":
+    "flex-col space-y-2")}>
     {
       label && <label className="font-semibold text-base">
         {label}
       </label>
     }
     <div className={clsx(
-        "flex flex-row my-auto justify-start align-middle",
-        "content-center p-1 my-2 h-10 items-center"
-      )}>
+      "flex flex-row my-auto justify-start align-middle",
+      "content-center p-1 my-2 h-10 items-center")}>
       <Switch
         id={id}
         value={value}
@@ -75,6 +76,5 @@ export function FormSwitch({
         )}/>
       </Switch>
     </div>
-
 </div>
 }

@@ -1,4 +1,6 @@
 import Editor from './Editor';
+import { useMemo } from 'react';
+import { EditorState } from 'lexical';
 import EditorNodes from './nodes/EditorNodes';
 import { TableContext } from './plugins/TablePlugin';
 import TextEditorTheme from './themes/EditorEditorTheme';
@@ -8,7 +10,7 @@ import {SharedHistoryContext} from './context/SharedHistoryContext';
 
 import "./editor.css"
 
-const initialConfig = {
+const defaultConfig = {
   editorState: null,
   namespace: 'TextEditor',
   nodes: [...EditorNodes],
@@ -18,14 +20,32 @@ const initialConfig = {
   theme: TextEditorTheme,
 };
 
+export const EMPTY_EDITOR = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
+
 type TextEditorCtxProps = {
   children:React.ReactNode
+  editorState?: EditorState | string
 }
 
-export function TextEditorCtx({children}:TextEditorCtxProps){
+export function TextEditorCtx({children,editorState}:TextEditorCtxProps){
+
+  const init = useMemo(() => editorState?
+  {
+    editorState: null,
+    namespace: 'TextEditor',
+    nodes: [...EditorNodes],
+    onError: (error: Error) => {
+      throw error;
+    },
+    theme: TextEditorTheme,
+  }:
+  defaultConfig
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  , [])
+
   return (
     <SettingsContext>
-      <LexicalComposer initialConfig={initialConfig}>
+      <LexicalComposer initialConfig={init}>
         <SharedHistoryContext>
           <TableContext>
             <>

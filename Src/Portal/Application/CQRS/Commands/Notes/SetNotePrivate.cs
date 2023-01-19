@@ -118,7 +118,6 @@ namespace Aplication.CQRS.Commands
             return await dbContext.Notes
             .Where(e => e.Id == command.NoteId)
             .AnyAsync(e =>
-                e.isPrivate &&
                 e.CreatedBy == _current_user.UserId
             );
         }
@@ -177,7 +176,7 @@ namespace Aplication.CQRS.Commands
             var note = await dbContext.Notes.Where(e => e.Id == request.NoteId)
             .FirstAsync(cancellationToken);
 
-            note.isPrivate = !request.isPrivate;
+            note.isPrivate = request.isPrivate;
 
             note.Updatedby = _current.UserId;
 

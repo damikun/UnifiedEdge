@@ -55,7 +55,8 @@ type ServerNameProps = {
 function ServerName({dataRef}:ServerNameProps) {
 
   const data = useFragment(ServerNameDataFragment, dataRef!);
-    const [
+
+  const [
     commit,
     isInFlight,
   ] = useMutation<ServerNameUpdateMutation>(ServerNameMutationTag);

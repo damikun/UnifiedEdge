@@ -118,7 +118,6 @@ namespace Aplication.CQRS.Commands
             .AnyAsync(e =>
                 (e.isPrivate == false) ||
                 (
-                e.isPrivate &&
                 e.CreatedBy == _current_user.UserId
                 )
             );

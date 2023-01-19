@@ -152,38 +152,40 @@ function NewNoteForm(){
 
     return <>
       <form onSubmit={formik.handleSubmit} 
-        className={clsx("flex h-full flex-row space-x-3 md:space-x-5",
-        "items-center")}>
-        <FormInput
-          label="Name"
-          id="name"
-          focusOnMount
-          disabled={false}
-          error={formik.errors.name}
-          value={formik.values.name}
-          onChange={formik.handleChange}
-        />
+        className={clsx("flex h-full flex-col md:flex-row md:space-x-5",
+        "md:items-center justify-end md:justify-between")}>
+          <FormInput
+            label="Name"
+            id="name"
+            focusOnMount
+            disabled={false}
+            error={formik.errors.name}
+            value={formik.values.name}
+            onChange={formik.handleChange}
+          />
+          <div className="flex">
+            <div className="flex flex-row space-x-5 items-center">
+              <FormSwitch
+                id="isPrivate"
+                label="Private"
+                uncheckedColor="bg-gray-300"
+                checked={formik.values.isPrivate}
+                onChange={handlePrivate}
+              />
 
-        <FormSwitch
-          id="isPrivate"
-          label="Private"
-          uncheckedColor="bg-gray-300"
-          checked={formik.values.isPrivate}
-          onChange={handlePrivate}
-        />
-
-        <div className="h-full mt-auto mb-2">
-          <StayledButton 
-          isloading={isInFlight} 
-          size="medium"
-          onMobileIconOnly={false}
-          variant="secondaryblue"
-          iconRight={faFloppyDisk}
-          type="submit">
-            Save
-          </StayledButton>
-        </div>
-      
+              <div className="mt-auto mb-1">
+                <StayledButton 
+                isloading={isInFlight} 
+                size="medium"
+                onMobileIconOnly={false}
+                variant="secondaryblue"
+                iconRight={faFloppyDisk}
+                type="submit">
+                  Save
+                </StayledButton>
+              </div>
+            </div>
+         </div>  
       </form>
       <TextEditor/>
     </>

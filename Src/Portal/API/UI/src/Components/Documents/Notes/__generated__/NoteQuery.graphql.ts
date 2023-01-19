@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2e7a233669918ad564500af439e2c5f7>>
+ * @generated SignedSource<<6cc0006cd1a1a4b28e0f49a071705e86>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,8 +15,9 @@ export type NoteQuery$variables = {
 };
 export type NoteQuery$data = {
   readonly noteById: {
+    readonly content: string | null;
     readonly id: string;
-    readonly " $fragmentSpreads": FragmentRefs<"NoteDataFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"NoteDataFragment" | "NoteHighlightSectionDataFragment" | "NoteNameSectionDataFragment" | "NoteUpdateSectionDataFragment" | "NoteVisibilitySectionDataFragment">;
   };
 };
 export type NoteQuery = {
@@ -45,6 +46,13 @@ v2 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "content",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -62,10 +70,31 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
             "name": "NoteDataFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "NoteNameSectionDataFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "NoteVisibilitySectionDataFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "NoteHighlightSectionDataFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "NoteUpdateSectionDataFragment"
           }
         ],
         "storageKey": null
@@ -89,18 +118,12 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
             "name": "name",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "content",
             "storageKey": null
           },
           {
@@ -163,16 +186,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7d41a9a0e8b6db7d466746f8356da540",
+    "cacheID": "fece611effb70c672b7d0fc475c24e0e",
     "id": null,
     "metadata": {},
     "name": "NoteQuery",
     "operationKind": "query",
-    "text": "query NoteQuery(\n  $note_id: ID!\n) {\n  noteById(note_id: $note_id) {\n    id\n    ...NoteDataFragment\n  }\n}\n\nfragment NoteDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n"
+    "text": "query NoteQuery(\n  $note_id: ID!\n) {\n  noteById(note_id: $note_id) {\n    id\n    content\n    ...NoteDataFragment\n    ...NoteNameSectionDataFragment\n    ...NoteVisibilitySectionDataFragment\n    ...NoteHighlightSectionDataFragment\n    ...NoteUpdateSectionDataFragment\n  }\n}\n\nfragment NoteDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n\nfragment NoteHighlightSectionDataFragment on GQL_Note {\n  id\n  isHighlighted\n}\n\nfragment NoteNameSectionDataFragment on GQL_Note {\n  id\n  name\n}\n\nfragment NoteUpdateSectionDataFragment on GQL_Note {\n  id\n  content\n}\n\nfragment NoteVisibilitySectionDataFragment on GQL_Note {\n  id\n  isPrivate\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1bf5194a559f20c329716e964a2aa226";
+(node as any).hash = "1be2ea92b904b6bcc7501938ca336d7d";
 
 export default node;
