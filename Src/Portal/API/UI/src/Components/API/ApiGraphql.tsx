@@ -4,8 +4,8 @@ import GraphiQL from "graphiql";
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import { BASE_SERVER_URL, BASE_SERVER_WS_URL_DEV, GQL_PUBLIC_ENDPOINT } from "../../constants";
 
-import "@graphiql/react/font/roboto.css";
-import "@graphiql/react/font/fira-code.css";
+// import "@graphiql/react/font/roboto.css";
+// import "@graphiql/react/font/fira-code.css";
 import "graphiql/graphiql.css";
 
 

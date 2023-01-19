@@ -141,7 +141,7 @@ partial class Build : NukeBuild
 
     Target Clean => _ => _
         .Before(Compile)
-        .DependsOn(Server_Clean, Portal_Clean);
+        .DependsOn(Server_Clean);
 
     Target Compile => _ => _
         .DependsOn(
