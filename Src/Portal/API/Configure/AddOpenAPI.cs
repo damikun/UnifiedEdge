@@ -1,7 +1,7 @@
 
 using System.Reflection;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace API
 {
