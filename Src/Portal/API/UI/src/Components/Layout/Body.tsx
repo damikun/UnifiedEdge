@@ -18,14 +18,14 @@ const Documents = lazy(
 const Note = lazy(
   () =>
     import(
-      /* webpackChunkName: "Note" */ "../Documents/Note"
+      /* webpackChunkName: "Note" */ "../Documents/Notes/Note"
     )
 );
 
 const NewNote = lazy(
   () =>
     import(
-      /* webpackChunkName: "NewNote" */ "../Documents/NewNote"
+      /* webpackChunkName: "NewNote" */ "../Documents/Notes/NewNote"
     )
 );
 

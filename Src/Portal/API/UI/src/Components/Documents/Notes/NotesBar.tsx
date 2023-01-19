@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useCallback, useTransition } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import StayledButton from "../../UIComponents/Buttons/StayledButton";
+import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 
 
 export default function NotesBar(){

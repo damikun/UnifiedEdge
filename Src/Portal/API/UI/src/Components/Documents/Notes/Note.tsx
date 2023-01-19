@@ -2,12 +2,12 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import PageContainer from "../Layout/PageContainer";
+import PageContainer from "../../Layout/PageContainer";
 import { useFragment, useLazyLoadQuery } from "react-relay";
 import { NoteQuery } from "./__generated__/NoteQuery.graphql";
 import { NoteDataFragment$key } from "./__generated__/NoteDataFragment.graphql";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import TextEditor, { TextEditorCtx } from "../../UIComponents/TextEditor/UniversalEditor";
+import TextEditor, { TextEditorCtx } from "../../../UIComponents/TextEditor/UniversalEditor";
 
 
 const NoteQueryTag = graphql`

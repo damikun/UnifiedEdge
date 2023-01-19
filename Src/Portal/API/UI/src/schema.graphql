@@ -1229,6 +1229,7 @@ type Mutation {
   setUserAdmin(input: SetUserAdminInput!): SetUserAdminPayload!
   setUserPassword(input: SetUserPasswordInput!): SetUserPasswordPayload!
   updateNote(input: UpdateNoteInput!): UpdateNotePayload!
+  updateNoteName(input: UpdateNoteNameInput!): UpdateNoteNamePayload!
   updateUserEnabled(input: UpdateUserEnabledInput!): UpdateUserEnabledPayload!
   updateUserFirstName(input: UpdateUserFirstNameInput!): UpdateUserFirstNamePayload!
   updateUserLastName(input: UpdateUserLastNameInput!): UpdateUserLastNamePayload!
@@ -1523,6 +1524,12 @@ type Subscription {
   uptime: GQL_Uptime!
 }
 
+type UpdateNoteNamePayload {
+  errors: [UpdateNoteNameError!]
+  gQL_Note: GQL_Note
+  query: Query!
+}
+
 type UpdateNotePayload {
   errors: [UpdateNoteError!]
   gQL_Note: GQL_Note
@@ -1682,6 +1689,8 @@ union SetUserAdminError = ValidationError | AuthorizationError | InternalError
 union SetUserPasswordError = ValidationError | AuthorizationError | InternalError
 
 union UpdateNoteError = ValidationError | AuthorizationError | InternalError
+
+union UpdateNoteNameError = ValidationError | AuthorizationError | InternalError
 
 union UpdateUserEnabledError = ValidationError | AuthorizationError | InternalError
 
@@ -1915,6 +1924,7 @@ input SetMqttServerEndpointInput {
 }
 
 input SetNotePublicInput {
+  isPrivate: Boolean!
   noteId: ID!
 }
 
@@ -1946,6 +1956,11 @@ input SetUserPasswordInput {
 
 input UpdateNoteInput {
   data: String!
+  noteId: ID!
+}
+
+input UpdateNoteNameInput {
+  name: String!
   noteId: ID!
 }
 

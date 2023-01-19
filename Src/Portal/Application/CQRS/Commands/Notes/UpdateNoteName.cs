@@ -15,28 +15,30 @@ namespace Aplication.CQRS.Commands
 {
 
     /// <summary>
-    /// SetNotePrivate
+    /// UpdateNoteName
     /// </summary>
     [Authorize(Policy = "authenticated_user")]
-    public class SetNotePrivate : CommandBase<DTO_Note>
+    public class UpdateNoteName : CommandBase<DTO_Note>
     {
         public long NoteId { get; set; }
 
-        public bool isPrivate { get; set; }
+#nullable disable
+        public string Name { get; set; }
+#nullable enable
     }
 
     //---------------------------------------
     //---------------------------------------
 
     /// <summary>
-    /// Field validator - SetNotePrivate
+    /// Field validator - UpdateNoteName
     /// </summary>
-    public class SetNotePrivateValidator : AbstractValidator<SetNotePrivate>
+    public class UpdateNoteNameValidator : AbstractValidator<UpdateNoteName>
     {
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
 
-        public SetNotePrivateValidator(
+        public UpdateNoteNameValidator(
             IDbContextFactory<ManagmentDbCtx> factory
         )
         {
@@ -46,6 +48,11 @@ namespace Aplication.CQRS.Commands
 
             RuleFor(e => e.NoteId)
                 .MustAsync(Exist);
+
+            RuleFor(e => e.Name)
+                .NotEmpty()
+                .NotNull()
+                .MinimumLength(3);
         }
 
         public async Task<bool> Exist(
@@ -62,10 +69,10 @@ namespace Aplication.CQRS.Commands
     }
 
     /// <summary>
-    /// Authorization validators - SetNotePrivate
+    /// Authorization validators - UpdateNoteName
     /// </summary>
-    public class SetNotePrivateAuthorizationValidator
-        : AuthorizationValidator<SetNotePrivate>
+    public class UpdateNoteNameAuthorizationValidator
+        : AuthorizationValidator<UpdateNoteName>
     {
         /// <summary>
         /// Injected <c>ICurrentUser</c>
@@ -77,7 +84,7 @@ namespace Aplication.CQRS.Commands
         /// </summary>
         private readonly IDbContextFactory<ManagmentDbCtx> _factory;
 
-        public SetNotePrivateAuthorizationValidator(
+        public UpdateNoteNameAuthorizationValidator(
             ICurrentUser current_user,
             IDbContextFactory<ManagmentDbCtx> factory
         )
@@ -97,7 +104,7 @@ namespace Aplication.CQRS.Commands
             .WithMessage("You are not resource owner");
         }
 
-        public bool ExistValidUserSubId(SetNotePrivate command)
+        public bool ExistValidUserSubId(UpdateNoteName command)
         {
             if (string.IsNullOrWhiteSpace(_current_user.UserId))
             {
@@ -108,7 +115,7 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task<bool> SubjectIdPairedWithNote(
-            SetNotePrivate command,
+            UpdateNoteName command,
             CancellationToken cancellationToken
         )
         {
@@ -118,8 +125,11 @@ namespace Aplication.CQRS.Commands
             return await dbContext.Notes
             .Where(e => e.Id == command.NoteId)
             .AnyAsync(e =>
+                (e.isPrivate == false) ||
+                (
                 e.isPrivate &&
                 e.CreatedBy == _current_user.UserId
+                )
             );
         }
     }
@@ -128,8 +138,8 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
     //---------------------------------------
 
-    /// <summary>Handler for <c>SetNotePrivateHandler</c> command </summary>
-    public class SetNotePrivateHandler : IRequestHandler<SetNotePrivate, DTO_Note>
+    /// <summary>Handler for <c>UpdateNoteNameHandler</c> command </summary>
+    public class UpdateNoteNameHandler : IRequestHandler<UpdateNoteName, DTO_Note>
     {
 
         /// <summary>
@@ -150,7 +160,7 @@ namespace Aplication.CQRS.Commands
         /// <summary>
         /// Main constructor
         /// </summary>
-        public SetNotePrivateHandler(
+        public UpdateNoteNameHandler(
             IDbContextFactory<ManagmentDbCtx> factory,
             IMapper mapper,
             ICurrentUser current
@@ -164,10 +174,10 @@ namespace Aplication.CQRS.Commands
         }
 
         /// <summary>
-        /// Command handler for <c>SetNotePrivate</c>
+        /// Command handler for <c>UpdateNoteName</c>
         /// </summary>
         public async Task<DTO_Note> Handle(
-            SetNotePrivate request,
+            UpdateNoteName request,
             CancellationToken cancellationToken
         )
         {
@@ -177,7 +187,7 @@ namespace Aplication.CQRS.Commands
             var note = await dbContext.Notes.Where(e => e.Id == request.NoteId)
             .FirstAsync(cancellationToken);
 
-            note.isPrivate = !request.isPrivate;
+            note.Name = request.Name;
 
             note.Updatedby = _current.UserId;
 
@@ -194,15 +204,15 @@ namespace Aplication.CQRS.Commands
     //---------------------------------------
 
 
-    public class SetNotePrivate_PostProcessor
-        : IRequestPostProcessor<SetNotePrivate, DTO_Note>
+    public class UpdateNoteName_PostProcessor
+        : IRequestPostProcessor<UpdateNoteName, DTO_Note>
     {
         /// <summary>
         /// Injected <c>IPublisher</c>
         /// </summary>
         private readonly Aplication.Services.IPublisher _publisher;
 
-        public SetNotePrivate_PostProcessor(
+        public UpdateNoteName_PostProcessor(
             IMemoryCache cache,
             Aplication.Services.IPublisher publisher)
         {
@@ -210,7 +220,7 @@ namespace Aplication.CQRS.Commands
         }
 
         public async Task Process(
-            SetNotePrivate request,
+            UpdateNoteName request,
             DTO_Note response,
             CancellationToken cancellationToken)
         {

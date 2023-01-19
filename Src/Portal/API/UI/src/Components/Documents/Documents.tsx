@@ -1,4 +1,4 @@
-import Notes from "./Notes";
+import Notes from "./Notes/Notes";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import PageContainer from "../Layout/PageContainer";

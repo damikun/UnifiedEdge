@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import NotesBar from "./NotesBar";
 import { graphql } from "babel-plugin-relay/macro";
-import Badge from "../../UIComponents/Badged/Badge";
-import Section from "../../UIComponents/Section/Section";
-import { GetServerDateTimeStr } from "../../Shared/Common";
+import Badge from "../../../UIComponents/Badged/Badge";
+import Section from "../../../UIComponents/Section/Section";
+import { GetServerDateTimeStr } from "../../../Shared/Common";
 import { useCallback, useMemo, useTransition } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,8 @@ import { useFragment, usePaginationFragment } from "react-relay";
 import { faClock, faFlag } from "@fortawesome/free-solid-svg-icons";
 import { NotesItemDataFragment$key } from "./__generated__/NotesItemDataFragment.graphql";
 import { NotesPaginationFragment$key } from "./__generated__/NotesPaginationFragment.graphql";
-import HorizontalInfinityScrollBody from "../../UIComponents/Container/HorizontalInfinityScrollBody";
-import HorizontalInfinityScrollContainer from "../../UIComponents/Container/HorizontalInfinityScrollContainer";
+import HorizontalInfinityScrollBody from "../../../UIComponents/Container/HorizontalInfinityScrollBody";
+import HorizontalInfinityScrollContainer from "../../../UIComponents/Container/HorizontalInfinityScrollContainer";
 import { NotesPaginationFragmentRefetchQuery } from "./__generated__/NotesPaginationFragmentRefetchQuery.graphql";
 
 

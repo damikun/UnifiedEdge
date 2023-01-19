@@ -112,7 +112,7 @@ namespace Aplication.Graphql.Mutations
         }
 
         /// <summary>
-        /// Set Note Public
+        /// Set Note Private
         /// </summary>
         /// <returns>GQL_Note</returns>
         [Error(typeof(ValidationError))]
@@ -120,13 +120,38 @@ namespace Aplication.Graphql.Mutations
         [Error(typeof(InternalError))]
         public async Task<GQL_Note> SetNotePublic(
             [ID] long noteId,
+            bool isPrivate,
             [Service] IMediator mediator,
             [Service] IMapper mapper
         )
         {
-            var dto = await mediator.Send(new SetNotePublic()
+            var dto = await mediator.Send(new SetNotePrivate()
             {
                 NoteId = noteId,
+                isPrivate = isPrivate
+            });
+
+            return _mapper.Map<GQL_Note>(dto);
+        }
+
+        /// <summary>
+        /// Update Note Name
+        /// </summary>
+        /// <returns>GQL_Note</returns>
+        [Error(typeof(ValidationError))]
+        [Error(typeof(AuthorizationError))]
+        [Error(typeof(InternalError))]
+        public async Task<GQL_Note> UpdateNoteName(
+            [ID] long noteId,
+            string name,
+            [Service] IMediator mediator,
+            [Service] IMapper mapper
+        )
+        {
+            var dto = await mediator.Send(new UpdateNoteName()
+            {
+                NoteId = noteId,
+                Name = name
             });
 
             return _mapper.Map<GQL_Note>(dto);

@@ -4,16 +4,16 @@ import { useMutation } from "react-relay";
 import { useNavigate } from "react-router";
 import { useCallback, useTransition } from "react";
 import { graphql } from "babel-plugin-relay/macro";
-import PageContainer from "../Layout/PageContainer";
-import { HandleErrors } from "../../Utils/ErrorHelper";
-import { generateErrors, is } from "../../Utils/Validation";
-import { FormInput } from "../../UIComponents/Form/FormInput";
-import { FormSwitch } from "../../UIComponents/Form/FormSwitch";
+import PageContainer from "../../Layout/PageContainer";
+import { HandleErrors } from "../../../Utils/ErrorHelper";
+import { generateErrors, is } from "../../../Utils/Validation";
+import { FormInput } from "../../../UIComponents/Form/FormInput";
+import { FormSwitch } from "../../../UIComponents/Form/FormSwitch";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { useToast } from "../../UIComponents/Toast/ToastProvider";
-import StayledButton from "../../UIComponents/Buttons/StayledButton";
+import { useToast } from "../../../UIComponents/Toast/ToastProvider";
+import StayledButton from "../../../UIComponents/Buttons/StayledButton";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import TextEditor, { TextEditorCtx } from "../../UIComponents/TextEditor/UniversalEditor";
+import TextEditor, { TextEditorCtx } from "../../../UIComponents/TextEditor/UniversalEditor";
 import { CreateNoteInput, NewNoteMutation } from "./__generated__/NewNoteMutation.graphql";
 
 
