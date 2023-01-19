@@ -84,6 +84,10 @@ export const Badge_VARIANTS = {
     base: "",
     border: "",
   },
+  white: {
+    base: "text-gray-500 bg-white",
+    border: "border-gray-100 border-2 border-opacity-50",
+  },
 };
 
 const Badge_ROUNDING = {

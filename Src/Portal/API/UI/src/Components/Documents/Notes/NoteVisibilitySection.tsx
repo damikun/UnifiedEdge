@@ -109,7 +109,7 @@ export default function NoteVisibilitySection({dataRef}:NoteVisibilitySectionPro
     );
   
     return <div
-    className="pb-2 w-full flex flex-row space-x-2 max-w-2xl">
+    className="pb-0 w-full flex flex-row space-x-2 max-w-2xl">
       <FormSwitch
         id={"isPrivate"}
         checked={data?.isPrivate ?? false}

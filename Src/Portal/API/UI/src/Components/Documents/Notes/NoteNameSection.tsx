@@ -122,7 +122,7 @@ export default function NoteNameSection({dataRef}:NoteNameSectionProps){
     
     return <form
     onSubmit={formik.handleSubmit}
-    className="pb-2 w-full flex flex-row space-x-2 max-w-sm">
+    className="pb-0 w-full flex flex-row space-x-2 max-w-sm">
       <FormInput
         label="Name"
         id="name"

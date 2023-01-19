@@ -105,7 +105,7 @@ export default function NoteHighlightSection({dataRef}:NoteHighlightSectionProps
     );
   
     return <div
-      className="pb-2 w-full flex flex-row space-x-2 max-w-2xl">
+      className="pb-0 w-full flex flex-row space-x-2 max-w-2xl">
      <div className={clsx("flex flex-col",
       "justify-center")}>
         <label className="font-semibold text-base">

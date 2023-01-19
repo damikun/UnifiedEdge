@@ -1,14 +1,13 @@
 import clsx from "clsx";
-import { createEditor } from "lexical";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NoteNameSection from "./NoteNameSection";
+import { useLayoutEffect, useState } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import NoteUpdateSection from "./NoteUpdateSection";
 import PageContainer from "../../Layout/PageContainer";
 import NoteHighlightSection from "./NoteHighlightSection";
-import NoteVisibilitySection from "./NoteVisibilitySection";
 import { useFragment, useLazyLoadQuery } from "react-relay";
+import NoteVisibilitySection from "./NoteVisibilitySection";
 import { NoteQuery } from "./__generated__/NoteQuery.graphql";
 import { NoteDataFragment$key } from "./__generated__/NoteDataFragment.graphql";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -46,19 +45,19 @@ export const NoteDataFragmentTag = graphql`
   }
 `;
 
-function ValidateState(state:string|null|undefined){
+// function ValidateState(state:string|null|undefined){
 
-  if(!state){
-    return EMPTY_EDITOR;
-  }
-    const editor = createEditor()
-  try{
-    editor.parseEditorState(state)
-    return state;
-  }catch{
-    return EMPTY_EDITOR;
-  }
-}
+//   if(!state){
+//     return EMPTY_EDITOR;
+//   }
+//     const editor = createEditor()
+//   try{
+//     editor.parseEditorState(state)
+//     return state;
+//   }catch{
+//     return EMPTY_EDITOR;
+//   }
+//}
 
 export default function Note(){
 
@@ -73,9 +72,12 @@ export default function Note(){
             fetchPolicy: "store-and-network",
             UNSTABLE_renderPolicy: "partial"
         },
-    ); 
+    );
 
-    return <PageContainer  reservefooterSpace>
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // const init = useMemo(() => ValidateState(data.noteById.content), [])
+
+    return <PageContainer reservefooterSpace>
     <TextEditorCtx>
       <NoteEditor dataRef={data.noteById}/>
     </TextEditorCtx>
@@ -92,28 +94,33 @@ function NoteEditor({dataRef}:NoteEditorProps){
 
     const [editor] = useLexicalComposerContext()
 
-    useEffect(() => {
-      try{
-        editor.setEditorState(editor.parseEditorState(data?.content??""));
-      }catch{
+    useLayoutEffect(() => {
+
+      if(!data?.content){
         editor.setEditorState(editor.parseEditorState(EMPTY_EDITOR));
+      }else{
+        try{
+          editor.setEditorState(editor.parseEditorState(data?.content??""));
+        }catch{
+          editor.setEditorState(editor.parseEditorState(EMPTY_EDITOR));
+        }
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
-    return <>
-      <div
-        className={clsx("flex h-full flex-col md:flex-row md:space-x-5",
-        "md:items-center justify-end md:justify-between")}>
-        <NoteNameSection dataRef={dataRef} />
-        <div className="flex">
-          <div className="flex flex-row space-x-5">
-            <NoteHighlightSection dataRef={dataRef} />
-            <NoteVisibilitySection dataRef={dataRef} />
-            <NoteUpdateSection dataRef={dataRef} />
-          </div>
+    return <div className="w-full flex flex-col max-w-6xl mx-auto space-y-2">
+    <div
+      className={clsx("flex h-full flex-col md:flex-row md:space-x-5",
+      "md:items-center justify-end md:justify-between")}>
+      <NoteNameSection dataRef={dataRef} />
+      <div className="flex">
+        <div className="flex flex-row space-x-5">
+          <NoteHighlightSection dataRef={dataRef} />
+          <NoteVisibilitySection dataRef={dataRef} />
+          <NoteUpdateSection dataRef={dataRef} />
         </div>
       </div>
-      <TextEditor/>
-  </>
+    </div>
+    <TextEditor/>
+  </div>
 }

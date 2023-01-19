@@ -10,7 +10,7 @@ import {SharedHistoryContext} from './context/SharedHistoryContext';
 
 import "./editor.css"
 
-const defaultConfig = {
+export const defaultConfig = {
   editorState: null,
   namespace: 'TextEditor',
   nodes: [...EditorNodes],
@@ -31,7 +31,7 @@ export function TextEditorCtx({children,editorState}:TextEditorCtxProps){
 
   const init = useMemo(() => editorState?
   {
-    editorState: null,
+    editorState: editorState,
     namespace: 'TextEditor',
     nodes: [...EditorNodes],
     onError: (error: Error) => {

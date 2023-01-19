@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useFormik } from "formik";
 import { useMutation } from "react-relay";
 import { useNavigate } from "react-router";
-import { useCallback, useTransition } from "react";
+import { useCallback, useEffect, useTransition } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import PageContainer from "../../Layout/PageContainer";
 import { HandleErrors } from "../../../Utils/ErrorHelper";
@@ -61,7 +61,7 @@ export default function NewNote(){
 function NewNoteForm(){
 
     const [editor] = useLexicalComposerContext()
-
+    
     const toast = useToast();
     
     const [
@@ -138,6 +138,11 @@ function NewNoteForm(){
       validateOnChange: false
     });
   
+    useEffect(() => {
+      editor.focus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const handlePrivate = useCallback(
       (
         id: string | undefined,
@@ -150,14 +155,14 @@ function NewNoteForm(){
       [formik],
     )
 
-    return <>
+    return <div className="w-full flex flex-col max-w-6xl mx-auto space-y-2">
       <form onSubmit={formik.handleSubmit} 
         className={clsx("flex h-full flex-col md:flex-row md:space-x-5",
         "md:items-center justify-end md:justify-between")}>
           <FormInput
             label="Name"
             id="name"
-            focusOnMount
+            // focusOnMount
             disabled={false}
             error={formik.errors.name}
             value={formik.values.name}
@@ -188,5 +193,5 @@ function NewNoteForm(){
          </div>  
       </form>
       <TextEditor/>
-    </>
+    </div>
 }

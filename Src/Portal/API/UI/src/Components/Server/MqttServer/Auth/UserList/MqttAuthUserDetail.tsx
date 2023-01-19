@@ -330,7 +330,7 @@ export default function MqttAuthUserDetail(){
         <FieldSection name="Password">
           <form
             onSubmit={formik.handleSubmit}
-            className="pb-2 w-full flex flex-row space-x-2 max-w-sm">
+            className="pb-0 w-full flex flex-row space-x-2 max-w-sm">
               <FormInput
               id="password"
               flexOrientation="flex-row"

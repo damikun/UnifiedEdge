@@ -117,7 +117,7 @@ function EdgeDescription({dataRef}:EdgeDescriptionProps) {
 
   return <form
         onSubmit={formik.handleSubmit}
-        className="pb-2 w-full flex flex-row space-x-2">
+        className="pb-0 w-full flex flex-row space-x-2">
           <FormInput
           label="Edge description"
           id="description"

@@ -58,6 +58,7 @@ export default function NoteUpdateSection({dataRef}:NoteUpdateSectionProps){
     
     const [note_id] = useState(id)
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const data = useFragment(NoteUpdateSectionDataFragmentTag, dataRef);
     
     const [
@@ -71,12 +72,14 @@ export default function NoteUpdateSection({dataRef}:NoteUpdateSectionProps){
 
     const [hasChanged, setUpdated] = useState(false)
     
-    useEffect(() => {
-      editor.registerUpdateListener(({editorState}) => {
-        setUpdated(true)
-      });
+    useEffect( () => {
+      setTimeout(()=>{
+        editor.registerUpdateListener(({editorState}) => {
+          setUpdated(true)
+        });
+       }, 1000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    },[]);
 
     const handleUpdate = useCallback(
       () => {
@@ -113,12 +116,13 @@ export default function NoteUpdateSection({dataRef}:NoteUpdateSectionProps){
         onClick={handleUpdate}
         isloading={isInFlight} 
         size="auto"
+        className="w-20"
         onMobileIconOnly={false}
-        variant="secondaryblue"
+        variant={hasChanged?"secondaryblue":"secondarygray"}
         iconRight={faFloppyDisk}
         disabled={!hasChanged}
         type="submit">
-        Save
+          Save
       </StayledButton>
   </div>
 }

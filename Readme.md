@@ -117,7 +117,8 @@ Password: Admin
     <img src="./Doc/Screens/mqtt_explorer.png" alt="Publish mqtt message from portal" />
     <img src="./Doc/Screens/server_users.png" alt="User managment" />
     <img src="./Doc/Screens/user_profile.png" alt="User profile page" />
-    <img src="./Doc/Screens/note_view.png" alt="Create new Note" />
+    <img src="./Doc/Screens/document_notes.png" alt="Notes view" />
+    <img src="./Doc/Screens/edit_note.png" alt="Update Note" />
     <img src="./Doc/Screens/api.png" alt="API options" />      
     <img src="./Doc/Screens/graphql.png" alt="API options" /> 
     <img src="./Doc/Screens/rest.png" alt="API options" />
