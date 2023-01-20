@@ -43,7 +43,7 @@ partial class Build : NukeBuild
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = true ? Configuration.Debug : Configuration.Release;
+    readonly Configuration Configuration = false ? Configuration.Debug : Configuration.Release;
 
     AbsolutePath SourceDirectory => RootDirectory / "Src";
 
