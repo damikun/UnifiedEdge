@@ -315,7 +315,7 @@ namespace Aplication.Services.ServerFascade
             return endpont;
         }
 
-        private (int min, int max) GetPortRangeOrDefault()
+        public static (int min, int max) GetPortRangeOrDefault()
         {
             var port_min = Environment.GetEnvironmentVariable("MIN_PORT");
             var port_max = Environment.GetEnvironmentVariable("MAX_PORT");

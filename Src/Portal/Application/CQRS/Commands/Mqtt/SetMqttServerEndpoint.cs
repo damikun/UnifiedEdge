@@ -64,8 +64,8 @@ namespace Aplication.CQRS.Commands
 
             RuleFor(e => e.Port)
                 .NotNull()
-                .GreaterThan(0)
-                .LessThan(50000);
+                .GreaterThanOrEqualTo(EndpointProvider.GetPortRangeOrDefault().min)
+                .LessThanOrEqualTo(EndpointProvider.GetPortRangeOrDefault().max);
 
             RuleFor(e => e.Server_uid)
                 .NotEmpty()
