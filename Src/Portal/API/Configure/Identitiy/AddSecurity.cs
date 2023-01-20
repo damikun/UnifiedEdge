@@ -16,6 +16,8 @@ namespace API
     {
         public static IServiceCollection AddSecurity(this IServiceCollection serviceCollection)
         {
+            var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
+
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                                                    | SecurityProtocolType.Tls11
@@ -89,13 +91,16 @@ namespace API
             .AddOperationalStore(options =>
             {
                 options.ConfigureDbContext = builder =>
-                    builder.UseSqlite("Data Source=IdentityServer.db");
+                    builder.UseSqlite("Data Source=IdentityServer.db",
+                        sql => sql.MigrationsAssembly(migrationsAssembly));
 
                 // this enables automatic token cleanup. this is optional.
                 options.EnableTokenCleanup = true;
+
                 options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
             })
-            .AddInMemoryCaching();
+            .AddInMemoryCaching()
+            .AddDeveloperSigningCredential();
 
             serviceCollection.AddAuthentication(options =>
             {
