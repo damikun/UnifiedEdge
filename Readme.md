@@ -38,6 +38,13 @@ Default url: `https://localhost:5001/`
 
 Run:
 
+QuickRun:
+```
+docker run --rm -it -p 5001:5001 -p 40000-40010:40000-40010 -e ASPNETCORE_URLS="https://+:5001;http://+" -e ASPNETCORE_HTTPS_PORT=5001 -e MIN_PORT=40000 -e MAX_PORT=40010 -i ghcr.io/damikun/unifiededge:main
+```
+This runs portal on `https://localhost:5001/` and opens 10 ports range (40000-40010) for mqtt servers... Make sure you update Adapter to not use loopback in portal App..
+
+Compose:
 `docker-compose up` from root folder.. (Make sure you have proper cert installed...) The default path and password is defined inside compose file.. 
 
 Default env. confinguration is:
