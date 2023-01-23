@@ -22,7 +22,7 @@ export default function Layout(){
     return <div className={clsx("h-screen w-screen bg-gradient-to-t to-slate-50",
         "via-gray-100 from-gray-200")}>
         <div className={clsx("flex shadow-md z-40 flex-row w-full h-screen",
-            "overflow-hidden bg-gray-200 bg-opacity-50")}>
+            "overflow-hidden bg-gray-200 bg-opacity-50 transition-none")}>
 
             <SideBar>
                 <MenuButton state={sidebarState} onClick={handleMenuButton}/>
@@ -41,7 +41,7 @@ export default function Layout(){
                 <MenuItem to="/Info" icon={faInfo} name="Info" />
             </MenuList>
 
-            <BodyContainer state={sidebarState} />
+            <BodyContainer />
 
         </div>
     </div> 
