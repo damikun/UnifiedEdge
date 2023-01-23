@@ -99,6 +99,7 @@ namespace API
             IServiceProvider serviceProvider,
             IServiceScopeFactory scopeFactory)
         {
+
             serviceProvider.GetRequiredService<ServerMetricsProvider>();
 
             // app.UseOpenTelemetryPrometheusScrapingEndpoint();

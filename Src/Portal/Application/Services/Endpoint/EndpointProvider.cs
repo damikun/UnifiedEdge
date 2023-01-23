@@ -1,8 +1,10 @@
 using System.Net;
 using Persistence.Portal;
 using System.Net.Sockets;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Aplication.Services.ServerFascade
@@ -20,6 +22,11 @@ namespace Aplication.Services.ServerFascade
         /// </summary>
         private readonly IMemoryCache _cache;
 
+        /// <summary>
+        /// Injected <c>IWebHostEnvironment</c>
+        /// </summary>
+        private readonly IWebHostEnvironment _env;
+
         private const int DEFAULT_PORT_MIN = 1000;
         private const int DEFAULT_PORT_MAX = 65535;
 
@@ -27,10 +34,12 @@ namespace Aplication.Services.ServerFascade
 
         public EndpointProvider(
             IDbContextFactory<ManagmentDbCtx> factory,
+            IWebHostEnvironment env,
             IMemoryCache cache)
         {
             _factory = factory;
             _cache = cache;
+            _env = env;
         }
 
         public NetworkInterface? GetAdapterById(string adapter_id)
@@ -129,10 +138,15 @@ namespace Aplication.Services.ServerFascade
                 return cached;
             }
 
-            // First try get loopback
-            var adapter = NetworkAdapters
-                .FirstOrDefault(x => x.NetworkInterfaceType == NetworkInterfaceType.Loopback
-                && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
+            NetworkInterface? adapter = null;
+
+            // First try get loopback (if not docker env)
+            if (!_env.IsDocker())
+            {
+                adapter = NetworkAdapters
+                    .FirstOrDefault(x => x.NetworkInterfaceType == NetworkInterfaceType.Loopback
+                    && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
+            }
 
             // Try to get most significat up adapter
             if (adapter == null)
