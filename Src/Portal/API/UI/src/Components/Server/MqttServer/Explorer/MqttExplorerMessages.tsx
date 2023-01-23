@@ -3,9 +3,9 @@ import { useRecoilValue} from "recoil";
 import { useParams } from "react-router";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef } from "react";
-import Modal from "../../../../UIComponents/Modal/Modal";
 import { useOnScreen } from "../../../../Hooks/useOnScreen";
 import {lazy, Suspense, useCallback, useState } from "react";
+import useModal from "../../../../UIComponents/Modal/useModal";
 import Section from "../../../../UIComponents/Section/Section";
 import MqttExplorerMessagesBarBar from "./MqttExplorerMessagesBar";
 import useScrollDirection from "../../../../Hooks/useScrollDirection";
@@ -47,7 +47,7 @@ function MqttExplorerMessages() {
 
   const [autoScroll,setAutoScroll] = useState(true);
 
-  const [modal,setModal] = useState<MqttMessagePayload | null>(null)
+  const [modal, showModal] = useModal({position:"top"});
 
   useEffect(() => {  
     return () => {
@@ -65,23 +65,14 @@ function MqttExplorerMessages() {
     }
   }, [direction,intersecting])
   
-  const handleModalClose = useCallback(() => {
-    setModal(null)
-  }, [setModal]);
-
-  const handleMessageDetail = useCallback((data:MqttMessagePayload) => {
-    setModal(data)
-  }, [setModal]);
+  const handleMessageDetail = useCallback((modalData:MqttMessagePayload) => {
+    showModal(
+      "Message detail",
+      ()=><MqttExplorerMessageDetail data={modalData}/>)
+  }, [showModal]);
 
   return <>
-    <Modal
-      position="top"
-      isOpen={modal != null}
-      onClose={handleModalClose}
-      component={
-        modal && <MqttExplorerMessageDetail data={modal}/>      
-      }
-    />
+    {modal}
     <Section 
       name={"Messages"}
       bar={<MqttExplorerMessagesBarBar/>}
@@ -108,8 +99,7 @@ function MqttExplorerMessages() {
             <div ref={endRef}>
               <ScrollToBottom autoScroll={autoScroll} />
             </div>
-
-          </div>
+        </div>
       }
     />
   </>
@@ -120,7 +110,7 @@ type ScrollToBottomProps ={
 }
 
 const ScrollToBottom = ({autoScroll}:ScrollToBottomProps) => {
-  const elementRef =  useRef<HTMLDivElement | null>(null);
+  const elementRef = useRef<HTMLDivElement | null>(null);
   
   useEffect(() => {
     autoScroll && elementRef?.current?.scrollIntoView(

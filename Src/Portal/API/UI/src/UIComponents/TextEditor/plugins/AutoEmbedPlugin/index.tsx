@@ -13,14 +13,14 @@ import {
   LexicalAutoEmbedPlugin,
   URL_MATCHER,
 } from '@lexical/react/LexicalAutoEmbedPlugin';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {useMemo, useState} from 'react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
-import useModal from '../../hooks/useModal';
 import Button from '../../ui/Button';
+import {useMemo, useState} from 'react';
+
 import {DialogActions} from '../../ui/Dialog';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import useModal from '../../../Modal/useModal';
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -177,7 +177,7 @@ export function AutoEmbedDialog({
 }
 
 export default function AutoEmbedPlugin(): JSX.Element {
-  const [modal, showModal] = useModal();
+  const [modal, showModal] = useModal({position:"top"});
 
   const openEmbedModal = (embedConfig: PlaygroundEmbedConfig) => {
     showModal(`Embed ${embedConfig.contentName}`, (onClose) => (

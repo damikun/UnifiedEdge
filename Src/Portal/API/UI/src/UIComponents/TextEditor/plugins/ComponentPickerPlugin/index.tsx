@@ -33,7 +33,7 @@ import {useCallback, useMemo, useState} from 'react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import useModal from '../../hooks/useModal';
+import useModal from '../../../Modal/useModal';
 import {INSERT_COLLAPSIBLE_COMMAND} from '../CollapsiblePlugin';
 import {InsertImageDialog} from '../ImagesPlugin';
 import {InsertTableDialog} from '../TablePlugin';
@@ -104,7 +104,7 @@ function ComponentPickerMenuItem({
 
 export default function ComponentPickerMenuPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const [modal, showModal] = useModal();
+  const [modal, showModal] = useModal({position:"top"});
   const [queryString, setQueryString] = useState<string | null>(null);
 
   const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {

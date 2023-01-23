@@ -63,7 +63,7 @@ export default function TokenList({dataRef}:TokenListProps){
   }, [page_data?.data.apiTokens?.__id])
 
   const [searchParams, setSearchParams] = useSearchParams();
-
+  
   const handleItemDetail = useCallback(
     (client_id: string | null | undefined) => {
       searchParams.delete(TOKEN_PARAM_NAME);

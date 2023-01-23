@@ -20,7 +20,7 @@ import {useCallback} from 'react';
 import Button from '../../ui/Button';
 import {exportFile} from '@lexical/file';
 import type {LexicalEditor} from 'lexical';
-import useModal from '../../hooks/useModal';
+import useModal from '../../../Modal/useModal';
 import {$createCodeNode, $isCodeNode} from '@lexical/code';
 import {PLAYGROUND_TRANSFORMERS} from '../MarkdownTransformers';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
@@ -31,7 +31,7 @@ export default function ActionsPlugin({
 }: {
   isRichText: boolean;
 }): JSX.Element {
-  const [modal, showModal] = useModal();
+  const [modal, showModal] = useModal({position:"top"});
   const [editor] = useLexicalComposerContext();
 
   const handleMarkdownToggle = useCallback(() => {

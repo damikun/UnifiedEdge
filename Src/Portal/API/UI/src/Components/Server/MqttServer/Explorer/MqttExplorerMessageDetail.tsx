@@ -1,11 +1,7 @@
 import clsx from "clsx";
-import { useFragment } from "react-relay";
-import { JsonViewer } from "@textea/json-viewer";
-import { graphql } from "babel-plugin-relay/macro";
+import { useMemo } from "react";
 import { GetLocalDate } from "../../../../Shared/Common";
 import { MqttMessagePayload, MqttMessageType } from "./MqttServerExplorer";
-import { Suspense, useEffect, useMemo, useState } from "react";
-import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
 
 
@@ -17,17 +13,18 @@ export default function MqttExplorerMessageDetail({
   data
 }:MqttExplorerMessageDetailProps){
 
-  const timestamp = useMemo(()=>{
+  const timestamp = useMemo(()=> {
     return GetLocalDate(data?.message?.timeStamp);
   },[data]) 
 
-  return <ModalContainer label="Message detail">
+  return <>
     <div className="flex flex-col space-y-2 w-full md:w-102 xl:w-160">
 
         <FieldGroup name="Sender">
           <FieldSection 
             multiline
-            className="line-clamp-2 text-md font-semibold text-gray-700 capitalize"
+            className={clsx("line-clamp-2 text-md font-semibold",
+            "text-gray-700 capitalize")}
             name="Client">
             {data?.message?.clientId}
           </FieldSection>
@@ -68,7 +65,7 @@ export default function MqttExplorerMessageDetail({
         }
         
     </div>
-  </ModalContainer>
+  </>
 }
 
 
@@ -83,16 +80,16 @@ function MessageSection({message}:MessageSectionProps){
     }catch{
       return "Invalid Json format"
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   
-  return  <FieldSection variant="flex-col" name="Payload">
+  return <FieldSection variant="flex-col" name="Payload">
     <pre
-  className={clsx("text-gray-800 resize-none whitespace-pre-wrap",
-  "flex p-2 m-1 focus:outline-none font-mono w-full h-full text-sm",
-  "flex-nowrap border bg-white rounded-lg items-center select-text")}
-  >
-    {beautifyed}
-  </pre>
+      className={clsx("text-gray-800 resize-none whitespace-pre-wrap",
+      "flex p-2 m-1 focus:outline-none font-mono w-full h-full text-sm",
+      "flex-nowrap border bg-white rounded-lg items-center select-text")}>
+      {beautifyed}
+    </pre>
   </FieldSection>
 }
