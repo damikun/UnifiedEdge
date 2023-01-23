@@ -38,6 +38,7 @@ import Button from '../../ui/Button';
 import {DialogActions} from '../../ui/Dialog';
 import FileInput from '../../ui/FileInput';
 import TextInput from '../../ui/TextInput';
+import StayledButton from '../../../Buttons/StayledButton';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
@@ -92,12 +93,14 @@ export function InsertImageUploadedDialogBody({
         data-test-id="image-modal-alt-text-input"
       />
       <DialogActions>
-        <Button
-          data-test-id="image-modal-file-upload-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
+      <StayledButton 
+        onMobileIconOnly={false}
+        variant={isDisabled?"primarygray" :"secondaryblue"}
+        disabled={isDisabled}
+        size='medium'
+        onClick={() => onClick({altText, src})}>
           Confirm
-        </Button>
+      </StayledButton>
       </DialogActions>
     </>
   );

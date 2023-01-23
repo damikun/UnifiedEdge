@@ -27,9 +27,9 @@ import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 import * as React from 'react';
 
 import {$createTableNodeWithDimensions, TableNode} from '../nodes/TableNode';
-import Button from '../ui/Button';
 import {DialogActions} from '../ui/Dialog';
 import TextInput from '../ui/TextInput';
+import StayledButton from '../../Buttons/StayledButton';
 
 export default function invariant(
   cond?: boolean,
@@ -127,7 +127,14 @@ export function InsertTableDialog({
       <TextInput label="No of rows" onChange={setRows} value={rows} />
       <TextInput label="No of columns" onChange={setColumns} value={columns} />
       <DialogActions data-test-id="table-model-confirm-insert">
-        <Button onClick={onClick}>Confirm</Button>
+     
+      <StayledButton 
+        onMobileIconOnly={false}
+        variant="secondaryblue"
+        size='medium'
+        onClick={onClick}>
+          Submit
+      </StayledButton>
       </DialogActions>
     </>
   );
@@ -153,7 +160,13 @@ export function InsertNewTableDialog({
       <TextInput label="No of rows" onChange={setRows} value={rows} />
       <TextInput label="No of columns" onChange={setColumns} value={columns} />
       <DialogActions data-test-id="table-model-confirm-insert">
-        <Button onClick={onClick}>Confirm</Button>
+        <StayledButton 
+          onMobileIconOnly={false}
+          variant="secondaryblue"
+          size='medium'
+          onClick={onClick}>
+            Submit
+        </StayledButton>
       </DialogActions>
     </>
   );

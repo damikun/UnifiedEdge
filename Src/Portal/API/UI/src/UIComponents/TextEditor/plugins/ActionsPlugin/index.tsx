@@ -1,10 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
 import {
   $createTextNode,
@@ -15,16 +8,15 @@ import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
 } from '@lexical/markdown';
-import * as React from 'react';
+import clsx from 'clsx';
 import {useCallback} from 'react';
-import Button from '../../ui/Button';
 import {exportFile} from '@lexical/file';
 import type {LexicalEditor} from 'lexical';
 import useModal from '../../../Modal/useModal';
+import StayledButton from '../../../Buttons/StayledButton';
 import {$createCodeNode, $isCodeNode} from '@lexical/code';
 import {PLAYGROUND_TRANSFORMERS} from '../MarkdownTransformers';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-
 
 export default function ActionsPlugin({
   isRichText,
@@ -99,26 +91,46 @@ function ShowClearDialog({
   editor: LexicalEditor;
   onClose: () => void;
 }): JSX.Element {
+
+  const handkeClear = useCallback(
+    () => {
+      editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+      editor.focus();
+      onClose();
+    },
+    [editor,onClose],
+  )
+
+  const handleCancle = useCallback(
+    () => {
+      editor.focus();
+      onClose();
+    },
+    [editor,onClose],
+  )
+  
   return (
-    <>
-      Are you sure you want to clear the editor?
-      <div className="Modal__content">
-        <Button
-          onClick={() => {
-            editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
-            editor.focus();
-            onClose();
-          }}>
-          Clear
-        </Button>{' '}
-        <Button
-          onClick={() => {
-            editor.focus();
-            onClose();
-          }}>
-          Cancel
-        </Button>
+    <div className='flex flex-col p-2 py-3 space-y-5'>
+      <span className='py-2'>
+        Are you sure you want to clear the editor?
+      </span>
+      <div className={clsx("flex flex-row space-x-2",
+      "w-full justify-end")}>
+        <StayledButton 
+          onMobileIconOnly={false}
+          variant="secondaryblue"
+          size='medium'
+          onClick={handkeClear}>
+            Clear
+        </StayledButton>
+        <StayledButton 
+          onMobileIconOnly={false}
+          variant="secondarygray"
+          size='medium'
+          onClick={handleCancle}>
+            Cancel
+        </StayledButton>
       </div>
-    </>
+    </div>
   );
 }
