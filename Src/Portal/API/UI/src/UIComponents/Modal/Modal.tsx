@@ -1,10 +1,14 @@
 import clsx from "clsx";
+import ReactDOM from "react-dom";
+import ModalContainer from "./ModalContainer";
 import ErrorBoundary from "../ErrorBoundery/ErrorBoundary";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import useOnClickOutside from "../../Hooks/useOnOutsideElementClick";
 import React, { Suspense, useCallback, useContext, useRef } from "react";
 import ModalBounderyErrorHandler from "../../Components/ModalBounderyErrorHandler";
-import ReactDOM from "react-dom";
+
 
 export type ModalProps = {
   children?: React.ReactNode;
@@ -138,7 +142,7 @@ export default function Modal({
                   <ErrorBoundary
                     fallback={errorfallback ? errorfallback : <ModalBounderyErrorHandler />}
                   >
-                    <Suspense fallback={fallback ? fallback : <></>}>
+                    <Suspense fallback={fallback ? fallback : <DefaultFallback/>}>
                       {children ? children : component}
                     </Suspense>
                   </ErrorBoundary>
@@ -150,4 +154,22 @@ export default function Modal({
       </AnimatePresence>
     </ModalContext.Provider>, document.getElementById("modal_portal")!)
   );
+}
+
+function DefaultFallback(){
+  return <ModalContainer
+    label="...."
+    key={"ModalFallBack"}>
+    <div className={clsx("flex flex-col w-40 space-y-2",
+    "h-40 items-center justify-center text-gray-500")}>
+      <FontAwesomeIcon 
+        spin
+        icon={faSpinner} 
+        className="text-2xl"
+      />
+      <span className="text-md font-semibold">
+        Loading...
+      </span>
+    </div>
+  </ModalContainer>
 }
