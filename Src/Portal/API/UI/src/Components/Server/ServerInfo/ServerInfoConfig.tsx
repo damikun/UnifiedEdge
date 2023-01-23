@@ -1,12 +1,13 @@
 import clsx from "clsx";
+import { useParams } from "react-router-dom";
 import { useCallback, useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import Modal from "../../../UIComponents/Modal/Modal";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { useFragment, useSubscription } from "react-relay";
 import ServerInfoConfigModal from "./ServerInfoConfigModal";
-import { useParams, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 import { faCheckCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { ServerInfoConfigDataFragment$key } from "./__generated__/ServerInfoConfigDataFragment.graphql";
 import { ServerInfoConfigMatchSubscription } from "./__generated__/ServerInfoConfigMatchSubscription.graphql";
@@ -86,58 +87,45 @@ export default function ServerInfoConfig({dataRef}:ServerInfoConfigProps){
         [data.isConfigMatch]
     )
     
+    const [isOpen, open, close] = useSearchParamHandler(CFG_PARAM_NAME);
     
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(CFG_PARAM_NAME)!== null && id, [searchParams,id]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(CFG_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
-  const handleItemDetail = useCallback(
-    () => {
-      searchParams.delete(CFG_PARAM_NAME);
-      id && searchParams.append(CFG_PARAM_NAME, "true");
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams,id]
-  );
-
-
+    const handleItemDetail = useCallback(
+        () => {
+            open("true")
+        },
+        [open]
+      );
+      
     return <>
     <Modal
-      position="top"
-      isOpen={isOpen}
-      onClose={handleModalClose}
-      component={
-        <ServerInfoConfigModal server_id={id} />
-      }
+        position="top"
+        isOpen={isOpen}
+        onClose={close}
+        component={
+            <ServerInfoConfigModal server_id={id} />
+        }
     />
     <div onClick={handleItemDetail} className={clsx("flex flex-row w-full justify-between",
-    "space-x-2 items-center cursor-pointer")}>
+        "space-x-2 items-center cursor-pointer")}>
 
-    <div className={clsx("p-2 h-10 w-10 lg:w-12 lg:h-12 rounded-full",
-        "bg-gray-50 m-2 justify-cente flex")}>
-        <FontAwesomeIcon 
-            className={clsx("mx-auto my-auto text-xl lg:text-2xl",
-            data.isConfigMatch ?"text-blue-500":"text-orange-500")}
-            icon={icon} 
-        />
-    </div>
+        <div className={clsx("p-2 h-10 w-10 lg:w-12 lg:h-12 rounded-full",
+            "bg-gray-50 m-2 justify-cente flex")}>
+            <FontAwesomeIcon 
+                className={clsx("mx-auto my-auto text-xl lg:text-2xl",
+                data.isConfigMatch ?"text-blue-500":"text-orange-500")}
+                icon={icon} 
+            />
+        </div>
 
-    <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden">
-        <div className="font-semibold text-base capitalize text-end truncate">
-            {name}
+        <div className="flex flex-col space-y-1 justify-end p-2 overflow-hidden">
+            <div className="font-semibold text-base capitalize text-end truncate">
+                {name}
+            </div>
+            <div className={clsx("text-gray-600 text-sm w-full justify-end",
+                " truncate capitalize text-end whitespace-pre")}>
+                {config_timestamp}
+            </div>
         </div>
-        <div className={clsx("text-gray-600 text-sm w-full justify-end",
-            " truncate capitalize text-end whitespace-pre")}>
-            {config_timestamp}
-        </div>
-    </div>
     </div>
 </>
 }

@@ -1,13 +1,14 @@
 import MqttLogsBar from "./MqttLogsBar";
 import MqttLogDetail from "./MqttlogDetail";
+import { useParams } from "react-router-dom";
 import { MqttLogsItem } from "./MqttLogsItem";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
+import React, { useCallback, useState } from "react";
 import Modal from "../../../../UIComponents/Modal/Modal";
-import { useParams, useSearchParams } from "react-router-dom";
-import React, { useCallback, useMemo, useState } from "react";
 import Section from "../../../../UIComponents/Section/Section";
 import TableHeader from "../../../../UIComponents/Table/TableHeader";
+import { useSearchParamHandler } from "../../../../Hooks/useHandleSearchParam";
 import InfinityScrollBody from "../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttLogsPaginationFragment_logs$key } from "./__generated__/MqttLogsPaginationFragment_logs.graphql";
@@ -64,33 +65,13 @@ function MqttLogs({dataRef}:MqttLogsProps) {
     [pagination],
   )
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(I_LOG_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(I_LOG_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
-  const handleItemDetail = useCallback(
-    (log_id: string | null | undefined) => {
-      searchParams.delete(I_LOG_PARAM_NAME);
-      if (log_id) {
-        searchParams.append(I_LOG_PARAM_NAME, log_id);
-      }
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams]
-  );
+  const [isOpen, open, close] = useSearchParamHandler(I_LOG_PARAM_NAME);
 
   return <>
     <Modal
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
         <MqttLogDetail />
       }
@@ -108,7 +89,7 @@ function MqttLogs({dataRef}:MqttLogsProps) {
                   return <MqttLogsItem 
                   key={edge.node?.uid??index}
                   dataRef={edge.node}
-                  onItemClick={handleItemDetail}
+                  onItemClick={open}
                 />
               })
             }

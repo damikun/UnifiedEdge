@@ -1,17 +1,18 @@
 import clsx from "clsx";
+import { useParams } from "react-router-dom";
 import { CLIENT_PARAM_NAME } from "./MqttClients";
 import { graphql } from "babel-plugin-relay/macro";
 import { useCallback, useMemo, useState } from "react";
 import { GraphQLSubscriptionConfig } from "relay-runtime";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import Badge from "../../../../../UIComponents/Badged/Badge";
-import { useParams, useSearchParams } from "react-router-dom";
 import { HandleErrors } from "../../../../../Utils/ErrorHelper";
 import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import { useLazyLoadQuery, useMutation, useSubscription } from "react-relay";
 import ModalContainer from "../../../../../UIComponents/Modal/ModalContainer";
 import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
 import { MqttClientDetailQuery } from "./__generated__/MqttClientDetailQuery.graphql";
+import { usePresistedSearchParam } from "../../../../../Hooks/usePresistedSearchParam";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
 import { MqttClientDetailSubscription } from "./__generated__/MqttClientDetailSubscription.graphql";
 import { MqttClientDetailResetStatsMutation } from "./__generated__/MqttClientDetailResetStatsMutation.graphql";
@@ -120,13 +121,11 @@ const MqttClientDetailResetStatsMutationTag = graphql`
 
 export default function MqttClientDetail(){
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const { id }: any = useParams<string>();
 
   const [server_id] = useState(id)
-  const [client_id] = useState(searchParams.get(CLIENT_PARAM_NAME) as string)
+  const client_id = usePresistedSearchParam(CLIENT_PARAM_NAME)
+
 
   const data = useLazyLoadQuery<MqttClientDetailQuery>(
     MqttClientDetailTag,

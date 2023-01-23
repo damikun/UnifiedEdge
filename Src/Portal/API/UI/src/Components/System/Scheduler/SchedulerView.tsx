@@ -1,7 +1,6 @@
+import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
-import { useSearchParams } from "react-router-dom";
-import React, { useCallback, useMemo } from "react";
 import Modal from "../../../UIComponents/Modal/Modal";
 import SchedulerStatistics from "./SchedulerStatistics";
 import Section from "../../../UIComponents/Section/Section";
@@ -9,6 +8,7 @@ import SchedulerFailedJobs from "./Failed/SchedulerFailedJobs";
 import { SchedulerJobDetail } from "./Detail/SchedulerJobDetail";
 import SchedulerSuccessJobs from "./Success/SchedulerSuccessJobs";
 import SchedulerRecurringJobs from "./Recurring/SchedulerRecurringJobs"
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 import { SchedulerViewQuery } from "./__generated__/SchedulerViewQuery.graphql";
 
 
@@ -36,27 +36,17 @@ function SchedulerView() {
     },
   );
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(DETAIL_ID_PARAM_NAME)!== null, [searchParams]
-  );
-
-  var job_id = searchParams.get(DETAIL_ID_PARAM_NAME);
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(DETAIL_ID_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(DETAIL_ID_PARAM_NAME);
 
   return <>
     <Modal
       fallback={<div></div>}
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
-        <SchedulerJobDetail jobId={job_id!}/>
+        <SchedulerJobDetail/>
       }
     />
 

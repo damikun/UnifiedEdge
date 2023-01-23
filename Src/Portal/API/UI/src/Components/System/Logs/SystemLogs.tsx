@@ -1,13 +1,13 @@
+import React, { useCallback } from "react";
 import SystemLogDetail from "./SystemLogDetail";
 import { SystemLogItem } from "./SystemLogItem";
 import { graphql } from "babel-plugin-relay/macro";
-import { useSearchParams } from "react-router-dom";
-import React, { useCallback, useMemo } from "react";
 import Modal from "../../../UIComponents/Modal/Modal";
 import Section from "../../../UIComponents/Section/Section";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { SystemLogsQuery } from "./__generated__/SystemLogsQuery.graphql";
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { SystemLogsPaginationFragment$key } from "./__generated__/SystemLogsPaginationFragment.graphql";
@@ -68,33 +68,13 @@ function SystemLogs() {
     [pagination],
   )
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(LOG_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(LOG_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
-  const handleItemDetail = useCallback(
-    (log_id: string | null | undefined) => {
-      searchParams.delete(LOG_PARAM_NAME);
-      if (log_id) {
-        searchParams.append(LOG_PARAM_NAME, log_id);
-      }
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams]
-  );
+  const [isOpen, open, close] = useSearchParamHandler(LOG_PARAM_NAME);
   
   return <>
     <Modal
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
         <SystemLogDetail />
       }
@@ -112,7 +92,7 @@ function SystemLogs() {
                   return <SystemLogItem 
                   key={edge.node?.iD??index}
                   dataRef={edge.node}
-                  onItemClick={handleItemDetail}
+                  onItemClick={open}
                 />
               })
             }

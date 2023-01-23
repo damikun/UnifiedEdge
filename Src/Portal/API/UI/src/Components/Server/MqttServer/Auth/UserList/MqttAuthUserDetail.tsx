@@ -1,9 +1,8 @@
 import clsx from "clsx";
 import { useFormik } from "formik";
+import { useCallback, useMemo } from "react";
 import { USER_PARAM_NAME } from "./MqttAuthUsers";
 import { graphql } from "babel-plugin-relay/macro";
-import { useSearchParams } from "react-router-dom";
-import { useCallback, useMemo, useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { GetLocalDate } from "../../../../../Shared/Common";
@@ -21,7 +20,7 @@ import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Fi
 import { MqttAuthUserDetailRemoveMutation } from "./__generated__/MqttAuthUserDetailRemoveMutation.graphql";
 import { MqttAuthUserDetailEnableMutation } from "./__generated__/MqttAuthUserDetailEnableMutation.graphql";
 import { MqttAuthUserDetailUpdatePasswordMutation, SetMqttAuthUserPasswordInput } from "./__generated__/MqttAuthUserDetailUpdatePasswordMutation.graphql";
-
+import { usePresistedSearchParam } from "../../../../../Hooks/usePresistedSearchParam";
 
 
 const MqttAuthUserDetailTag = graphql`
@@ -126,10 +125,7 @@ const MqttAuthUserDetailUpdatePasswordMutationTag = graphql`
 
 export default function MqttAuthUserDetail(){
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [user_id] = useState(searchParams.get(USER_PARAM_NAME) as string)
+  const user_id = usePresistedSearchParam(USER_PARAM_NAME)
 
   const data = useLazyLoadQuery<MqttAuthUserDetailQuery>(
     MqttAuthUserDetailTag,

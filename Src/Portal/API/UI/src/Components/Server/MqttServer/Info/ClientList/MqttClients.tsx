@@ -8,6 +8,7 @@ import Section from "../../../../../UIComponents/Section/Section";
 import { usePaginationFragment, useSubscription } from "react-relay";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParamHandler } from "../../../../../Hooks/useHandleSearchParam";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttClientsPaginationFragment$key } from "./__generated__/MqttClientsPaginationFragment.graphql";
@@ -77,23 +78,14 @@ type MqttClientsProps = {
 
 function MqttClients({dataRef}:MqttClientsProps) {
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(CLIENT_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(CLIENT_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(CLIENT_PARAM_NAME);
   
   return <>
   <Modal
     position="top"
     isOpen={isOpen}
-    onClose={handleModalClose}
+    onClose={close}
     component={
       <MqttClientDetail />
     }

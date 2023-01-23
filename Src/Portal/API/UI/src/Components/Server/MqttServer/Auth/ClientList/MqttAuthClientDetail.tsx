@@ -1,8 +1,7 @@
 import clsx from "clsx";
-import { useSearchParams } from "react-router-dom";
+import { useCallback, useMemo } from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { CLIENT_PARAM_NAME } from "./MqttAuthClients";
-import { useCallback, useMemo, useState } from "react";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +12,7 @@ import { useModalContext } from "../../../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../../../UIComponents/Toast/ToastProvider";
 import ModalContainer from "../../../../../UIComponents/Modal/ModalContainer";
 import StayledButton from "../../../../../UIComponents/Buttons/StayledButton";
+import { usePresistedSearchParam } from "../../../../../Hooks/usePresistedSearchParam";
 import { MqttAuthClientDetailQuery } from "./__generated__/MqttAuthClientDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
 import { MqttAuthClientDetailEnableMutation } from "./__generated__/MqttAuthClientDetailEnableMutation.graphql";
@@ -97,10 +97,7 @@ const MqttAuthClientDetailRemoveMutationTag = graphql`
 
 export default function MqttAuthClientDetail(){
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [client_id] = useState(searchParams.get(CLIENT_PARAM_NAME) as string)
+  const client_id = usePresistedSearchParam(CLIENT_PARAM_NAME)
 
   const data = useLazyLoadQuery<MqttAuthClientDetailQuery>(
     MqttAuthClientDetailTag,

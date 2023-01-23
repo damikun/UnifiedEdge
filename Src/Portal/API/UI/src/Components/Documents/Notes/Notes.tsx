@@ -14,6 +14,7 @@ import { NotesPaginationFragment$key } from "./__generated__/NotesPaginationFrag
 import HorizontalInfinityScrollBody from "../../../UIComponents/Container/HorizontalInfinityScrollBody";
 import HorizontalInfinityScrollContainer from "../../../UIComponents/Container/HorizontalInfinityScrollContainer";
 import { NotesPaginationFragmentRefetchQuery } from "./__generated__/NotesPaginationFragmentRefetchQuery.graphql";
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 
 
 export const NotesPaginationFragment = graphql`
@@ -52,19 +53,9 @@ export default function Notes({dataRef}:NotesProps){
     NotesPaginationFragment$key
     >(NotesPaginationFragment, dataRef);
     
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const handleNoteDetail = useCallback(
-      (client_id: string | null | undefined) => {
-        searchParams.delete(NOTE_PARAM_NAME);
-        if (client_id) {
-          searchParams.append(NOTE_PARAM_NAME, client_id);
-        }
-        setSearchParams(searchParams);
-      },
-      [searchParams, setSearchParams]
-    );
-    
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [isOpen, open, close] = useSearchParamHandler(NOTE_PARAM_NAME);
+  
     return <Section 
       name="Notes"
       bar={<NotesBar/>}
@@ -84,7 +75,7 @@ export default function Notes({dataRef}:NotesProps){
                 return <NotesItem 
                     key={edge.node?.id??index}
                     dataRef={edge.node}
-                    onItemClick={handleNoteDetail}
+                    onItemClick={open}
                 />
               })
             }

@@ -1,14 +1,14 @@
+import { useEffect } from "react";
 import { TokenListItem } from "./TokenListItem";
 import TokenItemDetail from "./TokenItemDetail";
-import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import Table from "../../../UIComponents/Table/Table";
 import Modal from "../../../UIComponents/Modal/Modal";
-import { useCallback, useEffect, useMemo } from "react";
 import { useTokenListCtx } from "./TokenListCtxProvider";
 import TableBody from "../../../UIComponents/Table/TableBody";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 import { TokenListRefetchQuery } from "./__generated__/TokenListRefetchQuery.graphql";
 import { TokenListDataFragment$key } from "./__generated__/TokenListDataFragment.graphql";
 
@@ -62,34 +62,13 @@ export default function TokenList({dataRef}:TokenListProps){
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page_data?.data.apiTokens?.__id])
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [isOpen, open, close] = useSearchParamHandler(TOKEN_PARAM_NAME);
   
-  const handleItemDetail = useCallback(
-    (client_id: string | null | undefined) => {
-      searchParams.delete(TOKEN_PARAM_NAME);
-      if (client_id) {
-        searchParams.append(TOKEN_PARAM_NAME, client_id);
-      }
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams]
-  );
-  
-  const isOpen = useMemo(() => 
-  searchParams.get(TOKEN_PARAM_NAME)!== null, [searchParams]
-);
-
-const handleModalClose = useCallback(() => {
-  searchParams.delete(TOKEN_PARAM_NAME);
-  setSearchParams(searchParams);
-}, [searchParams, setSearchParams]);
-
-
   return <>
     <Modal
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
         <TokenItemDetail />
       }
@@ -105,7 +84,7 @@ const handleModalClose = useCallback(() => {
             return <TokenListItem 
               key={entity.node?.id}
               dataRef={entity.node}
-              onItemClick={handleItemDetail}
+              onItemClick={open}
             />
           })
       }
@@ -116,11 +95,7 @@ const handleModalClose = useCallback(() => {
 
 // -------------------------------
 
-type TokenListHeaderProps = {
-
-}
-
-function TokenListHeader({}:TokenListHeaderProps){
+function TokenListHeader(){
 
   return <TableHeader>
     <tr className="flex w-7/12 2xl:w-9/12">

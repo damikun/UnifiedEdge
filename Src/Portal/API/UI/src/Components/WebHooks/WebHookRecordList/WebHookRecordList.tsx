@@ -1,12 +1,12 @@
-import { useSearchParams } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import Modal from "../../../UIComponents/Modal/Modal";
 import { WebHookRecordItem } from "./WebHookRecordItem";
 import WebHookRecordDetail from "./WebHookRecordDetail";
 import Section from "../../../UIComponents/Section/Section";
+import React, { useCallback, useEffect, useState } from "react";
 import TableHeader from "../../../UIComponents/Table/TableHeader";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParamHandler } from "../../../Hooks/useHandleSearchParam";
 import InfinityScrollBody from "../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../UIComponents/Table/InfinityScrollTable";
 import { WebHookRecordListPaginationFragment$key } from "./__generated__/WebHookRecordListPaginationFragment.graphql";
@@ -64,34 +64,15 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
     [pagination],
   )
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(RECORD_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(RECORD_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(RECORD_PARAM_NAME);
 
-  const handleItemDetail = useCallback(
-    (log_id: string | null | undefined) => {
-      searchParams.delete(RECORD_PARAM_NAME);
-      if (log_id) {
-        searchParams.append(RECORD_PARAM_NAME, log_id);
-      }
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams]
-  );
-  
   return <>
 
     <Modal
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
         <WebHookRecordDetail />
       }
@@ -110,7 +91,7 @@ function WebHookRecordList({dataRef}:WebHookRecordListProps) {
                   return <WebHookRecordItem 
                   key={edge.node?.id??index}
                   dataRef={edge.node}
-                  onItemClick={handleItemDetail}
+                  onItemClick={open}
                 />
               })
             }

@@ -4,8 +4,11 @@ import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import { FailedJobDetail } from "./FailedJobDetail";
 import { SuccessJobDetail } from "./SuccessJobDetail";
+import { DETAIL_ID_PARAM_NAME } from "../SchedulerView";
 import { RecurringJobDetail } from "./RecurringJobDetail";
+import { usePresistedSearchParam } from "../../../../Hooks/usePresistedSearchParam";
 import { SchedulerJobDetailQuery } from "./__generated__/SchedulerJobDetailQuery.graphql";
+
 
 const SchedulerJobDetailTag = graphql`
     query SchedulerJobDetailQuery($id:ID!) {
@@ -18,11 +21,9 @@ const SchedulerJobDetailTag = graphql`
   }
 `;
 
-type SchedulerJobDetailProps = {
-    jobId:string
-}
+export function SchedulerJobDetail(){
 
-export function SchedulerJobDetail({jobId}:SchedulerJobDetailProps){
+    const jobId = usePresistedSearchParam(DETAIL_ID_PARAM_NAME)
 
     const data = useLazyLoadQuery<SchedulerJobDetailQuery>(
         SchedulerJobDetailTag,

@@ -1,14 +1,14 @@
 import clsx from "clsx";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { Log_PARAM_NAME } from "./MqttAuthLogs";
+import { LOG_PARAM_NAME } from "./MqttAuthLogs";
+import { JsonViewer } from "@textea/json-viewer";
 import { graphql } from "babel-plugin-relay/macro";
-import { useSearchParams } from "react-router-dom";
 import { GetLocalDate } from "../../../../../Shared/Common";
 import ModalContainer from "../../../../../UIComponents/Modal/ModalContainer";
+import { usePresistedSearchParam } from "../../../../../Hooks/usePresistedSearchParam";
 import { MqttAuthLogDetailQuery } from "./__generated__/MqttAuthLogDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../../Shared/Field/FieldHelpers";
-import { JsonViewer } from "@textea/json-viewer";
 
 
 const MqttAuthLogDetailQueryTag = graphql`
@@ -30,15 +30,12 @@ const MqttAuthLogDetailQueryTag = graphql`
 
 export default function MqttAuthLogDetail(){
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [Log_id] = useState(searchParams.get(Log_PARAM_NAME) as string)
+  const log_id = usePresistedSearchParam(LOG_PARAM_NAME)
 
   const data = useLazyLoadQuery<MqttAuthLogDetailQuery>(
     MqttAuthLogDetailQueryTag,
     {
-      log_id:Log_id,
+      log_id:log_id,
     },
     {
       fetchPolicy: "store-and-network",

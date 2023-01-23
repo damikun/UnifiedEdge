@@ -1,13 +1,14 @@
 import clsx from "clsx";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useLazyLoadQuery } from "react-relay";
 import { I_LOG_PARAM_NAME } from "./MqttLogs";
+import { MqttLogTypeBadget } from "./MqttLogType";
 import { graphql } from "babel-plugin-relay/macro";
 import { GetLocalDate } from "../../../../Shared/Common";
-import { MqttLogTypeBadget } from "./MqttLogType";
-import { useParams, useSearchParams } from "react-router-dom";
 import ModalContainer from "../../../../UIComponents/Modal/ModalContainer";
 import { MqttlogDetailQuery } from "./__generated__/MqttlogDetailQuery.graphql";
+import { usePresistedSearchParam } from "../../../../Hooks/usePresistedSearchParam";
 import { FieldDivider, FieldGroup, FieldSection } from "../../../../Shared/Field/FieldHelpers";
 
 
@@ -30,10 +31,7 @@ export default function MqttLogDetail(){
   
   const [server_id] = useState<string>(id)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const [log_id] = useState(searchParams.get(I_LOG_PARAM_NAME))
+  const log_id = usePresistedSearchParam(I_LOG_PARAM_NAME)
 
   const data = useLazyLoadQuery<MqttlogDetailQuery>(
     MqttLogDetailTag,

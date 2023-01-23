@@ -1,14 +1,15 @@
+import { useParams } from "react-router-dom";
 import MqttLogDetail from "./MqttAuthLogDetail";
 import MqttAuthLogsBar from "./MqttAuthLogsBar";
 import { graphql } from "babel-plugin-relay/macro";
 import { usePaginationFragment } from "react-relay";
 import { MqttAuthLogItem } from "./MqttAuthLogItem";
 import Modal from "../../../../../UIComponents/Modal/Modal";
-import { useParams, useSearchParams } from "react-router-dom";
 import Section from "../../../../../UIComponents/Section/Section";
 import useDidMountEffect from "../../../../../Hooks/useDidMountEffect";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
-import React, { startTransition, useCallback, useEffect, useMemo, useState } from "react";
+import React, { startTransition, useCallback, useEffect, useState } from "react";
+import { useSearchParamHandler } from "../../../../../Hooks/useHandleSearchParam";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import InfinityScrollTable from "../../../../../UIComponents/Table/InfinityScrollTable";
 import { MqttAuthLogsCtxProvider, useMqttAuthLogsCtx } from "./MqttAuthLogsCtxProvider";
@@ -16,7 +17,6 @@ import { MqttAuthLogsPaginationFragment$key } from "./__generated__/MqttAuthLogs
 import { MqttAuthClientsPaginationFragment$key } from "./__generated__/MqttAuthClientsPaginationFragment.graphql";
 import { MqttAuthUsersPaginationFragment$key } from "../UserList/__generated__/MqttAuthUsersPaginationFragment.graphql";
 import { MqttAuthLogsPaginationFragmentRefetchQuery } from "./__generated__/MqttAuthLogsPaginationFragmentRefetchQuery.graphql";
-
 
 
 export const MqttAuthLogsPaginationFragment = graphql`
@@ -48,7 +48,7 @@ export const MqttAuthLogsPaginationFragment = graphql`
   }
 `;
 
-export const Log_PARAM_NAME = "Log_id"
+export const LOG_PARAM_NAME = "Log_id"
 
 export default React.memo(MqttAuthLogs)
 
@@ -60,23 +60,14 @@ type MqttAuthLogsProps = {
 
 function MqttAuthLogs({dataRef}:MqttAuthLogsProps) {
   
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  const isOpen = useMemo(() => 
-    searchParams.get(Log_PARAM_NAME)!== null, [searchParams]
-  );
-  
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(Log_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(LOG_PARAM_NAME);
   
   return <MqttAuthLogsCtxProvider>
   <Modal
     position="top"
     isOpen={isOpen}
-    onClose={handleModalClose}
+    onClose={close}
     component={
       <MqttLogDetail />
     }
@@ -114,6 +105,9 @@ function LogListBody({dataRef}:LogListBodyProps){
   MqttAuthLogsPaginationFragment$key
   >(MqttAuthLogsPaginationFragment, dataRef);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(LOG_PARAM_NAME);
+
   useDidMountEffect(() => {
     startTransition(() => {
       pagination.refetch({
@@ -140,18 +134,6 @@ function LogListBody({dataRef}:LogListBodyProps){
     [pagination],
   )
   
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const handleItemDetail = useCallback(
-    (Log_id: string | null | undefined) => {
-      searchParams.delete(Log_PARAM_NAME);
-      if (Log_id) {
-        searchParams.append(Log_PARAM_NAME, Log_id);
-      }
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams]
-  );
 
   return <InfinityScrollBody
     height="h-72"
@@ -167,7 +149,7 @@ function LogListBody({dataRef}:LogListBodyProps){
           return <MqttAuthLogItem 
             key={edge.node?.id??index}
             dataRef={edge.node}
-            onItemClick={handleItemDetail}
+            onItemClick={open}
           />
        })
     }

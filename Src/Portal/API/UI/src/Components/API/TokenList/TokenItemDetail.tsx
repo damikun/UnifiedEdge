@@ -1,8 +1,8 @@
+import { useCallback, useMemo } from "react";
 import { TOKEN_PARAM_NAME } from "./TokenList";
+import { JsonViewer } from "@textea/json-viewer";
 import { graphql } from "babel-plugin-relay/macro";
-import { useSearchParams } from "react-router-dom";
 import { GetLocalDate } from "../../../Shared/Common";
-import { useCallback, useMemo, useState } from "react";
 import { useTokenListCtx } from "./TokenListCtxProvider";
 import { HandleErrors } from "../../../Utils/ErrorHelper";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -11,10 +11,10 @@ import { useModalContext } from "../../../UIComponents/Modal/Modal";
 import { useToast } from "../../../UIComponents/Toast/ToastProvider";
 import ModalContainer from "../../../UIComponents/Modal/ModalContainer";
 import StayledButton from "../../../UIComponents/Buttons/StayledButton";
+import { usePresistedSearchParam } from "../../../Hooks/usePresistedSearchParam";
 import { TokenItemDetailQuery } from "./__generated__/TokenItemDetailQuery.graphql";
 import { FieldDivider, FieldGroup, FieldLabel, FieldSection } from "../../../Shared/Field/FieldHelpers";
 import { TokenItemDetailRemoveMutation } from "./__generated__/TokenItemDetailRemoveMutation.graphql";
-import { JsonViewer } from "@textea/json-viewer";
 
 
 const TokenItemDetailTag = graphql`
@@ -59,10 +59,7 @@ const TokenItemDetailRemoveMutationTag = graphql`
 
 export default function TokenItemDetail(){
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [token_id] = useState(searchParams.get(TOKEN_PARAM_NAME) as string)
+  const token_id = usePresistedSearchParam(TOKEN_PARAM_NAME)
 
   const data = useLazyLoadQuery<TokenItemDetailQuery>(
     TokenItemDetailTag,

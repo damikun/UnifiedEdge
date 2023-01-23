@@ -12,6 +12,7 @@ import useRenderDebounce from "../../../../../Hooks/useRenderDebounce";
 import TableHeader from "../../../../../UIComponents/Table/TableHeader";
 import { FragmentRefs, GraphQLSubscriptionConfig } from "relay-runtime";
 import { MqttRecentMessagesCtxProvider } from "./MqttRecentMessagesCtxProvider";
+import { useSearchParamHandler } from "../../../../../Hooks/useHandleSearchParam";
 import { SelectItemType } from "../../../../../UIComponents/SelectList/SelectList";
 import InfinityScrollBody from "../../../../../UIComponents/Table/InfinityScrollBody";
 import React, { useCallback, useMemo, useReducer,useState,useTransition } from "react";
@@ -96,11 +97,8 @@ export const defaultTopic = {
 
 function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const isOpen = useMemo(() => 
-    searchParams.get(MESSAGE_PARAM_NAME)!== null, [searchParams]
-  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isOpen, open, close] = useSearchParamHandler(MESSAGE_PARAM_NAME);
   
   const [topic_filter, setTopicFilter] = useState(defaultTopic);
 
@@ -120,16 +118,11 @@ function MqttRecentMessages({dataRef}:MqttRecentMessagesProps) {
     [setClientFilter],
   )
 
-  const handleModalClose = useCallback(() => {
-    searchParams.delete(MESSAGE_PARAM_NAME);
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
-
   return <MqttRecentMessagesCtxProvider>
     <Modal
       position="top"
       isOpen={isOpen}
-      onClose={handleModalClose}
+      onClose={close}
       component={
         <MqttRecentMessageDetail />
       }
