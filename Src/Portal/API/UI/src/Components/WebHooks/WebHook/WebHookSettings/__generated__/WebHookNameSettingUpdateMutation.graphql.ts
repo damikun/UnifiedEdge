@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<30b3ffd2f43c39510be2d7c61dc7a0ac>>
+ * @generated SignedSource<<6041654080f4d55ccb236320c274c7ce>>
+ * @relayHash 96ce91bc8e523fda26c53895bf4c01cb
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 96ce91bc8e523fda26c53895bf4c01cb
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateWebHookNameInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "96ce91bc8e523fda26c53895bf4c01cb",
-    "id": null,
+    "id": "96ce91bc8e523fda26c53895bf4c01cb",
     "metadata": {},
     "name": "WebHookNameSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookNameSettingUpdateMutation(\n  $input: UpdateWebHookNameInput!\n) {\n  updateWebHookName(input: $input) {\n    gQL_WebHook {\n      id\n      name\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

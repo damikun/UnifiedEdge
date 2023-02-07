@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<1cbf151840f757093105fcda5be52230>>
+ * @generated SignedSource<<fdb77b2e1aa286eed200700cc0db5005>>
+ * @relayHash 34ad66c0d3c0de1e1d40fa9f638425f1
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 34ad66c0d3c0de1e1d40fa9f638425f1
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type ResetMqttClientStatisticInput = {
@@ -230,12 +233,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "34ad66c0d3c0de1e1d40fa9f638425f1",
-    "id": null,
+    "id": "34ad66c0d3c0de1e1d40fa9f638425f1",
     "metadata": {},
     "name": "MqttClientDetailResetStatsMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttClientDetailResetStatsMutation(\n  $input: ResetMqttClientStatisticInput!\n) {\n  resetMqttClientStatistic(input: $input) {\n    gQL_MqttClientStatistics {\n      id\n      bytesReceived\n      bytesSent\n      sentPacketsCount\n      receivedPacketsCount\n      sentApplicationMessagesCount\n      receivedApplicationMessagesCount\n      lastNonKeepAlivePacketReceivedTimestamp\n      lastPacketReceivedTimestamp\n      lastPacketSentTimestamp\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

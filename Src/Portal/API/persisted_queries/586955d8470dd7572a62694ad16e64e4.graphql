@@ -1,0 +1,1 @@
+subscription MqttExplorerSubItemTopicSubscription(  $id: ID!  $topic: String!) {  mqttBridgeSubscribe(server_id: $id, topic: $topic) {    id    contentType    topic    isJsonPayload    isTextPayload    isXmlPayload    payload    timeStamp    payloadUtf8Str    qos    retain    clientId    dup  }}

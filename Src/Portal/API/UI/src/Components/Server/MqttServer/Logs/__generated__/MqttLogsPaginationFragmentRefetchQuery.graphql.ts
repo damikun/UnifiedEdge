@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f1b1cfa92f0364e37b95eaab64b36585>>
+ * @generated SignedSource<<c2a059d1e7aae931f257ce4d2dd1f344>>
+ * @relayHash 81ea9df84611b07eaf4900b953311535
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 81ea9df84611b07eaf4900b953311535
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -253,12 +256,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "81ea9df84611b07eaf4900b953311535",
-    "id": null,
+    "id": "81ea9df84611b07eaf4900b953311535",
     "metadata": {},
     "name": "MqttLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $id: ID!\n) {\n  ...MqttLogsPaginationFragment_logs_XKRaI\n}\n\nfragment MqttLogsBarEnableFragment_1wA4Dm on Query {\n  mqttServerById(id: $id) {\n    id\n    loggingEnabled\n  }\n}\n\nfragment MqttLogsItemDataFragment on GQL_MqttServerLog {\n  uid\n  source\n  message\n  logLevel\n  timeStamp\n}\n\nfragment MqttLogsPaginationFragment_logs_XKRaI on Query {\n  mqttLogs(server_uid: $id, first: $first, after: $after) {\n    edges {\n      node {\n        uid\n        ...MqttLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  ...MqttLogsBarEnableFragment_1wA4Dm\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f06c7e2565262a7a589b1e51b3ff9022>>
+ * @generated SignedSource<<19be43b0dba752a2f92594dbab70f46e>>
+ * @relayHash 77482b3d0c2ea904f58e7138c4466cff
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 77482b3d0c2ea904f58e7138c4466cff
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type GQL_ServerCmd = "RESTART" | "START" | "STOP" | "%future added value";
@@ -147,12 +150,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "77482b3d0c2ea904f58e7138c4466cff",
-    "id": null,
+    "id": "77482b3d0c2ea904f58e7138c4466cff",
     "metadata": {},
     "name": "ServerInfoStateProcessCmdMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerInfoStateProcessCmdMutation(\n  $input: ProcessServerCmdInput!\n) {\n  processServerCmd(input: $input) {\n    gQL_ServerState\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

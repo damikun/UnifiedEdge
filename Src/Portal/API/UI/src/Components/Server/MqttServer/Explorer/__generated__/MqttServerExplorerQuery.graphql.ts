@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<8afa4892213a3a8b942522d69d0f0a65>>
+ * @generated SignedSource<<07e25c83a6e442894e4e033e5031c31f>>
+ * @relayHash 5b93283bfcdf21b5902e6d34f902afcc
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 5b93283bfcdf21b5902e6d34f902afcc
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -194,12 +197,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5b93283bfcdf21b5902e6d34f902afcc",
-    "id": null,
+    "id": "5b93283bfcdf21b5902e6d34f902afcc",
     "metadata": {},
     "name": "MqttServerExplorerQuery",
     "operationKind": "query",
-    "text": "query MqttServerExplorerQuery(\n  $id: ID!\n) {\n  ...MqttExplorerSubsPaginationFragment_2YLYDF\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n  color\n  serverUid\n}\n\nfragment MqttExplorerSubsPaginationFragment_2YLYDF on Query {\n  mqttExplorerUserStoredSubs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...MqttExplorerSubItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

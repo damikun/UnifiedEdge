@@ -1,0 +1,1 @@
+query SystemLogsQuery {  ...SystemLogsPaginationFragment}fragment SystemLogItemDataFragment on GQL_SystemEvent {  iD  name  timeStamp  type}fragment SystemLogsPaginationFragment on Query {  systemLogs(first: 20) {    edges {      node {        iD        ...SystemLogItemDataFragment        __typename      }      cursor    }    pageInfo {      endCursor      hasNextPage    }  }}

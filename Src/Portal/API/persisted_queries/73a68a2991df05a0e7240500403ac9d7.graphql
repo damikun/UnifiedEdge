@@ -1,0 +1,1 @@
+mutation EdgeDescriptionUpdateMutation(  $request: SetEdgeDescriptionInput!) {  setEdgeDescription(request: $request) {    gQL_Edge {      id      description    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<cbd519067f944397d2e2efacc3c603f8>>
+ * @generated SignedSource<<7d11aad161eaee7b81a383f3a34ddb15>>
+ * @relayHash 9daee644ac0689d0f8ca6b45823d6dc6
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 9daee644ac0689d0f8ca6b45823d6dc6
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -225,12 +228,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9daee644ac0689d0f8ca6b45823d6dc6",
-    "id": null,
+    "id": "9daee644ac0689d0f8ca6b45823d6dc6",
     "metadata": {},
     "name": "ServerLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query ServerLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $id: ID!\n) {\n  ...ServerLogsPaginationFragment_logs_XKRaI\n}\n\nfragment ServerLogsItemDataFragment on GQL_IServerEvent {\n  __isGQL_IServerEvent: __typename\n  iD\n  name\n  timeStamp\n  type\n}\n\nfragment ServerLogsPaginationFragment_logs_XKRaI on Query {\n  serverLogs(server_id: $id, first: $first, after: $after) {\n    edges {\n      node {\n        __typename\n        ... on GQL_IServerEvent {\n          __isGQL_IServerEvent: __typename\n          iD\n          ...ServerLogsItemDataFragment\n        }\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

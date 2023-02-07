@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<99b459b8a0d7882a637e477e1044b5ba>>
+ * @generated SignedSource<<c18d43b51c9939515dfc2bbb77011a98>>
+ * @relayHash 845a9622fb6e97f511455e819d494a11
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 845a9622fb6e97f511455e819d494a11
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -239,12 +242,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "845a9622fb6e97f511455e819d494a11",
-    "id": null,
+    "id": "845a9622fb6e97f511455e819d494a11",
     "metadata": {},
     "name": "MqttRecentMessagesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttRecentMessagesPaginationFragmentRefetchQuery(\n  $after: String\n  $client_uid: ID = null\n  $first: Int = 20\n  $server_uid: ID!\n  $topic_uid: ID = null\n) {\n  ...MqttRecentMessagesPaginationFragment_karSk\n}\n\nfragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {\n  id\n  clientUid\n  topic\n  clientId\n  timeStamp\n}\n\nfragment MqttRecentMessagesPaginationFragment_karSk on Query {\n  mqttServerRecentMessages(server_uid: $server_uid, first: $first, after: $after, client_uid: $client_uid, topic_uid: $topic_uid) {\n    edges {\n      node {\n        id\n        ...MqttRecentMessagesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

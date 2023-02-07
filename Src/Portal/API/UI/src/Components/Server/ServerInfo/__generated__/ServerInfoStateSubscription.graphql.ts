@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f7c0e8e51161144209ed0df192042f59>>
+ * @generated SignedSource<<cb0d0dc873001edde42e08738dd66bb4>>
+ * @relayHash 59addfb4af460e3dedd616e329adf673
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 59addfb4af460e3dedd616e329adf673
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type GQL_ServerState = "DISABLED" | "RESTARTING" | "STARTED" | "STARTING" | "STOPPED" | "STOPPING" | "UNDEFINED" | "%future added value";
@@ -83,12 +86,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "59addfb4af460e3dedd616e329adf673",
-    "id": null,
+    "id": "59addfb4af460e3dedd616e329adf673",
     "metadata": {},
     "name": "ServerInfoStateSubscription",
     "operationKind": "subscription",
-    "text": "subscription ServerInfoStateSubscription(\n  $id: ID!\n) {\n  serverStateChanged(server_id: $id) {\n    server_Uid\n    state\n  }\n}\n"
+    "text": null
   }
 };
 })();

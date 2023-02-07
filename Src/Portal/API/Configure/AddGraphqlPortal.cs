@@ -62,6 +62,10 @@ namespace API
                     options.RemoveUnreachableTypes = true;
 
                     options.StrictValidation = false;
+
+                    // options.EnableDefer = true;
+
+                    // options.EnableStream = true;
                 })
 
                 .AddGlobalObjectIdentification()
@@ -189,11 +193,11 @@ namespace API
                 .AddInMemorySubscriptions()
                 .AddMqttSubscriptions()
                 .AddMaxExecutionDepthRule(8, skipIntrospectionFields: true)
-                .UseCustomPipeline();
+                .UseCustomPipeline()
 
 
-            // .UseReadPersistedQuery();
-            // .AddReadOnlyFileSystemQueryStorage(Persisted_Queries_path);
+                // .UseReadPersistedQuery()
+                .AddReadOnlyFileSystemQueryStorage(Persisted_Queries_path);
 
             return serviceCollection;
         }
@@ -215,7 +219,7 @@ namespace API
                 .UseExceptions()
                 .UseTimeout()
                 .UseDocumentCache()
-                // .UseReadPersistedQuery()
+                .UseReadPersistedQuery()
                 .UseDocumentParser()
                 .UseDocumentValidation()
                 .UseOperationCache()

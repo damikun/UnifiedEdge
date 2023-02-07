@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<eb4a5ea5b04bd8cc6a8fe05dc1b93170>>
+ * @generated SignedSource<<29a7aa8b9a0f3c71bd9114aa960d0898>>
+ * @relayHash 58578159cd31931f674ac01fe31e6507
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 58578159cd31931f674ac01fe31e6507
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type MqttClientDetailSubscription$variables = {
@@ -190,12 +193,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "58578159cd31931f674ac01fe31e6507",
-    "id": null,
+    "id": "58578159cd31931f674ac01fe31e6507",
     "metadata": {},
     "name": "MqttClientDetailSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientDetailSubscription(\n  $server_id: ID!\n  $client_id: ID!\n) {\n  mqttServerClientStatistics(server_id: $server_id, client_id: $client_id) {\n    clientId\n    serverId\n    stats {\n      id\n      bytesReceived\n      bytesSent\n      sentPacketsCount\n      receivedPacketsCount\n      sentApplicationMessagesCount\n      receivedApplicationMessagesCount\n      lastNonKeepAlivePacketReceivedTimestamp\n      lastPacketReceivedTimestamp\n      lastPacketSentTimestamp\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

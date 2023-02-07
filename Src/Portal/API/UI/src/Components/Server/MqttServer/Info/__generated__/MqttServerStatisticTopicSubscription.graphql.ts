@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<c7437149b73ee5c520946eafefb06718>>
+ * @generated SignedSource<<d9bc1eecd596fbaf1c45e5539df53588>>
+ * @relayHash 15b09ccfaa745a641d47e2cb02b77322
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 15b09ccfaa745a641d47e2cb02b77322
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type MqttServerStatisticTopicSubscription$variables = {
@@ -103,12 +106,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "15b09ccfaa745a641d47e2cb02b77322",
-    "id": null,
+    "id": "15b09ccfaa745a641d47e2cb02b77322",
     "metadata": {},
     "name": "MqttServerStatisticTopicSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttServerStatisticTopicSubscription(\n  $id: ID!\n) {\n  mqttServerMetrics(server_id: $id, metric: TOPICS) {\n    id\n    timeStamp\n    unit\n    value\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,0 +1,1 @@
+mutation WebHookSecretSettingUpdateMutation(  $input: UpdateWebHookSecretInput!) {  updateWebHookSecret(input: $input) {    gQL_WebHook {      id      secret    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

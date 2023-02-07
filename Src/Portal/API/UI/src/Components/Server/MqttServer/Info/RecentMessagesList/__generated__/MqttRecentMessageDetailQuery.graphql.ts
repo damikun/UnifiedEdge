@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<dad862997055c5235c4439dc8ecec170>>
+ * @generated SignedSource<<a382ce80632404b1291cc4c158b100c4>>
+ * @relayHash 41fe301b012245230342b380325ea931
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 41fe301b012245230342b380325ea931
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -245,12 +248,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "41fe301b012245230342b380325ea931",
-    "id": null,
+    "id": "41fe301b012245230342b380325ea931",
     "metadata": {},
     "name": "MqttRecentMessageDetailQuery",
     "operationKind": "query",
-    "text": "query MqttRecentMessageDetailQuery(\n  $server_uid: ID!\n  $message_uid: ID!\n) {\n  mqttServerMessageById(server_uid: $server_uid, message_uid: $message_uid) {\n    id\n    dup\n    qos\n    topic\n    retain\n    clientId\n    timeStamp\n    responseTopic\n    expireInterval\n    ...MqttRecentMessageDetailmessagePayloadFragment @defer(label: \"MqttRecentMessageDetailQuery$defer$MqttRecentMessageDetailmessagePayloadFragment\")\n  }\n}\n\nfragment MqttRecentMessageDetailmessagePayloadFragment on GQL_MqttMessage {\n  id\n  payload\n  contentType\n  isXmlPayload\n  isJsonPayload\n  isTextPayload\n  payloadUtf8Str\n}\n"
+    "text": null
   }
 };
 })();

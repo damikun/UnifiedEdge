@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<e8d33ffdcf24cb6c0ec27ddd137b2b40>>
+ * @generated SignedSource<<13c99f14164e00461a9934547866c58b>>
+ * @relayHash c631bc7b13244776c7035c36eecd921d
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID c631bc7b13244776c7035c36eecd921d
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -236,12 +239,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c631bc7b13244776c7035c36eecd921d",
-    "id": null,
+    "id": "c631bc7b13244776c7035c36eecd921d",
     "metadata": {},
     "name": "MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttExplorerPublishMessageStoredTemplatesPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n  contentType\n  expireInterval\n}\n\nfragment MqttExplorerPublishMessageStoredTemplatesPaginationFragment_3VI1TY on Query {\n  mqttExplorerStoredTemplates(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

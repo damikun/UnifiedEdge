@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<62857ecf5d8cc3554c42cccf5ac4d96c>>
+ * @generated SignedSource<<b53c6d3abb9b8254bf73adcfa5313506>>
+ * @relayHash 1e8670b99db209ad43d4fab5364d29c6
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1e8670b99db209ad43d4fab5364d29c6
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -271,12 +274,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1e8670b99db209ad43d4fab5364d29c6",
-    "id": null,
+    "id": "1e8670b99db209ad43d4fab5364d29c6",
     "metadata": {},
     "name": "NetworkSelectAdapterModalQuery",
     "operationKind": "query",
-    "text": "query NetworkSelectAdapterModalQuery {\n  defaultAdapter {\n    adapter {\n      id\n      name\n      interfaceType\n      physicalAddress\n      addresses {\n        gatewayAddresses\n        unicastAddresses\n      }\n    }\n    id\n  }\n  ...AdapterSelectPaginationDataFragment\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n\nfragment AdapterSelectDetailDataFragment on GQL_Adapter {\n  id\n  name\n  interfaceType\n  physicalAddress\n  addresses {\n    gatewayAddresses\n    unicastAddresses\n  }\n}\n\nfragment AdapterSelectPaginationDataFragment on Query {\n  adapters {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        name\n        ...AdapterListItemDataFragment\n        ...AdapterSelectDetailDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

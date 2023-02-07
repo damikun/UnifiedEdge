@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<339e874db3cfe5cb22c09c342eb66fce>>
+ * @generated SignedSource<<1fd260f53d29145471ff14d66f336675>>
+ * @relayHash 3fb970f96179cbd695c525f02141e4d1
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 3fb970f96179cbd695c525f02141e4d1
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetServerLocationInput = {
@@ -197,12 +200,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3fb970f96179cbd695c525f02141e4d1",
-    "id": null,
+    "id": "3fb970f96179cbd695c525f02141e4d1",
     "metadata": {},
     "name": "ServerLocationUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerLocationUpdateMutation(\n  $input: SetServerLocationInput!\n) {\n  setServerLocation(input: $input) {\n    gQL_IServer {\n      __typename\n      id\n      location\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

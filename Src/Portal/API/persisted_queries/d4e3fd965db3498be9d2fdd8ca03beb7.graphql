@@ -1,0 +1,1 @@
+query WebHookCreateQuery {  ...WebHookCreateServerListFragment}fragment WebHookCreateServerListFragment on Query {  servers(first: 100) {    pageInfo {      hasPreviousPage      hasNextPage      startCursor      endCursor    }    edges {      node {        __typename        id        name        type      }      cursor    }  }}

@@ -1,0 +1,1 @@
+subscription MqttClientsClientConnectedSubscription(  $id: ID!) {  mqttNewClient(server_id: $id) {    client {      ...MqttClientItemDataFragment      id    }  }}fragment MqttClientItemDataFragment on GQL_MqttClient {  id  clientId  protocol  serverUid  isConnected  connectedTimeStamp  disconnectedTimeStamp  lastMessageTimestamp}

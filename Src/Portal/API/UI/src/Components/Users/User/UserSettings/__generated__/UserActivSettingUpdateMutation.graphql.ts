@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6cabb6e0be597a03d5995371e6c80808>>
+ * @generated SignedSource<<d3eb4c00732ec8d5d4084f4deef20628>>
+ * @relayHash 6c3f2ad6853ab952f2da8014bced36b5
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 6c3f2ad6853ab952f2da8014bced36b5
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateUserEnabledInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "6c3f2ad6853ab952f2da8014bced36b5",
-    "id": null,
+    "id": "6c3f2ad6853ab952f2da8014bced36b5",
     "metadata": {},
     "name": "UserActivSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserActivSettingUpdateMutation(\n  $input: UpdateUserEnabledInput!\n) {\n  updateUserEnabled(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

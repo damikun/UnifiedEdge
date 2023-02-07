@@ -1,0 +1,1 @@
+subscription ServerListItemServerStateChengedSubscription(  $id: ID!) {  serverStateChanged(server_id: $id) {    server_Uid    state  }}

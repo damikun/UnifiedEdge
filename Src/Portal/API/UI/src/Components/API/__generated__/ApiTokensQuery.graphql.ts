@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<d0cd03ffa35b0f41176c77e899a13db9>>
+ * @generated SignedSource<<214111ce71b9eca939f114e1c2ddea40>>
+ * @relayHash a97647d73eaf9c0b904e50f67ed07e2a
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID a97647d73eaf9c0b904e50f67ed07e2a
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -180,12 +183,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a97647d73eaf9c0b904e50f67ed07e2a",
-    "id": null,
+    "id": "a97647d73eaf9c0b904e50f67ed07e2a",
     "metadata": {},
     "name": "ApiTokensQuery",
     "operationKind": "query",
-    "text": "query ApiTokensQuery {\n  ...TokenListDataFragment\n}\n\nfragment TokenListDataFragment on Query {\n  apiTokens(first: 100) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...TokenListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment TokenListItemDataFragment on GQL_Token {\n  id\n  description\n  expiration\n}\n"
+    "text": null
   }
 };
 })();

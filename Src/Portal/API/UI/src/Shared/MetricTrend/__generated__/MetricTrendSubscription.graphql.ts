@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<13c8f740777a570925a51f5e099788f9>>
+ * @generated SignedSource<<98be79327d4d5446fc9ed627d3b8407c>>
+ * @relayHash d7fbb0c17c53f8db814a0e26e4e7e5de
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID d7fbb0c17c53f8db814a0e26e4e7e5de
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type GQL_RuntimeMetricSource = "GC_ALOCATED_MEMORY" | "MEMORY_WORKING_SET" | "NON_PAGED_SYSTEM_MEMORY" | "PAGED_MEMORY" | "PAGED_SYSTEM_MEMORY" | "PRIVATE_MEMORY" | "PRIVILEGED_CPU_USED" | "THREAD_COUNT" | "TOTAL_CPU_USED" | "USER_CPU_USED" | "VIRTUAL_MEMORY" | "%future added value";
@@ -99,12 +102,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "d7fbb0c17c53f8db814a0e26e4e7e5de",
-    "id": null,
+    "id": "d7fbb0c17c53f8db814a0e26e4e7e5de",
     "metadata": {},
     "name": "MetricTrendSubscription",
     "operationKind": "subscription",
-    "text": "subscription MetricTrendSubscription(\n  $props: GQL_RuntimeMetricSource!\n) {\n  runtimeMetric(source: $props) {\n    timeStamp\n    id\n    name\n    value\n  }\n}\n"
+    "text": null
   }
 };
 })();

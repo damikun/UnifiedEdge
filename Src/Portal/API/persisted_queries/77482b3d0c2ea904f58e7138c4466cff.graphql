@@ -1,0 +1,1 @@
+mutation ServerInfoStateProcessCmdMutation(  $input: ProcessServerCmdInput!) {  processServerCmd(input: $input) {    gQL_ServerState    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6214286e0dfce8f0fdbabc47bf0ed463>>
+ * @generated SignedSource<<d86afe8a95cb7eeb6265b76a7c0cc146>>
+ * @relayHash 7436a5173fd3b98c3003deff283cb173
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7436a5173fd3b98c3003deff283cb173
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetEdgeNameInput = {
@@ -165,12 +168,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "7436a5173fd3b98c3003deff283cb173",
-    "id": null,
+    "id": "7436a5173fd3b98c3003deff283cb173",
     "metadata": {},
     "name": "EdgeNameUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation EdgeNameUpdateMutation(\n  $request: SetEdgeNameInput!\n) {\n  setEdgeName(request: $request) {\n    gQL_Edge {\n      id\n      name\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

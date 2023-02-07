@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<69a8dd2b92b406887e7b951de5fc86d2>>
+ * @generated SignedSource<<fead644ad992d4477ba9a3746bcdbe6b>>
+ * @relayHash 83db906edaa811df17846326eb67eb6b
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 83db906edaa811df17846326eb67eb6b
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -280,12 +283,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "83db906edaa811df17846326eb67eb6b",
-    "id": null,
+    "id": "83db906edaa811df17846326eb67eb6b",
     "metadata": {},
     "name": "MqttExplorerPublishMessageSaveTemplateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageSaveTemplateMutation(\n  $input: SaveMqttExplorerMessageTemplateInput!\n) {\n  saveMqttExplorerMessageTemplate(input: $input) {\n    gQL_MqttMessageTemplate {\n      id\n      ...MqttExplorerPublishMessageStoredTemplateItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttExplorerPublishMessageStoredTemplateItemDataFragment on GQL_MqttMessageTemplate {\n  id\n  name\n  payload\n  qoS\n  retain\n  topic\n  contentType\n  expireInterval\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f400b0116e40b0bc0845bfe62815ea8a>>
+ * @generated SignedSource<<176fff410c7d7831fb9fa0bea9df264a>>
+ * @relayHash 35a5f4fdb696db91f696bdf2c6913b65
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 35a5f4fdb696db91f696bdf2c6913b65
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type UserProviderQuery$variables = {};
@@ -91,16 +94,18 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "35a5f4fdb696db91f696bdf2c6913b65",
-    "id": null,
+    "id": "35a5f4fdb696db91f696bdf2c6913b65",
     "metadata": {},
     "name": "UserProviderQuery",
     "operationKind": "query",
-    "text": "query UserProviderQuery {\n  me {\n    id\n    userName\n    firstName\n    lastName\n    sessionId\n  }\n}\n"
+    "text": null
   }
 };
 })();
 
 (node as any).hash = "ab233adc61f66644052ce57c2290ea7a";
+
+import { PreloadableQueryRegistry } from 'relay-runtime';
+PreloadableQueryRegistry.set(node.params.id, node);
 
 export default node;

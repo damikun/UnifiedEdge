@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<efe19ca7a85a59b734c17029d5f6ed64>>
+ * @generated SignedSource<<0bd70cafa7f924a2bfab5332865ec98d>>
+ * @relayHash 0c132ba2ca12b75a7e1734b5808e9a95
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 0c132ba2ca12b75a7e1734b5808e9a95
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EnableMqttAuthClinetInput = {
@@ -174,12 +177,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "0c132ba2ca12b75a7e1734b5808e9a95",
-    "id": null,
+    "id": "0c132ba2ca12b75a7e1734b5808e9a95",
     "metadata": {},
     "name": "MqttAuthClientItemEnableMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttAuthClientItemEnableMutation(\n  $input: EnableMqttAuthClinetInput!\n) {\n  enableMqttAuthClinet(input: $input) {\n    gQL_MqttAuthClient {\n      clientId\n      enabled\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

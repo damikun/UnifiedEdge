@@ -1,0 +1,1 @@
+subscription ServerInfoConfigMatchSubscription(  $id: ID!) {  mqttServerConfigState(server_id: $id) {    isMatch  }}

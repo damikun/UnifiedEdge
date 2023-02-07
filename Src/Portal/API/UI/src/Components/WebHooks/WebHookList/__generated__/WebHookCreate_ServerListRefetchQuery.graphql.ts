@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<c01e2941f6fc0920c27ffe903b26adb2>>
+ * @generated SignedSource<<0f0c9992eca20c35f786f827502c98c2>>
+ * @relayHash 72464f3501439f28b5a75627a028522f
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 72464f3501439f28b5a75627a028522f
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -200,12 +203,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "72464f3501439f28b5a75627a028522f",
-    "id": null,
+    "id": "72464f3501439f28b5a75627a028522f",
     "metadata": {},
     "name": "WebHookCreate_ServerListRefetchQuery",
     "operationKind": "query",
-    "text": "query WebHookCreate_ServerListRefetchQuery(\n  $after: String\n  $first: Int = 100\n) {\n  ...WebHookCreateServerListFragment_2HEEH6\n}\n\nfragment WebHookCreateServerListFragment_2HEEH6 on Query {\n  servers(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        name\n        type\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

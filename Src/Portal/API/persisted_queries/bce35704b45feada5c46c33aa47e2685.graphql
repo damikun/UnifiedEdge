@@ -1,0 +1,1 @@
+subscription MqttTopicsNewInboundSubscription(  $id: ID!) {  mqttNewTopic(server_id: $id) {    topic {      ...MqttTopicItemDataFragment      id    }  }}fragment MqttTopicItemDataFragment on GQL_MqttTopic {  id  serverUid  topic  stats {    id    messagesCount  }}

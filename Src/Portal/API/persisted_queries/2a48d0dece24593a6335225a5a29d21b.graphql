@@ -1,0 +1,1 @@
+subscription EdgeInfoUptimeSubscription {  uptime {    hours    minutes    days  }}

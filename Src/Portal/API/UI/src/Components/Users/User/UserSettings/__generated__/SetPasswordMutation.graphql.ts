@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<0567df8c8c65e0c7f3312ee7c526a598>>
+ * @generated SignedSource<<5ac2a9b0edcc5ec68f8dac70843ab1d1>>
+ * @relayHash 62f91a42973da2e1ef68440ec66991e6
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 62f91a42973da2e1ef68440ec66991e6
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetUserPasswordInput = {
@@ -159,12 +162,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "62f91a42973da2e1ef68440ec66991e6",
-    "id": null,
+    "id": "62f91a42973da2e1ef68440ec66991e6",
     "metadata": {},
     "name": "SetPasswordMutation",
     "operationKind": "mutation",
-    "text": "mutation SetPasswordMutation(\n  $input: SetUserPasswordInput!\n) {\n  setUserPassword(input: $input) {\n    gQL_User {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

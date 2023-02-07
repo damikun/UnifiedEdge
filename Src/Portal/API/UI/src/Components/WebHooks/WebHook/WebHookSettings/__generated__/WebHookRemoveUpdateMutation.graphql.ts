@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<89a496833a465ab1080031c86b5ea954>>
+ * @generated SignedSource<<6baa2bca6e5a21021cc499fa87f4c1bf>>
+ * @relayHash 46a7f8af1912355a9a9deabce200d4bb
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 46a7f8af1912355a9a9deabce200d4bb
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type RemoveWebHookInput = {
@@ -157,12 +160,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "46a7f8af1912355a9a9deabce200d4bb",
-    "id": null,
+    "id": "46a7f8af1912355a9a9deabce200d4bb",
     "metadata": {},
     "name": "WebHookRemoveUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookRemoveUpdateMutation(\n  $input: RemoveWebHookInput!\n) {\n  removeWebHook(input: $input) {\n    gQL_WebHook {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

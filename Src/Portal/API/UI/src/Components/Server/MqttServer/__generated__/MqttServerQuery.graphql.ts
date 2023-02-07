@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<38450b42b24780834417ce7340d90a05>>
+ * @generated SignedSource<<a640fee03c0f7858806e99cf8a8e94c6>>
+ * @relayHash 4048e1fcbedfcae9c76f955e51ec6e48
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 4048e1fcbedfcae9c76f955e51ec6e48
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -196,12 +199,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4048e1fcbedfcae9c76f955e51ec6e48",
-    "id": null,
+    "id": "4048e1fcbedfcae9c76f955e51ec6e48",
     "metadata": {},
     "name": "MqttServerQuery",
     "operationKind": "query",
-    "text": "query MqttServerQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    name\n    ...ServerInfoDataFragment\n    id\n  }\n}\n\nfragment ServerInfoConfigDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  isConfigMatch\n  configState {\n    isConfigMatch\n    offlineTimeStamp\n    onlineTimeStamp\n  }\n}\n\nfragment ServerInfoDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  ...ServerInfoNameDataFragment\n  ...ServerInfoStateDataFragment\n  ...ServerInfoUptimeDataFragment\n  ...ServerInfoConfigDataFragment\n}\n\nfragment ServerInfoNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  name\n}\n\nfragment ServerInfoStateDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  state\n}\n\nfragment ServerInfoUptimeDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  uptime {\n    days\n    hours\n    isValid\n    minutes\n    uptime\n  }\n}\n"
+    "text": null
   }
 };
 })();

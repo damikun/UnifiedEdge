@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<e42c20cfc224bcdd5bf8ce46392975f1>>
+ * @generated SignedSource<<74eba2325b878816258b57879d7a4b91>>
+ * @relayHash a6115a647fe5b2231ad346e338bbace1
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID a6115a647fe5b2231ad346e338bbace1
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type ServerlogDetailQuery$variables = {
@@ -126,12 +129,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a6115a647fe5b2231ad346e338bbace1",
-    "id": null,
+    "id": "a6115a647fe5b2231ad346e338bbace1",
     "metadata": {},
     "name": "ServerlogDetailQuery",
     "operationKind": "query",
-    "text": "query ServerlogDetailQuery(\n  $log_id: ID!\n) {\n  serverLogById(log_id: $log_id) {\n    __typename\n    ... on GQL_IServerEvent {\n      __isGQL_IServerEvent: __typename\n      iD\n      name\n      asJson\n      timeStamp\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<dc0102f4a9cac0b577051d9ac186aedc>>
+ * @generated SignedSource<<21ee5b66b8ad3159d2ddc5355fafad57>>
+ * @relayHash 1df3582e758b92650f57251d7d1853d6
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1df3582e758b92650f57251d7d1853d6
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type MqttServerNetworkInfoRcvdPacketsSubscription$variables = {
@@ -103,12 +106,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "1df3582e758b92650f57251d7d1853d6",
-    "id": null,
+    "id": "1df3582e758b92650f57251d7d1853d6",
     "metadata": {},
     "name": "MqttServerNetworkInfoRcvdPacketsSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttServerNetworkInfoRcvdPacketsSubscription(\n  $id: ID!\n) {\n  mqttServerMetrics(server_id: $id, metric: INBOUND_PACKETS) {\n    id\n    timeStamp\n    unit\n    value\n  }\n}\n"
+    "text": null
   }
 };
 })();

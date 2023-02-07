@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<73cba073d3fb53f7b29ea2cf9c5e4f73>>
+ * @generated SignedSource<<b3b685565fcbc1cd2cc393d7cbc6fb0a>>
+ * @relayHash 168afaeebceeb415e21b0e4e675cb274
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 168afaeebceeb415e21b0e4e675cb274
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type TokenItemDetailQuery$variables = {
@@ -98,12 +101,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "168afaeebceeb415e21b0e4e675cb274",
-    "id": null,
+    "id": "168afaeebceeb415e21b0e4e675cb274",
     "metadata": {},
     "name": "TokenItemDetailQuery",
     "operationKind": "query",
-    "text": "query TokenItemDetailQuery(\n  $token_id: ID!\n) {\n  tokenById(token_id: $token_id) {\n    id\n    description\n    expiration\n    jsonData\n  }\n}\n"
+    "text": null
   }
 };
 })();

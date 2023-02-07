@@ -1,0 +1,1 @@
+query SystemLogDetailQuery(  $log_id: ID!) {  systemLogById(log_id: $log_id) {    iD    name    timeStamp    type    json  }}

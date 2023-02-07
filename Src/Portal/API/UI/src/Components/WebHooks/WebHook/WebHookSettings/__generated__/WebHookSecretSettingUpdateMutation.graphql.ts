@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<51ed6808f120fd6aa121b156cdfdb23c>>
+ * @generated SignedSource<<bc317da21c966db9d6f21d6c20cbba3c>>
+ * @relayHash 82eea9c0270f5179c505bbcfcd1418ac
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 82eea9c0270f5179c505bbcfcd1418ac
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateWebHookSecretInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "82eea9c0270f5179c505bbcfcd1418ac",
-    "id": null,
+    "id": "82eea9c0270f5179c505bbcfcd1418ac",
     "metadata": {},
     "name": "WebHookSecretSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookSecretSettingUpdateMutation(\n  $input: UpdateWebHookSecretInput!\n) {\n  updateWebHookSecret(input: $input) {\n    gQL_WebHook {\n      id\n      secret\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

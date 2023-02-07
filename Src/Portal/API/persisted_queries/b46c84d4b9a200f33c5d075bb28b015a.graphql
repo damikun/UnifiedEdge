@@ -1,0 +1,1 @@
+subscription MqttTopicsUpdatedSubscription(  $id: ID!) {  mqttTopicUpdated(server_id: $id) {    ...MqttTopicItemDataFragment    id  }}fragment MqttTopicItemDataFragment on GQL_MqttTopic {  id  serverUid  topic  stats {    id    messagesCount  }}

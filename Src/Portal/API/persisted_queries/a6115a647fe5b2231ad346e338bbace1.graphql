@@ -1,0 +1,1 @@
+query ServerlogDetailQuery(  $log_id: ID!) {  serverLogById(log_id: $log_id) {    __typename    ... on GQL_IServerEvent {      __isGQL_IServerEvent: __typename      iD      name      asJson      timeStamp    }  }}

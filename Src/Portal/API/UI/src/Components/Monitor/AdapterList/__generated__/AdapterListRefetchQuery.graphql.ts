@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<4272d45a5d8eb65fcc06dfdd438a3084>>
+ * @generated SignedSource<<18a607a92bdf8ce1b48773fe8a766730>>
+ * @relayHash 1909c874bae894d71391b64377c5aa22
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1909c874bae894d71391b64377c5aa22
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -207,12 +210,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1909c874bae894d71391b64377c5aa22",
-    "id": null,
+    "id": "1909c874bae894d71391b64377c5aa22",
     "metadata": {},
     "name": "AdapterListRefetchQuery",
     "operationKind": "query",
-    "text": "query AdapterListRefetchQuery(\n  $after: String\n  $first: Int\n) {\n  ...AdapterListDataFragment_2HEEH6\n}\n\nfragment AdapterListDataFragment_2HEEH6 on Query {\n  adapters(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...AdapterListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n"
+    "text": null
   }
 };
 })();

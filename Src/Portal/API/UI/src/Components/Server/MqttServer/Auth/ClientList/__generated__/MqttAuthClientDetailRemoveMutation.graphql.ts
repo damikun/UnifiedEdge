@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<09151501c30d77288bd3128c08c26a71>>
+ * @generated SignedSource<<08638932e5fb4538e8d730587a1f1a65>>
+ * @relayHash 0454cfe481176ae82c97aed091d63f43
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 0454cfe481176ae82c97aed091d63f43
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type RemoveMqttAuthClientInput = {
@@ -210,12 +213,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "0454cfe481176ae82c97aed091d63f43",
-    "id": null,
+    "id": "0454cfe481176ae82c97aed091d63f43",
     "metadata": {},
     "name": "MqttAuthClientDetailRemoveMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttAuthClientDetailRemoveMutation(\n  $input: RemoveMqttAuthClientInput!\n) {\n  removeMqttAuthClient(input: $input) {\n    gQL_MqttAuthClient {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

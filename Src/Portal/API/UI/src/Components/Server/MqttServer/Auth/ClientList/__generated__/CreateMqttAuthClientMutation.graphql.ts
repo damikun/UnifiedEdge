@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<ff4a009d91b885f7740d6b1e2d328b18>>
+ * @generated SignedSource<<eafa3808c048e3dc063dd76bf5df2711>>
+ * @relayHash b936ba74d6b939be0b9a70449efdde0b
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID b936ba74d6b939be0b9a70449efdde0b
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -241,12 +244,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b936ba74d6b939be0b9a70449efdde0b",
-    "id": null,
+    "id": "b936ba74d6b939be0b9a70449efdde0b",
     "metadata": {},
     "name": "CreateMqttAuthClientMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateMqttAuthClientMutation(\n  $input: CreateMqttAuthClientInput!\n) {\n  createMqttAuthClient(input: $input) {\n    gQL_MqttAuthClient {\n      ...MqttAuthClientItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttAuthClientItemDataFragment on GQL_MqttAuthClient {\n  clientId\n  enabled\n  lastAuthenticate\n  id\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<ade7a4bfa3d209124592654abd3a4d02>>
+ * @generated SignedSource<<c9527ff9cd78af9deaab007ffc54fded>>
+ * @relayHash 0f406ec8ba3131fddbf8bef84596fa4f
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 0f406ec8ba3131fddbf8bef84596fa4f
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type AuthAction = "ALLOW" | "DISALLOW" | "%future added value";
@@ -140,12 +143,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "0f406ec8ba3131fddbf8bef84596fa4f",
-    "id": null,
+    "id": "0f406ec8ba3131fddbf8bef84596fa4f",
     "metadata": {},
     "name": "MqttAuthClientDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthClientDetailQuery(\n  $authClient_id: ID!\n) {\n  mqttAuthClientById(authClient_id: $authClient_id) {\n    clientId\n    enabled\n    id\n    lastAuthenticate\n    rules {\n      authAction\n      mqttAction\n      topic\n      id\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<7900518207b96c68ba8a43cd405c7c40>>
+ * @generated SignedSource<<99c0795091f01077599ebc427820a0d3>>
+ * @relayHash 1d74da7b85ca3fcc7a48dd6f23f5482c
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1d74da7b85ca3fcc7a48dd6f23f5482c
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -265,12 +268,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1d74da7b85ca3fcc7a48dd6f23f5482c",
-    "id": null,
+    "id": "1d74da7b85ca3fcc7a48dd6f23f5482c",
     "metadata": {},
     "name": "NoteVisibilitySectionMutation",
     "operationKind": "mutation",
-    "text": "mutation NoteVisibilitySectionMutation(\n  $input: SetNotePublicInput!\n) {\n  setNotePublic(input: $input) {\n    gQL_Note {\n      id\n      ...NoteDataFragment\n      ...NotesItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment NoteDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n\nfragment NotesItemDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n"
+    "text": null
   }
 };
 })();

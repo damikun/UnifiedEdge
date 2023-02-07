@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<03c217cbcc9ab3c2bf5a675b44d8defb>>
+ * @generated SignedSource<<b80d11e5d676113ca6367a71b58beb87>>
+ * @relayHash 31d90a14dcdcec1a0ba291529d5f7ee2
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 31d90a14dcdcec1a0ba291529d5f7ee2
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -221,12 +224,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "31d90a14dcdcec1a0ba291529d5f7ee2",
-    "id": null,
+    "id": "31d90a14dcdcec1a0ba291529d5f7ee2",
     "metadata": {},
     "name": "MqttTopicsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttTopicsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttTopicsPaginationFragment_3VI1TY\n}\n\nfragment MqttTopicItemDataFragment on GQL_MqttTopic {\n  id\n  serverUid\n  topic\n  stats {\n    id\n    messagesCount\n  }\n}\n\nfragment MqttTopicsPaginationFragment_3VI1TY on Query {\n  mqttServerTopics(server_uid: $server_uid, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        topic\n        ...MqttTopicItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

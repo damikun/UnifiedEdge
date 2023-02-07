@@ -1,0 +1,1 @@
+mutation SetPasswordMutation(  $input: SetUserPasswordInput!) {  setUserPassword(input: $input) {    gQL_User {      id    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

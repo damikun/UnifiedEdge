@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<8d523b282ddcf774474232bb16a6288a>>
+ * @generated SignedSource<<c4a1a59c925645ecfdd15d47e78ec3a7>>
+ * @relayHash 7032f311b8d1338848354bf8f9f2d81e
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7032f311b8d1338848354bf8f9f2d81e
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type HookEventGroup = "MQTT" | "OPC" | "S7" | "SYSTEM" | "%future added value";
@@ -172,12 +175,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "7032f311b8d1338848354bf8f9f2d81e",
-    "id": null,
+    "id": "7032f311b8d1338848354bf8f9f2d81e",
     "metadata": {},
     "name": "WebHookRecordDetailQuery",
     "operationKind": "query",
-    "text": "query WebHookRecordDetailQuery(\n  $record_id: ID!\n) {\n  webHookRecordById(record_id: $record_id) {\n    id\n    statusCode\n    timestamp\n    hookEventGroup\n    guid\n    result\n    exception\n    requestHeaders\n    requestBody\n    responseBody\n    isJsonResponse\n    isTextHtmlResponse\n    responseContentType\n  }\n}\n"
+    "text": null
   }
 };
 })();

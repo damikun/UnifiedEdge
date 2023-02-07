@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<304317b6b4e7effd7cd2e6e4685e7014>>
+ * @generated SignedSource<<fa525ff2f81986bfa60392bcf4b42de6>>
+ * @relayHash 9e2bd826c995a34ccf441377c54719d5
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 9e2bd826c995a34ccf441377c54719d5
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -280,12 +283,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9e2bd826c995a34ccf441377c54719d5",
-    "id": null,
+    "id": "9e2bd826c995a34ccf441377c54719d5",
     "metadata": {},
     "name": "TokenCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation TokenCreateMutation(\n  $input: GenerateApiTokenInput!\n) {\n  generateApiToken(input: $input) {\n    gQL_TokenResponse {\n      handle\n      token {\n        id\n        description\n        expiration\n        ...TokenListItemDataFragment\n      }\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment TokenListItemDataFragment on GQL_Token {\n  id\n  description\n  expiration\n}\n"
+    "text": null
   }
 };
 })();

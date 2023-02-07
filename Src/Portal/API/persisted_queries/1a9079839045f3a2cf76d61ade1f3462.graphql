@@ -1,0 +1,1 @@
+mutation ApiInfoRestEnableMutation(  $input: EnableRestApiInput!) {  enableRestApi(input: $input) {    gQL_Edge {      id      apiRest    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

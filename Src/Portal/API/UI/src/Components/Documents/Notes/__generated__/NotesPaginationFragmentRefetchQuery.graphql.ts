@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<408d121d7b1e01593a7b16851cd1ebd5>>
+ * @generated SignedSource<<545c2129293d20ad48f1c10202858b26>>
+ * @relayHash c522de3daf45eefaa5668ef56479bd87
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID c522de3daf45eefaa5668ef56479bd87
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -257,12 +260,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c522de3daf45eefaa5668ef56479bd87",
-    "id": null,
+    "id": "c522de3daf45eefaa5668ef56479bd87",
     "metadata": {},
     "name": "NotesPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query NotesPaginationFragmentRefetchQuery(\n  $after: String\n  $filter: NoteFilter = ALL\n  $first: Int = 30\n) {\n  ...NotesPaginationFragment_G9cLv\n}\n\nfragment NotesItemDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n\nfragment NotesPaginationFragment_G9cLv on Query {\n  notes(first: $first, after: $after, filter: $filter) {\n    edges {\n      node {\n        id\n        ...NotesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

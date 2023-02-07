@@ -1,0 +1,1 @@
+query MqttAuthLogDetailQuery(  $log_id: ID!) {  mqttAuthLogById(log_id: $log_id) {    authClientId    authUserId    code    jsonMetadata    description    errorMessage    isSuccess    id    timeStamp  }}

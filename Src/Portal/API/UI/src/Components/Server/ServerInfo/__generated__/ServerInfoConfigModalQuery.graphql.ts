@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6cd23eec0221fe001d95e50cdb6fb2c4>>
+ * @generated SignedSource<<1da0ed70db8e3b1b25a4b59bb3a84b28>>
+ * @relayHash cf3afd6aa032ea64183160e5e4435097
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID cf3afd6aa032ea64183160e5e4435097
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type ServerInfoConfigModalQuery$variables = {
@@ -154,12 +157,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cf3afd6aa032ea64183160e5e4435097",
-    "id": null,
+    "id": "cf3afd6aa032ea64183160e5e4435097",
     "metadata": {},
     "name": "ServerInfoConfigModalQuery",
     "operationKind": "query",
-    "text": "query ServerInfoConfigModalQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on GQL_IServer {\n      __isGQL_IServer: __typename\n      configState {\n        isConfigMatch\n        offlineTimeStamp\n        onlineTimeStamp\n        offlineConfig\n        onlineConfig\n      }\n    }\n    id\n  }\n}\n"
+    "text": null
   }
 };
 })();

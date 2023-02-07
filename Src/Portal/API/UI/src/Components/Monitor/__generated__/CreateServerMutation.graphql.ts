@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<25d8e887230a6c07cd8acb793d97def9>>
+ * @generated SignedSource<<61e5d5becccfb87d0b0c1d95de002667>>
+ * @relayHash 88b0173601e2478e5aeffbf925cb6174
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 88b0173601e2478e5aeffbf925cb6174
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -249,12 +252,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "88b0173601e2478e5aeffbf925cb6174",
-    "id": null,
+    "id": "88b0173601e2478e5aeffbf925cb6174",
     "metadata": {},
     "name": "CreateServerMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateServerMutation(\n  $request: CreateServerInput!\n) {\n  createServer(request: $request) {\n    gQL_IServer {\n      __typename\n      ...ServerListItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n  state\n  type\n  __typename\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,0 +1,1 @@
+mutation EdgeLocation3UpdateMutation(  $request: SetEdgeLocation3Input!) {  setEdgeLocation3(request: $request) {    gQL_Edge {      id      location3    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

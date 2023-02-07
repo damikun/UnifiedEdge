@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6cc0006cd1a1a4b28e0f49a071705e86>>
+ * @generated SignedSource<<2951344562cc89cd74fe00a1adee8227>>
+ * @relayHash fece611effb70c672b7d0fc475c24e0e
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID fece611effb70c672b7d0fc475c24e0e
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -186,12 +189,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "fece611effb70c672b7d0fc475c24e0e",
-    "id": null,
+    "id": "fece611effb70c672b7d0fc475c24e0e",
     "metadata": {},
     "name": "NoteQuery",
     "operationKind": "query",
-    "text": "query NoteQuery(\n  $note_id: ID!\n) {\n  noteById(note_id: $note_id) {\n    id\n    content\n    ...NoteDataFragment\n    ...NoteNameSectionDataFragment\n    ...NoteVisibilitySectionDataFragment\n    ...NoteHighlightSectionDataFragment\n    ...NoteUpdateSectionDataFragment\n  }\n}\n\nfragment NoteDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n\nfragment NoteHighlightSectionDataFragment on GQL_Note {\n  id\n  isHighlighted\n}\n\nfragment NoteNameSectionDataFragment on GQL_Note {\n  id\n  name\n}\n\nfragment NoteUpdateSectionDataFragment on GQL_Note {\n  id\n  content\n}\n\nfragment NoteVisibilitySectionDataFragment on GQL_Note {\n  id\n  isPrivate\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,0 +1,1 @@
+query MqttAuthClientDetailQuery(  $authClient_id: ID!) {  mqttAuthClientById(authClient_id: $authClient_id) {    clientId    enabled    id    lastAuthenticate    rules {      authAction      mqttAction      topic      id    }  }}

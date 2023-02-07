@@ -31,8 +31,8 @@ const fetchGraphQL: FetchFunction = (operation, variables, _cacheConfig) => {
 			method: "POST",
 			mode: "cors",
 			body: JSON.stringify({
-				// id: operation.id, // NOTE: pass md5 hash to the server
-				query: operation.text, // this is now obsolete because text is null
+				id: operation.id, // md5 hash
+				// query: operation.text, // only when presisted is disabled
 				variables,
 				operationName: operation.name,
 			}),

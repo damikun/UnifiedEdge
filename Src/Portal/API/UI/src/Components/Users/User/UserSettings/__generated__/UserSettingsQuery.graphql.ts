@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<d0aec5e8b0d228cc0169137b280c8348>>
+ * @generated SignedSource<<b3ef22fb5afdf210176189e320711505>>
+ * @relayHash 7779567b5328b3a9c5c27dbdc1c6df42
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7779567b5328b3a9c5c27dbdc1c6df42
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -209,12 +212,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7779567b5328b3a9c5c27dbdc1c6df42",
-    "id": null,
+    "id": "7779567b5328b3a9c5c27dbdc1c6df42",
     "metadata": {},
     "name": "UserSettingsQuery",
     "operationKind": "query",
-    "text": "query UserSettingsQuery(\n  $user_id: ID!\n  $current_user_id: ID!\n) {\n  userById(user_id: $user_id) {\n    id\n    ...UserFirstNameSettingDataFragment\n    ...UserLastNameSettingDataFragment\n    ...UserActivSettingDataFragment\n    ...UserRemoveDataFragment\n    ...SetPasswordDataFragment\n  }\n  isAdmin(user_id: $current_user_id) {\n    isAdmin\n  }\n  me {\n    id\n  }\n  ...UserAdminSettingDataFragment_121sjE\n}\n\nfragment SetPasswordDataFragment on GQL_User {\n  id\n}\n\nfragment UserActivSettingDataFragment on GQL_User {\n  id\n  enabled\n}\n\nfragment UserAdminSettingDataFragment_121sjE on Query {\n  userById(user_id: $user_id) {\n    id\n  }\n  user: isAdmin(user_id: $user_id) {\n    isAdmin\n  }\n}\n\nfragment UserFirstNameSettingDataFragment on GQL_User {\n  id\n  firstName\n}\n\nfragment UserLastNameSettingDataFragment on GQL_User {\n  id\n  lastName\n}\n\nfragment UserRemoveDataFragment on GQL_User {\n  id\n}\n"
+    "text": null
   }
 };
 })();

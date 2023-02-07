@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<39b9bf7ac1e36afe37133700f2bf4a5a>>
+ * @generated SignedSource<<5c78ebdfcdd878d03561ce4820c7372a>>
+ * @relayHash 1a9079839045f3a2cf76d61ade1f3462
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1a9079839045f3a2cf76d61ade1f3462
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EnableRestApiInput = {
@@ -165,12 +168,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "1a9079839045f3a2cf76d61ade1f3462",
-    "id": null,
+    "id": "1a9079839045f3a2cf76d61ade1f3462",
     "metadata": {},
     "name": "ApiInfoRestEnableMutation",
     "operationKind": "mutation",
-    "text": "mutation ApiInfoRestEnableMutation(\n  $input: EnableRestApiInput!\n) {\n  enableRestApi(input: $input) {\n    gQL_Edge {\n      id\n      apiRest\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

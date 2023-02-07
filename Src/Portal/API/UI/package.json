@@ -69,7 +69,7 @@
     "tailwindcss": "^3.1.2"
   },
   "scripts": {
-    "relay": "relay-compiler relay.json",
+    "relay": "relay-compiler relay.json && node converter.js persisted.json ../persisted_queries",
     "start": "rimraf ./build && react-app-rewired start",
     "build": "react-app-rewired build || true",
     "test": "cross-env CI=true react-app-rewired test",

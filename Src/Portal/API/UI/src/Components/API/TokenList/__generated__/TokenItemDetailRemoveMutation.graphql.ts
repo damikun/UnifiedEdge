@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<9183a1fc2f9db16c7a5d176900e2f242>>
+ * @generated SignedSource<<5590b72dede131c21a8cde1c292a79e7>>
+ * @relayHash 76d80ca13a2d6b0b1d53c9074bd0bff7
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 76d80ca13a2d6b0b1d53c9074bd0bff7
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type RevokeApiTokenInput = {
@@ -210,12 +213,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "76d80ca13a2d6b0b1d53c9074bd0bff7",
-    "id": null,
+    "id": "76d80ca13a2d6b0b1d53c9074bd0bff7",
     "metadata": {},
     "name": "TokenItemDetailRemoveMutation",
     "operationKind": "mutation",
-    "text": "mutation TokenItemDetailRemoveMutation(\n  $input: RevokeApiTokenInput!\n) {\n  revokeApiToken(input: $input) {\n    gQL_Token {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

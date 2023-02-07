@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<e2242e40c30ede9f5f852094f85bb63d>>
+ * @generated SignedSource<<9eb4afabc7c87dfe2da33700af2b492e>>
+ * @relayHash 3d672ebb87cf05bb2c0ee73825bfb4a8
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 3d672ebb87cf05bb2c0ee73825bfb4a8
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -217,12 +220,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3d672ebb87cf05bb2c0ee73825bfb4a8",
-    "id": null,
+    "id": "3d672ebb87cf05bb2c0ee73825bfb4a8",
     "metadata": {},
     "name": "MqttServerSettingsQuery",
     "operationKind": "query",
-    "text": "query MqttServerSettingsQuery(\n  $id: ID!\n) {\n  mqttServerById(id: $id) {\n    ...ServerSharedSettingsFragment\n    ...ServerRemoveDataFragment\n    id\n  }\n  ...MqttServerNetworkSettingsFragment_2YLYDF\n  ...MqttServerMqttClientSettingsFragment_2YLYDF\n}\n\nfragment MqttServerClientComTimeoutDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  communicationTimeout\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n\nfragment MqttServerEndpointDataFragment_2YLYDF on Query {\n  mqttServerEndpoint(server_uid: $id) {\n    id\n    port\n    iPAddress\n    serverUid\n  }\n}\n\nfragment MqttServerMqttClientSettingsFragment_2YLYDF on Query {\n  mqttServerClientConfig(server_uid: $id) {\n    ...MqttServerClientComTimeoutDataFragment\n    ...MqttServerClientPresistSessionDataFragment\n    ...MqttServerClientMaxPendingMessagesDataFragment\n    id\n  }\n}\n\nfragment MqttServerNetworkSettingsFragment_2YLYDF on Query {\n  ...MqttServerEndpointDataFragment_2YLYDF\n}\n\nfragment ServerDescriptionDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  description\n}\n\nfragment ServerLocationDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  location\n}\n\nfragment ServerNameDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n}\n\nfragment ServerRemoveDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n}\n\nfragment ServerSharedSettingsFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  ...ServerNameDataFragment\n  ...ServerLocationDataFragment\n  ...ServerDescriptionDataFragment\n}\n"
+    "text": null
   }
 };
 })();

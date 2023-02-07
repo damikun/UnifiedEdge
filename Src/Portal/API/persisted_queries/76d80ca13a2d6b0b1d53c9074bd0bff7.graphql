@@ -1,0 +1,1 @@
+mutation TokenItemDetailRemoveMutation(  $input: RevokeApiTokenInput!) {  revokeApiToken(input: $input) {    gQL_Token {      id    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<37996e67d5f0f7b6b2a9b2c4b483c56c>>
+ * @generated SignedSource<<cb1660487d2a7cb8e9d2d7683e4566e3>>
+ * @relayHash debdb2e679eeabe330686c3d647726f3
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID debdb2e679eeabe330686c3d647726f3
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateWebHookActiveStateInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "debdb2e679eeabe330686c3d647726f3",
-    "id": null,
+    "id": "debdb2e679eeabe330686c3d647726f3",
     "metadata": {},
     "name": "WebHookActivSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookActivSettingUpdateMutation(\n  $input: UpdateWebHookActiveStateInput!\n) {\n  updateWebHookActiveState(input: $input) {\n    gQL_WebHook {\n      id\n      isActive\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

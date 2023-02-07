@@ -1,0 +1,1 @@
+subscription MqttServerStatisticTopicSubscription(  $id: ID!) {  mqttServerMetrics(server_id: $id, metric: TOPICS) {    id    timeStamp    unit    value  }}

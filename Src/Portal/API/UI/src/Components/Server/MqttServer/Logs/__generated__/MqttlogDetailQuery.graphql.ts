@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<73730231dc5670b0e3c2eca539413154>>
+ * @generated SignedSource<<bdef76ae540386cf5e21f5d7f11b60a0>>
+ * @relayHash a07a624ad957a934bfaa45e375adfbd8
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID a07a624ad957a934bfaa45e375adfbd8
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type MqttNetLogLevel = "ERROR" | "INFO" | "VERBOSE" | "WARNING" | "%future added value";
@@ -130,12 +133,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "a07a624ad957a934bfaa45e375adfbd8",
-    "id": null,
+    "id": "a07a624ad957a934bfaa45e375adfbd8",
     "metadata": {},
     "name": "MqttlogDetailQuery",
     "operationKind": "query",
-    "text": "query MqttlogDetailQuery(\n  $server_id: ID!\n  $log_uid: ID!\n) {\n  mqttLogById(log_uid: $log_uid, server_id: $server_id) {\n    uid\n    source\n    message\n    logLevel\n    timeStamp\n    exception\n  }\n}\n"
+    "text": null
   }
 };
 })();

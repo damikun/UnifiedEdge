@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<56e8ae128d838021d8a734cafc45efb4>>
+ * @generated SignedSource<<415c7ab66d62a9f7f506ee33e3ba588c>>
+ * @relayHash 5d06a3a7edd5abe23532c4e450368a6a
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 5d06a3a7edd5abe23532c4e450368a6a
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type EventType = "ERROR" | "INFO" | "WARNING" | "%future added value";
@@ -107,12 +110,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "5d06a3a7edd5abe23532c4e450368a6a",
-    "id": null,
+    "id": "5d06a3a7edd5abe23532c4e450368a6a",
     "metadata": {},
     "name": "SystemLogDetailQuery",
     "operationKind": "query",
-    "text": "query SystemLogDetailQuery(\n  $log_id: ID!\n) {\n  systemLogById(log_id: $log_id) {\n    iD\n    name\n    timeStamp\n    type\n    json\n  }\n}\n"
+    "text": null
   }
 };
 })();

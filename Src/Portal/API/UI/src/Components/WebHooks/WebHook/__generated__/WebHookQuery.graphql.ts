@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<948582862dee677f566984fd8c74af2b>>
+ * @generated SignedSource<<a4c8c24048ff77e99f0521ee82853cc9>>
+ * @relayHash 7a66fcc04bfc145f48000bb0a64bac46
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7a66fcc04bfc145f48000bb0a64bac46
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -113,12 +116,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7a66fcc04bfc145f48000bb0a64bac46",
-    "id": null,
+    "id": "7a66fcc04bfc145f48000bb0a64bac46",
     "metadata": {},
     "name": "WebHookQuery",
     "operationKind": "query",
-    "text": "query WebHookQuery(\n  $hook_id: ID!\n) {\n  webHookById(hook_id: $hook_id) {\n    ...WebHookInfoBarDataFragment\n    id\n  }\n}\n\nfragment WebHookActivDataFragment on GQL_WebHook {\n  isActive\n}\n\nfragment WebHookInfoBarDataFragment on GQL_WebHook {\n  ...WebHookNameDataFragment\n  ...WebHookLastRunDataFragment\n  ...WebHookActivDataFragment\n}\n\nfragment WebHookLastRunDataFragment on GQL_WebHook {\n  lastTrigger\n}\n\nfragment WebHookNameDataFragment on GQL_WebHook {\n  name\n}\n"
+    "text": null
   }
 };
 })();

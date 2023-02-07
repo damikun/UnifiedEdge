@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<94d416c6715ac0624939dd9374be5bfa>>
+ * @generated SignedSource<<81a8de6002383d6c4097654ffe6280b6>>
+ * @relayHash 7a3575667d40cbe23f061e49b8b63c8a
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7a3575667d40cbe23f061e49b8b63c8a
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type EdgeInfoDateTimeSubscription$variables = {};
@@ -46,12 +49,11 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "7a3575667d40cbe23f061e49b8b63c8a",
-    "id": null,
+    "id": "7a3575667d40cbe23f061e49b8b63c8a",
     "metadata": {},
     "name": "EdgeInfoDateTimeSubscription",
     "operationKind": "subscription",
-    "text": "subscription EdgeInfoDateTimeSubscription {\n  systemTime\n}\n"
+    "text": null
   }
 };
 })();

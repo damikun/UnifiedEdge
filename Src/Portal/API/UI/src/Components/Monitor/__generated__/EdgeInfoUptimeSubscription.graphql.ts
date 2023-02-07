@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f13311f0fac8150ca297571fb1524895>>
+ * @generated SignedSource<<3176bd01a6da616952e1867fbb81dbff>>
+ * @relayHash 2a48d0dece24593a6335225a5a29d21b
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 2a48d0dece24593a6335225a5a29d21b
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type EdgeInfoUptimeSubscription$variables = {};
@@ -75,12 +78,11 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "2a48d0dece24593a6335225a5a29d21b",
-    "id": null,
+    "id": "2a48d0dece24593a6335225a5a29d21b",
     "metadata": {},
     "name": "EdgeInfoUptimeSubscription",
     "operationKind": "subscription",
-    "text": "subscription EdgeInfoUptimeSubscription {\n  uptime {\n    hours\n    minutes\n    days\n  }\n}\n"
+    "text": null
   }
 };
 })();

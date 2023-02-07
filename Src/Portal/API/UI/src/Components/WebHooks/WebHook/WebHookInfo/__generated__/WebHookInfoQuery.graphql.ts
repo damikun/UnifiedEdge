@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<0170dad91a67d3aa665978cbbc560fe2>>
+ * @generated SignedSource<<7bd6a4d0bc2a651265f30260459a590c>>
+ * @relayHash 83aeee85133d810b1b4346a6d86b1fd5
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 83aeee85133d810b1b4346a6d86b1fd5
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -262,12 +265,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "83aeee85133d810b1b4346a6d86b1fd5",
-    "id": null,
+    "id": "83aeee85133d810b1b4346a6d86b1fd5",
     "metadata": {},
     "name": "WebHookInfoQuery",
     "operationKind": "query",
-    "text": "query WebHookInfoQuery(\n  $id: ID!\n) {\n  ...WebHookRecordListPaginationFragment_3Fa7W6\n  webHookById(hook_id: $id) {\n    ...WebHookGeneralInfoFragment\n    id\n  }\n}\n\nfragment WebHookGeneralInfoFragment on GQL_WebHook {\n  id\n  uid\n  webHookUrl\n  eventGroup\n}\n\nfragment WebHookRecordItemDataFragment on GQL_WebHookRecord {\n  id\n  result\n  hookEventGroup\n  guid\n  timestamp\n  statusCode\n}\n\nfragment WebHookRecordListPaginationFragment_3Fa7W6 on Query {\n  webHookRecords(hook_id: $id, first: 20) {\n    edges {\n      node {\n        id\n        ...WebHookRecordItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

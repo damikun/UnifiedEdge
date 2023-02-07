@@ -1,0 +1,1 @@
+query TokenItemDetailQuery(  $token_id: ID!) {  tokenById(token_id: $token_id) {    id    description    expiration    jsonData  }}

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<cfa166fe7351f158989686b0fe07ffb6>>
+ * @generated SignedSource<<a031c112cd415d78c196b81ee00e7367>>
+ * @relayHash fd185cdbdc34cd92e7cff36b813ef91c
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID fd185cdbdc34cd92e7cff36b813ef91c
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type MessageContentType = "JSON" | "TEXT" | "UNDEFINED" | "%future added value";
@@ -261,12 +264,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "fd185cdbdc34cd92e7cff36b813ef91c",
-    "id": null,
+    "id": "fd185cdbdc34cd92e7cff36b813ef91c",
     "metadata": {},
     "name": "MqttExplorerPublishMessageMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageMutation(\n  $input: PublishMqttMessageInput!\n) {\n  publishMqttMessage(input: $input) {\n    gQL_MqttMessage {\n      id\n      contentType\n      topic\n      isJsonPayload\n      isTextPayload\n      isXmlPayload\n      payload\n      timeStamp\n      payloadUtf8Str\n      qos\n      retain\n      clientId\n      dup\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

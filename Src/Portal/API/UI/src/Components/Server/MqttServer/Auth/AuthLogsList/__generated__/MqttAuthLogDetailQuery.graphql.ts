@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<727b0226b9e759fc8da7d34043857d70>>
+ * @generated SignedSource<<b51ec545f734733c454020bd20fba4c5>>
+ * @relayHash de2940fc41f1581dbc3bd5a012b2bd80
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID de2940fc41f1581dbc3bd5a012b2bd80
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type MqttResultCode = "BAD_AUTHENTICATION_METHOD" | "BAD_USER_NAME_OR_PASSWORD" | "BANNED" | "CLIENT_IDENTIFIER_NOT_VALID" | "CONNECTION_RATE_EXCEEDED" | "IMPLEMENTATION_SPECIFIC_ERROR" | "MALFORMED_PACKET" | "NOT_AUTHORIZED" | "PACKET_TOO_LARGE" | "PAYLOAD_FORMAT_INVALID" | "PROTOCOL_ERROR" | "QO_S_NOT_SUPPORTED" | "QUOTA_EXCEEDED" | "RETAIN_NOT_SUPPORTED" | "SERVER_BUSY" | "SERVER_MOVED" | "SERVER_UNAVAILABLE" | "SUCCESS" | "TOPIC_NAME_INVALID" | "UNSPECIFIED_ERROR" | "UNSUPPORTED_PROTOCOL_VERSION" | "USE_ANOTHER_SERVER" | "%future added value";
@@ -139,12 +142,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "de2940fc41f1581dbc3bd5a012b2bd80",
-    "id": null,
+    "id": "de2940fc41f1581dbc3bd5a012b2bd80",
     "metadata": {},
     "name": "MqttAuthLogDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthLogDetailQuery(\n  $log_id: ID!\n) {\n  mqttAuthLogById(log_id: $log_id) {\n    authClientId\n    authUserId\n    code\n    jsonMetadata\n    description\n    errorMessage\n    isSuccess\n    id\n    timeStamp\n  }\n}\n"
+    "text": null
   }
 };
 })();

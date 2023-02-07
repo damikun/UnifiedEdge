@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<75215fcd5dd08ddd31e65d5ea0c0925d>>
+ * @generated SignedSource<<fa4c4acf165479bbb847d8edb4b4a882>>
+ * @relayHash 3160645691376d18b3ef84dd62af5c24
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 3160645691376d18b3ef84dd62af5c24
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetMqttServerEndpointInput = {
@@ -183,12 +186,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "3160645691376d18b3ef84dd62af5c24",
-    "id": null,
+    "id": "3160645691376d18b3ef84dd62af5c24",
     "metadata": {},
     "name": "MqttServerSetEndpointModalMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttServerSetEndpointModalMutation(\n  $input: SetMqttServerEndpointInput!\n) {\n  setMqttServerEndpoint(input: $input) {\n    gQL_MqttServerEndpoint {\n      id\n      iPAddress\n      port\n      serverUid\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

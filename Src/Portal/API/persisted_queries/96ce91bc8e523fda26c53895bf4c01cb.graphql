@@ -1,0 +1,1 @@
+mutation WebHookNameSettingUpdateMutation(  $input: UpdateWebHookNameInput!) {  updateWebHookName(input: $input) {    gQL_WebHook {      id      name    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

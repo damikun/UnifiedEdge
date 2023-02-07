@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6c1861389b7d75f59ff71be44606ee4b>>
+ * @generated SignedSource<<7d3022f28180b1238f0564fe2c8a3180>>
+ * @relayHash 586955d8470dd7572a62694ad16e64e4
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 586955d8470dd7572a62694ad16e64e4
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type MqttExplorerSubItemTopicSubscription$variables = {
@@ -181,12 +184,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "586955d8470dd7572a62694ad16e64e4",
-    "id": null,
+    "id": "586955d8470dd7572a62694ad16e64e4",
     "metadata": {},
     "name": "MqttExplorerSubItemTopicSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttExplorerSubItemTopicSubscription(\n  $id: ID!\n  $topic: String!\n) {\n  mqttBridgeSubscribe(server_id: $id, topic: $topic) {\n    id\n    contentType\n    topic\n    isJsonPayload\n    isTextPayload\n    isXmlPayload\n    payload\n    timeStamp\n    payloadUtf8Str\n    qos\n    retain\n    clientId\n    dup\n  }\n}\n"
+    "text": null
   }
 };
 })();

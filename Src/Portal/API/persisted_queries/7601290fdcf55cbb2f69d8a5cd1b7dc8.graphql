@@ -1,0 +1,1 @@
+mutation MqttLogsBarEnableAuthMutation(  $input: EnableMqttLoggingInput!) {  enableMqttLogging(input: $input) {    gQL_MqttServer {      id      loggingEnabled    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

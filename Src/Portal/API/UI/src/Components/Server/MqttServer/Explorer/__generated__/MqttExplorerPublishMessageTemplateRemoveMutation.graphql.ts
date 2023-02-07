@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<44e3bee6286d0c40c38a150dfbeaf68b>>
+ * @generated SignedSource<<dc7ed5a97e51cb08d39892e4917aace0>>
+ * @relayHash f3078117504d93e436ca4c38753a5a42
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID f3078117504d93e436ca4c38753a5a42
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type RemoveMqttServerExplorerUserTemplateInput = {
@@ -210,12 +213,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f3078117504d93e436ca4c38753a5a42",
-    "id": null,
+    "id": "f3078117504d93e436ca4c38753a5a42",
     "metadata": {},
     "name": "MqttExplorerPublishMessageTemplateRemoveMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerPublishMessageTemplateRemoveMutation(\n  $input: RemoveMqttServerExplorerUserTemplateInput!\n) {\n  removeMqttServerExplorerUserTemplate(input: $input) {\n    gQL_MqttMessageTemplate {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

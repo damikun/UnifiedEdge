@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<2f23909a089234eb6b4a03becb999519>>
+ * @generated SignedSource<<61859ff12d6052576dd274d3d7a84d86>>
+ * @relayHash 7601290fdcf55cbb2f69d8a5cd1b7dc8
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7601290fdcf55cbb2f69d8a5cd1b7dc8
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EnableMqttLoggingInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "7601290fdcf55cbb2f69d8a5cd1b7dc8",
-    "id": null,
+    "id": "7601290fdcf55cbb2f69d8a5cd1b7dc8",
     "metadata": {},
     "name": "MqttLogsBarEnableAuthMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttLogsBarEnableAuthMutation(\n  $input: EnableMqttLoggingInput!\n) {\n  enableMqttLogging(input: $input) {\n    gQL_MqttServer {\n      id\n      loggingEnabled\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<40373203e0b066ce1d878be6be867673>>
+ * @generated SignedSource<<5d5ad4a1ea66ac21e4de257b52386267>>
+ * @relayHash 06c5b473a61ac6cafed917965d4ecebc
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 06c5b473a61ac6cafed917965d4ecebc
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 export type ServerInfoConfigMatchSubscription$variables = {
@@ -74,12 +77,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "06c5b473a61ac6cafed917965d4ecebc",
-    "id": null,
+    "id": "06c5b473a61ac6cafed917965d4ecebc",
     "metadata": {},
     "name": "ServerInfoConfigMatchSubscription",
     "operationKind": "subscription",
-    "text": "subscription ServerInfoConfigMatchSubscription(\n  $id: ID!\n) {\n  mqttServerConfigState(server_id: $id) {\n    isMatch\n  }\n}\n"
+    "text": null
   }
 };
 })();

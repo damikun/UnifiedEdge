@@ -1,0 +1,1 @@
+mutation UserActivSettingUpdateMutation(  $input: UpdateUserEnabledInput!) {  updateUserEnabled(input: $input) {    gQL_User {      id      enabled    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

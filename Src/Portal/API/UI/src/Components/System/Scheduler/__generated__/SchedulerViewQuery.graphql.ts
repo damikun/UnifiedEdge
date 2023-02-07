@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<d383f1b3c960f1b47927f35680bb5bb2>>
+ * @generated SignedSource<<d93409e936626f31e15bd386813654a8>>
+ * @relayHash 8d8881109cbcc4a9aa45d86d17485181
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 8d8881109cbcc4a9aa45d86d17485181
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -435,12 +438,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8d8881109cbcc4a9aa45d86d17485181",
-    "id": null,
+    "id": "8d8881109cbcc4a9aa45d86d17485181",
     "metadata": {},
     "name": "SchedulerViewQuery",
     "operationKind": "query",
-    "text": "query SchedulerViewQuery {\n  ...SchedulerStatisticsFragment_jobsStatistic @defer(label: \"SchedulerViewQuery$defer$SchedulerStatisticsFragment_jobsStatistic\")\n  ...SchedulerFailedJobsDataFragment @defer(label: \"SchedulerViewQuery$defer$SchedulerFailedJobsDataFragment\")\n  ...SchedulerSuccessJobsDataFragment @defer(label: \"SchedulerViewQuery$defer$SchedulerSuccessJobsDataFragment\")\n  ...SchedulerRecurringJobsDataFragment @defer(label: \"SchedulerViewQuery$defer$SchedulerRecurringJobsDataFragment\")\n}\n\nfragment SchedulerFailedJobItemDataFragment on GQL_FailedJob {\n  id\n  jobName\n  reason\n  failedAt\n}\n\nfragment SchedulerFailedJobsDataFragment on Query {\n  failedJobs(first: 20) {\n    edges {\n      node {\n        id\n        ...SchedulerFailedJobItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment SchedulerRecurringJobItemDataFragment on GQL_RecurringJob {\n  id\n  callName\n  lastJobState\n  lastExecution\n  nextExecution\n}\n\nfragment SchedulerRecurringJobsDataFragment on Query {\n  recurringJobs(first: 20) {\n    edges {\n      node {\n        id\n        ...SchedulerRecurringJobItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment SchedulerStatisticsFragment_jobsStatistic on Query {\n  jobsStatistic {\n    recentFailedByDate {\n      date\n      count\n    }\n    recentSucceededByDate {\n      date\n      count\n    }\n    id\n  }\n}\n\nfragment SchedulerSuccessJobItemDataFragment on GQL_SuccessJob {\n  id\n  name\n  succeededAt\n  totalDuration\n}\n\nfragment SchedulerSuccessJobsDataFragment on Query {\n  successJobs(first: 20) {\n    edges {\n      node {\n        id\n        ...SchedulerSuccessJobItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

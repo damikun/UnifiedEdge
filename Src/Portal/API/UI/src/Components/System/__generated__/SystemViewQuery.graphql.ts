@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<020d33268fcfbde04d057c15ce697b19>>
+ * @generated SignedSource<<940a85b896f967bd54e4e50378164116>>
+ * @relayHash 9d8d61feacca3b29363dcb379d70dfb1
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 9d8d61feacca3b29363dcb379d70dfb1
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -279,12 +282,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9d8d61feacca3b29363dcb379d70dfb1",
-    "id": null,
+    "id": "9d8d61feacca3b29363dcb379d70dfb1",
     "metadata": {},
     "name": "SystemViewQuery",
     "operationKind": "query",
-    "text": "query SystemViewQuery {\n  edgeInfo {\n    name\n    id\n  }\n  ...EdgeInfoDataFragment\n  ...SystemSettingsDataFragment\n  ...NetworkSettingsDataFragment\n}\n\nfragment EdgeDescriptionDataFragment on GQL_Edge {\n  id\n  description\n}\n\nfragment EdgeInfoDataFragment on Query {\n  systemInfo {\n    serverDateTime\n    targetFramework\n    osVersion {\n      platform\n      version\n    }\n    uptime {\n      days\n      hours\n      minutes\n    }\n    id\n  }\n  edgeInfo {\n    id\n    name\n    guid\n  }\n}\n\nfragment EdgeLocation1DataFragment on GQL_Edge {\n  id\n  location1\n}\n\nfragment EdgeLocation2DataFragment on GQL_Edge {\n  id\n  location2\n}\n\nfragment EdgeLocation3DataFragment on GQL_Edge {\n  id\n  location3\n}\n\nfragment EdgeNameDataFragment on GQL_Edge {\n  id\n  name\n}\n\nfragment NetworkDefaultAdapterDataFragment on Query {\n  defaultAdapter {\n    adapter {\n      id\n      name\n      interfaceType\n      physicalAddress\n      addresses {\n        gatewayAddresses\n        unicastAddresses\n      }\n    }\n    id\n  }\n}\n\nfragment NetworkSettingsDataFragment on Query {\n  ...NetworkDefaultAdapterDataFragment\n}\n\nfragment SystemSettingsDataFragment on Query {\n  edgeInfo {\n    ...EdgeNameDataFragment\n    ...EdgeDescriptionDataFragment\n    ...EdgeLocation1DataFragment\n    ...EdgeLocation2DataFragment\n    ...EdgeLocation3DataFragment\n    id\n  }\n  ...NetworkSettingsDataFragment\n}\n"
+    "text": null
   }
 };
 })();

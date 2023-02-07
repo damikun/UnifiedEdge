@@ -1,0 +1,1 @@
+subscription MqttServerNetworkInfoRcvdPacketsSubscription(  $id: ID!) {  mqttServerMetrics(server_id: $id, metric: INBOUND_PACKETS) {    id    timeStamp    unit    value  }}

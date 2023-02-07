@@ -1,0 +1,1 @@
+subscription MetricTrendSubscription(  $props: GQL_RuntimeMetricSource!) {  runtimeMetric(source: $props) {    timeStamp    id    name    value  }}

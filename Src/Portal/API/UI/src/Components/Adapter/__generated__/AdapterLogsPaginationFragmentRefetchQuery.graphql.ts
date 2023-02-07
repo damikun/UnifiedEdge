@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<b812f230b46dff73ddb6d6ef192366f5>>
+ * @generated SignedSource<<40555733d7b1ed959c91267b3cfe9856>>
+ * @relayHash 087366fdb0c0146d82c8ee5e19b19bf3
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 087366fdb0c0146d82c8ee5e19b19bf3
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -236,12 +239,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "087366fdb0c0146d82c8ee5e19b19bf3",
-    "id": null,
+    "id": "087366fdb0c0146d82c8ee5e19b19bf3",
     "metadata": {},
     "name": "AdapterLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query AdapterLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...AdapterLogsPaginationFragment_logs_2HEEH6\n    id\n  }\n}\n\nfragment AdapterLogsItemDataFragment on GQL_AdapterLog {\n  id\n  timeStamp\n  state\n}\n\nfragment AdapterLogsPaginationFragment_logs_2HEEH6 on GQL_Adapter {\n  logs(first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...AdapterLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": null
   }
 };
 })();

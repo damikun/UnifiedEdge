@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<b629bb12eb0496d59bcfc17da75f4aee>>
+ * @generated SignedSource<<ef8258a38615451b54c20301ad6e8093>>
+ * @relayHash 871f3742f2a9e9b6f1578144f71e4b5a
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 871f3742f2a9e9b6f1578144f71e4b5a
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type MqttAuthUserDetailQuery$variables = {
@@ -106,12 +109,11 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "871f3742f2a9e9b6f1578144f71e4b5a",
-    "id": null,
+    "id": "871f3742f2a9e9b6f1578144f71e4b5a",
     "metadata": {},
     "name": "MqttAuthUserDetailQuery",
     "operationKind": "query",
-    "text": "query MqttAuthUserDetailQuery(\n  $authUser_id: ID!\n) {\n  mqttAuthUserById(authUser_id: $authUser_id) {\n    userName\n    enabled\n    id\n    system\n    lastAuthenticate\n  }\n}\n"
+    "text": null
   }
 };
 })();

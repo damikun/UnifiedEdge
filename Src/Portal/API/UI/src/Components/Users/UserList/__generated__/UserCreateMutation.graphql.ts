@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<9dd82f8e20b2de6829de42a9cdab0667>>
+ * @generated SignedSource<<de399fbdf69c2965c0d02ea03f818683>>
+ * @relayHash 346b7d088c4d786e78af696c36d830df
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 346b7d088c4d786e78af696c36d830df
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -257,12 +260,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "346b7d088c4d786e78af696c36d830df",
-    "id": null,
+    "id": "346b7d088c4d786e78af696c36d830df",
     "metadata": {},
     "name": "UserCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserCreateMutation(\n  $input: CreateUserInput!\n) {\n  createUser(input: $input) {\n    gQL_User {\n      ...UserListItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment UserListItemDataFragment on GQL_User {\n  id\n  firstName\n  lastName\n  sessionId\n  userName\n  enabled\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,0 +1,1 @@
+mutation UserFirstNameSettingUpdateMutation(  $input: UpdateUserFirstNameInput!) {  updateUserFirstName(input: $input) {    gQL_User {      id      firstName    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

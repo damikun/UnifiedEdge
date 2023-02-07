@@ -1,0 +1,1 @@
+query MqttAuthUserDetailQuery(  $authUser_id: ID!) {  mqttAuthUserById(authUser_id: $authUser_id) {    userName    enabled    id    system    lastAuthenticate  }}

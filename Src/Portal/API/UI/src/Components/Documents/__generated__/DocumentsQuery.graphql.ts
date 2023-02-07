@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f23e7dd51fcbd64d25c6509641c8b910>>
+ * @generated SignedSource<<80e55249866e1920c85e9508b0589dea>>
+ * @relayHash de27bbff89684d7eaf2011dc0a162024
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID de27bbff89684d7eaf2011dc0a162024
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -230,12 +233,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "de27bbff89684d7eaf2011dc0a162024",
-    "id": null,
+    "id": "de27bbff89684d7eaf2011dc0a162024",
     "metadata": {},
     "name": "DocumentsQuery",
     "operationKind": "query",
-    "text": "query DocumentsQuery {\n  ...NotesPaginationFragment\n}\n\nfragment NotesItemDataFragment on GQL_Note {\n  id\n  name\n  content\n  isHighlighted\n  isPrivate\n  updated\n  updatedby {\n    firstName\n    lastName\n    userName\n    id\n  }\n}\n\nfragment NotesPaginationFragment on Query {\n  notes(first: 30, filter: ALL) {\n    edges {\n      node {\n        id\n        ...NotesItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

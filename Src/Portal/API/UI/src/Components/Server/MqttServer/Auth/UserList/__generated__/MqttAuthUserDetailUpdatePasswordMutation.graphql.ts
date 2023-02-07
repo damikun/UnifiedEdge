@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<060977239eb72d917616d32508b1b072>>
+ * @generated SignedSource<<985946b9fdbcf0937eb9ff782d9d1ade>>
+ * @relayHash cf1f65bf3d8a52ca03c8f246db58834b
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID cf1f65bf3d8a52ca03c8f246db58834b
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetMqttAuthUserPasswordInput = {
@@ -158,12 +161,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "cf1f65bf3d8a52ca03c8f246db58834b",
-    "id": null,
+    "id": "cf1f65bf3d8a52ca03c8f246db58834b",
     "metadata": {},
     "name": "MqttAuthUserDetailUpdatePasswordMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttAuthUserDetailUpdatePasswordMutation(\n  $input: SetMqttAuthUserPasswordInput!\n) {\n  setMqttAuthUserPassword(input: $input) {\n    gQL_MqttAuthUser {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<ffbac6d823dabde6581f24d5e8f66e2b>>
+ * @generated SignedSource<<1323a06aafd86b653d497a75a9a03ebb>>
+ * @relayHash 4a7daaa8d6d244040626141e8e2f4c83
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 4a7daaa8d6d244040626141e8e2f4c83
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type EnableGraphqlApiInput = {
@@ -165,12 +168,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "4a7daaa8d6d244040626141e8e2f4c83",
-    "id": null,
+    "id": "4a7daaa8d6d244040626141e8e2f4c83",
     "metadata": {},
     "name": "ApiInfoGraphqlEnableMutation",
     "operationKind": "mutation",
-    "text": "mutation ApiInfoGraphqlEnableMutation(\n  $input: EnableGraphqlApiInput!\n) {\n  enableGraphqlApi(input: $input) {\n    gQL_Edge {\n      id\n      apiGraphql\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

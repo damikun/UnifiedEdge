@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<10e92c9c29f6b6c945c335f76b6e1fe2>>
+ * @generated SignedSource<<58975d97fff149b31162d5216a5fdc88>>
+ * @relayHash c54d7b108ea26f8d1fce4ac1caaf9434
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID c54d7b108ea26f8d1fce4ac1caaf9434
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -338,12 +341,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c54d7b108ea26f8d1fce4ac1caaf9434",
-    "id": null,
+    "id": "c54d7b108ea26f8d1fce4ac1caaf9434",
     "metadata": {},
     "name": "MqttLogsViewQuery",
     "operationKind": "query",
-    "text": "query MqttLogsViewQuery(\n  $id: ID!\n) {\n  ...ServerLogsPaginationFragment_logs_1Bmzm5\n  ...MqttLogsPaginationFragment_logs_1Bmzm5 @defer(label: \"MqttLogsViewQuery$defer$MqttLogsPaginationFragment_logs_1Bmzm5\")\n}\n\nfragment MqttLogsBarEnableFragment_1wA4Dm on Query {\n  mqttServerById(id: $id) {\n    id\n    loggingEnabled\n  }\n}\n\nfragment MqttLogsItemDataFragment on GQL_MqttServerLog {\n  uid\n  source\n  message\n  logLevel\n  timeStamp\n}\n\nfragment MqttLogsPaginationFragment_logs_1Bmzm5 on Query {\n  mqttLogs(server_uid: $id, first: 20) {\n    edges {\n      node {\n        uid\n        ...MqttLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  ...MqttLogsBarEnableFragment_1wA4Dm\n}\n\nfragment ServerLogsItemDataFragment on GQL_IServerEvent {\n  __isGQL_IServerEvent: __typename\n  iD\n  name\n  timeStamp\n  type\n}\n\nfragment ServerLogsPaginationFragment_logs_1Bmzm5 on Query {\n  serverLogs(server_id: $id, first: 20) {\n    edges {\n      node {\n        __typename\n        ... on GQL_IServerEvent {\n          __isGQL_IServerEvent: __typename\n          iD\n          ...ServerLogsItemDataFragment\n        }\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

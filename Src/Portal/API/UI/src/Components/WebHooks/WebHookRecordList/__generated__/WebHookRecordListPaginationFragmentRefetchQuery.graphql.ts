@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<6c3bacfe7ece1e7360b1224cc5108848>>
+ * @generated SignedSource<<363376de79837a56b4f69a9d65617eca>>
+ * @relayHash 39727ef7a19ea5cf95772d8f7a51c75f
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 39727ef7a19ea5cf95772d8f7a51c75f
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -222,12 +225,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "39727ef7a19ea5cf95772d8f7a51c75f",
-    "id": null,
+    "id": "39727ef7a19ea5cf95772d8f7a51c75f",
     "metadata": {},
     "name": "WebHookRecordListPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query WebHookRecordListPaginationFragmentRefetchQuery(\n  $after: String\n  $first: Int = 20\n  $hook_id: ID!\n) {\n  ...WebHookRecordListPaginationFragment_2Rm5WZ\n}\n\nfragment WebHookRecordItemDataFragment on GQL_WebHookRecord {\n  id\n  result\n  hookEventGroup\n  guid\n  timestamp\n  statusCode\n}\n\nfragment WebHookRecordListPaginationFragment_2Rm5WZ on Query {\n  webHookRecords(hook_id: $hook_id, first: $first, after: $after) {\n    edges {\n      node {\n        id\n        ...WebHookRecordItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

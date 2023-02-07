@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<58a087e3147d1e4291ce28c639f4b0fc>>
+ * @generated SignedSource<<b4de6adb424e7d4984915f20ecd267f0>>
+ * @relayHash b47fdbb484c9a7a838bf7d4cf0b207e2
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID b47fdbb484c9a7a838bf7d4cf0b207e2
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -203,12 +206,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b47fdbb484c9a7a838bf7d4cf0b207e2",
-    "id": null,
+    "id": "b47fdbb484c9a7a838bf7d4cf0b207e2",
     "metadata": {},
     "name": "MqttServerClientMaxPendingMessagesUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttServerClientMaxPendingMessagesUpdateMutation(\n  $input: SetMqttServerClientMaxPendingMessagesInput!\n) {\n  setMqttServerClientMaxPendingMessages(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientMaxPendingMessagesDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttServerClientMaxPendingMessagesDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  maxPendingMessagesPerClient\n}\n"
+    "text": null
   }
 };
 })();

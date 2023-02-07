@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<b255d699db3f3c5788abf227e06c8164>>
+ * @generated SignedSource<<091ef11206d805b9b99f8235d83a7331>>
+ * @relayHash ccec18cf5e04ae530151cbff9f0eedb5
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID ccec18cf5e04ae530151cbff9f0eedb5
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -100,12 +103,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ccec18cf5e04ae530151cbff9f0eedb5",
-    "id": null,
+    "id": "ccec18cf5e04ae530151cbff9f0eedb5",
     "metadata": {},
     "name": "APIQuery",
     "operationKind": "query",
-    "text": "query APIQuery {\n  edgeInfo {\n    id\n    ...ApiInfoFragment\n  }\n}\n\nfragment ApiInfoFragment on GQL_Edge {\n  id\n  name\n  ...ApiInfoGraphqlFragment\n  ...ApiInfoRestFragment\n}\n\nfragment ApiInfoGraphqlFragment on GQL_Edge {\n  id\n  apiGraphql\n}\n\nfragment ApiInfoRestFragment on GQL_Edge {\n  id\n  apiRest\n}\n"
+    "text": null
   }
 };
 })();

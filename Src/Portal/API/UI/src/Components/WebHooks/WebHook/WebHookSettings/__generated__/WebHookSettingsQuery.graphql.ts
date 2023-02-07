@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<0561f5c1561d3a23f1fe7b9cffb7183f>>
+ * @generated SignedSource<<13a22953bab98c902a958d174524d216>>
+ * @relayHash 1cfd18cb3049519bea6c33cf2d7f37a0
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1cfd18cb3049519bea6c33cf2d7f37a0
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -155,12 +158,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1cfd18cb3049519bea6c33cf2d7f37a0",
-    "id": null,
+    "id": "1cfd18cb3049519bea6c33cf2d7f37a0",
     "metadata": {},
     "name": "WebHookSettingsQuery",
     "operationKind": "query",
-    "text": "query WebHookSettingsQuery(\n  $hook_id: ID!\n) {\n  webHookById(hook_id: $hook_id) {\n    id\n    ...WebHookNameSettingDataFragment\n    ...WebHookUrlSettingDataFragment\n    ...WebHookSecretSettingDataFragment\n    ...WebHookActivSettingDataFragment\n    ...WebHookEventGroupsSettingDataFragment\n    ...WebHookRemoveDataFragment\n  }\n}\n\nfragment WebHookActivSettingDataFragment on GQL_WebHook {\n  id\n  isActive\n}\n\nfragment WebHookEventGroupsSettingDataFragment on GQL_WebHook {\n  id\n  eventGroup\n}\n\nfragment WebHookNameSettingDataFragment on GQL_WebHook {\n  id\n  name\n}\n\nfragment WebHookRemoveDataFragment on GQL_WebHook {\n  id\n}\n\nfragment WebHookSecretSettingDataFragment on GQL_WebHook {\n  id\n  secret\n}\n\nfragment WebHookUrlSettingDataFragment on GQL_WebHook {\n  id\n  webHookUrl\n}\n"
+    "text": null
   }
 };
 })();

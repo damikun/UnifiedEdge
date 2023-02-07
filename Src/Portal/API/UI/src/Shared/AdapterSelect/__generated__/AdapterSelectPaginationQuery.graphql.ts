@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<8dbae535be9e395c933cbbc2ce9ea7c1>>
+ * @generated SignedSource<<2b0bf65a2949e68c261b23f08215e629>>
+ * @relayHash 1afcfee59f2f445edc988ecbd70de622
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 1afcfee59f2f445edc988ecbd70de622
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -239,12 +242,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1afcfee59f2f445edc988ecbd70de622",
-    "id": null,
+    "id": "1afcfee59f2f445edc988ecbd70de622",
     "metadata": {},
     "name": "AdapterSelectPaginationQuery",
     "operationKind": "query",
-    "text": "query AdapterSelectPaginationQuery(\n  $after: String\n  $first: Int\n) {\n  ...AdapterSelectPaginationDataFragment_2HEEH6\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n\nfragment AdapterSelectDetailDataFragment on GQL_Adapter {\n  id\n  name\n  interfaceType\n  physicalAddress\n  addresses {\n    gatewayAddresses\n    unicastAddresses\n  }\n}\n\nfragment AdapterSelectPaginationDataFragment_2HEEH6 on Query {\n  adapters(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        name\n        ...AdapterListItemDataFragment\n        ...AdapterSelectDetailDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

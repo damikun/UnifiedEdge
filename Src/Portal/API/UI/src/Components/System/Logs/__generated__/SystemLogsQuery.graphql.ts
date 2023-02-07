@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<3d7dc021dd6d61525aa8df24da183d72>>
+ * @generated SignedSource<<ed1ba63129d744816af62e367b6d44f6>>
+ * @relayHash 01ef3f691d6168d9d4a0832ef7b063b0
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 01ef3f691d6168d9d4a0832ef7b063b0
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -175,12 +178,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "01ef3f691d6168d9d4a0832ef7b063b0",
-    "id": null,
+    "id": "01ef3f691d6168d9d4a0832ef7b063b0",
     "metadata": {},
     "name": "SystemLogsQuery",
     "operationKind": "query",
-    "text": "query SystemLogsQuery {\n  ...SystemLogsPaginationFragment\n}\n\nfragment SystemLogItemDataFragment on GQL_SystemEvent {\n  iD\n  name\n  timeStamp\n  type\n}\n\nfragment SystemLogsPaginationFragment on Query {\n  systemLogs(first: 20) {\n    edges {\n      node {\n        iD\n        ...SystemLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

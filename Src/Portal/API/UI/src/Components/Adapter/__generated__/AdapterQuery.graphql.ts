@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<26f0156d470f88a268ef71a7af92d65f>>
+ * @generated SignedSource<<8c9adcd7007b5f52e6f1871ba81d761b>>
+ * @relayHash 96c368ea7cec4a5208e2a7ba93a2492e
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 96c368ea7cec4a5208e2a7ba93a2492e
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -333,12 +336,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "96c368ea7cec4a5208e2a7ba93a2492e",
-    "id": null,
+    "id": "96c368ea7cec4a5208e2a7ba93a2492e",
     "metadata": {},
     "name": "AdapterQuery",
     "operationKind": "query",
-    "text": "query AdapterQuery(\n  $id: ID!\n) {\n  adapterById(id: $id) {\n    name\n    ...AdapterAddressDataFragment\n    ...AdapterLogsPaginationFragment_logs\n    id\n  }\n}\n\nfragment AdapterAddressDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n  supportsIpv4\n  supportsIpv6\n  physicalAddress\n  description\n  statistic {\n    bytesReceived\n    bytesSent\n  }\n  addresses {\n    dhcpServerAddresses\n    dnsAddresses\n    gatewayAddresses\n    multicastAddresses\n    unicastAddresses\n  }\n}\n\nfragment AdapterLogsItemDataFragment on GQL_AdapterLog {\n  id\n  timeStamp\n  state\n}\n\nfragment AdapterLogsPaginationFragment_logs on GQL_Adapter {\n  logs(first: 20) {\n    edges {\n      node {\n        id\n        ...AdapterLogsItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n"
+    "text": null
   }
 };
 })();

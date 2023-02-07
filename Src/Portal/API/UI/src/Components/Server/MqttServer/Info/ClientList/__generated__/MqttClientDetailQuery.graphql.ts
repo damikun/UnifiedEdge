@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<00801691c457d3e4d57956d772a56ee4>>
+ * @generated SignedSource<<4abf500fc591e662a6faed539f9a7fb9>>
+ * @relayHash 217d3eb603c2366b9df119f0e26df138
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 217d3eb603c2366b9df119f0e26df138
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type DTO_MqttProtocol = "UNKNOWN" | "V310" | "V311" | "V500" | "%future added value";
@@ -203,12 +206,11 @@ return {
     "selections": (v4/*: any*/)
   },
   "params": {
-    "cacheID": "217d3eb603c2366b9df119f0e26df138",
-    "id": null,
+    "id": "217d3eb603c2366b9df119f0e26df138",
     "metadata": {},
     "name": "MqttClientDetailQuery",
     "operationKind": "query",
-    "text": "query MqttClientDetailQuery(\n  $server_uid: ID!\n  $server_client_uid: ID!\n) {\n  mqttServerClient(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    id\n    protocol\n    clientId\n    serverUid\n  }\n  mqttServerClientStatistic(server_uid: $server_uid, server_client_uid: $server_client_uid) {\n    id\n    bytesReceived\n    bytesSent\n    sentPacketsCount\n    receivedPacketsCount\n    sentApplicationMessagesCount\n    receivedApplicationMessagesCount\n    lastNonKeepAlivePacketReceivedTimestamp\n    lastPacketReceivedTimestamp\n    lastPacketSentTimestamp\n  }\n}\n"
+    "text": null
   }
 };
 })();

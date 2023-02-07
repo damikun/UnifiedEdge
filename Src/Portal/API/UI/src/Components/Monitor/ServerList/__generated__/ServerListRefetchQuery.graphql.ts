@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<fd026176470cb0c2de579a237326abb8>>
+ * @generated SignedSource<<6e649a5fb5b5e602db99a0ea751650bd>>
+ * @relayHash cbcca6752cf00336c67e833884c733be
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID cbcca6752cf00336c67e833884c733be
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -211,12 +214,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cbcca6752cf00336c67e833884c733be",
-    "id": null,
+    "id": "cbcca6752cf00336c67e833884c733be",
     "metadata": {},
     "name": "ServerListRefetchQuery",
     "operationKind": "query",
-    "text": "query ServerListRefetchQuery(\n  $after: String\n  $first: Int\n) {\n  ...ServerListDataFragment_2HEEH6\n}\n\nfragment ServerListDataFragment_2HEEH6 on Query {\n  servers(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        ...ServerListItemDataFragment\n      }\n      cursor\n    }\n  }\n}\n\nfragment ServerListItemDataFragment on GQL_IServer {\n  __isGQL_IServer: __typename\n  id\n  name\n  state\n  type\n  __typename\n}\n"
+    "text": null
   }
 };
 })();

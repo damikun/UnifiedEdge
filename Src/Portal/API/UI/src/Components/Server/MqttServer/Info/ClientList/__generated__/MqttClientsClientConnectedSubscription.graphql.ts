@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<3024e2b0fedfbb43709e3ac64b92e0a5>>
+ * @generated SignedSource<<eeb3fca9b9bb4f74e415497fffe6909b>>
+ * @relayHash 47053745d32c672d79abbd308d75ac17
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 47053745d32c672d79abbd308d75ac17
 
 import { ConcreteRequest, GraphQLSubscription } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -196,12 +199,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "47053745d32c672d79abbd308d75ac17",
-    "id": null,
+    "id": "47053745d32c672d79abbd308d75ac17",
     "metadata": {},
     "name": "MqttClientsClientConnectedSubscription",
     "operationKind": "subscription",
-    "text": "subscription MqttClientsClientConnectedSubscription(\n  $id: ID!\n) {\n  mqttNewClient(server_id: $id) {\n    client {\n      ...MqttClientItemDataFragment\n      id\n    }\n  }\n}\n\nfragment MqttClientItemDataFragment on GQL_MqttClient {\n  id\n  clientId\n  protocol\n  serverUid\n  isConnected\n  connectedTimeStamp\n  disconnectedTimeStamp\n  lastMessageTimestamp\n}\n"
+    "text": null
   }
 };
 })();

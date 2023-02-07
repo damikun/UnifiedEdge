@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<b255818ef40df7f3f451bfdaea6fbcf7>>
+ * @generated SignedSource<<bd8507e809d93fedff3f592a18b40eb8>>
+ * @relayHash d31da0453fe9748a0a723591b76a3039
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID d31da0453fe9748a0a723591b76a3039
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -203,12 +206,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d31da0453fe9748a0a723591b76a3039",
-    "id": null,
+    "id": "d31da0453fe9748a0a723591b76a3039",
     "metadata": {},
     "name": "MqttServerClientPresistSessionUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttServerClientPresistSessionUpdateMutation(\n  $input: SetMqttServerClientPresistSessionInput!\n) {\n  setMqttServerClientPresistSession(input: $input) {\n    gQL_MqttServerClientCfg {\n      ...MqttServerClientPresistSessionDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttServerClientPresistSessionDataFragment on GQL_MqttServerClientCfg {\n  id\n  serverUID\n  presistentSession\n}\n"
+    "text": null
   }
 };
 })();

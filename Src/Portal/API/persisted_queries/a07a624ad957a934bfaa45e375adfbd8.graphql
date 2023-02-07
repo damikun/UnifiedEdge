@@ -1,0 +1,1 @@
+query MqttlogDetailQuery(  $server_id: ID!  $log_uid: ID!) {  mqttLogById(log_uid: $log_uid, server_id: $server_id) {    uid    source    message    logLevel    timeStamp    exception  }}

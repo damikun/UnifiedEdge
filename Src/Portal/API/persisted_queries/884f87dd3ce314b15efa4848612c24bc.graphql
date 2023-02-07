@@ -1,0 +1,1 @@
+query UserQuery(  $user_id: ID!) {  userById(user_id: $user_id) {    ...UserInfoBarDataFragment    id  }}fragment UserActivDataFragment on GQL_User {  enabled}fragment UserInfoBarDataFragment on GQL_User {  ...UserNameDataFragment  ...UserActivDataFragment}fragment UserNameDataFragment on GQL_User {  userName}

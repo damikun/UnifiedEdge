@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<1bfaa64744311c8f60db47bc40472452>>
+ * @generated SignedSource<<5c20434c8cbd82a6a4c9b057637a3fae>>
+ * @relayHash 36f0035286ce571babc8df1659d315a2
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 36f0035286ce571babc8df1659d315a2
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type RemoveServerInput = {
@@ -210,12 +213,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "36f0035286ce571babc8df1659d315a2",
-    "id": null,
+    "id": "36f0035286ce571babc8df1659d315a2",
     "metadata": {},
     "name": "ServerRemoveUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerRemoveUpdateMutation(\n  $input: RemoveServerInput!\n) {\n  removeServer(input: $input) {\n    removeServerData {\n      removed_id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

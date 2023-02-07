@@ -48,6 +48,7 @@
     <PackageReference Include="HotChocolate.PersistedQueries.InMemory" Version="13.0.0-preview.90" />
     <PackageReference Include="HotChocolate.Subscriptions" Version="13.0.0-preview.90" />
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="13.0.0-preview.90" />
+    <PackageReference Include="HotChocolate.PersistedQueries.FileSystem" Version="13.0.0-preview.90" />
     <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="6.1.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />

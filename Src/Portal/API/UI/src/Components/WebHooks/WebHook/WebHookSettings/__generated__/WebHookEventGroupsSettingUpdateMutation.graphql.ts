@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<e4ef67fada284ccfcf970f038ca3c469>>
+ * @generated SignedSource<<2d1c4435d82e6007e3e2c586287cff6b>>
+ * @relayHash ccb72eaa67bcd69bec1e1308b6576863
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID ccb72eaa67bcd69bec1e1308b6576863
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type HookEventGroup = "MQTT" | "OPC" | "S7" | "SYSTEM" | "%future added value";
@@ -167,12 +170,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "ccb72eaa67bcd69bec1e1308b6576863",
-    "id": null,
+    "id": "ccb72eaa67bcd69bec1e1308b6576863",
     "metadata": {},
     "name": "WebHookEventGroupsSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookEventGroupsSettingUpdateMutation(\n  $input: UpdateWebHookEventGroupsInput!\n) {\n  updateWebHookEventGroups(input: $input) {\n    gQL_WebHook {\n      id\n      eventGroup\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

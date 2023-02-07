@@ -1,0 +1,1 @@
+query APIQuery {  edgeInfo {    id    ...ApiInfoFragment  }}fragment ApiInfoFragment on GQL_Edge {  id  name  ...ApiInfoGraphqlFragment  ...ApiInfoRestFragment}fragment ApiInfoGraphqlFragment on GQL_Edge {  id  apiGraphql}fragment ApiInfoRestFragment on GQL_Edge {  id  apiRest}

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<78dfe860385e08eb16cdc1627ec5135e>>
+ * @generated SignedSource<<6c61443144814e689dd2d29ceda8c367>>
+ * @relayHash 3c2bc538bc8f01831f120c35cde88c0f
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 3c2bc538bc8f01831f120c35cde88c0f
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type CreateNoteInput = {
@@ -206,12 +209,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3c2bc538bc8f01831f120c35cde88c0f",
-    "id": null,
+    "id": "3c2bc538bc8f01831f120c35cde88c0f",
     "metadata": {},
     "name": "NewNoteMutation",
     "operationKind": "mutation",
-    "text": "mutation NewNoteMutation(\n  $input: CreateNoteInput!\n) {\n  createNote(input: $input) {\n    gQL_Note {\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<5f49bed7f48aab4bb7b5f534e64c8e25>>
+ * @generated SignedSource<<8c05a34606ecab4a39d36376c69057c5>>
+ * @relayHash d4e3fd965db3498be9d2fdd8ca03beb7
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID d4e3fd965db3498be9d2fdd8ca03beb7
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -180,12 +183,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d4e3fd965db3498be9d2fdd8ca03beb7",
-    "id": null,
+    "id": "d4e3fd965db3498be9d2fdd8ca03beb7",
     "metadata": {},
     "name": "WebHookCreateQuery",
     "operationKind": "query",
-    "text": "query WebHookCreateQuery {\n  ...WebHookCreateServerListFragment\n}\n\nfragment WebHookCreateServerListFragment on Query {\n  servers(first: 100) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        id\n        name\n        type\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

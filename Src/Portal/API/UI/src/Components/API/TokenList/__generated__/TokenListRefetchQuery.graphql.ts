@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<5ec704c6eb615004152bcc0f2ad0ad7c>>
+ * @generated SignedSource<<3091c87f346eca0579bcd4f102f7c96c>>
+ * @relayHash db49f1fc325579555510732a42644b58
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID db49f1fc325579555510732a42644b58
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -200,12 +203,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "db49f1fc325579555510732a42644b58",
-    "id": null,
+    "id": "db49f1fc325579555510732a42644b58",
     "metadata": {},
     "name": "TokenListRefetchQuery",
     "operationKind": "query",
-    "text": "query TokenListRefetchQuery(\n  $after: String\n  $first: Int = 100\n) {\n  ...TokenListDataFragment_2HEEH6\n}\n\nfragment TokenListDataFragment_2HEEH6 on Query {\n  apiTokens(first: $first, after: $after) {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        ...TokenListItemDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment TokenListItemDataFragment on GQL_Token {\n  id\n  description\n  expiration\n}\n"
+    "text": null
   }
 };
 })();

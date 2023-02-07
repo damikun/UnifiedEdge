@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<7d475b4f59431c7a1d9c84b431b85412>>
+ * @generated SignedSource<<ea00a6ca93849216c38f6a7b11016807>>
+ * @relayHash 884f87dd3ce314b15efa4848612c24bc
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 884f87dd3ce314b15efa4848612c24bc
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -106,12 +109,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "884f87dd3ce314b15efa4848612c24bc",
-    "id": null,
+    "id": "884f87dd3ce314b15efa4848612c24bc",
     "metadata": {},
     "name": "UserQuery",
     "operationKind": "query",
-    "text": "query UserQuery(\n  $user_id: ID!\n) {\n  userById(user_id: $user_id) {\n    ...UserInfoBarDataFragment\n    id\n  }\n}\n\nfragment UserActivDataFragment on GQL_User {\n  enabled\n}\n\nfragment UserInfoBarDataFragment on GQL_User {\n  ...UserNameDataFragment\n  ...UserActivDataFragment\n}\n\nfragment UserNameDataFragment on GQL_User {\n  userName\n}\n"
+    "text": null
   }
 };
 })();

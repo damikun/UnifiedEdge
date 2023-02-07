@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<7673b2a0fcc17f9736b7b9fab2c0418b>>
+ * @generated SignedSource<<17767c83eb6e9b07837ce11129cbf3b0>>
+ * @relayHash e4ec42a755e6e31c1a2acbdf67c9bb33
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID e4ec42a755e6e31c1a2acbdf67c9bb33
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -320,12 +323,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e4ec42a755e6e31c1a2acbdf67c9bb33",
-    "id": null,
+    "id": "e4ec42a755e6e31c1a2acbdf67c9bb33",
     "metadata": {},
     "name": "SchedulerJobDetailQuery",
     "operationKind": "query",
-    "text": "query SchedulerJobDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...RecurringJobDetailDataFragment\n    ...SuccessJobDetailDataFragment\n    ...FailedJobDetailDataFragment\n    id\n  }\n}\n\nfragment FailedJobDetailDataFragment on Node {\n  __isNode: __typename\n  ... on GQL_FailedJob {\n    exceptionDetails\n    exceptionMessage\n    exceptionType\n    failedAt\n    jobDetail {\n      lastState\n      methodCall\n      parametrs {\n        name\n        value\n      }\n    }\n    reason\n    jobName\n    inFailedState\n  }\n}\n\nfragment RecurringJobDetailDataFragment on Node {\n  __isNode: __typename\n  ... on GQL_RecurringJob {\n    id\n    callName\n    queue\n    createdAt\n    cron\n    jobDetail {\n      lastState\n      methodCall\n      parametrs {\n        name\n        value\n      }\n    }\n    lastExecution\n    lastJobState\n    nextExecution\n  }\n}\n\nfragment SuccessJobDetailDataFragment on Node {\n  __isNode: __typename\n  ... on GQL_SuccessJob {\n    id\n    name\n    succeededAt\n    totalDuration\n    jobDetail {\n      lastState\n      parametrs {\n        name\n        value\n      }\n      methodCall\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

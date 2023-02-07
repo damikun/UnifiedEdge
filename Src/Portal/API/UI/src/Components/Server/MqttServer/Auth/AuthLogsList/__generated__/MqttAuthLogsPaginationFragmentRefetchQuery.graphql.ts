@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<86effb7e7328d6abe93d9dec700136ad>>
+ * @generated SignedSource<<0f56082619d2344e061a6ff2067ce115>>
+ * @relayHash 7d59d3020227c2a1f2cda8569504e469
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 7d59d3020227c2a1f2cda8569504e469
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -246,12 +249,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7d59d3020227c2a1f2cda8569504e469",
-    "id": null,
+    "id": "7d59d3020227c2a1f2cda8569504e469",
     "metadata": {},
     "name": "MqttAuthLogsPaginationFragmentRefetchQuery",
     "operationKind": "query",
-    "text": "query MqttAuthLogsPaginationFragmentRefetchQuery(\n  $after: String\n  $auth_client_id: ID = null\n  $auth_user_id: ID = null\n  $first: Int = 20\n  $server_uid: ID!\n) {\n  ...MqttAuthLogsPaginationFragment_1HeDkA\n}\n\nfragment MqttAuthLogItemDataFragment on GQL_MqttAuthLog {\n  code\n  errorMessage\n  id\n  timeStamp\n  jsonMetadata\n  description\n}\n\nfragment MqttAuthLogsPaginationFragment_1HeDkA on Query {\n  mqttAuthLogs(server_uid: $server_uid, first: $first, after: $after, auth_user_id: $auth_user_id, auth_client_id: $auth_client_id) {\n    edges {\n      node {\n        id\n        ...MqttAuthLogItemDataFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

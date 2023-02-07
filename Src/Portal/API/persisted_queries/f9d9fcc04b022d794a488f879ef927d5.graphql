@@ -1,0 +1,1 @@
+subscription MqttRecentMessagesNewMessageSubscription(  $id: ID!  $client_id: ID  $topic_id: ID) {  mqttServerNewMessage(server_id: $id, client_id: $client_id, topic_id: $topic_id) {    id    ...MqttRecentMessagesItemDataFragment  }}fragment MqttRecentMessagesItemDataFragment on GQL_MqttMessage {  id  clientUid  topic  clientId  timeStamp}

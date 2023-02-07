@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<f05c39a018208428ede44f102cda8ba8>>
+ * @generated SignedSource<<dd321b245d57114a572fe300bef310a9>>
+ * @relayHash c1aa76a2f0710522d5be2df3b9ab16ab
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID c1aa76a2f0710522d5be2df3b9ab16ab
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -168,12 +171,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c1aa76a2f0710522d5be2df3b9ab16ab",
-    "id": null,
+    "id": "c1aa76a2f0710522d5be2df3b9ab16ab",
     "metadata": {},
     "name": "UserInfoQuery",
     "operationKind": "query",
-    "text": "query UserInfoQuery(\n  $id: ID!\n) {\n  userById(user_id: $id) {\n    ...UserGeneralInfoFragment\n    id\n  }\n  ...UserClaimsInfoFragment_3UvyJX\n  ...UserScopesInfoFragment_3UvyJX\n  ...UserRolesInfoFragment_3UvyJX\n}\n\nfragment UserClaimsInfoFragment_3UvyJX on Query {\n  userClaims(user_id: $id) {\n    type\n    value\n  }\n}\n\nfragment UserGeneralInfoFragment on GQL_User {\n  id\n  sub\n  firstName\n  lastName\n  userName\n}\n\nfragment UserRolesInfoFragment_3UvyJX on Query {\n  userRoles(user_id: $id)\n}\n\nfragment UserScopesInfoFragment_3UvyJX on Query {\n  userClaims(user_id: $id) {\n    type\n    value\n  }\n}\n"
+    "text": null
   }
 };
 })();

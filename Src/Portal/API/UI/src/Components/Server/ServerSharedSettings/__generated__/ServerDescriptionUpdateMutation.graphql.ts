@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<5d46c3c60ed2bdcd14886012cfc680e8>>
+ * @generated SignedSource<<1c1214e8745a1569167e4351a518d187>>
+ * @relayHash f39518f64a055f08b59954be7e532db5
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID f39518f64a055f08b59954be7e532db5
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetServerDescriptionInput = {
@@ -197,12 +200,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f39518f64a055f08b59954be7e532db5",
-    "id": null,
+    "id": "f39518f64a055f08b59954be7e532db5",
     "metadata": {},
     "name": "ServerDescriptionUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation ServerDescriptionUpdateMutation(\n  $input: SetServerDescriptionInput!\n) {\n  setServerDescription(input: $input) {\n    gQL_IServer {\n      __typename\n      id\n      description\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

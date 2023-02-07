@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<9ff80fd5c85bebc6b5368d7d51a2a029>>
+ * @generated SignedSource<<e2088edd706b98d62a79906432cf4a59>>
+ * @relayHash d6f1c7bdf87c62e6e666f7cff9c36c93
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID d6f1c7bdf87c62e6e666f7cff9c36c93
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type SetUserAdminInput = {
@@ -212,12 +215,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "d6f1c7bdf87c62e6e666f7cff9c36c93",
-    "id": null,
+    "id": "d6f1c7bdf87c62e6e666f7cff9c36c93",
     "metadata": {},
     "name": "UserAdminSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserAdminSettingUpdateMutation(\n  $input: SetUserAdminInput!\n  $user_id: ID!\n) {\n  setUserAdmin(input: $input) {\n    gQL_User {\n      id\n      enabled\n    }\n    query {\n      isAdmin(user_id: $user_id) {\n        isAdmin\n      }\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

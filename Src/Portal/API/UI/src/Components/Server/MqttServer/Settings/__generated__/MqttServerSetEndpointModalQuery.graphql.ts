@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<2fedb121d055a15fba295b5e782b6a73>>
+ * @generated SignedSource<<57eb1c64a960f65f9e51f836afea04e1>>
+ * @relayHash 366ddaaa0d0eff0187efc7b866993aeb
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 366ddaaa0d0eff0187efc7b866993aeb
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -279,12 +282,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "366ddaaa0d0eff0187efc7b866993aeb",
-    "id": null,
+    "id": "366ddaaa0d0eff0187efc7b866993aeb",
     "metadata": {},
     "name": "MqttServerSetEndpointModalQuery",
     "operationKind": "query",
-    "text": "query MqttServerSetEndpointModalQuery {\n  defaultAdapter {\n    id\n    adapter {\n      ...AdapterSelectDetailDataFragment\n      id\n    }\n  }\n  ...AdapterSelectPaginationDataFragment\n}\n\nfragment AdapterListItemDataFragment on GQL_Adapter {\n  id\n  interfaceType\n  name\n  state\n}\n\nfragment AdapterSelectDetailDataFragment on GQL_Adapter {\n  id\n  name\n  interfaceType\n  physicalAddress\n  addresses {\n    gatewayAddresses\n    unicastAddresses\n  }\n}\n\nfragment AdapterSelectPaginationDataFragment on Query {\n  adapters {\n    pageInfo {\n      hasPreviousPage\n      hasNextPage\n      startCursor\n      endCursor\n    }\n    edges {\n      node {\n        id\n        name\n        ...AdapterListItemDataFragment\n        ...AdapterSelectDetailDataFragment\n        __typename\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();

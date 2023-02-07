@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<e0e6bb274a0260bdaff391717d3c03ed>>
+ * @generated SignedSource<<09745d74e2c2ded8671309b3cce0593a>>
+ * @relayHash 59132d1c4d8feb176fc26e4b429c06ad
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 59132d1c4d8feb176fc26e4b429c06ad
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -262,12 +265,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "59132d1c4d8feb176fc26e4b429c06ad",
-    "id": null,
+    "id": "59132d1c4d8feb176fc26e4b429c06ad",
     "metadata": {},
     "name": "MqttExplorerAddSubMutation",
     "operationKind": "mutation",
-    "text": "mutation MqttExplorerAddSubMutation(\n  $input: CreateMqttServerExplorerUserSubInput!\n) {\n  createMqttServerExplorerUserSub(input: $input) {\n    gQL_MqttExplorerSub {\n      id\n      color\n      noLocal\n      topic\n      ...MqttExplorerSubItemDataFragment\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment MqttExplorerSubItemDataFragment on GQL_MqttExplorerSub {\n  id\n  topic\n  color\n  serverUid\n}\n"
+    "text": null
   }
 };
 })();

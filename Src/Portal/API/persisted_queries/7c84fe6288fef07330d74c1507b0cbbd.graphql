@@ -1,0 +1,1 @@
+mutation ServerNameUpdateMutation(  $input: SetServerNameInput!) {  setServerName(input: $input) {    gQL_IServer {      __typename      id      name    }    errors {      __typename      ... on ValidationError {        errors {          property          message        }      }      ... on ResultError {        __isResultError: __typename        message      }    }  }}

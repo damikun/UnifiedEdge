@@ -1,0 +1,1 @@
+query WebHookRecordDetailQuery(  $record_id: ID!) {  webHookRecordById(record_id: $record_id) {    id    statusCode    timestamp    hookEventGroup    guid    result    exception    requestHeaders    requestBody    responseBody    isJsonResponse    isTextHtmlResponse    responseContentType  }}

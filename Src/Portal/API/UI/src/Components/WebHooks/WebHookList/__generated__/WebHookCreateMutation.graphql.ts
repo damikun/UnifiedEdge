@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<2d0f4a768a8eb2ca865229eb97c68bf9>>
+ * @generated SignedSource<<2d2b70041a5bfa7653cad9803ba0cadb>>
+ * @relayHash db93b2360b1f757eef4beb3c5bea7024
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID db93b2360b1f757eef4beb3c5bea7024
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
@@ -280,12 +283,11 @@ return {
     ]
   },
   "params": {
-    "cacheID": "db93b2360b1f757eef4beb3c5bea7024",
-    "id": null,
+    "id": "db93b2360b1f757eef4beb3c5bea7024",
     "metadata": {},
     "name": "WebHookCreateMutation",
     "operationKind": "mutation",
-    "text": "mutation WebHookCreateMutation(\n  $input: CreateWebHookInput!\n) {\n  createWebHook(input: $input) {\n    gQL_WebHook {\n      ...WebHookListItemDataFragment\n      id\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n\nfragment WebHookListItemDataFragment on GQL_WebHook {\n  id\n  name\n  contentType\n  eventGroup\n  isActive\n  lastTrigger\n  secret\n  webHookUrl\n  serverUid\n}\n"
+    "text": null
   }
 };
 })();

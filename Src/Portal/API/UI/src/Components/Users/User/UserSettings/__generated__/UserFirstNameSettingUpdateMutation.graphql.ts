@@ -1,5 +1,6 @@
 /**
- * @generated SignedSource<<c1e4e9a0038385af0f677d920b373d03>>
+ * @generated SignedSource<<c5e7a1ab794a2c5069d3833d99da24c4>>
+ * @relayHash 0f77aebca49ae2fe0f21ef216c09e361
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -7,6 +8,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
+
+// @relayRequestID 0f77aebca49ae2fe0f21ef216c09e361
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateUserFirstNameInput = {
@@ -166,12 +169,11 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "0f77aebca49ae2fe0f21ef216c09e361",
-    "id": null,
+    "id": "0f77aebca49ae2fe0f21ef216c09e361",
     "metadata": {},
     "name": "UserFirstNameSettingUpdateMutation",
     "operationKind": "mutation",
-    "text": "mutation UserFirstNameSettingUpdateMutation(\n  $input: UpdateUserFirstNameInput!\n) {\n  updateUserFirstName(input: $input) {\n    gQL_User {\n      id\n      firstName\n    }\n    errors {\n      __typename\n      ... on ValidationError {\n        errors {\n          property\n          message\n        }\n      }\n      ... on ResultError {\n        __isResultError: __typename\n        message\n      }\n    }\n  }\n}\n"
+    "text": null
   }
 };
 })();
